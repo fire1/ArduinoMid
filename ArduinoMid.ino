@@ -48,6 +48,7 @@ const int sonyBottom = 8;
 // Output for Sony Alpine emulation
 const int sonyPin = A0;
 const int sonyShiftPin = A2;
+const int alpinePin = 3;
 //
 // Defines min/max menu amplitude
 const int maxMenuNumber = 2;
@@ -75,60 +76,78 @@ void setup() {
     lcd.begin(16,2);
     //
     // Define Alpine Pin
-    pinMode(alpPin, OUTPUT);
+    pinMode(alpinePin, OUTPUT);
 }
 
 void loop() {
+    Serial.println("Entering in  loop...");
     //
     // Get navigation states
     buttonStateUp = digitalRead(buttonPinUp);
     buttonStateDw = digitalRead(buttonPinDw);
     //
     // Handle navigation buttons
-    handleButtonNavigation(buttonStateUp,buttonStateDw);
+    int navigation =     handleButtonNavigation(buttonStateUp,buttonStateDw);
     //
     // Switch menu
-    switch ( navigationState ) {
+    switch ( navigation ) {
+        //
+        // First menu
+        case 0:
+            Serial.println("Entering in /0/");
+            handleIndexMenu();
+        break;
+        //
+        // Second menu
         case 1:
 
           break;
+        //
+        // Third menu
         case 2:
 
           break;
-
-        case 0:
-            handleDefaultMenu();
-        break;
         //
         // MID Introduction ...
         default:
+            Serial.println("Entering in  /default/ ");
             handleIntroduceMenu();
-            navigationState++;
         break;
       }
-
-
 
 }
 
 /**
-        Handle MID's steering buttons
+        Handle MID's steering buttons navigation
  */
 int handleButtonNavigation(int stateUp,int stateDw){
     Serial.println(stateUp);
     Serial.println(stateDw);
-
-
+    //
+    // Cursor upper
     if (buttonStateUp == HIGH) {
         navigationState++;
     }
-
+    //
+    // Cursor down
      if (buttonStateDw == HIGH) {
         navigationState--;
+     }
+    //
+    // Move cursor to Height number to loop chain
+    if(navigationState >= maxMenuNumber){
+        navigationState = minMenuNumber;
     }
-
+    //
+    // Move cursor to lower number to loop chain
+    if(navigationState <= minMenuNumber){
+        navigationState = maxMenuNumber;
+    }
     // Debug info ...
     Serial.println(navigationState);
+    //
+    // Return navigation cursor
+    return navigationState;
 }
 
 /**
@@ -140,32 +159,34 @@ void handleDriveMenu(){
 /**
         Handle Default menu
  */
-void handleDefaultMenu(){
+void handleIndexMenu(){
 
 }
 /**
         Handle Introduce menu
  */
 void handleIntroduceMenu(){
-     lcd.print("Welcome to "); // Prints "Arduino" on the LCD
-     delay(3000); // 3 seconds delay
-     lcd.setCursor(11,0); // Sets the location at which subsequent text written to the LCD will be displayed
+     lcd.print("Welcome... "); // Prints "Arduino" on the LCD
+     delay(1500);
+     lcd.clear();
      lcd.print("Opel");
-     delay(3000);
-     lcd.setCursor(1,2);
+     lcd.setCursor(7,0); // Sets the location at which subsequent text written to the LCD will be displayed
      lcd.print("Astra");
+     delay(1500);
+     lcd.setCursor(1,2);
+          lcd.blink(); //Displays the blinking LCD cursor
+          lcd.setCursor(2,1);
+          lcd.print("Loading ...");
+
      delay(3000);
-     lcd.clear(); // Clears the display
-     lcd.blink(); //Displays the blinking LCD cursor
-     delay(4000);
-     lcd.setCursor(2,1);
-     lcd.print("Loading ...");
-     delay(3000);
-     lcd.noBlink(); // Turns off the blinking LCD cursor
-     lcd.cursor(); // Displays an underscore (line) at the position to which the next character will be written
+     lcd.clear();
+     lcd.noBlink();
      delay(4000);
      lcd.noCursor(); // Hides the LCD cursor
      lcd.clear(); // Clears the LCD screen
+     //
+     //  When done introducing change move to nex menu
+     navigationState++;
 }
 
 /**
