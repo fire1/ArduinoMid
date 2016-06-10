@@ -12,8 +12,10 @@
 */
 
 //
-// Includes the LiquidCrystal Library
+// Includes Libraries
+#include <Button.h>
 #include <LiquidCrystal.h>
+
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
@@ -51,12 +53,16 @@ const int sonyShiftPin = A2;
 const int alpinePin = 3;
 //
 // Defines min/max menu amplitude
-const int maxMenuNumber = 2;
-const int minMenuNumber = 1;
+#define const int maxMenuNumber = 2;
+#define const int minMenuNumber = 1;
 //
 // Define button pins for steering controller
-const int buttonPinUp = 8;
-const int buttonPinDw = 9;
+//const int buttonPinUp = 8;
+//const int buttonPinDw = 9;
+//
+// Change with library
+Button buttonPinUp = Button(8, PULLUP);
+Button buttonPinDw = Button(9, PULLUP);
 //
 // Variables will change:
 int buttonStateUp = 0;   // current state of the button
@@ -73,130 +79,123 @@ void setup() {
     pinMode(buttonPinDw, INPUT);
     //
     // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
-    lcd.begin(16,2);
+    lcd.begin(16, 2);
     //
     // Define Alpine Pin
     pinMode(alpinePin, OUTPUT);
 }
 
 void loop() {
-    Serial.println("Entering in  loop...");
     //
     // Get navigation states
     buttonStateUp = digitalRead(buttonPinUp);
     buttonStateDw = digitalRead(buttonPinDw);
     //
     // Handle navigation buttons
-    int navigation =     handleButtonNavigation(buttonStateUp,buttonStateDw);
+    int navigation = handleButtonNavigation(buttonStateUp, buttonStateDw);
     //
     // Switch menu
-    switch ( navigation ) {
+    switch (navigation) {
         //
         // First menu
         case 0:
-            Serial.println("Entering in /0/");
             handleIndexMenu();
-        break;
-        //
-        // Second menu
+            break;
+            //
+            // Second menu
         case 1:
 
-          break;
-        //
-        // Third menu
+            break;
+            //
+            // Third menu
         case 2:
 
-          break;
-        //
-        // MID Introduction ...
+            break;
+            //
+            // MID Introduction ...
         default:
-            Serial.println("Entering in  /default/ ");
             handleIntroduceMenu();
-        break;
-      }
+            break;
+    }
 
 }
 
 /**
-        Handle MID's steering buttons navigation
+ * Handle MID's steering buttons navigation
  */
-int handleButtonNavigation(int stateUp,int stateDw){
-    Serial.println(stateUp);
-    Serial.println(stateDw);
+int handleButtonNavigation(int stateUp, int stateDw) {
     //
     // Cursor upper
     if (buttonStateUp == HIGH) {
         navigationState++;
+        //
+        // Move cursor to Height number to loop chain
+        if (navigationState > maxMenuNumber)
+            navigationState = minMenuNumber;
     }
     //
     // Cursor down
-     if (buttonStateDw == HIGH) {
+    if (buttonStateDw == HIGH) {
         navigationState--;
-     }
-    //
-    // Move cursor to Height number to loop chain
-    if(navigationState >= maxMenuNumber){
-        navigationState = minMenuNumber;
+        //
+        // Move cursor to lower number to loop chain
+        if (navigationState <= minMenuNumber)
+            navigationState = maxMenuNumber;
     }
-    //
-    // Move cursor to lower number to loop chain
-    if(navigationState <= minMenuNumber){
-        navigationState = maxMenuNumber;
-    }
-    // Debug info ...
-    Serial.println(navigationState);
     //
     // Return navigation cursor
     return navigationState;
 }
 
 /**
-        Handle Drive menu
+ * Handle Drive menu
  */
-void handleDriveMenu(){
+void handleDriveMenu() {
 
 }
+
 /**
         Handle Default menu
  */
-void handleIndexMenu(){
+void handleIndexMenu() {
 
 }
+
 /**
         Handle Introduce menu
  */
-void handleIntroduceMenu(){
-     lcd.print("Welcome... "); // Prints "Arduino" on the LCD
-     delay(1500);
-     lcd.clear();
-     lcd.print("Opel");
-     lcd.setCursor(7,0); // Sets the location at which subsequent text written to the LCD will be displayed
-     lcd.print("Astra");
-     delay(1500);
-     lcd.setCursor(1,2);
-          lcd.blink(); //Displays the blinking LCD cursor
-          lcd.setCursor(2,1);
-          lcd.print("Loading ...");
+void handleIntroduceMenu() {
+    lcd.print("Welcome... "); // Prints "Arduino" on the LCD
+    delay(1500);
+    lcd.clear();
+    lcd.print("Opel");
+    lcd.setCursor(7, 0); // Sets the location at which subsequent text written to the LCD will be displayed
+    lcd.print("Astra");
+    delay(1500);
+    lcd.setCursor(1, 2);
+    lcd.blink(); //Displays the blinking LCD cursor
+    lcd.setCursor(2, 1);
+    lcd.print("Loading ...");
 
-     delay(3000);
-     lcd.clear();
-     lcd.noBlink();
-     delay(4000);
-     lcd.noCursor(); // Hides the LCD cursor
-     lcd.clear(); // Clears the LCD screen
-     //
-     //  When done introducing change move to nex menu
-     navigationState++;
+    delay(3000);
+    lcd.clear();
+    lcd.noBlink();
+    delay(4000);
+    lcd.noCursor(); // Hides the LCD cursor
+    lcd.clear(); // Clears the LCD screen
+    //
+    //  When done introducing change move to nex menu
+    navigationState++;
 }
 
 /**
         Handle Steering wheel media buttons
  */
-void handleSteeringToSony(int voltage, boolean shift){
+void handleSteeringToSony(int voltage, boolean shift) {
 
-     // Debug info ...
-     Serial.println(voltage);
-     Serial.println(shift);
+    // Debug info ...
+    Serial.println(voltage);
+    Serial.println(shift);
 }
 
 
