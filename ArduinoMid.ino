@@ -13,12 +13,19 @@
 
 //
 // Includes Libraries
-#include <Button.h>
+#include <MenuBackend.h>    //  MenuBackend library - copyright by Alexander Brevig
 #include <LiquidCrystal.h>
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
+//
+//
+static void menuChanged(MenuChangeEvent changed);
+static void menuUsed(MenuUseEvent used);
+//
+//
+MenuBackend menu = MenuBackend(menuUsed, menuChanged);
 /*
     Steering wheel buttons to Sony Alpine
 
@@ -53,16 +60,12 @@ const int sonyShiftPin = A2;
 const int alpinePin = 3;
 //
 // Defines min/max menu amplitude
-#define const int maxMenuNumber = 2;
-#define const int minMenuNumber = 1;
+const int maxMenuNumber = 2;
+const int minMenuNumber = 1;
 //
 // Define button pins for steering controller
-//const int buttonPinUp = 8;
-//const int buttonPinDw = 9;
-//
-// Change with library
-Button buttonPinUp = Button(8, PULLUP);
-Button buttonPinDw = Button(9, PULLUP);
+const int buttonPinUp = 8;
+const int buttonPinDw = 9;
 //
 // Variables will change:
 int buttonStateUp = 0;   // current state of the button
@@ -70,81 +73,50 @@ int buttonStateDw = 0;   // previous state of the button
 //
 // Navigation state value
 int navigationState = -1;
+//
+//
+int lastButtonPushed = LOW;
+int buttonLastDwSt = LOW;
+int buttonLastUpSt = LOW;
+//
+// The debounce time
+long debounceDelay = 370;
+long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
+long lastEscDebounceTime = 0;  // the last time the output pin was toggled
+long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
+long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
+MenuItem menu1Item1 = MenuItem("Item1");
+MenuItem menu1Item2 = MenuItem("Item2");
+MenuItem menu1Item3 = MenuItem("Item3");
 
 void setup() {
     //
     // Pin button mode
     pinMode(buttonPinUp, INPUT);
     pinMode(buttonPinDw, INPUT);
+
+    //configure menu
+    menu.getRoot().add(menu1Item1);
+    menu1Item1.addRight(menu1Item2).addRight(menu1Item3);
+//    menu1Item1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
+//    menu1Item2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
+    menu.toRoot();
     //
     // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
     lcd.begin(16, 2);
     //
     // Define Alpine Pin
-    pinMode(alpinePin, OUTPUT);
+//    pinMode(alpinePin, OUTPUT);
+    lcd.setCursor(0,0);
+    lcd.print("Astra Bertone BC");
 }
 
 void loop() {
-    //
-    // Get navigation states
-    buttonStateUp = digitalRead(buttonPinUp);
-    buttonStateDw = digitalRead(buttonPinDw);
-    //
-    // Handle navigation buttons
-    int navigation = handleButtonNavigation(buttonStateUp, buttonStateDw);
-    //
-    // Switch menu
-    switch (navigation) {
-        //
-        // First menu
-        case 0:
-            handleIndexMenu();
-            break;
-            //
-            // Second menu
-        case 1:
+    readButtons();  //I splitted button reading and navigation in two procedures because
+    navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
 
-            break;
-            //
-            // Third menu
-        case 2:
-
-            break;
-            //
-            // MID Introduction ...
-        default:
-            handleIntroduceMenu();
-            break;
-    }
-
-}
-
-/**
- * Handle MID's steering buttons navigation
- */
-int handleButtonNavigation(int stateUp, int stateDw) {
-    //
-    // Cursor upper
-    if (buttonStateUp == HIGH) {
-        navigationState++;
-        //
-        // Move cursor to Height number to loop chain
-        if (navigationState > maxMenuNumber)
-            navigationState = minMenuNumber;
-    }
-    //
-    // Cursor down
-    if (buttonStateDw == HIGH) {
-        navigationState--;
-        //
-        // Move cursor to lower number to loop chain
-        if (navigationState <= minMenuNumber)
-            navigationState = maxMenuNumber;
-    }
-    //
-    // Return navigation cursor
-    return navigationState;
+    
 }
 
 /**
@@ -196,6 +168,140 @@ void handleSteeringToSony(int voltage, boolean shift) {
     // Debug info ...
     Serial.println(voltage);
     Serial.println(shift);
+}
+
+/********************* Menu Handler **********************************************/
+
+/**
+ *
+ */
+  void menuUsed(MenuUseEvent used) {
+    lcd.setCursor(0, 0);
+    lcd.print("You used        ");
+    lcd.setCursor(0, 1);
+    lcd.print(used.item.getName());
+    delay(3000);  //delay to allow message reading
+    lcd.setCursor(0, 0);
+    lcd.print("www.coagula.org");
+    menu.toRoot();  //back to Main
+}
+
+/**
+ *
+ */
+void menuChanged(MenuChangeEvent changed) {
+
+    MenuItem newMenuItem = changed.to; //get the destination menu
+    lcd.clear();
+    lcd.print(newMenuItem.getName());
+    
+    lcd.clear();
+    lcd.setCursor(0, 0); //set the start position for lcd printing to the second row
+
+
+    if (newMenuItem.getName() == menu.getRoot()) {
+        lcd.print("Main Menu       ");
+    } else if (newMenuItem.getName() == "Item1") {
+        lcd.print("Item1           ");
+    } else if (newMenuItem.getName() == "Item1SubItem1") {
+        lcd.print("Item1SubItem1");
+    } else if (newMenuItem.getName() == "Item1SubItem2") {
+        lcd.print("Item1SubItem2   ");
+    } else if (newMenuItem.getName() == "Item2") {
+        lcd.print("Item2           ");
+    } else if (newMenuItem.getName() == "Item2SubItem1") {
+        lcd.print("Item2SubItem1   ");
+    } else if (newMenuItem.getName() == "Item2SubItem2") {
+        lcd.print("Item2SubItem2   ");
+    } else if (newMenuItem.getName() == "Item2SubItem3") {
+        lcd.print("Item2SubItem3   ");
+    } else if (newMenuItem.getName() == "Item3") {
+        lcd.print("Item3           ");
+    }
+}
+
+
+/**
+ * 
+ */
+void navigateMenus() {
+    MenuItem currentMenu = menu.getCurrent();
+
+    switch (lastButtonPushed) {
+        case buttonPinUp:
+            menu.moveRight();
+            lcd.clear();
+            lcd.print("right");
+            break;
+        case buttonPinDw:
+            menu.moveLeft();
+            lcd.clear();
+            lcd.print("Lect");
+            break;
+    }
+
+    lastButtonPushed = 0; //reset the lastButtonPushed variable
+}
+
+/**
+ * 
+ */
+void readButtons() {  //read buttons status
+    int reading;
+
+    int buttonDwState = LOW;             // the current reading from the input pin
+    int buttonUpState = LOW;             // the current reading from the input pin
+
+    //  Down button
+    //      read the state of the switch into a local variable:
+    reading = digitalRead(buttonPinUp);
+
+    // If the switch changed, due to noise or pressing:
+    if (reading != buttonLastUpSt) {
+        // reset the debouncing timer
+        lastDebounceTimeUp = millis();
+    }
+
+    if ((millis() - lastDebounceTimeUp) > debounceDelay) {
+        // whatever the reading is at, it's been there for longer
+        // than the debounce delay, so take it as the actual current state:
+        buttonUpState = reading;
+        lastDebounceTimeUp = millis();
+    }
+
+    // save the reading.  Next time through the loop,
+    // it'll be the lastButtonState:
+    buttonLastUpSt = reading;
+
+    // Up button
+    // read the state of the switch into a local variable:
+    reading = digitalRead(buttonPinDw);
+
+    // If the switch changed, due to noise or pressing:
+    if (reading != buttonLastDwSt) {
+        // reset the debouncing timer
+        lastDebounceTimeDw = millis();
+    }
+
+    if ((millis() - lastDebounceTimeDw) > debounceDelay) {
+        // whatever the reading is at, it's been there for longer
+        // than the debounce delay, so take it as the actual current state:
+        buttonDwState = reading;
+        lastDebounceTimeDw = millis();
+    }
+
+    // save the reading.  Next time through the loop,
+    // it'll be the lastButtonState:
+    buttonLastDwSt = reading;
+    //
+    // records which button has been pressed
+    if (buttonUpState == HIGH) {
+        lastButtonPushed = buttonPinUp;
+    } else if (buttonDwState == HIGH) {
+        lastButtonPushed = buttonPinDw;
+    } else {
+        lastButtonPushed = 0;
+    }
 }
 
 
