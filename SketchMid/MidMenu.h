@@ -12,7 +12,7 @@ int buttonLastUpSt = LOW;
 
 //
 // The debounce time
-long debounceDelay = 370;
+long debounceDelay = 490;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -28,13 +28,10 @@ MenuItem menuItem2 = MenuItem("Drive");
 MenuItem menuItem3 = MenuItem("Tests");
 
 static void setupMenu(){
-
-    menu.getRoot().add(menuItem1);
-    menuItem1.add(menuItem2).add(menuItem3);
+    menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3);
 //    menuItem1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
 //    menuItem2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
-    
-    menu.moveRight();
+      menu.moveUp();
     }
 
 
@@ -45,7 +42,6 @@ void navigateMenus() {
     MenuItem currentMenu = menu.getCurrent();
     
     switch (lastButtonPushed) {
-                  
         case buttonPinUp:
             menu.moveUp();
             break;
@@ -109,17 +105,17 @@ void readButtons() {  //read buttons status
  *
  */
 static void menuChanged(MenuChangeEvent changed) {
-
+    
     MenuItem newMenuItem = changed.to; //get the destination menu
-    lcd.clear();
+    lcd.clear();  
     if (newMenuItem.getName() == "Base") {
-        lcd.print("Main Menu       ");
+        lcd.print("=--");
     } else if (newMenuItem.getName() == "Item1SubItem1") {
         lcd.print("Item1SubItem1");
     } else if (newMenuItem.getName() == "Item1SubItem2") {
         lcd.print("Item1SubItem2   ");
     } else if (newMenuItem.getName() == "Drive") {
-        lcd.print("Item2           ");
+        lcd.print("-=-");
     } else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
     } else if (newMenuItem.getName() == "Item2SubItem2") {
@@ -127,7 +123,9 @@ static void menuChanged(MenuChangeEvent changed) {
     } else if (newMenuItem.getName() == "Item2SubItem3") {
         lcd.print("Item2SubItem3   ");
     } else if (newMenuItem.getName() == "Tests") {
-        lcd.print("Item3           ");
+        lcd.print("--=");
+    }else{
+        lcd.print(newMenuItem.getName());
     }
 }
 

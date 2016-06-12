@@ -52,9 +52,7 @@ void setup() {
     // Pin button mode
     pinMode(buttonPinUp, INPUT);
     pinMode(buttonPinDw, INPUT);
-    //
-    //
-    setupMenu();
+
     //
     // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
     lcd.begin(16, 2);
@@ -63,6 +61,10 @@ void setup() {
 //    pinMode(alpinePin, OUTPUT);
     lcd.setCursor(0,0);
     lcd.print("Astra Bertone BC");
+    delay(1000);
+    //
+    //
+    setupMenu();
 }
 
 void loop() {
