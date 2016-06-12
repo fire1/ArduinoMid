@@ -45,6 +45,9 @@ const int minMenuNumber = 1;
 
 
 void setup() {
+  //
+  //
+    //Serial.begin(9600);
     //
     // Pin button mode
     pinMode(buttonPinUp, INPUT);
@@ -65,20 +68,6 @@ void setup() {
 void loop() {
     readButtons();  //I splitted button reading and navigation in two procedures because
     navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
-}
-
-/**
- * Handle Drive menu
- */
-void handleDriveMenu() {
-
-}
-
-/**
-        Handle Default menu
- */
-void handleIndexMenu() {
-
 }
 
 
