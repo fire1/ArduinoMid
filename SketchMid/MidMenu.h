@@ -12,7 +12,7 @@ int buttonLastUpSt = LOW;
 
 //
 // The debounce time
-long debounceDelay = 30;
+long debounceDelay = 370;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -29,12 +29,12 @@ MenuItem menuItem3 = MenuItem("Tests");
 
 static void setupMenu(){
 
-    menu.getRoot().add(menuItem1).addRight(menuItem2);
-    menuItem2.addBefore(menuItem3);
+    menu.getRoot().add(menuItem1);
+    menuItem1.add(menuItem2).add(menuItem3);
 //    menuItem1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
 //    menuItem2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
     
-    menu.moveDown();
+    menu.moveRight();
     }
 
 
@@ -47,14 +47,10 @@ void navigateMenus() {
     switch (lastButtonPushed) {
                   
         case buttonPinUp:
-            menu.moveRight();
-//            lcd.clear();
-//            lcd.print("right");
+            menu.moveUp();
             break;
         case buttonPinDw:
-            menu.moveLeft();
-//            lcd.clear();
-//            lcd.print("left");
+            menu.moveDown();
             break;
     }
 
