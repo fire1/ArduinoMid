@@ -69,6 +69,10 @@ if (NOT ARDUINO_SDK_PATH)
     list(REVERSE SDK_PATH_HINTS)
 endif ()
 
+set(SDK_PATH_HINTS "C:\\Program Files\\Arduino"
+        "C:\\Program Files (x86)\\Arduino"
+        )
+
 find_path(ARDUINO_SDK_PATH
         NAMES lib/version.txt
         PATH_SUFFIXES share/arduino
