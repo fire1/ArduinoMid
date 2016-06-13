@@ -12,7 +12,7 @@ int buttonLastUpSt = LOW;
 
 //
 // The debounce time
-long debounceDelay = 490;
+long debounceDelay = 300;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -29,9 +29,10 @@ MenuItem menuItem3 = MenuItem("Tests");
 
 static void setupMenu(){
     menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3);
+    menuItem3.add(menuItem1); // Create Loop menu
 //    menuItem1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
 //    menuItem2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
-      menu.moveUp();
+      //menu.next();
     }
 
 
@@ -109,13 +110,16 @@ static void menuChanged(MenuChangeEvent changed) {
     MenuItem newMenuItem = changed.to; //get the destination menu
     lcd.clear();  
     if (newMenuItem.getName() == "Base") {
-        lcd.print("=--");
+        lcd.print((char)2);
+        lcd.print("--");
     } else if (newMenuItem.getName() == "Item1SubItem1") {
         lcd.print("Item1SubItem1");
     } else if (newMenuItem.getName() == "Item1SubItem2") {
         lcd.print("Item1SubItem2   ");
     } else if (newMenuItem.getName() == "Drive") {
-        lcd.print("-=-");
+        lcd.print("-");
+        lcd.print((char)2);
+        lcd.print("-");
     } else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
     } else if (newMenuItem.getName() == "Item2SubItem2") {
@@ -123,7 +127,8 @@ static void menuChanged(MenuChangeEvent changed) {
     } else if (newMenuItem.getName() == "Item2SubItem3") {
         lcd.print("Item2SubItem3   ");
     } else if (newMenuItem.getName() == "Tests") {
-        lcd.print("--=");
+        lcd.print("--");
+        lcd.print((char)2);
     }else{
         lcd.print(newMenuItem.getName());
     }
