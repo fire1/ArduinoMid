@@ -9,10 +9,14 @@
      For the full copyright and license information, please view the LICENSE
      file that was distributed with this source code.
 ---------------------------------------------------
+
 */
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
+#include <Arduino.h>
+//
+// Menu
 #include <MenuBackend.h>
 //
 // Includes Libraries
@@ -47,7 +51,7 @@ const int minMenuNumber = 1;
 void setup() {
   //
   //
-    //Serial.begin(9600);
+    Serial.begin(9600);
     //
     // Pin button mode
     pinMode(buttonPinUp, INPUT);
