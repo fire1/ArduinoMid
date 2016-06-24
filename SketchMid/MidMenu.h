@@ -18,38 +18,28 @@ long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
 long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
-MenuItem menuItem1 = MenuItem("MenuA");
-MenuItem menuItem1SubItem1 = MenuItem("Item1SubItem1");
-MenuItem menuItem1SubItem2 = MenuItem("Item1SubItem2");
-MenuItem menuItem2 = MenuItem("MenuB");
-MenuItem menuItem2SubItem1 = MenuItem("Item2SubItem1");
-MenuItem menuItem2SubItem2 = MenuItem("Item2SubItem2");
-MenuItem menuItem3SubItem3 = MenuItem("Item2SubItem3");
-MenuItem menuItem3 = MenuItem("MenuC");
+MenuItem menuItem1 = MenuItem("Menu1");
+MenuItem menuItem2 = MenuItem("Menu2");
+MenuItem menuItem3 = MenuItem("Menu3");
 
 static void setupMenu() {
     menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3);
     menuItem3.add(menuItem1); // Create Loop menu
-    //menuItem1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
-  //  menuItem1SubItem2.add(menuItem1SubItem1);
-    //menuItem2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
-    //menuItem3SubItem3.add(menuItem2SubItem1);
-    //menu.next();
 }
 
 
 /**
- * 
+ *
  */
 void navigateMenus() {
     MenuItem currentMenu = menu.getCurrent();
 
     switch (lastButtonPushed) {
         case buttonPinUp:
-            menu.moveUp();
+            menu.moveDown();
             break;
         case buttonPinDw:
-            menu.moveDown();
+            menu.use();
             break;
     }
 
@@ -109,7 +99,7 @@ void printNavMenuA() {
     lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.setCursor(0, 0);
-    
+
 }
 
 void printNavMenuB() {
@@ -118,7 +108,7 @@ void printNavMenuB() {
     lcd.print((char) 3);
     lcd.print((char) 2);
     lcd.setCursor(0, 0);
-    
+
 }
 
 void printNavMenuC() {
@@ -127,20 +117,23 @@ void printNavMenuC() {
     lcd.print((char) 2);
     lcd.print((char) 3);
     lcd.setCursor(0, 0);
-    
+
 }
 
 int lastNavInfoTime = 0;
 
 int isInfoTimeMenu() {
-    if (millis() > lastNavInfoTime ) {
-        lastNavInfoTime = millis();
-        return 1;
-    }
-    if (millis() > lastNavInfoTime + 2000 ) {
+
+    while (1 > 0) {
+        if (millis() > lastNavInfoTime) {
+            lastNavInfoTime = millis();
+            return 1;
+        }
+        if (millis() > lastNavInfoTime + 2000) {
+            return 0;
+        }
         return 0;
     }
-    return 0;
 }
 
 /**
@@ -150,42 +143,25 @@ static void menuChanged(MenuChangeEvent changed) {
 
     MenuItem newMenuItem = changed.to; //get the destination menu
     lcd.clear();
-    if (newMenuItem.getName() == "MenuA") {
+    if (newMenuItem.getName() == "Menu1") {
         printNavMenuA();
-        if (isInfoTimeMenu() == 1) {
-            lcd.print("Main car info");
-        } else {
-            lcd.setCursor(0,0);
-            lcd.print("                ");
-        }
+        cursorMenu = 1;
     } else if (newMenuItem.getName() == "Item1SubItem1") {
         lcd.print("Item1SubItem1");
     } else if (newMenuItem.getName() == "Item1SubItem2") {
         lcd.print("Item1SubItem2   ");
-    } else if (newMenuItem.getName() == "MenuB") {
-      printNavMenuB();
-        if (isInfoTimeMenu() == 1) {
-            lcd.print("Traveling");
-        } else {
-            
-            lcd.setCursor(0,0);
-            lcd.print("                ");
-        }
+    } else if (newMenuItem.getName() == "Menu2") {
+        printNavMenuB();
+        cursorMenu = 2;
     } else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
     } else if (newMenuItem.getName() == "Item2SubItem2") {
         lcd.print("Item2SubItem2   ");
     } else if (newMenuItem.getName() == "Item2SubItem3") {
         lcd.print("Item2SubItem3   ");
-    } else if (newMenuItem.getName() == "MenuC") {
-      printNavMenuC();
-       if (isInfoTimeMenu() == 1) {
-            lcd.print("Test information");
-        } else {
-
-            lcd.setCursor(0,0);
-            lcd.print("                ");
-        } 
+    } else if (newMenuItem.getName() == "Menu3") {
+        printNavMenuC();
+        cursorMenu = 3;
     } else {
         lcd.print(newMenuItem.getName());
     }
@@ -194,11 +170,11 @@ static void menuChanged(MenuChangeEvent changed) {
 
 static void menuUsed(MenuUseEvent used) {
     lcd.setCursor(0, 0);
-    lcd.print("You used        ");
+    lcd.print("You are in:       ");
     lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
-    delay(3000);  //delay to allow message reading
+    delay(1000);  //delay to allow message reading
     lcd.setCursor(0, 0);
-    lcd.print("blaaa");
+    lcd.clear();
     //menu.toRoot();  //back to Main
 }

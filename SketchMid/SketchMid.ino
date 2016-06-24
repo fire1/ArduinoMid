@@ -33,6 +33,11 @@ const int controlLedGr = 22;
 const int controlLedRd = 23;
 
 //
+//
+
+int cursorMenu = 0;
+
+//
 // Define button pins for steering controller
 const int buttonPinUp = 8;
 const int buttonPinDw = 9;
@@ -104,25 +109,45 @@ void loop() {
     readButtons();  //I splitted button reading and navigation in two procedures because
     navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
     //delay(1); // if some issues appears
-    ledBlinkMode();
+
+switch (cursorMenu){
+  case 1:
+  break;
+
+  case 2:
+    
+  break;
+
+  case 3:
+    
+  break;
+    
+}
+
 }
 
 int lastBlinkTime = 0;
 int countLoopsBlink = 0;
 void ledBlinkMode(){
-  
+  char current;
    if(millis() > lastBlinkTime + 500 && countLoopsBlink < 500 ){
-      digitalWrite(controlLedGr, HIGH);
+      //digitalWrite(controlLedGr, HIGH);
+      
+        
+        
       lastBlinkTime = millis();
    }
     if(countLoopsBlink >= 500 ) {
-    digitalWrite(controlLedGr, LOW) ;
+    //digitalWrite(controlLedGr, LOW) ;
     countLoopsBlink = 0;
     }
 //        if(countLoopsBlink >= 1000){
 //        countLoopsBlink = 0;
 //    }
-  countLoopsBlink++;
+//  countLoopsBlink++;
+
+
+  
 }
 
 
