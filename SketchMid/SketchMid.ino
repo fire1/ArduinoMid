@@ -26,6 +26,12 @@
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
 
+
+//
+//
+const int controlLedGr = 22;
+const int controlLedRd = 23;
+
 //
 // Define button pins for steering controller
 const int buttonPinUp = 8;
@@ -57,21 +63,26 @@ const int minMenuNumber = 1;
 
 
 void setup() {
-
+    
+    //
+    //
+    pinMode(controlLedGr, OUTPUT);
+    pinMode(controlLedRd, OUTPUT);
     //
     // Pin button mode
     pinMode(buttonPinUp, INPUT);
     pinMode(buttonPinDw, INPUT);
 
-    //
-    // Creates custom characters
-    initChars();
+
     //
     // Setup menu
     setupMenu(); 
     //
     // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
     lcd.begin(16, 2);  
+    //
+    // Creates custom characters
+    initChars();
     //
     // Define Alpine Pin
 //    pinMode(alpinePin, OUTPUT);
@@ -86,16 +97,33 @@ void setup() {
     //
     // Move cursor to menu
     menu.moveDown();
+    
 }
 
 void loop() {
     readButtons();  //I splitted button reading and navigation in two procedures because
     navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
     //delay(1); // if some issues appears
+    ledBlinkMode();
 }
 
-
-
+int lastBlinkTime = 0;
+int countLoopsBlink = 0;
+void ledBlinkMode(){
+  
+   if(millis() > lastBlinkTime + 500 && countLoopsBlink < 500 ){
+      digitalWrite(controlLedGr, HIGH);
+      lastBlinkTime = millis();
+   }
+    if(countLoopsBlink >= 500 ) {
+    digitalWrite(controlLedGr, LOW) ;
+    countLoopsBlink = 0;
+    }
+//        if(countLoopsBlink >= 1000){
+//        countLoopsBlink = 0;
+//    }
+  countLoopsBlink++;
+}
 
 
 

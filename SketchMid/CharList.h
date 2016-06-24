@@ -27,19 +27,33 @@ byte clelsi[8] = {
   0b01000
 };
 
-byte menuCur[8] = {
-  0b00000,
+byte menuCurA[8] = {
   0b00000,
   0b11111,
   0b10001,
+  0b10001,
+  0b10001,
   0b11111,
-  0b00000,
   0b00000,
   0b00000
 };
+
+byte menuCurB[8] = {
+  0b00000,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b00000,
+  0b00000
+};
+
+
      lcd.createChar(0, smiley);
      lcd.createChar(1, clelsi);
-     lcd.createChar(2, menuCur);
+     lcd.createChar(2, menuCurA);
+     lcd.createChar(3, menuCurB);
 }
 
 #endif //ARDUINOMID_CHARLIST_H
