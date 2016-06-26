@@ -38,6 +38,11 @@ const int controlLedRd = 23;
 int cursorMenu = 0;
 
 //
+//
+const int temperaturePin = A0;
+int lastTemperatureAmp = 0;
+int temperatureAplitudeCount = 0;
+//
 // Define button pins for steering controller
 const int buttonPinUp = 8;
 const int buttonPinDw = 9;
@@ -93,25 +98,27 @@ void setup() {
 //    pinMode(alpinePin, OUTPUT);
     lcd.setCursor(0, 0);
     lcd.print("Welcome to Astra");
-    delay(2000);
+    delay(1000);
     lcd.setCursor(0, 1);
     lcd.print("Nice driving! ");
     delay(500);
     lcd.print((char)0);
-    delay(2000);
+    delay(1000);
     //
     // Move cursor to menu
     menu.moveDown();
-    
+    menu.use();
+    delay(1000);
 }
 
 void loop() {
     readButtons();  //I splitted button reading and navigation in two procedures because
     navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
-    //delay(1); // if some issues appears
+    
 
 switch (cursorMenu){
   case 1:
+  readBoardTemperature();
   break;
 
   case 2:
@@ -124,6 +131,7 @@ switch (cursorMenu){
     
 }
 
+delay(1); // if some issues appears
 }
 
 int lastBlinkTime = 0;
@@ -153,4 +161,29 @@ void ledBlinkMode(){
 
 
 
+void readBoardTemperature (){
+  int pin_value;
+  int temperature;
 
+  if(millis() >= (lastTemperatureAmp + 1000)){
+    lastTemperatureAmp = millis() ;
+  pin_value = analogRead(temperaturePin);
+  temperature =  ( pin_value * 100.0)/1024.0; 
+  //temperature =  (200*pin_value)>>8;
+
+
+ // converting that reading to voltage, for 3.3v arduino use 3.3
+ int voltage = pin_value * 5.0;
+ //voltage /= 1024.0; 
+ 
+ // now print out the temperature
+// int temperature = (voltage - 0.5) * 100 ;
+  
+  lcd.setCursor(7, 2);
+  lcd.print(temperature) ;
+  lcd.print((char)1);
+  temperatureAplitudeCount= 0;
+  temperatureAplitudeCount = 1;
+  }
+  
+}

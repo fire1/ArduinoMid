@@ -12,7 +12,7 @@ int buttonLastUpSt = LOW;
 
 //
 // The debounce time
-long debounceDelay = 300;
+long debounceDelay = 500;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -37,9 +37,10 @@ void navigateMenus() {
     switch (lastButtonPushed) {
         case buttonPinUp:
             menu.moveDown();
+            menu.use();
             break;
         case buttonPinDw:
-            menu.use();
+            
             break;
     }
 
@@ -170,8 +171,8 @@ static void menuChanged(MenuChangeEvent changed) {
 
 static void menuUsed(MenuUseEvent used) {
     lcd.setCursor(0, 0);
-    lcd.print("You are in:       ");
-    lcd.setCursor(0, 1);
+    //lcd.print("You are in:       ");
+    //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
     delay(1000);  //delay to allow message reading
     lcd.setCursor(0, 0);
