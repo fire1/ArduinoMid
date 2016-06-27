@@ -33,7 +33,7 @@ static void setupMenu ()
 }
 
 /**
- *
+ * Resolve navigation between button press
  */
 void navigateMenus ()
 {
@@ -46,7 +46,8 @@ void navigateMenus ()
       menu.use ();
       break;
       case buttonPinDw:
-
+        //
+        // Todo menu.moveRight(); menu.use();
         break;
     }
 
@@ -54,7 +55,7 @@ void navigateMenus ()
 }
 
 /**
- *
+ * Read pin button states
  */
 void readButtons ()
 {  //read buttons status

@@ -36,8 +36,7 @@ const int controlLedGr = 22;
 const int controlLedRd = 23;
 
 //
-//
-
+// Menu cursor
 int cursorMenu = 0;
 
 //
@@ -124,6 +123,7 @@ void loop() {
     }
 
     delay(1); // if some issues appears
+    
 }
 
 

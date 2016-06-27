@@ -8,12 +8,15 @@
  * Read temperature sensor
  */
 void readInnerTemp() {
+  //
+  // Inner vars
   int pinReadValue;
   int temperatureC;
-
-
+  //
+  // Read pin value
   pinReadValue = analogRead(temperaturePin);
-
+  //
+  // Check is output time is allowed
   if (MID::isSensorReadAllow()) {
 
       temperatureC = (pinReadValue * 100.0) / 1024.0;
