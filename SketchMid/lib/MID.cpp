@@ -39,5 +39,7 @@ void MID::setupCustomCharacters ()
   lcd.createChar (1, CHR_CLS);
   lcd.createChar (2, CHR_MNC1);
   lcd.createChar (3, CHR_MNC2);
+  lcd.createChar (4, CHR_TMP1);
+  lcd.createChar (5, CHR_TMP2);
 }
 

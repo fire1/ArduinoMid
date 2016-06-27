@@ -60,7 +60,7 @@ MID mid();
 #include "lib/EmlAlpine.h"
 //
 // Read inside temperature
-#include "lib/ReadInnterTemp.h"
+#include "lib/ReadSensors.h"
 
 //
 // Setup the code...

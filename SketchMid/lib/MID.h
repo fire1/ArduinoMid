@@ -9,7 +9,7 @@
 
 
 
-const int SNS_INTERVAL_TIME = 1000;
+const int SNS_INTERVAL_TIME = 3000;
 
 /**
  *

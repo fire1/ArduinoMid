@@ -16,7 +16,7 @@ int buttonLastUpSt = LOW;
 
 //
 // The debounce time
-long debounceDelay = 500;
+long debounceDelay = 370;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -30,6 +30,11 @@ static void setupMenu ()
 {
   menu.getRoot ().add (menuItem1).add (menuItem2).add (menuItem3);
   menuItem3.add (menuItem1); // Create Loop menu
+
+  //
+  // Move cursor to menu
+  menu.moveDown();
+  menu.use();
 }
 
 /**
