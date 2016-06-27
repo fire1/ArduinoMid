@@ -11,20 +11,23 @@
 ---------------------------------------------------
 
 */
-#include <Arduino.h>
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
-
 #include <MenuBackend.h>
 //
 // Includes Libraries
 #include <LiquidCrystal.h>
 
+
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
+
+//
+// Adding utils emulator
+#include "lib/MID.h"
 
 
 //
@@ -40,8 +43,6 @@ int cursorMenu = 0;
 //
 //
 const int temperaturePin = A0;
-int lastTemperatureAmp = 0;
-int temperatureAplitudeCount = 0;
 //
 // Define button pins for steering controller
 const int buttonPinUp = 8;
@@ -51,29 +52,20 @@ const int buttonPinDw = 9;
 int buttonStateUp = 0;   // current state of the button
 int buttonStateDw = 0;   // previous state of the button
 
-//
-// Custom character list
-#include "CharList.h"
+MID mid();
 //
 // Adding menu source
-#include "MidMenu.h"
+#include "lib/MidMenu.h"
 //
 // Adding Alphine emulator
-#include "EmlAlpine.h"
+#include "lib/EmlAlpine.h"
+//
+// Read inside temperature
+#include "lib/ReadInnterTemp.h"
 
 //
-// Defines min/max menu amplitude
-const int maxMenuNumber = 2;
-const int minMenuNumber = 1;
-
-//
-//
-
-
-
-
+// Setup the code...
 void setup() {
-    
     //
     //
     pinMode(controlLedGr, OUTPUT);
@@ -83,16 +75,12 @@ void setup() {
     pinMode(buttonPinUp, INPUT);
     pinMode(buttonPinDw, INPUT);
 
-
-    //
-    // Setup menu
-    setupMenu(); 
     //
     // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
-    lcd.begin(16, 2);  
+    lcd.begin(16, 2);
     //
-    // Creates custom characters
-    initChars();
+    // main mid class setup
+    MID setup();
     //
     // Define Alpine Pin
 //    pinMode(alpinePin, OUTPUT);
@@ -102,88 +90,42 @@ void setup() {
     lcd.setCursor(0, 1);
     lcd.print("Nice driving! ");
     delay(500);
-    lcd.print((char)0);
+    lcd.print((char) 0);
     delay(1000);
-    //
-    // Move cursor to menu
-    menu.moveDown();
-    menu.use();
-    delay(1000);
+
+    setupMenu ();
+
 }
 
 void loop() {
-    readButtons();  //I splitted button reading and navigation in two procedures because
-    navigateMenus();  //in some situations I want to use the button for other purpose (eg. to change some settings)
-    
 
-switch (cursorMenu){
-  case 1:
-  readBoardTemperature();
-  break;
+    //
+    //  Read buttons
+    readButtons ();
+    //
+    // Handle navigation
+    navigateMenus ();
+    //
+    // Switch menu from  cursor
+    switch (cursorMenu) {
+        case 1:
+            readInnerTemp();
+            break;
 
-  case 2:
-    
-  break;
+        case 2:
 
-  case 3:
-    
-  break;
-    
-}
+            break;
 
-delay(1); // if some issues appears
-}
+        case 3:
 
-int lastBlinkTime = 0;
-int countLoopsBlink = 0;
-void ledBlinkMode(){
-  char current;
-   if(millis() > lastBlinkTime + 500 && countLoopsBlink < 500 ){
-      //digitalWrite(controlLedGr, HIGH);
-      
-        
-        
-      lastBlinkTime = millis();
-   }
-    if(countLoopsBlink >= 500 ) {
-    //digitalWrite(controlLedGr, LOW) ;
-    countLoopsBlink = 0;
+            break;
+        default:
+            break;
     }
-//        if(countLoopsBlink >= 1000){
-//        countLoopsBlink = 0;
-//    }
-//  countLoopsBlink++;
 
-
-  
+    delay(1); // if some issues appears
 }
 
 
 
 
-void readBoardTemperature (){
-  int pin_value;
-  int temperature;
-
-  if(millis() >= (lastTemperatureAmp + 1000)){
-    lastTemperatureAmp = millis() ;
-  pin_value = analogRead(temperaturePin);
-  temperature =  ( pin_value * 100.0)/1024.0; 
-  //temperature =  (200*pin_value)>>8;
-
-
- // converting that reading to voltage, for 3.3v arduino use 3.3
- int voltage = pin_value * 5.0;
- //voltage /= 1024.0; 
- 
- // now print out the temperature
-// int temperature = (voltage - 0.5) * 100 ;
-  
-  lcd.setCursor(7, 2);
-  lcd.print(temperature) ;
-  lcd.print((char)1);
-  temperatureAplitudeCount= 0;
-  temperatureAplitudeCount = 1;
-  }
-  
-}
