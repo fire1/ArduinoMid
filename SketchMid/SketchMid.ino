@@ -17,17 +17,19 @@
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 #include <MenuBackend.h>
 //
+// Data container
+//#include <EEPROM.h>
+//
 // Includes Libraries
 #include <LiquidCrystal.h>
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd (1, 2, 4, 5, 6, 7);
 //
-// Data container
-#include <EEPROM.h>
-//
 // Data handler lib
-#include "lib/EEProm.h"
+//#include "lib/EEProm.h"
+
+
 //
 // Adding utils emulator
 #include "lib/MID.h"
@@ -35,7 +37,7 @@ LiquidCrystal lcd (1, 2, 4, 5, 6, 7);
 //
 const int controlLedGr = 22;
 const int controlLedRd = 23;
-
+;
 //
 // Menu cursor
 int cursorMenu = 0;
@@ -51,9 +53,6 @@ const int buttonPinDw = 9;
 // Variables will change:
 int buttonStateUp = 0;   // current state of the button
 int buttonStateDw = 0;   // previous state of the button
-//
-// Init MID class 
-MID mid ();
 //
 // Adding menu source
 #include "lib/MidMenu.h"
@@ -76,13 +75,14 @@ void setup ()
   // Pin button mode
   pinMode (buttonPinUp, INPUT);
   pinMode (buttonPinDw, INPUT);
-
-  //
-  // Initializes the interface to the LCD screen, and specifies the dimensions (width and height) of the display }
-  lcd.begin (16, 2);
   //
   // main mid class setup
   MID setup ();
+  delay(1000);
+
+  //
+  // Initializes the interface to the LCD screen
+  lcd.begin (16, 2);  
   //
   // Define Alpine Pin
   /*pinMode(alpinePin, OUTPUT);*/
@@ -113,7 +113,9 @@ void loop ()
       case 1:
         readInnerTemp ();
       break;
-
+      case 4:
+      case 5:
+      break;
       case 2:
 
         break;
