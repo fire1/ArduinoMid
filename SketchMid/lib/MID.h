@@ -22,7 +22,7 @@ class MID {
   static void initMenu ();
   static void runMenu ();
 
-  static bool isSensorReadAllow ();
+  static bool isSensorReadAllow (long int interval = 0);
 
  private:
   void setupCustomCharacters ();

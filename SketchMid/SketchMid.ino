@@ -36,8 +36,7 @@ LiquidCrystal lcd (1, 2, 4, 5, 6, 7);
 //
 //
 const int controlLedGr = 22;
-const int controlLedRd = 23;
-;
+const int controlLedRd = 23;;
 //
 // Menu cursor
 int cursorMenu = 0;
@@ -78,11 +77,11 @@ void setup ()
   //
   // main mid class setup
   MID setup ();
-  delay(1000);
+  delay (1000);
 
   //
   // Initializes the interface to the LCD screen
-  lcd.begin (16, 2);  
+  lcd.begin (16, 2);
   //
   // Define Alpine Pin
   /*pinMode(alpinePin, OUTPUT);*/
@@ -115,7 +114,9 @@ void loop ()
       break;
       case 4:
       case 5:
-      break;
+        //
+        // Second Menu
+        break;
       case 2:
 
         break;

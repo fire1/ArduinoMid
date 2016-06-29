@@ -3,9 +3,14 @@
 //
 
 static void menuUsed(MenuUseEvent used);
-
 static void menuChanged(MenuChangeEvent changed);
+void printNavMenuA();
+void printNavMenuB();
+void printNavMenuC();
+void navigateMenus();
 
+//
+//
 MenuBackend menu = MenuBackend(menuUsed, menuChanged);
 
 //
@@ -36,94 +41,34 @@ static void setupMenu() {
     menuItem3.add(menuItem1); // Create Loop menu
 
     menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
-
+  menuItemMain2.addRight(menuItemMain1); // loop
     //
     // Move cursor to menu
     menu.moveDown();
     menu.use();
 }
 
-void printNavMenuA() {
-    lcd.setCursor(13, 2);
-    lcd.print((char) 3);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.setCursor(0, 0);
-
-}
-
-void printNavMenuB() {
-    lcd.setCursor(13, 2);
-    lcd.print((char) 2);
-    lcd.print((char) 3);
-    lcd.print((char) 2);
-    lcd.setCursor(0, 0);
-
-}
-
-void printNavMenuC() {
-    lcd.setCursor(13, 2);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.print((char) 3);
-    lcd.setCursor(0, 0);
-
-}
-
 /**
- * Resolve navigation between button press
- */
-void navigateMenus() {
-    if (isMainNavigationStatus == 0) {
-        MenuItem currentMenu = menu.getCurrent();
-
-
-        switch (lastButtonPushed) {
-            case buttonPinUp:
-                if (isInSubMenu == 0) {
-                    menu.moveDown();
-                    menu.use();
-                } else {
-                    menu.moveRight();
-                    menu.use();
-                }
-                break;
-            case buttonPinDw:
-                if (isInSubMenu == 0) {
-                    menu.moveRight();
-                    menu.use();
-                    isInSubMenu = 1;
-                } else {
-                    menu.moveBack();
-                    menu.use();
-                }
-                break;
-        }
-    }
-    lastButtonPushed = 0; //reset the lastButtonPushed variable
-}
-
-/**
- *
+ * Event menu changed
  */
 static void menuChanged(MenuChangeEvent changed) {
 
     MenuItem newMenuItem = changed.to; //get the destination menu
     lcd.clear();
+
     if (newMenuItem.getName() == "Main") {
         printNavMenuA();
-        cursorMenu = 1;
         isInSubMenu = 0;
     }
     else if (newMenuItem.getName() == "Temp") {
-        cursorMenu = 4;
+
     }
     else if (newMenuItem.getName() == "Tests") {
         cursorMenu = 5;
     }
     else if (newMenuItem.getName() == "Trip") {
         printNavMenuB();
-        cursorMenu = 2;
+
     }
     else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
@@ -209,16 +154,75 @@ int isInfoTimeMenu() {
     }
 }
 
+/**
+ * Resolve navigation between button press
+ */
+void navigateMenus() {
+  if (isMainNavigationStatus == 0) {
+      MenuItem currentMenu = menu.getCurrent();
+
+
+      switch (lastButtonPushed) {
+          case buttonPinUp:
+            if (isInSubMenu == 0) {
+                menu.moveDown();
+                menu.use();
+              } else {
+                menu.moveRight();
+                menu.use();
+              }
+          break;
+          case buttonPinDw:
+            if (isInSubMenu == 0) {
+                menu.moveRight();
+                menu.use();
+                isInSubMenu = 1;
+              } else {
+                menu.moveBack();
+                menu.use();
+              }
+          break;
+        }
+    }
+  lastButtonPushed = 0; //reset the lastButtonPushed variable
+}
+
+void printNavMenuA() {
+  lcd.setCursor(13, 2);
+  lcd.print((char) 3);
+  lcd.print((char) 2);
+  lcd.print((char) 2);
+  lcd.setCursor(0, 0);
+
+}
+
+void printNavMenuB() {
+  lcd.setCursor(13, 2);
+  lcd.print((char) 2);
+  lcd.print((char) 3);
+  lcd.print((char) 2);
+  lcd.setCursor(0, 0);
+
+}
+
+void printNavMenuC() {
+  lcd.setCursor(13, 2);
+  lcd.print((char) 2);
+  lcd.print((char) 2);
+  lcd.print((char) 3);
+  lcd.setCursor(0, 0);
+
+}
 
 static void menuUsed(MenuUseEvent used) {
-    lcd.setCursor(0, 0);
-    //lcd.print("You are in:       ");
-    //lcd.setCursor(0, 1);
-    lcd.print(used.item.getName());
-    delay(250);
-    lcd.print(" Screen");
-    delay(800);  //delay to allow message reading
-    lcd.setCursor(0, 0);
-    lcd.clear();
-    //menu.toRoot();  //back to Main
+  lcd.setCursor(0, 0);
+  //lcd.print("You are in:       ");
+  //lcd.setCursor(0, 1);
+  lcd.print(used.item.getName());
+  delay(250);
+  lcd.print(" Screen");
+  delay(800);  //delay to allow message reading
+  lcd.setCursor(0, 0);
+  lcd.clear();
+  //menu.toRoot();  //back to Main
 }

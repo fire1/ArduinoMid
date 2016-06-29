@@ -11,11 +11,22 @@ long int SNS_LAST_RUN_TIME = 0;
 
 //
 // Sensor timing handler
-bool MID::isSensorReadAllow() {
+bool MID::isSensorReadAllow(long int interval) {
+  int intervalValue;
 
-    if (millis() >= SNS_LAST_RUN_TIME + SNS_INTERVAL_TIME) {
-        SNS_LAST_RUN_TIME = millis();
-        return true;
+  if (interval == 0)
+    {
+      intervalValue = SNS_INTERVAL_TIME;
+    }
+  else
+    {
+      intervalValue = interval;
+    }
+
+  if (millis () >= SNS_LAST_RUN_TIME + intervalValue)
+    {
+      SNS_LAST_RUN_TIME = millis ();
+      return true;
     }
     return false;
 }
