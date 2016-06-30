@@ -27,31 +27,15 @@
 LiquidCrystal lcd (1, 2, 4, 5, 6, 7);
 //
 // Data handler lib
-//#include "lib/EEProm.h"
-
-
 //
-// Adding utils emulator
-#include "lib/MID.h"
-//
-//
-const int controlLedGr = 22;
-const int controlLedRd = 23;;
+// Main Sensor handler
+#include "lib/MainFunc.h"
 //
 // Menu cursor
 int cursorMenu = 0;
-
 //
 //
-const int sensorTempPin_1 = A0;
-//
-// Define button pins for steering controller
-const int buttonPinUp = 8;
-const int buttonPinDw = 9;
-//
-// Variables will change:
-int buttonStateUp = 0;   // current state of the button
-int buttonStateDw = 0;   // previous state of the button
+#include "lib/LcdChar.h"
 //
 // Adding menu source
 #include "lib/MidMenu.h"
@@ -67,21 +51,14 @@ int buttonStateDw = 0;   // previous state of the button
 void setup ()
 {
   //
-  //
-  pinMode (controlLedGr, OUTPUT);
-  pinMode (controlLedRd, OUTPUT);
-  //
-  // Pin button mode
-  pinMode (buttonPinUp, INPUT);
-  pinMode (buttonPinDw, INPUT);
-  //
-  // main mid class setup
-  MID setup ();
-  delay (1000);
-
+  // main setup
+  setupMain ();
   //
   // Initializes the interface to the LCD screen
   lcd.begin (16, 2);
+  //
+  //
+  setupLcdChar ();
   //
   // Define Alpine Pin
   /*pinMode(alpinePin, OUTPUT);*/
@@ -99,10 +76,10 @@ void loop ()
 
   //
   //  Read main buttons
-  readButtons ();
+  readButtons (BTN_PIN_UP, BTN_PIN_DW);
   //
   // Handle navigation
-  navigateMenus ();
+  navigateMenu ();
   //
   // Switch menu from cursor
   switch (cursorMenu)
@@ -111,11 +88,10 @@ void loop ()
       // Runs first menu
       case 1:
         readInnerTemp ();
+      getEcuSignalAmplitude ();
       break;
       case 4:
       case 5:
-        //
-        // Second Menu
         break;
       case 2:
 

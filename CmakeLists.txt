@@ -6,7 +6,7 @@ project(${PROJECT_NAME})
 set(${CMAKE_PROJECT_NAME}_BOARD Mega2560)
 set(${CMAKE_PROJECT_NAME}_PORT /dev/ttys3)
 
-set(${CMAKE_PROJECT_NAME}_SKETCH SketchMid/SketchMid.ino)
+set(${CMAKE_PROJECT_NAME}_SKETCH SketchMid/MID.ino)
 generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
-set(SOURCE_FILES SketchMid.cpp)
+set(SOURCE_FILES MID.ino)

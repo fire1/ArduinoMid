@@ -5,6 +5,10 @@
 #ifndef ARDUINOMID_READINNTERTEMP_H
 #define ARDUINOMID_READINNTERTEMP_H
 
+
+//
+//
+const int sensorTempPin_1 = A0;
 /**
  * Read temperature sensor
  */
@@ -18,7 +22,7 @@ void readInnerTemp() {
     pinReadValue = analogRead(sensorTempPin_1);
     //
     // Check is output time is allowed
-    if (MID::isSensorReadAllow()) {
+    if (isSensorReadAllow()) {
 
         //temperatureC = (pinReadValue * 100.0) / 1024.0;
         //temperatureC =  (200*pin_value)>>8;
