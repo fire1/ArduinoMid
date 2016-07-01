@@ -1,52 +1,88 @@
 //
 // Created by Angel Zaprianov on 28.6.2016 г..
 //
+// Since EEPROM have live time will use external ...
+// http://www.hobbytronics.co.uk/arduino-external-eeprom
+//
+// Data container
+//#include <EEPROM.h>
+//#include <Wire.h>   // External I2C EEPROM to Arduino
+//
+// Saves Addresses in EEP Rom
+const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
+const int EEP_ADR_TT1 = 1; // Total Travel distance
+const int EEP_ADR_TT2 = 2; // Total Travel distance
+const int EEP_ADR_TR1 = 2; // Trip distance
+const int EEP_ADR_TR2 = 3; // Trip distance
+const int EEP_ADR_TTT = 4; // Total Trip Time
+const int EEP_ADR_TER = 4; // Time Engine Run
+const int EEP_ADR_TRS = 5; // Tires size
+const int EEP_ADR_RMS = 6; // Rims Size
+const int EEP_ADR_GTS = 7; // Gas tank size
+const int EEP_ADR_GTL = 8; // Gas tank current liters
+//
+//
+byte readEEPROM(int deviceaddress, unsigned int eeaddress )
+{
+  byte rdata = 0xFF;
 
-#define eepromSize 512          //512 for atmega168, 1024 for 328
+  Wire.beginTransmission(deviceaddress);
+  Wire.send((int)(eeaddress >> 8));   // MSB
+  Wire.send((int)(eeaddress & 0xFF)); // LSB
+  Wire.endTransmission();
 
-#define TrackSpeedGas           // Define this to track gas used at different speeds.
-// Costs 85ram + 814 bytes/v0016  766 bytes/v0011
-#define SaveTankToEeprom        // Define this to enable Tank data save/restore/view
-// Save/Restore current "live" tank dataset, or
-// Archive & View tank summaries
-// Costs 1432 bytes/v0016  1366 bytes/v0011
-//#define SaveCurrentToEeprom   // Uncomment this if you also want to protect Current Trip from power-loss
-// If your Current auto-clears after 7 minutes, you probably won't need this
+  Wire.requestFrom(deviceaddress,1);
 
-#define eeParmStart  4  //eeprom location, beginning of parms[]
+  if (Wire.available()) rdata = Wire.receive();
 
-#define savetanksig   B11101101
-#define eeTankSig       eepromSize-1    //last byte of eeprom
-#define eeTankQueueIdx  eepromSize-2    //2nd last byte of eeprom, contains queue # of last tank summary saved
+  return rdata;
+}
+//
+//
+void writeEEPROM(int deviceaddress, unsigned int eeaddress, byte data )
+{
+  Wire.beginTransmission(deviceaddress);
+  Wire.send((int)(eeaddress >> 8));   // MSB
+  Wire.send((int)(eeaddress & 0xFF)); // LSB
+  Wire.send(data);
+  Wire.endTransmission();
 
-#ifdef SaveCurrentToEeprom
-#define eeHoldTankSize   (sizeof(Trip)+sizeof(Trip)+sizeof(injSpeedHiSec)+sizeof(injSpeedHius))
-//136 = 36+36+32+32  ... or 36+36+1+1, if !TrackSpeedGas
-#else
-#define eeHoldTankSize   (sizeof(Trip)+sizeof(injSpeedHiSec)+sizeof(injSpeedHius))
-//100 = 36+32+32   ... or 36+1+1, if !TrackSpeedGas
-#endif
+  delay(5);
+}
 
-#define eeHoldTankStart  (eeTankQueueIdx - eeHoldTankSize)
-//start byte of where to store live tank data (in event of power loss)
-#define eeHoldCurrentStart  (eeHoldTankStart + sizeof(Trip))
-//start byte of where to store live current-trip data (in event of power loss)
-#define eeHoldSpeedGasStart  (eeTankQueueIdx - sizeof(injSpeedHiSec) - sizeof(injSpeedHius))
-#define eeTankArchiveStart  (eeHoldTankStart - eeTankArchiveSize)
-#ifdef TrackSpeedGas
-#define eeTankArchiveSize   (9+11+4)
-#else
-#define eeTankArchiveSize   (11+4)
-#endif
-//      15 bytes to save: 99.99 gallons, 99.99 idle, 99.99 mph, 99.99 eoc, 9999.99 miles, 4-byte decimal note (2+2+2+2+3+4)
-//      optionally, store additional 9 bytes (1 3-digit percent of gas-used for 8 speed ranges + idle)
+/**
+ * Saves fuel tank level
+ */
+void saveFuelTankLevel (unsigned int value = 0)
+{
+  EEPROM.write (EEP_ADR_FTK, value);
+}
+/**
+ * Loads saved fuel level
+ */
+int loadFuelTankLevel ()
+{
+  return EEPROM.read (EEP_ADR_FTK);
+}
+/**
+ * Save total travel distance
+ */
+void saveTravelDistance (unsigned int value = 0)
+{
+  EEPROM.write (EEP_ADR_TTD, value / 4);
+}
+/**
+ * Loads travel distance
+ */
+void loadTravelDistance ()
+{
+  return EEPROM.read (EEP_ADR_TTD) * 4;
+}
+/**
+ *
+ */
+void saveTripDistance (unsigned int value = 0)
+{
+  EEPROM.write (EEP_ADR_TRD, value / 4);
+}
 
-#define eeTankQueueMax   ((eeHoldTankStart-eeParmStart-sizeof(parms)-128) / eeTankArchiveSize)
-//# of 20-byte tank summaries we will store.  store at end of eeprom, leave lower space for parms & future growth
-//start_loc_of_temp_tank_save) - (parms overhead) - 128 (future growth)
-
-#define READ  0  //for eeprom_block()
-#define WRITE 1  //for eeprom_block()
-#define LeftButton ((buttonState & lbuttonBit)==0)
-#define MiddleButton ((buttonState & mbuttonBit)==0)
-#define RightButton ((buttonState & rbuttonBit)==0)

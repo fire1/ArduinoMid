@@ -11,6 +11,30 @@
 #define MILLIS_PER_HR    3600000L // Hour
 #define MILLIS_PER_MN    60000L   // Minute
 #define MILLIS_PER_SC    1000L    // Second
+//
+//
+bool THROTTLE_UP = false; // Is open throttle  (acceleration)
+const int CON_ENG_CC = 1800; // Обем на двигателя
+const int CON_ENG_CL = 4; // Цилидъра
+const int FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
+const int BRN_MAS_FW = 14.7; // 14.7(oxygen) : 1(fuel) for burning
+//
+// http://skodaclub.bg/forum/index.php?/topic/45846-%D1%80%D0%B0%D0%B7%D1%85%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%B3%D0%BE%D1%80%D0%B8%D0%B2%D0%BE-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B0%D0%B7%D0%B5%D0%BD-%D1%85%D0%BE%D0%B4-%D0%BB%D0%B8%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D1%87%D0%B0%D1%81/
+//
+int calConsumption (engineRpms)
+{
+  int oneEngineTurnBurns, oneEngineTurnBurns, consumptionForHour, consumptionCc, consumptionCubicKg;
+
+  oneEngineTurnBurns = (CON_ENG_CC / 2) / 1000 /* for coverts to liters */;
+  consumptionForHour = (engineRpms * oneEngineTurnLiter) /* result for 1 min */  * 60 /* to one hour */;
+
+  if (THROTTLE_UP)
+    consumptionCc = consumptionForHour / FLW_MTR_FR;  /* in case throttle is not positive  */
+  else
+    consumptionCc = consumptionForHour;
+
+  consumptionCubicKg = ((consumptionCc / 1000) * 1.084) / BRN_MAS_FW; // Convert to kg per hour
+}
 
 //
 // Engine read values
@@ -90,7 +114,6 @@ void setupMain ()
   pinMode (SPD_SNS_PIN, INPUT);
   pinMode (ECU_SGN_PIN, INPUT);
 
-
 }
 
 int getEcuSignalAmplitude ()
@@ -123,6 +146,62 @@ int getSensorAmplitudeRead (int PinTarget, int TotalContainerState)
   //
   //
   return TotalContainerState;
+}
+/**
+ *
+ */
+float calcFuelEfficiency_ (int distanceKm, int liters)
+{
+  float efficien; //efficiency variable
+  efficien = distanceKm / liters;
+  return (efficien);//returning value
+}
+
+int calcFuelEfficiency (void)
+{
+
+  //sets values as either integars or real numbers
+  double radius_of_tire, gasoline_consumed, fuel_economy;
+  int num_of_rev, inches_in_mile;
+  //equation converting constants to inches in a mile, needed for distance
+  inches_in_mile = INCHES_IN_FOOT * FEET_IN_MILE;
+
+  ////steps which prints/asks user for info needed to make calculation
+  printf ("What is the radius of your tires, in inches?\n");
+  scanf ("%lf", &radius_of_tire); //double
+
+  printf ("How many revolutions did your car's tires make?\n");
+  scanf ("%d", &num_of_rev); //int
+
+  printf ("How many gallons of gas did your car use?\n");
+  scanf ("%lf", &gasoline_consumed); //double
+
+  //prints final value to the screen to two decimal places
+  printf ("Your car averaged %0.2lf miles per gallon.\n",
+      /* overall equation used for calculating fuel economy/includes
+      constants. This equation translates to distance divided by gallons
+      of gas used to drive that distance */
+          num_of_rev * (PI_OF_CIRCF * TWO_OF_CIRCF * radius_of_tire) / inches_in_mile
+          / gasoline_consumed, fuel_economy);
+
+  if (0 <= fuel_economy <= 20)
+    {
+      printf ("Your car gets poor gas mileage.\n");
+    }
+  else if (20 < fuel_economy <= 30)
+    {
+      printf ("Your car gets average gas mileage.\n");
+    }
+  else if (30 < fuel_economy <= 40)
+    {
+      printf ("Your car gets good gas mileage.\n");
+    }
+  else if (fuel_economy > 40)
+    {
+      printf ("Your car gets excellent gas mileage.\n");
+    }
+
+  return 0;
 }
 
 #endif //ARDUINOMID_UTILS_H

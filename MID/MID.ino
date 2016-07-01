@@ -17,9 +17,6 @@
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 #include <MenuBackend.h>
 //
-// Data container
-//#include <EEPROM.h>
-//
 // Includes Libraries
 #include <LiquidCrystal.h>
 //
@@ -45,6 +42,8 @@ int cursorMenu = 0;
 //
 // Read inside temperature
 #include "lib/ReadSensors.h"
+
+
 
 //
 // Setup the code...
