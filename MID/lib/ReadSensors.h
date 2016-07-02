@@ -5,10 +5,10 @@
 #ifndef ARDUINOMID_READINNTERTEMP_H
 #define ARDUINOMID_READINNTERTEMP_H
 
+#include <LiquidCrystal.h>
+#include "MainFunc.h"
 
-//
-//
-const int sensorTempPin_1 = A0;
+
 /**
  * Read temperature sensor
  */
@@ -36,13 +36,21 @@ void readInnerTemp() {
 
         lcd.setCursor(8, 2);
         if (temperatureC > 0) {
-            lcd.print((char)4);
-            lcd.print((char)5);
+            lcd.print("  ");
+
         }
         lcd.print(temperatureC);
         lcd.print((char) 1);
     }
 
+}
+
+
+void getEcuSignalAmplitude() {
+    int result = getSensorAmplitudeRead(ECU_SGN_PIN, ecuSnsCount);
+    lcd.setCursor(0, 2);
+    lcd.print("ECU:");
+    lcd.print(result);
 }
 
 #endif //ARDUINOMID_READINNTERTEMP_H

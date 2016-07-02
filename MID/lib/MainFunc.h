@@ -2,38 +2,33 @@
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
 #include <Arduino.h>
+
 #ifndef MID_MID_H
 #define MID_MID_H
+
 #include <LiquidCrystal.h>
 
 //
-// Time information
-#define MILLIS_PER_HR    3600000L // Hour
-#define MILLIS_PER_MN    60000L   // Minute
-#define MILLIS_PER_SC    1000L    // Second
-//
-//
-bool THROTTLE_UP = false; // Is open throttle  (acceleration)
-const int CON_ENG_CC = 1800; // Обем на двигателя
-const int CON_ENG_CL = 4; // Цилидъра
-const int FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
-const int BRN_MAS_FW = 14.7; // 14.7(oxygen) : 1(fuel) for burning
-//
 // http://skodaclub.bg/forum/index.php?/topic/45846-%D1%80%D0%B0%D0%B7%D1%85%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%B3%D0%BE%D1%80%D0%B8%D0%B2%D0%BE-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B0%D0%B7%D0%B5%D0%BD-%D1%85%D0%BE%D0%B4-%D0%BB%D0%B8%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D1%87%D0%B0%D1%81/
 //
-int calConsumption (engineRpms)
-{
-  int oneEngineTurnBurns, oneEngineTurnBurns, consumptionForHour, consumptionCc, consumptionCubicKg;
+int calConsumption(int engineRpm) {
+    int oneEngineTurnLiter;
+    int oneEngineTurnBurns;
+    int consumptionForHour;
+    int consumptionCc;
+    int consumptionCubicKg;
 
-  oneEngineTurnBurns = (CON_ENG_CC / 2) / 1000 /* for coverts to liters */;
-  consumptionForHour = (engineRpms * oneEngineTurnLiter) /* result for 1 min */  * 60 /* to one hour */;
+    oneEngineTurnBurns = (CON_ENG_CC / 2) / 1000 /* for coverts to liters */;
+    consumptionForHour = (engineRpm * oneEngineTurnBurns) /* result for 1 min */  * 60 /* to one hour */;
 
-  if (THROTTLE_UP)
-    consumptionCc = consumptionForHour / FLW_MTR_FR;  /* in case throttle is not positive  */
-  else
-    consumptionCc = consumptionForHour;
+    if (THROTTLE_UP)
+        consumptionCc = consumptionForHour / FLW_MTR_FR;  /* in case throttle is not positive  */
+    else
+        consumptionCc = consumptionForHour;
 
-  consumptionCubicKg = ((consumptionCc / 1000) * 1.084) / BRN_MAS_FW; // Convert to kg per hour
+    consumptionCubicKg = ((consumptionCc / 1000) * 1.084) / BRN_MAS_FW; // Convert to kg per hour
+
+    return consumptionCubicKg;
 }
 
 //
@@ -42,34 +37,19 @@ unsigned int thcSnsCount = 0;
 unsigned int spdSnsCount = 0;
 unsigned int ecuSnsCount = 0;
 
-//
-// Global interval
-static const int SNS_INTERVAL_TIME = 2000;
-//
-// MID plug pins definition over Arduino
-//
-// Define button pins for steering controller
-const int BTN_PIN_UP = 8;
-const int BTN_PIN_DW = 9;
-//
-// Engine pins
-const int TCH_SNS_PIN = 22; // the crankshaft speed sensor
-const int SPD_SNS_PIN = 22; // Speed sensor hub
-const int ECU_SGN_PIN = 24; // ECU signal
+
 
 //
 // Define public method
-static void setupMid ();
-static void initMenu ();
-static void runMenu ();
+static void setupMid();
 
-bool isSensorReadAllow (long int interval = 0);
+static void initMenu();
 
-//
-// Return reads from ECU
-int getEcuSignalAmplitude ();
+static void runMenu();
 
-int getSensorAmplitudeRead (int PinTarget, int TotalContainerState);
+bool isSensorReadAllow(long int interval = 0);
+
+int getSensorAmplitudeRead(int PinTarget, int TotalContainerState);
 
 //
 // Sensors timing containers
@@ -78,85 +58,74 @@ long int SNS_LAST_ECU_READ = 0; // ECU last time read
 
 //
 // Sensor timing handler
-bool isSensorReadAllow (long int interval)
-{
-  int intervalValue;
+bool isSensorReadAllow(long int interval) {
+    int intervalValue;
 
-  if (interval == 0)
-    {
-      intervalValue = SNS_INTERVAL_TIME;
+    if (interval == 0) {
+        intervalValue = SNS_INTERVAL_TIME;
     }
-  else
-    {
-      intervalValue = interval;
+    else {
+        intervalValue = interval;
     }
 
-  if (millis () >= SNS_LAST_RUN_TIME + intervalValue)
-    {
-      SNS_LAST_RUN_TIME = millis ();
-      return true;
+    if (millis() >= SNS_LAST_RUN_TIME + intervalValue) {
+        SNS_LAST_RUN_TIME = millis();
+        return true;
     }
-  return false;
+    return false;
 }
 
 //
 // Setup the mid
-void setupMain ()
-{
+void setupMain() {
 
-  //
-  // Pin button mode
-  pinMode (BTN_PIN_UP, INPUT);
-  pinMode (BTN_PIN_DW, INPUT);
-  //
-  // Engine pin mode as input
-  pinMode (TCH_SNS_PIN, INPUT);
-  pinMode (SPD_SNS_PIN, INPUT);
-  pinMode (ECU_SGN_PIN, INPUT);
+    //
+    // Pin button mode
+    pinMode(BTN_PIN_UP, INPUT);
+    pinMode(BTN_PIN_DW, INPUT);
+    //
+    // Engine pin mode as input
+    pinMode(TCH_SNS_PIN, INPUT);
+    pinMode(SPD_SNS_PIN, INPUT);
+    pinMode(ECU_SGN_PIN, INPUT);
 
 }
 
-int getEcuSignalAmplitude ()
-{
-  return getSensorAmplitudeRead (ECU_SGN_PIN, ecuSnsCount);
-}
+
 
 //
 // Read ECU signal amplitude
-int getSensorAmplitudeRead (int PinTarget, int TotalContainerState)
-{
-  int ReadingState = LOW;
-  //
-  // Get reading from pin
-  ReadingState = digitalRead (PinTarget);
-  //
-  //  Creating time loop amplitude
-  if (isSensorReadAllow ())
-    {
-      //
-      // Reset time bounce to zero
-      TotalContainerState = 0;
+int getSensorAmplitudeRead(int PinTarget, int TotalContainerState) {
+    int ReadingState = LOW;
+    //
+    // Get reading from pin
+    ReadingState = digitalRead(PinTarget);
+    //
+    //  Creating time loop amplitude
+    if (isSensorReadAllow()) {
+        //
+        // Reset time bounce to zero
+        TotalContainerState = 0;
     }
-  //
-  // If is high count it
-  if (ReadingState == HIGH)
-    {
-      TotalContainerState++;
+    //
+    // If is high count it
+    if (ReadingState == HIGH) {
+        TotalContainerState++;
     }
-  //
-  //
-  return TotalContainerState;
+    //
+    //
+    return TotalContainerState;
 }
+
 /**
  *
  */
-float calcFuelEfficiency_ (int distanceKm, int liters)
-{
-  float efficien; //efficiency variable
-  efficien = distanceKm / liters;
-  return (efficien);//returning value
+float calcFuelEfficiency_(int distanceKm, int liters) {
+    float efficien; //efficiency variable
+    efficien = distanceKm / liters;
+    return (efficien);//returning value
 }
-
+/**
 int calcFuelEfficiency (void)
 {
 
@@ -178,9 +147,9 @@ int calcFuelEfficiency (void)
 
   //prints final value to the screen to two decimal places
   printf ("Your car averaged %0.2lf miles per gallon.\n",
-      /* overall equation used for calculating fuel economy/includes
-      constants. This equation translates to distance divided by gallons
-      of gas used to drive that distance */
+//      /overall equation used for calculating fuel economy/includes
+//      constants. This equation translates to distance divided by gallons
+//      of gas used to drive that distance
           num_of_rev * (PI_OF_CIRCF * TWO_OF_CIRCF * radius_of_tire) / inches_in_mile
           / gasoline_consumed, fuel_economy);
 
@@ -203,6 +172,7 @@ int calcFuelEfficiency (void)
 
   return 0;
 }
+ */
 
 #endif //ARDUINOMID_UTILS_H
 
