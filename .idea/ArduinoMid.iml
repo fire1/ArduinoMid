@@ -1,14 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/CDC.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/CDC.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial1.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial1.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial2.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial2.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial3.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial3.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/IPAddress.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/IPAddress.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/PluggableUSB.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/PluggableUSB.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Print.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Print.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Tone.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Tone.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBCore.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBCore.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WInterrupts.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WInterrupts.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WMath.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WMath.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/abi.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/abi.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/hooks.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/hooks.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/main.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/main.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/new.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/new.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_analog.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_analog.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_pulse.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_pulse.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/Debug0/ArduinoMid_MID.ino.cpp">
+      <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/Debug0/ArduinoMid_MID.ino.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/MinSizeRel0/ArduinoMid_MID.ino.cpp">
+      <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/MinSizeRel0/ArduinoMid_MID.ino.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/RelWithDebInfo0/ArduinoMid_MID.ino.cpp">
+      <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/RelWithDebInfo0/ArduinoMid_MID.ino.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/Release0/ArduinoMid_MID.ino.cpp">
+      <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-4fa28578/4fa28578/Release0/ArduinoMid_MID.ino.cpp" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/CmakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MID/MID.ino" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/Platform/Arduino.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/ArduinoToolchain.cmake" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Header Search Paths">
-        <CLASSES />
-        <SOURCES />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
+          <root url="file://C:/Program Files (x86)/Arduino/libraries" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
+          <root url="file://C:/Program Files (x86)/Arduino/libraries" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
+        </SOURCES>
+        <excluded>
+          <root url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBCore.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WMath.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_analog.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_pulse.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/PluggableUSB.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/IPAddress.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/hooks.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/CDC.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/abi.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial2.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Tone.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/new.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/main.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial3.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial1.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WInterrupts.c" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Print.cpp" />
+        </excluded>
       </library>
     </orderEntry>
   </component>

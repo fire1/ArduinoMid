@@ -77,8 +77,9 @@ const int SNS_INTERVAL_TIME = 2000;
 //
 // Read inside temperature
 #include "lib/ReadSensors.h"
-
-
+//
+// Define intro
+static void playWelcomeScreen ();
 //
 // Setup the code...
 void setup() {
@@ -138,8 +139,10 @@ void loop() {
     delay(1); // if some issues appears
 
 }
-
-void playWelcomeScreen() {
+/**
+ *
+ */
+static void playWelcomeScreen () {
     lcd.setCursor(0, 0);
     lcd.print("Welcome to Astra");
     delay(1000);

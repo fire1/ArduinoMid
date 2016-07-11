@@ -69,9 +69,7 @@ if (NOT ARDUINO_SDK_PATH)
     list(REVERSE SDK_PATH_HINTS)
 endif ()
 
-set(SDK_PATH_HINTS "C:\\Program Files\\Arduino"
-        "C:\\Program Files (x86)\\Arduino"
-        )
+link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
 
 find_path(ARDUINO_SDK_PATH
         NAMES lib/version.txt
