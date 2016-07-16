@@ -35,7 +35,7 @@ int calConsumption(int engineRpm) {
 // Engine read values
 unsigned int thcSnsCount = 0;
 unsigned int spdSnsCount = 0;
-unsigned int ecuSnsCount = 0;
+
 
 
 
@@ -47,7 +47,7 @@ static void initMenu();
 
 static void runMenu();
 
-bool isSensorReadAllow(long int interval = 0);
+bool isSensorReadAllow();
 
 int getSensorAmplitudeRead(int PinTarget, int TotalContainerState);
 
@@ -58,18 +58,20 @@ long int SNS_LAST_ECU_READ = 0; // ECU last time read
 
 //
 // Sensor timing handler
-bool isSensorReadAllow(long int interval) {
-    int intervalValue;
-
-    if (interval == 0) {
-        intervalValue = SNS_INTERVAL_TIME;
-    }
-    else {
-        intervalValue = interval;
-    }
-
-    if (millis() >= SNS_LAST_RUN_TIME + intervalValue) {
+bool isSensorReadAllow() {
+    if (millis() >= SNS_LAST_RUN_TIME + SNS_INTERVAL_TIME) {
         SNS_LAST_RUN_TIME = millis();
+        return true;
+    }
+    return false;
+}
+
+int long SNS_MIN_RUN_TIME = 0;
+//
+// Sensor timing handler
+bool isSensorReadMinute() {
+    if (millis() >= SNS_LAST_RUN_TIME + MILLIS_PER_MN) {
+        SNS_MIN_RUN_TIME = millis();
         return true;
     }
     return false;
@@ -102,7 +104,7 @@ int getSensorAmplitudeRead(int PinTarget, int TotalContainerState) {
     ReadingState = digitalRead(PinTarget);
     //
     //  Creating time loop amplitude
-    if (isSensorReadAllow()) {
+    if (isSensorReadMinute()) {
         //
         // Reset time bounce to zero
         TotalContainerState = 0;
