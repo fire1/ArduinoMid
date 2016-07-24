@@ -20,8 +20,8 @@
 //
 //
 bool THROTTLE_UP = false; // Is open throttle  (acceleration)
-const int CON_ENG_CC = 1800; // Обем на двигателя
-const int CON_ENG_CL = 4; // Цилидъра
+const int CON_ENG_CC = 1800; // ÐžÐ±ÐµÐ¼ Ð½Ð° Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ�
+const int CON_ENG_CL = 4; // Ð¦Ð¸Ð»Ð¸Ð´ÑŠÑ€Ð°
 const int FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
 const int BRN_MAS_FW = 14.7; // 14.7(oxygen) : 1(fuel) for burning
 //
@@ -32,8 +32,8 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int TCH_SNS_PIN = 22; // the crankshaft speed sensor
-const int SPD_SNS_PIN = 22; // Speed sensor hub
+const int TCH_SNS_PIN = 20; // the crankshaft speed sensor [attachInterrupt]
+const int SPD_SNS_PIN = 21; // Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 24; // ECU signal
 
 //
@@ -45,6 +45,9 @@ const int sensorTempPin_1 = A0;
 // Import it from:
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 #include <MenuBackend.h>
+//
+//
+#include <SoftwareSerial.h>
 //
 // Includes Libraries
 #include <LiquidCrystal.h>
@@ -59,6 +62,9 @@ int cursorMenu = 0;
 //
 // Global interval
 const int SNS_INTERVAL_TIME = 2000;
+//
+// Read inside temperature
+#include "lib/Tachometer.h"
 //
 // Data handler lib
 //
@@ -83,7 +89,7 @@ const int SNS_INTERVAL_TIME = 2000;
 // Setup the code...
 void setup() {
 
-    
+    Serial1.begin(9600);
     //
     // main setup
     setupMain();
@@ -93,6 +99,9 @@ void setup() {
     //
     //
     setupLcdChar();
+    //
+    //
+    setupTachometer();
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
@@ -106,7 +115,6 @@ void setup() {
 }
 
 void loop() {
-
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
@@ -135,7 +143,7 @@ void loop() {
 
     }
 
-    delay(1); // if some issues appears
+    //delay(1); // if some issues appears
 
 }
 
@@ -149,4 +157,5 @@ void playWelcomeScreen() {
     lcd.print((char) 0);
     delay(1500);
 }
+
 

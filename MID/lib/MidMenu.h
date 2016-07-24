@@ -29,7 +29,7 @@ int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 370;
+long debounceDelay = 70;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -114,7 +114,7 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
 
     if ((millis() - lastDebounceTimeUp) > debounceDelay) {
         buttonUpState = reading;
-        lastDebounceTimeUp = millis();
+        lastDebounceTimeUp = millis() + debounceDelay;
     }
 
     buttonLastUpSt = reading;
@@ -122,12 +122,12 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     reading = digitalRead(buttonPinDw);
 
     if (reading != buttonLastDwSt) {
-        lastDebounceTimeDw = millis();
+        lastDebounceTimeDw = millis() ;
     }
 
     if ((millis() - lastDebounceTimeDw) > debounceDelay) {
         buttonDwState = reading;
-        lastDebounceTimeDw = millis();
+        lastDebounceTimeDw = millis() + debounceDelay;
     }
 
     buttonLastDwSt = reading;
