@@ -50,7 +50,7 @@ int long lastEcuRead = 0;
 
 void getRpmSignalAmplitude() {
 
-
+    ecuSnsCount = 0;
 //
 //    if (millis() >= lastEcuRead + 6000) {
 //        lastEcuRead = millis();
@@ -61,9 +61,22 @@ void getRpmSignalAmplitude() {
 
 //    ecuSnsCount = getSensorAmplitudeRead(ECU_SGN_PIN, ecuSnsCount);
     ecuSnsCount = getDigitalTachometerRpm();
+//
+//    lcd.setCursor(0, 0);
+//    lcd.print("    ");
+//    lcd.print(digitalRead(RPM_SNS_PIN));
+
+    lcd.setCursor(0, 2);
+
     lcd.setCursor(0, 2);
     lcd.print("RPM:");
-    lcd.print(ecuSnsCount);
+    if (ecuSnsCount == 0) {
+        lcd.print(000);
+    } else if (ecuSnsCount < 1000 && ecuSnsCount > 0) {
+        lcd.print(0);
+    }
+    lcd.print(ecuSnsCount, DEC);
+
 
 }
 

@@ -1,3 +1,6 @@
+
+#include <Arduino.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -32,7 +35,7 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int TCH_SNS_PIN = 20; // the crankshaft speed sensor [attachInterrupt]
+const int RPM_SNS_PIN = 18; // the crankshaft speed sensor [attachInterrupt]
 const int SPD_SNS_PIN = 21; // Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 24; // ECU signal
 
@@ -40,6 +43,8 @@ const int ECU_SGN_PIN = 24; // ECU signal
 //
 const int sensorTempPin_1 = A0;
 
+#include <SerialDebug.h>
+#define DEBUG true
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
@@ -52,6 +57,13 @@ const int sensorTempPin_1 = A0;
 // Includes Libraries
 #include <LiquidCrystal.h>
 
+
+
+/* Todo
+
+#include <Wire.h>
+#include "lib/lcd/LiquidCrystal_I2C.h"
+*/
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
@@ -84,12 +96,11 @@ const int SNS_INTERVAL_TIME = 2000;
 // Read inside temperature
 #include "lib/ReadSensors.h"
 
-
+static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-
-    Serial1.begin(9600);
+   pinMode(RPM_SNS_PIN, INPUT);
     //
     // main setup
     setupMain();
@@ -111,7 +122,8 @@ void setup() {
     //
     // Set MID menu
     setupMenu();
-
+    // SerialDebugger.begin(9600);
+    // SerialDebugger.enable(NOTIFICATION);
 }
 
 void loop() {
@@ -128,7 +140,7 @@ void loop() {
         // Runs first menu
         case 1:
             readInnerTemp();
-            getEcuSignalAmplitude();
+            getRpmSignalAmplitude();
             break;
         case 4:
         case 5:
@@ -147,9 +159,9 @@ void loop() {
 
 }
 
-void playWelcomeScreen() {
+static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
-    lcd.print("Welcome to Astra");
+    lcd.print("Welcome to astra");
     delay(1000);
     lcd.setCursor(0, 1);
     lcd.print("Nice driving! ");

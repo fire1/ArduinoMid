@@ -87,7 +87,6 @@ void setupMain() {
     pinMode(BTN_PIN_DW, INPUT);
     //
     // Engine pin mode as input
-    pinMode(TCH_SNS_PIN, INPUT);
     pinMode(SPD_SNS_PIN, INPUT);
     pinMode(ECU_SGN_PIN, INPUT);
 
