@@ -26,14 +26,10 @@ int TachometerCycle, CycleOnOrOff = 0;
 
 
 void setupTachometer() {
-//    digitalPinToInterrupt(20);
-//    attachInterrupt(20, rpmPulseCount, RISING);
-//    attachInterrupt(digitalPinToInterrupt(RPM_SNS_PIN), rpmPulseCount, RISING);
-
-//    pinMode(RPM_SNS_PIN, INPUT);
+    pinMode(RPM_SNS_PIN, INPUT);
 }
 
-int getTachometerRpm() {
+/*int getTachometerRpm() {
 
     if (halfRevolutions >= 20) {
         countTachometerRpm = 30 * 1000 / (millis() - TachometerTimeOld) * halfRevolutions;
@@ -43,9 +39,9 @@ int getTachometerRpm() {
 //        return countTachometerRpm; // or
         return TachometerRPM;
     }
-}
+}*/
 
-
+/*
 static void calcRPM() {
 
     Serial.println("Cal");
@@ -56,7 +52,7 @@ static void calcRPM() {
 
     TachometerRPM = 30 * 1000 / PulseTime * 2;                 // Calculates RPM
     attachInterrupt(20, rpmPulseCount, RISING);      // re-attaches interrupt to Digi Pin 2
-}
+}*/
 
 
 int TachometerHits = 0;
@@ -65,7 +61,7 @@ int TachometerRps = 0;
 int TachometerTimerStart = 0, TachometerTimerEnds = 0;
 
 /**
- *
+ * Working version
  */
 static int getDigitalTachometerRpm() {
 
@@ -90,7 +86,7 @@ static int getDigitalTachometerRpm() {
 
     return TachometerRps * 30;
 }
-
+/*
 
 static void rpmPulseCount() // EVERYTIME WHEN THE SENSOR GOES FROM LOW TO HIGH , THIS FUNCTION WILL BE INVOKED
 {
@@ -110,5 +106,5 @@ static void rpmPulseCount() // EVERYTIME WHEN THE SENSOR GOES FROM LOW TO HIGH ,
 
 //    if (digitalRead (RPM_SNS_PIN) == HIGH)
     halfRevolutions++;                                         // INCREASE REVOLUTIONS
-}
+}*/
 #endif //ARDUINOMID_TACHOMETER_H

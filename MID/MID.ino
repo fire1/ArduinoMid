@@ -100,7 +100,7 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-   pinMode(RPM_SNS_PIN, INPUT);
+  
     //
     // main setup
     setupMain();
@@ -161,7 +161,7 @@ void loop() {
 
 static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
-    lcd.print("Welcome to astra");
+    lcd.print("Welcome to Astra");
     delay(1000);
     lcd.setCursor(0, 1);
     lcd.print("Nice driving! ");
