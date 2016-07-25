@@ -17,6 +17,9 @@ int calConsumption(int engineRpm) {
     int consumptionForHour;
     int consumptionCc;
     int consumptionCubicKg;
+    int engineTemperature = 50;
+
+
 
     oneEngineTurnBurns = (CON_ENG_CC / 2) / 1000 /* for coverts to liters */;
     consumptionForHour = (engineRpm * oneEngineTurnBurns) /* result for 1 min */  * 60 /* to one hour */;
@@ -26,10 +29,19 @@ int calConsumption(int engineRpm) {
     else
         consumptionCc = consumptionForHour;
 
-    consumptionCubicKg = ((consumptionCc / 1000) * 1.084) / BRN_MAS_FW; // Convert to kg per hour
 
-    return consumptionCubicKg;
+    consumptionCubicKg = ((consumptionCc / 1000) * getAirFlowRation(engineTemperature)) / AIR_FUL_RT; // Convert to kg per hour
+
+    return consumptionCubicKg/81;
 }
+
+double getAirFlowRation(int engTemp){
+  // CFM = (Input BTU x thermal efficiency) / (1.08 x DT)
+
+  return 1.084;
+}
+
+
 
 //
 // Engine read values
@@ -87,8 +99,8 @@ void setupMain() {
     pinMode(BTN_PIN_DW, INPUT);
     //
     // Engine pin mode as input
-    pinMode(SPD_SNS_PIN, INPUT);
-    pinMode(ECU_SGN_PIN, INPUT);
+//    pinMode(SPD_SNS_PIN, INPUT);
+//    pinMode(ECU_SGN_PIN, INPUT);
 
 }
 
@@ -126,6 +138,69 @@ float calcFuelEfficiency_(int distanceKm, int liters) {
     efficien = distanceKm / liters;
     return (efficien);//returning value
 }
+
+
+char fBuff[7];//used by format
+
+char *formatNumber (unsigned long num)
+{
+    byte dp = 3;
+
+    while (num > 999999)
+        {
+        num /= 10;
+        dp++;
+        if (dp == 5) break; // We'll lose the top numbers like an odometer
+        }
+    if (dp == 5) dp = 99; // We don't need a decimal point here.
+
+// Round off the non-printed value.
+    if ((num % 10) > 4)
+        num += 10;
+    num /= 10;
+    byte x = 6;
+    while (x > 0)
+        {
+        x--;
+        if (x == dp)
+            { //time to poke in the decimal point?{
+            fBuff[x] = '.';
+            }
+        else
+            {
+            fBuff[x] = '0' + (num % 10);//poke the ascii character for the digit.
+            num /= 10;
+            }
+        }
+    fBuff[6] = 0;
+    return fBuff;
+}
+
+
+
+/*
+ * Convert seconds to Inches
+ */
+long microsecondsToInches(long microseconds)
+{
+  // According to Parallax's datasheet for the PING))), there are
+  // 73.746 microseconds per inch (i.e. sound travels at 1130 feet per
+  // second).  This gives the distance travelled by the ping, outbound
+  // and return, so we divide by 2 to get the distance of the obstacle.
+  // See: http://www.parallax.com/dl/docs/prod/acc/28015-PING-v1.3.pdf
+  return microseconds / 74 / 2;
+}
+/*
+ * Convert seconds to Centimeters
+ */
+long microsecondsToCentimeters(long microseconds)
+{
+  // The speed of sound is 340 m/s or 29 microseconds per centimeter.
+  // The ping travels out and back, so to find the distance of the
+  // object we take half of the distance travelled.
+  return microseconds / 29 / 2;
+}
+
 /**
 int calcFuelEfficiency (void)
 {

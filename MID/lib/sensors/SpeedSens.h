@@ -6,9 +6,12 @@
 #define ARDUINOMID_SPEEDSENS_H
 
 
-int SpeedSensTimerStart = 0, SpeedSensTimerEnds = 0;
+unsigned int long SpeedSensTimerStart = 0, SpeedSensTimerEnds = 0;
 int SpeedSensRps = 0;
-//
+bool SpeedSensCounted = false;
+unsigned int SpeedSensHits = 0;
+
+// rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
 static int getDigitalSpeedKmh() {
 
@@ -23,15 +26,19 @@ static int getDigitalSpeedKmh() {
     if (digitalRead(RPM_SNS_PIN) == HIGH) {
 
 
-        if (!TachometerCounted) {
-            TachometerCounted = true;
+        if (!SpeedSensCounted) {
+            SpeedSensCounted = true;
             SpeedSensHits++;
         }
     } else {
-        TachometerCounted = false;
+        SpeedSensCounted = false;
     }
 
-    return SpeedSensRps * 30;
+//    return SpeedSensRps * 30;
+
+   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
 }
+
+
 
 #endif //ARDUINOMID_SPEEDSENS_H

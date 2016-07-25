@@ -1330,7 +1330,7 @@ void FuelSystemStatus(void) {
   getResponse();
   getResponse();  
   if ((strtol(&rxData[0],0,16)==65) and (strtol(&rxData[3],0,16)==3)) {
-    fss_val=strtol(&rxData[6], 0,16);
+      fss_val = strtol (&rxData[6], 0, 16);
   } 
 }
 

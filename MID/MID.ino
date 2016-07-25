@@ -18,15 +18,18 @@
 //
 // Time information
 #define MILLIS_PER_HR    3600000UL // Hour
-#define MILLIS_PER_MN    60000L   // Minute
+#define MILLIS_PER_MN    60000L    // Minute
 #define MILLIS_PER_SC    1000UL    // Second
 //
 //
 bool THROTTLE_UP = false; // Is open throttle  (acceleration)
-const int CON_ENG_CC = 1800; // ÐžÐ±ÐµÐ¼ Ð½Ð° Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ�
-const int CON_ENG_CL = 4; // Ð¦Ð¸Ð»Ð¸Ð´ÑŠÑ€Ð°
-const int FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
-const int BRN_MAS_FW = 14.7; // 14.7(oxygen) : 1(fuel) for burning
+const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
+const int CON_ENG_CL = 4; // Cylinders
+const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
+const double AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
+const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
+//double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
+double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
 //
 // MID plug pins definition over Arduino
 //
@@ -42,9 +45,10 @@ const int ECU_SGN_PIN = 24; // ECU signal
 //
 //
 const int sensorTempPin_1 = A0;
-
+/*
 #include <SerialDebug.h>
 #define DEBUG true
+*/
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
@@ -74,15 +78,16 @@ int cursorMenu = 0;
 //
 // Global interval
 const int SNS_INTERVAL_TIME = 2000;
-//
-// Read inside temperature
-#include "lib/Tachometer.h"
-//
-// Data handler lib
+
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
-
+//
+// Read Tachometer
+#include "lib/sensors/Tachometer.h"
+//
+// Read SpeedHub
+#include "lib/sensors/SpeedSens.h"
 //
 //
 #include "lib/LcdChar.h"
@@ -94,13 +99,13 @@ const int SNS_INTERVAL_TIME = 2000;
 #include "lib/EmlAlpine.h"
 //
 // Read inside temperature
-#include "lib/ReadSensors.h"
+#include "lib/DisplayInfo.h"
 
 static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-  
+
     //
     // main setup
     setupMain();
@@ -140,7 +145,8 @@ void loop() {
         // Runs first menu
         case 1:
             readInnerTemp();
-            getRpmSignalAmplitude();
+            displayEngRPM();
+            displayCarKMH();
             break;
         case 4:
         case 5:
