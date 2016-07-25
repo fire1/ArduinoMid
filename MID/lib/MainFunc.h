@@ -8,6 +8,13 @@
 
 #include <LiquidCrystal.h>
 
+
+
+double getAirFlowRation(int engTemp){
+    // CFM = (Input BTU x thermal efficiency) / (1.08 x DT)
+
+    return 1.084;
+}
 //
 // http://skodaclub.bg/forum/index.php?/topic/45846-%D1%80%D0%B0%D0%B7%D1%85%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%B3%D0%BE%D1%80%D0%B8%D0%B2%D0%BE-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B0%D0%B7%D0%B5%D0%BD-%D1%85%D0%BE%D0%B4-%D0%BB%D0%B8%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D1%87%D0%B0%D1%81/
 //
@@ -35,11 +42,6 @@ int calConsumption(int engineRpm) {
     return consumptionCubicKg/81;
 }
 
-double getAirFlowRation(int engTemp){
-  // CFM = (Input BTU x thermal efficiency) / (1.08 x DT)
-
-  return 1.084;
-}
 
 
 
@@ -93,14 +95,13 @@ bool isSensorReadMinute() {
 // Setup the mid
 void setupMain() {
 
+
+
     //
     // Pin button mode
     pinMode(BTN_PIN_UP, INPUT);
     pinMode(BTN_PIN_DW, INPUT);
-    //
-    // Engine pin mode as input
-//    pinMode(SPD_SNS_PIN, INPUT);
-//    pinMode(ECU_SGN_PIN, INPUT);
+
 
 }
 

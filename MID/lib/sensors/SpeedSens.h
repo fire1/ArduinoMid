@@ -23,7 +23,7 @@ static int getDigitalSpeedKmh() {
     }
 
 
-    if (digitalRead(RPM_SNS_PIN) == HIGH) {
+    if (digitalRead(SPD_SNS_PIN) == HIGH) {
 
 
         if (!SpeedSensCounted) {
@@ -36,7 +36,9 @@ static int getDigitalSpeedKmh() {
 
 //    return SpeedSensRps * 30;
 
-   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
+//   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
+    return SpeedSensRps * 30;
+
 }
 
 

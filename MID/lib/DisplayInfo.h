@@ -5,8 +5,20 @@
 #ifndef ARDUINOMID_READINNTERTEMP_H
 #define ARDUINOMID_READINNTERTEMP_H
 
+
+#include <Arduino.h>
 #include <LiquidCrystal.h>
 
+
+//
+// Read Tachometer
+#include "sensors/Tachometer.h"
+//
+// Read SpeedHub
+#include "sensors/SpeedSens.h"
+//
+//
+#include "sensors/ReadEcu.h"
 
 /**
  * Display temperature sensor
@@ -33,7 +45,7 @@ void readInnerTemp() {
         // now print out the temperature
         // int temperatureC = (voltage - 0.5) * 100 ;
 
-        lcd.setCursor(8, 2);
+        lcd.setCursor(8, 1);
         if (temperatureC > 0) {
             lcd.print("  ");
 
@@ -47,7 +59,7 @@ void readInnerTemp() {
  * Display engine RPMs
  */
 void displayEngRPM() {
-    unsigned int rpmSnsCount = 0;
+     int rpmSnsCount = 0;
 
     //
     // Gets RPM
@@ -57,18 +69,20 @@ void displayEngRPM() {
     lcd.print("RPM:");
     //
     // Handle screen display
-    if (rpmSnsCount == 0) {
-        lcd.print(000);
-    } else if (rpmSnsCount < 1000 && rpmSnsCount >= 1) {
+    if (rpmSnsCount < 100) {
+        lcd.print(0);
         lcd.print(0);
     }
-    lcd.print(rpmSnsCount, DEC);
+    if (rpmSnsCount < 1000 ) {
+        lcd.print(0);
+    }
+    lcd.print(rpmSnsCount);
 }
 /**
  * Display engine KMh
  */
-void displayCarKMH() {
-    unsigned int kmhSnsCount = 0;
+void displayCarKMH () {
+     int kmhSnsCount = 0;
 
     //
     // Gets RPM
@@ -78,11 +92,32 @@ void displayCarKMH() {
     lcd.print("KMh:");
     //
     // Handle screen display
-     if (kmhSnsCount < 1000 ) {
-        lcd.print(0);
+     if (kmhSnsCount < 10 ) {
+        lcd.print("  ");
     }
-    lcd.print(kmhSnsCount, DEC);
+    lcd.print(kmhSnsCount);
 }
+
+/**
+ * Display engine KMh
+ */
+void displayCarECU() {
+     int counterEcu = 0;
+
+    //
+    // Gets RPM
+    counterEcu = getDigitalEngineEcu();
+
+    lcd.setCursor(8, 0);
+    lcd.print("ECU:");
+    //
+    // Handle screen display
+    if (counterEcu < 10 ) {
+        lcd.print("  ");
+    }
+    lcd.print(counterEcu);
+}
+
 
 
 

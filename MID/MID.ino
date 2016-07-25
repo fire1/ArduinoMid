@@ -39,8 +39,8 @@ const int BTN_PIN_DW = 9;
 //
 // Engine pins
 const int RPM_SNS_PIN = 18; // the crankshaft speed sensor [attachInterrupt]
-const int SPD_SNS_PIN = 21; // Speed sensor hub [attachInterrupt]
-const int ECU_SGN_PIN = 24; // ECU signal
+const int SPD_SNS_PIN = 19; // Speed sensor hub [attachInterrupt]
+const int ECU_SGN_PIN = 20; // ECU signal
 
 //
 //
@@ -83,12 +83,6 @@ const int SNS_INTERVAL_TIME = 2000;
 // Main Sensor handler
 #include "lib/MainFunc.h"
 //
-// Read Tachometer
-#include "lib/sensors/Tachometer.h"
-//
-// Read SpeedHub
-#include "lib/sensors/SpeedSens.h"
-//
 //
 #include "lib/LcdChar.h"
 //
@@ -107,6 +101,11 @@ static void playWelcomeScreen();
 void setup() {
 
     //
+    // Engine pin mode as input
+    pinMode(SPD_SNS_PIN, INPUT);
+    pinMode(ECU_SGN_PIN, INPUT);
+    pinMode(RPM_SNS_PIN, INPUT);
+    //
     // main setup
     setupMain();
     //
@@ -115,15 +114,13 @@ void setup() {
     //
     //
     setupLcdChar();
-    //
-    //
-    setupTachometer();
+
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
     //
     // Show welcome from car
-    playWelcomeScreen();
+    //playWelcomeScreen();
     //
     // Set MID menu
     setupMenu();
@@ -147,6 +144,7 @@ void loop() {
             readInnerTemp();
             displayEngRPM();
             displayCarKMH();
+            displayCarECU();
             break;
         case 4:
         case 5:

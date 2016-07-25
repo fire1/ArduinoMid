@@ -25,9 +25,6 @@ int TachometerCycle, CycleOnOrOff = 0;
 
 
 
-void setupTachometer() {
-    pinMode(RPM_SNS_PIN, INPUT);
-}
 
 /*int getTachometerRpm() {
 

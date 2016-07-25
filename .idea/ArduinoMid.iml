@@ -76,6 +76,12 @@
     <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp" isTestSource="false" />
     </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp" isTestSource="false" />
+    </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c" isTestSource="false" />
+    </content>
     <content url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" isTestSource="false" />
     </content>
@@ -92,6 +98,8 @@
       <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-a5c32b1e/a5c32b1e/Release/ArduinoMid_MID.ino.cpp" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/libraries/MenuBackend/MenuBackend-.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libraries/MenuBackend/MenuBackend.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CmakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MID/MID.ino" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake/Platform/Arduino.cmake" isTestSource="false" />
@@ -102,24 +110,28 @@
       <library name="Header Search Paths">
         <CLASSES>
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
-          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </CLASSES>
         <SOURCES>
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
-          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </SOURCES>
         <excluded>
           <root url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c" />
