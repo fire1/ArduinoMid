@@ -1,0 +1,8 @@
+//
+// Created by Admin on 7/24/2016.
+//
+
+#ifndef ARDUINOMID_CONSUMPTION_H
+#define ARDUINOMID_CONSUMPTION_H
+
+#endif //ARDUINOMID_CONSUMPTION_H

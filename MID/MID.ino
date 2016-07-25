@@ -1,3 +1,6 @@
+
+#include <Arduino.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -14,14 +17,14 @@
 
 //
 // Time information
-#define MILLIS_PER_HR    3600000L // Hour
+#define MILLIS_PER_HR    3600000UL // Hour
 #define MILLIS_PER_MN    60000L   // Minute
-#define MILLIS_PER_SC    1000L    // Second
+#define MILLIS_PER_SC    1000UL    // Second
 //
 //
 bool THROTTLE_UP = false; // Is open throttle  (acceleration)
-const int CON_ENG_CC = 1800; // Обем на двигателя
-const int CON_ENG_CL = 4; // Цилидъра
+const int CON_ENG_CC = 1800; // ÐžÐ±ÐµÐ¼ Ð½Ð° Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ�
+const int CON_ENG_CL = 4; // Ð¦Ð¸Ð»Ð¸Ð´ÑŠÑ€Ð°
 const int FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
 const int BRN_MAS_FW = 14.7; // 14.7(oxygen) : 1(fuel) for burning
 //
@@ -32,23 +35,35 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int TCH_SNS_PIN = 22; // the crankshaft speed sensor
-const int SPD_SNS_PIN = 22; // Speed sensor hub
+const int RPM_SNS_PIN = 18; // the crankshaft speed sensor [attachInterrupt]
+const int SPD_SNS_PIN = 21; // Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 24; // ECU signal
 
 //
 //
 const int sensorTempPin_1 = A0;
 
+#include <SerialDebug.h>
+#define DEBUG true
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 #include <MenuBackend.h>
 //
+//
+#include <SoftwareSerial.h>
+//
 // Includes Libraries
 #include <LiquidCrystal.h>
 
+
+
+/* Todo
+
+#include <Wire.h>
+#include "lib/lcd/LiquidCrystal_I2C.h"
+*/
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
@@ -59,6 +74,9 @@ int cursorMenu = 0;
 //
 // Global interval
 const int SNS_INTERVAL_TIME = 2000;
+//
+// Read inside temperature
+#include "lib/Tachometer.h"
 //
 // Data handler lib
 //
@@ -77,14 +95,12 @@ const int SNS_INTERVAL_TIME = 2000;
 //
 // Read inside temperature
 #include "lib/ReadSensors.h"
-//
-// Define intro
-static void playWelcomeScreen ();
+
+static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-
-    
+  
     //
     // main setup
     setupMain();
@@ -95,6 +111,9 @@ void setup() {
     //
     setupLcdChar();
     //
+    //
+    setupTachometer();
+    //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
     //
@@ -103,11 +122,11 @@ void setup() {
     //
     // Set MID menu
     setupMenu();
-
+    // SerialDebugger.begin(9600);
+    // SerialDebugger.enable(NOTIFICATION);
 }
 
 void loop() {
-
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
@@ -121,7 +140,7 @@ void loop() {
         // Runs first menu
         case 1:
             readInnerTemp();
-            getEcuSignalAmplitude();
+            getRpmSignalAmplitude();
             break;
         case 4:
         case 5:
@@ -136,13 +155,11 @@ void loop() {
 
     }
 
-    delay(1); // if some issues appears
+    //delay(1); // if some issues appears
 
 }
-/**
- *
- */
-static void playWelcomeScreen () {
+
+static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
     lcd.print("Welcome to Astra");
     delay(1000);
@@ -152,4 +169,5 @@ static void playWelcomeScreen () {
     lcd.print((char) 0);
     delay(1500);
 }
+
 

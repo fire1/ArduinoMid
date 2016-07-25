@@ -25,11 +25,13 @@ int lastButtonPushed = LOW;
 int buttonLastDwSt = LOW;
 int buttonLastUpSt = LOW;
 
+bool activeStateMenu = false;
+
 int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 370;
+long debounceDelay = 380;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -58,6 +60,7 @@ static void setupMenu() {
  * Event menu changed
  */
 static void menuChanged(MenuChangeEvent changed) {
+
 
     MenuItem newMenuItem = changed.to; //get the destination menu
     lcd.clear();
@@ -100,11 +103,10 @@ static void menuChanged(MenuChangeEvent changed) {
  */
 void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     int reading;
-
     int buttonDwState = LOW;             // the current reading from the input pin
     int buttonUpState = LOW;             // the current reading from the input pin
 
-    //  Down button
+    //  Up button
     //      read the state of the switch into a local variable:
     reading = digitalRead(buttonPinUp);
 
@@ -112,7 +114,7 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
         lastDebounceTimeUp = millis();
     }
 
-    if ((millis() - lastDebounceTimeUp) > debounceDelay) {
+    if ((millis() - lastDebounceTimeUp) > debounceDelay && !activeStateMenu) {
         buttonUpState = reading;
         lastDebounceTimeUp = millis();
     }
@@ -125,7 +127,7 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
         lastDebounceTimeDw = millis();
     }
 
-    if ((millis() - lastDebounceTimeDw) > debounceDelay) {
+    if ((millis() - lastDebounceTimeDw) > debounceDelay && !activeStateMenu) {
         buttonDwState = reading;
         lastDebounceTimeDw = millis();
     }
@@ -134,13 +136,15 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     //
     // records which button has been pressed
     if (buttonUpState == HIGH) {
+
         lastButtonPushed = buttonPinUp;
     }
     else if (buttonDwState == HIGH) {
+
         lastButtonPushed = buttonPinDw;
     }
     else {
-        lastButtonPushed = 0;
+        lastButtonPushed = LOW;
     }
 }
 
@@ -164,6 +168,7 @@ int isInfoTimeMenu() {
  * Resolve navigation between button press
  */
 void navigateMenu() {
+
     if (isMainNavigationStatus == 0) {
         MenuItem currentMenu = menu.getCurrent();
 
@@ -222,6 +227,7 @@ void printNavMenuC() {
 }
 
 static void menuUsed(MenuUseEvent used) {
+
     lcd.setCursor(0, 0);
     //lcd.print("You are in:       ");
     //lcd.setCursor(0, 1);
