@@ -37,7 +37,7 @@ static int getDigitalSpeedKmh() {
 //    return SpeedSensRps * 30;
 
 //   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
-    return SpeedSensRps * 30;
+  return (SpeedSensRps * 1609) / 1000;
 
 }
 

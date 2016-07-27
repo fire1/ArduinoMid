@@ -7,10 +7,15 @@
 
 #include "lib/sensors/Tachometer.h"
 
+//
+// 56 litres ÷ 800km = 0.07.
+// 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
+// Therefore, the fuel consumption for that driving period would be 7ℓ/100km
 static int getVolumetricEfficiency (rpm_var);
 
 static int calcConsumption (void)
 {
+  // dvk_var // Naliagane  kPa // давление впускного коллектора // Intake air
   int rpmVar = getDigitalTachometerRpm ();
   int VolumetricEfficiency = getVolumetricEfficiency (rpmVar);
 
@@ -18,6 +23,7 @@ static int calcConsumption (void)
   MAF = double (IMAP / 120.0) * double (double (VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644
         / 8.314472;
 
+  // fss_val // dyuzi // injections  1 OR 2
   if (fss_val == 2)
     {   // если замкнутая обратная связь  - Closed Loop
       ls_term_val = double (100.0 + (long_term_val + short_term_val))

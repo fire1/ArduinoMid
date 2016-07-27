@@ -15,6 +15,8 @@ void getInstantConsumption(char *retbuf)
   if(!params.use_metric)  // convert toggle speed to km/h if it's set in IMP
     toggle_speed=(toggle_speed*1609)/1000;
 
+  // VSS Vehicle speed sensor
+  //
   // divide MAF by 100 because our function return MAF*100
   // but multiply by 100 for double digits precision
   // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
