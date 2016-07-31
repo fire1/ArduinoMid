@@ -16,7 +16,7 @@ unsigned int SpeedSensHits = 0;
 static int getDigitalSpeedKmh() {
 
     SpeedSensTimerEnds = millis();
-    if (SpeedSensTimerEnds >= (SpeedSensTimerStart + 1000)) {
+    if (SpeedSensTimerEnds >= (SpeedSensTimerStart + 100)) {
         SpeedSensRps = SpeedSensHits;
         SpeedSensHits = 0;
         SpeedSensTimerStart = SpeedSensTimerEnds;
@@ -34,13 +34,14 @@ static int getDigitalSpeedKmh() {
         SpeedSensCounted = false;
     }
 
-//    return SpeedSensRps * 30;
+
+    return SpeedSensRps *2;
+//    return (SpeedSensRps / 30)*10;
 
 //   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
-  return (SpeedSensRps * 1609) / 1000;
+    return (SpeedSensRps * 160) / 100;
 
 }
-
 
 
 #endif //ARDUINOMID_SPEEDSENS_H
