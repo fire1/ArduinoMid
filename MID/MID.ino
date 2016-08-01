@@ -68,7 +68,7 @@ const int sensorTempPin_1 = A0;
 #include <Wire.h>
 #include "lib/lcd/LiquidCrystal_I2C.h"
 */
-//
+//  LiquidCrystal lcd(7,8,9,A2,A1,A0)
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
 
