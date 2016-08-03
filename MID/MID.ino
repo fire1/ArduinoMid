@@ -104,7 +104,7 @@ void setup() {
     Serial.begin(9600);
     //
     // Engine pin mode as input
-    pinMode(SPD_SNS_PIN, INPUT);
+    
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
     //

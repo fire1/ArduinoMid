@@ -51,6 +51,8 @@ void setupVSS() {
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
 static int getDigitalSpeedKmh() {
 
+
+
     SpeedSensTimerEnds = millis();
     if (SpeedSensTimerEnds >= (SpeedSensTimerStart + 1000)) {
         SpeedSensRps = SpeedSensHits;
@@ -100,6 +102,14 @@ static void pulseVssHandler() {
     TCNT1 = 0;     // Reset hardware waveCounter to zero
     resolvedMph = (waveCount / convertMph) * 10; // Convert pulse count into mph.
     resolveIMph = (unsigned int) resolvedMph; // Cast to integer. 10x allows retaining 10th of mph resolution.
+
+    Serial.print(TCCR1B);
+    Serial.print(" ");
+    Serial.print(TCNT1);
+    Serial.print(" ");
+    Serial.print(waveCount);
+    Serial.print("\n");
+
 
     int x = resolveIMph / 10;
     int y = resolveIMph % 10;
