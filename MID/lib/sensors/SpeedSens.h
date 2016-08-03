@@ -26,7 +26,7 @@ TCCR2B for timer 2, TCCR3B for timer 3.
 
  */
 
-const int hardwareCounterPin = 5;
+//const int hardwareCounterPinVSS = 13;
 const float pulsesPerMile = 4000; // this is pulses per mile for Toyota. Other cars are different.
 const float convertMph = pulsesPerMile / 3600;
 int roundedMph;
@@ -36,42 +36,46 @@ int waveCount;
 int catchMph;
 float resolvedMph;
 unsigned int resolveIMph;
-static void pulseVssHandler ();
+
+static void pulseVssHandler();
+
+void setupVSS() {
+    TCCR1A = 0; //Configure hardware counter
+    TCNT1 = 0;  // Reset hardware counter to zero
+    pinMode(SPD_SNS_PIN, INPUT_PULLUP);
+
+}
+
 
 // rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
-static int getDigitalSpeedKmh ()
-{
+static int getDigitalSpeedKmh() {
 
-  SpeedSensTimerEnds = millis ();
-  if (SpeedSensTimerEnds >= (SpeedSensTimerStart + 1000))
-    {
-      SpeedSensRps = SpeedSensHits;
-      SpeedSensHits = 0;
-      SpeedSensTimerStart = SpeedSensTimerEnds;
+    SpeedSensTimerEnds = millis();
+    if (SpeedSensTimerEnds >= (SpeedSensTimerStart + 1000)) {
+        SpeedSensRps = SpeedSensHits;
+        SpeedSensHits = 0;
+        SpeedSensTimerStart = SpeedSensTimerEnds;
     }
 
-  if (digitalRead (SPD_SNS_PIN) == HIGH)
-    {
+    if (digitalRead(SPD_SNS_PIN) == HIGH) {
 
-      if (!SpeedSensCounted)
-        {
-          SpeedSensCounted = true;
+        if (!SpeedSensCounted) {
+            SpeedSensCounted = true;
 //          SpeedSensHits++;
-          pulseVssHandler();
+            pulseVssHandler();
         }
     }
-  else
-    {
-      SpeedSensCounted = false;
+    else {
+        SpeedSensCounted = false;
     }
 
-  int kmh = catchMph * 1.6;
-  return kmh;
+    int kmh = catchMph * 1.6;
+    return kmh;
 //    return (SpeedSensRps / 30)*10;
 
 //   int long cmTravel =  microsecondsToCentimeters(SpeedSensRps);
-  return (SpeedSensRps * 160) / 100;
+    return (SpeedSensRps * 160) / 100;
 
 }
 
@@ -83,58 +87,52 @@ static int getDigitalSpeedKmh ()
  It would need to be modified to work with other boards.
  */
 
-static void pulseVssHandler ()
-{
-  /////////////////////////////////////////////////////////////
-  // This uses the hardware pulse counter on the Arduino.
-  // Currently it collects samples for one second.
-  //
-  bitSet(TCCR1B, CS12); // start counting pulses
-  bitSet(TCCR1B, CS11); // Clock on rising edge
+static void pulseVssHandler() {
+    /////////////////////////////////////////////////////////////
+    // This uses the hardware pulse counter on the Arduino.
+    // Currently it collects samples for one second.
+    //
+    bitSet(TCCR1B, CS12); // start counting pulses
+    bitSet(TCCR1B, CS11); // Clock on rising edge
 //  delay(samplePeriod); // Allow pulse counter to collect for samplePeriod
-  TCCR1B = 0; // stop counting
-  waveCount = TCNT1; // Store the hardware counter in a variable
-  TCNT1 = 0;     // Reset hardware waveCounter to zero
-  resolvedMph = (waveCount / convertMph) * 10; // Convert pulse count into mph.
-  resolveIMph = (unsigned int) resolvedMph; // Cast to integer. 10x allows retaining 10th of mph resolution.
+    TCCR1B = 0; // stop counting
+    waveCount = TCNT1; // Store the hardware counter in a variable
+    TCNT1 = 0;     // Reset hardware waveCounter to zero
+    resolvedMph = (waveCount / convertMph) * 10; // Convert pulse count into mph.
+    resolveIMph = (unsigned int) resolvedMph; // Cast to integer. 10x allows retaining 10th of mph resolution.
 
-  int x = resolveIMph / 10;
-  int y = resolveIMph % 10;
+    int x = resolveIMph / 10;
+    int y = resolveIMph % 10;
 
-  // Round to whole mile per hour
-  if (y >= 5)
-    {
-      roundedMph = x + 1;
+    // Round to whole mile per hour
+    if (y >= 5) {
+        roundedMph = x + 1;
     }
-  else
-    {
-      roundedMph = x;
+    else {
+        roundedMph = x;
     }
 
-  //If mph is less than 1mph just show 0mph.
-  //Readings of 0.9mph or lower are some what erratic and can
-  //occasionally be triggered by electrical noise.
-  if (x == 0)
-    {
-      roundedMph = 0;
+    //If mph is less than 1mph just show 0mph.
+    //Readings of 0.9mph or lower are some what erratic and can
+    //occasionally be triggered by electrical noise.
+    if (x == 0) {
+        roundedMph = 0;
     }
 
-  // Don't display mph readings that are more than 50 mph higher than the
-  // previous reading because it is probably a spurious reading.
-  // Accelerating 50mph in one second is rocketship fast so it is probably
-  // not real.
-  if ((roundedMph - previousMph) > 50)
-    {
-      catchMph = previousMph;
+    // Don't display mph readings that are more than 50 mph higher than the
+    // previous reading because it is probably a spurious reading.
+    // Accelerating 50mph in one second is rocketship fast so it is probably
+    // not real.
+    if ((roundedMph - previousMph) > 50) {
+        catchMph = previousMph + 1;
 //      matrix.println(previousMph);
     }
-  else
-    {
-      catchMph = roundedMph;
+    else {
+        catchMph = roundedMph;
 //      matrix.println(roundedMph);
     }
 
-  previousMph = roundedMph; // Set previousMph for use in next loop.
+    previousMph = roundedMph; // Set previousMph for use in next loop.
 }
 
 #endif //ARDUINOMID_SPEEDSENS_H

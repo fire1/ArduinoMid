@@ -39,8 +39,8 @@ const int BTN_PIN_DW = 9;
 //
 // Engine pins
 const int RPM_SNS_PIN = 18; // the crankshaft speed sensor [attachInterrupt]
-const int SPD_SNS_PIN = 19; // Speed sensor hub [attachInterrupt]
-const int ECU_SGN_PIN = 20; // ECU signal
+const int SPD_SNS_PIN = 12; // Speed sensor hub [attachInterrupt]
+const int ECU_SGN_PIN = 13; // ECU signal
 
 //
 //
@@ -70,7 +70,7 @@ const int sensorTempPin_1 = A0;
 */
 //  LiquidCrystal lcd(7,8,9,A2,A1,A0)
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
+LiquidCrystal lcd(15, 14, 34, 35, 36, 37);
 
 //
 // Menu cursor
@@ -99,7 +99,9 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-
+    //
+    // Debug serial
+    Serial.begin(9600);
     //
     // Engine pin mode as input
     pinMode(SPD_SNS_PIN, INPUT);
@@ -110,11 +112,13 @@ void setup() {
     setupMain();
     //
     // Initializes the interface to the LCD screen
-    lcd.begin(16, 2);
+    lcd.begin(16, 2);\
+    lcd.clear();
     //
     //
     setupLcdChar();
 
+    setupVSS();
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
@@ -141,6 +145,7 @@ void loop() {
         //
         // Runs first menu
         case 1:
+
             readInnerTemp();
             displayEngRPM();
             displayCarKMH();
