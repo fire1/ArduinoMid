@@ -37,15 +37,25 @@ int catchMph;
 float resolvedMph;
 unsigned int resolveIMph;
 
+unsigned int vssStartTime, vssEndTime = 0;
+
+
 static void pulseVssHandler();
 
 void setupVSS() {
     TCCR1A = 0; //Configure hardware counter
     TCNT1 = 0;  // Reset hardware counter to zero
-    pinMode(SPD_SNS_PIN, INPUT_PULLUP);
+    pinMode(SPD_SNS_PIN, INPUT/*_PULLUP*/);
+
+    // Digital Pins With Interrupts
+    // Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
+//    attachInterrupt(digitalPinToInterrupt(SPD_SNS_PIN), AddSensorCount, RISING);  // Interrupt 0 is on digital pin 2
 
 }
 
+void AddSensorCount()  {                  // This is the subroutine that is called when interrupt 0 goes high
+    SensorCount++;                          // Increment SensorCount by 1
+}
 
 // rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
@@ -65,12 +75,17 @@ static int getDigitalSpeedKmh() {
         if (!SpeedSensCounted) {
             SpeedSensCounted = true;
 //          SpeedSensHits++;
-            pulseVssHandler();
+//            pulseVssHandler();
         }
-    }
-    else {
+        vssStartTime = millis();
+    } else {
         SpeedSensCounted = false;
+        vssEndTime = millis();
     }
+
+
+    Serial.print( vssStartTime - vssEndTime); // result / 3600 circumference = 81.7 (or use 51 cm)
+    Serial.print( "\n");
 
     int kmh = catchMph * 1.6;
     return kmh;
@@ -108,6 +123,8 @@ static void pulseVssHandler() {
     Serial.print(TCNT1);
     Serial.print(" ");
     Serial.print(waveCount);
+    Serial.print(" ");
+    Serial.print(resolveIMph);
     Serial.print("\n");
 
 
