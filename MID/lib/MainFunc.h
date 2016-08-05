@@ -42,7 +42,38 @@ int calConsumption(int engineRpm) {
     return consumptionCubicKg/81;
 }
 
-
+/**
+ * Micro seconds
+ */
+//unsigned long lastMicroSeconds = millis2 () * 1000;
+//unsigned long microSeconds (void)
+//{
+//    unsigned long tmp_timer2_overflow_count;
+//    unsigned long tmp;
+//    byte tmp_tcnt2;
+//    cli (); //disable interrupts
+//    tmp_timer2_overflow_count = timer2_overflow_count;
+//    tmp_tcnt2 = TCNT2;
+//    sei (); // enable interrupts
+//    tmp = ((tmp_timer2_overflow_count << 8) + tmp_tcnt2) * 4;
+//    if ((tmp <= lastMicroSeconds) && (lastMicroSeconds < 4290560000ul))
+//        return microSeconds ();
+//    lastMicroSeconds = tmp;
+//    return tmp;
+//}
+//
+//unsigned long millis2() {
+//    return timer2_overflow_count * 64UL * 2 / (16000000UL / 128000UL);
+//}
+/**
+ * Resolve mSeconds amplitude
+ */
+unsigned long elapsedMicroseconds (unsigned long startMicroSeconds, unsigned long currentMicroseconds)
+{
+    if (currentMicroseconds >= startMicroSeconds)
+        return currentMicroseconds - startMicroSeconds;
+    return 4294967295 - (startMicroSeconds - currentMicroseconds);
+}
 
 
 //

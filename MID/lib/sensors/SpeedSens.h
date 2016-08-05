@@ -2,6 +2,21 @@
 // Created by Admin on 7/24/2016.
 //
 
+/**
+
+ As I said I have high quality schematic (I paid for them 450eur, it's about 3000 pages describing every one nut,
+ component and wire in very detail and exactly for my car) and you can see that the sensor is under bonet
+ and only 2 wires are going from it and they are going into instrument cluster.
+ And when I said it's 5Khz for 3600kmh => 60km/minute => 1km / second.
+ So if you travel 1km per second and it will make 5000hz so it's 5000 pulses per 1km and
+ thats about 8000 pulses per mile (not 50k) so you can bet what you want, but you lose.
+ And the point is not to measure everything else
+ I just need a way to measure that analog signal (I won't find anything else digital,
+ I have just that 2 wires and I need to do something with them)
+
+ */
+
+\
 #ifndef ARDUINOMID_SPEEDSENS_H
 #define ARDUINOMID_SPEEDSENS_H
 
@@ -57,9 +72,11 @@ void AddSensorCount()  {                  // This is the subroutine that is call
     SensorCount++;                          // Increment SensorCount by 1
 }
 
+int LastAmplitude = 0;
 // rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
 static int getDigitalSpeedKmh() {
+
 
 
 
@@ -81,11 +98,14 @@ static int getDigitalSpeedKmh() {
     } else {
         SpeedSensCounted = false;
         vssEndTime = millis();
+
+
+
     }
 
+  Serial.print (elapsedMicroseconds (vssStartTime, vssEndTime)); // result / 3600 circumference = 81.7 (or use 51 cm)
+  Serial.print ("\n");
 
-    Serial.print( vssStartTime - vssEndTime); // result / 3600 circumference = 81.7 (or use 51 cm)
-    Serial.print( "\n");
 
     int kmh = catchMph * 1.6;
     return kmh;
