@@ -58,10 +58,6 @@ int sdv2s = 0;
 
 int sdvh = 0;
 
-unsigned long time;
-unsigned long timeold;
-unsigned long timediff;
-unsigned long timediff2;
 
 char rpmdisp[4];
 char sdvdisp[3];
@@ -148,18 +144,14 @@ void loop()
   rpmbreak = 0;
 
   MyTid.display_message(rpmdisp,1,1);                 //send to display...
-
+//////////////////////////////////////////////////////////////////////////////////////////
 
   sdvhmax = (7 * sdvfloat) / 10;                        //calculate speed value based on previous measurement for increased accuaracy
 
   sdvhimax = int(sdvhmax);                              //round...
-
   sdvhmax = float(sdvhimax);
-
   if (sdvhmax < 5)                                      //minimum speed is about 3 km/h
     sdvhmax = 5;
-
-
 
   timeold = micros();                                  //start 
   while (sdvstart == LOW)

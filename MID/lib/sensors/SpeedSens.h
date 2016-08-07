@@ -17,6 +17,7 @@
  */
 
 \
+
 #ifndef ARDUINOMID_SPEEDSENS_H
 #define ARDUINOMID_SPEEDSENS_H
 
@@ -51,6 +52,7 @@ int waveCount;
 int catchMph;
 float resolvedMph;
 unsigned int resolveIMph;
+unsigned int SensorCount;
 
 unsigned int vssStartTime, vssEndTime = 0;
 
@@ -68,16 +70,15 @@ void setupVSS() {
 
 }
 
-void AddSensorCount()  {                  // This is the subroutine that is called when interrupt 0 goes high
+void AddSensorCount() {                  // This is the subroutine that is called when interrupt 0 goes high
     SensorCount++;                          // Increment SensorCount by 1
 }
 
 int LastAmplitude = 0;
+
 // rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
 static int getDigitalSpeedKmh() {
-
-
 
 
     SpeedSensTimerEnds = millis();
@@ -91,20 +92,22 @@ static int getDigitalSpeedKmh() {
 
         if (!SpeedSensCounted) {
             SpeedSensCounted = true;
-//          SpeedSensHits++;
+            SpeedSensHits++;
 //            pulseVssHandler();
         }
         vssStartTime = millis();
     } else {
+
         SpeedSensCounted = false;
         vssEndTime = millis();
 
 
-
     }
 
-  Serial.print (elapsedMicroseconds (vssStartTime, vssEndTime)); // result / 3600 circumference = 81.7 (or use 51 cm)
-  Serial.print ("\n");
+//  Serial.print (elapsedMicroseconds(vssStartTime, vssEndTime)); // result / 3600 circumference = 81.7 (or use 51 cm)
+//    Serial.print(vssStartTime - vssEndTime); // result / 3600 circumference = 81.7 (or use 51 cm)
+//    Serial.print(SpeedSensRps ); // result / 3600 circumference = 81.7 (or use 51 cm)
+//    Serial.print("\n");
 
 
     int kmh = catchMph * 1.6;

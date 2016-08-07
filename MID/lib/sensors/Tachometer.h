@@ -71,8 +71,8 @@ static int getDigitalTachometerRpm() {
 
 
     if (digitalRead(RPM_SNS_PIN) == HIGH) {
-        
-        
+
+
         if (!TachometerCounted) {
             TachometerCounted = true;
             TachometerHits++;
@@ -81,8 +81,129 @@ static int getDigitalTachometerRpm() {
         TachometerCounted = false;
     }
 
-    return TachometerRps * 30;
+    int rpm = TachometerRps * 30;
+    if (rpm > 2000) {
+        rpm = 2000 + rpm;
+    }
+    return rpm;
 }
+
+int sdvstate = 0;
+int rpmstate = 0;
+int sdvstateold = 0;
+int rpmstateold = 0;
+int sdvhcount = 0;
+float sdvhmax = 0;
+int sdvhimax = 0;
+int rpmhcount = 0;
+
+int sdvbreak = 0;
+int rpmbreak = 0;
+
+int rpm2s = 0;
+int rpm3s = 0;
+
+int rpmh = 0;
+int rpmh2 = 0;
+
+int rpmvalue = 0;
+int rpmfloat = 0;
+
+int rpmstart = 0;
+
+int rpmstatestart = 0;
+char rpmdisp[4];
+
+unsigned long time;
+unsigned long timeold;
+unsigned long timediff;
+unsigned long timediff2;
+
+static void __getDigitalTachometerRpm() {
+
+    timeold = micros();
+    while (rpmstart == LOW) {
+        time = micros();                                      //Engines RPM
+        timediff2 = time - timeold;
+        if (timediff2 > 40000)
+            rpmstart = 1;
+        rpmstateold = rpmstate;
+        rpmstate = digitalRead(RPM_SNS_PIN);
+        delayMicroseconds(150);
+        if (rpmstate == HIGH && rpmstateold == LOW)            //wait for rising edge
+            rpmstart = 1;
+    }
+
+
+    timeold = micros();
+    while (rpmstart == LOW) {
+        time = micros();                                      //Engines RPM
+        timediff2 = time - timeold;
+        if (timediff2 > 40000)
+            rpmstart = 1;
+        rpmstateold = rpmstate;
+        rpmstate = digitalRead(RPM_SNS_PIN);
+        delayMicroseconds(150);
+        if (rpmstate == HIGH && rpmstateold == LOW)            //wait for rising edge
+            rpmstart = 1;
+    }
+
+
+    timeold = micros();
+    while (rpmhcount < 5) {
+        rpmstateold = rpmstate;
+        rpmstate = digitalRead(RPM_SNS_PIN);
+        delayMicroseconds(150);
+        if (rpmstate == HIGH && rpmstateold == LOW)        //wait for rising edge of signal
+            rpmhcount++;
+        time = micros();                                    //caching old time value...
+        timediff2 = time - timeold;                        //
+        if (timediff2 > 187500)                            //--> RPM < 800/min
+        {
+            rpmbreak = 1;
+            break;
+        }
+    }
+    time = micros();
+    rpmstart = 0;
+    rpmhcount = 0;
+    timediff = time - timeold;
+    rpmfloat = float(timediff);
+    rpmfloat = (1 / (rpmfloat / 1000000)) * 150;          //calculate
+    rpmvalue = int(rpmfloat);
+    rpmh = rpmvalue / 1000;
+
+    Serial.print(rpmvalue);
+    Serial.print("\n");
+
+
+
+    //
+    // Display
+    rpmh2 = rpmvalue / 100;
+
+    rpm2s = rpmh2 - (rpmh * 10);
+
+    rpm3s = (rpmvalue / 10) - (rpmh2 * 10);
+
+    rpmdisp[0] = '0' + rpmh;
+    rpmdisp[1] = '0' + rpm2s;
+    rpmdisp[2] = '0' + rpm3s;
+    rpmdisp[3] = '0' + (rpmvalue % 10);
+//    rpmdisp[4] = '\0';
+
+    if (rpmbreak == HIGH)                                //display 0000 if rpm < 800
+    {
+        rpmdisp[0] = '0';
+        rpmdisp[1] = '0';
+        rpmdisp[2] = '0';
+        rpmdisp[3] = '0';
+    }
+    lcd.print(rpmdisp);
+    rpmbreak = 0;;
+}
+
+
 /*
 
 static void rpmPulseCount() // EVERYTIME WHEN THE SENSOR GOES FROM LOW TO HIGH , THIS FUNCTION WILL BE INVOKED

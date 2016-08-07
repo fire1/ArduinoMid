@@ -1,4 +1,3 @@
-
 #include <Arduino.h>
 
 /*
@@ -38,10 +37,13 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 18; // the crankshaft speed sensor [attachInterrupt]
-const int SPD_SNS_PIN = 12; // Speed sensor hub [attachInterrupt]
+const int RPM_SNS_PIN = 18; // MID6 the crankshaft speed sensor [attachInterrupt]
+const int SPD_SNS_PIN = 12; // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 13; // ECU signal
-
+//
+// Display dim pins
+const int DIM_PIN_VAL = A10; // MID7 input Dim of display
+const int DIM_PIN_OUT = 46; // output dim of display
 //
 //
 const int sensorTempPin_1 = A0;
@@ -79,6 +81,7 @@ int cursorMenu = 0;
 // Global interval
 const int SNS_INTERVAL_TIME = 2000;
 
+
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -94,8 +97,11 @@ const int SNS_INTERVAL_TIME = 2000;
 //
 // Read inside temperature
 #include "lib/DisplayInfo.h"
+#include "lib/sensors/DimLightSens.h"
+
 
 static void playWelcomeScreen();
+
 //
 // Setup the code...
 void setup() {
@@ -104,16 +110,16 @@ void setup() {
     Serial.begin(9600);
     //
     // Engine pin mode as input
-    
+    setupBackLight();
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
+        //
+    // Initializes the interface to the LCD screen
+    lcd.begin(16, 2);
+    lcd.clear();
     //
     // main setup
     setupMain();
-    //
-    // Initializes the interface to the LCD screen
-    lcd.begin(16, 2);\
-    lcd.clear();
     //
     //
     setupLcdChar();
@@ -133,6 +139,9 @@ void setup() {
 }
 
 void loop() {
+    //
+    //
+    handleBackLight();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
