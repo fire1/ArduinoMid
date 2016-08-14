@@ -148,6 +148,7 @@ void loop() {
     //
     // Handle navigation
     navigateMenu();
+    Serial.print(cursorMenu);
     //
     // Switch menu from cursor
     switch (cursorMenu) {
