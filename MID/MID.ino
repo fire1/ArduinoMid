@@ -111,6 +111,7 @@ void setup() {
     //
     // Engine pin mode as input
     setupBackLight();
+    
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
         //
