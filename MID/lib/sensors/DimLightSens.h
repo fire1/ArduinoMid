@@ -25,7 +25,7 @@ void setupBackLight(void) {
     pinMode(DIM_PIN_VAL, INPUT);
     pinMode(DIM_PIN_OUT, OUTPUT);
 
-
+    analogWrite(DIM_PIN_OUT, backLightDefault);
     handleBackLight();
 }
 

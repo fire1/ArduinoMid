@@ -111,6 +111,7 @@ void setup() {
     //
     // Engine pin mode as input
     setupBackLight();
+    
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
         //
@@ -148,6 +149,7 @@ void loop() {
     //
     // Handle navigation
     navigateMenu();
+    Serial.print(cursorMenu);
     //
     // Switch menu from cursor
     switch (cursorMenu) {
