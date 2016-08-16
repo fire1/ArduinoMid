@@ -98,7 +98,6 @@
       <sourceFolder url="file://$USER_HOME$/.CLion2016.1/system/cmake/generated/ArduinoMid-a5c32b1e/a5c32b1e/Release/ArduinoMid_MID.ino.cpp" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/libraries/MenuBackend/MenuBackend-.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/libraries/MenuBackend/MenuBackend.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CmakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MID/MID.ino" isTestSource="false" />

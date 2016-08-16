@@ -38,7 +38,7 @@ const int BTN_PIN_DW = 9;
 //
 // Engine pins
 const int RPM_SNS_PIN = 18; // MID6 the crankshaft speed sensor [attachInterrupt]
-const int SPD_SNS_PIN = 12; // MID12 Speed sensor hub [attachInterrupt]
+const int SPD_SNS_PIN = 2; // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 13; // ECU signal
 //
 // Display dim pins
@@ -114,6 +114,7 @@ void setup() {
     
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
+    setupVssPin(SPD_SNS_PIN);
         //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
@@ -125,7 +126,7 @@ void setup() {
     //
     setupLcdChar();
 
-    setupVSS();
+
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
