@@ -119,6 +119,9 @@ void setup() {
     pinMode(RPM_SNS_PIN, INPUT);
     setupVssPin(SPD_SNS_PIN);
         //
+        pinMode(2, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(2), catchRpmHits, FALLING );
+
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
     lcd.clear();

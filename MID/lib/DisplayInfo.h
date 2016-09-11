@@ -33,33 +33,36 @@ void readInnerTemp() {
     pinReadValue = analogRead(sensorTempPin_1);
     //
     // Check is output time is allowed
-    if (isSensorReadAllow()) {
-
-        //temperatureC = (pinReadValue * 100.0) / 1024.0;
-        //temperatureC =  (200*pin_value)>>8;
-        temperatureC = (225 * pinReadValue) >> 8;
-        // converting that reading to voltage, for 3.3v arduino use 3.3
-        int voltage = pinReadValue * 5.0;
-        //voltage /= 1024.0;
-
-        // now print out the temperature
-        // int temperatureC = (voltage - 0.5) * 100 ;
-
-        lcd.setCursor(8, 1);
-        if (temperatureC > 0) {
-            lcd.print("  ");
-
-        }
-        lcd.print(temperatureC);
-        lcd.print((char) 1);
-    }
+//    if (isSensorReadAllow()) {
+//
+//        //temperatureC = (pinReadValue * 100.0) / 1024.0;
+//        //temperatureC =  (200*pin_value)>>8;
+//        temperatureC = (225 * pinReadValue) >> 8;
+//        // converting that reading to voltage, for 3.3v arduino use 3.3
+//        int voltage = pinReadValue * 5.0;
+//        //voltage /= 1024.0;
+//
+//        // now print out the temperature
+//        // int temperatureC = (voltage - 0.5) * 100 ;
+//
+//        lcd.setCursor(8, 1);
+//        if (temperatureC > 0) {
+//            lcd.print("  ");
+//
+//        }
+//        lcd.print(temperatureC);
+//        lcd.print((char) 1);
+//    }
 
 }
+
+char rpmDisplay[4];
+
 /**
  * Display engine RPMs
  */
 void displayEngRPM() {
-     int rpmSnsCount = 0;
+    int rpmSnsCount = 0;
 
     //
     // Gets RPM
@@ -70,30 +73,56 @@ void displayEngRPM() {
     lcd.print("RPM:");
     //
     // Handle screen display
-    if (rpmSnsCount < 100) {
-        lcd.print(0);
-        lcd.print(0);
+//    if (rpmSnsCount < 100) {
+//        lcd.print(0);
+//        lcd.print(0);
+//    }
+//    if (rpmSnsCount < 1000 ) {
+//        lcd.print(0);
+//    }
+
+    if (isSensorReadAllow()) {
+        lcd.print("      ");
+        lcd.setCursor(0, 2);
+        lcd.print("RPM:");
     }
-    if (rpmSnsCount < 1000 ) {
-        lcd.print(0);
-    }
+
+    int rpmh = rpmSnsCount / 1000;
+
+    int rpmh2 = rpmSnsCount / 100;
+
+    int rpm2s = rpmh2 - (rpmh * 10);
+
+    int rpm3s = (rpmSnsCount / 10) - (rpmh2 * 10);
+
+//    if (rpmSnsCount < 700) {
+//        rpmDisplay[0] = '0';
+//        rpmDisplay[1] = '0';
+//        rpmDisplay[2] = '0';
+//        rpmDisplay[3] = '0';
+//    }
     lcd.print(rpmSnsCount);
+//
+//    Serial.print("RPM \t \t");
+//    Serial.print(rpmSnsCount);
+//    Serial.print("\n\n");
 }
+
 /**
  * Display engine KMh
  */
-void displayCarKMH () {
-     int kmhSnsCount = 0;
+void displayCarKMH() {
+    int kmhSnsCount = 0;
 
     //
     // Gets RPM
     kmhSnsCount = getDigitalSpeedKmh();
 
-    lcd.setCursor(0,0);
+    lcd.setCursor(0, 0);
     lcd.print("KMh:");
     //
     // Handle screen display
-     if (kmhSnsCount < 10 ) {
+    if (kmhSnsCount < 10) {
         lcd.print("  ");
     }
     lcd.print(kmhSnsCount);
@@ -103,7 +132,7 @@ void displayCarKMH () {
  * Display engine KMh
  */
 void displayCarECU() {
-     int counterEcu = 0;
+    int counterEcu = 0;
 
     //
     // Gets RPM
@@ -113,14 +142,11 @@ void displayCarECU() {
     lcd.print("ECU:");
     //
     // Handle screen display
-    if (counterEcu < 10 ) {
+    if (counterEcu < 10) {
         lcd.print("  ");
     }
     lcd.print(counterEcu);
 }
-
-
-
 
 
 #endif //ARDUINOMID_READINNTERTEMP_H
