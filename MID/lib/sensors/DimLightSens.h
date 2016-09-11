@@ -32,7 +32,7 @@ void setupBackLight(void) {
 /**
  * Handle display dim
  */
-const int numReadingsDim = 10;
+const int numReadingsDim = 100;
 int indexReadValDim = 0;
 int lastReadingsDim[numReadingsDim];
 int totalReadingDim = 0;
@@ -42,6 +42,7 @@ static void handleBackLight(void) {
 
 
     int dimReadVal = analogRead(DIM_PIN_VAL);
+
     backLightLevel = map(dimReadVal, 0, 1023, 0, 255);
     totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
     lastReadingsDim[indexReadValDim] = dimReadVal;
@@ -52,8 +53,7 @@ static void handleBackLight(void) {
     // backLightLevel(analogRead) / 4 for analogWrite
 
 
-    Serial.print(dimReadVal);
-    Serial.print("\n");
+
 
     indexReadValDim = indexReadValDim + 1;
     // if we're at the end of the array...
@@ -62,16 +62,23 @@ static void handleBackLight(void) {
         indexReadValDim = 0;
     }
 
-    backLightDefault = totalReadingDim / indexReadValDim;
+//    backLightDefault = totalReadingDim / indexReadValDim;
 
 
     //
     //
-    if (backLightLevel < 10) {
+
+
+
+    if (lastReadValueDim != backLightLevel) {
+        Serial.println(backLightLevel);
+    }
+
+    if (backLightLevel < 15) {
         backLightLevel = backLightDefault;
     }
 
-    if (lastReadValueDim != backLightLevel) {
+    if (lastReadValueDim != backLightLevel && backLightLevel > 0) {
         lastReadValueDim = backLightLevel;
         analogWrite(DIM_PIN_OUT, backLightLevel);
     }

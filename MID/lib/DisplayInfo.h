@@ -64,6 +64,7 @@ void displayEngRPM() {
     //
     // Gets RPM
     rpmSnsCount = getDigitalTachometerRpm();
+//    rpmSnsCount = getDigitalTachometerRpm2();
 
     lcd.setCursor(0, 2);
     lcd.print("RPM:");

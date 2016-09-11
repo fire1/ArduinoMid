@@ -167,14 +167,6 @@ static void pulseVssHandler() {
     resolvedMph = (waveCount / convertMph) * 10; // Convert pulse count into mph.
     resolveIMph = (unsigned int) resolvedMph; // Cast to integer. 10x allows retaining 10th of mph resolution.
 
-    Serial.print(TCCR1B);
-    Serial.print(" ");
-    Serial.print(TCNT1);
-    Serial.print(" ");
-    Serial.print(waveCount);
-    Serial.print(" ");
-    Serial.print(resolveIMph);
-    Serial.print("\n");
 
 
     int x = resolveIMph / 10;
@@ -207,7 +199,7 @@ static void pulseVssHandler() {
         catchMph = roundedMph;
 //      matrix.println(roundedMph);
     }
-
+//    show("speed",roundedMph);
     previousMph = roundedMph; // Set previousMph for use in next loop.
 }
 
