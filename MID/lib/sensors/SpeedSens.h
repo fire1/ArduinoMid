@@ -59,10 +59,7 @@ unsigned int vssStartTime, vssEndTime = 0;
 
 static void pulseVssHandler();
 
-void setupVssPin(int interruptPin) {
-    pinMode(interruptPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(interruptPin), AddSensorKmhCount, FALLING);
-}
+
 
 
 int milSecCounterVss = 0;
@@ -75,6 +72,15 @@ void AddSensorKmhCount() {                  // This is the subroutine that is ca
     milSecCounterVss = micros();
 
 }
+
+void setupVssPin(int interruptPin) {
+    pinMode(interruptPin, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(interruptPin), AddSensorKmhCount, FALLING);
+}
+
+
+
+
 
 static int getDigitalSpeedKmh() {
     int currentReadTimeVss = millis();

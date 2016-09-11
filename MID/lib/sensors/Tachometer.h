@@ -71,8 +71,6 @@ static int getDigitalTachometerRpm() {
 
 
     if (digitalRead(RPM_SNS_PIN) == HIGH) {
-
-
         if (!TachometerCounted) {
             TachometerCounted = true;
             TachometerHits++;
@@ -80,6 +78,8 @@ static int getDigitalTachometerRpm() {
     } else {
         TachometerCounted = false;
     }
+
+    return  TachometerRps * 30;
 
     int rpm = TachometerRps * 30;
     if (rpm > 2000) {
