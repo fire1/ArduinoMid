@@ -27,7 +27,7 @@ int TachometerHits = 0;
 bool TachometerCounted = false;
 int TachometerRps = 0;
 int TachometerTimerStart = 0, TachometerTimerEnds = 0;
-
+int rpmTimeDiff = 0;
 int timeDiff = 0;
 
 void catchRpmHits() {
@@ -71,11 +71,13 @@ static char getDigitalTachometerRpm() {
         Serial.print(TachometerHits);
         Serial.print("\n");
 
+        rpmTimeDiff = millis() - timeDiff;
         TachometerHits = 0;
     }
 
 
-    return TachometerRps * 64;
+    return rpmTimeDiff / 60;
+//    return TachometerRps * 67;
 
     Serial.println(TachometerRps);
 
@@ -96,7 +98,7 @@ static char getDigitalTachometerRpm() {
 
     return rpmdisp;
 }
-
+/*
 int sdvstate = 0;
 int rpmstate = 0;
 int sdvstateold = 0;
