@@ -10,7 +10,7 @@
 // Set up pins
 //
 // vars for resolve dim value
-int backLightDefault = 26;       // value to dim display when car lights are off
+int backLightDefault = 16;       // value to dim display when car lights are off
 int isGaugesActive = LOW;         // is car lights on
 int unsigned backLightLevel = 0;  // resolved display dim
 
@@ -71,7 +71,7 @@ static void handleBackLight(void) {
 
 
     if (lastReadValueDim != backLightLevel) {
-        Serial.println(backLightLevel);
+//        Serial.println(backLightLevel);
     }
 
     if (backLightLevel < 15) {

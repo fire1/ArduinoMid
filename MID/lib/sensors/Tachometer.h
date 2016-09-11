@@ -28,9 +28,11 @@ bool TachometerCounted = false;
 int TachometerRps = 0;
 int TachometerTimerStart = 0, TachometerTimerEnds = 0;
 
+int timeDiff = 0;
 
 void catchRpmHits() {
     TachometerHits++;
+    timeDiff = millis();
 }
 
 /**
@@ -61,12 +63,19 @@ static char getDigitalTachometerRpm() {
     if (TachometerTimerEnds >= (TachometerTimerStart + 500)) {
         TachometerTimerStart = TachometerTimerEnds;
         TachometerRps = TachometerHits;
+
+        Serial.print("\n");
+        Serial.print("RPM diff:  \t");
+        Serial.print(millis() - timeDiff);
+        Serial.print("RPM count:  \t");
+        Serial.print(TachometerHits);
+        Serial.print("\n");
+
         TachometerHits = 0;
     }
 
-    Serial.println(TachometerHits);
 
-    return TachometerRps * 30;
+    return TachometerRps * 64;
 
     Serial.println(TachometerRps);
 
