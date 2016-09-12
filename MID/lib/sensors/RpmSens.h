@@ -5,7 +5,7 @@
 #ifndef ARDUINOMID_RpmSens_H
 #define ARDUINOMID_RpmSens_H
 
-#define RpmSensDebug
+#define RpmSensDebug = true;
 
 unsigned long TachometerTimeOld;
 
@@ -16,17 +16,15 @@ int TachometerTimerStart = 0, TachometerTimerEnds = 0;
 int rpmTimeRpmDif = 0;
 int timeRpmHits = 0;
 
-void catchRpmHits ()
-{
-  TachometerHits++;
-  timeRpmHits = millis ();
+void catchRpmHits() {
+    TachometerHits++;
+    timeRpmHits = millis();
 }
 
 /**
  * Working version
  */
-static int getRpmSens ()
-{
+static int getRpmSens() {
 
 //    TachometerTimerEnds = millis();
 //    if (TachometerTimerEnds >= (TachometerTimerStart + 1000)) {
@@ -47,27 +45,29 @@ static int getRpmSens ()
 //    }
 
 
-  TachometerTimerEnds = millis ();
-  if (TachometerTimerEnds >= (TachometerTimerStart + 500))
-    {
-      TachometerTimerStart = TachometerTimerEnds;
-      TachometerRps = TachometerHits;
-      rpmTimeRpmDif = millis () - timeRpmHits;
+    TachometerTimerEnds = millis();
+    if (TachometerTimerEnds >= (TachometerTimerStart + 150)) {
+        TachometerTimerStart = TachometerTimerEnds;
+        TachometerRps = TachometerHits;
+        rpmTimeRpmDif = millis() - timeRpmHits;
 
-      #ifndef RpmSensDebug
-            Serial.print ("\n");
-            Serial.print ("RPM diff:  \t");
-            Serial.print (rpmTimeRpmDif);
-            Serial.print ("RPM count:  \t");
-            Serial.print (TachometerHits);
-            Serial.print ("\n");
-      #endif
+//      #ifndef RpmSensDebug
+        Serial.print("\n");
+        Serial.print(" RPM diff:  \t");
+        Serial.print(rpmTimeRpmDif);
+        Serial.print(" RPM is:  \t");
+        Serial.print(TachometerRps * 200);
+        Serial.print(" RPM count:  \t");
+        Serial.print(TachometerHits);
+        Serial.print("\n");
+//      #endif
 
-      timeRpmHits = 0;
-      TachometerHits = 0;
+        //timeRpmHits = 0;
+        TachometerHits = 0;
     }
 
-  return rpmTimeRpmDif / 60;
+    return TachometerRps * 200;
 
 }
+
 #endif //ARDUINOMID_RpmSens_H
