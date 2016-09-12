@@ -2,23 +2,30 @@
 // Created by Admin on 7/23/2016.
 //
 
+#define RpmSensDebug = true;
+
 #ifndef ARDUINOMID_RpmSens_H
 #define ARDUINOMID_RpmSens_H
 
-#define RpmSensDebug = true;
 
-unsigned long TachometerTimeOld;
-
-int TachometerHits = 0;
-bool TachometerCounted = false;
-int TachometerRps = 0;
-int TachometerTimerStart = 0, TachometerTimerEnds = 0;
-int rpmTimeRpmDif = 0;
-int timeRpmHits = 0;
+int rpmHitsCount = 0;
+int rpmCycles = 0;
+int rpmTimerStart = 0, rpmTimerEnds = 0;
+int rpmTimeDif = 0;
+int rpmTimeHits = 0;
 
 void catchRpmHits() {
-    TachometerHits++;
-    timeRpmHits = millis();
+    rpmHitsCount++;
+    rpmTimeHits = millis();
+}
+
+void setupRpmSens(int pinTarget){
+  //
+  // Pin mode ...
+  pinMode(pinTarget, INPUT_PULLUP);
+  //
+  // Set as interrupt pin
+  attachInterrupt(digitalPinToInterrupt(pinTarget), catchRpmHits, FALLING );
 }
 
 /**
@@ -26,48 +33,50 @@ void catchRpmHits() {
  */
 static int getRpmSens() {
 
-//    TachometerTimerEnds = millis();
-//    if (TachometerTimerEnds >= (TachometerTimerStart + 1000)) {
-//        TachometerRps = TachometerHits;
-//        TachometerHits = 0;
-//        TachometerTimerStart = TachometerTimerEnds;
+    rpmTimerEnds = millis();
+    if (rpmTimerEnds >= (rpmTimerStart + 150)) {
+        rpmTimerStart = rpmTimerEnds;
+        rpmCycles = rpmHitsCount;
+        rpmTimeDif = millis() - rpmTimeHits;
+        //
+        // debug info
+      #ifndef RpmSensDebug
+          Serial.print("\n");
+          Serial.print(" RPM diff:  \t");
+          Serial.print(rpmTimeDif);
+          Serial.print(" RPM is:  \t");
+          Serial.print(rpmCycles * 200);
+          Serial.print(" RPM count:  \t");
+          Serial.print(rpmHitsCount);
+          Serial.print("\n");
+      #endif
+
+        //rpmTimeHits = 0;
+        rpmHitsCount = 0;
+    }
+
+    return rpmCycles * 200;
+
+}
+
+#endif //ARDUINOMID_RpmSens_H
+
+//
+// OLD code
+//    rpmTimerEnds = millis();
+//    if (rpmTimerEnds >= (rpmTimerStart + 1000)) {
+//        rpmCycles = rpmHitsCount;
+//        rpmHitsCount = 0;
+//        rpmTimerStart = rpmTimerEnds;
 //    }
 //
 //
 //    if (digitalRead(RPM_SNS_PIN) == HIGH) {
 //        if (!TachometerCounted) {
 //            TachometerCounted = true;
-//            TachometerHits++;
+//            rpmHitsCount++;
 //
 //        }
 //    } else {
 //        TachometerCounted = false;
 //    }
-
-
-    TachometerTimerEnds = millis();
-    if (TachometerTimerEnds >= (TachometerTimerStart + 150)) {
-        TachometerTimerStart = TachometerTimerEnds;
-        TachometerRps = TachometerHits;
-        rpmTimeRpmDif = millis() - timeRpmHits;
-
-//      #ifndef RpmSensDebug
-        Serial.print("\n");
-        Serial.print(" RPM diff:  \t");
-        Serial.print(rpmTimeRpmDif);
-        Serial.print(" RPM is:  \t");
-        Serial.print(TachometerRps * 200);
-        Serial.print(" RPM count:  \t");
-        Serial.print(TachometerHits);
-        Serial.print("\n");
-//      #endif
-
-        //timeRpmHits = 0;
-        TachometerHits = 0;
-    }
-
-    return TachometerRps * 200;
-
-}
-
-#endif //ARDUINOMID_RpmSens_H

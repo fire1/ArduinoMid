@@ -36,8 +36,8 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 12; // MID6 RPM [attachInterrupt]
-const int SPD_SNS_PIN = 13; // MID12 Speed sensor hub [attachInterrupt]
+const int RPM_SNS_PIN = 2; // MID6 RPM [attachInterrupt]
+const int SPD_SNS_PIN = 3; // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 10; // ECU signal
 //
 // Display dim pins
@@ -128,13 +128,12 @@ void setup() {
     //
     // Engine pin mode as input
     setupBackLight();
-    
+
     pinMode(ECU_SGN_PIN, INPUT);
-    pinMode(RPM_SNS_PIN, INPUT);
-    setupVssPin(SPD_SNS_PIN);
-        //
-        pinMode(2, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(2), catchRpmHits, FALLING );
+
+    setupRpmSens (RPM_SNS_PIN);
+    setupVssSens (SPD_SNS_PIN);
+
 
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
@@ -161,7 +160,7 @@ void setup() {
 }
 
 void loop() {
-  
+
     //
     //
     handleBackLight();

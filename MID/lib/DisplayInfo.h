@@ -61,14 +61,6 @@ void displayEngRPM() {
     lcd.setCursor(0, 2);
     lcd.print("RPM:");
 
-//    if (rpmSnsCount < 100) {
-//        lcd.print(0);
-//        lcd.print(0);
-//    }
-//    if (rpmSnsCount < 1000 ) {
-//        lcd.print(0);
-//    }
-
     if (isSensorReadAllow()) {
         lcd.print("      ");
         lcd.setCursor(0, 2);
@@ -76,45 +68,44 @@ void displayEngRPM() {
     }
     //
     // Handle screen display
-    int rpmH = rpmSnsCount / 1000;
-    int rpmH2 = rpmSnsCount / 100;
-    int rpm2s = rpmH2 - (rpmH * 10);
-    int rpm3s = (rpmSnsCount / 10) - (rpmH2 * 10);
+    int rpm1 = rpmSnsCount / 1000;
+    int rpm2 = rpmSnsCount / 100;
+    int rpm3 = rpm2 - (rpm1 * 10);
+    int rpm4 = (rpmSnsCount / 10) - (rpm2 * 10);
 
-    rpmDisplay[0] = '0' + rpmH;
-    rpmDisplay[1] = '0' + rpm2s;
-    rpmDisplay[2] = '0' + rpm3s;
+    rpmDisplay[0] = '0' + rpm1;
+    rpmDisplay[1] = '0' + rpm3;
+    rpmDisplay[2] = '0' + rpm4;
     rpmDisplay[3] = '0' + (rpmSnsCount % 10);
-
-//    if (rpmSnsCount < 600) {
-//        rpmDisplay[0] = '0';
-//        rpmDisplay[1] = '0';
-//        rpmDisplay[2] = '0';
-//        rpmDisplay[3] = '0';
-//    }
 
     lcd.print(rpmDisplay);
 
 }
 
+char vssDisplay[3];
 /**
  * Display engine KMh
  */
 void displayCarKMH() {
-    int kmhSnsCount = 0;
 
     //
-    // Gets RPM
-    kmhSnsCount = getDigitalSpeedKmh();
+    // Gets KmH
+    int vssSnsCount = getVssSens();
 
     lcd.setCursor(0, 0);
     lcd.print("KMh:");
+
+  if (isSensorReadAllow()) {
+      lcd.print("    ");
+      lcd.setCursor(0, 0);
+      lcd.print("KMh:");
+    }
+
     //
     // Handle screen display
-    if (kmhSnsCount < 10) {
-        lcd.print("  ");
-    }
-    lcd.print(kmhSnsCount);
+    sprintf(vssDisplay,"%03d", vssSnsCount);
+    lcd.print(vssDisplay);
+
 }
 
 /**
