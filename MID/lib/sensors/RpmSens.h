@@ -40,16 +40,16 @@ static int getRpmSens() {
         rpmTimeDif = millis() - rpmTimeHits;
         //
         // debug info
-      #ifndef RpmSensDebug
-          Serial.print("\n");
-          Serial.print(" RPM diff:  \t");
-          Serial.print(rpmTimeDif);
-          Serial.print(" RPM is:  \t");
-          Serial.print(rpmCycles * 200);
-          Serial.print(" RPM count:  \t");
-          Serial.print(rpmHitsCount);
-          Serial.print("\n");
-      #endif
+//      #ifndef RpmSensDebug
+//          Serial.print("\n");
+//          Serial.print(" RPM diff:  \t");
+//          Serial.print(rpmTimeDif);
+//          Serial.print(" RPM is:  \t");
+//          Serial.print(rpmCycles * 200);
+//          Serial.print(" RPM count:  \t");
+//          Serial.print(rpmHitsCount);
+//          Serial.print("\n");
+//      #endif
 
         //rpmTimeHits = 0;
         rpmHitsCount = 0;

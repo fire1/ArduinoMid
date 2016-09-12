@@ -27,46 +27,47 @@ int vssTimerStart = 0, vssTimerEnds = 0;
 int vssTimeDif = 0;
 int vssTimeHits = 0;
 
-void catchVssHits ()
-{
-  vssHitsCount++;
-  vssTimeHits = micros ();
+void catchVssHits() {
+    vssHitsCount++;
+    vssTimeHits = micros();
 
 }
 
-void setupVssSens (int pinTarget)
-{
-  pinMode (pinTarget, INPUT_PULLUP);
-  attachInterrupt (digitalPinToInterrupt (pinTarget), catchVssHits, FALLING);
+void setupVssSens(int pinTarget) {
+    pinMode(pinTarget, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), catchVssHits, FALLING);
 }
 
-static int getVssSens ()
-{
+static int getVssSens() {
 
-  vssTimerEnds = millis ();
-  if (vssTimerEnds >= (vssTimerStart + 150))
-    {
-      vssTimerStart = vssTimerEnds;
-      vssCycles = vssHitsCount;
-      vssTimeDif = millis () - vssTimeHits;
-      //
-      // debug info
-#ifndef VssSensDebug
-      Serial.print ("\n");
-      Serial.print (" vss diff:  \t");
-      Serial.print (vssTimeDif);
-      Serial.print (" vss is:  \t");
-      Serial.print (vssCycles * 200);
-      Serial.print (" vss count:  \t");
-      Serial.print (vssHitsCount);
-      Serial.print ("\n");
-#endif
+    vssTimerEnds = millis();
+    if (vssTimerEnds >= (vssTimerStart + 150)) {
+        vssTimerStart = vssTimerEnds;
+        vssCycles = vssHitsCount;
+        vssTimeDif = millis() - vssTimeHits;
+        //
+        // debug info
+//#ifndef VssSensDebug
+        Serial.print("\n");
+        Serial.print(" vss diff:  \t");
+        Serial.print(vssTimeDif);
+        Serial.print(" vss is:  \t");
+        Serial.print(vssCycles * 1.6);
+        Serial.print(" vss count:  \t");
+        Serial.print(vssHitsCount);
+        Serial.print("\n");
+//#endif
 
-      //vssTimeHits = 0;
-      vssHitsCount = 0;
+        //vssTimeHits = 0;
+        vssHitsCount = 0;
     }
 
-  return vssCycles * 200;
+    int kmhSens = vssCycles * 1.6;
+    if (kmhSens < 0) {
+        return 0;
+    }
+
+    return kmhSens;
 }
 /*
 
