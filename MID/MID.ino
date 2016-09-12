@@ -96,10 +96,24 @@ int showerCounter = 0;
 //
 // Adding Alphine emulator
 #include "lib/EmlAlpine.h"
+
+
+//
+// Read Tachometer
+#include "lib/sensors/RpmSens.h"
+//
+// Read SpeedHub
+#include "lib/sensors/VssSens.h"
+//
+//
+#include "lib/sensors/EcuSens.h"
+
 //
 // Read inside temperature
 #include "lib/DisplayInfo.h"
-#include "lib/sensors/DimLightSens.h"
+//
+// Screen backlight sensor
+#include "lib/sensors/DimSens.h"
 
 
 static void playWelcomeScreen();

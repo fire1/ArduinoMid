@@ -18,8 +18,8 @@
 
 \
 
-#ifndef ARDUINOMID_SPEEDSENS_H
-#define ARDUINOMID_SPEEDSENS_H
+#ifndef ARDUINOMID_VssSens_H
+#define ARDUINOMID_VssSens_H
 
 unsigned int long SpeedSensTimerStart = 0, SpeedSensTimerEnds = 0;
 int SpeedSensRps = 0;
@@ -203,4 +203,4 @@ static void pulseVssHandler() {
     previousMph = roundedMph; // Set previousMph for use in next loop.
 }
 
-#endif //ARDUINOMID_SPEEDSENS_H
+#endif //ARDUINOMID_VssSens_H

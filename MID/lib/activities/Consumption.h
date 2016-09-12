@@ -5,7 +5,7 @@
 #ifndef ARDUINOMID_CONSUMPTION_H
 #define ARDUINOMID_CONSUMPTION_H
 
-#include "lib/sensors/Tachometer.h"
+#include "lib/sensors/RpmSens.h"
 
 //
 // 56 litres ÷ 800km = 0.07.

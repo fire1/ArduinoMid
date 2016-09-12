@@ -10,15 +10,6 @@
 #include <LiquidCrystal.h>
 
 
-//
-// Read Tachometer
-#include "sensors/Tachometer.h"
-//
-// Read SpeedHub
-#include "sensors/SpeedSens.h"
-//
-//
-#include "sensors/ReadEcu.h"
 
 /**
  * Display temperature sensor
@@ -62,17 +53,14 @@ char rpmDisplay[4];
  * Display engine RPMs
  */
 void displayEngRPM() {
-    int rpmSnsCount = 0;
 
     //
     // Gets RPM
-    rpmSnsCount = getDigitalTachometerRpm();
-//    rpmSnsCount = getDigitalTachometerRpm2();
+    int rpmSnsCount = getRpmSens();
 
     lcd.setCursor(0, 2);
     lcd.print("RPM:");
-    //
-    // Handle screen display
+
 //    if (rpmSnsCount < 100) {
 //        lcd.print(0);
 //        lcd.print(0);
@@ -86,26 +74,27 @@ void displayEngRPM() {
         lcd.setCursor(0, 2);
         lcd.print("RPM:");
     }
+    //
+    // Handle screen display
+    int rpmH = rpmSnsCount / 1000;
+    int rpmH2 = rpmSnsCount / 100;
+    int rpm2s = rpmH2 - (rpmH * 10);
+    int rpm3s = (rpmSnsCount / 10) - (rpmH2 * 10);
 
-    int rpmh = rpmSnsCount / 1000;
+    rpmDisplay[0] = '0' + rpmH;
+    rpmDisplay[1] = '0' + rpm2s;
+    rpmDisplay[2] = '0' + rpm3s;
+    rpmDisplay[3] = '0' + (rpmSnsCount % 10);
 
-    int rpmh2 = rpmSnsCount / 100;
-
-    int rpm2s = rpmh2 - (rpmh * 10);
-
-    int rpm3s = (rpmSnsCount / 10) - (rpmh2 * 10);
-
-//    if (rpmSnsCount < 700) {
+//    if (rpmSnsCount < 600) {
 //        rpmDisplay[0] = '0';
 //        rpmDisplay[1] = '0';
 //        rpmDisplay[2] = '0';
 //        rpmDisplay[3] = '0';
 //    }
-    lcd.print(rpmSnsCount);
-//
-//    Serial.print("RPM \t \t");
-//    Serial.print(rpmSnsCount);
-//    Serial.print("\n\n");
+
+    lcd.print(rpmDisplay);
+
 }
 
 /**

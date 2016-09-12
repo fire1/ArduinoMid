@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 5.8.2016 г..
 //
 
-#ifndef ARDUINOMID_DIMLIGHTSENS_H
-#define ARDUINOMID_DIMLIGHTSENS_H
+#ifndef ARDUINOMID_DimSens_H
+#define ARDUINOMID_DimSens_H
 
 
 //
@@ -85,4 +85,4 @@ static void handleBackLight(void) {
 }
 
 
-#endif //ARDUINOMID_DIMLIGHTSENS_H
+#endif //ARDUINOMID_DimSens_H

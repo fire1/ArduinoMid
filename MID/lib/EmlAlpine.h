@@ -39,6 +39,6 @@ const int alpinePin = 3;
 void handleSteeringToSony(int voltage, boolean shift) {
 
     // Debug info ...
-    Serial.println(voltage);
-    Serial.println(shift);
+//    Serial.println(voltage);
+//    Serial.println(shift);
 }
