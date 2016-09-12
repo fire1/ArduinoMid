@@ -10,7 +10,7 @@
 // Set up pins
 //
 // vars for resolve dim value
-int backLightDefault = 26;       // value to dim display when car lights are off
+int backLightDefault = 16;       // value to dim display when car lights are off
 int isGaugesActive = LOW;         // is car lights on
 int unsigned backLightLevel = 0;  // resolved display dim
 
@@ -32,30 +32,54 @@ void setupBackLight(void) {
 /**
  * Handle display dim
  */
-
-int lastReadTimeDim = 0;
-
+const int numReadingsDim = 100;
+int indexReadValDim = 0;
+int lastReadingsDim[numReadingsDim];
+int totalReadingDim = 0;
+int lastReadValueDim = 0;
 
 static void handleBackLight(void) {
 
 
     int dimReadVal = analogRead(DIM_PIN_VAL);
+
     backLightLevel = map(dimReadVal, 0, 1023, 0, 255);
-    //
-    //
-    if (backLightLevel < 10) {
-        backLightLevel = backLightDefault;
-    }
+    totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
+    lastReadingsDim[indexReadValDim] = dimReadVal;
+    totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
+
     //
     // Set backLight
     // backLightLevel(analogRead) / 4 for analogWrite
 
 
-    Serial.print(dimReadVal);
-    Serial.print("\n");
 
 
-    if (lastReadTimeDim != backLightLevel) {
+    indexReadValDim = indexReadValDim + 1;
+    // if we're at the end of the array...
+    if (indexReadValDim >= numReadingsDim) {
+        // ...wrap around to the beginning:
+        indexReadValDim = 0;
+    }
+
+//    backLightDefault = totalReadingDim / indexReadValDim;
+
+
+    //
+    //
+
+
+
+    if (lastReadValueDim != backLightLevel) {
+//        Serial.println(backLightLevel);
+    }
+
+    if (backLightLevel < 15) {
+        backLightLevel = backLightDefault;
+    }
+
+    if (lastReadValueDim != backLightLevel && backLightLevel > 0) {
+        lastReadValueDim = backLightLevel;
         analogWrite(DIM_PIN_OUT, backLightLevel);
     }
 }

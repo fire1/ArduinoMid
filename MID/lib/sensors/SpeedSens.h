@@ -59,26 +59,52 @@ unsigned int vssStartTime, vssEndTime = 0;
 
 static void pulseVssHandler();
 
-void setupVSS() {
-    TCCR1A = 0; //Configure hardware counter
-    TCNT1 = 0;  // Reset hardware counter to zero
-    pinMode(SPD_SNS_PIN, INPUT/*_PULLUP*/);
 
-    // Digital Pins With Interrupts
-    // Mega, Mega2560, MegaADK	2, 3, 18, 19, 20, 21
-//    attachInterrupt(digitalPinToInterrupt(SPD_SNS_PIN), AddSensorCount, RISING);  // Interrupt 0 is on digital pin 2
+
+
+int milSecCounterVss = 0;
+int oldSecCounterVss = 0;
+int lastReadTimeVss = 0;
+float vssTimeDiff = 0;
+
+void AddSensorKmhCount() {                  // This is the subroutine that is called when interrupt 0 goes high
+    SensorCount++;
+    milSecCounterVss = micros();
 
 }
 
-void AddSensorCount() {                  // This is the subroutine that is called when interrupt 0 goes high
-    SensorCount++;                          // Increment SensorCount by 1
+void setupVssPin(int interruptPin) {
+    pinMode(interruptPin, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(interruptPin), AddSensorKmhCount, FALLING);
+}
+
+
+
+
+
+static int getDigitalSpeedKmh() {
+    int currentReadTimeVss = millis();
+
+    if (currentReadTimeVss >= (lastReadTimeVss + 150)) {
+        lastReadTimeVss = currentReadTimeVss;
+        vssTimeDiff = oldSecCounterVss - milSecCounterVss;
+        oldSecCounterVss = milSecCounterVss;
+    }
+
+    int sdvMax = 5;
+
+    int sdvfloat = float(vssTimeDiff);
+    //(1.750 / 32) * 10 = 0.546875  ,    3.6*0.546875  ,  (* 1.05 to increase accuaracy)  , accuarate for 165/70 R13 tyre dimensions
+    sdvfloat = ((1 / (sdvfloat / 1000000)) * 1.96875) * (sdvMax / 10) * 1.05;
+    int sdvvalue = int(sdvfloat);
+    return sdvvalue;
 }
 
 int LastAmplitude = 0;
 
 // rpm*(circumference of your wheel in inches)*(60 min/hr)*(1/63,360 miles/inches)=speed in MPH
 // Speed = (FirstDistance - SecondDistance) / (SecondTime - FirstTime)
-static int getDigitalSpeedKmh() {
+static int _getDigitalSpeedKmh() {
 
 
     SpeedSensTimerEnds = millis();
@@ -141,14 +167,6 @@ static void pulseVssHandler() {
     resolvedMph = (waveCount / convertMph) * 10; // Convert pulse count into mph.
     resolveIMph = (unsigned int) resolvedMph; // Cast to integer. 10x allows retaining 10th of mph resolution.
 
-    Serial.print(TCCR1B);
-    Serial.print(" ");
-    Serial.print(TCNT1);
-    Serial.print(" ");
-    Serial.print(waveCount);
-    Serial.print(" ");
-    Serial.print(resolveIMph);
-    Serial.print("\n");
 
 
     int x = resolveIMph / 10;
@@ -181,7 +199,7 @@ static void pulseVssHandler() {
         catchMph = roundedMph;
 //      matrix.println(roundedMph);
     }
-
+//    show("speed",roundedMph);
     previousMph = roundedMph; // Set previousMph for use in next loop.
 }
 

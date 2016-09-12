@@ -22,72 +22,83 @@ unsigned long TachometerTimeOld;
 
 int TachometerCycle, CycleOnOrOff = 0;
 
-
-
-
-
-/*int getTachometerRpm() {
-
-    if (halfRevolutions >= 20) {
-        countTachometerRpm = 30 * 1000 / (millis() - TachometerTimeOld) * halfRevolutions;
-        TachometerTimeOld = millis();
-        halfRevolutions = 0;
-//        Serial.println(rpm, DEC);
-//        return countTachometerRpm; // or
-        return TachometerRPM;
-    }
-}*/
-
-/*
-static void calcRPM() {
-
-    Serial.println("Cal");
-    Serial.print("\t");
-
-
-    int PulseTime = PulseEndTime - PulseStartTime; // Gets pulse duration
-
-    TachometerRPM = 30 * 1000 / PulseTime * 2;                 // Calculates RPM
-    attachInterrupt(20, rpmPulseCount, RISING);      // re-attaches interrupt to Digi Pin 2
-}*/
-
-
+char rpmdisp[4];
 int TachometerHits = 0;
 bool TachometerCounted = false;
 int TachometerRps = 0;
 int TachometerTimerStart = 0, TachometerTimerEnds = 0;
+int rpmTimeDiff = 0;
+int timeDiff = 0;
+
+void catchRpmHits() {
+    TachometerHits++;
+    timeDiff = millis();
+}
 
 /**
  * Working version
  */
-static int getDigitalTachometerRpm() {
+static char getDigitalTachometerRpm() {
+
+//    TachometerTimerEnds = millis();
+//    if (TachometerTimerEnds >= (TachometerTimerStart + 1000)) {
+//        TachometerRps = TachometerHits;
+//        TachometerHits = 0;
+//        TachometerTimerStart = TachometerTimerEnds;
+//    }
+//
+//
+//    if (digitalRead(RPM_SNS_PIN) == HIGH) {
+//        if (!TachometerCounted) {
+//            TachometerCounted = true;
+//            TachometerHits++;
+//
+//        }
+//    } else {
+//        TachometerCounted = false;
+//    }
+
 
     TachometerTimerEnds = millis();
-    if (TachometerTimerEnds >= (TachometerTimerStart + 1000)) {
-        TachometerRps = TachometerHits;
-        TachometerHits = 0;
+    if (TachometerTimerEnds >= (TachometerTimerStart + 500)) {
         TachometerTimerStart = TachometerTimerEnds;
+        TachometerRps = TachometerHits;
+
+        Serial.print("\n");
+        Serial.print("RPM diff:  \t");
+        Serial.print(millis() - timeDiff);
+        Serial.print("RPM count:  \t");
+        Serial.print(TachometerHits);
+        Serial.print("\n");
+
+        rpmTimeDiff = millis() - timeDiff;
+        TachometerHits = 0;
     }
 
 
-    if (digitalRead(RPM_SNS_PIN) == HIGH) {
+    return rpmTimeDiff / 60;
+//    return TachometerRps * 67;
+
+    Serial.println(TachometerRps);
 
 
-        if (!TachometerCounted) {
-            TachometerCounted = true;
-            TachometerHits++;
-        }
-    } else {
-        TachometerCounted = false;
-    }
+    int rpmh = TachometerRps / 1000;
 
-    int rpm = TachometerRps * 30;
-    if (rpm > 2000) {
-        rpm = 2000 + rpm;
-    }
-    return rpm;
+    int rpmh2 = TachometerRps / 100;
+
+    int rpm2s = rpmh2 - (rpmh * 10);
+
+    int rpm3s = (TachometerRps / 10) - (rpmh2 * 10);
+
+
+    rpmdisp[0] = '0';
+    rpmdisp[1] = '0';
+    rpmdisp[2] = '0';
+    rpmdisp[3] = '0';
+
+    return rpmdisp;
 }
-
+/*
 int sdvstate = 0;
 int rpmstate = 0;
 int sdvstateold = 0;
@@ -112,28 +123,14 @@ int rpmfloat = 0;
 int rpmstart = 0;
 
 int rpmstatestart = 0;
-char rpmdisp[4];
+//char rpmdisp[4];
 
 unsigned long time;
 unsigned long timeold;
 unsigned long timediff;
 unsigned long timediff2;
 
-static void __getDigitalTachometerRpm() {
-
-    timeold = micros();
-    while (rpmstart == LOW) {
-        time = micros();                                      //Engines RPM
-        timediff2 = time - timeold;
-        if (timediff2 > 40000)
-            rpmstart = 1;
-        rpmstateold = rpmstate;
-        rpmstate = digitalRead(RPM_SNS_PIN);
-        delayMicroseconds(150);
-        if (rpmstate == HIGH && rpmstateold == LOW)            //wait for rising edge
-            rpmstart = 1;
-    }
-
+static char getDigitalTachometerRpm2() {
 
     timeold = micros();
     while (rpmstart == LOW) {
@@ -165,32 +162,37 @@ static void __getDigitalTachometerRpm() {
         }
     }
     time = micros();
+
     rpmstart = 0;
+
     rpmhcount = 0;
+
     timediff = time - timeold;
+
     rpmfloat = float(timediff);
+    rpmfloat = float(timediff);
+
     rpmfloat = (1 / (rpmfloat / 1000000)) * 150;          //calculate
+
     rpmvalue = int(rpmfloat);
+
     rpmh = rpmvalue / 1000;
 
-    Serial.print(rpmvalue);
-    Serial.print("\n");
-
-
-
-    //
-    // Display
     rpmh2 = rpmvalue / 100;
 
     rpm2s = rpmh2 - (rpmh * 10);
 
     rpm3s = (rpmvalue / 10) - (rpmh2 * 10);
 
+
+//    Serial.println(rpmfloat);
+
+
     rpmdisp[0] = '0' + rpmh;
     rpmdisp[1] = '0' + rpm2s;
     rpmdisp[2] = '0' + rpm3s;
     rpmdisp[3] = '0' + (rpmvalue % 10);
-//    rpmdisp[4] = '\0';
+    rpmdisp[4] = '\0';
 
     if (rpmbreak == HIGH)                                //display 0000 if rpm < 800
     {
@@ -199,8 +201,11 @@ static void __getDigitalTachometerRpm() {
         rpmdisp[2] = '0';
         rpmdisp[3] = '0';
     }
-    lcd.print(rpmdisp);
-    rpmbreak = 0;;
+
+    rpmbreak = 0;
+
+//        MyTid.display_message(rpmdisp,1,1);
+    return rpmdisp;
 }
 
 

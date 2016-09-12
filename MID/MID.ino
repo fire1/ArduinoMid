@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 /*
 ---------------------------------------------------
     Arduino MID
@@ -37,9 +36,9 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 18; // MID6 the crankshaft speed sensor [attachInterrupt]
-const int SPD_SNS_PIN = 12; // MID12 Speed sensor hub [attachInterrupt]
-const int ECU_SGN_PIN = 13; // ECU signal
+const int RPM_SNS_PIN = 12; // MID6 RPM [attachInterrupt]
+const int SPD_SNS_PIN = 13; // MID12 Speed sensor hub [attachInterrupt]
+const int ECU_SGN_PIN = 10; // ECU signal
 //
 // Display dim pins
 const int DIM_PIN_VAL = A10; // MID7 input Dim of display
@@ -81,6 +80,9 @@ int cursorMenu = 0;
 // Global interval
 const int SNS_INTERVAL_TIME = 2000;
 
+int showerCounter = 0;
+
+
 
 //
 // Main Sensor handler
@@ -105,6 +107,7 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
+      //TCCR2B = 1 << CS22;
     //
     // Debug serial
     Serial.begin(9600);
@@ -114,7 +117,11 @@ void setup() {
     
     pinMode(ECU_SGN_PIN, INPUT);
     pinMode(RPM_SNS_PIN, INPUT);
+    setupVssPin(SPD_SNS_PIN);
         //
+        pinMode(2, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(2), catchRpmHits, FALLING );
+
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
     lcd.clear();
@@ -125,7 +132,7 @@ void setup() {
     //
     setupLcdChar();
 
-    setupVSS();
+
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
@@ -140,6 +147,7 @@ void setup() {
 }
 
 void loop() {
+  
     //
     //
     handleBackLight();
