@@ -63,9 +63,9 @@ static int getVssSens() {
     }
 
     int kmhSens = vssCycles * 1.6;
-    if (kmhSens < 0) {
-        return 0;
-    }
+//    if (kmhSens < 0) {
+//        return 0;
+//    }
 
     return kmhSens;
 }
