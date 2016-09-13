@@ -65,11 +65,10 @@ const int sensorTempPin_1 = A0;
 
 
 /* Todo
-
 #include <Wire.h>
-#include "lib/lcd/LiquidCrystal_I2C.h"
 */
-//  LiquidCrystal lcd(7,8,9,A2,A1,A0)
+
+//
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(15, 14, 34, 35, 36, 37);
 
@@ -100,20 +99,20 @@ int showerCounter = 0;
 
 //
 // Read Tachometer
-#include "lib/sensors/RpmSens.h"
+#include "lib/sens/RpmSens.h"
 //
 // Read SpeedHub
-#include "lib/sensors/VssSens.h"
+#include "lib/sens/VssSens.h"
 //
 //
-#include "lib/sensors/EcuSens.h"
+#include "lib/sens/EcuSens.h"
 
 //
 // Read inside temperature
 #include "lib/DisplayInfo.h"
 //
 // Screen backlight sensor
-#include "lib/sensors/DimSens.h"
+#include "lib/sens/DimSens.h"
 
 
 static void playWelcomeScreen();
@@ -121,20 +120,18 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-      //TCCR2B = 1 << CS22;
     //
     // Debug serial
     Serial.begin(9600);
     //
-    // Engine pin mode as input
-    setupBackLight();
-
-    pinMode(ECU_SGN_PIN, INPUT);
-
-    setupRpmSens (RPM_SNS_PIN);
-    setupVssSens (SPD_SNS_PIN);
-
-
+    // Display back-light handler
+    setupBackLight (DIM_PIN_VAL, DIM_PIN_OUT);
+	//
+    // Engine sensors pin mode input
+    setupRpmSens (RPM_SNS_PIN); // Engine RPM
+    setupVssSens (SPD_SNS_PIN);	// Vehicle Speed Sensor
+    setupEcuSens (ECU_SGN_PIN); // Signal from engine ECU
+	//
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
     lcd.clear();
@@ -142,10 +139,8 @@ void setup() {
     // main setup
     setupMain();
     //
-    //
+    // Adding custom characters to LCD
     setupLcdChar();
-
-
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
@@ -155,8 +150,6 @@ void setup() {
     //
     // Set MID menu
     setupMenu();
-    // SerialDebugger.begin(9600);
-    // SerialDebugger.enable(NOTIFICATION);
 }
 
 void loop() {
@@ -170,14 +163,12 @@ void loop() {
     //
     // Handle navigation
     navigateMenu();
-    Serial.print(cursorMenu);
     //
     // Switch menu from cursor
     switch (cursorMenu) {
         //
         // Runs first menu
         case 1:
-
             readInnerTemp();
             displayEngRPM();
             displayCarKMH();

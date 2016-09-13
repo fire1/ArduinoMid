@@ -7,12 +7,12 @@
 #ifndef ARDUINOMID_RpmSens_H
 #define ARDUINOMID_RpmSens_H
 
-#define RpmSensDebug = true;
+const bool RpmSensDebug = 1;
 
 
 int rpmHitsCount = 0;
 int rpmCycles = 0;
-int rpmTimerStart = 0, rpmTimerEnds = 0;
+int long rpmTimerStart = 0, rpmTimerEnds = 0;
 int rpmTimeDif = 0;
 int rpmTimeHits = 0;
 
@@ -42,16 +42,17 @@ static int getRpmSens() {
         rpmTimeDif = millis() - rpmTimeHits;
         //
         // debug info
-//      #ifndef RpmSensDebug
-//          Serial.print("\n");
-//          Serial.print(" RPM diff:  \t");
-//          Serial.print(rpmTimeDif);
-//          Serial.print(" RPM is:  \t");
-//          Serial.print(rpmCycles * 200);
-//          Serial.print(" RPM count:  \t");
-//          Serial.print(rpmHitsCount);
-//          Serial.print("\n");
-//      #endif
+      if(RpmSensDebug)
+        {
+          Serial.print ("\n");
+          Serial.print (" RPM diff:  \t");
+          Serial.print (rpmTimeDif);
+          Serial.print (" RPM is:  \t");
+          Serial.print (rpmCycles * 200);
+          Serial.print (" RPM count:  \t");
+          Serial.print (rpmHitsCount);
+          Serial.print ("\n");
+        }
 
         //rpmTimeHits = 0;
         rpmHitsCount = 0;

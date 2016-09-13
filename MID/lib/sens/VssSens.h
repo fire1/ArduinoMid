@@ -21,11 +21,11 @@
 #ifndef ARDUINOMID_VssSens_H
 #define ARDUINOMID_VssSens_H
 
-const int VssSensDebug = 1;
+const bool VssSensDebug = 1;
 
 int vssHitsCount = 0;
 int vssCycles = 0;
-int vssTimerStart = 0, vssTimerEnds = 0;
+int long vssTimerStart = 0, vssTimerEnds = 0;
 int vssTimeDif = 0;
 int vssTimeHits = 0;
 
@@ -49,8 +49,7 @@ static int getVssSens() {
         vssTimeDif = millis() - vssTimeHits;
         //
         // debug info
-        if(VssSensDebug)
-          {
+        if(VssSensDebug){
             Serial.print ("\n");
             Serial.print (" vss diff:  \t");
             Serial.print (vssTimeDif);
@@ -59,7 +58,7 @@ static int getVssSens() {
             Serial.print (" vss count:  \t");
             Serial.print (vssHitsCount);
             Serial.print ("\n");
-          }
+        }
 
         //vssTimeHits = 0;
         vssHitsCount = 0;

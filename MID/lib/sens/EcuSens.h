@@ -6,9 +6,11 @@
 #define ARDUINOMID_EcuSens_H
 
 
+const bool EcuSensDebug = 1;
+
 int ecuHitsCount = 0;
 int ecuCycles = 0;
-int ecuTimerStart = 0, ecuTimerEnds = 0;
+int long ecuTimerStart = 0, ecuTimerEnds = 0;
 int ecuTimeDif = 0;
 int ecuTimeHits = 0;
 
@@ -23,7 +25,7 @@ void setupEcuSens(int pinTarget){
     pinMode(pinTarget, INPUT_PULLUP);
     //
     // Set as interrupt pin
-    attachInterrupt(digitalPinToInterrupt(pinTarget), catchecuHits, FALLING );
+    attachInterrupt(digitalPinToInterrupt(pinTarget), catchEcuHits, FALLING );
 }
 
 /**
@@ -31,6 +33,8 @@ void setupEcuSens(int pinTarget){
  */
 static int getEcuSens() {
 
+    //
+    //
     ecuTimerEnds = millis();
     if (ecuTimerEnds >= (ecuTimerStart + 150)) {
         ecuTimerStart = ecuTimerEnds;
@@ -38,23 +42,21 @@ static int getEcuSens() {
         ecuTimeDif = millis() - ecuTimeHits;
         //
         // debug info
-//      #ifndef ecuSensDebug
-//          Serial.print("\n");
-//          Serial.print(" ecu diff:  \t");
-//          Serial.print(ecuTimeDif);
-//          Serial.print(" ecu is:  \t");
-//          Serial.print(ecuCycles * 200);
-//          Serial.print(" ecu count:  \t");
-//          Serial.print(ecuHitsCount);
-//          Serial.print("\n");
-//      #endif
+        if (EcuSensDebug){
+            Serial.print ("\n");
+            Serial.print (" ecu diff:  \t");
+            Serial.print (ecuTimeDif);
+            Serial.print (" ecu is:  \t");
+            Serial.print (ecuCycles * 200);
+            Serial.print (" ecu count:  \t");
+            Serial.print (ecuHitsCount);
+            Serial.print ("\n");
+        }
 
         //ecuTimeHits = 0;
         ecuHitsCount = 0;
         }
-
     return ecuCycles * 200;
-
 }
 
 #endif //ARDUINOMID_EcuSens_H

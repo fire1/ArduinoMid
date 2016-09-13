@@ -126,8 +126,6 @@ int getSensorAmplitudeRead (int PinTarget, int TotalContainerState) {
     return TotalContainerState;
 }
 
-/**
-
 #endif //ARDUINOMID_UTILS_H
 
 

@@ -119,7 +119,7 @@ void displayCarECU() {
 
     //
     // Gets RPM
-    counterEcu = getDigitalEngineEcu();
+    counterEcu = getEcuSens();
 
     lcd.setCursor(8, 0);
     lcd.print("ECU:");

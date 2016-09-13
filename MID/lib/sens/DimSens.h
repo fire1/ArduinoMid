@@ -2,6 +2,7 @@
 // Created by Angel Zaprianov on 5.8.2016 г..
 //
 
+
 #ifndef ARDUINOMID_DimSens_H
 #define ARDUINOMID_DimSens_H
 
@@ -21,11 +22,11 @@ static void handleBackLight(void);
 /**
  * Setup pins of display dim
  */
-void setupBackLight(void) {
-    pinMode(DIM_PIN_VAL, INPUT);
-    pinMode(DIM_PIN_OUT, OUTPUT);
+void setupBackLight(int pinInputInstrumentValue, int pinOutputDisplayContrast) {
+    pinMode(pinInputInstrumentValue, INPUT);
+    pinMode(pinOutputDisplayContrast, OUTPUT);
 
-    analogWrite(DIM_PIN_OUT, backLightDefault);
+    analogWrite(pinOutputDisplayContrast, backLightDefault);
     handleBackLight();
 }
 
@@ -48,11 +49,6 @@ static void handleBackLight(void) {
     lastReadingsDim[indexReadValDim] = dimReadVal;
     totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
 
-    //
-    // Set backLight
-    // backLightLevel(analogRead) / 4 for analogWrite
-
-
 
 
     indexReadValDim = indexReadValDim + 1;
@@ -60,18 +56,6 @@ static void handleBackLight(void) {
     if (indexReadValDim >= numReadingsDim) {
         // ...wrap around to the beginning:
         indexReadValDim = 0;
-    }
-
-//    backLightDefault = totalReadingDim / indexReadValDim;
-
-
-    //
-    //
-
-
-
-    if (lastReadValueDim != backLightLevel) {
-//        Serial.println(backLightLevel);
     }
 
     if (backLightLevel < 15) {
