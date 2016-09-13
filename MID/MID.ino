@@ -154,6 +154,10 @@ void setup() {
 
 void loop() {
 
+
+  	sensRpm ();
+  	sensVss ();
+
     //
     //
     handleBackLight();

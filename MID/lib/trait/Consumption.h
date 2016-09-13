@@ -1,5 +1,5 @@
 //
-// Created by Admin on 7/24/2016.
+// Created by Angel Zaprianov on 27.6.2016 г..
 //
 
 #ifndef ARDUINOMID_CONSUMPTION_H
