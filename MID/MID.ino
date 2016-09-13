@@ -38,7 +38,7 @@ const int BTN_PIN_DW = 9;
 // Engine pins
 const int RPM_SNS_PIN = 2; // MID6 RPM [attachInterrupt]
 const int SPD_SNS_PIN = 3; // MID12 Speed sensor hub [attachInterrupt]
-const int ECU_SGN_PIN = 10; // ECU signal
+const int ECU_SGN_PIN = 19; // ECU signal
 //
 // Display dim pins
 const int DIM_PIN_VAL = A10; // MID7 input Dim of display
@@ -125,13 +125,13 @@ void setup() {
     Serial.begin(9600);
     //
     // Display back-light handler
-    setupBackLight (DIM_PIN_VAL, DIM_PIN_OUT);
-	//
+    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
+    //
     // Engine sensors pin mode input
-    setupRpmSens (RPM_SNS_PIN); // Engine RPM
-    setupVssSens (SPD_SNS_PIN);	// Vehicle Speed Sensor
-    setupEcuSens (ECU_SGN_PIN); // Signal from engine ECU
-	//
+    setupRpmSens(RPM_SNS_PIN); // Engine RPM
+    setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
+    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
+    //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
     lcd.clear();
@@ -155,9 +155,9 @@ void setup() {
 void loop() {
 
 
-  	sensRpm ();
-  	sensVss ();
-
+    sensRpm();
+    sensVss();
+    sensEcu();
     //
     //
     handleBackLight();
@@ -179,13 +179,25 @@ void loop() {
             displayCarECU();
             break;
         case 4:
+
         case 5:
+            if (isSensorReadAllow) {
+                lcd.setCursor(0, 0);
+                lcd.print("IN: Tests todo");
+            }
             break;
         case 2:
-
+            if (isSensorReadAllow) {
+                lcd.setCursor(0, 0);
+                lcd.print("IN: Trip todo");
+            }
             break;
 
         case 3:
+            if (isSensorReadAllow) {
+                lcd.setCursor(0, 0);
+                lcd.print("IN: Info status");
+            }
 
             break;
 

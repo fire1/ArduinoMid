@@ -47,13 +47,13 @@ void readInnerTemp() {
 
 }
 
-char rpmDisplay[4];
+
 
 /**
  * Display engine RPMs
  */
 void displayEngRPM() {
-
+    char rpmDisplay[4];
     //
     // Gets RPM
     int rpmSnsCount = getRpmSens();
@@ -85,12 +85,12 @@ void displayEngRPM() {
 
 }
 
-char vssDisplay[3];
+
 /**
  * Display engine KMh
  */
 void displayCarKMH() {
-
+    char vssDisplay[3];
     //
     // Gets KmH
     int vssSnsCount = getVssSens();
@@ -115,20 +115,25 @@ void displayCarKMH() {
  * Display engine KMh
  */
 void displayCarECU() {
-    int counterEcu = 0;
+    char ecuDisplay[2];
 
     //
     // Gets RPM
-    counterEcu = getEcuSens();
+    int counterEcu = getEcuSens();
 
     lcd.setCursor(8, 0);
     lcd.print("ECU:");
-    //
-    // Handle screen display
-    if (counterEcu < 10) {
-        lcd.print("  ");
+
+
+    if (isSensorReadAllow()) {
+        lcd.print("   ");
+        lcd.setCursor(8, 0);
+        lcd.print("ECU:");
     }
-    lcd.print(counterEcu);
+    //
+    // Handle ECU screen print
+    sprintf(ecuDisplay,"%02d", counterEcu);
+    lcd.print(ecuDisplay);
 }
 
 

@@ -78,7 +78,7 @@ static void menuChanged(MenuChangeEvent changed) {
     }
     else if (newMenuItem.getName() == "Trip") {
         printNavMenuB();
-
+        cursorMenu = 2;
     }
     else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");

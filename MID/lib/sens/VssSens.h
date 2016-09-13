@@ -6,7 +6,7 @@
 #define ARDUINOMID_VssSens_H
 //
 // Sensor configs
-const bool VssSensDebug = 1;
+const bool VssSensDebug = 0;
 const int VssCorrection = 1.6;
 //
 // Rpm Container
