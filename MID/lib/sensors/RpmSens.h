@@ -2,10 +2,12 @@
 // Created by Admin on 7/23/2016.
 //
 
-#define RpmSensDebug = true;
+
 
 #ifndef ARDUINOMID_RpmSens_H
 #define ARDUINOMID_RpmSens_H
+
+#define RpmSensDebug = true;
 
 
 int rpmHitsCount = 0;
@@ -61,22 +63,3 @@ static int getRpmSens() {
 
 #endif //ARDUINOMID_RpmSens_H
 
-//
-// OLD code
-//    rpmTimerEnds = millis();
-//    if (rpmTimerEnds >= (rpmTimerStart + 1000)) {
-//        rpmCycles = rpmHitsCount;
-//        rpmHitsCount = 0;
-//        rpmTimerStart = rpmTimerEnds;
-//    }
-//
-//
-//    if (digitalRead(RPM_SNS_PIN) == HIGH) {
-//        if (!TachometerCounted) {
-//            TachometerCounted = true;
-//            rpmHitsCount++;
-//
-//        }
-//    } else {
-//        TachometerCounted = false;
-//    }

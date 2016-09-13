@@ -2,71 +2,59 @@
 // Created by Angel Zaprianov on 25.7.2016 г..
 //
 
-#ifndef ARDUINOMID_READECU_H
-#define ARDUINOMID_READECU_H
-
-/*
-#include <SoftwareSerial.h>
-
-SoftwareSerial mySerial(10, 11); // RX, TX
-
-void setupECU() {
-/*  // Open serial communications and wait for port to open:
-  Serial.begin(57600);
-  while (!Serial) {
-      ; // wait for serial port to connect. Needed for native USB port only
-    }
+#ifndef ARDUINOMID_EcuSens_H
+#define ARDUINOMID_EcuSens_H
 
 
-//  Serial.println("Goodnight moon!");
+int ecuHitsCount = 0;
+int ecuCycles = 0;
+int ecuTimerStart = 0, ecuTimerEnds = 0;
+int ecuTimeDif = 0;
+int ecuTimeHits = 0;
 
-  // set the data rate for the SoftwareSerial port
-  mySerial.begin(4800);
-
+void catchEcuHits() {
+    ecuHitsCount++;
+    ecuTimeHits = millis();
 }
 
-void readEcu() { // run over and over
-//  if (mySerial.available()) {
-//      Serial.write(mySerial.read());
-//    }
-//  if (Serial.available()) {
-//      mySerial.write(Serial.read());
-//    }
+void setupEcuSens(int pinTarget){
+    //
+    // Pin mode ...
+    pinMode(pinTarget, INPUT_PULLUP);
+    //
+    // Set as interrupt pin
+    attachInterrupt(digitalPinToInterrupt(pinTarget), catchecuHits, FALLING );
 }
+
+/**
+ * Working version
  */
+static int getEcuSens() {
 
-unsigned int long EngineEcuTimerStart = 0, EngineEcuTimerEnds = 0;
-int EngineEcuRps = 0;
-bool EngineEcuCounted = false;
-unsigned int EngineEcuHits = 0;
+    ecuTimerEnds = millis();
+    if (ecuTimerEnds >= (ecuTimerStart + 150)) {
+        ecuTimerStart = ecuTimerEnds;
+        ecuCycles = ecuHitsCount;
+        ecuTimeDif = millis() - ecuTimeHits;
+        //
+        // debug info
+//      #ifndef ecuSensDebug
+//          Serial.print("\n");
+//          Serial.print(" ecu diff:  \t");
+//          Serial.print(ecuTimeDif);
+//          Serial.print(" ecu is:  \t");
+//          Serial.print(ecuCycles * 200);
+//          Serial.print(" ecu count:  \t");
+//          Serial.print(ecuHitsCount);
+//          Serial.print("\n");
+//      #endif
 
-static int getDigitalEngineEcu() {
-
-    EngineEcuTimerEnds = millis();
-    if (EngineEcuTimerEnds >= (EngineEcuTimerStart + 1000)) {
-        EngineEcuRps = EngineEcuHits;
-        EngineEcuHits = 0;
-        EngineEcuTimerStart = EngineEcuTimerEnds;
-    }
-
-
-    if (digitalRead(ECU_SGN_PIN) == HIGH) {
-
-
-        if (!EngineEcuCounted) {
-            EngineEcuCounted = true;
-            EngineEcuHits++;
+        //ecuTimeHits = 0;
+        ecuHitsCount = 0;
         }
-    } else {
-        EngineEcuCounted = false;
-    }
 
-//    return EngineEcuRps * 30;
+    return ecuCycles * 200;
 
-//  int long cmTravel =  microsecondsToCentimeters(EngineEcuRps);
-
-    return EngineEcuRps * 30;
 }
 
-
-#endif //ARDUINOMID_READECU_H
+#endif //ARDUINOMID_EcuSens_H

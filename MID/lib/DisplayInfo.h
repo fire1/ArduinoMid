@@ -68,17 +68,20 @@ void displayEngRPM() {
     }
     //
     // Handle screen display
-    int rpm1 = rpmSnsCount / 1000;
-    int rpm2 = rpmSnsCount / 100;
-    int rpm3 = rpm2 - (rpm1 * 10);
-    int rpm4 = (rpmSnsCount / 10) - (rpm2 * 10);
+//    int rpm1 = rpmSnsCount / 1000;
+//    int rpm2 = rpmSnsCount / 100;
+//    int rpm3 = rpm2 - (rpm1 * 10);
+//    int rpm4 = (rpmSnsCount / 10) - (rpm2 * 10);
+//
+//    rpmDisplay[0] = '0' + rpm1;
+//    rpmDisplay[1] = '0' + rpm3;
+//    rpmDisplay[2] = '0' + rpm4;
+//    rpmDisplay[3] = '0' + (rpmSnsCount % 10);
 
-    rpmDisplay[0] = '0' + rpm1;
-    rpmDisplay[1] = '0' + rpm3;
-    rpmDisplay[2] = '0' + rpm4;
-    rpmDisplay[3] = '0' + (rpmSnsCount % 10);
-
-    lcd.print(rpmDisplay);
+  //
+  // Handle RPM screen print
+  sprintf(rpmDisplay,"%04d", rpmSnsCount);
+  lcd.print(rpmDisplay);
 
 }
 
@@ -102,7 +105,7 @@ void displayCarKMH() {
     }
 
     //
-    // Handle screen display
+    // Handle VSS screen print
     sprintf(vssDisplay,"%03d", vssSnsCount);
     lcd.print(vssDisplay);
 

@@ -16,10 +16,12 @@
 
  */
 
-#define VssSensDebug = true;
+
 
 #ifndef ARDUINOMID_VssSens_H
 #define ARDUINOMID_VssSens_H
+
+const int VssSensDebug = 1;
 
 int vssHitsCount = 0;
 int vssCycles = 0;
@@ -47,35 +49,25 @@ static int getVssSens() {
         vssTimeDif = millis() - vssTimeHits;
         //
         // debug info
-//#ifndef VssSensDebug
-        Serial.print("\n");
-        Serial.print(" vss diff:  \t");
-        Serial.print(vssTimeDif);
-        Serial.print(" vss is:  \t");
-        Serial.print(vssCycles * 1.6);
-        Serial.print(" vss count:  \t");
-        Serial.print(vssHitsCount);
-        Serial.print("\n");
-//#endif
+        if(VssSensDebug)
+          {
+            Serial.print ("\n");
+            Serial.print (" vss diff:  \t");
+            Serial.print (vssTimeDif);
+            Serial.print (" vss is:  \t");
+            Serial.print (vssCycles * 1.6);
+            Serial.print (" vss count:  \t");
+            Serial.print (vssHitsCount);
+            Serial.print ("\n");
+          }
 
         //vssTimeHits = 0;
         vssHitsCount = 0;
     }
 
     int kmhSens = vssCycles * 1.6;
-//    if (kmhSens < 0) {
-//        return 0;
-//    }
 
     return kmhSens;
 }
-/*
-
-    int sdvfloat = float(vssTimeDiff);
-    //(1.750 / 32) * 10 = 0.546875  ,    3.6*0.546875  ,  (* 1.05 to increase accuaracy)  , accuarate for 165/70 R13 tyre dimensions
-    sdvfloat = ((1 / (sdvfloat / 1000000)) * 1.96875) * (sdvMax / 10) * 1.05;
-    int sdvvalue = int(sdvfloat);
-    return sdvvalue;
- */
 
 #endif //ARDUINOMID_VssSens_H
