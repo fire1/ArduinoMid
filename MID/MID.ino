@@ -36,8 +36,8 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 2; // MID6 RPM [attachInterrupt]
-const int SPD_SNS_PIN = 3; // MID12 Speed sensor hub [attachInterrupt]
+const int RPM_SNS_PIN = 2; 	// MID6 RPM [attachInterrupt]
+const int SPD_SNS_PIN = 3; 	// MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 19; // ECU signal
 //
 // Display dim pins
@@ -154,7 +154,8 @@ void setup() {
 
 void loop() {
 
-
+	//
+  	// Sense of sensors ;)
     sensRpm();
     sensVss();
     sensEcu();

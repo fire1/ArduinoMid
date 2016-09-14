@@ -31,7 +31,7 @@ int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 380;
+long debounceDelay = 350;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -68,7 +68,7 @@ static void menuChanged(MenuChangeEvent changed) {
     if (newMenuItem.getName() == "Main") {
         cursorMenu = 1;
         printNavMenuA();
-        isInSubMenu = 0;
+//        isInSubMenu = 0;
     }
     else if (newMenuItem.getName() == "Temp") {
 
@@ -114,7 +114,7 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
         lastDebounceTimeUp = millis();
     }
 
-    if ((millis() - lastDebounceTimeUp) > debounceDelay && !activeStateMenu) {
+    if (millis() > debounceDelay + lastDebounceTimeUp && !activeStateMenu) {
         buttonUpState = reading;
         lastDebounceTimeUp = millis();
     }
@@ -127,7 +127,7 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
         lastDebounceTimeDw = millis();
     }
 
-    if ((millis() - lastDebounceTimeDw) > debounceDelay && !activeStateMenu) {
+    if (millis()  > debounceDelay + lastDebounceTimeDw && !activeStateMenu) {
         buttonDwState = reading;
         lastDebounceTimeDw = millis();
     }
@@ -137,11 +137,11 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     // records which button has been pressed
     if (buttonUpState == HIGH) {
 
-        lastButtonPushed = buttonPinUp;
+        lastButtonPushed = HIGH;
     }
     else if (buttonDwState == HIGH) {
 
-        lastButtonPushed = buttonPinDw;
+        lastButtonPushed = HIGH;
     }
     else {
         lastButtonPushed = LOW;

@@ -7,21 +7,38 @@
 
 #include "lib/sens/RpmSens.h"
 
+const int ConsumptionCalibrationReadingsFuel = 10;
+const int ConsumptionCalibrationReadingsDistance = 9;
+
+
+//
+// common Air/Fuel Ratios:
+//
+//    Natural gas: 17.2
+//    Gasoline: 14.7
+//    Propane: 15.5
+//    Ethanol: 9
+//    Methanol: 6.4
+//    Hydrogen: 34
+//    Diesel: 14.6
+//
 //
 // 56 litres ÷ 800km = 0.07.
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
-static int getVolumetricEfficiency (rpm_var);
+static int getVolumetricEfficiency ();
 
-static int calcConsumption (void)
+static int getConsumption (void)
 {
   // dvk_var // Naliagane  kPa // давление впускного коллектора // Intake air
-  int rpmVar = getDigitalTachometerRpm ();
+  int rpmVar = getRpmSens ();
+
+
   int VolumetricEfficiency = getVolumetricEfficiency (rpmVar);
+//  int VolumetricEfficiency = getEcuSens();
 
   IMAP = double (rpmVar * dvk_var) / double (intake_air_temp_var + 273.15);
-  MAF = double (IMAP / 120.0) * double (double (VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644
-        / 8.314472;
+  MAF = double (IMAP / 120.0) * double (double (VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 / 8.314472;
 
   // fss_val // dyuzi // injections  1 OR 2
   if (fss_val == 2)
@@ -35,7 +52,10 @@ static int calcConsumption (void)
     }
 
 }
-
+/**
+ * @deprecated ECU signal gives this value
+ * volumetric efficiency measured in percent
+ */
 static int getVolumetricEfficiency (rpm_var)
 {
   int VE;   // VE -  volumetric efficiency measured in percent, let's say 80%
