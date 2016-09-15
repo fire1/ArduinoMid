@@ -55,10 +55,23 @@ void setupLcdChar()
       0b00000,
       0b00000
   };
+//
+// Menu gas marker
+  byte CHR_CONS[8] = {
+      0b01101,
+      0b10101,
+      0b11110,
+      0b10111,
+      0b11111,
+      0b11100,
+      0b11110,
+      0b00000
+  };
 
   lcd.createChar (0, CHR_SML);
   lcd.createChar (1, CHR_CLS);
   lcd.createChar (2, CHR_MNC1);
   lcd.createChar (3, CHR_MNC2);
+  lcd.createChar (4, CHR_CONS);
 }
 #endif //ARDUINOMID_LCDCHAR_H

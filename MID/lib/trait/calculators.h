@@ -17,4 +17,32 @@
 // 20
 
 
+float travelDistance = 0;
+/**
+ * Gets travel distance in meters
+ */
+int getTravelDistanceMeters () {
+
+  //
+  // Check reading reach maximum
+  if (isSensorReadLow ())
+	{
+	  travelDistance = travelDistance + ((getVssSens () * SNS_INTERVAL_TIME_LOW) / MILLIS_PER_HR);
+	}
+  
+}
+/**
+ * Get Distance Kilometers
+ */
+int getTravelDistanceKm () {
+  return int (travelDistance * millis ());
+}
+
+/**
+ * Get Distance Meters
+ */
+int getTravelDistanceMt () {
+  return int (travelDistance / 1000);
+}
+
 #endif //ARDUINOMID_CALCULATORS_H

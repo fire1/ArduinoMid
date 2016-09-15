@@ -12,7 +12,7 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 
 
 //
-// common Air/Fuel Ratios:
+// Common Air/Fuel Ratios:
 //
 //    Natural gas: 17.2
 //    Gasoline: 14.7
@@ -27,7 +27,9 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
 static int getVolumetricEfficiency ();
-
+/**
+ * gets Instant consumption
+ */
 static int getConsumption (void)
 {
   // dvk_var // Naliagane  kPa // давление впускного коллектора // Intake air

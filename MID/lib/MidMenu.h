@@ -21,9 +21,9 @@ MenuBackend menu = MenuBackend(menuUsed, menuChanged);
 
 //
 //
-int lastButtonPushed = LOW;
-int buttonLastDwSt = LOW;
-int buttonLastUpSt = LOW;
+int lastButtonPushed = HIGH;
+int buttonLastDwSt = HIGH;
+int buttonLastUpSt = HIGH;
 
 bool activeStateMenu = false;
 
@@ -103,8 +103,8 @@ static void menuChanged(MenuChangeEvent changed) {
  */
 void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     int reading;
-    int buttonDwState = LOW;             // the current reading from the input pin
-    int buttonUpState = LOW;             // the current reading from the input pin
+    int buttonDwState = HIGH;             // the current reading from the input pin
+    int buttonUpState = HIGH;             // the current reading from the input pin
 
     //  Up button
     //      read the state of the switch into a local variable:
@@ -135,15 +135,12 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     buttonLastDwSt = reading;
     //
     // records which button has been pressed
-    if (buttonUpState == HIGH) {
-
-        lastButtonPushed = HIGH;
+    if (buttonUpState == LOW) {
+        lastButtonPushed = LOW;
     }
-    else if (buttonDwState == HIGH) {
-
-        lastButtonPushed = HIGH;
-    }
-    else {
+    else if (buttonDwState == LOW) {
+        lastButtonPushed = LOW;
+    } else {
         lastButtonPushed = LOW;
     }
 }

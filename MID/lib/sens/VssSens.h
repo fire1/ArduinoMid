@@ -7,7 +7,7 @@
 //
 // Sensor configs
 const bool VssSensDebug = 0;
-const int VssCorrection = 1.6;
+const int VssCorrection = 1.609344; // One mile
 //
 // Rpm Container
 int CUR_VSS = 0;

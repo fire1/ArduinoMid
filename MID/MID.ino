@@ -36,8 +36,8 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 2; 	// MID6 RPM [attachInterrupt]
-const int SPD_SNS_PIN = 3; 	// MID12 Speed sensor hub [attachInterrupt]
+const int RPM_SNS_PIN = 2;    // MID6 RPM [attachInterrupt]
+const int SPD_SNS_PIN = 3;    // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 19; // ECU signal
 //
 // Display dim pins
@@ -77,8 +77,8 @@ LiquidCrystal lcd(15, 14, 34, 35, 36, 37);
 int cursorMenu = 0;
 //
 // Global interval
-const int SNS_INTERVAL_TIME = 2000;
-
+const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
+const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
 int showerCounter = 0;
 
 
@@ -106,7 +106,6 @@ int showerCounter = 0;
 //
 //
 #include "lib/sens/EcuSens.h"
-
 //
 // Read inside temperature
 #include "lib/DisplayInfo.h"
@@ -115,108 +114,105 @@ int showerCounter = 0;
 #include "lib/sens/DimSens.h"
 
 
+
 static void playWelcomeScreen();
 
 //
 // Setup the code...
 void setup() {
-    //
-    // Debug serial
-    Serial.begin(9600);
-    //
-    // Display back-light handler
-    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
-    //
-    // Engine sensors pin mode input
-    setupRpmSens(RPM_SNS_PIN); // Engine RPM
-    setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
-    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
-    //
-    // Initializes the interface to the LCD screen
-    lcd.begin(16, 2);
-    lcd.clear();
-    //
-    // main setup
-    setupMain();
-    //
-    // Adding custom characters to LCD
-    setupLcdChar();
-    //
-    // Define Alpine Pin
-    /*pinMode(alpinePin, OUTPUT);*/
-    //
-    // Show welcome from car
-    //playWelcomeScreen();
-    //
-    // Set MID menu
-    setupMenu();
+  //
+  // Debug serial
+  Serial.begin(9600);
+  //
+  // Display back-light handler
+  setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
+  //
+  // Engine sensors pin mode input
+  setupRpmSens(RPM_SNS_PIN); // Engine RPM
+  setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
+  setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
+  //
+  // Initializes the interface to the LCD screen
+  lcd.begin(16, 2);
+  lcd.clear();
+  //
+  // main setup
+  setupMain();
+  //
+  // Adding custom characters to LCD
+  setupLcdChar();
+  //
+  // Define Alpine Pin
+  /*pinMode(alpinePin, OUTPUT);*/
+  //
+  // Show welcome from car
+  //playWelcomeScreen();
+  //
+  // Set MID menu
+  setupMenu();
 }
 
 void loop() {
 
-	//
-  	// Sense of sensors ;)
-    sensRpm();
-    sensVss();
-    sensEcu();
-    //
-    //
-    handleBackLight();
-    //
-    //  Read main buttons
-    readButtons(BTN_PIN_UP, BTN_PIN_DW);
-    //
-    // Handle navigation
-    navigateMenu();
-    //
-    // Switch menu from cursor
-    switch (cursorMenu) {
-        //
-        // Runs first menu
-        case 1:
-            readInnerTemp();
-            displayEngRPM();
-            displayCarKMH();
-            displayCarECU();
-            break;
-        case 4:
+  //
+  // Sense of sensors ;)
+  sensRpm();
+  sensVss();
+  sensEcu();
+  //
+  //
+  handleBackLight();
+  //
+  //  Read main buttons
+  readButtons(BTN_PIN_UP, BTN_PIN_DW);
+  //
+  // Handle navigation
+  navigateMenu();
+  //
+  // Switch menu from cursor
+  switch(cursorMenu)
+	{
+	  //
+	  // Main / first menu
+	  case 1:
+		readInnerTemp();
+	  displayEngRPM();
+	  displayCarKMH();
+	  displayCarECU();
+	  break;
+	  case 4:
 
-        case 5:
-            if (isSensorReadAllow) {
-                lcd.setCursor(0, 0);
-                lcd.print("IN: Tests todo");
-            }
-            break;
-        case 2:
-            if (isSensorReadAllow) {
-                lcd.setCursor(0, 0);
-                lcd.print("IN: Trip todo");
-            }
-            break;
+	  case 5:
+		lcd.setCursor(0, 0);
+	  lcd.print("IN: Tests todo");
+	  break;
+	  //
+	  // Trip menu
+	  case 2:
+		displayDistance();
+	  displayConsumption();
+	  break;
 
-        case 3:
-            if (isSensorReadAllow) {
-                lcd.setCursor(0, 0);
-                lcd.print("IN: Info status");
-            }
+	  case 3:
+		lcd.setCursor(0, 0);
+	  lcd.print("IN: Info status");
+	  break;
 
-            break;
+	}
 
-    }
-
-    //delay(1); // if some issues appears
+  //delay(1); // if some issues appears
 
 }
 
 static void playWelcomeScreen() {
-    lcd.setCursor(0, 0);
-    lcd.print("Welcome to Astra");
-    delay(1000);
-    lcd.setCursor(0, 1);
-    lcd.print("Nice driving! ");
-    delay(500);
-    lcd.print((char) 0);
-    delay(1500);
+  lcd.setCursor(0, 0);
+  lcd.print("Welcome to Astra");
+  delay(1000);
+  lcd.setCursor(0, 1);
+  lcd.print("Nice driving! ");
+  delay(500);
+  lcd.print((char) 0);
+  delay(1500);
 }
 
 
