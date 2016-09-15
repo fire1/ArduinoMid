@@ -15,9 +15,9 @@
 
 //
 // Time information
-#define MILLIS_PER_HR    3600000UL // Hour
-#define MILLIS_PER_MN    60000L    // Minute
-#define MILLIS_PER_SC    1000UL    // Second
+#define MILLIS_PER_HR    3600000 // Hour
+#define MILLIS_PER_MN    60000    // Minute
+#define MILLIS_PER_SC    1000    // Second
 //
 //
 bool THROTTLE_UP = false; // Is open throttle  (acceleration)

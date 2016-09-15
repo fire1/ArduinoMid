@@ -5,6 +5,7 @@
 #ifndef ARDUINOMID_CALCULATORS_H
 #define ARDUINOMID_CALCULATORS_H
 
+const DistSensDebug = 1;
 //Distance = Speed × Duration
 //	d.      =   v.       ×         t
 //	v=72km/hr = 72km/(3600sec) = 0.02km/sec
@@ -16,33 +17,53 @@
 // 72 km/h = 72000 m/3600 sec = 20 m/sec
 // 20
 
-
-float travelDistance = 0;
+int long travelDistance = 0;
 /**
  * Gets travel distance in meters
  */
-int getTravelDistanceMeters () {
-
+int getTravelDistanceMeters() {
   //
   // Check reading reach maximum
-  if (isSensorReadLow ())
+  if(isSensorReadLow())
 	{
-	  travelDistance = travelDistance + ((getVssSens () * SNS_INTERVAL_TIME_LOW) / MILLIS_PER_HR);
+	  // getVssSens() * 1000 = meters
+	  travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW + millis())) / MILLIS_PER_HR);
 	}
-  
+
+  //
+  // debug info
+  if(DistSensDebug)
+	{
+	  Serial.print("\n");
+	  Serial.print(" Dist MT:  \t");
+	  Serial.print(travelDistance);
+	  Serial.print(" Dist KM:  \t");
+	  Serial.print(travelDistance / 1000);
+	  Serial.print("\n");
+	}
 }
 /**
  * Get Distance Kilometers
  */
-int getTravelDistanceKm () {
-  return int (travelDistance * millis ());
+int getTravelDistanceKm() {
+
+  if(travelDistance < 0)
+	{
+	  return 0;
+	}
+
+  return int(travelDistance / 1000);
 }
 
 /**
  * Get Distance Meters
  */
-int getTravelDistanceMt () {
-  return int (travelDistance / 1000);
+int getTravelDistanceMt() {
+  if(travelDistance < 0)
+	{
+	  return 0;
+	}
+  return int(travelDistance);
 }
 
 #endif //ARDUINOMID_CALCULATORS_H
