@@ -21,9 +21,9 @@ MenuBackend menu = MenuBackend(menuUsed, menuChanged);
 
 //
 //
-int lastButtonPushed = HIGH;
-int buttonLastDwSt = HIGH;
-int buttonLastUpSt = HIGH;
+int lastButtonPushed = LOW;
+int buttonLastDwSt = LOW;
+int buttonLastUpSt = LOW;
 
 bool activeStateMenu = false;
 
@@ -31,7 +31,7 @@ int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 350;
+long debounceDelay = 63;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -39,7 +39,7 @@ long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
 MenuItem menuItem1 = MenuItem("Main");
 MenuItem menuItem2 = MenuItem("Trip");
-MenuItem menuItem3 = MenuItem("Info");
+MenuItem menuItem3 = MenuItem("Fuel");
 
 MenuItem menuItemMain1 = MenuItem("Temp");
 MenuItem menuItemMain2 = MenuItem("Test");
@@ -68,7 +68,7 @@ static void menuChanged(MenuChangeEvent changed) {
     if (newMenuItem.getName() == "Main") {
         cursorMenu = 1;
         printNavMenuA();
-//        isInSubMenu = 0;
+        isInSubMenu = 0;
     }
     else if (newMenuItem.getName() == "Temp") {
 
@@ -89,7 +89,7 @@ static void menuChanged(MenuChangeEvent changed) {
     else if (newMenuItem.getName() == "Item2SubItem3") {
         lcd.print("Item2SubItem3   ");
     }
-    else if (newMenuItem.getName() == "Info") {
+    else if (newMenuItem.getName() == "Fuel") {
         printNavMenuC();
         cursorMenu = 3;
     }
@@ -103,31 +103,31 @@ static void menuChanged(MenuChangeEvent changed) {
  */
 void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     int reading;
-    int buttonDwState = HIGH;             // the current reading from the input pin
-    int buttonUpState = HIGH;             // the current reading from the input pin
+    int buttonDwState = LOW;             // the current reading from the input pin
+    int buttonUpState = LOW;             // the current reading from the input pin
 
     //  Up button
     //      read the state of the switch into a local variable:
-    reading = digitalRead(buttonPinUp);
+    reading = !digitalRead(buttonPinUp);
 
     if (reading != buttonLastUpSt) {
         lastDebounceTimeUp = millis();
     }
 
-    if (millis() > debounceDelay + lastDebounceTimeUp && !activeStateMenu) {
+    if ((millis() - lastDebounceTimeUp) > debounceDelay && !activeStateMenu) {
         buttonUpState = reading;
         lastDebounceTimeUp = millis();
     }
 
     buttonLastUpSt = reading;
 
-    reading = digitalRead(buttonPinDw);
+    reading = !digitalRead(buttonPinDw);
 
     if (reading != buttonLastDwSt) {
         lastDebounceTimeDw = millis();
     }
 
-    if (millis()  > debounceDelay + lastDebounceTimeDw && !activeStateMenu) {
+    if ((millis() - lastDebounceTimeDw) > debounceDelay && !activeStateMenu) {
         buttonDwState = reading;
         lastDebounceTimeDw = millis();
     }
@@ -135,12 +135,15 @@ void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
     buttonLastDwSt = reading;
     //
     // records which button has been pressed
-    if (buttonUpState == LOW) {
-        lastButtonPushed = LOW;
+    if (buttonUpState == HIGH) {
+
+        lastButtonPushed = buttonPinUp;
     }
-    else if (buttonDwState == LOW) {
-        lastButtonPushed = LOW;
-    } else {
+    else if (buttonDwState == HIGH) {
+
+        lastButtonPushed = buttonPinDw;
+    }
+    else {
         lastButtonPushed = LOW;
     }
 }

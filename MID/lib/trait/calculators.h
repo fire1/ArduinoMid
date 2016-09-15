@@ -5,7 +5,7 @@
 #ifndef ARDUINOMID_CALCULATORS_H
 #define ARDUINOMID_CALCULATORS_H
 
-const DistSensDebug = 1;
+const bool DistSensDebug = 1;
 //Distance = Speed × Duration
 //	d.      =   v.       ×         t
 //	v=72km/hr = 72km/(3600sec) = 0.02km/sec
@@ -18,52 +18,50 @@ const DistSensDebug = 1;
 // 20
 
 int long travelDistance = 0;
+
 /**
  * Gets travel distance in meters
  */
-int getTravelDistanceMeters() {
-  //
-  // Check reading reach maximum
-  if(isSensorReadLow())
-	{
-	  // getVssSens() * 1000 = meters
-	  travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW + millis())) / MILLIS_PER_HR);
-	}
+void getTravelDistanceMeters() {
+    //
+    // Check reading reach maximum
+    if (isSensorReadLow()) {
+        // getVssSens() * 1000 = meters
+        travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW * CUR_VTT)) / MILLIS_PER_HR);
+    }
 
-  //
-  // debug info
-  if(DistSensDebug)
-	{
-	  Serial.print("\n");
-	  Serial.print(" Dist MT:  \t");
-	  Serial.print(travelDistance);
-	  Serial.print(" Dist KM:  \t");
-	  Serial.print(travelDistance / 1000);
-	  Serial.print("\n");
-	}
+    //
+    // debug info
+    if (DistSensDebug) {
+        Serial.print("\n");
+        Serial.print(" Dist All:  \t");
+        Serial.print(travelDistance);
+        Serial.print(" Dist KM:  \t");
+        Serial.print(travelDistance / 100000);
+        Serial.print("\n");
+    }
 }
+
 /**
  * Get Distance Kilometers
  */
-int getTravelDistanceKm() {
+int getTravelDistance() {
 
-  if(travelDistance < 0)
-	{
-	  return 0;
-	}
+    if (travelDistance < 0) {
+        return 0;
+    }
 
-  return int(travelDistance / 1000);
+    return int(travelDistance / 100000);
 }
 
 /**
  * Get Distance Meters
  */
 int getTravelDistanceMt() {
-  if(travelDistance < 0)
-	{
-	  return 0;
-	}
-  return int(travelDistance);
+    if (travelDistance < 0) {
+        return 0;
+    }
+    return int(travelDistance);
 }
 
 #endif //ARDUINOMID_CALCULATORS_H

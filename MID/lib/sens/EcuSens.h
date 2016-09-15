@@ -6,7 +6,7 @@
 #define ARDUINOMID_EcuSens_H
 //
 // Sensor configs
-const bool EcuSensDebug = 1;
+const bool EcuSensDebug = 0;
 const int EcuCorrection = 1;
 //
 // Rpm Container

@@ -16,15 +16,15 @@
  * Display temperature sensor
  */
 void readInnerTemp() {
-  //
-  // Inner vars
-  int pinReadValue;
-  int temperatureC;
-  //
-  // Read pin value
-  pinReadValue = analogRead(sensorTempPin_1);
-  //
-  // Check is output time is allowed
+    //
+    // Inner vars
+    int pinReadValue;
+    int temperatureC;
+    //
+    // Read pin value
+    pinReadValue = analogRead(sensorTempPin_1);
+    //
+    // Check is output time is allowed
 //    if (isSensorReadMid()) {
 //
 //        //temperatureC = (pinReadValue * 100.0) / 1024.0;
@@ -52,24 +52,23 @@ void readInnerTemp() {
  * Display engine RPMs
  */
 void displayEngRPM() {
-  char rpmDisplay[4];
-  //
-  // Gets RPM
-  int rpmSnsCount = getRpmSens();
+    char rpmDisplay[4];
+    //
+    // Gets RPM
+    int rpmSnsCount = getRpmSens();
 
-  lcd.setCursor(0, 2);
-  lcd.print("RPM:");
+    lcd.setCursor(0, 2);
+    lcd.print("RPM:");
 
-  if(isSensorReadMid())
-	{
-	  lcd.print("      ");
-	  lcd.setCursor(0, 2);
-	  lcd.print("RPM:");
-	}
-  //
-  // Handle RPM screen print
-  sprintf(rpmDisplay, "%04d", rpmSnsCount);
-  lcd.print(rpmDisplay);
+    if (isSensorReadMid()) {
+        lcd.print("      ");
+        lcd.setCursor(0, 2);
+        lcd.print("RPM:");
+    }
+    //
+    // Handle RPM screen print
+    sprintf(rpmDisplay, "%04d", rpmSnsCount);
+    lcd.print(rpmDisplay);
 
 }
 
@@ -77,22 +76,21 @@ void displayEngRPM() {
  * Display engine KMh
  */
 void displayCarKMH() {
-  char vssDisplay[3];
+    char vssDisplay[3];
 
-  lcd.setCursor(0, 0);
-  lcd.print("KMh:");
+    lcd.setCursor(0, 0);
+    lcd.print("KMh:");
 
-  if(isSensorReadMid())
-	{
-	  lcd.print("    ");
-	  lcd.setCursor(0, 0);
-	  lcd.print("KMh:");
-	}
+    if (isSensorReadMid()) {
+        lcd.print("    ");
+        lcd.setCursor(0, 0);
+        lcd.print("KMh:");
+    }
 
-  //
-  // Handle VSS screen print
-  sprintf(vssDisplay, "%03d", getVssSens());
-  lcd.print(vssDisplay);
+    //
+    // Handle VSS screen print
+    sprintf(vssDisplay, "%03d", getVssSens());
+    lcd.print(vssDisplay);
 
 }
 
@@ -100,82 +98,83 @@ void displayCarKMH() {
  * Display engine KMh
  */
 void displayCarECU() {
-  char ecuDisplay[2];
+    char ecuDisplay[2];
 
-  lcd.setCursor(8, 0);
-  lcd.print("ECU:");
+    lcd.setCursor(8, 0);
+    lcd.print("ECU:");
 
-  if(isSensorReadMid())
-	{
-	  lcd.print("   ");
-	  lcd.setCursor(8, 0);
-	  lcd.print("ECU:");
-	}
-  //
-  // Handle ECU screen print
-  sprintf(ecuDisplay, "%02d", getEcuSens());
-  lcd.print(ecuDisplay);
+    if (isSensorReadMid()) {
+        lcd.print("   ");
+        lcd.setCursor(8, 0);
+        lcd.print("ECU:");
+    }
+    //
+    // Handle ECU screen print
+    sprintf(ecuDisplay, "%02d", getEcuSens());
+    lcd.print(ecuDisplay);
 }
+
 /****************************************************************
  *  Travel distance
  */
 void displayDistance() {
 
-  char TravelKm[3];
-  char TravelMt[1];
+    char TravelKm[5];
+    char TravelMt[1];
 
-  lcd.setCursor(2, 0);
-  lcd.print("Trv.Dist:");
+    lcd.setCursor(0, 0);
+    lcd.print("Trv.Distance:");
 
-  if(isSensorReadMid())
-	{
-	  lcd.print("     ");
-	  lcd.setCursor(2, 0);
-	  lcd.print("Trv.Dist:");
+    if (isSensorReadMid()) {
+        lcd.setCursor(3, 2);
+        lcd.print("     ");
+        lcd.setCursor(0, 0);
+        lcd.print("Trv.Distance:");
 
-	}
-  //
-  // Handle Distance screen
-  sprintf(TravelKm, "%03d", getTravelDistanceKm());
-  sprintf(TravelMt, "%01d", getTravelDistanceMt());
-  lcd.print(TravelKm);
-  lcd.print(".");
-  lcd.print(TravelMt);
+    }
+    //
+    // Handle Distance screen
+    sprintf(TravelKm, "%05d", getTravelDistance());
+
+    if (isSensorReadLow()) {
+        lcd.setCursor(3, 2);
+        lcd.print(TravelKm);
+    }
 }
+
 /****************************************************************
  * Consumptions
  */
 void displayConsumption() {
 
-  char LitersIns[2];
-  char LitersAvr[2];
+    char LitersIns[2];
+    char LitersAvr[2];
 
-  if(isSensorReadMid())
-	{
-	  lcd.setCursor(0, 0);
-	  lcd.print((char) 4);
-	  lcd.print(" Ins:");
-	  lcd.print("  ");
+    if (isSensorReadMid()) {
+        lcd.setCursor(0, 2);
+        lcd.print((char) 4);
+        lcd.print(" Ins:");
+        lcd.print("  ");
 
-	  lcd.setCursor(8, 0);
-	  lcd.print("Avr:");
-	  lcd.print("  ");
+        lcd.setCursor(8, 2);
+        lcd.print("Avr:");
+        lcd.print("  ");
 
-	}
-  sprintf(LitersIns, "%02d", 00);
-  sprintf(LitersAvr, "%02d", 00);
+    }
+    sprintf(LitersIns, "%02d", 00);
+    sprintf(LitersAvr, "%02d", 00);
 
-  //
-  // Handle Distance screen
+    //
+    // Handle Distance screen
 
-  lcd.setCursor(0, 0);
-  lcd.print((char) 4);
-  lcd.print(" Ins:");
-  lcd.print(LitersIns);
+    lcd.setCursor(0, 2);
+    lcd.print((char) 4);
+    lcd.print(" Ins:");
+    lcd.print(LitersIns);
 
-  lcd.setCursor(8, 0);
-  lcd.print("Avr:");
-  lcd.print(LitersAvr);
+    lcd.setCursor(8, 2);
+    lcd.print("Avr:");
+    lcd.print(LitersAvr);
 }
 
 #endif //ARDUINOMID_READINNTERTEMP_H
