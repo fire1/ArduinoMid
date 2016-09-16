@@ -23,23 +23,25 @@ int long travelDistance = 0;
  * Gets travel distance in meters
  */
 void getTravelDistanceMeters() {
-    //
-    // Check reading reach maximum
-    if (isSensorReadLow()) {
-        // getVssSens() * 1000 = meters
-        travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW * CUR_VTT)) / MILLIS_PER_HR);
-    }
+  //
+  // Check reading reach maximum
+  if(isSensorReadLow())
+	{
+	  // getVssSens() * 1000 = meters
+	  travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW * CUR_VTT)) / MILLIS_PER_HR);
+	}
 
-    //
-    // debug info
-    if (DistSensDebug) {
-        Serial.print("\n");
-        Serial.print(" Dist All:  \t");
-        Serial.print(travelDistance);
-        Serial.print(" Dist KM:  \t");
-        Serial.print(travelDistance / 100000);
-        Serial.print("\n");
-    }
+  //
+  // debug info
+  if(DistSensDebug)
+	{
+	  Serial.print("\n");
+	  Serial.print(" Dist All:  \t");
+	  Serial.print(travelDistance);
+	  Serial.print(" Dist KM:  \t");
+	  Serial.print(travelDistance / 100000);
+	  Serial.print("\n");
+	}
 }
 
 /**
@@ -47,21 +49,27 @@ void getTravelDistanceMeters() {
  */
 int getTravelDistance() {
 
-    if (travelDistance < 0) {
-        return 0;
-    }
+  if(travelDistance < 0)
+	{
+	  return 0;
+	}
 
-    return int(travelDistance / 100000);
+  return int(travelDistance / 100000);
 }
 
 /**
  * Get Distance Meters
  */
 int getTravelDistanceMt() {
-    if (travelDistance < 0) {
-        return 0;
-    }
-    return int(travelDistance);
+  if(travelDistance < 0)
+	{
+	  return 0;
+	}
+  return int(travelDistance);
+}
+
+int getTravelTime() {
+  return CUR_VTT;
 }
 
 #endif //ARDUINOMID_CALCULATORS_H

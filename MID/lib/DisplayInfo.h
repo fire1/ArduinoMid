@@ -118,27 +118,29 @@ void displayCarECU() {
  *  Travel distance
  */
 void displayDistance() {
-
-    char TravelKm[5];
-    char TravelMt[1];
-
-    lcd.setCursor(0, 0);
-    lcd.print("Trv.Distance:");
-
-    if (isSensorReadMid()) {
-        lcd.setCursor(3, 2);
-        lcd.print("     ");
-        lcd.setCursor(0, 0);
-        lcd.print("Trv.Distance:");
-
-    }
     //
     // Handle Distance screen
-    sprintf(TravelKm, "%05d", getTravelDistance());
+	  int tmpDistance = getTravelDistance();
+	  int tmpTime = getTravelTime() / 1000;
+
+	  int a = tmpDistance / 10;
+	  int b = tmpDistance % 10;
+
+	  String printDistance = String(a + "." + b);
 
     if (isSensorReadLow()) {
-        lcd.setCursor(3, 2);
-        lcd.print(TravelKm);
+		//
+		// Display travel distance
+		lcd.setCursor(0, 0);
+		lcd.print("Dist:");
+		lcd.setCursor(6, 0);
+        lcd.print(printDistance);
+		//
+		// Display travel time
+		lcd.setCursor(0, 2);
+		lcd.print("Time:");
+		lcd.setCursor(6, 2);
+		lcd.print(tmpTime);
     }
 }
 
