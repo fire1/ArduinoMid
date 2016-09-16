@@ -1,6 +1,9 @@
 # ArduinoMid
 Vauxhall/Opel Astra G MID display replacement with ArduinoMid
 
+## Version 
+    Code is  in development...
+
 ## ArduinoMid supported features
 
     Engine RPMs
@@ -9,9 +12,9 @@ Vauxhall/Opel Astra G MID display replacement with ArduinoMid
     * and more ... [todo]
 
 ## Note:
-    _This project is for gray(32 pin) MID plug_
-    _In this project is used Mega2560 RV3 board_
-    _Supports Sony Alphine controller_
+    This project is for gray(32 pin) MID plug
+    In this project is used Mega2560 RV3 board
+    Supports Sony Alphine controller
 
 
 
