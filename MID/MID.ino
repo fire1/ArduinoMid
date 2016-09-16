@@ -95,24 +95,9 @@ int showerCounter = 0;
 //
 // Adding Alphine emulator
 #include "lib/EmlAlpine.h"
-
-
 //
-// Read Tachometer
-#include "lib/sens/RpmSens.h"
-//
-// Read SpeedHub
-#include "lib/sens/VssSens.h"
-//
-//
-#include "lib/sens/EcuSens.h"
-//
-// Read inside temperature
-#include "lib/DisplayInfo.h"
-//
-// Screen backlight sensor
-#include "lib/sens/DimSens.h"
-
+// Adding sensors
+#include "lib/SensInit.h"
 
 static void playWelcomeScreen();
 
@@ -152,15 +137,9 @@ void setup() {
 }
 
 void loop() {
-
-    //
-    // Sense of sensors ;)
-    sensRpm();
-    sensVss();
-    sensEcu();
-    //
-    //
-    handleBackLight();
+	//
+	// Sensors
+	sensorsInit();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
@@ -182,11 +161,10 @@ void loop() {
         case 4:
 
         case 5:
-            lcd.setCursor(0, 0);
-            lcd.print("IN: Tests todo");
+	    displayAverage();
             break;
             //
-            // Trip menu
+            // Travel menu
         case 2:
             displayDistance();
             break;
@@ -195,11 +173,10 @@ void loop() {
             break;
 
     }
-
-    //delay(1); // if some issues appears
-
 }
-
+/**
+ * Welcome screen ...
+ */
 static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
     lcd.print("Welcome to Astra");

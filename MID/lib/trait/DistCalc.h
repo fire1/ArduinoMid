@@ -6,6 +6,9 @@
 #define ARDUINOMID_CALCULATORS_H
 
 const bool DistSensDebug = 1;
+const int long correctionDistance = 100000;
+const int correctionDistanceTime = 1;
+
 //Distance = Speed × Duration
 //	d.      =   v.       ×         t
 //	v=72km/hr = 72km/(3600sec) = 0.02km/sec
@@ -28,7 +31,8 @@ void getTravelDistanceMeters() {
   if(isSensorReadLow())
 	{
 	  // getVssSens() * 1000 = meters
-	  travelDistance = travelDistance + ((getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW * CUR_VTT)) / MILLIS_PER_HR);
+	  travelDistance =
+		  travelDistance + int(double(getVssSens() * 1000 * (SNS_INTERVAL_TIME_LOW * CUR_VTT)) / MILLIS_PER_HR);
 	}
 
   //
@@ -39,7 +43,7 @@ void getTravelDistanceMeters() {
 	  Serial.print(" Dist All:  \t");
 	  Serial.print(travelDistance);
 	  Serial.print(" Dist KM:  \t");
-	  Serial.print(travelDistance / 100000);
+	  Serial.print(int(travelDistance / correctionDistance));
 	  Serial.print("\n");
 	}
 }
@@ -54,7 +58,7 @@ int getTravelDistance() {
 	  return 0;
 	}
 
-  return int(travelDistance / 100000);
+  return int(travelDistance / correctionDistance);
 }
 
 /**
@@ -68,8 +72,11 @@ int getTravelDistanceMt() {
   return int(travelDistance);
 }
 
+/**
+ * Gets total travel time
+ */
 int getTravelTime() {
-  return CUR_VTT;
+  return int(CUR_VTT / CUR_VSS) / correctionDistanceTime;
 }
 
 #endif //ARDUINOMID_CALCULATORS_H

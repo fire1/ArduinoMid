@@ -7,7 +7,7 @@
 //
 // Sensor configs
 const bool VssSensDebug = 0;
-const int VssCorrection = 1.609344; // One mile
+const int VssCorrection = 16900; // One mile * 10 000
 //
 // Rpm Container
 int CUR_VSS = 0;
@@ -53,7 +53,7 @@ void sensVss() {
         vssTimerStart = vssTimerEnds;
         //
         // Pass vss to global
-        CUR_VSS = vssHitsCount * VssCorrection;
+        CUR_VSS = int(vssHitsCount * VssCorrection) / 10000;
         //
         // debug info
         if (VssSensDebug) {

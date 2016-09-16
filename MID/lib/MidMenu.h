@@ -73,7 +73,7 @@ static void menuChanged(MenuChangeEvent changed) {
     else if (newMenuItem.getName() == "Temp") {
 
     }
-    else if (newMenuItem.getName() == "Tests") {
+    else if (newMenuItem.getName() == "Average") {
         cursorMenu = 5;
     }
     else if (newMenuItem.getName() == "Trip") {
@@ -233,7 +233,7 @@ static void menuUsed(MenuUseEvent used) {
     //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
     delay(250);
-    lcd.print(" Screen");
+    lcd.print(" Menu");
     delay(800);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();

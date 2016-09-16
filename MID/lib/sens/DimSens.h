@@ -15,7 +15,7 @@ int backLightDefault = 16;       // value to dim display when car lights are off
 int isGaugesActive = LOW;         // is car lights on
 int unsigned backLightLevel = 0;  // resolved display dim
 
-
+const int dimCorrection = 15;
 
 static void handleBackLight(void);
 
@@ -64,7 +64,7 @@ static void handleBackLight(void) {
 
     if (lastReadValueDim != backLightLevel && backLightLevel > 0) {
         lastReadValueDim = backLightLevel;
-        analogWrite(DIM_PIN_OUT, backLightLevel);
+        analogWrite(DIM_PIN_OUT, backLightLevel - dimCorrection);
     }
 }
 

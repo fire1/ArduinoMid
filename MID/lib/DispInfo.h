@@ -9,7 +9,9 @@
 #include <LiquidCrystal.h>
 //
 // add Calculators
-#include "trait/calculators.h"
+#include "trait/DistCalc.h"
+#include "trait/ConsCalc.h"
+#include "trait/AvrgCalc.h"
 //
 //
 /****************************************************************
@@ -177,6 +179,24 @@ void displayConsumption() {
     lcd.setCursor(8, 2);
     lcd.print("Avr:");
     lcd.print(LitersAvr);
+}
+/****************************************************************
+ * Average
+ */
+void displayAverage(){
+
+  String averageSpeed = String(getAverageVss() + "kmh");
+  String averageEngine = String(getAverageRpm() + "rpm");
+
+  if (isSensorReadLow()) {
+      lcd.setCursor(0, 0);
+      lcd.print(" SPD:");
+      lcd.print(averageSpeed);
+
+      lcd.setCursor(0, 2);
+      lcd.print(" RPM");
+      lcd.print(averageEngine);
+    }
 }
 
 #endif //ARDUINOMID_READINNTERTEMP_H
