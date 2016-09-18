@@ -14,20 +14,22 @@ Average<int> AveVss(numReadingsAverageVss);
 Average<int> AveRpm(numReadingsAverageRpm);
 
 void sensAvr(void) {
-  AveVss.push(getVssSens());
-  AveRpm.push(getRpmSens());
+    AveVss.push(getVssSens());
+    AveRpm.push(getRpmSens());
 }
 
 /**
  * Gets Average speed
  */
 int getAverageVss() {
-  return AveVss.mean();
+    return AveVss.mean();
 }
+
 /**
  * Gets Average Rpm
  */
 int getAverageRpm() {
-  return AveRpm.mean();
+    return AveRpm.mean();
 }
+
 #endif //ARDUINOMID_AVRGCALC_H

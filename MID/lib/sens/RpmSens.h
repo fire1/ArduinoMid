@@ -8,7 +8,7 @@
 //
 // Sensor configs
 const bool RpmSensDebug = 0;
-const int RpmCorrection = 200;
+const int RpmCorrection = 50;
 
 //
 // Rpm Container
@@ -24,19 +24,19 @@ int long rpmTimerStart = 0, rpmTimerEnds = 0;
  * Callback attachInterrupt
  */
 void catchRpmHits () {
-  rpmHitsCount++;
+//  rpmHitsCount++;
 }
 
-/**
+/** deprecated
  * Setup Rpm
  */
 void setupRpmSens (int pinTarget) {
   //
   // Pin mode ...
-  pinMode (pinTarget, INPUT_PULLUP);
+//  pinMode (pinTarget, INPUT_PULLUP);
   //
   // Convert to interrupt pin
-  attachInterrupt (digitalPinToInterrupt (pinTarget), catchRpmHits, FALLING);
+//  attachInterrupt (digitalPinToInterrupt (pinTarget), catchRpmHits, FALLING);
 }
 
 /**
@@ -52,7 +52,7 @@ int getRpmSens () {
  */
 void sensRpm () {
   rpmTimerEnds = millis ();
-  if (rpmTimerEnds >= (rpmTimerStart + 150))
+  if (rpmTimerEnds >= (rpmTimerStart + 600))
 	{
 	  //
 	  // Handle cycles
@@ -69,7 +69,7 @@ void sensRpm () {
 		  Serial.print (" RPM count:  \t");
 		  Serial.print (rpmHitsCount);
 		  Serial.print (" RPM is:  \t");
-		  Serial.print (rpmHitsCount * 200);
+		  Serial.print (rpmHitsCount * 450);
 		  Serial.print ("\n");
 		}
 	  //

@@ -36,7 +36,7 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 2;    // MID6 RPM [attachInterrupt]
+const int RPM_SNS_PIN = 10;    // MID6 RPM [attachInterrupt]
 const int SPD_SNS_PIN = 3;    // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 19; // ECU signal
 //
@@ -44,8 +44,9 @@ const int ECU_SGN_PIN = 19; // ECU signal
 const int DIM_PIN_VAL = A10; // MID7 input Dim of display
 const int DIM_PIN_OUT = 46; // output dim of display
 //
-//
-const int sensorTempPin_1 = A0;
+// Temperatures
+const int TMP_PIN_OUT = A9;
+
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -63,14 +64,14 @@ const int sensorTempPin_1 = A0;
 #include <LiquidCrystal.h>
 
 
-
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 /* Todo
 #include <Wire.h>
 */
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(15, 14, 34, 35, 36, 37);
+LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
 //
 // Menu cursor
@@ -114,7 +115,7 @@ void setup() {
     // Engine sensors pin mode input
     setupRpmSens(RPM_SNS_PIN); // Engine RPM
     setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
-    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
+    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU  
     //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
@@ -134,12 +135,65 @@ void setup() {
     //
     // Set MID menu
     setupMenu();
+
+
+
+    /* First disable the timer overflow interrupt while we're configuring */
+    TIMSK2 &= ~(1 << TOIE2);
+
+    /* Configure timer2 in normal mode (pure counting, no PWM etc.) */
+    TCCR2A &= ~((1 << WGM21) | (1 << WGM20));
+    TCCR2B &= ~(1 << WGM22);
+
+    /* Select clock source: internal I/O clock */
+    ASSR &= ~(1 << AS2);
+
+    /* Disable Compare Match A interrupt enable (only want overflow) */
+    TIMSK2 &= ~(1 << OCIE2A);
+
+    /* Now configure the prescaler to CPU clock divided by 128 */
+    TCCR2B |= (1 << CS22) | (1 << CS20); // Set bits
+    TCCR2B &= ~(1 << CS21);             // Clear bit
+
+    /* We need to calculate a proper value to load the timer counter.
+     * The following loads the value 131 into the Timer 2 counter register
+     * The math behind this is:
+     * (CPU frequency) / (prescaler value) = 125000 Hz = 8us.
+     * (desired period) / 8us = 125.
+     * MAX(uint8) + 1 - 125 = 131;
+     */
+    /* Save value globally for later reload in ISR */
+    //tcnt2 = 131;
+
+    /* Finally load end enable the timer */
+    //TCNT2 = tcnt2;
+    TCNT2 = 0;
+    TIMSK2 |= (1 << TOIE2);
+
+  // set timer 2 prescale factor to 64
+  sbi(TCCR2B, CS22);
+  // configure timer 2 for phase correct pwm (8-bit)
+  sbi(TCCR2A, WGM20);
+}
+
+int LastRpm = LOW;
+/* timer 2 (controls pin 10, 9)
+ * Install the Interrupt Service Routine (ISR) for Timer2 overflow.
+ * This is normally done by writing the address of the ISR in the
+ * interrupt vector table but conveniently done by using ISR()  */
+ISR(TIMER2_OVF_vect) {
+   int current =  digitalRead(RPM_SNS_PIN);
+   if(current == HIGH && LastRpm == LOW)
+     rpmHitsCount++;
+  
+
+   LastRpm=current;
 }
 
 void loop() {
-	//
-	// Sensors
-	sensorsInit();
+    //
+    // Sensors
+    sensorsInit();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
@@ -153,15 +207,15 @@ void loop() {
         //
         // Main / first menu
         case 1:
-            readInnerTemp();
+            displayOutTmp();
             displayEngRPM();
             displayCarKMH();
             displayCarECU();
             break;
-        case 4:
-
         case 5:
-	    displayAverage();
+
+        case 4:
+            displayAverage();
             break;
             //
             // Travel menu
@@ -174,6 +228,7 @@ void loop() {
 
     }
 }
+
 /**
  * Welcome screen ...
  */

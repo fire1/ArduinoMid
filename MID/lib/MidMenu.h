@@ -8,13 +8,10 @@ static void menuUsed(MenuUseEvent used);
 static void menuChanged(MenuChangeEvent changed);
 
 void printNavMenuA();
-
 void printNavMenuB();
-
 void printNavMenuC();
-
 void navigateMenus();
-
+void printNavMenuD();
 //
 //
 MenuBackend menu = MenuBackend(menuUsed, menuChanged);
@@ -40,13 +37,14 @@ long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 MenuItem menuItem1 = MenuItem("Main");
 MenuItem menuItem2 = MenuItem("Trip");
 MenuItem menuItem3 = MenuItem("Fuel");
+MenuItem menuItem4 = MenuItem("Average");
 
 MenuItem menuItemMain1 = MenuItem("Temp");
 MenuItem menuItemMain2 = MenuItem("Test");
 
 static void setupMenu() {
-    menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3);
-    menuItem3.add(menuItem1); // Create Loop menu
+    menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
+    menuItem4.add(menuItem1); // Create Loop menu
 
     menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
     menuItemMain2.addRight(menuItemMain1); // loop
@@ -74,7 +72,9 @@ static void menuChanged(MenuChangeEvent changed) {
 
     }
     else if (newMenuItem.getName() == "Average") {
-        cursorMenu = 5;
+        printNavMenuD();
+        cursorMenu = 4;
+        isInSubMenu = 0;
     }
     else if (newMenuItem.getName() == "Trip") {
         printNavMenuB();
@@ -200,8 +200,9 @@ void navigateMenu() {
 }
 
 void printNavMenuA() {
-    lcd.setCursor(13, 2);
+    lcd.setCursor(12, 2);
     lcd.print((char) 3);
+    lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.setCursor(0, 0);
@@ -209,7 +210,18 @@ void printNavMenuA() {
 }
 
 void printNavMenuB() {
-    lcd.setCursor(13, 2);
+    lcd.setCursor(12, 2);
+    lcd.print((char) 2);
+    lcd.print((char) 3);
+    lcd.print((char) 2);
+    lcd.print((char) 2);
+    lcd.setCursor(0, 0);
+
+}
+
+void printNavMenuC() {
+    lcd.setCursor(12, 2);
+    lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.print((char) 3);
     lcd.print((char) 2);
@@ -217,8 +229,9 @@ void printNavMenuB() {
 
 }
 
-void printNavMenuC() {
-    lcd.setCursor(13, 2);
+void printNavMenuD() {
+    lcd.setCursor(12, 2);
+    lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.print((char) 2);
     lcd.print((char) 3);

@@ -12,41 +12,26 @@
 #include "trait/DistCalc.h"
 #include "trait/ConsCalc.h"
 #include "trait/AvrgCalc.h"
+
 //
 //
 /****************************************************************
  * Display temperature sensor
  */
-void readInnerTemp() {
+void displayOutTmp() {
     //
     // Inner vars
-    int pinReadValue;
-    int temperatureC;
+    char tmpDisplay[3];
+    int sens = getTmpOut();
     //
     // Read pin value
-    pinReadValue = analogRead(sensorTempPin_1);
-    //
-    // Check is output time is allowed
-//    if (isSensorReadMid()) {
-//
-//        //temperatureC = (pinReadValue * 100.0) / 1024.0;
-//        //temperatureC =  (200*pin_value)>>8;
-//        temperatureC = (225 * pinReadValue) >> 8;
-//        // converting that reading to voltage, for 3.3v arduino use 3.3
-//        int voltage = pinReadValue * 5.0;
-//        //voltage /= 1024.0;
-//
-//        // now print out the temperature
-//        // int temperatureC = (voltage - 0.5) * 100 ;
-//
-//        lcd.setCursor(8, 1);
-//        if (temperatureC > 0) {
-//            lcd.print("  ");
-//
-//        }
-//        lcd.print(temperatureC);
-//        lcd.print((char) 1);
-//    }
+    if (isSensorReadMid()) {
+
+        lcd.setCursor(10, 2);
+        sprintf(tmpDisplay, "%3d", sens);
+        lcd.print(tmpDisplay);
+        lcd.print((char) 1);
+    }
 
 }
 
@@ -102,12 +87,12 @@ void displayCarKMH() {
 void displayCarECU() {
     char ecuDisplay[2];
 
-    lcd.setCursor(8, 0);
+    lcd.setCursor(10, 0);
     lcd.print("ECU:");
 
     if (isSensorReadMid()) {
         lcd.print("   ");
-        lcd.setCursor(8, 0);
+        lcd.setCursor(10, 0);
         lcd.print("ECU:");
     }
     //
@@ -122,27 +107,27 @@ void displayCarECU() {
 void displayDistance() {
     //
     // Handle Distance screen
-	  int tmpDistance = getTravelDistance();
-	  int tmpTime = getTravelTime() / 1000;
+    int tmpDistance = getTravelDistance();
+    int tmpTime = getTravelTime();// 100
 
-	  int a = tmpDistance / 10;
-	  int b = tmpDistance % 10;
-
-	  String printDistance = String(a + "." + b);
+    int a = tmpDistance;
+    int b = tmpDistance % 10;
 
     if (isSensorReadLow()) {
-		//
-		// Display travel distance
-		lcd.setCursor(0, 0);
-		lcd.print("Dist:");
-		lcd.setCursor(6, 0);
-        lcd.print(printDistance);
-		//
-		// Display travel time
-		lcd.setCursor(0, 2);
-		lcd.print("Time:");
-		lcd.setCursor(6, 2);
-		lcd.print(tmpTime);
+        //
+        // Display travel distance
+        lcd.setCursor(0, 0);
+        lcd.print("Dist:");
+        lcd.setCursor(6, 0);
+        lcd.print(tmpDistance);
+//        lcd.print(".");
+//        lcd.print(b);
+        //
+        // Display travel time
+        lcd.setCursor(0, 2);
+        lcd.print("Time:");
+        lcd.setCursor(6, 2);
+        lcd.print(tmpTime);
     }
 }
 
@@ -155,13 +140,16 @@ void displayConsumption() {
     char LitersAvr[2];
 
     if (isSensorReadMid()) {
+
+        lcd.setCursor(0, 0);
+        lcd.print(" Consumption");
         lcd.setCursor(0, 2);
-        lcd.print((char) 4);
+
         lcd.print(" Ins:");
         lcd.print("  ");
 
         lcd.setCursor(8, 2);
-        lcd.print("Avr:");
+        lcd.print(" Avr:");
         lcd.print("  ");
 
     }
@@ -172,30 +160,31 @@ void displayConsumption() {
     // Handle Distance screen
 
     lcd.setCursor(0, 2);
-    lcd.print((char) 4);
+
     lcd.print(" Ins:");
     lcd.print(LitersIns);
 
     lcd.setCursor(8, 2);
-    lcd.print("Avr:");
+    lcd.print(" Avr:");
     lcd.print(LitersAvr);
 }
+
 /****************************************************************
  * Average
  */
-void displayAverage(){
+void displayAverage() {
 
-  String averageSpeed = String(getAverageVss() + "kmh");
-  String averageEngine = String(getAverageRpm() + "rpm");
 
-  if (isSensorReadLow()) {
-      lcd.setCursor(0, 0);
-      lcd.print(" SPD:");
-      lcd.print(averageSpeed);
+    if (isSensorReadLow()) {
+        lcd.setCursor(0, 0);
+        lcd.print(" SPD:");
+        lcd.print(getAverageVss());
+        lcd.print("kmh");
 
-      lcd.setCursor(0, 2);
-      lcd.print(" RPM");
-      lcd.print(averageEngine);
+        lcd.setCursor(0, 2);
+        lcd.print(" RPM:");
+        lcd.print(getAverageRpm());
+        lcd.print("rpm");
     }
 }
 

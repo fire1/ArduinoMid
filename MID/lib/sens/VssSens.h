@@ -6,8 +6,8 @@
 #define ARDUINOMID_VssSens_H
 //
 // Sensor configs
-const bool VssSensDebug = 0;
-const int VssCorrection = 16900; // One mile * 10 000
+const bool VssSensDebug = 1;
+const int VssCorrection = 1.7; // One mile * 10 000
 //
 // Rpm Container
 int CUR_VSS = 0;
@@ -47,13 +47,13 @@ int getVssSens() {
 void sensVss() {
 
     vssTimerEnds = millis();
-    if (vssTimerEnds >= (vssTimerStart + 150)) {
+    if (vssTimerEnds >= (vssTimerStart + 250)) {
         //
         // Handle cycles
         vssTimerStart = vssTimerEnds;
         //
         // Pass vss to global
-        CUR_VSS = int(vssHitsCount * VssCorrection) / 10000;
+        CUR_VSS = int(vssHitsCount * VssCorrection);
         //
         // debug info
         if (VssSensDebug) {
@@ -66,7 +66,7 @@ void sensVss() {
         }
 
         if (CUR_VSS > 0)
-            CUR_VTT++;
+            CUR_VTT = 500 + CUR_VTT;
 
         vssHitsCount = 0;
     }
