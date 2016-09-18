@@ -25,20 +25,19 @@
 //
 // Read inside temperature
 #include "DispInfo.h"
+void handleBackLight(){
 
+}
 
 void sensorsInit() {
     //
     // Sense of sensors ;)
-
     sensRpm();
     sensVss();
     sensEcu();
     sensAvr();
     sensTmp();
-    //
-    // Dim display
-    handleBackLight();
+    sensDim(); // Dim display
 }
 
 #endif //ARDUINOMID_SENSINIT_H

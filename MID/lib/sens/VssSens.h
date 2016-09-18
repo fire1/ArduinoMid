@@ -4,10 +4,14 @@
 
 #ifndef ARDUINOMID_VssSens_H
 #define ARDUINOMID_VssSens_H
+
+#include <USBAPI.h>
+
 //
 // Sensor configs
 const bool VssSensDebug = 1;
 const int VssCorrection = 1.7; // One mile * 10 000
+const int VssLoopLength = 250;
 //
 // Rpm Container
 int CUR_VSS = 0;
@@ -47,7 +51,7 @@ int getVssSens() {
 void sensVss() {
 
     vssTimerEnds = millis();
-    if (vssTimerEnds >= (vssTimerStart + 250)) {
+    if (vssTimerEnds >= (vssTimerStart + VssLoopLength)) {
         //
         // Handle cycles
         vssTimerStart = vssTimerEnds;
@@ -61,13 +65,19 @@ void sensVss() {
             Serial.print(" vss count:  \t");
             Serial.print(vssHitsCount);
             Serial.print(" vss is:  \t");
-            Serial.print(vssHitsCount * 1.6);
+            Serial.print(vssHitsCount * VssCorrection);
             Serial.print("\n");
         }
 
+        //
+        // Check is vehicle moving
         if (CUR_VSS > 0)
-            CUR_VTT = 500 + CUR_VTT;
+            //
+            // Vehicle Time Travel detection
+            CUR_VTT = VssLoopLength + CUR_VTT;
 
+        //
+        // Reset pulse counter
         vssHitsCount = 0;
     }
 

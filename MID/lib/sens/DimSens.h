@@ -11,9 +11,9 @@
 // Set up pins
 //
 // vars for resolve dim value
-int backLightDefault = 16;       // value to dim display when car lights are off
+int long backLightDefault = 16;       // value to dim display when car lights are off
 int isGaugesActive = LOW;         // is car lights on
-int unsigned backLightLevel = 0;  // resolved display dim
+int long backLightLevel = 0;  // resolved display dim
 
 const int dimCorrection = 45;
 
@@ -37,9 +37,11 @@ const int numReadingsDim = 100;
 int indexReadValDim = 0;
 int lastReadingsDim[numReadingsDim];
 int totalReadingDim = 0;
-int lastReadValueDim = 0;
-
-static void handleBackLight(void) {
+int long lastReadValueDim = 0;
+/**
+ * Detection of back-light
+ */
+static void sensDim(void) {
 
     int defaultActive = 0;
     int dimReadVal = analogRead(DIM_PIN_VAL);

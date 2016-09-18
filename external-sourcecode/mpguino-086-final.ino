@@ -445,7 +445,7 @@ void setup (void) {
   int0Func = processInjOpen;
   int1Func = processInjClosed;
 
-  //set up the external interrupts
+  //set up the external-sourcecode interrupts
   EICRA = (EICRA & ~((1 << ISC00) | (1 << ISC01)))
 	  | ((parms[injEdgeIdx] == 1 ? RISING : FALLING) << ISC00);
   EIMSK |= (1 << INT0);

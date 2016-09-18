@@ -12,6 +12,7 @@
 #include "trait/DistCalc.h"
 #include "trait/ConsCalc.h"
 #include "trait/AvrgCalc.h"
+#include "MainFunc.h"
 
 //
 //
@@ -136,37 +137,35 @@ void displayDistance() {
  */
 void displayConsumption() {
 
-    char LitersIns[2];
-    char LitersAvr[2];
-
     if (isSensorReadMid()) {
 
         lcd.setCursor(0, 0);
         lcd.print(" Consumption");
-        lcd.setCursor(0, 2);
+        lcd.setCursor(1, 2);
 
-        lcd.print(" Ins:");
+        lcd.print((char)5);
+        lcd.print((char)6);
         lcd.print("  ");
 
         lcd.setCursor(8, 2);
-        lcd.print(" Avr:");
+        lcd.print((char)7);
+        lcd.print((char)8);
         lcd.print("  ");
 
     }
-    sprintf(LitersIns, "%02d", 00);
-    sprintf(LitersAvr, "%02d", 00);
 
     //
     // Handle Distance screen
+    lcd.setCursor(1, 2);
 
-    lcd.setCursor(0, 2);
-
-    lcd.print(" Ins:");
-    lcd.print(LitersIns);
+    lcd.print((char)5);
+    lcd.print((char)6);
+    lcd.print(getInstCons());
 
     lcd.setCursor(8, 2);
-    lcd.print(" Avr:");
-    lcd.print(LitersAvr);
+    lcd.print((char)7);
+    lcd.print((char)8);
+    lcd.print(getUsedFuel());
 }
 
 /****************************************************************
@@ -177,7 +176,9 @@ void displayAverage() {
 
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
-        lcd.print(" SPD:");
+        lcd.print(" ");
+        lcd.print((char)9);
+        lcd.print((char)10);
         lcd.print(getAverageVss());
         lcd.print("kmh");
 

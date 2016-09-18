@@ -2,34 +2,44 @@
 // Created by Angel Zaprianov on 16.9.2016 г..
 //
 
-#include <Average.h>
-
 #ifndef ARDUINOMID_AVRGCALC_H
 #define ARDUINOMID_AVRGCALC_H
 
-const int numReadingsAverageVss = 100;
-const int numReadingsAverageRpm = 100;
+int long averageAllVssValues = 0;
+int long averageAllRpmValues;
+int maxReachedSpeed = 0;
 
-Average<int> AveVss(numReadingsAverageVss);
-Average<int> AveRpm(numReadingsAverageRpm);
+
+int long averageDivider = 0;
 
 void sensAvr(void) {
-    AveVss.push(getVssSens());
-    AveRpm.push(getRpmSens());
+    averageAllVssValues += CUR_VSS;
+    averageAllRpmValues += CUR_RPM;
+
+    averageDivider += 1;
+    //
+    //  Resolve maximum speed reached
+    if (maxReachedSpeed < CUR_VSS)
+        maxReachedSpeed = CUR_VSS;
 }
 
 /**
- * Gets Average speed
+ * Gets Average Vss
  */
 int getAverageVss() {
-    return AveVss.mean();
+    return int(averageAllVssValues / averageDivider);
 }
 
 /**
  * Gets Average Rpm
  */
 int getAverageRpm() {
-    return AveRpm.mean();
+    return int(averageAllRpmValues / averageDivider);
 }
+
+int getMaximumVss() {
+    return maxReachedSpeed;
+}
+
 
 #endif //ARDUINOMID_AVRGCALC_H

@@ -1,7 +1,9 @@
+#include <USBAPI.h>
+
 //
 // Created by Angel Zaprianov on 28.6.2016 г..
 //
-// Since EEPROM have live time will use external ...
+// Since EEPROM have live time will use external-sourcecode ...
 // http://www.hobbytronics.co.uk/arduino-external-eeprom
 //
 // Data container
