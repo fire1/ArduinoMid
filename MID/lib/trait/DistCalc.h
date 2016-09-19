@@ -44,11 +44,11 @@ void getTravelDistanceMeters() {
     if (DistSensDebug) {
         Serial.print("\n");
         Serial.print(" Dist All:  \t");
-        Serial.print(travelDistance);
+        Serial.print((int)travelDistance);
         Serial.print(" Dist time:  \t");
         Serial.print(CUR_VTT);
         Serial.print("\t Dist KM:  \t");
-        Serial.print(int(travelDistance / correctionDistance));
+        Serial.print((int)travelDistance /  (float)10);
         Serial.print("\n");
     }
 }
