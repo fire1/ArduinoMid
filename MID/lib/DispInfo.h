@@ -108,27 +108,26 @@ void displayCarECU() {
 void displayDistance() {
     //
     // Handle Distance screen
-    int tmpDistance = getTravelDistance();
-    int tmpTime = getTravelTime();// 100
+    float tmpDistance = getTravelDistance();
+    float tmpTime = getTravelTime();
 
-    int a = tmpDistance;
-    int b = tmpDistance % 10;
 
     if (isSensorReadLow()) {
-        //
-        // Display travel distance
         lcd.setCursor(0, 0);
-        lcd.print("Dist:");
-        lcd.setCursor(6, 0);
-        lcd.print(tmpDistance);
-//        lcd.print(".");
-//        lcd.print(b);
+        lcd.print(" Current Trip");
         //
         // Display travel time
         lcd.setCursor(0, 2);
-        lcd.print("Time:");
-        lcd.setCursor(6, 2);
         lcd.print(tmpTime);
+        lcd.print("min");
+        //
+        // Display travel distance
+
+        lcd.print(" ");
+        lcd.setCursor(9, 2);
+        lcd.print(tmpDistance );
+        lcd.print("Km");
+
     }
 }
 
@@ -173,19 +172,19 @@ void displayConsumption() {
  */
 void displayAverage() {
 
-
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
-        lcd.print(" ");
-        lcd.print((char)9);
-        lcd.print((char)10);
-        lcd.print(getAverageVss());
-        lcd.print("kmh");
+        lcd.print("Average");
 
         lcd.setCursor(0, 2);
-        lcd.print(" RPM:");
+        lcd.print(" ");
         lcd.print(getAverageRpm());
         lcd.print("rpm");
+
+        lcd.setCursor(8, 2);
+        lcd.print(" ");
+        lcd.print(getAverageVss());
+        lcd.print("kmh");
     }
 }
 

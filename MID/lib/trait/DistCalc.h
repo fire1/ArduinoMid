@@ -36,7 +36,11 @@ void getTravelDistanceMeters() {
         //
         // Travel distance in meters for second =
         // (travelAllPulse * VssCorrection) = All travel km  * 1000 = all distance in meters / (travel time / 1000 = 1 Second )
-        travelDistance = travelDistance + (((travelAllPulse * VssCorrection) * 1000) / (CUR_VTT / 1000));
+        double calculatedDistance = ((travelAllPulse * VssCorrection) * 1000);
+
+        if (calculatedDistance > 0) {
+            travelDistance = travelDistance + calculatedDistance / CUR_VTT;
+        }
     }
 
     //
@@ -44,11 +48,11 @@ void getTravelDistanceMeters() {
     if (DistSensDebug) {
         Serial.print("\n");
         Serial.print(" Dist All:  \t");
-        Serial.print((int)travelDistance);
+        Serial.print((int) travelDistance);
         Serial.print(" Dist time:  \t");
         Serial.print(CUR_VTT);
         Serial.print("\t Dist KM:  \t");
-        Serial.print((int)travelDistance /  (float)10);
+        Serial.print((int) travelDistance / (float) 10);
         Serial.print("\n");
     }
 }
@@ -62,7 +66,7 @@ float getTravelDistance() {
         return (float) 0;
     }
 
-    return travelDistance / (float)10;
+    return travelDistance / (float) 3600000;
 }
 
 /**
@@ -78,8 +82,8 @@ int getTravelDistanceMt() {
 /**
  * Gets total travel time
  */
-int getTravelTime() {
-    return CUR_VTT / 3600;
+float getTravelTime() {
+    return CUR_VTT / (float) 360000;
 }
 
 #endif //ARDUINOMID_CALCULATORS_H
