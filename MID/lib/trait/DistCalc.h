@@ -5,7 +5,7 @@
 #ifndef ARDUINOMID_CALCULATORS_H
 #define ARDUINOMID_CALCULATORS_H
 
-const bool DistSensDebug = 0;
+const bool DistSensDebug = 1;
 const int long correctionDistance = 1;
 const int correctionDistanceTime = 1;
 
@@ -20,7 +20,9 @@ const int correctionDistanceTime = 1;
 // 72 km/h = 72000 m/3600 sec = 20 m/sec
 // 20
 
-int long travelDistance = 0;
+double long travelDistance = 0;
+int long travelAllPulse = 0;
+
 
 /**
  * Gets travel distance in meters
@@ -28,9 +30,13 @@ int long travelDistance = 0;
 void getTravelDistanceMeters() {
     //
     // Check reading reach maximum
+    travelAllPulse = travelAllPulse + CUR_VDT;
+
     if (isSensorReadLow()) {
-        // getVssSens() * 1000 = meters
-        travelDistance = travelDistance + ((getVssSens() * 1000) / CUR_VTT);
+        //
+        // Travel distance in meters for second =
+        // (travelAllPulse * VssCorrection) = All travel km  * 1000 = all distance in meters / (travel time / 1000 = 1 Second )
+        travelDistance = travelDistance + (((travelAllPulse * VssCorrection) * 1000) / (CUR_VTT / 1000));
     }
 
     //
@@ -50,13 +56,13 @@ void getTravelDistanceMeters() {
 /**
  * Get Distance Kilometers
  */
-int getTravelDistance() {
+float getTravelDistance() {
 
     if (travelDistance < 0) {
-        return 0;
+        return (float) 0;
     }
 
-    return float(travelDistance / 3600);
+    return travelDistance / (float)10;
 }
 
 /**

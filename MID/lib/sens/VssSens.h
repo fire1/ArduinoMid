@@ -9,12 +9,14 @@
 
 //
 // Sensor configs
-const bool VssSensDebug = 1;
+const bool VssSensDebug = 0;
+
 const int VssCorrection = 1.7; // One mile * 10 000
 const int VssLoopLength = 250;
 //
 // Rpm Container
 int CUR_VSS = 0;
+int long CUR_VDT = 0;
 int long CUR_VTT = 0; //travel time
 //
 // Working vars
@@ -71,11 +73,15 @@ void sensVss() {
 
         //
         // Check is vehicle moving
-        if (CUR_VSS > 0)
+        if (CUR_VSS > 0) {
+
+            //
+            // Travel distance detection
+            CUR_VDT = CUR_VDT + vssHitsCount;
             //
             // Vehicle Time Travel detection
             CUR_VTT = VssLoopLength + CUR_VTT;
-
+        }
         //
         // Reset pulse counter
         vssHitsCount = 0;

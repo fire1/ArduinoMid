@@ -11,7 +11,7 @@
 // Set up pins
 //
 // vars for resolve dim value
-int  backLightDefault = 16;       // value to dim display when car lights are off
+int  backLightDefault = 22;       // value to dim display when car lights are off
 int  backLightLevel = 0;  // resolved display dim
 
 const int dimCorrection = 45;
@@ -56,7 +56,6 @@ static void sensDim(void) {
         defaultActive = 1;
     } else {
         defaultActive = 0;
-        backLightLevel = backLightLevel;
     }
 
     if (lastReadValueDim != backLightLevel  && backLightLevel > 0) {

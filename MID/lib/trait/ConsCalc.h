@@ -37,7 +37,7 @@ int CUR_IFC = 0;
 /**
  * gets Instant consumption
  */
-void sensCons(void) {
+void sensCon(void) {
 
     int injectionOpenTime = ((double) CUR_IPT / 1000000);
     if (CUR_VSS > 3) {

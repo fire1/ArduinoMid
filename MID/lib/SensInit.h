@@ -31,12 +31,14 @@ void handleBackLight(){
 
 void sensorsInit() {
     //
-    // Sense of sensors ;)
+    // Sense of car sensors ;)
     sensRpm();
     sensVss();
     sensEcu();
     sensAvr();
     sensTmp();
+    sensCon();
+
     sensDim(); // Dim display
 }
 
