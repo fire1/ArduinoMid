@@ -191,8 +191,8 @@ void setupLcdChar() {
     lcd.createChar(7, allCons1);
     lcd.createChar(8, allCons2);
     lcd.createChar(9, dspSpeed1);
-    lcd.createChar(10, dspSpeed2);
-    lcd.createChar(11, dspRpm1);
+//    lcd.createChar(10, dspSpeed2);
+//    lcd.createChar(11, dspRpm1);
 }
 
 #endif //ARDUINOMID_LCDCHAR_H

@@ -11,7 +11,7 @@
 // Sensor configs
 const bool VssSensDebug = 0;
 
-const int VssCorrection = 1.7; // One mile * 10 000
+const int VssCorrection = 1.7; // One mile 1.621317
 const int VssLoopLength = 250;
 //
 // Rpm Container

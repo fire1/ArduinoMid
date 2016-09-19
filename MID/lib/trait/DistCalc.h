@@ -66,7 +66,7 @@ float getTravelDistance() {
         return (float) 0;
     }
 
-    return travelDistance / (float) 3600000;
+    return travelDistance / (float) 3600000 /* MILLIS_PER_HR */;
 }
 
 /**
