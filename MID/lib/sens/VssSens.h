@@ -18,8 +18,6 @@ const int VssLoopLength = 250;
 //
 // Rpm Container
 int CUR_VSS = 0;
-int long CUR_VDT = 0;
-int long CUR_VTT = 0; //travel time
 //
 // Working vars
 int vssHitsCount = 0;
@@ -73,17 +71,6 @@ void sensVss() {
             Serial.print("\n");
         }
 
-        //
-        // Check is vehicle moving
-        if (CUR_VSS > 0) {
-
-            //
-            // Travel distance detection
-            CUR_VDT = CUR_VDT + vssHitsCount;
-            //
-            // Vehicle Time Travel detection
-            CUR_VTT = VssLoopLength + CUR_VTT;
-        }
         //
         // Reset pulse counter
         vssHitsCount = 0;

@@ -28,6 +28,8 @@ const double AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
 const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
 //double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
 double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
+double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
+
 //
 // MID plug pins definition over Arduino
 //

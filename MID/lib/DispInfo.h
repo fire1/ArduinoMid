@@ -109,6 +109,13 @@ void displayDistance() {
     //
     // Handle Distance screen
 
+    int long tmSec,tmMin,tmHrs;
+
+    tmSec = getTravelTime();
+
+    tmMin = tmSec / 60;
+    tmHrs = tmMin / 60;
+
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
@@ -116,8 +123,10 @@ void displayDistance() {
         // Display travel time
         lcd.setCursor(0, 2);
         lcd.print(" ");
-        lcd.print(getTravelTime());
-        lcd.print("hr");
+        lcd.print(tmHrs);
+        lcd.print(':');
+        lcd.print(tmMin);
+        lcd.print("h");
         //
         // Display travel distance
 
