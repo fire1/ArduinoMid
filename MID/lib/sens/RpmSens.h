@@ -52,7 +52,7 @@ int getRpmSens () {
  */
 void sensRpm () {
   rpmTimerEnds = millis ();
-  if (rpmTimerEnds >= (rpmTimerStart + 600))
+  if (rpmTimerEnds >= (rpmTimerStart + 580))
 	{
 	  //
 	  // Handle cycles

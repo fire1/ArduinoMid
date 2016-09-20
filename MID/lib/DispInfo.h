@@ -108,9 +108,6 @@ void displayCarECU() {
 void displayDistance() {
     //
     // Handle Distance screen
-    float tmpDistance = getTravelDistance();
-    float tmpTime = getTravelTime();
-
 
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
@@ -118,15 +115,16 @@ void displayDistance() {
         //
         // Display travel time
         lcd.setCursor(0, 2);
-        lcd.print(tmpTime);
-        lcd.print("min");
+        lcd.print(" ");
+        lcd.print(getTravelTime());
+        lcd.print("hr");
         //
         // Display travel distance
 
         lcd.print(" ");
         lcd.setCursor(9, 2);
-        lcd.print(tmpDistance );
-        lcd.print("Km");
+        lcd.print(getTravelDistance());
+        lcd.print("km");
 
     }
 }
@@ -142,13 +140,13 @@ void displayConsumption() {
         lcd.print(" Consumption");
         lcd.setCursor(1, 2);
 
-        lcd.print((char)5);
-        lcd.print((char)6);
+        lcd.print((char) 5);
+        lcd.print((char) 6);
         lcd.print("  ");
 
         lcd.setCursor(8, 2);
-        lcd.print((char)7);
-        lcd.print((char)8);
+        lcd.print((char) 7);
+        lcd.print((char) 8);
         lcd.print("  ");
 
     }
@@ -157,13 +155,13 @@ void displayConsumption() {
     // Handle Distance screen
     lcd.setCursor(1, 2);
 
-    lcd.print((char)5);
-    lcd.print((char)6);
+    lcd.print((char) 5);
+    lcd.print((char) 6);
     lcd.print(getInstCons());
 
     lcd.setCursor(8, 2);
-    lcd.print((char)7);
-    lcd.print((char)8);
+    lcd.print((char) 7);
+    lcd.print((char) 8);
     lcd.print(getUsedFuel());
 }
 

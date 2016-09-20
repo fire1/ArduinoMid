@@ -9,12 +9,12 @@
 #include <LiquidCrystal.h>
 
 
-
-double getAirFlowRation(int engTemp){
+double getAirFlowRation(int engTemp) {
     // CFM = (Input BTU x thermal efficiency) / (1.08 x DT)
 
     return 1.084;
 }
+
 //
 // http://skodaclub.bg/forum/index.php?/topic/45846-%D1%80%D0%B0%D0%B7%D1%85%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%B3%D0%BE%D1%80%D0%B8%D0%B2%D0%BE-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B0%D0%B7%D0%B5%D0%BD-%D1%85%D0%BE%D0%B4-%D0%BB%D0%B8%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D1%87%D0%B0%D1%81/
 //
@@ -27,7 +27,6 @@ int calConsumption(int engineRpm) {
     int engineTemperature = 50;
 
 
-
     oneEngineTurnBurns = (CON_ENG_CC / 2) / 1000 /* for coverts to liters */;
     consumptionForHour = (engineRpm * oneEngineTurnBurns) /* result for 1 min */  * 60 /* to one hour */;
 
@@ -37,19 +36,17 @@ int calConsumption(int engineRpm) {
         consumptionCc = consumptionForHour;
 
 
-    consumptionCubicKg = ((consumptionCc / 1000) * getAirFlowRation(engineTemperature)) / AIR_FUL_RT; // Convert to kg per hour
+    consumptionCubicKg =
+            ((consumptionCc / 1000) * getAirFlowRation(engineTemperature)) / AIR_FUL_RT; // Convert to kg per hour
 
-    return consumptionCubicKg/81;
+    return consumptionCubicKg / 81;
 }
-
 
 
 //
 // Engine read values
 unsigned int thcSnsCount = 0;
 unsigned int spdSnsCount = 0;
-
-
 
 
 //
@@ -85,6 +82,17 @@ int long SNS_LOW_RUN_TIME = 0;
 bool isSensorReadLow() {
     if (millis() >= SNS_LAST_RUN_TIME + SNS_INTERVAL_TIME_LOW) {
         SNS_LOW_RUN_TIME = millis();
+        return true;
+    }
+    return false;
+}
+
+int long SNS_MIN_RUN_TIME = 0;
+//
+// Sensor timing handler
+bool isSensorReadMin() {
+    if (millis() >= SNS_MIN_RUN_TIME + 50) {
+        SNS_MIN_RUN_TIME = millis();
         return true;
     }
     return false;

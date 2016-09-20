@@ -47,12 +47,13 @@ void getTravelDistanceMeters() {
     // debug info
     if (DistSensDebug) {
         Serial.print("\n");
-        Serial.print(" Dist All:  \t");
-        Serial.print((int) travelDistance);
+        Serial.print(" Dist Pulse:  \t");
+        Serial.print((int) travelAllPulse);
+        Serial.print("\t Dist calc:  \t");
+        Serial.print((int) travelDistance );
         Serial.print(" Dist time:  \t");
         Serial.print(CUR_VTT);
-        Serial.print("\t Dist KM:  \t");
-        Serial.print((int) travelDistance / (float) 10);
+
         Serial.print("\n");
     }
 }
@@ -82,8 +83,8 @@ int getTravelDistanceMt() {
 /**
  * Gets total travel time
  */
-float getTravelTime() {
-    return CUR_VTT / (float) 360000;
+int getTravelTime() {
+    return CUR_VTT / 360000; // NOT hour
 }
 
 #endif //ARDUINOMID_CALCULATORS_H

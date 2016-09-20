@@ -63,8 +63,8 @@ void sensCon(void) {
 
     //
     // Instant consumption
-    double injectionOpenTime = ((double) CUR_IPT / 1000000);
-    if (CUR_VSS > 3) {
+    double injectionOpenTime = ((double) CUR_ECU / 1000000);
+    if (CUR_ECU > 3) {
         CUR_VIC = (100 * (((injectionOpenTime * injectionValue) * 3600) * 4)) / CUR_VSS;
     } else {
         CUR_VIC = (((injectionOpenTime * injectionValue) * 3600) * 4) / CUR_VSS;
@@ -80,7 +80,7 @@ void sensCon(void) {
 
     //
     // Calculate total fuel consumption
-    CUR_VUF += ((injectionOpenTime * injectionValue) * 4);
+    CUR_VUF = CUR_VUF + ((injectionOpenTime * injectionValue) * 4);
 
     if (ConCalcDebug) {
         Serial.print("\n");
