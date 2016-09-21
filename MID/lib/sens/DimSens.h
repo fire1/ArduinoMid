@@ -11,7 +11,7 @@
 // Set up pins
 //
 // vars for resolve dim value
-int  backLightDefault = 22;       // value to dim display when car lights are off
+int  backLightDefault = 32;       // value to dim display when car lights are off
 int  backLightLevel = 0;  // resolved display dim
 
 const int dimCorrection = 45;

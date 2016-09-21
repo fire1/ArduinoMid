@@ -25,13 +25,14 @@ int long travelAllPulse = 0;
 
 double long travelingTime = 0;
 
-float  CUR_VTD = 0; // Travel distance
+float CUR_VTD = 0; // Travel distance
 int long CUR_VTT = 0; //travel time
 
 /**
  * Gets travel distance in meters
  */
 void getTravelDistanceMeters() {
+
     int long travelDistanceInMeters = 0;
     //
     // Check reading reach maximum
@@ -47,17 +48,17 @@ void getTravelDistanceMeters() {
     if (isSensorReadMid()) {
         //
         // Check is collected enough data for calculation
-        if (travelDistanceInMeters > 0 && (travelingTime / 1000) > 1) {
+        if (travelDistanceInMeters > 0 && (travelingTime / 10) > 1) {
             //
             // Pass travel seconds distance
-            CUR_VTT = int(travelingTime / 1000);
+            CUR_VTT = int(travelingTime / 20);
             //
             // Travel distance in meters for second =
             // (travelAllPulse * VssCorrection) = All travel km  * 1000 = all distance in meters / (travel time / 1000 = 1 Second )
-            travelDistance = travelDistance + travelDistanceInMeters / (travelingTime / 1000);
+            travelDistance = travelDistance + travelDistanceInMeters / (travelingTime / 60);
             //
             // Km with last meters
-            CUR_VTD = travelDistance / 100;
+            CUR_VTD = (travelDistance / 3600 / 90 )*3;
         }
     }
 
@@ -68,9 +69,9 @@ void getTravelDistanceMeters() {
         Serial.print(" Dist Pulse:  \t");
         Serial.print((int) travelAllPulse);
         Serial.print("\t Dist calc:  \t");
-        Serial.print((int) travelDistance);
+        Serial.print((int) travelDistanceInMeters);
         Serial.print(" Dist time:  \t");
-        Serial.print(CUR_VTT);
+        Serial.print(int(travelingTime));
 
         Serial.print("\n");
     }

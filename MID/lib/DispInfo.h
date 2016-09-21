@@ -20,17 +20,13 @@
  * Display temperature sensor
  */
 void displayOutTmp() {
-    //
-    // Inner vars
-    char tmpDisplay[3];
-    int sens = getTmpOut();
+
     //
     // Read pin value
     if (isSensorReadMid()) {
 
         lcd.setCursor(10, 2);
-        sprintf(tmpDisplay, "%3d", sens);
-        lcd.print(tmpDisplay);
+        lcd.print(getTmpOut());
         lcd.print((char) 1);
     }
 
@@ -109,12 +105,18 @@ void displayDistance() {
     //
     // Handle Distance screen
 
-    int long tmSec,tmMin,tmHrs;
+    int long tmSec;
 
+    int tmMin,tmHrs;
     tmSec = getTravelTime();
 
     tmMin = tmSec / 60;
     tmHrs = tmMin / 60;
+
+    char dspMin[2];
+    char dspHrs[2];
+    sprintf(dspMin, "%02d", tmMin);
+    sprintf(dspHrs, "%02d", tmHrs);
 
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
@@ -123,9 +125,9 @@ void displayDistance() {
         // Display travel time
         lcd.setCursor(0, 2);
         lcd.print(" ");
-        lcd.print(tmHrs);
+        lcd.print(dspHrs);
         lcd.print(':');
-        lcd.print(tmMin);
+        lcd.print(dspMin);
         lcd.print("h");
         //
         // Display travel distance

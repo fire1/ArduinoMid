@@ -6,9 +6,9 @@
 #define ARDUINOMID_TMPSENS_H
 
 
-int OUT_TMP = 0;
+float OUT_TMP = 0;
 
-int getTmpOut() {
+float getTmpOut() {
     return OUT_TMP;
 }
 
@@ -17,7 +17,7 @@ int getTmpOut() {
  */
 void sensTmp() {
 
-    int temperatureC;
+    float temperatureC;
     if (isSensorReadLow()) {
         int reading = analogRead(TMP_PIN_OUT);
 
@@ -26,7 +26,7 @@ void sensTmp() {
 //        Serial.printnl(reading);
 
         // converting that reading to voltage, for 3.3v arduino use 3.3
-        float voltage = reading / 2.4;
+        float voltage = reading -80;
 
 
         // now print out the temperature

@@ -30,6 +30,7 @@ void handleBackLight(){
 }
 
 void sensorsInit() {
+    cli();
     //
     // Sense of car sensors ;)
     sensRpm();
@@ -40,6 +41,7 @@ void sensorsInit() {
     sensCon();
 
     sensDim(); // Dim display
+    sei();
 }
 
 #endif //ARDUINOMID_SENSINIT_H
