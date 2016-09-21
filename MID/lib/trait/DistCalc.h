@@ -20,45 +20,76 @@ const int correctionDistanceTime = 1;
 // 72 km/h = 72000 m/3600 sec = 20 m/sec
 // 20
 
-int long timerRecordMoving, timerRecordStopped;
+
 
 
 double long travelDistance = 0;
 int long travelAllPulse = 0;
 
-double long travelingTime = 0;
+double long travelingTimeForDistance = 0;
 
 float CUR_VTD = 0; // Travel distance
-int long CUR_VTT = 0; //travel time
+float CUR_TDT = 0; //travel time
+float CUR_VTT = 0;
 
+int vehicleStopped = LOW;
 
-int long timeTravel = 0, lastRecordTravelTime = 0;
+unsigned long timeTravelDistance = 0;
+int long lastRecordTravelTimeDistance = 0;
 
-int long getTimeTravel() {
+/**
+ * Function to resolve time for distance
+ *      Only for calculation the distance
+ */
+int getTravelDistanceTime(int long currentTimeDistance) {
 
-    int long timeDifference = 0;
-
-    //
-    // if car is stopped
-    if (timerRecordStopped > 0) {
-        timeDifference = timerRecordMoving - timerRecordStopped;
-    }
-    //
-    // Starts timing
-    if (lastRecordTravelTime == 0) {
-        lastRecordTravelTime = millis();
-    }
 
     //
     // Pass records from mil sec
-    timeTravel = (timeTravel + timeDifference) - lastRecordTravelTime;
+    if (currentTimeDistance < 1) {
+        currentTimeDistance = currentTimeDistance * -1;
+    }
+
+    //
+    // Starts timing
+    if (lastRecordTravelTimeDistance == 0 || vehicleStopped == HIGH) {
+        lastRecordTravelTimeDistance = currentTimeDistance;
+    }
 
 
-    lastRecordTravelTime = millis();
-    timerRecordMoving = 0;
-    timerRecordStopped = 0;
+    timeTravelDistance = timeTravelDistance + (currentTimeDistance - lastRecordTravelTimeDistance);
 
-    return timeTravel;
+
+    lastRecordTravelTimeDistance = currentTimeDistance;
+    vehicleStopped = LOW;
+
+    return timeTravelDistance / 1000;
+}
+
+
+unsigned long timeTravelTrip = 0;
+int long lastRecordTravelTimeTrip = 0;
+
+/**
+ * Trip travel time
+ */
+int getTravelTime(int long currentTimeTrip) {
+
+
+    //
+    // Pass records from mil sec
+    if (currentTimeTrip < 1) {
+        currentTimeTrip = currentTimeTrip * -1;
+    }
+
+
+    timeTravelTrip = timeTravelTrip + (currentTimeTrip - lastRecordTravelTimeTrip);
+
+
+    lastRecordTravelTimeTrip = currentTimeTrip;
+    vehicleStopped = LOW;
+
+    return timeTravelTrip / 1000;
 }
 
 /**
@@ -72,35 +103,35 @@ void getTravelDistanceMeters() {
     if (CUR_VSS > 3) {
         travelAllPulse = travelAllPulse + CUR_VSS;
         travelDistanceInMeters = int((travelAllPulse * VssCorrection) * 1000);
+
+        //
+        // Pass travel seconds distance
+        CUR_TDT = getTravelDistanceTime(millis());
+
         //
         // Vehicle Time Travel detection
-        travelingTime = travelingTime + 1;
+        travelingTimeForDistance = CUR_TDT;
 
-        //
-        // Vehicle is moving
-        timerRecordMoving = millis();
+
     } else {
-        //
-        // Vehicle is not moving
-        timerRecordStopped = millis();
+        vehicleStopped = HIGH;
     }
 
+    CUR_VTT = getTravelTime(millis());
 
     if (isSensorReadMid()) {
         //
         // Check is collected enough data for calculation
-        if (travelDistanceInMeters > 0 && (travelingTime / 10) > 1) {
+        if (travelDistanceInMeters > 1000) {
 
             //
-            // Pass travel seconds distance
-            CUR_VTT = getTimeTravel();
-            //
             // Travel distance in meters for second =
-            // (travelAllPulse * VssCorrection) = All travel km  * 1000 = all distance in meters / (travel time / 1000 = 1 Second )
-            travelDistance = travelDistance + travelDistanceInMeters / (travelingTime / 60);
+            // (travelAllPulse * VssCorrection) = All travel km  * 1000 =
+            //      all distance in meters / (travel time / 1000 = 1 Second )
+            travelDistance = travelDistance + travelDistanceInMeters / (travelingTimeForDistance);
             //
             // Km with last meters
-            CUR_VTD = travelDistance / 100;
+            CUR_VTD = travelDistance / 10000;
         }
     }
 
@@ -108,12 +139,14 @@ void getTravelDistanceMeters() {
     // debug info
     if (DistSensDebug) {
         Serial.print("\n");
-        Serial.print(" Dist Pulse:  \t");
-        Serial.print((int) travelAllPulse);
+//        Serial.print(" Dist Pulse:  \t");
+//        Serial.print((int) travelAllPulse);
         Serial.print("\t Dist calc:  \t");
-        Serial.print((int) travelDistanceInMeters);
+        Serial.print(CUR_VTD);
         Serial.print(" Dist time:  \t");
-        Serial.print(int(timeTravel));
+        Serial.print(CUR_TDT);
+        Serial.print(" Trip time:  \t");
+        Serial.print(CUR_VTT);
 
         Serial.print("\n");
     }
