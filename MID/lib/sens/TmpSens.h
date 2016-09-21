@@ -26,7 +26,7 @@ void sensTmp() {
 //        Serial.printnl(reading);
 
         // converting that reading to voltage, for 3.3v arduino use 3.3
-        float voltage = reading * 3;
+        float voltage = reading * 2;
         voltage /= 1024.0;
 
         // now print out the temperature

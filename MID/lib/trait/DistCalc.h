@@ -20,7 +20,7 @@ const int correctionDistanceTime = 1;
 // 72 km/h = 72000 m/3600 sec = 20 m/sec
 // 20
 
-int long timerRecordMoving, timerRecordStoped;
+int long timerRecordMoving, timerRecordStopped;
 
 
 double long travelDistance = 0;
@@ -30,6 +30,36 @@ double long travelingTime = 0;
 
 float CUR_VTD = 0; // Travel distance
 int long CUR_VTT = 0; //travel time
+
+
+int long timeTravel = 0, lastRecordTravelTime = 0;
+
+int long getTimeTravel() {
+
+    int long timeDifference = 0;
+
+    //
+    // if car is stopped
+    if (timerRecordStopped > 0) {
+        timeDifference = timerRecordMoving - timerRecordStopped;
+    }
+    //
+    // Starts timing
+    if (lastRecordTravelTime == 0) {
+        lastRecordTravelTime = millis();
+    }
+
+    //
+    // Pass records from mil sec
+    timeTravel = (timeTravel + timeDifference) - lastRecordTravelTime;
+
+
+    lastRecordTravelTime = millis();
+    timerRecordMoving = 0;
+    timerRecordStopped = 0;
+
+    return timeTravel;
+}
 
 /**
  * Gets travel distance in meters
@@ -52,7 +82,7 @@ void getTravelDistanceMeters() {
     } else {
         //
         // Vehicle is not moving
-        timerRecordStoped = millis();
+        timerRecordStopped = millis();
     }
 
 
@@ -63,14 +93,14 @@ void getTravelDistanceMeters() {
 
             //
             // Pass travel seconds distance
-            CUR_VTT = int(travelingTime / 20);
+            CUR_VTT = getTimeTravel();
             //
             // Travel distance in meters for second =
             // (travelAllPulse * VssCorrection) = All travel km  * 1000 = all distance in meters / (travel time / 1000 = 1 Second )
             travelDistance = travelDistance + travelDistanceInMeters / (travelingTime / 60);
             //
             // Km with last meters
-            CUR_VTD = (travelDistance / 3600 / 90) * 3;
+            CUR_VTD = travelDistance / 100;
         }
     }
 
@@ -83,35 +113,11 @@ void getTravelDistanceMeters() {
         Serial.print("\t Dist calc:  \t");
         Serial.print((int) travelDistanceInMeters);
         Serial.print(" Dist time:  \t");
-        Serial.print(int(travelingTime));
+        Serial.print(int(timeTravel));
 
         Serial.print("\n");
     }
 }
-
-
-int long timeTravel = 0, lastRecordTravelTime = 0;
-
-int long getTimeTravel() {
-
-    int long  timeDifference;
-
-
-    timeDifference = timerRecordMoving - timerRecordStoped;
-
-    if (lastRecordTravelTime == 0) {
-        lastRecordTravelTime = millis();
-    }
-
-    timeTravel = (timeTravel + timeDifference) - lastRecordTravelTime;
-
-    lastRecordTravelTime = millis();
-
-    timerRecordStoped, timerRecordMoving = 0;
-
-    return timeTravel;
-}
-
 
 
 /**
