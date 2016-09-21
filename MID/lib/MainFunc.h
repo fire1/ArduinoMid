@@ -43,6 +43,44 @@ int calConsumption(int engineRpm) {
 }
 
 
+
+
+// argument is time in milliseconds
+void printTime(unsigned long t_milli)
+{
+    char buffer[20];
+    int days, hours, mins, secs;
+    int fractime;
+    unsigned long inttime;
+
+    inttime  = t_milli / 1000;
+    fractime = t_milli % 1000;
+    // inttime is the total number of number of seconds
+    // fractimeis the number of thousandths of a second
+
+    // number of days is total number of seconds divided by 24 divided by 3600
+    days     = inttime / (24*3600);
+    inttime  = inttime % (24*3600);
+
+    // Now, inttime is the remainder after subtracting the number of seconds
+    // in the number of days
+    hours    = inttime / 3600;
+    inttime  = inttime % 3600;
+
+    // Now, inttime is the remainder after subtracting the number of seconds
+    // in the number of days and hours
+    mins     = inttime / 60;
+    inttime  = inttime % 60;
+
+    // Now inttime is the number of seconds left after subtracting the number
+    // in the number of days, hours and minutes. In other words, it is the
+    // number of seconds.
+    secs = inttime;
+
+    // Don't bother to print days
+    sprintf(buffer, "%02d:%02d:%02d.%03d", hours, mins, secs, fractime);
+    lcd.print(buffer);
+}
 //
 // Engine read values
 unsigned int thcSnsCount = 0;

@@ -20,6 +20,9 @@ const int correctionDistanceTime = 1;
 // 72 km/h = 72000 m/3600 sec = 20 m/sec
 // 20
 
+int long timerRecordMoving, timerRecordStoped;
+
+
 double long travelDistance = 0;
 int long travelAllPulse = 0;
 
@@ -36,12 +39,20 @@ void getTravelDistanceMeters() {
     int long travelDistanceInMeters = 0;
     //
     // Check reading reach maximum
-    if (CUR_VSS > 0) {
+    if (CUR_VSS > 3) {
         travelAllPulse = travelAllPulse + CUR_VSS;
         travelDistanceInMeters = int((travelAllPulse * VssCorrection) * 1000);
         //
         // Vehicle Time Travel detection
         travelingTime = travelingTime + 1;
+
+        //
+        // Vehicle is moving
+        timerRecordMoving = millis();
+    } else {
+        //
+        // Vehicle is not moving
+        timerRecordStoped = millis();
     }
 
 
@@ -49,6 +60,9 @@ void getTravelDistanceMeters() {
         //
         // Check is collected enough data for calculation
         if (travelDistanceInMeters > 0 && (travelingTime / 10) > 1) {
+            //
+            // Get real time
+            timingDetectionActive = millis();
             //
             // Pass travel seconds distance
             CUR_VTT = int(travelingTime / 20);
@@ -58,7 +72,11 @@ void getTravelDistanceMeters() {
             travelDistance = travelDistance + travelDistanceInMeters / (travelingTime / 60);
             //
             // Km with last meters
-            CUR_VTD = (travelDistance / 3600 / 90 )*3;
+            CUR_VTD = (travelDistance / 3600 / 90) * 3;
+        } else {
+            //
+            // Record car in stop position
+            timingDetectionIOnactive = millis();
         }
     }
 
@@ -76,6 +94,42 @@ void getTravelDistanceMeters() {
         Serial.print("\n");
     }
 }
+
+
+int long timeTravel = 0, lastRecordTravelTime = 0;
+
+int long getTimeTravel() {
+
+    int long  timeDifference;
+
+
+    timeDifference = timerRecordMoving - timerRecordStoped;
+
+    if (lastRecordTravelTime == 0) {
+        lastRecordTravelTime = millis();
+    }
+
+    timeTravel = (timeTravel + timeDifference) - lastRecordTravelTime;
+
+    lastRecordTravelTime = millis();
+
+    timerRecordStoped, timerRecordMoving = 0;
+
+    return timeTravel;
+}
+
+else {
+$timerRecord2 = time().rand($randUp++, 9);
+}
+
+flush();
+
+ob_flush();
+
+sleep(rand(1, 3));
+}
+}
+
 
 /**
  * Get Distance Kilometers

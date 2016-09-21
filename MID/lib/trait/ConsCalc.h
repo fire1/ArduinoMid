@@ -27,10 +27,15 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
 
 
- float CUR_LPH;
+float CUR_LPH;
+//
+// Trip consumption
+float CUR_TLH;
+
+float long consumptionBankCalculator = 0;
+int long consumptionBankCountHits = 0;
 
 static int getVolumetricEfficiency(int rpm_var);
-
 
 
 float getUsedFuel() {
@@ -56,34 +61,62 @@ void sensCon() {
 
     double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
 
+    /*
+     *
+     *  *_term_val = 0.00/1.275
+     *
+       IMAP=double(rpm_var*dvk_var)/double(intake_air_temp_var+273.15);
+
+       MAF=double(IMAP/120.0)*double(double(VE*VE_correct)/100.0)*ED*28.9644/8.314472;
+
+
+       if (fss_val==2) {   // если замкнутая обратная связь  - Closed Loop
+           ls_term_val=double(100.0+(long_term_val+short_term_val))/100.0; // коэффициент корректировки расхода по ShortTerm и LongTerm
+         }
+       else {
+           ls_term_val=double(100.0+long_term_val)/100.0; // коэффициент корректировки расхода по LongTerm
+         }
+
+       FuelFlowGramsPerSecond = double(MAF/AirFuelRatio)*ls_term_val;   // Получаем расход грамм бензина в секунду в соотношении 14,7 воздуха/к 1 литра бензина, корректировка ls_term_val
+       FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;  // Переводим граммы бензина в литры
+       LPH = FuelFlowLitersPerSecond * 3600.0;       // Ковертирование литров в час
+
+     */
+
+
     termvalue = CUR_ECU * 0.78125;
 
     IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
-    MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /  8.314472;
+    MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
+          8.314472;
 
-//    // fss_val // dyuzi // injections  1 OR 2
-//    if (CUR_ECU > 5) {   // если замкнутая обратная связь  - Closed Loop
-//
-//        // коэффициент корректировки расхода по ShortTerm и LongTerm
-//        ls_term_val = double(100.0 + (termvalue)) / 100.0;
-//    } else {
-//         // коэффициент корректировки расхода по LongTerm
-//    }
-
-    // Получаем расход грамм бензина в секунду в соотношении 14,7 воздуха/к 1 литра бензина, корректировка ls_term_val
     FuelFlowGramsPerSecond = double(MAF / AirFuelRatio) * double(100.0 + termvalue) / 100.0;
 
     // Переводим граммы бензина в литры
     FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;
 
-
-    CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);       // Ковертирование литров в час
+    CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);
+    //
+    consumptionBankCountHits++;
+    // Ковертирование литров в час
+    consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
+    //
+    // Trip consumption detection
+    CUR_TLH = consumptionBankCalculator / consumptionBankCountHits;
 }
 
-
+/**
+ *
+ */
 float getInstCons() {
-    return CUR_LPH;
+    return (float) ((int) CUR_LPH * 100) / 100;
+//    return CUR_LPH;
 }
+
+float getTripCons() {
+    return (float) ((int) CUR_TLH * 100) / 100;
+}
+
 /**
  * @deprecated ECU signal gives this value
  * volumetric efficiency measured in percent

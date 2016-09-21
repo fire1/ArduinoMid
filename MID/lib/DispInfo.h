@@ -27,7 +27,7 @@ void displayOutTmp() {
 
         lcd.setCursor(10, 2);
         lcd.print(getTmpOut());
-        lcd.print((char) 1);
+        lcd.write((uint8_t) 1);
     }
 
 }
@@ -113,10 +113,9 @@ void displayDistance() {
     tmMin = tmSec / 60;
     tmHrs = tmMin / 60;
 
-    char dspMin[2];
-    char dspHrs[2];
-    sprintf(dspMin, "%02d", tmMin);
-    sprintf(dspHrs, "%02d", tmHrs);
+    char dspTime[5];
+    sprintf(dspTime, "%02d:%02d",tmHrs, tmMin);
+
 
     if (isSensorReadLow()) {
         lcd.setCursor(0, 0);
@@ -125,10 +124,7 @@ void displayDistance() {
         // Display travel time
         lcd.setCursor(0, 2);
         lcd.print(" ");
-        lcd.print(dspHrs);
-        lcd.print(':');
-        lcd.print(dspMin);
-        lcd.print("h");
+        lcd.print(dspTime);
         //
         // Display travel distance
 
@@ -151,13 +147,13 @@ void displayConsumption() {
         lcd.print(" Consumption");
         lcd.setCursor(1, 2);
 
-        lcd.print((char) 5);
-        lcd.print((char) 6);
+        lcd.write((uint8_t) 5);
+        lcd.write((uint8_t) 6);
         lcd.print("  ");
 
         lcd.setCursor(8, 2);
-        lcd.print((char) 7);
-        lcd.print((char) 8);
+        lcd.write((uint8_t) 7);
+        lcd.write((uint8_t)8);
         lcd.print("  ");
 
     }
@@ -171,8 +167,8 @@ void displayConsumption() {
     lcd.print(getInstCons());
 
     lcd.setCursor(8, 2);
-    lcd.print((char) 7);
-    lcd.print((char) 8);
+    lcd.write((uint8_t) 7);
+    lcd.write((uint8_t) 8);
     lcd.print(getUsedFuel());
 }
 

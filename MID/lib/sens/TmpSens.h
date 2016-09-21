@@ -6,10 +6,10 @@
 #define ARDUINOMID_TMPSENS_H
 
 
-float OUT_TMP = 0;
+float CUR_OUT_TMP = 0;
 
 float getTmpOut() {
-    return OUT_TMP;
+    return CUR_OUT_TMP;
 }
 
 /**
@@ -26,14 +26,14 @@ void sensTmp() {
 //        Serial.printnl(reading);
 
         // converting that reading to voltage, for 3.3v arduino use 3.3
-        float voltage = reading -80;
-
+        float voltage = reading * 3;
+        voltage /= 1024.0;
 
         // now print out the temperature
-        temperatureC = (voltage /*- 0.5*/);  //converting from 10 mv per degree wit 500 mV offset
+        temperatureC = (voltage /*- 0.5*/) * 100;  //converting from 10 mv per degree wit 500 mV offset
         //to degrees ((voltage - 500mV) times 100)
 
-        OUT_TMP = temperatureC;
+        CUR_OUT_TMP = temperatureC;
 
     }
 

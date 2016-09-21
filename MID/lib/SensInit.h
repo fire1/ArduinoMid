@@ -30,6 +30,8 @@ void handleBackLight(){
 }
 
 void sensorsInit() {
+    //
+    // No Interrupts
     cli();
     //
     // Sense of car sensors ;)
@@ -41,6 +43,8 @@ void sensorsInit() {
     sensCon();
 
     sensDim(); // Dim display
+    //
+    // Interrupts
     sei();
 }
 

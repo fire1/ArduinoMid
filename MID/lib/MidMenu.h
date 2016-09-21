@@ -28,7 +28,7 @@ int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 63;
+long debounceDelay = 83;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -101,7 +101,7 @@ static void menuChanged(MenuChangeEvent changed) {
 /**
  * Read pin button states
  */
-void readButtons(int buttonPinUp, int buttonPinDw) {  //read buttons status
+void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {  //read buttons status
     int reading;
     int buttonDwState = LOW;             // the current reading from the input pin
     int buttonUpState = LOW;             // the current reading from the input pin
@@ -190,6 +190,7 @@ void navigateMenu() {
                     isInSubMenu = 1;
                 }
                 else {
+                    isInSubMenu = 0;
                     menu.moveBack();
                     menu.use();
                 }
@@ -201,46 +202,47 @@ void navigateMenu() {
 
 void printNavMenuA() {
     lcd.setCursor(12, 2);
-    lcd.print((char) 3);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
+    lcd.write((uint8_t) 3);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
     lcd.setCursor(0, 0);
 
 }
 
 void printNavMenuB() {
     lcd.setCursor(12, 2);
-    lcd.print((char) 2);
-    lcd.print((char) 3);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 3);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
     lcd.setCursor(0, 0);
 
 }
 
 void printNavMenuC() {
     lcd.setCursor(12, 2);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.print((char) 3);
-    lcd.print((char) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 3);
+    lcd.write((uint8_t) 2);
     lcd.setCursor(0, 0);
 
 }
 
 void printNavMenuD() {
     lcd.setCursor(12, 2);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.print((char) 2);
-    lcd.print((char) 3);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 2);
+    lcd.write((uint8_t) 3);
     lcd.setCursor(0, 0);
 
 }
 
 static void menuUsed(MenuUseEvent used) {
 
+    lcd.clear();
     lcd.setCursor(0, 0);
     //lcd.print("You are in:       ");
     //lcd.setCursor(0, 1);
