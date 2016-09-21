@@ -60,9 +60,7 @@ void getTravelDistanceMeters() {
         //
         // Check is collected enough data for calculation
         if (travelDistanceInMeters > 0 && (travelingTime / 10) > 1) {
-            //
-            // Get real time
-            timingDetectionActive = millis();
+
             //
             // Pass travel seconds distance
             CUR_VTT = int(travelingTime / 20);
@@ -73,10 +71,6 @@ void getTravelDistanceMeters() {
             //
             // Km with last meters
             CUR_VTD = (travelDistance / 3600 / 90) * 3;
-        } else {
-            //
-            // Record car in stop position
-            timingDetectionIOnactive = millis();
         }
     }
 
@@ -118,17 +112,6 @@ int long getTimeTravel() {
     return timeTravel;
 }
 
-else {
-$timerRecord2 = time().rand($randUp++, 9);
-}
-
-flush();
-
-ob_flush();
-
-sleep(rand(1, 3));
-}
-}
 
 
 /**

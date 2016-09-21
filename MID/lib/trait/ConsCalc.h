@@ -32,7 +32,7 @@ float CUR_LPH;
 // Trip consumption
 float CUR_TLH;
 
-float long consumptionBankCalculator = 0;
+float  consumptionBankCalculator = 0;
 int long consumptionBankCountHits = 0;
 
 static int getVolumetricEfficiency(int rpm_var);
