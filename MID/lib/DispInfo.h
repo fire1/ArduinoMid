@@ -27,10 +27,14 @@ void displayOutTmp() {
     if (isSensorReadMid()) {
 
         lcd.setCursor(10, 2);
-        lcd.print(getTmpOut());
-        lcd.write((uint8_t) 1);
+        lcd.print("   ");
+
     }
 
+
+    lcd.setCursor(10, 2);
+    lcd.print(getTmpOut());
+    lcd.write((uint8_t) 1);
 }
 
 /****************************************************************

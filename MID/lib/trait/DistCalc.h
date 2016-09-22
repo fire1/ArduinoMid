@@ -133,7 +133,10 @@ void getTravelDistanceMeters() {
             travelDistance = travelDistance + (travelDistanceInMeters / (CUR_TDT));
             //
             // Km with last meters
-            CUR_VTD = ((travelDistance / 10) / 2720000);
+            // 479 = 2,918km
+
+            int long buff = int(travelDistance / 1000000);
+            CUR_VTD = float(buff / 164.60);
             distanceCount++;
         }
     }
