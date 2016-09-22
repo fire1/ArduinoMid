@@ -9,9 +9,10 @@
 #include <LiquidCrystal.h>
 //
 // add Calculators
+#include "trait/AvrgCalc.h"
 #include "trait/DistCalc.h"
 #include "trait/ConsCalc.h"
-#include "trait/AvrgCalc.h"
+
 #include "MainFunc.h"
 
 //
@@ -154,7 +155,7 @@ void displayConsumption() {
         lcd.setCursor(8, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t)8);
-        lcd.print("  ");
+        lcd.print("   ");
 
     }
 
@@ -164,7 +165,9 @@ void displayConsumption() {
 
     lcd.print((char) 5);
     lcd.print((char) 6);
+    lcd.print(" ");
     lcd.print(getInstCons());
+
 
     lcd.setCursor(8, 2);
     lcd.write((uint8_t) 7);

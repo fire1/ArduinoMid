@@ -92,17 +92,19 @@ int getTravelTime(int long currentTimeTrip) {
     return timeTravelTrip / 1000;
 }
 
+int long distanceCount = 0;
+
 /**
  * Gets travel distance in meters
  */
 void getTravelDistanceMeters() {
 
-    int long travelDistanceInMeters = 0;
+    float travelDistanceInMeters = 0;
     //
     // Check reading reach maximum
     if (CUR_VSS > 3) {
         travelAllPulse = travelAllPulse + CUR_VSS;
-        travelDistanceInMeters = int((travelAllPulse * VssCorrection) * 1000);
+        travelDistanceInMeters = (travelAllPulse * VssCorrection) * 1000;
 
         //
         // Pass travel seconds distance
@@ -122,16 +124,17 @@ void getTravelDistanceMeters() {
     if (isSensorReadMid()) {
         //
         // Check is collected enough data for calculation
-        if (travelDistanceInMeters > 1000) {
+        if (travelDistanceInMeters > 1) {
 
             //
             // Travel distance in meters for second =
             // (travelAllPulse * VssCorrection) = All travel km  * 1000 =
             //      all distance in meters / (travel time / 1000 = 1 Second )
-            travelDistance = travelDistance + travelDistanceInMeters / (travelingTimeForDistance);
+            travelDistance = travelDistance + (travelDistanceInMeters / (CUR_TDT));
             //
             // Km with last meters
-            CUR_VTD = travelDistance / 10000;
+            CUR_VTD = ((travelDistance /10)/ 2800000);
+            distanceCount++;
         }
     }
 

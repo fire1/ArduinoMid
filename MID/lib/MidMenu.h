@@ -28,7 +28,7 @@ int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
 //
 // The debounce time
-long debounceDelay = 83;
+long debounceDelay = 43;
 long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
 long lastEscDebounceTime = 0;  // the last time the output pin was toggled
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
@@ -249,7 +249,7 @@ static void menuUsed(MenuUseEvent used) {
     lcd.print(used.item.getName());
     delay(250);
     lcd.print(" Menu");
-    delay(800);  //delay to allow message reading
+    delay(500);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //menu.toRoot();  //back to Main

@@ -108,13 +108,13 @@ void sensCon() {
 /**
  *
  */
-float getInstCons() {
-    return (float) ((int) CUR_LPH * 100) / 100;
+int getInstCons() {
+    return  int(CUR_LPH);
 //    return CUR_LPH;
 }
 
 float getTripCons() {
-    return (float) ((int) CUR_TLH * 100) / 100;
+    return (float( CUR_TLH) * 100) / 100;
 }
 
 /**
