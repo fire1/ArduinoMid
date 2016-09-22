@@ -133,7 +133,7 @@ void getTravelDistanceMeters() {
             travelDistance = travelDistance + (travelDistanceInMeters / (CUR_TDT));
             //
             // Km with last meters
-            CUR_VTD = ((travelDistance /10)/ 2800000);
+            CUR_VTD = ((travelDistance / 10) / 2720000);
             distanceCount++;
         }
     }
@@ -144,12 +144,12 @@ void getTravelDistanceMeters() {
         Serial.print("\n");
 //        Serial.print(" Dist Pulse:  \t");
 //        Serial.print((int) travelAllPulse);
-        Serial.print("\t Dist calc:  \t");
-        Serial.print(CUR_VTD);
-        Serial.print(" Dist time:  \t");
-        Serial.print(CUR_TDT);
-        Serial.print(" Trip time:  \t");
-        Serial.print(CUR_VTT);
+//        Serial.print("\t Dist calc:  \t");
+        Serial.print(int(travelDistance / 1000000));
+//        Serial.print(" Dist time:  \t");
+//        Serial.print(CUR_TDT);
+//        Serial.print(" Trip time:  \t");
+//        Serial.print(CUR_VTT);
 
         Serial.print("\n");
     }
