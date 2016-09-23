@@ -10,6 +10,8 @@
 //
 // Sensor configs
 const bool VssSensDebug = 0;
+const bool VssSAlarmSpeed = 1;
+const int VssAlarmCitySpeed = 60;
 //
 // Correction of VSS
 const float VssCorrection = 1; // One mile 1.621371192 [changed from int to float]
@@ -69,6 +71,12 @@ void sensVss() {
             Serial.print(" vss is:  \t");
             Serial.print(vssHitsCount * VssCorrection);
             Serial.print("\n");
+        }
+
+        //
+        // Alarm speeding at city
+        if (isSensorReadMid() && VssSAlarmSpeed && CUR_VSS > VssAlarmCitySpeed) {
+            tone(ADT_ALR_PIN, 4000, 1000);
         }
 
         //

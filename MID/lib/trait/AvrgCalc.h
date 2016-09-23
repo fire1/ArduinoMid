@@ -5,8 +5,8 @@
 #ifndef ARDUINOMID_AVRGCALC_H
 #define ARDUINOMID_AVRGCALC_H
 
-int long averageAllVssValues = 0;
-int long averageAllRpmValues;
+unsigned long averageAllVssValues = 0;
+unsigned long averageAllRpmValues;
 int maxReachedSpeed = 0;
 
 

@@ -25,9 +25,9 @@
 //
 // Read inside temperature
 #include "DispInfo.h"
-void handleBackLight(){
-
-}
+//void handleBackLight(){
+//
+//}
 
 void sensorsInit() {
     //

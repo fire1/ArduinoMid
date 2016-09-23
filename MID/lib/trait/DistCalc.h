@@ -94,7 +94,7 @@ int getTravelTime(int long currentTimeTrip) {
 
 int long distanceIndex = 0;
 int maxCountsDistance = 1000;
-int long collectionDistance = 0;
+unsigned long collectionDistance = 0;
 
 /**
  * Gets travel distance in meters
@@ -110,7 +110,7 @@ void getTravelDistanceMeters() {
 
     //
     // Check reading reach maximum
-    if (CUR_VSS > 1) {
+    if (CUR_VSS > 2) {
         //
         // Get middle speed for last
         collectionDistance += CUR_VSS;
@@ -128,7 +128,8 @@ void getTravelDistanceMeters() {
         vehicleStopped = HIGH;
     }
 
-
+    //
+    // Total Travel time  (with stops...)
     CUR_VTT = getTravelTime(millis());
 
     if (isSensorReadLow()) {
@@ -143,7 +144,10 @@ void getTravelDistanceMeters() {
 //            travelDistance = travelDistance + (travelDistanceInKM / (CUR_TDT));
 //            travelDistance = (travelDistanceInKM * CUR_TDT) / 3600000;
 
-            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 + 2400));
+
+
+
+            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 + 2390));
             //
             // Km with last meters
             int long buff = int(travelDistance / 1000000);
