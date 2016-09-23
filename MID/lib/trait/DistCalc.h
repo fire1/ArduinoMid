@@ -92,55 +92,70 @@ int getTravelTime(int long currentTimeTrip) {
     return timeTravelTrip / 1000;
 }
 
-int long distanceCount = 0;
+int long distanceIndex = 0;
+int maxCountsDistance = 1000;
+int long collectionDistance = 0;
 
 /**
  * Gets travel distance in meters
  */
 void getTravelDistanceMeters() {
 
-    float travelDistanceInMeters = 0;
+    float travelDistanceInKM = 0;
+//
+//    if (maxCountsDistance >= distanceIndex) {
+//        distanceIndex = distanceIndex / 2;
+//        collectionDistance = collectionDistance / 2;
+//    }
+
     //
     // Check reading reach maximum
-    if (CUR_VSS > 3) {
-        travelAllPulse = travelAllPulse + CUR_VSS;
-        travelDistanceInMeters = (travelAllPulse * VssCorrection) * 1000;
+    if (CUR_VSS > 1) {
+        //
+        // Get middle speed for last
+        collectionDistance += CUR_VSS;
+
+        travelDistanceInKM = (collectionDistance / distanceIndex);
 
         //
         // Pass travel seconds distance
         CUR_TDT = getTravelDistanceTime(millis());
-
+        distanceIndex++;
         //
         // Vehicle Time Travel detection
         travelingTimeForDistance = CUR_TDT;
-
-
     } else {
         vehicleStopped = HIGH;
     }
 
+
     CUR_VTT = getTravelTime(millis());
 
-    if (isSensorReadMid()) {
+    if (isSensorReadLow()) {
         //
         // Check is collected enough data for calculation
-        if (travelDistanceInMeters > 1) {
+        if (travelDistanceInKM > 1) {
 
             //
             // Travel distance in meters for second =
             // (travelAllPulse * VssCorrection) = All travel km  * 1000 =
             //      all distance in meters / (travel time / 1000 = 1 Second )
-//            travelDistance = travelDistance + (travelDistanceInMeters / (CUR_TDT));
-            travelDistance = getAverageVss() * (CUR_TDT/ 3600);
+//            travelDistance = travelDistance + (travelDistanceInKM / (CUR_TDT));
+//            travelDistance = (travelDistanceInKM * CUR_TDT) / 3600000;
+
+            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 + 2400));
             //
             // Km with last meters
             int long buff = int(travelDistance / 1000000);
+            //
+            // Km with last meters
+//            int long buff = int(travelDistance / 1000000);
             //
             // 479 = 2,918km
             // correction
 //            CUR_VTD = float(buff / 164.60);
             CUR_VTD = travelDistance;
-            distanceCount++;
+
         }
     }
 
@@ -148,8 +163,8 @@ void getTravelDistanceMeters() {
     // debug info
     if (DistSensDebug) {
         Serial.print("\n");
-//        Serial.print(" Dist Pulse:  \t");
-//        Serial.print((int) travelAllPulse);
+        Serial.print(" Dist Pulse:  \t");
+        Serial.print((int) travelDistanceInKM);
         Serial.print("\t Dist calc:  \t");
         Serial.print(int(travelDistance));
         Serial.print(" Dist time:  \t");
