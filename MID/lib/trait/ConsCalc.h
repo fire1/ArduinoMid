@@ -32,7 +32,7 @@ float CUR_LPH;
 // Trip consumption
 float CUR_TLH;
 
-float  consumptionBankCalculator = 0;
+float consumptionBankCalculator = 0;
 int long consumptionBankCountHits = 0;
 
 static int getVolumetricEfficiency(int rpm_var);
@@ -108,13 +108,13 @@ void sensCon() {
 /**
  *
  */
-int getInstCons() {
-    return  int(CUR_LPH);
+float getInstCons() {
+    return CUR_LPH;
 //    return CUR_LPH;
 }
 
 float getTripCons() {
-    return (float( CUR_TLH) * 100) / 100;
+    return (float(CUR_TLH) * 100) / 100;
 }
 
 /**

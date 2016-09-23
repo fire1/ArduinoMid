@@ -49,9 +49,14 @@ const int DIM_PIN_OUT = 46; // output dim of display
 // Temperatures
 const int TMP_PIN_OUT = A9;
 
+/* Extras ...   ******/
 //
 // Alarm / Tone pin
 const int ADT_ALR_PIN = 11;
+//
+// Alpine / Steering Wheel buttons
+//const int ALP_PIN_OUT = 12;
+//const int ALP_PIN_INP = ;
 
 /*
 #include <SerialDebug.h>

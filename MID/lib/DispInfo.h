@@ -112,14 +112,14 @@ void displayDistance() {
 
     int long tmSec;
 
-    int tmMin,tmHrs;
+    int tmMin, tmHrs;
     tmSec = getTravelTime();
 
     tmMin = tmSec / 60;
     tmHrs = tmMin / 60;
 
     char dspTime[5];
-    sprintf(dspTime, "%02d:%02d",tmHrs, tmMin);
+    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
 
     if (isSensorReadLow()) {
@@ -158,25 +158,34 @@ void displayConsumption() {
 
         lcd.setCursor(8, 2);
         lcd.write((uint8_t) 7);
-        lcd.write((uint8_t)8);
+        lcd.write((uint8_t) 8);
         lcd.print("   ");
 
     }
 
+    char dspStr[3];
+    int dig1, dig2;
+    float consRead = getInstCons();
+    //
+    // Trick the system ...
+    dig1 = (int) consRead; // first digs only
+    dig2 = int(consRead - dig1) * 10000; // convert to integer
+    //
+    // Create formatted string
+    sprintf(dspStr, " %d.%02d", dig1, dig2);
     //
     // Handle Distance screen
     lcd.setCursor(1, 2);
 
     lcd.print((char) 5);
     lcd.print((char) 6);
-    lcd.print(" ");
-    lcd.print(getInstCons());
+    lcd.print(dspStr);
 
 
     lcd.setCursor(8, 2);
     lcd.write((uint8_t) 7);
     lcd.write((uint8_t) 8);
-    lcd.print(getUsedFuel());
+    lcd.print(getTripCons());
 }
 
 /****************************************************************
