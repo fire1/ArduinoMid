@@ -5,7 +5,7 @@
 #ifndef ARDUINOMID_CALCULATORS_H
 #define ARDUINOMID_CALCULATORS_H
 
-const bool DistSensDebug = 1;
+const bool DistSensDebug = 0;
 const int long correctionDistance = 1;
 const int correctionDistanceTime = 1;
 
@@ -147,7 +147,7 @@ void getTravelDistanceMeters() {
 
 
 
-            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 + 2390));
+            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 /*+ 2390*/));
             //
             // Km with last meters
             int long buff = int(travelDistance / 1000000);

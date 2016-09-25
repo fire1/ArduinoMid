@@ -55,8 +55,8 @@ const int TMP_PIN_OUT = A9;
 const int ADT_ALR_PIN = 11;
 //
 // Alpine / Steering Wheel buttons
-//const int ALP_PIN_OUT = 12;
-//const int ALP_PIN_INP = ;
+const int ALP_PIN_OUT = 12;
+const int ALP_PIN_INP = A8;
 
 /*
 #include <SerialDebug.h>
@@ -104,9 +104,7 @@ int showerCounter = 0;
 //
 // Adding menu source
 #include "lib/MidMenu.h"
-//
-// Adding Alphine emulator
-#include "lib/EmlAlpine.h"
+
 //
 // Adding sensors
 #include "lib/SensInit.h"
@@ -119,6 +117,9 @@ void setup() {
     //
     // Debug serial
     Serial.begin(9600);
+    //
+    // Multi steering handle
+    setupAlphine(ALP_PIN_INP, ALP_PIN_OUT);
     //
     // Display back-light handler
     setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
@@ -149,10 +150,15 @@ void setup() {
     // Set MID menu
     setupMenu();
 
-
 }
 
+// ALP_PIN_INP
+
 void loop() {
+
+
+
+
     //
     // Sensors
     sensorsInit();
@@ -205,7 +211,7 @@ static void playWelcomeScreen() {
     lcd.print("Nice driving! ");
     tone(ADT_ALR_PIN, 400, 200);
     delay(500);
-    tone(ADT_ALR_PIN, 1800, 300);
+    tone(ADT_ALR_PIN, 600, 300);
     lcd.print(":)");
     delay(1500);
     lcd.clear();

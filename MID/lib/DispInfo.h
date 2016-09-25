@@ -22,6 +22,13 @@
  */
 void displayOutTmp() {
 
+//    char dspTemp[4];
+//
+//    int tmpDsp = int(getTmpOut() * 10);
+//
+//    tmA
+//
+//    sprintf(dspTemp, "%02d:%02d", tmA, tmB);
     //
     // Read pin value
     if (isSensorReadMid()) {

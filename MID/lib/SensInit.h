@@ -21,7 +21,9 @@
 //
 // Temperature
 #include "sens/TmpSens.h"
-
+//
+// Adding Alphine emulator
+#include "sens/SensAlpine.h"
 //
 // Read inside temperature
 #include "DispInfo.h"
@@ -41,6 +43,8 @@ void sensorsInit() {
     sensAvr();
     sensTmp();
     sensCon();
+
+    sensStr(); // Sens steering
 
     sensDim(); // Dim display
     //

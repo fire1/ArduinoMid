@@ -10,8 +10,8 @@ const bool DebugTemperatures = 0;
 
 float CUR_OUT_TMP = 0;
 
-int getTmpOut() {
-    return (int) CUR_OUT_TMP;
+float getTmpOut() {
+    return  CUR_OUT_TMP;
 }
 
 /**
@@ -20,7 +20,7 @@ int getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (isSensorReadMid()) {
+    if (isSensorReadLow()) {
         int reading = analogRead(TMP_PIN_OUT);
 
 
