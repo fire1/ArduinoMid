@@ -79,15 +79,15 @@ void setupVssSens(int pinTarget) {
 //    sbi(TCCR3A, WGM20);
 }
 
-int long LastVss = 0;
-
-ISR(TIMER3_OVF_vect) {
-    int current = digitalRead(SPD_SNS_PIN);
-    if (current == HIGH && LastVss == LOW)
-        vssHitsCount++;
-
-    LastVss = current;
-}
+//int long LastVss = 0;
+//
+//ISR(TIMER3_OVF_vect) {
+//    int current = digitalRead(SPD_SNS_PIN);
+//    if (current == HIGH && LastVss == LOW)
+//        vssHitsCount++;
+//
+//    LastVss = current;
+//}
 
 /**
  * Gets current Vss
