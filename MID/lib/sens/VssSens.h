@@ -10,13 +10,13 @@
 //
 // Sensor configs
 const bool VssSensDebug = 0;
-const bool VssSAlarmSpeed = 1;
+const bool VssSAlarmSpeed = 0;
 const int VssAlarmCitySpeed = 60;
 //
 // Correction of VSS
 const float VssCorrection = 1; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
-const int VssLoopLength = 250;
+const int VssLoopLength = 235; // old 250
 //
 // Rpm Container
 int CUR_VSS = 0;
@@ -78,7 +78,9 @@ void sensVss() {
         if (isSensorReadMid() && VssSAlarmSpeed && CUR_VSS > VssAlarmCitySpeed) {
             tone(ADT_ALR_PIN, 4000, 1000);
         }
-
+//        if (isSensorReadMid()  && VssSAlarmSpeed && CUR_VSS > 105) {
+//            tone(ADT_ALR_PIN, 4000, 1000);
+//        }
         //
         // Reset pulse counter
         vssHitsCount = 0;

@@ -130,6 +130,7 @@ void displayDistance() {
         lcd.setCursor(0, 2);
         lcd.print(" ");
         lcd.print(dspTime);
+        lcd.print("h");
         //
         // Display travel distance
 
@@ -150,7 +151,7 @@ void displayConsumption() {
 
         lcd.setCursor(0, 0);
         lcd.print(" Consumption");
-        lcd.setCursor(1, 2);
+        lcd.setCursor(0, 2);
 
         lcd.write((uint8_t) 5);
         lcd.write((uint8_t) 6);
@@ -172,10 +173,10 @@ void displayConsumption() {
     dig2 = int(consRead - dig1) * 10000; // convert to integer
     //
     // Create formatted string
-    sprintf(dspStr, " %d.%02d", dig1, dig2);
+    sprintf(dspStr, "%d.%02d", dig1, dig2);
     //
     // Handle Distance screen
-    lcd.setCursor(1, 2);
+    lcd.setCursor(0, 2);
 
     lcd.print((char) 5);
     lcd.print((char) 6);

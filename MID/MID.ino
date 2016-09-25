@@ -140,15 +140,15 @@ void setup() {
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
+
+    //
+    // Show welcome from car
+    playWelcomeScreen();
+
     //
     // Set MID menu
     setupMenu();
-    //
-    // Test tone
-    tone(ADT_ALR_PIN, 1000, 500);
-    //
-    // Show welcome from car
-    //playWelcomeScreen();
+
 
 }
 
@@ -197,12 +197,18 @@ void loop() {
 static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
     lcd.print("Welcome to Astra");
+    //
+    // Test tone
+    tone(ADT_ALR_PIN, 400, 100);
     delay(1000);
     lcd.setCursor(0, 1);
     lcd.print("Nice driving! ");
+    tone(ADT_ALR_PIN, 400, 200);
     delay(500);
-    lcd.print((char) 0);
+    tone(ADT_ALR_PIN, 1800, 300);
+    lcd.print(":)");
     delay(1500);
+    lcd.clear();
 }
 
 

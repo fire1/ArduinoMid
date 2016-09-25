@@ -14,8 +14,9 @@ int long averageDivider = 0;
 
 void sensAvr(void) {
     averageAllVssValues += CUR_VSS;
-    averageAllRpmValues += CUR_RPM;
-
+    if (CUR_RPM > 0) {
+        averageAllRpmValues += CUR_RPM;
+    }
     averageDivider += 1;
     //
     //  Resolve maximum speed reached

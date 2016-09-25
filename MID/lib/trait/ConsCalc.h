@@ -102,7 +102,9 @@ void sensCon() {
     consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
     //
     // Trip consumption detection
-    CUR_TLH = consumptionBankCalculator / consumptionBankCountHits;
+    if (CUR_RPM > 500) {
+        CUR_TLH = consumptionBankCalculator / consumptionBankCountHits;
+    }
 }
 
 /**

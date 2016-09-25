@@ -11,14 +11,15 @@
 void setupLcdChar() {
 //
 // Smile face
-    byte CHR_SML[8] = {
-            B00000,
-            B10001,
-            B00000,
-            B00000,
-            B10001,
-            B01110,
-            B00000
+    byte CHR_SML[8] =  {
+            0b00000,
+            0b00000,
+            0b00010,
+            0b01001,
+            0b00001,
+            0b01001,
+            0b00010,
+            0b00000
     };
 
 //
@@ -120,10 +121,10 @@ void setupLcdChar() {
             0b00000,
             0b00000,
             0b00000,
-            0b01010,
-            0b10011,
-            0b01010,
-            0b10001,
+            0b01000,
+            0b10000,
+            0b01000,
+            0b10000,
             0b00000
     };
 
@@ -181,7 +182,7 @@ void setupLcdChar() {
             0b00000
     };
 
-    lcd.createChar(0, CHR_SML);
+    lcd.createChar(9, CHR_SML);
     lcd.createChar(1, CHR_CLS);
     lcd.createChar(2, CHR_MNC1);
     lcd.createChar(3, CHR_MNC2);

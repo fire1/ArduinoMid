@@ -184,14 +184,14 @@ void navigateMenu() {
                 }
                 break;
             case BTN_PIN_DW:
-                if (isInSubMenu == 0) {
+                if (isInSubMenu) {
                     menu.moveRight();
                     menu.use();
                     isInSubMenu = 1;
                 }
                 else {
                     isInSubMenu = 0;
-                    menu.moveBack();
+                    menu.moveDown();
                     menu.use();
                 }
                 break;
