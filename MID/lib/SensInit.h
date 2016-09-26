@@ -23,7 +23,7 @@
 #include "sens/TmpSens.h"
 //
 // Adding Alphine emulator
-#include "sens/SensAlpine.h"
+#include "lib/sens/SensStrn.h"
 //
 // Read inside temperature
 #include "DispInfo.h"
@@ -36,10 +36,12 @@ void sensorsInit() {
     // No Interrupts
     cli();
     //
-    // Sense of car sensors ;)
+    // Sense Basic car sensors ;)
     sensRpm();
     sensVss();
     sensEcu();
+    //
+    // Sens Extra
     sensAvr();
     sensTmp();
     sensCon();
