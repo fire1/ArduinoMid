@@ -23,7 +23,7 @@
 #include "sens/TmpSens.h"
 //
 // Adding Alphine emulator
-#include "lib/sens/SensStrn.h"
+#include "sens/SensStrn.h"
 //
 // Read inside temperature
 #include "DispInfo.h"
