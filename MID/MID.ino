@@ -148,7 +148,7 @@ void setup() {
 
     //
     // Show welcome from car
-//    playWelcomeScreen();
+    playWelcomeScreen();
 
     //
     // Set MID menu

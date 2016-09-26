@@ -76,9 +76,9 @@ float getVoltage(float volt) {
 void sensStr() {
 //    if (isSensorReadLow()) {
     int readingSteeringButton = analogRead(ALP_PIN_INP);
-    Serial.print("\n MultiVolan: ");
-    Serial.print(readingSteeringButton);
-    Serial.print("\n ");
+//    Serial.print("\n MultiVolan: ");
+//    Serial.print(readingSteeringButton);
+//    Serial.print("\n ");
 
     int steeringButtonPress = 0;
 /*

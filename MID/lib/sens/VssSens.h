@@ -9,7 +9,7 @@
 
 //
 // Sensor configs
-const bool VssSensDebug = 0;
+const bool VssSensDebug = 1;
 const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 60;
 //
