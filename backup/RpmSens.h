@@ -87,7 +87,7 @@ ISR(TIMER2_OVF_vect) {
  * Gets current RPM
  */
 int getRpmSens () {
-	return CUR_RPM;
+  return CUR_RPM;
 }
 
 
@@ -95,30 +95,30 @@ int getRpmSens () {
  * Detect RPMs
  */
 void sensRpm () {
-	rpmTimerEnds = millis ();
-	if (rpmTimerEnds >= (rpmTimerStart + 580))
+  rpmTimerEnds = millis ();
+  if (rpmTimerEnds >= (rpmTimerStart + 580))
 	{
-		//
-		// Handle cycles
-		rpmTimerStart = rpmTimerEnds;
-		//
-		// Pass rpm to global
-		CUR_RPM = rpmHitsCount * RpmCorrection;
+	  //
+	  // Handle cycles
+	  rpmTimerStart = rpmTimerEnds;
+	  //
+	  // Pass rpm to global
+	  CUR_RPM = rpmHitsCount * RpmCorrection;
 
-		//
-		// debug info
-		if (RpmSensDebug)
+	  //
+	  // debug info
+	  if (RpmSensDebug)
 		{
-			Serial.print ("\n");
-			Serial.print (" RPM count:  \t");
-			Serial.print (rpmHitsCount);
-			Serial.print (" RPM is:  \t");
-			Serial.print (rpmHitsCount * 450);
-			Serial.print ("\n");
+		  Serial.print ("\n");
+		  Serial.print (" RPM count:  \t");
+		  Serial.print (rpmHitsCount);
+		  Serial.print (" RPM is:  \t");
+		  Serial.print (rpmHitsCount * 450);
+		  Serial.print ("\n");
 		}
-		//
-		// Clear value
-		rpmHitsCount = 0;
+	  //
+	  // Clear value
+	  rpmHitsCount = 0;
 	}
 }
 
