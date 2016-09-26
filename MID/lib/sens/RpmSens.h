@@ -8,7 +8,7 @@
 //
 // Sensor configs
 const bool RpmSensDebug = 0;
-const int RpmCorrection = 50;
+const int RpmCorrection = 36;
 
 //
 // Rpm Container
@@ -24,13 +24,34 @@ int long rpmTimerStart = 0, rpmTimerEnds = 0;
  * Callback attachInterrupt
  */
 void catchRpmHits () {
-//  rpmHitsCount++;
+  rpmHitsCount++;
 }
 
+
+void setupRpmSens(int pinTarget) {
+    pinMode(pinTarget, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt (pinTarget), catchRpmHits, FALLING);
+}
 /** deprecated
  * Setup Rpm
  */
-void setupRpmSens (int pinTarget) {
+void setupRpmSens__(int pinTarget){
+
+    // set timer 2 prescale factor to 64
+    sbi(TCCR2B, CS22);
+    // configure timer 2 for phase correct pwm (8-bit)
+    sbi(TCCR2A, WGM20);
+
+
+
+    TCCR2A = 1 << WGM20 | 1 << WGM21;
+    // set timer 2 prescale factor to 64
+    TCCR2B = 1 << CS22;
+    TIMSK2 |= 1 << TOIE2;
+//    TIMSK0 &= !(1 << TOIE0);
+}
+
+void setupRpmSens_(int pinTarget) {
 	/* First disable the timer overflow interrupt while we're configuring */
 	TIMSK2 &= ~(1 << TOIE2);
 
@@ -96,7 +117,7 @@ int getRpmSens () {
  */
 void sensRpm () {
 	rpmTimerEnds = millis ();
-	if (rpmTimerEnds >= (rpmTimerStart + 580))
+	if (rpmTimerEnds >= (rpmTimerStart + 460))
 	{
 		//
 		// Handle cycles

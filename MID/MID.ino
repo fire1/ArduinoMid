@@ -38,7 +38,7 @@ const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
 // Engine pins
-const int RPM_SNS_PIN = 10;    // MID6 RPM [attachInterrupt]
+const int RPM_SNS_PIN = 2;    //  old:10 MID6 RPM [attachInterrupt]
 const int SPD_SNS_PIN = 3;    // MID12 Speed sensor hub [attachInterrupt]
 const int ECU_SGN_PIN = 19; // ECU signal
 //
@@ -117,17 +117,21 @@ void setup() {
     //
     // Debug serial
     Serial.begin(9600);
-    //
-    // Multi steering handle
-    setupAlphine(ALP_PIN_INP, ALP_PIN_OUT);
-    //
-    // Display back-light handler
-    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
+
+
     //
     // Engine sensors pin mode input
     setupRpmSens(RPM_SNS_PIN); // Engine RPM
     setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
     setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU  
+
+    //
+    // Multi steering handle
+    setupAlphine(ALP_PIN_INP, ALP_PIN_OUT);
+
+    //
+    // Display back-light handler
+    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
     //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
@@ -144,7 +148,7 @@ void setup() {
 
     //
     // Show welcome from car
-    playWelcomeScreen();
+//    playWelcomeScreen();
 
     //
     // Set MID menu
