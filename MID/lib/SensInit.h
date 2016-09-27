@@ -42,9 +42,9 @@ void sensorsInit() {
     sensEcu();
     //
     // Sens Extra
-    sensAvr();
     sensTmp();
     sensCon();
+    sensAvr();
 
     sensStr(); // Sens steering
 

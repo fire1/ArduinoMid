@@ -111,13 +111,16 @@ void sensCon() {
  *
  */
 float getInstCons() {
-    return CUR_LPH;
+    return (float(CUR_TLH) * 100) / 100;
+//    return CUR_LPH;
 //    return CUR_LPH;
 }
 
 float getTripCons() {
-    return (float(CUR_TLH) * 100) / 100;
+    float dist = getTravelDistance();
+    return (float(dist / CUR_TLH) * 100) / 100;
 }
+
 
 /**
  * @deprecated ECU signal gives this value
