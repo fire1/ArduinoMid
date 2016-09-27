@@ -23,9 +23,9 @@ void sensTmp() {
     if (isSensorReadLow()) {
         int reading = analogRead(TMP_PIN_OUT);
 
-
+        //
         // converting that reading to voltage, for 3.3v Astra use  resistor for ~ 2.3v
-        float voltage = reading * 3.3;
+        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
         voltage /= 1024.0;
 
         //converting from 10 mv per degree wit 500 mV offset

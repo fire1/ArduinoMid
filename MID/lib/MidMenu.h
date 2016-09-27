@@ -8,10 +8,15 @@ static void menuUsed(MenuUseEvent used);
 static void menuChanged(MenuChangeEvent changed);
 
 void printNavMenuA();
+
 void printNavMenuB();
+
 void printNavMenuC();
+
 void navigateMenus();
+
 void printNavMenuD();
+
 //
 //
 MenuBackend menu = MenuBackend(menuUsed, menuChanged);
@@ -101,7 +106,7 @@ static void menuChanged(MenuChangeEvent changed) {
 /**
  * Read pin button states
  */
-void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {  //read buttons status
+void _readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {  //read buttons status
     int reading;
     int buttonDwState = LOW;             // the current reading from the input pin
     int buttonUpState = LOW;             // the current reading from the input pin
@@ -145,6 +150,35 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {  //read buttons sta
     }
     else {
         lastButtonPushed = LOW;
+    }
+}
+
+/**
+ * Lower the code
+ */
+void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
+
+    lastButtonPushed = LOW;
+
+    //
+    // Detect up state button
+    if (!digitalRead(buttonPinUp) == HIGH) {
+        delay(10);
+        if (!digitalRead(buttonPinUp) == HIGH) {
+            lastButtonPushed = buttonPinUp;
+        }
+    }
+
+    //
+    // Detect down state button
+    if (!digitalRead(buttonPinDw) == HIGH) {
+        delay(10);
+        if (!digitalRead(buttonPinDw) == HIGH) {
+            lastButtonPushed = buttonPinDw;
+            if (isSensorReadMid() && !digitalRead(buttonPinDw) == HIGH) {
+//                isInSubMenu = 1;
+            }
+        }
     }
 }
 

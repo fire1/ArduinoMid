@@ -73,7 +73,7 @@ const int ALP_PIN_INP = A8;
 //
 // Includes Libraries
 #include <LiquidCrystal.h>
-
+#include <SPI.h>
 
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 /* Todo
@@ -108,6 +108,8 @@ int showerCounter = 0;
 //
 // Adding sensors
 #include "lib/SensInit.h"
+
+//#include "lib/EEProm.h";
 
 static void playWelcomeScreen();
 
@@ -159,10 +161,6 @@ void setup() {
 // ALP_PIN_INP
 
 void loop() {
-
-
-
-
     //
     // Sensors
     sensorsInit();

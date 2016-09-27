@@ -3,16 +3,16 @@
 
             resistance  voltage
 ---------------------------------------------------
-src       2200      4.1
-att         4400      3.47
-off         35          4.98
-vol down  23850     1.47
-vol up      17000     1.85
-seek down 12000     2.25
-seek up     8800      2.65
-back      6660      3
-front     33940     1.13
-bottom      48800     0.84
+src             2200      4.1
+att             4400      3.47
+off             35        4.98
+vol down        23850     1.47
+vol up          17000     1.85
+seek down       12000     2.25
+seek up         8800      2.65
+back            6660      3
+front           33940     1.13
+bottom          48800     0.84
 ---------------------------------------------------
  Sony Voltages                                  
  */
@@ -61,6 +61,7 @@ void sendCodeAlphine(char *code) {
         digitalWrite(alpPin, LOW);
         delayMicroseconds(alpRate);
     }
+
     digitalWrite(alpPin, LOW);
     delay(41); //41ms interval between commands
 }

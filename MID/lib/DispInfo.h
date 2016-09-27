@@ -21,26 +21,23 @@
  * Display temperature sensor
  */
 void displayOutTmp() {
-
-//    char dspTemp[4];
-//
-//    int tmpDsp = int(getTmpOut() * 10);
-//
-//    tmA
-//
-//    sprintf(dspTemp, "%02d:%02d", tmA, tmB);
     //
     // Read pin value
     if (isSensorReadMid()) {
-
         lcd.setCursor(10, 2);
         lcd.print("   ");
-
     }
 
+    char tmpTemp[3];
+
+    float value = getTmpOut();
+
+    //
+    // Preformat ...
+    displayFloat(value, tmpTemp);
 
     lcd.setCursor(10, 2);
-    lcd.print(getTmpOut());
+    lcd.print(tmpTemp);
     lcd.write((uint8_t) 1);
 }
 

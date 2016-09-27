@@ -43,34 +43,31 @@ int calConsumption(int engineRpm) {
 }
 
 
-
-
 // argument is time in milliseconds
-void printTime(unsigned long t_milli)
-{
+void printTime(unsigned long t_milli) {
     char buffer[20];
     int days, hours, mins, secs;
     int fractime;
     unsigned long inttime;
 
-    inttime  = t_milli / 1000;
+    inttime = t_milli / 1000;
     fractime = t_milli % 1000;
     // inttime is the total number of number of seconds
     // fractimeis the number of thousandths of a second
 
     // number of days is total number of seconds divided by 24 divided by 3600
-    days     = inttime / (24*3600);
-    inttime  = inttime % (24*3600);
+    days = inttime / (24 * 3600);
+    inttime = inttime % (24 * 3600);
 
     // Now, inttime is the remainder after subtracting the number of seconds
     // in the number of days
-    hours    = inttime / 3600;
-    inttime  = inttime % 3600;
+    hours = inttime / 3600;
+    inttime = inttime % 3600;
 
     // Now, inttime is the remainder after subtracting the number of seconds
     // in the number of days and hours
-    mins     = inttime / 60;
-    inttime  = inttime % 60;
+    mins = inttime / 60;
+    inttime = inttime % 60;
 
     // Now inttime is the number of seconds left after subtracting the number
     // in the number of days, hours and minutes. In other words, it is the
@@ -81,6 +78,7 @@ void printTime(unsigned long t_milli)
     sprintf(buffer, "%02d:%02d:%02d.%03d", hours, mins, secs, fractime);
     lcd.print(buffer);
 }
+
 //
 // Engine read values
 unsigned int thcSnsCount = 0;
@@ -146,6 +144,22 @@ void setupMain() {
 
 }
 
+/**
+ * Limits display floats
+ */
+char displayFloat(float value, char *output) {
+
+    int dig1 = int(value) * 10; // 210
+    int dig2 = int((value * 10) - dig1);
+
+    dig1 = dig1 / 10;
+    if (dig2 < 0) {
+        dig2 = dig2 * -1;
+    }
+
+    sprintf(output, "%02d.%1d", dig1, dig2);
+
+}
 
 #endif //ARDUINOMID_UTILS_H
 
