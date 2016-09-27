@@ -138,9 +138,12 @@ void displayDistance() {
         //
         // Display travel distance
 
+        char dspDist[4];
+        displayFloat(getTravelDistance(), dspDist);
+
         lcd.print(" ");
         lcd.setCursor(9, 2);
-        lcd.print(getTravelDistance());
+        lcd.print(dspDist);
         lcd.print("km");
 
     }
@@ -155,42 +158,46 @@ void displayConsumption() {
 
         lcd.setCursor(0, 0);
         lcd.print(" Consumption");
-        lcd.setCursor(0, 2);
+        lcd.setCursor(1, 2);
 
         lcd.write((uint8_t) 5);
         lcd.write((uint8_t) 6);
         lcd.print("  ");
 
-        lcd.setCursor(8, 2);
+        lcd.setCursor(9, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
         lcd.print("   ");
 
     }
 
-    char dspStr[3];
-    int dig1, dig2;
-    float consRead = getInstCons();
-    //
-    // Trick the system ...
-    dig1 = (int) consRead; // first digs only
-    dig2 = int(consRead - dig1) * 10000; // convert to integer
-    //
-    // Create formatted string
-    sprintf(dspStr, "%d.%02d", dig1, dig2);
+    char dspInst[3];
+//    int dig1, dig2;
+//    float consRead = getInstCons();
+//    //
+//    // Trick the system ...
+//    dig1 = (int) consRead; // first digs only
+//    dig2 = int(consRead - dig1) * 10000; // convert to integer
+//    //
+//    // Create formatted string
+//    sprintf(dspStr, "%d.%02d", dig1, dig2);
     //
     // Handle Distance screen
-    lcd.setCursor(0, 2);
 
+    displayFloat(getInstCons(), dspInst);
+
+    lcd.setCursor(1, 2);
     lcd.print((char) 5);
     lcd.print((char) 6);
-    lcd.print(dspStr);
+    lcd.print(dspInst);
 
+    char dspTotal[3];
+    displayFloat(getTripCons(), dspTotal);
 
-    lcd.setCursor(8, 2);
+    lcd.setCursor(9, 2);
     lcd.write((uint8_t) 7);
     lcd.write((uint8_t) 8);
-    lcd.print(getTripCons());
+    lcd.print(dspTotal);
 }
 
 /****************************************************************

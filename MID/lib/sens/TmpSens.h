@@ -20,35 +20,31 @@ float getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (isSensorReadLow()) {
+    if (isSensorReadSec()) {
         int reading = analogRead(TMP_PIN_OUT);
-
-        //
-        // converting that reading to voltage, for 3.3v Astra use  resistor for ~ 2.3v
-        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
-        voltage /= 1024.0;
-
-        //converting from 10 mv per degree wit 500 mV offset
-        temperatureC = (((voltage /*- 0.5*/) * 100) - 80) * -1;
-        //to degrees ((voltage - 500mV) times 100)
 
         if (DebugTemperatures) {
 
             Serial.print("Read Temp: ");
             Serial.print(reading);
-            Serial.print("\t");
-            Serial.print("Voltage Temp: ");
-            Serial.print(voltage);
-            Serial.print("\t");
-            Serial.print("Resolve Temp: ");
-            Serial.print(temperatureC);
             Serial.print("\n");
         }
 
-        CUR_OUT_TMP = temperatureC;
+        CUR_OUT_TMP = (reading / -7.5 + 40);
     }
 
 }
-
+//
+//        Serial.print("Read Temp: ");
+//        Serial.println(reading);
+//
+//        //
+//        // converting that reading to voltage, for 3.3v Astra use  resistor for ~ 2.3v
+//        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
+//        voltage /= 1024.0;
+//
+//        //converting from 10 mv per degree wit 500 mV offset
+//        temperatureC = (((voltage /*- 0.5*/) * 100) - 80) * -1;
+//        //to degrees ((voltage - 500mV) times 100)
 
 #endif //ARDUINOMID_TMPSENS_H

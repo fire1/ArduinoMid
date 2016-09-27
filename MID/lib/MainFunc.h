@@ -112,6 +112,16 @@ bool isSensorReadMid() {
     return false;
 }
 
+//
+// Sensor timing handler
+bool isSensorReadSec() {
+    if (millis() >= SNS_LAST_RUN_TIME + 1000) {
+        SNS_LAST_RUN_TIME = millis();
+        return true;
+    }
+    return false;
+}
+
 int long SNS_LOW_RUN_TIME = 0;
 //
 // Sensor timing handler
