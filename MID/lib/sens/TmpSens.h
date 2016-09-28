@@ -6,7 +6,7 @@
 #define ARDUINOMID_TMPSENS_H
 
 
-const bool DebugTemperatures = 0;
+const bool DebugTemperatures = 1;
 
 float CUR_OUT_TMP = 0;
 
@@ -20,7 +20,7 @@ float getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (isSensorReadSec()) {
+    if (isSensorReadLow()) {
         int reading = analogRead(TMP_PIN_OUT);
 
         if (DebugTemperatures) {
@@ -35,7 +35,7 @@ void sensTmp() {
         float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
         voltage /= 1024.0;
 
-        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) - 65) * -1;
+        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) - 68) * -1;
     }
 
 }

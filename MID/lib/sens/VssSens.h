@@ -74,14 +74,14 @@ void sensVss() {
         }
 
         //
-        // Alarm speeding at city
-        if (isSensorReadMid() && VssSAlarmSpeed && CUR_VSS > VssAlarmCitySpeed) {
-            tone(ADT_ALR_PIN, 4000, 1000);
-        }
-
-        //
         // Reset pulse counter
         vssHitsCount = 0;
+    }
+
+    //
+    // Alarm speeding at city
+    if (isSensorReadLow() && VssSAlarmSpeed && CUR_VSS > VssAlarmCitySpeed) {
+        tone(ADT_ALR_PIN, 4000, 1000);
     }
 
 }

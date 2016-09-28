@@ -112,11 +112,12 @@ bool isSensorReadMid() {
     return false;
 }
 
+int long SNS_LAST_SEC_TIME = 0;
 //
 // Sensor timing handler
 bool isSensorReadSec() {
-    if (millis() >= SNS_LAST_RUN_TIME + 1000) {
-        SNS_LAST_RUN_TIME = millis();
+    if (millis() >= SNS_LAST_SEC_TIME + 1000) {
+        SNS_LAST_SEC_TIME = millis();
         return true;
     }
     return false;
