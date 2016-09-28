@@ -191,13 +191,13 @@ void displayConsumption() {
     lcd.print((char) 6);
     lcd.print(dspInst);
 
-    char dspTotal[3];
-    displayFloat(getTripCons(), dspTotal);
+//    char dspTotal[3];
+//    displayFloat(getTripCons(), dspTotal);
 
     lcd.setCursor(9, 2);
     lcd.write((uint8_t) 7);
     lcd.write((uint8_t) 8);
-    lcd.print(dspTotal);
+    lcd.print(getTripCons());
 }
 
 /****************************************************************

@@ -11,7 +11,7 @@ const bool DebugTemperatures = 0;
 float CUR_OUT_TMP = 0;
 
 float getTmpOut() {
-    return  CUR_OUT_TMP;
+    return CUR_OUT_TMP;
 }
 
 /**
@@ -30,13 +30,17 @@ void sensTmp() {
             Serial.print("\n");
         }
 
-        CUR_OUT_TMP = (reading / -7.5 + 40);
+        Serial.print("Read Temp: ");
+        Serial.println(reading);
+        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
+        voltage /= 1024.0;
+
+        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) - 65) * -1;
     }
 
 }
 //
-//        Serial.print("Read Temp: ");
-//        Serial.println(reading);
+
 //
 //        //
 //        // converting that reading to voltage, for 3.3v Astra use  resistor for ~ 2.3v

@@ -118,7 +118,13 @@ float getInstCons() {
 
 float getTripCons() {
     float dist = getTravelDistance();
-    return (float(dist / CUR_TLH) * 100) / 100;
+
+    float result = (float(dist / CUR_TLH) * 100) / 100;
+
+    if (CUR_TLH <= 0) {
+        return (float) 0;
+    }
+    return result;
 }
 
 
