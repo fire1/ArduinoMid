@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -63,19 +64,16 @@ const int ALP_PIN_INP = A8;
 #define DEBUG true
 */
 //
-//  MenuBackend library - copyright by Alexander Brevig
-// Import it from:
-// https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
-#include <MenuBackend.h>
 //
-#include <Wire.h>
-//
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 
 //
 // Includes Libraries
+
 #include <LiquidCrystal.h>
-#include <SPI.h>
+//#include <SPI.h>
+
+
 
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 /* Todo
@@ -95,7 +93,12 @@ const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
 const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
 int showerCounter = 0;
 
-
+//
+//
+#include "lib/EepRom.h"
+//
+// Data storage
+EepRom eepRom;
 
 //
 // Main Sensor handler
@@ -111,9 +114,10 @@ int showerCounter = 0;
 // Adding sensors
 #include "lib/SensInit.h"
 
-//#include "lib/EEProm.h";
 
 static void playWelcomeScreen();
+
+
 
 //
 // Setup the code...
@@ -121,8 +125,9 @@ void setup() {
     //
     // Debug serial
     Serial.begin(9600);
-
-
+    //
+    //
+    eepRom.setup();
     //
     // Engine sensors pin mode input
     setupRpmSens(RPM_SNS_PIN); // Engine RPM

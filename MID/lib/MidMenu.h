@@ -3,6 +3,12 @@
 //
 #include "MainFunc.h"
 
+//
+//  MenuBackend library - copyright by Alexander Brevig
+// Import it from:
+// https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
+#include <MenuBackend.h>
+
 static void menuUsed(MenuUseEvent used);
 
 static void menuChanged(MenuChangeEvent changed);
@@ -34,8 +40,7 @@ int isInSubMenu = 0;
 //
 // The debounce time
 long debounceDelay = 43;
-long lastEnterDebounceTime = 0;  // the last time the output pin was toggled
-long lastEscDebounceTime = 0;  // the last time the output pin was toggled
+
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
 long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 

@@ -32,10 +32,11 @@ void sensTmp() {
 
         Serial.print("Read Temp: ");
         Serial.println(reading);
-        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
+        float voltage = reading * 1.5 /*3.3*/; // Maybe readings needs to be zeroed in order to lower the values
         voltage /= 1024.0;
 
-        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) - 68) * -1;
+        CUR_OUT_TMP = reading - 125;
+//        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
     }
 
 }
