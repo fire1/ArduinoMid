@@ -109,12 +109,11 @@ EepRom eepRom;
 //
 // Adding menu source
 #include "lib/MidMenu.h"
-
 //
 // Adding sensors
 #include "lib/SensInit.h"
-
-
+//
+//
 static void playWelcomeScreen();
 
 
