@@ -1,4 +1,4 @@
-#include <USBAPI.h>
+//#include <USBAPI.h>
 
 //
 // Created by Angel Zaprianov on 28.6.2016 г..
@@ -57,34 +57,34 @@ void writeEEPROM(int deviceaddress, unsigned int eeaddress, byte data )
  */
 void saveFuelTankLevel (unsigned int value = 0)
 {
-  EEPROM.write (EEP_ADR_FTK, value);
+//  EEPROM.write (EEP_ADR_FTK, value);
 }
 /**
  * Loads saved fuel level
  */
 int loadFuelTankLevel ()
 {
-  return EEPROM.read (EEP_ADR_FTK);
+//  return EEPROM.read (EEP_ADR_FTK);
 }
 /**
  * Save total travel distance
  */
 void saveTravelDistance (unsigned int value = 0)
 {
-  EEPROM.write (EEP_ADR_TTD, value / 4);
+//  EEPROM.write (EEP_ADR_TTD, value / 4);
 }
 /**
  * Loads travel distance
  */
 void loadTravelDistance ()
 {
-  return EEPROM.read (EEP_ADR_TTD) * 4;
+//  return EEPROM.read (EEP_ADR_TTD) * 4;
 }
 /**
  *
  */
 void saveTripDistance (unsigned int value = 0)
 {
-  EEPROM.write (EEP_ADR_TRD, value / 4);
+//  EEPROM.write (EEP_ADR_TRD, value / 4);
 }
 

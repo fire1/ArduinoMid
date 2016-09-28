@@ -68,8 +68,10 @@ const int ALP_PIN_INP = A8;
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 #include <MenuBackend.h>
 //
+#include <Wire.h>
 //
 #include <SoftwareSerial.h>
+
 //
 // Includes Libraries
 #include <LiquidCrystal.h>
