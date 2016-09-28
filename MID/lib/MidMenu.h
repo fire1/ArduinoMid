@@ -2,6 +2,7 @@
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
 #include "MainFunc.h"
+#include "../../libraries/MenuBackend/MenuBackend.h"
 
 //
 //  MenuBackend library - copyright by Alexander Brevig
@@ -44,19 +45,20 @@ long debounceDelay = 43;
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
 long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
-MenuItem menuItem1 = MenuItem("Main");
-MenuItem menuItem2 = MenuItem("Trip");
-MenuItem menuItem3 = MenuItem("Fuel");
-MenuItem menuItem4 = MenuItem("Average");
+MenuItem menuItem1 = MenuItem("Main", 1);
+MenuItem menuItem2 = MenuItem("Trip", 2);
+MenuItem menuItem3 = MenuItem("Fuel", 3);
+MenuItem menuItem4 = MenuItem("Average", 4);
 
-MenuItem menuItemMain1 = MenuItem("Temp");
-MenuItem menuItemMain2 = MenuItem("Test");
+MenuItem menuItemMain1 = MenuItem("Temp", 11);
+MenuItem menuItemMain2 = MenuItem("Test", 12);
 
 static void setupMenu() {
     menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
     menuItem4.add(menuItem1); // Create Loop menu
 
     menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
+
     menuItemMain2.addRight(menuItemMain1); // loop
     //
     // Move cursor to menu
@@ -134,17 +136,16 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     if (!digitalRead(buttonPinDw) == HIGH) {
         delay(10);
         if (!digitalRead(buttonPinDw) == HIGH) {
-            delay(700);
+            delay(900);
             if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
                 //
                 // Enter inner level menu
-//                isInSubMenu = 1;
+                isInSubMenu = 1;
                 tone(ADT_ALR_PIN, 400, 200);
                 //
                 // Exit inner level menu
             } else if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 1) {
                 isInSubMenu = 0;
-                delay(10);
                 tone(ADT_ALR_PIN, 1600, 200);
             } else {
                 lastButtonPushed = buttonPinDw;
@@ -153,7 +154,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     }
 }
 
-int lastSubMenuState = 0;
+char lastMainMenuState = 0;
 
 /**
  * Resolve navigation between button press
@@ -177,24 +178,29 @@ void navigateMenu() {
                     menu.moveRight();
                     menu.use();
                 }
+
                 break;
             case BTN_PIN_DW:
-                if (lastSubMenuState == 1 && isInSubMenu == 0) {
-//                    menu.use(menuItem1.getShortkey());
-//                    menu.moveBack();
-//                    menu.moveBack();
-                    menu.use();
+                if (lastMainMenuState != 0 && isInSubMenu == 0) {
+
+                    menu.use(lastMainMenuState);
+//                    currentMenu.getShortkey();
+//                    menu.getRoot();
+//                    menu.moveDown();
+//                    Serial.print(currentMenu.getShortkey());
+//                    menu.use();
                 } else if (isInSubMenu == 0) {
                     menu.moveUp();
                     menu.use();
                 } else {
+                    lastMainMenuState = currentMenu.getShortkey();
                     menu.moveLeft();
                     menu.use();
                 }
                 break;
         }
     }
-    lastSubMenuState = isInSubMenu;
+//    lastSubMenuState = isInSubMenu;
     lastButtonPushed = 0; //reset the lastButtonPushed variable
 }
 

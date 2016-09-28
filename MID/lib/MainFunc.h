@@ -100,7 +100,6 @@ int getSensorAmplitudeRead(int PinTarget, int TotalContainerState);
 //
 // Sensors timing containers
 long int SNS_LAST_RUN_TIME = 0; // Global sensor method timing
-long int SNS_LAST_ECU_READ = 0; // ECU last time read
 
 //
 // Sensor timing handler

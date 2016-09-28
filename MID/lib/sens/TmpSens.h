@@ -20,7 +20,7 @@ float getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (isSensorReadLow()) {
+    if (isSensorReadSec()) {
         int reading = analogRead(TMP_PIN_OUT);
 
         if (DebugTemperatures) {

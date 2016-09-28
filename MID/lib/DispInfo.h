@@ -21,17 +21,16 @@
  * Display temperature sensor
  */
 void displayOutTmp() {
+
+    char tmpTemp[3];
+    float value = getTmpOut();
+
     //
     // Read pin value
     if (isSensorReadMid()) {
         lcd.setCursor(10, 2);
         lcd.print("   ");
     }
-
-    char tmpTemp[3];
-
-    float value = getTmpOut();
-
     //
     // Preformat ...
     displayFloat(value, tmpTemp);
@@ -172,15 +171,7 @@ void displayConsumption() {
     }
 
     char dspInst[3];
-//    int dig1, dig2;
-//    float consRead = getInstCons();
-//    //
-//    // Trick the system ...
-//    dig1 = (int) consRead; // first digs only
-//    dig2 = int(consRead - dig1) * 10000; // convert to integer
-//    //
-//    // Create formatted string
-//    sprintf(dspStr, "%d.%02d", dig1, dig2);
+
     //
     // Handle Distance screen
 
