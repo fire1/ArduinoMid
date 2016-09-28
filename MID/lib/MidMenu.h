@@ -8,6 +8,9 @@
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
+//
+// And good example can be found here:
+// https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
 
 static void menuUsed(MenuUseEvent used);
