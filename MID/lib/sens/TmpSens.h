@@ -6,7 +6,7 @@
 #define ARDUINOMID_TMPSENS_H
 
 
-const bool DebugTemperatures = 1;
+const bool DebugTemperatures = 0;
 
 float CUR_OUT_TMP = 0;
 
@@ -23,6 +23,7 @@ void sensTmp() {
     if (isSensorReadLow()) {
         //
         // 141 = 22*
+        // 88
         int reading = analogRead(TMP_PIN_OUT);
 
         if (DebugTemperatures) {

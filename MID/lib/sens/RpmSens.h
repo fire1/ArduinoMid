@@ -7,7 +7,7 @@
 
 //
 // Sensor configs
-const bool RpmSensDebug = 1;
+const bool RpmSensDebug = 0;
 const int RpmCorrection = 45;//36
 const  int rpmLoopTime = 700;
 //
