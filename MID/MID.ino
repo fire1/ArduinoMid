@@ -107,7 +107,7 @@ EepRom eepRom;
 #include "lib/TimeAmp.h"
 //
 // Amplitude interval setup
-TimeAmp ampInt(150, 2500, 100, 1000);
+TimeAmp ampInt(2, 25, 1, 10);
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"

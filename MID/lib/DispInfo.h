@@ -24,19 +24,13 @@
 void displayOutTmp() {
 
     char tmpTemp[3];
+
     float value = getTmpOut();
 
-    //
-    // Read pin value
-    if (/*isSensorReadMid()*/ ampInt.isMid()) {
-        lcd.setCursor(10, 2);
-        lcd.print("   ");
-    }
-    //
-    // Preformat ...
-    displayFloat(value, tmpTemp);
-
-    if (/*isSensorReadSec()*/ ampInt.isSec()) {
+    if (ampInt.isMid()) {
+        //
+        // Preformat ...
+        displayFloat(value, tmpTemp);
         lcd.setCursor(10, 2);
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
@@ -48,22 +42,19 @@ void displayOutTmp() {
  */
 void displayEngRPM() {
     char rpmDisplay[4];
-    //
-    // Gets RPM
-    int rpmSnsCount = getRpmSens();
 
-    lcd.setCursor(0, 2);
-    lcd.print("RPM:");
-
-    if (/*isSensorReadMid()*/ ampInt.isMid()) {
-        lcd.print("      ");
+    if (ampInt.isLow()) {
+        //
+        // Gets RPM
+        int rpmSnsCount = getRpmSens();
         lcd.setCursor(0, 2);
         lcd.print("RPM:");
+        //
+        // Handle RPM screen print
+        sprintf(rpmDisplay, "%04d", rpmSnsCount);
+        lcd.print(rpmDisplay);
     }
-    //
-    // Handle RPM screen print
-    sprintf(rpmDisplay, "%04d", rpmSnsCount);
-    lcd.print(rpmDisplay);
+
 
 }
 
@@ -73,20 +64,14 @@ void displayEngRPM() {
 void displayCarKMH() {
     char vssDisplay[3];
 
-    lcd.setCursor(0, 0);
-    lcd.print("KMh:");
-
-    if (/*isSensorReadMid()*/ ampInt.isMid()) {
-        lcd.print("    ");
+    if (ampInt.isLow()) {
         lcd.setCursor(0, 0);
         lcd.print("KMh:");
+        //
+        // Handle VSS screen print
+        sprintf(vssDisplay, "%03d", getVssSens());
+        lcd.print(vssDisplay);
     }
-
-    //
-    // Handle VSS screen print
-    sprintf(vssDisplay, "%03d", getVssSens());
-    lcd.print(vssDisplay);
-
 }
 
 /****************************************************************
@@ -95,18 +80,16 @@ void displayCarKMH() {
 void displayCarECU() {
     char ecuDisplay[2];
 
-    lcd.setCursor(10, 0);
-    lcd.print("ECU:");
+    if (ampInt.isLow()) {
 
-    if (/*isSensorReadMid()*/ ampInt.isMid()) {
-        lcd.print("   ");
         lcd.setCursor(10, 0);
         lcd.print("ECU:");
+        //
+        // Handle ECU screen print
+        sprintf(ecuDisplay, "%02d", getEcuSens());
+        lcd.print(ecuDisplay);
     }
-    //
-    // Handle ECU screen print
-    sprintf(ecuDisplay, "%02d", getEcuSens());
-    lcd.print(ecuDisplay);
+
 }
 
 /****************************************************************
@@ -128,7 +111,7 @@ void displayDistance() {
     sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
 
-    if (/*isSensorReadLow()*/ ampInt.isLow()) {
+    if (ampInt.isLow()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
         //
@@ -156,10 +139,12 @@ void displayDistance() {
  */
 void displayConsumption() {
 
-    if (/*isSensorReadMid()*/ ampInt.isMid()) {
+    if (ampInt.isMid()) {
 
         lcd.setCursor(0, 0);
         lcd.print(" Consumption");
+
+
         lcd.setCursor(1, 2);
 
         lcd.write((uint8_t) 5);
@@ -199,7 +184,7 @@ void displayConsumption() {
  */
 void displayAverage() {
 
-    if (/*isSensorReadLow()*/ ampInt.isLow()) {
+    if (ampInt.isLow()) {
         lcd.setCursor(0, 0);
         lcd.print("Average");
 

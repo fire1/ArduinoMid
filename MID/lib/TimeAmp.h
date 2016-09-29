@@ -15,19 +15,20 @@ class TimeAmp {
 private:
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0;
     int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0;
-    bool _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0;
+    int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0;
+    unsigned long loopCounter = 0;
 public:
     TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec);
 
     void listener();
 
-    bool isLow() { return _isLow; }
+    bool isLow() { return (boolean) _isLow; }
 
-    bool isMin() { return _isMin; }
+    bool isMin() { return (boolean) _isMin; }
 
-    bool isSec() { return _isSec; }
+    bool isSec() { return (boolean) _isSec; }
 
-    bool isMid() { return _isMid; }
+    bool isMid() { return (boolean) _isMid; }
 };
 
 
@@ -44,36 +45,40 @@ TimeAmp::TimeAmp(int intervalLow, int intervalMid, int intervalMin, int interval
 
 void TimeAmp::listener() {
 
-    unsigned long curTime = millis();
-
-    if (curTime <= curMin + ampMin) {
+    unsigned long curTime = loopCounter;
+    if (curTime >= curMin + ampMin) {
         curMin = curTime;
-        _isMin = true;
+        _isMin = 1;
     } else {
-        _isMin = false;
+        _isMin = 0;
     }
 
-    if (curTime <= curLow + ampLow) {
+    if (curTime >= curLow + ampLow) {
         curLow = curTime;
-        _isLow = true;
+        _isLow = 1;
     } else {
-        _isLow = false;
+        _isLow = 0;
     }
 
 
-    if (curTime <= curSec + ampSec) {
+    if (curTime >= curSec + ampSec) {
         curSec = curTime;
-        _isSec = true;
+        _isSec = 1;
     } else {
-        _isSec = false;
+        _isSec = 0;
     }
+    Serial.print(" \n");
+    Serial.print(curTime);
+    Serial.print(" \t");
+    Serial.println(curMid + ampMid);
 
-
-    if (curTime <= curMid + ampMid) {
+    if (curTime >= curMid + ampMid) {
         curMid = curTime;
-        _isMid = true;
+        _isMid = 1;
     } else {
-        _isMid = false;
+        _isMid = 0;
     }
+
+    loopCounter++;
 };
 #endif //ARDUINOMID_TIMEAMP_H

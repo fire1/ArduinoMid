@@ -6,7 +6,7 @@
 #define ARDUINOMID_TMPSENS_H
 
 
-const bool DebugTemperatures = 0;
+const bool DebugTemperatures = 1;
 
 float CUR_OUT_TMP = 0;
 
@@ -20,35 +20,28 @@ float getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (/*isSensorReadLow()*/ ampInt.isLow()) {
-        //
-        // 141 = 22*
-        // 88
-        int reading = analogRead(TMP_PIN_OUT);
+    //
+    // 141 = 22*
+    // 120 = 28*
+    // 119 = 29*
+    // 116 = 33*
+    int reading = analogRead(TMP_PIN_OUT);
 
-        if (DebugTemperatures) {
-
-            Serial.print("Read Temp: ");
-            Serial.print(reading);
-            Serial.print("\n");
-        }
+    if (DebugTemperatures) {
 
         Serial.print("Read Temp: ");
-        Serial.println(reading);
-        float voltage = reading  /*3.3*/; // Maybe readings needs to be zeroed in order to lower the values
-        voltage /= 1024.0;
-
-        if (DebugTemperatures) {
-
-            Serial.print("Read Temp: ");
-            Serial.print(reading);
-            Serial.print("Read Volts: ");
-            Serial.print(voltage);
-            Serial.print("\n");
-        }
-        CUR_OUT_TMP = reading - 121;
-//        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
+        Serial.print(reading);
+        Serial.print("\n");
     }
+
+    if (ampInt.isMid()) {
+        Serial.print("Read Temp: ");
+        Serial.println(reading);
+    }
+
+    CUR_OUT_TMP = (reading - 150) * -1;
+//        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
+
 
 }
 //
