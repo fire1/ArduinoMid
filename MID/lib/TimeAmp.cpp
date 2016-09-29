@@ -14,7 +14,7 @@ TimeAmp::TimeAmp(int intervalLow,  int intervalMid, int intervalMin, int interva
 
 }
 
-void TimeAmp::loop() {
+void TimeAmp::looper() {
     unsigned long curTime = millis();
 
     if (curTime <= curMin + ampMin) {

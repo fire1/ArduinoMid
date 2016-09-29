@@ -17,7 +17,7 @@ private:
 public:
     TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec);
 
-    void loop();
+    void looper();
 
     bool isLow() { return _isLow; }
 

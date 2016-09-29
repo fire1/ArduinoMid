@@ -31,6 +31,14 @@ void catchRpmHits () {
 void setupRpmSens(int pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), catchRpmHits, FALLING);
+
+
+
+	// set timer 2 prescale factor to 64
+	sbi(TCCR2B, CS22);
+	// configure timer 2 for phase correct pwm (8-bit)
+	sbi(TCCR2A, WGM20);
+
 }
 /**
  * Gets current RPM

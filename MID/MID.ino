@@ -98,18 +98,18 @@ int showerCounter = 0;
 
 //
 //
-#include "lib/EepRom.h"
+//#include "lib/EepRom.h"
 
 //
 // Data storage
-EepRom eepRom;
+//EepRom eepRom;
 
 
-#include "lib/TimeAmp.h"
+//#include "lib/TimeAmp.h"
 
 //
 // Amplitude interval
-TimeAmp ampInt(150, 2500, 100, 1000);
+//TimeAmp ampInt(150, 2500, 100, 1000);
 
 //
 // Main Sensor handler
@@ -132,13 +132,12 @@ static void playWelcomeScreen();
 // Setup the code...
 void setup() {
 
-    setupTimer2();
     //
     // Debug serial
     Serial.begin(9600);
     //
     //
-    eepRom.setup();
+//    eepRom.setup();
     //
     //
 
@@ -171,7 +170,7 @@ void setup() {
 
     //
     // Show welcome from car
-    playWelcomeScreen();
+//    playWelcomeScreen();
 
     //
     // Set MID menu
@@ -183,7 +182,7 @@ void setup() {
 
 void loop() {
 
-    ampInt.loop();
+//    ampInt.looper();
     //
     // Sensors
     sensorsInit();
