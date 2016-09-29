@@ -20,7 +20,7 @@ float getTmpOut() {
 void sensTmp() {
 
     float temperatureC;
-    if (isSensorReadLow()) {
+    if (/*isSensorReadLow()*/ ampInt.isLow()) {
         //
         // 141 = 22*
         // 88

@@ -17,7 +17,7 @@ private:
 public:
     TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec);
 
-    void looper();
+    void listener();
 
     bool isLow() { return _isLow; }
 
@@ -27,6 +27,7 @@ public:
 
     bool isMid() { return _isMid; }
 };
+
 
 
 #endif //ARDUINOMID_TIMEAMP_H

@@ -132,7 +132,7 @@ void getTravelDistanceMeters() {
     // Total Travel time  (with stops...)
     CUR_VTT = getTravelTime(millis());
 
-    if (isSensorReadLow()) {
+    if (/*isSensorReadLow()*/ ampInt.isLow()) {
         //
         // Check is collected enough data for calculation
         if (travelDistanceInKM > 1) {

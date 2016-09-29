@@ -15,6 +15,7 @@
 
 #include "MainFunc.h"
 
+
 //
 //
 /****************************************************************
@@ -27,7 +28,7 @@ void displayOutTmp() {
 
     //
     // Read pin value
-    if (isSensorReadMid()) {
+    if (/*isSensorReadMid()*/ ampInt.isMid()) {
         lcd.setCursor(10, 2);
         lcd.print("   ");
     }
@@ -35,7 +36,7 @@ void displayOutTmp() {
     // Preformat ...
     displayFloat(value, tmpTemp);
 
-    if (isSensorReadSec()) {
+    if (/*isSensorReadSec()*/ ampInt.isSec()) {
         lcd.setCursor(10, 2);
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
@@ -54,7 +55,7 @@ void displayEngRPM() {
     lcd.setCursor(0, 2);
     lcd.print("RPM:");
 
-    if (isSensorReadMid()) {
+    if (/*isSensorReadMid()*/ ampInt.isMid()) {
         lcd.print("      ");
         lcd.setCursor(0, 2);
         lcd.print("RPM:");
@@ -75,7 +76,7 @@ void displayCarKMH() {
     lcd.setCursor(0, 0);
     lcd.print("KMh:");
 
-    if (isSensorReadMid()) {
+    if (/*isSensorReadMid()*/ ampInt.isMid()) {
         lcd.print("    ");
         lcd.setCursor(0, 0);
         lcd.print("KMh:");
@@ -97,7 +98,7 @@ void displayCarECU() {
     lcd.setCursor(10, 0);
     lcd.print("ECU:");
 
-    if (isSensorReadMid()) {
+    if (/*isSensorReadMid()*/ ampInt.isMid()) {
         lcd.print("   ");
         lcd.setCursor(10, 0);
         lcd.print("ECU:");
@@ -127,7 +128,7 @@ void displayDistance() {
     sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
 
-    if (isSensorReadLow()) {
+    if (/*isSensorReadLow()*/ ampInt.isLow()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
         //
@@ -155,7 +156,7 @@ void displayDistance() {
  */
 void displayConsumption() {
 
-    if (isSensorReadMid()) {
+    if (/*isSensorReadMid()*/ ampInt.isMid()) {
 
         lcd.setCursor(0, 0);
         lcd.print(" Consumption");
@@ -198,7 +199,7 @@ void displayConsumption() {
  */
 void displayAverage() {
 
-    if (isSensorReadLow()) {
+    if (/*isSensorReadLow()*/ ampInt.isLow()) {
         lcd.setCursor(0, 0);
         lcd.print("Average");
 

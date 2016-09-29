@@ -114,20 +114,19 @@ static void menuChanged(MenuChangeEvent changed) {
  * Read pin button states
  */
 
-
+unsigned long lastButtonPress = 0;
 /**
  * Lower the code
  */
 void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     lastButtonPushed = LOW;
-
+    unsigned long curTime = millis();
     //
     // Detect up state button
-    if (!digitalRead(buttonPinUp) == HIGH) {
-
+    if (!digitalRead(buttonPinUp) == HIGH ) {
         delay(10);
-        if (!digitalRead(buttonPinUp) == HIGH) {
+        if (!digitalRead(buttonPinUp) == HIGH  ) {
             lastButtonPushed = buttonPinUp;
         }
     }
@@ -257,50 +256,3 @@ static void menuUsed(MenuUseEvent used) {
     //menu.toRoot();  //back to Main
 }
 
-
-void _readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {  //read buttons status
-    int reading;
-    int buttonDwState = LOW;             // the current reading from the input pin
-    int buttonUpState = LOW;             // the current reading from the input pin
-
-    //  Up button
-    //      read the state of the switch into a local variable:
-    reading = !digitalRead(buttonPinUp);
-
-    if (reading != buttonLastUpSt) {
-        lastDebounceTimeUp = millis();
-    }
-
-    if ((millis() - lastDebounceTimeUp) > debounceDelay && !activeStateMenu) {
-        buttonUpState = reading;
-        lastDebounceTimeUp = millis();
-    }
-
-    buttonLastUpSt = reading;
-
-    reading = !digitalRead(buttonPinDw);
-
-    if (reading != buttonLastDwSt) {
-        lastDebounceTimeDw = millis();
-    }
-
-    if ((millis() - lastDebounceTimeDw) > debounceDelay && !activeStateMenu) {
-        buttonDwState = reading;
-        lastDebounceTimeDw = millis();
-    }
-
-    buttonLastDwSt = reading;
-    //
-    // records which button has been pressed
-    if (buttonUpState == HIGH) {
-
-        lastButtonPushed = buttonPinUp;
-    }
-    else if (buttonDwState == HIGH) {
-
-        lastButtonPushed = buttonPinDw;
-    }
-    else {
-        lastButtonPushed = LOW;
-    }
-}
