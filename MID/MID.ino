@@ -102,11 +102,9 @@ int showerCounter = 0;
 //
 // Data storage
 EepRom eepRom;
-
 //
 //
 #include "lib/TimeAmp.h"
-
 //
 // Amplitude interval setup
 TimeAmp ampInt(150, 2500, 100, 1000);
