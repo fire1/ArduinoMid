@@ -35,9 +35,11 @@ void displayOutTmp() {
     // Preformat ...
     displayFloat(value, tmpTemp);
 
-    lcd.setCursor(10, 2);
-    lcd.print(tmpTemp);
-    lcd.write((uint8_t) 1);
+    if (isSensorReadSec()) {
+        lcd.setCursor(10, 2);
+        lcd.print(tmpTemp);
+        lcd.write((uint8_t) 1);
+    }
 }
 
 /****************************************************************

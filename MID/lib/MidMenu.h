@@ -166,11 +166,11 @@ void navigateMenu() {
 
     if (isMainNavigationStatus == 0) {
         MenuItem currentMenu = menu.getCurrent();
-        Serial.print("Last button:");
-        Serial.print(lastButtonPushed);
-        Serial.print("Is sub menu:");
-        Serial.print(isInSubMenu);
-        Serial.print("\n");
+//        Serial.print("Last button:");
+//        Serial.print(lastButtonPushed);
+//        Serial.print("Is sub menu:");
+//        Serial.print(isInSubMenu);
+//        Serial.print("\n");
 
         switch (lastButtonPushed) {
             case BTN_PIN_UP :
@@ -185,13 +185,10 @@ void navigateMenu() {
                 break;
             case BTN_PIN_DW:
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
-
-                    menu.use(lastMainMenuState);
-//                    currentMenu.getShortkey();
-//                    menu.getRoot();
-//                    menu.moveDown();
-//                    Serial.print(currentMenu.getShortkey());
-//                    menu.use();
+                    menu.moveBack();
+                    menu.getRoot();
+                    menu.moveBack();
+                    menu.use();
                 } else if (isInSubMenu == 0) {
                     menu.moveUp();
                     menu.use();

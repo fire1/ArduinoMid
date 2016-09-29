@@ -80,7 +80,7 @@ void sensVss() {
 
     //
     // Alarm speeding at city
-    if (isSensorReadSec() && CUR_VSS > VssAlarmCitySpeed) {
+    if (isSensorReadMid() && CUR_VSS > VssAlarmCitySpeed) {
         tone(ADT_ALR_PIN, 4000, 1000);
     }
 
