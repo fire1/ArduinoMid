@@ -1,6 +1,9 @@
 # ArduinoMid
 Vauxhall/Opel Astra G MID display replacement with ArduinoMid
 
+* Source code is in "MID" folder
+* Used libraries are in "libraries" folder [zip them for importing]
+
 ## Version 
     Code is  in development...
 
