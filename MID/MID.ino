@@ -107,7 +107,7 @@ EepRom eepRom;
 #include "lib/TimeAmp.h"
 //
 // Amplitude interval setup
-TimeAmp ampInt(2, 25, 1, 10);
+TimeAmp ampInt(2, 50, 1, 10);
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -146,18 +146,37 @@ void setup() {
     sbi(TCCR2B, CS22);
     // configure timer 2 for phase correct pwm (8-bit)
     sbi(TCCR2A, WGM20);
+
+
 #else
 
 #warning Timer 2 not finished (may not be present on this CPU)
 
 #endif
     sei();
+
+    sbi(TCCR0A, WGM01);
+    sbi(TCCR0A, WGM00);
+    sbi(TCCR0B, CS01);
+    sbi(TCCR0B, CS00);
+    sbi(TIMSK0, TOIE0);
+
+    // set timer 1 prescale factor to 64
+    sbi(TCCR1B, CS11);
+    sbi(TCCR1B, CS10);
+    // put timer 1 in 8-bit phase correct pwm mode
+    sbi(TCCR1A, WGM10);
+    // set timer 2 prescale factor to 64
+    sbi(TCCR2B, CS22);
+    // configure timer 2 for phase correct pwm (8-bit)
+    sbi(TCCR2A, WGM20);
+
     //
     // Debug serial
     Serial.begin(9600);
     //
     //
-//    eepRom.setup();
+    eepRom.setup();
     //
     //
 
@@ -202,6 +221,11 @@ void setup() {
 
 void loop() {
 
+
+
+    if (ampInt.isMid()){
+        Serial.println(millis());
+    }
     ampInt.listener();
     //
     // Sensors

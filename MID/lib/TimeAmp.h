@@ -67,10 +67,6 @@ void TimeAmp::listener() {
     } else {
         _isSec = 0;
     }
-    Serial.print(" \n");
-    Serial.print(curTime);
-    Serial.print(" \t");
-    Serial.println(curMid + ampMid);
 
     if (curTime >= curMid + ampMid) {
         curMid = curTime;

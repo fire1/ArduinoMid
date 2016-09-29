@@ -29,15 +29,13 @@ void sensTmp() {
 
     if (DebugTemperatures) {
 
-        Serial.print("Read Temp: ");
-        Serial.print(reading);
-        Serial.print("\n");
+        if (ampInt.isMid()) {
+            Serial.print("Read Temp: ");
+            Serial.println(reading);
+        }
     }
 
-    if (ampInt.isMid()) {
-        Serial.print("Read Temp: ");
-        Serial.println(reading);
-    }
+
 
     CUR_OUT_TMP = (reading - 150) * -1;
 //        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
