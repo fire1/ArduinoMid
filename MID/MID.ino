@@ -71,6 +71,7 @@ const int ALP_PIN_INP = A8;
 // Includes Libraries
 
 #include <LiquidCrystal.h>
+
 //#include <SPI.h>
 
 
@@ -93,12 +94,22 @@ const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
 const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
 int showerCounter = 0;
 
+#include <MenuBackend.h>
+
 //
 //
 #include "lib/EepRom.h"
+
 //
 // Data storage
 EepRom eepRom;
+
+
+#include "lib/TimeAmp.h"
+
+//
+// Amplitude interval
+TimeAmp ampInt(150, 2500, 100, 1000);
 
 //
 // Main Sensor handler
@@ -112,62 +123,25 @@ EepRom eepRom;
 //
 // Adding sensors
 #include "lib/SensInit.h"
+
 //
 //
 static void playWelcomeScreen();
-
-
 
 //
 // Setup the code...
 void setup() {
 
-
-    /* First disable the timer overflow interrupt while we're configuring */
-    TIMSK2 &= ~(1 << TOIE2);
-
-    /* Configure timer2 in normal mode (pure counting, no PWM etc.) */
-    TCCR2A &= ~((1 << WGM21) | (1 << WGM20));
-    TCCR2B &= ~(1 << WGM22);
-
-    /* Select clock source: internal I/O clock */
-    ASSR &= ~(1 << AS2);
-
-    /* Disable Compare Match A interrupt enable (only want overflow) */
-    TIMSK2 &= ~(1 << OCIE2A);
-
-    /* Now configure the prescaler to CPU clock divided by 128 */
-    TCCR2B |= (1 << CS22) | (1 << CS20); // Set bits
-    TCCR2B &= ~(1 << CS21);             // Clear bit
-
-    /* We need to calculate a proper value to load the timer counter.
-     * The following loads the value 131 into the Timer 2 counter register
-     * The math behind this is:
-     * (CPU frequency) / (prescaler value) = 125000 Hz = 8us.
-     * (desired period) / 8us = 125.
-     * MAX(uint8) + 1 - 125 = 131;
-     */
-    /* Save value globally for later reload in ISR */
-    //tcnt2 = 131;
-
-    /* Finally load end enable the timer */
-    //TCNT2 = tcnt2;
-    TCNT2 = 0;
-    TIMSK2 |= (1 << TOIE2);
-
-    // set timer 2 prescale factor to 64
-    sbi(TCCR2B, CS22);
-    // configure timer 2 for phase correct pwm (8-bit)
-    sbi(TCCR2A, WGM20);
-
-
-
+    setupTimer2();
     //
     // Debug serial
     Serial.begin(9600);
     //
     //
     eepRom.setup();
+    //
+    //
+
     //
     // Engine sensors pin mode input
     setupRpmSens(RPM_SNS_PIN); // Engine RPM
@@ -208,6 +182,8 @@ void setup() {
 // ALP_PIN_INP
 
 void loop() {
+
+    ampInt.loop();
     //
     // Sensors
     sensorsInit();

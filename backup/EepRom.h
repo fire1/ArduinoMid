@@ -5,11 +5,16 @@
 //
 // Since EEPROM have live time will use external-sourcecode ...
 // http://www.hobbytronics.co.uk/arduino-external-eeprom
-
+//
+// Data container
+//#include <EEPROM.h>
+#include <I2C_eeprom.h>
+//
 // http://playground.arduino.cc/Main/LibraryForI2CEEPROM
-#include <Wire.h>
 
-#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
+//#define EE24LC01MAXBYTES
+//#define DEVICEADDRESS (0x50)
+
 
 
 //
@@ -31,61 +36,37 @@ const int EEP_ADR_GTL = 8; // Gas tank current liters
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
-
-
-void WireEepromWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
-
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.write(u8Byte);
-    Wire.endTransmission();
-    delay(5);
-
-}
-
-
-uint8_t WireEepromRead(uint16_t theMemoryAddress) {
-    uint8_t u8retVal = 0;
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.endTransmission();
-    delay(5);
-    Wire.requestFrom(EEP_ROM_ADDRESS, 1);
-    u8retVal = Wire.read();
-    return u8retVal;
-}
+I2C_eeprom diskStorage((0x50), 32768);
 
 //
 //
 class EepRom {
 
 public:
-    void setup() { Wire.begin(); };
+    void setup() { diskStorage.begin(); };
 
     void saveFuelTankLevel(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_FTK, value);
+        diskStorage.writeByte(EEP_ADR_FTK, value);
     };
 
     int loadFuelTankLevel() {
-        WireEepromRead(EEP_ADR_FTK);
+        return diskStorage.readByte(EEP_ADR_FTK);
     };
 
     void saveTravelDistance(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_TTD, value / 4);
+        diskStorage.writeByte(EEP_ADR_TTD, value / 4);
     }
 
     int long loadTravelDistance() {
-        return WireEepromRead(EEP_ADR_TTD) * 4;
+        return diskStorage.readByte(EEP_ADR_TTD) * 4;
     }
 
     void saveTripDistance(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_TRD, value / 4);
+        diskStorage.writeByte(EEP_ADR_TRD, value / 4);
     }
 
     int long loadTripDistance(unsigned int value = 0) {
-        return WireEepromRead(EEP_ADR_TRD) * 4;
+        return diskStorage.readByte(EEP_ADR_TRD) * 4;
     }
 
 private:

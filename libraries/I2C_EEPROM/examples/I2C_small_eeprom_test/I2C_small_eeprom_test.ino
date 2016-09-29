@@ -12,7 +12,7 @@
 #define EE24LC01MAXBYTES 1024/8
 
 // the address of your EEPROM
-#define DEVICEADDRESS (0x50)
+#define EEP_ROM_ADDRESS (0x50)
 
 #define TEST_ADDR 16
 
@@ -32,12 +32,12 @@
 
 #define SERIAL_DEBUG SerialUSB
 
-I2C_eeprom eeprom(DEVICEADDRESS, EE24LC01MAXBYTES);
+I2C_eeprom eeprom(EEP_ROM_ADDRESS, EE24LC01MAXBYTES);
 
 void readAndWriteVar() { 
     SERIAL_DEBUG.println("----------------------------------------------");     
     SERIAL_DEBUG.print("SINGLE BYTE: writing and retreiving EEPROM on I2C at address ");
-    SERIAL_DEBUG.println(DEVICEADDRESS);
+    SERIAL_DEBUG.println(EEP_ROM_ADDRESS);
     SERIAL_DEBUG.println("----------------------------------------------");  
 
     byte curval = eeprom.readByte(TEST_ADDR);
@@ -104,7 +104,7 @@ void setup()
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("PAGE:");     
   SERIAL_DEBUG.print(" writing and retrieving EEPROM Page on I2C at address ");
-  SERIAL_DEBUG.println(DEVICEADDRESS);
+  SERIAL_DEBUG.println(EEP_ROM_ADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 
   readAndWritePage(TEST_PAGE_ADDR, SHORT_BUFFER_LEN);
@@ -114,7 +114,7 @@ void setup()
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("MULTI-PAGE:");     
   SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
-  SERIAL_DEBUG.println(DEVICEADDRESS);
+  SERIAL_DEBUG.println(EEP_ROM_ADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 
   readAndWritePage(LONG_TEST_PAGE_ADDR, LONG_BUFFER_LEN);
@@ -124,7 +124,7 @@ void setup()
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("MULTI-PAGE UNALINGED: ");     
   SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
-  SERIAL_DEBUG.println(DEVICEADDRESS);
+  SERIAL_DEBUG.println(EEP_ROM_ADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 
   readAndWritePage(UNALIGNED_TEST_PAGE_ADDR, UNALIGNED_BUFFER_LEN);
