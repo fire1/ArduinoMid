@@ -25,6 +25,7 @@ void sensTmp() {
     // 120 = 28*
     // 119 = 29*
     // 116 = 33*
+    // 197 = 19*
     int reading = analogRead(TMP_PIN_OUT);
 
     if (DebugTemperatures) {
