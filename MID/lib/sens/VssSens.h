@@ -64,7 +64,7 @@ void sensVss() {
         CUR_VSS = int(vssHitsCount * VssCorrection);
         //
         // debug info
-        if (VssSensDebug) {
+        if (VssSensDebug && ampInt.isMid()) {
             Serial.print("\n");
             Serial.print(" vss count:  \t");
             Serial.print(vssHitsCount);
@@ -80,8 +80,8 @@ void sensVss() {
 
     //
     // Alarm speeding at city
-    if (ampInt.isMid() && CUR_VSS > VssAlarmCitySpeed) {
-        tone(ADT_ALR_PIN, 4000, 1000);
+    if (ampInt.isBig() && CUR_VSS > VssAlarmCitySpeed) {
+        tone(ADT_ALR_PIN, 4000, 100);
     }
 
 }

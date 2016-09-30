@@ -105,9 +105,10 @@ EepRom eepRom;
 //
 //
 #include "lib/TimeAmp.h"
+
 //
 // Amplitude interval setup
-TimeAmp ampInt(2, 50, 1, 10);
+TimeAmp ampInt(2, 50, 1, 10, 100);
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -128,9 +129,13 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
+    //
+    // Turn display off
+    lcd.noDisplay();
 
     sei();
 #if defined(TCCR2) && defined(WGM20)
+
     sbi(TCCR0A, WGM01);
     sbi(TCCR0A, WGM00);
     sbi(TCCR0B, CS01);
@@ -146,7 +151,6 @@ void setup() {
     sbi(TCCR2B, CS22);
     // configure timer 2 for phase correct pwm (8-bit)
     sbi(TCCR2A, WGM20);
-
 
 #else
 
@@ -154,23 +158,6 @@ void setup() {
 
 #endif
     sei();
-
-    sbi(TCCR0A, WGM01);
-    sbi(TCCR0A, WGM00);
-    sbi(TCCR0B, CS01);
-    sbi(TCCR0B, CS00);
-    sbi(TIMSK0, TOIE0);
-
-    // set timer 1 prescale factor to 64
-    sbi(TCCR1B, CS11);
-    sbi(TCCR1B, CS10);
-    // put timer 1 in 8-bit phase correct pwm mode
-    sbi(TCCR1A, WGM10);
-    // set timer 2 prescale factor to 64
-    sbi(TCCR2B, CS22);
-    // configure timer 2 for phase correct pwm (8-bit)
-    sbi(TCCR2A, WGM20);
-
     //
     // Debug serial
     Serial.begin(9600);
@@ -203,6 +190,7 @@ void setup() {
     //
     // Adding custom characters to LCD
     setupLcdChar();
+    lcd.display();
     //
     // Define Alpine Pin
     /*pinMode(alpinePin, OUTPUT);*/
@@ -222,8 +210,7 @@ void setup() {
 void loop() {
 
 
-
-    if (ampInt.isMid()){
+    if (ampInt.isMid()) {
         Serial.println(millis());
     }
     ampInt.listener();

@@ -38,33 +38,6 @@ void setupAlphine(int pinTargetSteering, int pinTargetAlphine) {
     analogWrite(pinTargetAlphine, 255);
 }
 
-void sendCodeAlphine(char *code) {
-    const int alpCodeLength = 47;
-    const int alpRate = 500; //microseconds
-    const int alpInterval = 41; //milliseconds
-
-    int alpPin = ALP_PIN_OUT;
-    //Innit
-    digitalWrite(alpPin, HIGH);
-    delay(8); // 8 ms high init
-    digitalWrite(alpPin, LOW);
-    delayMicroseconds(4500); // 4.5 ms low init
-
-    //Send command
-    for (int i = 0; i <= alpCodeLength; i++) {
-        if (code[i] == '1') {
-            digitalWrite(alpPin, HIGH);
-        } else {
-            digitalWrite(alpPin, LOW);
-        }
-        delayMicroseconds(alpRate);
-        digitalWrite(alpPin, LOW);
-        delayMicroseconds(alpRate);
-    }
-
-    digitalWrite(alpPin, LOW);
-    delay(41); //41ms interval between commands
-}
 
 
 float getVoltage(float volt) {
@@ -104,7 +77,7 @@ bottom	        48800	0.84
     //
     // Zero button
     if (readingSteeringButton > 25 && readingSteeringButton < 30) {
-        Serial.print("Volume Up");
+        Serial.print("Zero button");
         analogWrite(ALP_PIN_OUT, getVoltage(4.1));
 
     }
@@ -112,22 +85,26 @@ bottom	        48800	0.84
     //
     // Volume up
     if (readingSteeringButton > 14 && readingSteeringButton < 20) {
-        Serial.print("Volume Up");
-        // vol up 1.85
         analogWrite(ALP_PIN_OUT, getVoltage(1.85));
-        Serial.print("\t value:");
-        Serial.print(getVoltage(1.85));
-        Serial.print("\n");
+        if (ampInt.isMid()) {
+            Serial.print("Volume Up");
+            Serial.print("\t value:");
+            Serial.print(getVoltage(1.85));
+            Serial.print("\n");
+        }
     }
 
     //
     // Volume down
     if (readingSteeringButton > 5 && readingSteeringButton < 14) {
-        Serial.print("Volume Down");
         analogWrite(ALP_PIN_OUT, getVoltage(1.47));
-        Serial.print("\t value:");
-        Serial.print(getVoltage(1.47));
-        Serial.print("\n");
+
+        if (ampInt.isMid()) {
+            Serial.print("Volume Down");
+            Serial.print("\t value:");
+            Serial.print(getVoltage(1.47));
+            Serial.print("\n");
+        }
     }
 
 
@@ -136,6 +113,12 @@ bottom	        48800	0.84
     if (readingSteeringButton > 40 && readingSteeringButton < 50) {
         // seek down 2.25
         analogWrite(ALP_PIN_OUT, getVoltage(2.65));
+        if (ampInt.isMid()) {
+            Serial.print("Seek Up");
+            Serial.print("\t value:");
+            Serial.print(getVoltage(2.65));
+            Serial.print("\n");
+        }
     }
 
     //
@@ -143,6 +126,13 @@ bottom	        48800	0.84
     if (readingSteeringButton > 70 && readingSteeringButton < 80) {
         // seek up 2.65
         analogWrite(ALP_PIN_OUT, getVoltage(2.25));
+
+        if (ampInt.isMid()) {
+            Serial.print("Seek Down");
+            Serial.print("\t value:");
+            Serial.print(getVoltage(2.25));
+            Serial.print("\n");
+        }
     }
 
 
@@ -151,6 +141,12 @@ bottom	        48800	0.84
     if (readingSteeringButton > 130 && readingSteeringButton < 140) {
         steeringButtonPress = 6;
         analogWrite(ALP_PIN_OUT, getVoltage(3));
+        if (ampInt.isMid()) {
+            Serial.print("Back Button");
+            Serial.print("\t value:");
+            Serial.print(getVoltage(3));
+            Serial.print("\n");
+        }
     }
 
 

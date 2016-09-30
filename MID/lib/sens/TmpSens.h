@@ -7,12 +7,14 @@
 
 
 const bool DebugTemperatures = 1;
+unsigned long tempCounter = 0;
 
 float CUR_OUT_TMP = 0;
 
 float getTmpOut() {
-    return CUR_OUT_TMP;
+    return CUR_OUT_TMP / tempCounter;
 }
+
 
 /**
  * Temperature sensor
@@ -26,19 +28,22 @@ void sensTmp() {
     // 119 = 29*
     // 116 = 33*
     // 197 = 19*
+    //
     int reading = analogRead(TMP_PIN_OUT);
 
-    if (DebugTemperatures) {
 
-        if (ampInt.isMid()) {
-            Serial.print("Read Temp: ");
-            Serial.println(reading);
-        }
+//    temperatureC = ((((reading*1.5) /1024) *100) -50 ) *-1;
+    temperatureC = ((reading / 1.8) - 100) * -1;
+
+    if (DebugTemperatures && ampInt.isMid()) {
+        Serial.print("Read Temp: ");
+        Serial.println(reading);
     }
 
 
-
-    CUR_OUT_TMP = (reading - 150) * -1;
+    tempCounter++;
+    CUR_OUT_TMP += temperatureC;
+//    CUR_OUT_TMP += (reading - 150) * -1;
 //        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
 
 

@@ -34,17 +34,8 @@ void setupLcdChar() {
             0b00010,
             0b00000
     };
-////{
-//            0b00010,
-//            0b00101,
-//            0b00010,
-//            0b01000,
-//            0b10100,
-//            0b10000,
-//            0b10100,
-//            0b01000
-//    };
-////
+
+//
 // Menu empty marker
     byte CHR_MNC1[8] = {
             0b00000,
@@ -192,7 +183,7 @@ void setupLcdChar() {
             0b00000
     };
 
-    lcd.createChar(9, CHR_SML);
+
     lcd.createChar(1, CHR_CLS);
     lcd.createChar(2, CHR_MNC1);
     lcd.createChar(3, CHR_MNC2);
@@ -201,9 +192,7 @@ void setupLcdChar() {
     lcd.createChar(6, instCons2);
     lcd.createChar(7, allCons1);
     lcd.createChar(8, allCons2);
-//    lcd.createChar(9, dspSpeed1);
-//    lcd.createChar(10, dspSpeed2);
-//    lcd.createChar(11, dspRpm1);
+
 }
 
 #endif //ARDUINOMID_LCDCHAR_H

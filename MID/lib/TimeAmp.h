@@ -13,12 +13,12 @@
 class TimeAmp {
 
 private:
-    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0;
-    int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0;
-    int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0;
+    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0;
+    int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0;
+    int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0;
     unsigned long loopCounter = 0;
 public:
-    TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec);
+    TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec, int intervalBig);
 
     void listener();
 
@@ -29,17 +29,20 @@ public:
     bool isSec() { return (boolean) _isSec; }
 
     bool isMid() { return (boolean) _isMid; }
+
+    bool isBig() { return (boolean) _isBig; }
 };
 
 
 /*  ***     CPP part of file    *** */
 
-TimeAmp::TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec) {
+TimeAmp::TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec, int intervalBig) {
 
     ampMin = intervalMin;
     ampLow = intervalLow;
     ampSec = intervalSec;
     ampMid = intervalMid;
+    ampBig = intervalBig;
 
 }
 
@@ -73,6 +76,13 @@ void TimeAmp::listener() {
         _isMid = 1;
     } else {
         _isMid = 0;
+    }
+
+    if (curTime >= curBig + ampBig) {
+        curBig = curTime;
+        _isBig = 1;
+    } else {
+        _isBig = 0;
     }
 
     loopCounter++;
