@@ -230,7 +230,8 @@ void setup() {
     // Set MID menu
     setupMenu();
 
-
+    //
+    // Setup save protection  input
     pinMode(SAVE_PROTECT, INPUT);
     //
     // Restore data
@@ -238,27 +239,40 @@ void setup() {
 
 }
 
+int long saveProtectInit = 0;
+
+
 void loop() {
 
     //
     // Inject data from serial command
 //    serialInject.listenerSerial();
 
+    //
+    //
+    ampInt.listener();
 
-    if (analogRead(SAVE_PROTECT) < 514) {
+    if (analogRead(SAVE_PROTECT) < 515 && saveProtectInit == 0 || /* Only first initialization will run */
+        analogRead(SAVE_PROTECT) < 515 && saveProtectInit + MILLIS_PER_MN > millis()) { /* next record after a minute */
         eepRom.saveCurrentData();
+        //
+        // Show message
+        Serial.print("Data was recorded in EepRom ");
+        //
+        // Close first initialization
+        saveProtectInit = millis();
     } else {
-
+        // TODO
     }
 
-
+    //
+    // Check recorded consumption
     if (ampInt.isMid()) {
-        Serial.print("Cons distance record  ");
-//        Serial.print(eepRom.loadTravelDistance());
+        Serial.print("Consumption distance record  ");
         Serial.print(TTL_TLH);
         Serial.print("\n");
     }
-    ampInt.listener();
+
     //
     // Sensors
     sensorsInit();
