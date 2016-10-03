@@ -31,7 +31,7 @@ const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size
 const int EEP_ADR_GTS = 7; // Gas tank size
-const int EEP_ADR_GTL = 8; // Gas tank current liters
+const int EEP_ADR_TC2 = 8; // Gas tank current liters
 //
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
