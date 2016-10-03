@@ -8,6 +8,7 @@
 
 // http://playground.arduino.cc/Main/LibraryForI2CEEPROM
 #include <Wire.h>
+#include "MainFunc.h"
 
 #define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
 
@@ -25,8 +26,8 @@ const int EEP_ADR_TTT = 4; // Total Trip Time
 const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size
-const int EEP_ADR_GTS = 7; // Gas tank size
-const int EEP_ADR_GTL = 8; // Travel Consumption
+const int EEP_ADR_TC1 = 7; // Gas tank size
+const int EEP_ADR_TC2 = 8; // Travel Consumption
 //
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
@@ -59,19 +60,21 @@ public:
     }
 
     void saveTravelConsumption(float value = 0) {
-        if (value < 1) {
-            return;
-        }
+        int va1 = 0;
+        int va2 = 0;
+        separateFloat(value, va1, va2);
 
-        WireEepRomWriteByte(EEP_ADR_GTL, int(value * 10));
+        WireEepRomWriteByte(EEP_ADR_TC1, va1);
+        WireEepRomWriteByte(EEP_ADR_TC2, va2);
     }
 
+
+
     float loadTravelConsumption() {
-        int val = WireEepRomRead(EEP_ADR_GTL);
-        if (val > 100) {
-            val = val / 10;
-        }
-        return val;
+        int va1 = WireEepRomRead(EEP_ADR_TC1);
+        int va2 = WireEepRomRead(EEP_ADR_TC2);
+
+        return restoreFloat(va1, va2);
     }
 
     void saveTripDistance(unsigned int value = 0) {
@@ -97,7 +100,7 @@ private:
         Wire.write((theMemoryAddress >> 0) & 0xFF);
         Wire.write(u8Byte);
         Wire.endTransmission();
-        delay(2);
+        delay(6);
 
     }
 
@@ -173,6 +176,93 @@ void EepRom::loadCurrentData() {
     for (int i = 0; i < countof(scratch); i++)
         Serial.println(scratch[i]);
         */
+
+
     TTL_TLH = loadTravelConsumption();
 }
 
+/*
+void writeBigEEPROM(unsigned int deviceaddress, double  *str_data) {
+    // Work out length of data
+    char str_len = 0;
+    do { str_len++; } while (str_data[str_len]);
+
+    // Write out data several times consecutively starting at address 0
+    for (i = 0; i < WRITE_CNT; i++) writeEEPROM(deviceaddress, i * str_len, str_data);
+}
+
+
+void writeEEPROM(int deviceaddress, unsigned int eeaddress, double  *data) {
+
+    // Uses Page Write for 24LC256
+    // Allows for 64 byte page boundary
+    // Splits string into max 16 byte writes
+    unsigned char i = 0, counter = 0;
+    unsigned int address;
+    unsigned int page_space;
+    unsigned int page = 0;
+    unsigned int num_writes;
+    unsigned int data_len = 0;
+    unsigned char first_write_size;
+    unsigned char last_write_size;
+    unsigned char write_size;
+
+    // Calculate length of data
+    do { data_len++; } while (data[data_len]);
+
+    // Calculate space available in first page
+    page_space = int(((eeaddress / 64) + 1) * 64) - eeaddress;
+
+    // Calculate first write size
+    if (page_space > 16) {
+        first_write_size = page_space - ((page_space / 16) * 16);
+        if (first_write_size == 0) first_write_size = 16;
+    }
+    else
+        first_write_size = page_space;
+
+    // calculate size of last write
+    if (data_len > first_write_size)
+        last_write_size = (data_len - first_write_size) % 16;
+
+    // Calculate how many writes we need
+    if (data_len > first_write_size)
+        num_writes = ((data_len - first_write_size) / 16) + 2;
+    else
+        num_writes = 1;
+
+    i = 0;
+    address = eeaddress;
+    for (page = 0; page < num_writes; page++) {
+        if (page == 0) write_size = first_write_size;
+        else if (page == (num_writes - 1)) write_size = last_write_size;
+        else write_size = 16;
+
+        Wire.beginTransmission(deviceaddress);
+        Wire.write((int) ((address) >> 8));   // MSB
+        Wire.write((int) ((address) & 0xFF)); // LSB
+        counter = 0;
+        do {
+            Wire.write((byte) data[i]);
+            i++;
+            counter++;
+        } while ((data[i]) && (counter < write_size));
+        Wire.endTransmission();
+        address += write_size;   // Increment address for next write
+
+        delay(6);  // needs 5ms for page write
+    }
+}
+
+void readEEPROM(int deviceaddress, unsigned int eeaddress, unsigned char *data, unsigned int num_chars) {
+    unsigned char i = 0;
+    Wire.beginTransmission(deviceaddress);
+    Wire.write((int) (eeaddress >> 8));   // MSB
+    Wire.write((int) (eeaddress & 0xFF)); // LSB
+    Wire.endTransmission();
+
+    Wire.requestFrom(deviceaddress, num_chars);
+
+    while (Wire.available()) data[i++] = Wire.read();
+
+}*/
