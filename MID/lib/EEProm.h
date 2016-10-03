@@ -33,29 +33,7 @@ const int EEP_ADR_GTL = 8; // Travel Consumption
 //      That’s 62 times the Arduino’s built-in storage!
 
 
-void WireEepromWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
 
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.write(u8Byte);
-    Wire.endTransmission();
-    delay(5);
-
-}
-
-
-uint8_t WireEepromRead(uint16_t theMemoryAddress) {
-    uint8_t u8retVal = 0;
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.endTransmission();
-    delay(5);
-    Wire.requestFrom(EEP_ROM_ADDRESS, 1);
-    u8retVal = Wire.read();
-    return u8retVal;
-}
 
 //
 //
@@ -65,41 +43,136 @@ public:
     void setup() { Wire.begin(); };
 
     void saveFuelTankLevel(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_FTK, value);
+        WireEepRomWriteByte(EEP_ADR_FTK, value);
     };
 
     int loadFuelTankLevel() {
-        WireEepromRead(EEP_ADR_FTK);
+        WireEepRomRead(EEP_ADR_FTK);
     };
 
     void saveTravelDistance(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_TTD, value / 4);
+        WireEepRomWriteByte(EEP_ADR_TTD, value / 4);
     }
 
     int long loadTravelDistance() {
-        return WireEepromRead(EEP_ADR_TTD) * 4;
+        return WireEepRomRead(EEP_ADR_TTD) * 4;
     }
 
-    void saveTravelConsumtion(float value = 0) {
+    void saveTravelConsumption(float value = 0) {
         if (value < 1) {
             return;
         }
 
-        WireEepromWriteByte(EEP_ADR_GTL, int(value));
+        WireEepRomWriteByte(EEP_ADR_GTL, int(value * 10));
     }
 
-    float loadTravelConsumtipn() {
-        return WireEepromRead(EEP_ADR_GTL);
+    float loadTravelConsumption() {
+        int val = WireEepRomRead(EEP_ADR_GTL);
+        if (val > 100) {
+            val = val / 10;
+        }
+        return val;
     }
 
     void saveTripDistance(unsigned int value = 0) {
-        WireEepromWriteByte(EEP_ADR_TRD, value / 4);
+        WireEepRomWriteByte(EEP_ADR_TRD, value / 4);
     }
 
     int long loadTripDistance(unsigned int value = 0) {
-        return WireEepromRead(EEP_ADR_TRD) * 4;
+        return WireEepRomRead(EEP_ADR_TRD) * 4;
     }
 
+    void saveCurrentData();
+
+    void loadCurrentData();
+
 private:
+    byte noElem = 12;
+    unsigned int baseAddress = 0;
+
+    void WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
+
+        Wire.beginTransmission(EEP_ROM_ADDRESS);
+        Wire.write((theMemoryAddress >> 8) & 0xFF);
+        Wire.write((theMemoryAddress >> 0) & 0xFF);
+        Wire.write(u8Byte);
+        Wire.endTransmission();
+        delay(2);
+
+    }
+
+
+    uint8_t WireEepRomRead(uint16_t theMemoryAddress) {
+        uint8_t u8retVal = 0;
+        Wire.beginTransmission(EEP_ROM_ADDRESS);
+        Wire.write((theMemoryAddress >> 8) & 0xFF);
+        Wire.write((theMemoryAddress >> 0) & 0xFF);
+        Wire.endTransmission();
+        delay(5);
+        Wire.requestFrom(EEP_ROM_ADDRESS, 1);
+        u8retVal = Wire.read();
+        return u8retVal;
+    }
+
+    template<class T>
+    int EEPROM_writeAnything(int ee, const T &value) {
+        const byte *p = (const byte *) (const void *) &value;
+        int i;
+        for (i = 0; i < sizeof(value); i++)
+            WireEepRomWriteByte(ee++, *p++);
+        return i;
+    }
+
+    template<class T>
+    int EEPROM_readAnything(int ee, T &value) {
+        byte *p = (byte *) (void *) &value;
+        int i;
+        for (i = 0; i < sizeof(value); i++) {
+            *p++ = WireEepRomRead(ee++);
+        }
+        return i;
+    }
+
 
 };
+
+
+void EepRom::saveCurrentData() {
+
+/*
+    double dataInt[noElem] = {TTL_TLH + CUR_TLH,};
+
+    unsigned int n = 0;
+    //
+    // write data to eepRom
+    for (int i = 0; i <= noElem - 1; i++) {
+        n = EEPROM_writeAnything((i * 4) + baseAddress, dataInt[i]);
+    }
+*/
+    saveTravelConsumption(TTL_TLH + CUR_TLH);
+}
+
+
+void EepRom::loadCurrentData() {
+
+    /*
+    unsigned int n = 0;
+    // read data back
+    for (int i = 0; i <= noElem - 1; i++) {
+        double val;
+        int address = (i * 4) + baseAddress;
+        n = EEPROM_readAnything(address, val);
+        address +=n;
+        Serial.print("Restored ");
+        Serial.println(val);
+    }
+
+    // read data back in separate temporary buffer
+    double scratch[countof(testInt)];
+    int n = EEPROM_readAnything(baseAddr, scratch);
+    for (int i = 0; i < countof(scratch); i++)
+        Serial.println(scratch[i]);
+        */
+    loadTravelConsumption();
+}
+

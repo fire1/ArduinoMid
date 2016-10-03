@@ -49,6 +49,7 @@ TimeAmp::TimeAmp(int intervalLow, int intervalMid, int intervalMin, int interval
 void TimeAmp::listener() {
 
     unsigned long curTime = loopCounter;
+
     if (curTime >= curMin + ampMin) {
         curMin = curTime;
         _isMin = 1;

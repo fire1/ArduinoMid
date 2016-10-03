@@ -85,7 +85,7 @@ char displayFloat(float value, char *output) {
 
 }
 
-void setupTimer2(){
+void setupTimer2() {
 
     /* First disable the timer overflow interrupt while we're configuring */
     TIMSK2 &= ~(1 << TOIE2);
@@ -124,6 +124,9 @@ void setupTimer2(){
     // configure timer 2 for phase correct pwm (8-bit)
     sbi(TCCR2A, WGM20);
 }
+
+
+
 
 #endif //ARDUINOMID_UTILS_H
 

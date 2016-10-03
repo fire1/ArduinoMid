@@ -112,13 +112,9 @@ int showerCounter = 0;
 
 #include <MenuBackend.h>
 
-//
-//
-#include "lib/EepRom.h"
 
-//
-// Data storage
-EepRom eepRom;
+#include "lib/InjData.h"
+
 //
 //
 #include "lib/TimeAmp.h"
@@ -138,6 +134,17 @@ TimeAmp ampInt(2, 50, 1, 10, 100);
 //
 // Adding sensors
 #include "lib/SensInit.h"
+
+//
+// Serial inject with max length 80 characters
+InjData serialInject(80);
+//
+//
+#include "lib/EepRom.h"
+
+//
+// Data storage
+EepRom eepRom;
 
 //
 //
@@ -225,30 +232,25 @@ void setup() {
 
 
     pinMode(SAVE_PROTECT, INPUT);
-
-    TTL_TLH = eepRom.loadTravelConsumtipn();
+    //
+    // Restore data
+    eepRom.loadCurrentData();
 
 
 }
 
 void loop() {
 
-    if (Serial.available()) {
+    //
+    // Inject data from serial command
+    serialInject.listenerSerial();
 
-        TTL_TLH = Serial.read();
-    }
 
     if (analogRead(SAVE_PROTECT) < 514) {
-//        lcd.noDisplay();
-
-        eepRom.saveTravelConsumtion(TTL_TLH + CUR_TLH);
-
-//        delay(500);
+        eepRom.saveCurrentData();
     } else {
-//        lcd.display();
+
     }
-
-
 
 
     if (ampInt.isMid()) {
