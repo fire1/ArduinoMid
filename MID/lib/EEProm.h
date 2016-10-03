@@ -173,6 +173,6 @@ void EepRom::loadCurrentData() {
     for (int i = 0; i < countof(scratch); i++)
         Serial.println(scratch[i]);
         */
-    loadTravelConsumption();
+    TTL_TLH = loadTravelConsumption();
 }
 

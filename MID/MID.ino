@@ -236,14 +236,13 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-
 }
 
 void loop() {
 
     //
     // Inject data from serial command
-    serialInject.listenerSerial();
+//    serialInject.listenerSerial();
 
 
     if (analogRead(SAVE_PROTECT) < 514) {

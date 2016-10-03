@@ -63,13 +63,15 @@ InjData::InjData(int bufferSize) {
 
 
 void InjData::listenerSerial() {
-    Serial.print("> ");
+
 
     // Read command
     char line[LINE_BUFFER_SIZE];
     if (readSerialLine(line, sizeof(line)) < 0) {
         Serial.println("Error: line too long");
         return; // skip command processing and try again on next iteration of loop
+    }else{
+            Serial.print("> ");
     }
 
     // Process command
