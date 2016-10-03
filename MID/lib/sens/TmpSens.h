@@ -7,7 +7,6 @@
 
 
 const bool DebugTemperatures = 1;
-unsigned long tempCounter = 0;
 
 bool isInitTemperature = 1;
 
@@ -53,7 +52,7 @@ void sensTmp() {
 
         //      255 max reading
         //      4.34 is voltage passes temperature sensor
-        float cofVolt = 4.3;
+        float cofVolt = 4.34;
 
         //
         // separate reading
