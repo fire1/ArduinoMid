@@ -14,7 +14,20 @@ float CUR_OUT_TMP = 0;
 float getTmpOut() {
     return CUR_OUT_TMP;
 }
+/*
 
+ double Thermistor(int RawADC)
+{
+// int RawADC =  100;
+ double Temp;
+Temp = log(((10240000/RawADC) - 10000));
+Temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * Temp * Temp ))* Temp );
+Temp = Temp - 283.15;
+Temp = Temp *-1;
+ return Temp;
+}
+
+ */
 
 /**
  * Temperature sensor
