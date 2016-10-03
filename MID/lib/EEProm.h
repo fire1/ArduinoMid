@@ -26,7 +26,7 @@ const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size
 const int EEP_ADR_GTS = 7; // Gas tank size
-const int EEP_ADR_GTL = 8; // Gas tank current liters
+const int EEP_ADR_GTL = 8; // Travel Consumption
 //
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
@@ -78,6 +78,18 @@ public:
 
     int long loadTravelDistance() {
         return WireEepromRead(EEP_ADR_TTD) * 4;
+    }
+
+    void saveTravelConsumtion(float value = 0) {
+        if (value < 1) {
+            return;
+        }
+
+        WireEepromWriteByte(EEP_ADR_GTL, int(value));
+    }
+
+    float loadTravelConsumtipn() {
+        return WireEepromRead(EEP_ADR_GTL);
     }
 
     void saveTripDistance(unsigned int value = 0) {

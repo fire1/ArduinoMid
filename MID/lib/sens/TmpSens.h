@@ -12,7 +12,7 @@ unsigned long tempCounter = 0;
 float CUR_OUT_TMP = 0;
 
 float getTmpOut() {
-    return CUR_OUT_TMP / tempCounter;
+    return CUR_OUT_TMP;
 }
 
 
@@ -23,17 +23,25 @@ void sensTmp() {
 
     float temperatureC;
     //
-    // 141 = 22*
+    // 141 = 22* ??
     // 120 = 28*
     // 119 = 29*
-    // 116 = 33*
-    // 197 = 19*
+    // 116 = 33* ???
+    // 180 = 16*
+    // 197 = 14*
+    // 202 = 13*
     //
     int reading = analogRead(TMP_PIN_OUT);
 
 
-//    temperatureC = ((((reading*1.5) /1024) *100) -50 ) *-1;
-    temperatureC = ((reading / 1.8) - 100) * -1;
+    //
+    //      255 max reading
+    //      4.34 is voltage passes temperature sensor
+    float cofVolt = 4.3;
+
+    //
+    // separate reading
+    temperatureC = ((reading / cofVolt) - (255 / cofVolt)) * -1;
 
     if (DebugTemperatures && ampInt.isMid()) {
         Serial.print("Read Temp: ");
@@ -41,23 +49,9 @@ void sensTmp() {
     }
 
 
-    tempCounter++;
-    CUR_OUT_TMP += temperatureC;
-//    CUR_OUT_TMP += (reading - 150) * -1;
-//        CUR_OUT_TMP = (((voltage /*- 0.5*/) * 100) /*- 68*/) * -1;
-
+//    tempCounter++;
+    CUR_OUT_TMP = temperatureC;
 
 }
-//
-
-//
-//        //
-//        // converting that reading to voltage, for 3.3v Astra use  resistor for ~ 2.3v
-//        float voltage = reading * 3.3; // Maybe readings needs to be zeroed in order to lower the values
-//        voltage /= 1024.0;
-//
-//        //converting from 10 mv per degree wit 500 mV offset
-//        temperatureC = (((voltage /*- 0.5*/) * 100) - 80) * -1;
-//        //to degrees ((voltage - 500mV) times 100)
 
 #endif //ARDUINOMID_TMPSENS_H

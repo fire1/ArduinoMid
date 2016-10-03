@@ -26,7 +26,7 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
 
-
+float TTL_TLH;
 float CUR_LPH;
 //
 // Trip consumption
@@ -54,6 +54,9 @@ int airTemp = 90;
  * gets Instant consumption
  */
 void sensCon() {
+
+
+
     int rpmValue = CUR_RPM;
     double airValue = CUR_ECU * 32.7675;
 
@@ -124,6 +127,7 @@ float getTripCons() {
     if (CUR_TLH <= 0) {
         return (float) 0;
     }
+
     return result;
 }
 

@@ -55,8 +55,25 @@ const int TMP_PIN_OUT = A9;
 const int ADT_ALR_PIN = 11;
 //
 // Alpine / Steering Wheel buttons
-const int ALP_PIN_OUT = 12;
 const int ALP_PIN_INP = A8;
+const int ALP_PIN_SKD = A7; //SEEK DOWN 	-	1
+const int ALP_PIN_SKP = A1;
+//SEEK UP		-	2
+const int ALP_PIN_BCK = A2;
+//BACK		- 	3
+const int ALP_PIN_VLD = A3;
+//VOL DW		-	4
+const int ALP_PIN_VLP = A4;
+//VOL UP		-	5
+const int ALP_PIN_ATT = A5;
+// Att 		-	5
+const int ALP_PIN_SRC = A6;// Src		-	6
+
+
+
+const int SAVE_PROTECT = A0; // 	-	1
+
+
 
 /*
 #include <SerialDebug.h>
@@ -133,31 +150,36 @@ void setup() {
     // Turn display off
     lcd.noDisplay();
 
-    sei();
-#if defined(TCCR2) && defined(WGM20)
+//    sei();
+//#if defined(TCCR2) && defined(WGM20)
+//
+//    sbi(TCCR0A, WGM01);
+//    sbi(TCCR0A, WGM00);
+//    sbi(TCCR0B, CS01);
+//    sbi(TCCR0B, CS00);
+//    sbi(TIMSK0, TOIE0);
+//
+//    // set timer 1 prescale factor to 64
+//    sbi(TCCR1B, CS11);
+//    sbi(TCCR1B, CS10);
+//    // put timer 1 in 8-bit phase correct pwm mode
+//    sbi(TCCR1A, WGM10);
+//    // set timer 3 prescale factor to 64
+//    sbi(TCCR3B, CS22);
+//    // configure timer 3 for phase correct pwm (8-bit)
+//    sbi(TCCR3A, WGM20);
+//
+//#else
+//
+//#warning Timer 2 not finished (may not be present on this CPU)
+//
+//#endif
+//    sei();
 
-    sbi(TCCR0A, WGM01);
-    sbi(TCCR0A, WGM00);
-    sbi(TCCR0B, CS01);
-    sbi(TCCR0B, CS00);
-    sbi(TIMSK0, TOIE0);
-
-    // set timer 1 prescale factor to 64
-    sbi(TCCR1B, CS11);
-    sbi(TCCR1B, CS10);
-    // put timer 1 in 8-bit phase correct pwm mode
-    sbi(TCCR1A, WGM10);
-    // set timer 2 prescale factor to 64
-    sbi(TCCR2B, CS22);
-    // configure timer 2 for phase correct pwm (8-bit)
-    sbi(TCCR2A, WGM20);
-
-#else
-
-#warning Timer 2 not finished (may not be present on this CPU)
-
-#endif
-    sei();
+    // set timer 3 prescale factor to 64
+    sbi(TCCR3B, CS22);
+    // configure timer 3 for phase correct pwm (8-bit)
+    sbi(TCCR3A, WGM20);
     //
     // Debug serial
     Serial.begin(9600);
@@ -175,7 +197,7 @@ void setup() {
 
     //
     // Multi steering handle
-    setupAlphine(ALP_PIN_INP, ALP_PIN_OUT);
+    setupAlphine(ALP_PIN_INP);
 
     //
     // Display back-light handler
@@ -191,9 +213,7 @@ void setup() {
     // Adding custom characters to LCD
     setupLcdChar();
     lcd.display();
-    //
-    // Define Alpine Pin
-    /*pinMode(alpinePin, OUTPUT);*/
+
 
     //
     // Show welcome from car
@@ -203,15 +223,39 @@ void setup() {
     // Set MID menu
     setupMenu();
 
-}
 
-// ALP_PIN_INP
+    pinMode(SAVE_PROTECT, INPUT);
+
+    TTL_TLH = eepRom.loadTravelConsumtipn();
+
+
+}
 
 void loop() {
 
+    if (Serial.available()) {
+
+        TTL_TLH = Serial.read();
+    }
+
+    if (analogRead(SAVE_PROTECT) < 514) {
+//        lcd.noDisplay();
+
+        eepRom.saveTravelConsumtion(TTL_TLH + CUR_TLH);
+
+//        delay(500);
+    } else {
+//        lcd.display();
+    }
+
+
+
 
     if (ampInt.isMid()) {
-        Serial.println(millis());
+        Serial.print("Cons distance record  ");
+//        Serial.print(eepRom.loadTravelDistance());
+        Serial.print(TTL_TLH);
+        Serial.print("\n");
     }
     ampInt.listener();
     //
