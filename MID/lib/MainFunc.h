@@ -8,56 +8,6 @@
 
 #include <LiquidCrystal.h>
 
-/*
-bool isSensorReadMid();
-
-//
-// Sensors timing containers
-long int SNS_LAST_RUN_TIME = 0; // Global sensor method timing
-
-//
-// Sensor timing handler
-bool isSensorReadMid() {
-    if (millis() >= SNS_LAST_RUN_TIME + SNS_INTERVAL_TIME_MID) {
-        SNS_LAST_RUN_TIME = millis();
-        return true;
-    }
-    return false;
-}
-
-int long SNS_LAST_SEC_TIME = 0;
-//
-// Sensor timing handler
-bool isSensorReadSec() {
-    if (millis() >= SNS_LAST_SEC_TIME + 1000) {
-        SNS_LAST_SEC_TIME = millis();
-        return true;
-    }
-    return false;
-}
-
-int long SNS_LOW_RUN_TIME = 0;
-//
-// Sensor timing handler
-bool isSensorReadLow() {
-    if (millis() >= SNS_LAST_RUN_TIME + SNS_INTERVAL_TIME_LOW) {
-        SNS_LOW_RUN_TIME = millis();
-        return true;
-    }
-    return false;
-}
-
-int long SNS_MIN_RUN_TIME = 0;
-//
-// Sensor timing handler
-bool isSensorReadMin() {
-    if (millis() >= SNS_MIN_RUN_TIME + 50) {
-        SNS_MIN_RUN_TIME = millis();
-        return true;
-    }
-    return false;
-}
-*/
 //
 // Setup the mid
 void setupMain() {
@@ -84,6 +34,33 @@ char displayFloat(float value, char *output) {
     sprintf(output, "%02d.%1d", dig1, dig2);
 
 }
+
+/**
+ * Limits display floats
+ */
+char separateFloat(float value, int out1, int out2) {
+
+    out1 = 0;
+    out2 = 0;
+    int dig1 = int(value) * 10; // 210
+    int dig2 = int((value * 10) - dig1);
+
+    dig1 = dig1 / 10;
+    if (dig2 < 0) {
+        dig2 = dig2 * -1;
+    }
+    out1 = dig1;
+    out2 = dig2;
+}
+
+float restoreFloat(int a, int b){
+    float c;
+    c = (float)b;
+    while( c > 1.0f ) c *= 0.1f; //moving the decimal point (.) to left most
+    c = (float)a + c;
+    return c;
+}
+
 
 void setupTimer2() {
 
@@ -124,8 +101,6 @@ void setupTimer2() {
     // configure timer 2 for phase correct pwm (8-bit)
     sbi(TCCR2A, WGM20);
 }
-
-
 
 
 #endif //ARDUINOMID_UTILS_H
