@@ -59,17 +59,23 @@ public:
         return WireEepRomRead(EEP_ADR_TTD) * 4;
     }
 
+    /**
+     *  Saves travel consumption
+     */
     void saveTravelConsumption(float value = 0) {
-        char va1[2];
-        char va2[2];
-        separateFloat(value, va1, va2);
+        int val[1];
 
-        WireEepRomWriteByte(EEP_ADR_TC1, int(va1));
-        WireEepRomWriteByte(EEP_ADR_TC2, int(va2));
+        separateFloat(value, val);
+
+        WireEepRomWriteByte(EEP_ADR_TC1, val[0]);
+        WireEepRomWriteByte(EEP_ADR_TC2, val[1]);
     }
 
-
+    /**
+     *  Loads travel consumption
+     */
     float loadTravelConsumption() {
+
         int va1 = WireEepRomRead(EEP_ADR_TC1);
         int va2 = WireEepRomRead(EEP_ADR_TC2);
 
@@ -92,7 +98,7 @@ private:
     byte noElem = 12;
     unsigned int baseAddress = 0;
 
-    void WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
+    void WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
 
         Wire.beginTransmission(EEP_ROM_ADDRESS);
         Wire.write((theMemoryAddress >> 8) & 0xFF);
@@ -116,30 +122,32 @@ private:
         return u8retVal;
     }
 
-    template<class T>
-    int EEPROM_writeAnything(int ee, const T &value) {
-        const byte *p = (const byte *) (const void *) &value;
-        int i;
-        for (i = 0; i < sizeof(value); i++)
-            WireEepRomWriteByte(ee++, *p++);
-        return i;
-    }
-
-    template<class T>
-    int EEPROM_readAnything(int ee, T &value) {
-        byte *p = (byte *) (void *) &value;
-        int i;
-        for (i = 0; i < sizeof(value); i++) {
-            *p++ = WireEepRomRead(ee++);
-        }
-        return i;
-    }
+//    template<class T>
+//    int EEPROM_writeAnything(int ee, const T &value) {
+//        const byte *p = (const byte *) (const void *) &value;
+//        int i;
+//        for (i = 0; i < sizeof(value); i++)
+//            WireEepRomWriteByte(ee++, *p++);
+//        return i;
+//    }
+//
+//    template<class T>
+//    int EEPROM_readAnything(int ee, T &value) {
+//        byte *p = (byte *) (void *) &value;
+//        int i;
+//        for (i = 0; i < sizeof(value); i++) {
+//            *p++ = WireEepRomRead(ee++);
+//        }
+//        return i;
+//    }
 
 
 };
 
 
 void EepRom::saveCurrentData() {
+
+    saveTravelConsumption(TTL_TLH + CUR_TLH);
 
 /*
     double dataInt[noElem] = {TTL_TLH + CUR_TLH,};
@@ -151,12 +159,14 @@ void EepRom::saveCurrentData() {
         n = EEPROM_writeAnything((i * 4) + baseAddress, dataInt[i]);
     }
 */
-    saveTravelConsumption(TTL_TLH + CUR_TLH);
+
 }
 
 
 void EepRom::loadCurrentData() {
 
+
+    TTL_TLH = loadTravelConsumption();
     /*
     unsigned int n = 0;
     // read data back
@@ -177,7 +187,7 @@ void EepRom::loadCurrentData() {
         */
 
 
-    TTL_TLH = loadTravelConsumption();
+
 }
 
 /*

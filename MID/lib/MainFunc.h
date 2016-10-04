@@ -38,28 +38,27 @@ char displayFloat(float value, char *output) {
 /**
  * Limits display floats
  */
-char separateFloat(float value, char *out1, char *out2) {
+void separateFloat(float value,int arrOutput[]) {
 
 //    out1 = 0;
 //    out2 = 0;
-    int dig1 = int(value) * 10; // 210
-    int dig2 = int((value * 10) - dig1);
+    int dig1 = int(value) * 100; // 210
+    int dig2 = int((value * 100) - dig1);
 
-    dig1 = dig1 / 10;
+    dig1 = dig1 / 100;
     if (dig2 < 0) {
         dig2 = dig2 * -1;
     }
 
-    sprintf(out1, "%02d", dig1);
-    sprintf(out2, "%02d", dig2);
-
+    arrOutput[0]= dig1;
+    arrOutput[1]= dig2;
 }
 
 float restoreFloat(int a, int b) {
-    float c;
-    c = (float) b;
-    while (c > 1.0f) c *= 0.1f; //moving the decimal point (.) to left most
-    c = (float) a + c;
+
+    float bf = b * 0.010;
+
+    float c = a+bf;
     return c;
 }
 
