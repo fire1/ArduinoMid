@@ -244,7 +244,8 @@ void setup() {
 }
 
 int long saveProtectInit = 0;
-
+int long curProtectValue = 0;
+int long lastProtectRead = 0;
 
 void loop() {
 
@@ -256,30 +257,48 @@ void loop() {
     //
     ampInt.listener();
 
-    if (ampInt.isBig()) {
-        Serial.print("\n Detected save pin value: ");
-        Serial.println(analogRead(SAVE_PROTECT));
-    }
 
     //
-    // last 515
-    if (analogRead(SAVE_PROTECT) < 820 && saveProtectInit == 0 || /* Only first initialization will run */
-        analogRead(SAVE_PROTECT) < 820 && saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
+    // Save protect pin
+    curProtectValue = analogRead(SAVE_PROTECT);
+    //
+    // Trigger data save at shutdown (used 3000uF capacitor)
+    if (ampInt.isBig()) {
+        Serial.print("\n Detected save pin value: ");
+        Serial.println(curProtectValue);
+    }
+    //
+    // Compare data to detect shutdown and protect multi-records from loop
+    if (curProtectValue < lastProtectRead - 20 && saveProtectInit == 0 || /* Only first initialization will run */
+        curProtectValue < lastProtectRead - 20 &&
+        saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
+        //
+        // Save data to eep rom
 //        eepRom.saveCurrentData();
+
         //
         // Show message
+        Serial.print("\n\n  ");
 
-        Serial.print("\n\n");
-        Serial.print("Data was recorded in EepRom !!! ********************************* ");
-        Serial.print("\n\n");
+        Serial.print(curProtectValue);
+        Serial.print("  ||  ");
+        Serial.print(lastProtectRead - 20);
+        Serial.print("  <~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Data was RECORDED in EepRom !!!  ");
+        Serial.print("\n\n  ");
 
 
         //
         // Close first initialization
-        saveProtectInit = millis();
+
     } else {
         // TODO
     }
+
+    saveProtectInit = millis();
+    //
+    // Move value to last read
+    lastProtectRead = curProtectValue;
+
 
     //
     // Check recorded consumption
