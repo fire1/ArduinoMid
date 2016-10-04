@@ -44,8 +44,11 @@ void sensTmp() {
     // 180 = 16*
     // 197 = 14*
     // 202 = 13*
+    //~~~~~~~~~~~~~~~~
     // 131 = 27.00
     //
+    //
+    // New measurement
     // --------------------------------------------
     // 147 = 21*
     //
@@ -58,6 +61,8 @@ void sensTmp() {
         //      4.34 is voltage passes temperature sensor
         float cofVolt = 4.34;
 
+        // not correct
+        /// new type  id: (147 / 2.666666 - 76) *1
         //
         // separate reading
         temperatureC = ((reading / cofVolt) - (255 / cofVolt)) * -1;
