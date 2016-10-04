@@ -44,6 +44,7 @@ void sensTmp() {
     // 180 = 16*
     // 197 = 14*
     // 202 = 13*
+    // 131 = 27.00
     //
     if (isInitTemperature || ampInt.isBig()) {
         //

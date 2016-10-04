@@ -233,10 +233,14 @@ void setup() {
     //
     // Setup save protection  input
     pinMode(SAVE_PROTECT, INPUT);
+
+
+
     //
     // Restore data
     eepRom.loadCurrentData();
 
+//    TTL_TLH = 6.24;
 }
 
 int long saveProtectInit = 0;
@@ -252,12 +256,24 @@ void loop() {
     //
     ampInt.listener();
 
-    if (analogRead(SAVE_PROTECT) < 515 && saveProtectInit == 0 || /* Only first initialization will run */
-        analogRead(SAVE_PROTECT) < 515 && saveProtectInit + MILLIS_PER_MN > millis()) { /* next record after a minute */
-        eepRom.saveCurrentData();
+    if (ampInt.isBig()) {
+        Serial.print("\n Detected save pin value: ");
+        Serial.println(analogRead(SAVE_PROTECT));
+    }
+
+    //
+    // last 515
+    if (analogRead(SAVE_PROTECT) < 820 && saveProtectInit == 0 || /* Only first initialization will run */
+        analogRead(SAVE_PROTECT) < 820 && saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
+//        eepRom.saveCurrentData();
         //
         // Show message
-        Serial.print("Data was recorded in EepRom ");
+
+        Serial.print("\n\n");
+        Serial.print("Data was recorded in EepRom !!! ********************************* ");
+        Serial.print("\n\n");
+
+
         //
         // Close first initialization
         saveProtectInit = millis();

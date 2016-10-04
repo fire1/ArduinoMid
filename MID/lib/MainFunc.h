@@ -38,10 +38,10 @@ char displayFloat(float value, char *output) {
 /**
  * Limits display floats
  */
-char separateFloat(float value, int out1, int out2) {
+char separateFloat(float value, char *out1, char *out2) {
 
-    out1 = 0;
-    out2 = 0;
+//    out1 = 0;
+//    out2 = 0;
     int dig1 = int(value) * 10; // 210
     int dig2 = int((value * 10) - dig1);
 
@@ -49,15 +49,17 @@ char separateFloat(float value, int out1, int out2) {
     if (dig2 < 0) {
         dig2 = dig2 * -1;
     }
-    out1 = dig1;
-    out2 = dig2;
+
+    sprintf(out1, "%02d", dig1);
+    sprintf(out2, "%02d", dig2);
+
 }
 
-float restoreFloat(int a, int b){
+float restoreFloat(int a, int b) {
     float c;
-    c = (float)b;
-    while( c > 1.0f ) c *= 0.1f; //moving the decimal point (.) to left most
-    c = (float)a + c;
+    c = (float) b;
+    while (c > 1.0f) c *= 0.1f; //moving the decimal point (.) to left most
+    c = (float) a + c;
     return c;
 }
 

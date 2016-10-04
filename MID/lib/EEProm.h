@@ -60,14 +60,13 @@ public:
     }
 
     void saveTravelConsumption(float value = 0) {
-        int va1 = 0;
-        int va2 = 0;
+        char va1[2];
+        char va2[2];
         separateFloat(value, va1, va2);
 
-        WireEepRomWriteByte(EEP_ADR_TC1, va1);
-        WireEepRomWriteByte(EEP_ADR_TC2, va2);
+        WireEepRomWriteByte(EEP_ADR_TC1, int(va1));
+        WireEepRomWriteByte(EEP_ADR_TC2, int(va2));
     }
-
 
 
     float loadTravelConsumption() {
