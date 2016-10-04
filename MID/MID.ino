@@ -240,7 +240,7 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-//    TTL_TLH = 6.24;
+    TTL_TLH = 6.24;
 }
 
 int long saveProtectInit = 0;
@@ -265,12 +265,15 @@ void loop() {
     // Trigger data save at shutdown (used 3000uF capacitor)
     if (ampInt.isBig()) {
         Serial.print("\n Detected save pin value: ");
-        Serial.println(curProtectValue);
+        Serial.print(curProtectValue);
+        Serial.print("  ||  ");
+        Serial.print(lastProtectRead - 30);
+        Serial.println("\n");
     }
     //
     // Compare data to detect shutdown and protect multi-records from loop
-    if (curProtectValue < lastProtectRead - 20 && saveProtectInit == 0 || /* Only first initialization will run */
-        curProtectValue < lastProtectRead - 20 &&
+    if (curProtectValue < lastProtectRead - 30 || /* Only first initialization will run */
+        curProtectValue < lastProtectRead - 30 &&
         saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
         //
         // Save data to eep rom
@@ -282,7 +285,7 @@ void loop() {
 
         Serial.print(curProtectValue);
         Serial.print("  ||  ");
-        Serial.print(lastProtectRead - 20);
+        Serial.print(lastProtectRead - 30);
         Serial.print("  <~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Data was RECORDED in EepRom !!!  ");
         Serial.print("\n\n  ");
 
