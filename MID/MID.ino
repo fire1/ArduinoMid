@@ -254,7 +254,7 @@ void loop() {
 //    serialInject.listenerSerial();
 
     //
-    //
+    // Amplitude loop init
     ampInt.listener();
 
 
@@ -272,8 +272,8 @@ void loop() {
     }
     //
     // Compare data to detect shutdown and protect multi-records from loop
-    if (curProtectValue < lastProtectRead - 30 || /* Only first initialization will run */
-        curProtectValue < lastProtectRead - 30 &&
+    if (curProtectValue < lastProtectRead - 50 && saveProtectInit == 0 || /* Only first initialization will run */
+        curProtectValue < lastProtectRead - 50 &&
         saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
         //
         // Save data to eep rom
@@ -292,12 +292,8 @@ void loop() {
 
         //
         // Close first initialization
-
-    } else {
-        // TODO
+        saveProtectInit = millis();
     }
-
-    saveProtectInit = millis();
     //
     // Move value to last read
     lastProtectRead = curProtectValue;
