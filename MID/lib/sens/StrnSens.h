@@ -19,7 +19,9 @@ public:
         pinSteering = pinTargetSteering;
         pinDigitalOut = pinDigitalPod;
     }
+
     void setup();
+
     void listenButtons();
 
     /* @deprecated */
@@ -56,34 +58,47 @@ void StrButtonsSony::setup() {
         front	        33940	1.13
         bottom	        48800	0.84
 */
+int SteeringNotUs = 0;
 
 void StrButtonsSony::listenButtons() {
 
     int readingSteeringButton = analogRead(pinSteering);
 
     if (readingSteeringButton > 250) {
-        SPI.transfer(0);
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(255);
+
+        digitalWrite(pinDigitalOut, HIGH);
+        SteeringNotUs = 1;
     }
 
 
     if (Serial.available()) {
-//        mySerial.write(Serial.read());
-//        sendCode(Serial.read());
-//        analogWrite(ALP_PIN_OUT, getVoltage(Serial.read()));
+
+        SPI.transfer(Serial.read());
     }
 
     //
     // Zero button
     if (readingSteeringButton > 25 && readingSteeringButton < 30) {
         Serial.print("Zero button");
-        SPI.transfer(11);
-
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(B10001);
+        SPI.transfer(byte(250));
+        digitalWrite(pinDigitalOut, HIGH);
+        SteeringNotUs = 0;
     }
 
+    if(ampInt.isMid()){
+        Serial.println(readingSteeringButton);
+    }
     //
     // Volume up
-    if (readingSteeringButton > 14 && readingSteeringButton < 20) {
-        SPI.transfer(21);
+    if (readingSteeringButton > 5 && readingSteeringButton < 14) {
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(B10001);
+        SPI.transfer(byte(94));
+        digitalWrite(pinDigitalOut, HIGH);
 
         if (ampInt.isMid()) {
             Serial.print("Volume Up");
@@ -91,18 +106,23 @@ void StrButtonsSony::listenButtons() {
             Serial.print(getVoltage(1.85));
             Serial.print("\n");
         }
+        SteeringNotUs = 0;
     }
 
     //
     // Volume down
-    if (readingSteeringButton > 5 && readingSteeringButton < 14) {
-        SPI.transfer(141);
+    if (readingSteeringButton > 0 && readingSteeringButton < 5) {
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(B10001);
+        SPI.transfer(byte(167));
+        digitalWrite(pinDigitalOut, HIGH);
         if (ampInt.isMid()) {
             Serial.print("Volume Down");
             Serial.print("\t value:");
             Serial.print(getVoltage(1.37));
             Serial.print("\n");
         }
+        SteeringNotUs = 0;
     }
 
 
@@ -117,25 +137,35 @@ void StrButtonsSony::listenButtons() {
             Serial.print(getVoltage(2.55));
             Serial.print("\n");
         }
+        SteeringNotUs = 0;
     }
 
     //
     // Left arrow / seek down
     if (readingSteeringButton > 70 && readingSteeringButton < 80) {
-
-        SPI.transfer(151);
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(B10001);
+        SPI.transfer(byte(60));
+        digitalWrite(pinDigitalOut, HIGH);
         if (ampInt.isMid()) {
             Serial.print("Seek Down");
             Serial.print("\t value:");
             Serial.print(getVoltage(2.15));
             Serial.print("\n");
         }
+        SteeringNotUs = 0;
     }
 
 
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 140) {
+//src
+//        digitalWrite(pinDigitalOut,LOW);
+//        SPI.transfer(B10001);
+//        SPI.transfer(byte(118));
+//        digitalWrite(pinDigitalOut,HIGH);
+
 
         SPI.transfer(200);
         if (ampInt.isMid()) {
@@ -144,6 +174,7 @@ void StrButtonsSony::listenButtons() {
             Serial.print(getVoltage(2.95));
             Serial.print("\n");
         }
+        SteeringNotUs = 0;
     }
 
 

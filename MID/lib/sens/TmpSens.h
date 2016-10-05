@@ -8,8 +8,8 @@
 #ifndef ARDUINOMID_TMPSENS_H
 #define ARDUINOMID_TMPSENS_H
 
-#define  DEBUG_TEMPERATURE_OU
-#define  DEBUG_TEMPERATURE_IN
+//#define  DEBUG_TEMPERATURE_OU
+//#define  DEBUG_TEMPERATURE_IN
 
 // Data wire is plugged into pin A7 on the Arduino
 #define ONE_WIRE_BUS A7

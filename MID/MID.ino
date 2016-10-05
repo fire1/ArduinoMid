@@ -1,7 +1,6 @@
-#include <Arduino.h>
 
-#include <OneWire.h>
-#include <DallasTemperature.h>
+
+#include <Arduino.h>
 
 /*
 ---------------------------------------------------
@@ -59,8 +58,8 @@ const int TMP_PIN_OUT = A9;
 const int ADT_ALR_PIN = 11;
 //
 // Alpine / Steering Wheel buttons
-const uint8_t ALP_PIN_INP = A8;
-const uint8_t ALP_PIN_OUT = 53;
+const int ALP_PIN_INP = A8;
+const int ALP_PIN_OUT = 53;
 //
 // Shutdown protection pin
 const int SAVE_PROTECT = A0; // 	-	1
@@ -255,13 +254,13 @@ void loop() {
     curProtectValue = analogRead(SAVE_PROTECT);
     //
     // Trigger data save at shutdown (used 3000uF capacitor)
-    if (ampInt.isBig()) {
-        Serial.print("\n Detected save pin value: ");
-        Serial.print(curProtectValue);
-        Serial.print("  ||  ");
-        Serial.print(lastProtectRead - 30);
-        Serial.println("\n");
-    }
+//    if (ampInt.isBig()) {
+//        Serial.print("\n Detected save pin value: ");
+//        Serial.print(curProtectValue);
+//        Serial.print("  ||  ");
+//        Serial.print(lastProtectRead - 30);
+//        Serial.println("\n");
+//    }
     //
     // Compare data to detect shutdown and protect multi-records from loop
     if (curProtectValue < lastProtectRead - 50 && saveProtectInit == 0 || /* Only first initialization will run */
@@ -269,7 +268,7 @@ void loop() {
         saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
         //
         // Save data to eep rom
-        eepRom.saveCurrentData();
+//        eepRom.saveCurrentData();
 
         //
         // Show message
@@ -293,11 +292,11 @@ void loop() {
 
     //
     // Check recorded consumption
-    if (ampInt.isMid()) {
-        Serial.print("Consumption distance record  ");
-        Serial.print(TTL_TLH);
-        Serial.print("\n");
-    }
+//    if (ampInt.isMid()) {
+//        Serial.print("Consumption distance record  ");
+//        Serial.print(TTL_TLH);
+//        Serial.print("\n");
+//    }
 
     //
     // Sensors

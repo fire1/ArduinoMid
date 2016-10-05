@@ -1,8 +1,9 @@
 /*
 The circuit:
-  * CS - to digital pin 53  (SS pin)
-  * SI - to digital pin 51 (MOSI pin)
-  * CLK - to digital pin 52 (SCK pin) */
+  * CS  (1)     - to digital pin 53     (SS pin)
+  * SI  (3)     - to digital pin 51     (MOSI pin)
+  * CLK (2)     - to digital pin 52     (SCK pin)
+  * */
 // inslude the SPI library:
 #include <SPI.h>
 
