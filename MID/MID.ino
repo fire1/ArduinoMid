@@ -1,6 +1,8 @@
-#include <SPI.h>
-
 #include <Arduino.h>
+
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -57,22 +59,10 @@ const int TMP_PIN_OUT = A9;
 const int ADT_ALR_PIN = 11;
 //
 // Alpine / Steering Wheel buttons
-const int ALP_PIN_INP = A8;
-const int ALP_PIN_SKD = A7; //SEEK DOWN 	-	1
-const int ALP_PIN_SKP = A1;
-//SEEK UP		-	2
-const int ALP_PIN_BCK = A2;
-//BACK		- 	3
-const int ALP_PIN_VLD = A3;
-//VOL DW		-	4
-const int ALP_PIN_VLP = A4;
-//VOL UP		-	5
-const int ALP_PIN_ATT = A5;
-// Att 		-	5
-const int ALP_PIN_SRC = A6;// Src		-	6
-
-
-
+const uint8_t ALP_PIN_INP = A8;
+const uint8_t ALP_PIN_OUT = 53;
+//
+// Shutdown protection pin
 const int SAVE_PROTECT = A0; // 	-	1
 
 
@@ -112,9 +102,6 @@ const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
 const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
 int showerCounter = 0;
 
-#include <MenuBackend.h>
-
-
 #include "lib/InjData.h"
 
 //
@@ -136,6 +123,8 @@ TimeAmp ampInt(2, 50, 1, 10, 100);
 //
 // Adding sensors
 #include "lib/SensInit.h"
+
+StrButtonsSony SensStr(ALP_PIN_INP, ALP_PIN_OUT);
 
 //
 // Serial inject with max length 80 characters
@@ -204,9 +193,7 @@ void setup() {
     setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
     setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU  
 
-    //
-    // Multi steering handle
-    setupAlphine(ALP_PIN_INP);
+    setupTemperature();
 
     //
     // Display back-light handler
@@ -231,6 +218,9 @@ void setup() {
     //
     // Set MID menu
     setupMenu();
+    //
+    // Setup SPI lib
+    SensStr.setup();
 
     //
     // Setup save protection  input
@@ -312,13 +302,19 @@ void loop() {
     //
     // Sensors
     sensorsInit();
+
+    //
+    //
+    SensStr.listenButtons();
+    //
+    //
+    detectDistance();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
     //
     // Handle navigation
     navigateMenu();
-    getTravelDistanceMeters();
     //
     // Switch menu from cursor
     switch (cursorMenu) {

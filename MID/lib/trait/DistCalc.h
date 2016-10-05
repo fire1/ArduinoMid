@@ -99,7 +99,7 @@ unsigned long collectionDistance = 0;
 /**
  * Gets travel distance in meters
  */
-void getTravelDistanceMeters() {
+void detectDistance() {
 
     float travelDistanceInKM = 0;
 //

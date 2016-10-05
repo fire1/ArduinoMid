@@ -1,12 +1,24 @@
 //
 // Created by Angel Zaprianov on 9/17/2016.
 //
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 
 #ifndef ARDUINOMID_TMPSENS_H
 #define ARDUINOMID_TMPSENS_H
 
+#define  DEBUG_TEMPERATURE_OU
+#define  DEBUG_TEMPERATURE_IN
 
-const bool DebugTemperatures = 1;
+// Data wire is plugged into pin A7 on the Arduino
+#define ONE_WIRE_BUS A7
+
+OneWire oneWire(ONE_WIRE_BUS);
+
+// Pass our oneWire reference to Dallas Temperature.
+DallasTemperature temperatureSensors(&oneWire);
+
 
 bool isInitTemperature = 1;
 
@@ -15,25 +27,23 @@ float CUR_OUT_TMP = 0;
 float getTmpOut() {
     return CUR_OUT_TMP;
 }
-/*
 
- double Thermistor(int RawADC)
-{
-// int RawADC =  100;
- double Temp;
-Temp = log(((10240000/RawADC) - 10000));
-Temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * Temp * Temp ))* Temp );
-Temp = Temp - 283.15;
-Temp = Temp *-1;
- return Temp;
+
+void setupTemperature() {
+    temperatureSensors.begin();
 }
-
- */
 
 /**
  * Temperature sensor
  */
 void sensTmp() {
+
+#if defined(DEBUG_TEMPERATURE_IN)
+    if (ampInt.isMid()) {
+        Serial.print("Dallas temperature: \n");
+        Serial.println(temperatureSensors.getTempCByIndex(0)); // Why "byIndex"?
+    }
+#endif
 
     float temperatureC;
     //
@@ -69,10 +79,12 @@ void sensTmp() {
         // separate reading
         temperatureC = ((reading / cofVolt) - (255 / cofVolt)) * -1;
 
-        if (DebugTemperatures && ampInt.isMid()) {
+#if defined(DEBUG_TEMPERATURE_OU)
+        if (ampInt.isMid()) {
             Serial.print("Read Temp: ");
             Serial.println(reading);
         }
+#endif
 
         //
         // Close first loop
