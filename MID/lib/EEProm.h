@@ -147,7 +147,8 @@ private:
 
 void EepRom::saveCurrentData() {
 
-    saveTravelConsumption(TTL_TLH + CUR_TLH);
+    TTL_TLH = float(TTL_TLH + (float)CUR_TLH);
+    saveTravelConsumption(TTL_TLH);
 
 /*
     double dataInt[noElem] = {TTL_TLH + CUR_TLH,};

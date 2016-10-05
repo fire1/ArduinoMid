@@ -51,7 +51,9 @@ void sensTmp() {
     // New measurement
     // --------------------------------------------
     // 147 = 21*
-    //
+    // 140/139 = 22 / 21
+    // 139 =  25/6
+    // 118 = 27/8
     if (isInitTemperature || ampInt.isBig()) {
         //
         // Read new data

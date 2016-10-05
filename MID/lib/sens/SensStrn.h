@@ -16,6 +16,11 @@ bottom          48800     0.84
 ---------------------------------------------------
  Sony Voltages                                  
  */
+
+
+#include <SPI.h>
+
+
 const int sonySrc = 41; //4.1v
 const int sonyAtt = 34;
 const int sonyOff = 49;
@@ -36,58 +41,24 @@ const int alpinePin = 3;
 void resetStrPins() {
 
     int val = 130;
-    analogWrite(ALP_PIN_SKD, val);
-    analogWrite(ALP_PIN_SKP, val);
-    analogWrite(ALP_PIN_BCK, val);
-    analogWrite(ALP_PIN_VLD, val);
-    analogWrite(ALP_PIN_VLP, val);
-    analogWrite(ALP_PIN_ATT, val);
-    analogWrite(ALP_PIN_SRC, val);
+
 }
 
 
 void setupAlphine(int pinTargetSteering) {
     pinMode(pinTargetSteering, INPUT);
 
-    pinMode(ALP_PIN_SKD, OUTPUT);
-    pinMode(ALP_PIN_SKP, OUTPUT);
-    pinMode(ALP_PIN_BCK, OUTPUT);
-    pinMode(ALP_PIN_VLD, OUTPUT);
-    pinMode(ALP_PIN_VLP, OUTPUT);
-    pinMode(ALP_PIN_ATT, OUTPUT);
-    pinMode(ALP_PIN_SRC, OUTPUT);
-    resetStrPins();
+    pinMode(7, OUTPUT);
+
+
+    SPI.begin();
+
+    SPI.transfer(0); // command
+    SPI.transfer(0); // value
 
 
 }
 
-/*void sendCode(char *code) {
-    const int alpCodeLength = 47;
-    const int alpRate = 500; //microseconds
-    const int alpInterval = 41; //milliseconds
-
-    int alpPin = ALP_PIN_OUT;
-
-    //Innit
-    digitalWrite(alpPin, HIGH);
-    delay(8); // 8 ms high init
-    digitalWrite(alpPin, LOW);
-    delayMicroseconds(4500); // 4.5 ms low init
-
-    //Send command
-    for (int i = 0; i <= alpCodeLength; i++) {
-        if (code[i] == '1') {
-            digitalWrite(alpPin, HIGH);
-        } else {
-            digitalWrite(alpPin, LOW);
-        }
-        delayMicroseconds(alpRate);
-        digitalWrite(alpPin, LOW);
-        delayMicroseconds(alpRate);
-    }
-    digitalWrite(alpPin, LOW);
-    delay(41); //41ms interval between commands
-}*/
 
 float getVoltage(float volt) {
     return 255 * (volt / 3.80);
@@ -120,7 +91,7 @@ bottom	        48800	0.84
 
 
     if (readingSteeringButton > 250) {
-        resetStrPins();
+        SPI.transfer(0);
     }
 
 
@@ -134,14 +105,14 @@ bottom	        48800	0.84
     // Zero button
     if (readingSteeringButton > 25 && readingSteeringButton < 30) {
         Serial.print("Zero button");
-        analogWrite(ALP_PIN_ATT, 0);
+        SPI.transfer(11);
 
     }
 
     //
     // Volume up
     if (readingSteeringButton > 14 && readingSteeringButton < 20) {
-        digitalWrite(ALP_PIN_VLP, 0);
+        SPI.transfer(21);
 
         if (ampInt.isMid()) {
             Serial.print("Volume Up");
@@ -154,7 +125,7 @@ bottom	        48800	0.84
     //
     // Volume down
     if (readingSteeringButton > 5 && readingSteeringButton < 14) {
-        analogWrite(ALP_PIN_VLD, 0);
+        SPI.transfer(141);
         if (ampInt.isMid()) {
             Serial.print("Volume Down");
             Serial.print("\t value:");

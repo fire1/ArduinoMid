@@ -1,3 +1,5 @@
+#include <SPI.h>
+
 #include <Arduino.h>
 /*
 ---------------------------------------------------
@@ -240,7 +242,7 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-    TTL_TLH = 6.24;
+//    TTL_TLH = 6.24;
 }
 
 int long saveProtectInit = 0;
@@ -277,7 +279,7 @@ void loop() {
         saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
         //
         // Save data to eep rom
-//        eepRom.saveCurrentData();
+        eepRom.saveCurrentData();
 
         //
         // Show message
