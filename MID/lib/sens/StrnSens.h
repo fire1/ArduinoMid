@@ -10,7 +10,7 @@ int testDigitalPodIndex = 0;
 
 //
 // Creates test with maximum send value
-#define TEST_DIG_POD 128
+#define TEST_DIG_POD 255
 
 #include <SPI.h>
 
@@ -40,17 +40,10 @@ void StrButtonsSony::testDigitalPod() {
 
 #if defined(TEST_DIG_POD)
 
-    if (readingSteeringButton > 250) {
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(255);
-
-        digitalWrite(pinDigitalOut, HIGH);
-        testDigitalPodIndex = 1;
-    }
-
     digitalWrite(pinDigitalOut, LOW);
     SPI.transfer(B10001);
-    SPI.transfer(byte(testDigitalPodIndex));
+//    SPI.transfer(B11111111);
+    SPI.transfer(testDigitalPodIndex);
     digitalWrite(pinDigitalOut, HIGH);
     //
     // Show value
@@ -58,7 +51,7 @@ void StrButtonsSony::testDigitalPod() {
     Serial.println(testDigitalPodIndex);
 
     testDigitalPodIndex++;
-    delay(1500);
+    delay(500);
     if (testDigitalPodIndex >= TEST_DIG_POD) {
         testDigitalPodIndex = 0;
     }
@@ -101,12 +94,20 @@ void StrButtonsSony::listenButtons() {
 
     int readingSteeringButton = analogRead(pinSteering);
 
-    testDigitalPod();
+    StrButtonsSony::testDigitalPod();
 
     if (Serial.available()) {
 
         SPI.transfer(Serial.read());
     }
+//
+//    if (readingSteeringButton > 250) {
+//        digitalWrite(pinDigitalOut, LOW);
+//        SPI.transfer(255);
+//
+//        digitalWrite(pinDigitalOut, HIGH);
+//        testDigitalPodIndex = 1;
+//    }
 
     //
     // Zero button
