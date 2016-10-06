@@ -1,7 +1,7 @@
 
 
 #include <Arduino.h>
-
+#include <SPI.h>
 /*
 ---------------------------------------------------
     Arduino MID

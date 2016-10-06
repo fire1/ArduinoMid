@@ -6,6 +6,12 @@
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
 
+int testDigitalPodIndex = 0;
+
+//
+// Creates test with maximum send value
+#define TEST_DIG_POD 128
+
 #include <SPI.h>
 
 class StrButtonsSony {
@@ -13,6 +19,9 @@ class StrButtonsSony {
 private:
 
     uint8_t pinSteering, pinDigitalOut;
+
+    void testDigitalPod();
+
 
 public:
     StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod) {
@@ -24,12 +33,39 @@ public:
 
     void listenButtons();
 
-    /* @deprecated */
-    float getVoltage(float volt) {
-        return 255 * (volt / 3.80);
+};
+
+
+void StrButtonsSony::testDigitalPod() {
+
+#if defined(TEST_DIG_POD)
+
+    if (readingSteeringButton > 250) {
+        digitalWrite(pinDigitalOut, LOW);
+        SPI.transfer(255);
+
+        digitalWrite(pinDigitalOut, HIGH);
+        testDigitalPodIndex = 1;
     }
 
-};
+    digitalWrite(pinDigitalOut, LOW);
+    SPI.transfer(B10001);
+    SPI.transfer(byte(testDigitalPodIndex));
+    digitalWrite(pinDigitalOut, HIGH);
+    //
+    // Show value
+    Serial.print("\n Value of digital pod is: ");
+    Serial.println(testDigitalPodIndex);
+
+    testDigitalPodIndex++;
+    delay(1500);
+    if (testDigitalPodIndex >= TEST_DIG_POD) {
+        testDigitalPodIndex = 0;
+    }
+
+#endif
+}
+
 
 void StrButtonsSony::setup() {
     pinMode(pinSteering, INPUT);
@@ -58,20 +94,14 @@ void StrButtonsSony::setup() {
         front	        33940	1.13
         bottom	        48800	0.84
 */
-int SteeringNotUs = 0;
+
+
 
 void StrButtonsSony::listenButtons() {
 
     int readingSteeringButton = analogRead(pinSteering);
 
-    if (readingSteeringButton > 250) {
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(255);
-
-        digitalWrite(pinDigitalOut, HIGH);
-        SteeringNotUs = 1;
-    }
-
+    testDigitalPod();
 
     if (Serial.available()) {
 
@@ -86,10 +116,10 @@ void StrButtonsSony::listenButtons() {
         SPI.transfer(B10001);
         SPI.transfer(byte(250));
         digitalWrite(pinDigitalOut, HIGH);
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
-    if(ampInt.isMid()){
+    if (ampInt.isMid()) {
         Serial.println(readingSteeringButton);
     }
     //
@@ -103,10 +133,10 @@ void StrButtonsSony::listenButtons() {
         if (ampInt.isMid()) {
             Serial.print("Volume Up");
             Serial.print("\t value:");
-            Serial.print(getVoltage(1.85));
+//            Serial.print(getVoltage(1.85));
             Serial.print("\n");
         }
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
     //
@@ -119,10 +149,10 @@ void StrButtonsSony::listenButtons() {
         if (ampInt.isMid()) {
             Serial.print("Volume Down");
             Serial.print("\t value:");
-            Serial.print(getVoltage(1.37));
+//            Serial.print(getVoltage(1.37));
             Serial.print("\n");
         }
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
 
@@ -134,10 +164,10 @@ void StrButtonsSony::listenButtons() {
         if (ampInt.isMid()) {
             Serial.print("Seek Up");
             Serial.print("\t value:");
-            Serial.print(getVoltage(2.55));
+//            Serial.print(getVoltage(2.55));
             Serial.print("\n");
         }
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
     //
@@ -150,10 +180,10 @@ void StrButtonsSony::listenButtons() {
         if (ampInt.isMid()) {
             Serial.print("Seek Down");
             Serial.print("\t value:");
-            Serial.print(getVoltage(2.15));
+//            Serial.print(getVoltage(2.15));
             Serial.print("\n");
         }
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
 
@@ -171,10 +201,10 @@ void StrButtonsSony::listenButtons() {
         if (ampInt.isMid()) {
             Serial.print("Back Button");
             Serial.print("\t value:");
-            Serial.print(getVoltage(2.95));
+//            Serial.print(getVoltage(2.95));
             Serial.print("\n");
         }
-        SteeringNotUs = 0;
+        testDigitalPodIndex = 0;
     }
 
 
