@@ -10,7 +10,8 @@ int testDigitalPodIndex = 0;
 
 //
 // Creates test with maximum send value
-#define TEST_DIG_POD 255
+#define TST_DIG_POD 255
+#define ADR_DIG_POD 0x11
 
 #include <SPI.h>
 
@@ -21,6 +22,8 @@ private:
     uint8_t pinSteering, pinDigitalOut;
 
     void testDigitalPod();
+
+    int digitalPotWrite(uint8_t value);
 
 
 public:
@@ -35,13 +38,45 @@ public:
 
 };
 
+float getResistens(int valueStep) {
+
+    int podK = 50; // 100k/50k
+
+    return ((podK * 10 ^ 3) * (256 - valueStep) / 256 - 125);
+}
+
+/**
+ * Send command to pod
+ */
+int StrButtonsSony::digitalPotWrite(uint8_t value) {
+    digitalWrite(pinDigitalOut, LOW);
+    //send in the address and value via SPI:
+    SPI.transfer(ADR_DIG_POD);
+    SPI.transfer(value);
+    // take the SS pin high to de-select the chip
+    digitalWrite(pinDigitalOut, HIGH);
+}
 
 void StrButtonsSony::testDigitalPod() {
 
-#if defined(TEST_DIG_POD)
+#if defined(TST_DIG_POD)
+
+    // adjust high and low resistance of potentiometer
+    // adjust Highest Resistance .
+    digitalPotWrite(0x00);
+    delay(1000);
+
+    // adjust  wiper in the  Mid point  .
+    digitalPotWrite(0x80);
+    delay(1000);
+
+    // adjust Lowest Resistance .
+    digitalPotWrite(0xFF);
+    delay(1000);
+
 
     digitalWrite(pinDigitalOut, LOW);
-    SPI.transfer(B10001);
+    SPI.transfer(B10001); // 17
 //    SPI.transfer(B11111111);
     SPI.transfer(testDigitalPodIndex);
     digitalWrite(pinDigitalOut, HIGH);
@@ -52,7 +87,7 @@ void StrButtonsSony::testDigitalPod() {
 
     testDigitalPodIndex++;
     delay(500);
-    if (testDigitalPodIndex >= TEST_DIG_POD) {
+    if (testDigitalPodIndex >= TST_DIG_POD) {
         testDigitalPodIndex = 0;
     }
 

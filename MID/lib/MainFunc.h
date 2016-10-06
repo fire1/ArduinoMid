@@ -6,6 +6,8 @@
 #ifndef MID_MID_H
 #define MID_MID_H
 
+#include <wiring.c>
+
 #include <LiquidCrystal.h>
 
 //
@@ -63,7 +65,7 @@ float restoreFloat(int a, int b) {
 }
 
 
-void setupTimer2() {
+void setupUseTimer2() {
 
     /* First disable the timer overflow interrupt while we're configuring */
     TIMSK2 &= ~(1 << TOIE2);
@@ -103,6 +105,32 @@ void setupTimer2() {
     sbi(TCCR2A, WGM20);
 }
 
+void setupUseTimer3() {
+
+    TIMSK3 &= ~(1 << TOIE3);
+
+    /* Configure timer3 in normal mode (pure counting, no PWM etc.) */
+    TCCR3A &= ~((1 << WGM31) | (1 << WGM30));
+    TCCR3B &= ~(1 << WGM32);
+
+
+
+    TCCR3A = TCCR3A|(1<<COM3A1)|(1<<COM3B1)|(1<<COM3C1);
+    /* Select clock source: internal I/O clock */
+    ASSR &= ~(1 << AS3);
+
+    /* Disable Compare Match A interrupt enable (only want overflow) */
+    TIMSK3 &= ~(1 << OCIE3A);
+
+    /* Now configure the prescaler to CPU clock divided by 128 */
+    TCCR3B |= (1 << CS32) | (1 << CS30); // Set bits
+    TCCR3B &= ~(1 << CS31);             // Clear bit
+
+
+    sbi(TCCR3B, CS31);		// set timer 3 prescale factor to 64
+    sbi(TCCR3B, CS30);
+    sbi(TCCR3A, WGM30);		// put timer 3 in 8-bit phase correct pwm mode
+}
 
 #endif //ARDUINOMID_UTILS_H
 

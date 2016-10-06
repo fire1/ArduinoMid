@@ -206,7 +206,7 @@ void setup() {
     setupMain();
     //
     // Adding custom characters to LCD
-    setupLcdChar();
+    setLcdBaseChar();
     lcd.display();
 
 

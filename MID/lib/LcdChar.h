@@ -8,7 +8,7 @@
 
 //
 // LCD Character handler
-void setupLcdChar() {
+void setLcdBaseChar() {
 //
 // Smile face
     byte CHR_SML[8] =  {
