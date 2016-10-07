@@ -75,7 +75,7 @@ void setupUseTimer2() {
     TCCR2B &= ~(1 << WGM22);
 
     /* Select clock source: internal I/O clock */
-    ASSR &= ~(1 << AS2);
+//    ASSR &= ~(1 << AS2);
 
     /* Disable Compare Match A interrupt enable (only want overflow) */
     TIMSK2 &= ~(1 << OCIE2A);
@@ -117,7 +117,7 @@ void setupUseTimer3() {
 
     TCCR3A = TCCR3A|(1<<COM3A1)|(1<<COM3B1)|(1<<COM3C1);
     /* Select clock source: internal I/O clock */
-    ASSR &= ~(1 << AS3);
+//    ASSR &= ~(1 << AS3);
 
     /* Disable Compare Match A interrupt enable (only want overflow) */
     TIMSK3 &= ~(1 << OCIE3A);

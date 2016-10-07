@@ -60,6 +60,7 @@ const int ADT_ALR_PIN = 11;
 // Alpine / Steering Wheel buttons
 const int ALP_PIN_INP = A8;
 const int ALP_PIN_OUT = 53;
+const int ALP_PIN_VOL = A1;
 //
 // Shutdown protection pin
 const int SAVE_PROTECT = A0; // 	-	1
@@ -123,7 +124,7 @@ TimeAmp ampInt(2, 50, 1, 10, 100);
 // Adding sensors
 #include "lib/SensInit.h"
 
-StrButtonsSony SensStr(ALP_PIN_INP, ALP_PIN_OUT);
+StrButtonsSony SensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
 
 //
 // Serial inject with max length 80 characters

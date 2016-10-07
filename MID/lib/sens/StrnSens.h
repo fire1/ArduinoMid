@@ -6,12 +6,12 @@
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
 
-int testDigitalPodIndex = 0;
+int isButtonPressActive = 0;
 
 //
 // Creates test with maximum send value
-#define TST_DIG_POD 255
-#define ADR_DIG_POD 0x11
+#define TST_DIG_POD 256
+#define ADR_DIG_POD B10001
 
 #include <SPI.h>
 
@@ -19,17 +19,21 @@ class StrButtonsSony {
 
 private:
 
-    uint8_t pinSteering, pinDigitalOut;
+    bool isButtonPressActive = 0;
+
+    int testIndex = 0;
+    uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
 
     void testDigitalPod();
 
-    int digitalPotWrite(uint8_t value);
+    int digitalPotWrite(int value, float voltage);
 
 
 public:
-    StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod) {
+    StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
         pinSteering = pinTargetSteering;
         pinDigitalOut = pinDigitalPod;
+        pinOutVoltage = pinVoltage;
     }
 
     void setup();
@@ -48,13 +52,21 @@ float getResistens(int valueStep) {
 /**
  * Send command to pod
  */
-int StrButtonsSony::digitalPotWrite(uint8_t value) {
+int StrButtonsSony::digitalPotWrite(int value, float voltage) {
     digitalWrite(pinDigitalOut, LOW);
     //send in the address and value via SPI:
     SPI.transfer(ADR_DIG_POD);
     SPI.transfer(value);
+    int volts = int(255 * (voltage / 5));
+
+    analogWrite(pinOutVoltage, volts);
     // take the SS pin high to de-select the chip
     digitalWrite(pinDigitalOut, HIGH);
+    Serial.print(" Sending value to plot: ");
+
+    Serial.print(volts);
+    Serial.print("  \t");
+    Serial.println(value);
 }
 
 void StrButtonsSony::testDigitalPod() {
@@ -63,32 +75,31 @@ void StrButtonsSony::testDigitalPod() {
 
     // adjust high and low resistance of potentiometer
     // adjust Highest Resistance .
-    digitalPotWrite(0x00);
-    delay(1000);
-
-    // adjust  wiper in the  Mid point  .
-    digitalPotWrite(0x80);
-    delay(1000);
-
-    // adjust Lowest Resistance .
-    digitalPotWrite(0xFF);
-    delay(1000);
+//    digitalPotWrite(0x00);
+//    delay(1000);
+//
+//    // adjust  wiper in the  Mid point  .
+//    digitalPotWrite(0x80);
+//    delay(1000);
+//
+//    // adjust Lowest Resistance .
+//    digitalPotWrite(0xFF);
+//    delay(1000);
 
 
     digitalWrite(pinDigitalOut, LOW);
     SPI.transfer(B10001); // 17
-//    SPI.transfer(B11111111);
-    SPI.transfer(testDigitalPodIndex);
+    SPI.transfer(testIndex);
     digitalWrite(pinDigitalOut, HIGH);
     //
     // Show value
-    Serial.print("\n Value of digital pod is: ");
-    Serial.println(testDigitalPodIndex);
+    Serial.print("\n Test of digital pod is: ");
+    Serial.println(testIndex);
 
-    testDigitalPodIndex++;
-    delay(500);
-    if (testDigitalPodIndex >= TST_DIG_POD) {
-        testDigitalPodIndex = 0;
+    testIndex++;
+    delay(100);
+    if (testIndex >= TST_DIG_POD) {
+        testIndex = 0;
     }
 
 #endif
@@ -129,30 +140,27 @@ void StrButtonsSony::listenButtons() {
 
     int readingSteeringButton = analogRead(pinSteering);
 
-    StrButtonsSony::testDigitalPod();
+//    StrButtonsSony::testDigitalPod();
 
-    if (Serial.available()) {
 
-        SPI.transfer(Serial.read());
+    if (ampInt.isBig()) {
+        Serial.print("Value reading steering: ");
+        Serial.println(isButtonPressActive);
     }
+
 //
-//    if (readingSteeringButton > 250) {
-//        digitalWrite(pinDigitalOut, LOW);
-//        SPI.transfer(255);
-//
-//        digitalWrite(pinDigitalOut, HIGH);
-//        testDigitalPodIndex = 1;
-//    }
+    if (readingSteeringButton > 250 && isButtonPressActive == 0) {
+        digitalPotWrite(0, 5);
+        isButtonPressActive = 1;
+
+
+    }
 
     //
     // Zero button
     if (readingSteeringButton > 25 && readingSteeringButton < 30) {
         Serial.print("Zero button");
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(B10001);
-        SPI.transfer(byte(250));
-        digitalWrite(pinDigitalOut, HIGH);
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
     if (ampInt.isMid()) {
@@ -161,10 +169,9 @@ void StrButtonsSony::listenButtons() {
     //
     // Volume up
     if (readingSteeringButton > 5 && readingSteeringButton < 14) {
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(B10001);
-        SPI.transfer(byte(94));
-        digitalWrite(pinDigitalOut, HIGH);
+
+        digitalPotWrite(byte(94), 1.85);
+
 
         if (ampInt.isMid()) {
             Serial.print("Volume Up");
@@ -172,7 +179,7 @@ void StrButtonsSony::listenButtons() {
 //            Serial.print(getVoltage(1.85));
             Serial.print("\n");
         }
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
     //
@@ -188,7 +195,7 @@ void StrButtonsSony::listenButtons() {
 //            Serial.print(getVoltage(1.37));
             Serial.print("\n");
         }
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
 
@@ -203,7 +210,7 @@ void StrButtonsSony::listenButtons() {
 //            Serial.print(getVoltage(2.55));
             Serial.print("\n");
         }
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
     //
@@ -219,7 +226,7 @@ void StrButtonsSony::listenButtons() {
 //            Serial.print(getVoltage(2.15));
             Serial.print("\n");
         }
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
 
@@ -240,7 +247,7 @@ void StrButtonsSony::listenButtons() {
 //            Serial.print(getVoltage(2.95));
             Serial.print("\n");
         }
-        testDigitalPodIndex = 0;
+        isButtonPressActive = 0;
     }
 
 
