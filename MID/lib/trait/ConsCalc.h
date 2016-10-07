@@ -56,9 +56,8 @@ int airTemp = 90;
 void sensCon() {
 
 
-
     int rpmValue = CUR_RPM;
-    double airValue = CUR_ECU * 32.7675;
+    double airValue = (CUR_ECU * 32.7675) * 2;// there are two vendor data in single signal
 
     double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 
