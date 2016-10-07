@@ -1,5 +1,3 @@
-
-
 #include <Arduino.h>
 #include <SPI.h>
 /*
@@ -107,10 +105,10 @@ int showerCounter = 0;
 //
 //
 #include "lib/TimeAmp.h"
-
 //
 // Amplitude interval setup
-TimeAmp ampInt(2, 50, 1, 10, 100);
+//      between loops
+TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */500); // TODO need tests
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -147,33 +145,7 @@ void setup() {
     //
     // Turn display off
     lcd.noDisplay();
-
-//    sei();
-//#if defined(TCCR2) && defined(WGM20)
-//
-//    sbi(TCCR0A, WGM01);
-//    sbi(TCCR0A, WGM00);
-//    sbi(TCCR0B, CS01);
-//    sbi(TCCR0B, CS00);
-//    sbi(TIMSK0, TOIE0);
-//
-//    // set timer 1 prescale factor to 64
-//    sbi(TCCR1B, CS11);
-//    sbi(TCCR1B, CS10);
-//    // put timer 1 in 8-bit phase correct pwm mode
-//    sbi(TCCR1A, WGM10);
-//    // set timer 3 prescale factor to 64
-//    sbi(TCCR3B, CS22);
-//    // configure timer 3 for phase correct pwm (8-bit)
-//    sbi(TCCR3A, WGM20);
-//
-//#else
-//
-//#warning Timer 2 not finished (may not be present on this CPU)
-//
-//#endif
-//    sei();
-
+    //
     // set timer 3 prescale factor to 64
     sbi(TCCR3B, CS22);
     // configure timer 3 for phase correct pwm (8-bit)
@@ -209,25 +181,18 @@ void setup() {
     // Adding custom characters to LCD
     setLcdBaseChar();
     lcd.display();
-
-
     //
     // Show welcome from car
 //    playWelcomeScreen();
-
     //
     // Set MID menu
     setupMenu();
     //
     // Setup SPI lib
     SensStr.setup();
-
     //
     // Setup save protection  input
     pinMode(SAVE_PROTECT, INPUT);
-
-
-
     //
     // Restore data
     eepRom.loadCurrentData();

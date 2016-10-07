@@ -6,15 +6,20 @@
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
 
-int isButtonPressActive = 0;
+#include <SPI.h>
+
 
 //
 // Creates test with maximum send value
-#define TST_DIG_POD 256
+#define TST_DIG_POD 256 // Test full range resistance of digital potentiometer
+#define DIG_POD_KOM 50 // 50k digital potentiometer
+#define DIG_POD_STP 128 // Max steps of digital potentiometer
 #define ADR_DIG_POD B10001
+#define STR_BTN_INF true
 
-#include <SPI.h>
-
+/**
+ * Class converts Opel||Vauxhall steering wheel to Sony remote control
+ */
 class StrButtonsSony {
 
 private:
@@ -26,7 +31,11 @@ private:
 
     void testDigitalPod();
 
-    int digitalPotWrite(int value, float voltage);
+    int digitalPotWrite(float resistance, float voltage);
+
+    int getVoltageStep(float voltage);
+
+    int getResistanceStep(float resistance);
 
 
 public:
@@ -42,33 +51,58 @@ public:
 
 };
 
-float getResistens(int valueStep) {
+/***********************************************************************************************
+ *                                                                                             *
+ *                                   CPP part of file                                          *
+ *                                                                                             *
+ ***********************************************************************************************/
 
-    int podK = 50; // 100k/50k
+/**
+ *  Gets step from given voltage
+ */
+int StrButtonsSony::getVoltageStep(float voltage) {
+    return int(255 * (voltage / 5));
+}
 
-    return ((podK * 10 ^ 3) * (256 - valueStep) / 256 - 125);
+/**
+ *  Gets step from given resistance
+ */
+int StrButtonsSony::getResistanceStep(float resistance) {
+    return int(DIG_POD_STP * (resistance / DIG_POD_KOM));
 }
 
 /**
  * Send command to pod
  */
-int StrButtonsSony::digitalPotWrite(int value, float voltage) {
+int StrButtonsSony::digitalPotWrite(float resistance, float voltage) {
+
+    int volts = getVoltageStep(voltage);
+    int resist = getResistanceStep(resistance);
+
     digitalWrite(pinDigitalOut, LOW);
     //send in the address and value via SPI:
     SPI.transfer(ADR_DIG_POD);
-    SPI.transfer(value);
-    int volts = int(255 * (voltage / 5));
-
+    SPI.transfer(byte(resist));
     analogWrite(pinOutVoltage, volts);
     // take the SS pin high to de-select the chip
     digitalWrite(pinDigitalOut, HIGH);
-    Serial.print(" Sending value to plot: ");
+    //
+    // Mark button activated
+    // [ next loop will return digPot to default]
+    isButtonPressActive = 0;
 
-    Serial.print(volts);
-    Serial.print("  \t");
-    Serial.println(value);
+#if defined(STR_BTN_INF)
+    Serial.print(" Sending value to plot: ");
+    Serial.print("  \t RESIST:");
+    Serial.print(resist);
+    Serial.print("  \t VOLTS:");
+    Serial.println(volts);
+#endif
 }
 
+/*
+ * Test method of digital potentiometer
+ */
 void StrButtonsSony::testDigitalPod() {
 
 #if defined(TST_DIG_POD)
@@ -105,7 +139,9 @@ void StrButtonsSony::testDigitalPod() {
 #endif
 }
 
-
+/*
+ * Setup Steering Wheel to Sony audio
+ */
 void StrButtonsSony::setup() {
     pinMode(pinSteering, INPUT);
     pinMode(pinDigitalOut, OUTPUT);
@@ -133,121 +169,50 @@ void StrButtonsSony::setup() {
         front	        33940	1.13
         bottom	        48800	0.84
 */
-
-
-
 void StrButtonsSony::listenButtons() {
 
     int readingSteeringButton = analogRead(pinSteering);
+    //
+    // Testing method
+    // StrButtonsSony::testDigitalPod();
 
-//    StrButtonsSony::testDigitalPod();
-
-
-    if (ampInt.isBig()) {
-        Serial.print("Value reading steering: ");
-        Serial.println(isButtonPressActive);
-    }
-
-//
+    //
+    // Default value  for sony whe Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {
         digitalPotWrite(0, 5);
+        //
+        // Do not enter in here next loop
         isButtonPressActive = 1;
-
-
     }
-
     //
     // Zero button
     if (readingSteeringButton > 25 && readingSteeringButton < 30) {
-        Serial.print("Zero button");
-        isButtonPressActive = 0;
-    }
-
-    if (ampInt.isMid()) {
-        Serial.println(readingSteeringButton);
+        digitalPotWrite(44, 3.47);
     }
     //
     // Volume up
     if (readingSteeringButton > 5 && readingSteeringButton < 14) {
-
-        digitalPotWrite(byte(94), 1.85);
-
-
-        if (ampInt.isMid()) {
-            Serial.print("Volume Up");
-            Serial.print("\t value:");
-//            Serial.print(getVoltage(1.85));
-            Serial.print("\n");
-        }
-        isButtonPressActive = 0;
+        digitalPotWrite(17, 1.85);//        digitalPotWrite(byte(94), 1.85);
     }
-
     //
     // Volume down
     if (readingSteeringButton > 0 && readingSteeringButton < 5) {
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(B10001);
-        SPI.transfer(byte(167));
-        digitalWrite(pinDigitalOut, HIGH);
-        if (ampInt.isMid()) {
-            Serial.print("Volume Down");
-            Serial.print("\t value:");
-//            Serial.print(getVoltage(1.37));
-            Serial.print("\n");
-        }
-        isButtonPressActive = 0;
+        digitalPotWrite(23.85, 1.47);
     }
-
-
     //
     // Right arrow / seek up
     if (readingSteeringButton > 40 && readingSteeringButton < 50) {
-
-        SPI.transfer(131);
-        if (ampInt.isMid()) {
-            Serial.print("Seek Up");
-            Serial.print("\t value:");
-//            Serial.print(getVoltage(2.55));
-            Serial.print("\n");
-        }
-        isButtonPressActive = 0;
+        digitalPotWrite(88, 2.65);
     }
-
     //
     // Left arrow / seek down
     if (readingSteeringButton > 70 && readingSteeringButton < 80) {
-        digitalWrite(pinDigitalOut, LOW);
-        SPI.transfer(B10001);
-        SPI.transfer(byte(60));
-        digitalWrite(pinDigitalOut, HIGH);
-        if (ampInt.isMid()) {
-            Serial.print("Seek Down");
-            Serial.print("\t value:");
-//            Serial.print(getVoltage(2.15));
-            Serial.print("\n");
-        }
-        isButtonPressActive = 0;
+        digitalPotWrite(12, 2.25);
     }
-
-
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 140) {
-//src
-//        digitalWrite(pinDigitalOut,LOW);
-//        SPI.transfer(B10001);
-//        SPI.transfer(byte(118));
-//        digitalWrite(pinDigitalOut,HIGH);
-
-
-        SPI.transfer(200);
-        if (ampInt.isMid()) {
-            Serial.print("Back Button");
-            Serial.print("\t value:");
-//            Serial.print(getVoltage(2.95));
-            Serial.print("\n");
-        }
-        isButtonPressActive = 0;
+        digitalPotWrite(66.6, 3);
     }
 
 

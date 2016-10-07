@@ -18,7 +18,7 @@ private:
     int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0;
     unsigned long loopCounter = 0;
 public:
-    TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec, int intervalBig);
+    TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig);
 
     void listener();
 
@@ -34,9 +34,14 @@ public:
 };
 
 
-/*  ***     CPP part of file    *** */
+/***********************************************************************************************
+ *                                                                                             *
+ *                                   CPP part of file                                          *
+ *                                                                                             *
+ ***********************************************************************************************/
 
-TimeAmp::TimeAmp(int intervalLow, int intervalMid, int intervalMin, int intervalSec, int intervalBig) {
+
+TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig) {
 
     ampMin = intervalMin;
     ampLow = intervalLow;
