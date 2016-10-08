@@ -27,15 +27,55 @@ void displayOutTmp() {
 
     float value = getTmpOut();
 
-    if (ampInt.isMid()) {
+    if (ampInt.isSec()) {
         //
         // Preformat ...
         displayFloat(value, tmpTemp);
-        lcd.setCursor(10, 2);
+        lcd.setCursor(9, 0);
+        lcd.print("^");
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
     }
 }
+
+void displayInsTmp() {
+
+    char tmpTemp[3];
+
+    float value = getTmpIns();
+
+    if (ampInt.isSec()) {
+        //
+        // Preformat ...
+        displayFloat(value, tmpTemp);
+        lcd.setCursor(9, 2);
+        lcd.write((uint8_t) 5);
+        lcd.print(tmpTemp);
+        lcd.write((uint8_t) 1);
+    }
+}
+
+void displayTotalCons() {
+    char tmp[3];
+
+    float value = getTotalCons();
+
+
+    if (ampInt.isSec()) {
+
+        if (ampInt.isBig()) {
+            lcd.print("    ");
+        }
+
+        //
+        // Preformat ...
+        displayFloat(value, tmp);
+        lcd.setCursor(1, 0);
+        lcd.print(tmp);
+        lcd.write((uint8_t) 4);
+    }
+}
+
 
 /****************************************************************
  * Display engine RPMs
@@ -43,7 +83,7 @@ void displayOutTmp() {
 void displayEngRPM() {
     char rpmDisplay[4];
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
         //
         // Gets RPM
         int rpmSnsCount = getRpmSens();
@@ -64,7 +104,7 @@ void displayEngRPM() {
 void displayCarKMH() {
     char vssDisplay[3];
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("KMh:");
         //
@@ -80,7 +120,7 @@ void displayCarKMH() {
 void displayCarECU() {
     char ecuDisplay[2];
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
 
         lcd.setCursor(10, 0);
         lcd.print("ECU:");
@@ -111,7 +151,7 @@ void displayDistance() {
     sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
         //
@@ -184,7 +224,7 @@ void displayConsumption() {
  */
 void displayAverage() {
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("Average");
 

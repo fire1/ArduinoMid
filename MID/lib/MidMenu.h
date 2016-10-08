@@ -51,7 +51,7 @@ MenuItem menuItem2 = MenuItem("Trip", 2);
 MenuItem menuItem3 = MenuItem("Fuel", 3);
 MenuItem menuItem4 = MenuItem("Average", 4);
 
-MenuItem menuItemMain1 = MenuItem("Temp", 11);
+MenuItem menuItemMain1 = MenuItem("Panel", 11);
 MenuItem menuItemMain2 = MenuItem("Test", 12);
 
 static void setupMenu() {
@@ -80,19 +80,17 @@ static void menuChanged(MenuChangeEvent changed) {
         cursorMenu = 1;
         printNavMenuA();
 
-    }
-    else if (newMenuItem.getName() == "Temp") {
-
-    }
-    else if (newMenuItem.getName() == "Average") {
+    } else if (newMenuItem.getName() == "Panel") {
+        cursorMenu = 11;
+    } else if (newMenuItem.getName() == "Test") {
+        cursorMenu = 12;
+    } else if (newMenuItem.getName() == "Average") {
         printNavMenuD();
         cursorMenu = 4;
-    }
-    else if (newMenuItem.getName() == "Trip") {
+    } else if (newMenuItem.getName() == "Trip") {
         printNavMenuB();
         cursorMenu = 2;
-    }
-    else if (newMenuItem.getName() == "Item2SubItem1") {
+    } else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
     }
     else if (newMenuItem.getName() == "Item2SubItem2") {
@@ -115,6 +113,7 @@ static void menuChanged(MenuChangeEvent changed) {
  */
 
 unsigned long lastButtonPress = 0;
+
 /**
  * Lower the code
  */
@@ -124,9 +123,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     unsigned long curTime = millis();
     //
     // Detect up state button
-    if (!digitalRead(buttonPinUp) == HIGH ) {
-        delay(10);
-        if (!digitalRead(buttonPinUp) == HIGH  ) {
+    if (!digitalRead(buttonPinUp) == HIGH) {
+        if (ampInt.isMin() && !digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
     }
@@ -134,8 +132,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-        delay(10);
-        if (!digitalRead(buttonPinDw) == HIGH) {
+
+        if (ampInt.isMin() && !digitalRead(buttonPinDw) == HIGH) {
             delay(900);
             if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
                 //

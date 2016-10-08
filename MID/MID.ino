@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -38,6 +41,10 @@ double AirFuelRatio = 14.70;  // константа расхода 14,7 возд
 const int BTN_PIN_UP = 8;
 const int BTN_PIN_DW = 9;
 //
+// Shutdown protection pin
+const int SAV_PIN_CTR = A6; //
+const int SAV_PIN_DTC = A7; //
+//
 // Engine pins
 const int RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
 const int SPD_SNS_PIN = 3;  // MID12 Speed sensor hub [attachInterrupt]
@@ -59,9 +66,6 @@ const int ADT_ALR_PIN = 11;
 const int ALP_PIN_INP = A8;
 const int ALP_PIN_OUT = 53;
 const int ALP_PIN_VOL = A1;
-//
-// Shutdown protection pin
-const int SAVE_PROTECT = A0; // 	-	1
 
 
 
@@ -105,10 +109,11 @@ int showerCounter = 0;
 //
 //
 #include "lib/TimeAmp.h"
+
 //
 // Amplitude interval setup
 //      between loops
-TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */500); // TODO need tests
+TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200); // TODO need tests
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -142,6 +147,13 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
+
+
+    pinMode(SAV_PIN_CTR, OUTPUT);
+
+    pinMode(SAV_PIN_DTC, INPUT);
+
+    analogWrite(SAV_PIN_CTR, 255);
     //
     // Turn display off
     lcd.noDisplay();
@@ -191,13 +203,11 @@ void setup() {
     // Setup SPI lib
     SensStr.setup();
     //
-    // Setup save protection  input
-    pinMode(SAVE_PROTECT, INPUT);
-    //
     // Restore data
     eepRom.loadCurrentData();
 
-//    TTL_TLH = 6.24;
+    TTL_TLH = 6.34;
+
 }
 
 int long saveProtectInit = 0;
@@ -210,60 +220,30 @@ void loop() {
     // Inject data from serial command
 //    serialInject.listenerSerial();
 
+    while (Serial.available()) {
+        TTL_TLH = Serial.parseFloat();
+    }
+
     //
     // Amplitude loop init
     ampInt.listener();
 
 
-    //
-    // Save protect pin
-    curProtectValue = analogRead(SAVE_PROTECT);
-    //
-    // Trigger data save at shutdown (used 3000uF capacitor)
-//    if (ampInt.isBig()) {
-//        Serial.print("\n Detected save pin value: ");
-//        Serial.print(curProtectValue);
-//        Serial.print("  ||  ");
-//        Serial.print(lastProtectRead - 30);
-//        Serial.println("\n");
-//    }
-    //
-    // Compare data to detect shutdown and protect multi-records from loop
-    if (curProtectValue < lastProtectRead - 50 && saveProtectInit == 0 || /* Only first initialization will run */
-        curProtectValue < lastProtectRead - 50 &&
-        saveProtectInit + MILLIS_PER_MN < millis()) { /* next record after a minute */
-        //
-        // Save data to eep rom
-//        eepRom.saveCurrentData();
+    if (ampInt.isBig()) {
 
-        //
-        // Show message
-        Serial.print("\n\n  ");
+//        Serial.print(" EepRom is: \t");
+//        Serial.println(TTL_TLH);
 
-        Serial.print(curProtectValue);
-        Serial.print("  ||  ");
-        Serial.print(lastProtectRead - 30);
-        Serial.print("  <~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Data was RECORDED in EepRom !!!  ");
-        Serial.print("\n\n  ");
-
-
-        //
-        // Close first initialization
-        saveProtectInit = millis();
+//        Serial.print(" Listener shutdown is: \t");
+//        Serial.println(analogRead(SAV_PIN_DTC));
     }
-    //
-    // Move value to last read
-    lastProtectRead = curProtectValue;
 
-
-    //
-    // Check recorded consumption
-//    if (ampInt.isMid()) {
-//        Serial.print("Consumption distance record  ");
-//        Serial.print(TTL_TLH);
-//        Serial.print("\n");
-//    }
-
+    if (analogRead(SAV_PIN_DTC) < 500) {
+        tone(ADT_ALR_PIN, 4000, 500);
+//        eepRom.saveCurrentData();
+        delay(500);
+        analogWrite(SAV_PIN_CTR, 0);
+    }
     //
     // Sensors
     sensorsInit();
@@ -286,13 +266,15 @@ void loop() {
         //
         // Main / first menu
         case 1:
+            displayTotalCons();
             displayOutTmp();
+            displayInsTmp();
+            break;
+        case 11:
             displayEngRPM();
             displayCarKMH();
             displayCarECU();
             break;
-        case 5:
-
         case 4:
             displayAverage();
             break;

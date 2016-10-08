@@ -12,7 +12,7 @@
 //#define  DEBUG_TEMPERATURE_IN
 
 // Data wire is plugged into pin A7 on the Arduino
-#define ONE_WIRE_BUS A7
+#define ONE_WIRE_BUS 7
 
 OneWire oneWire(ONE_WIRE_BUS);
 
@@ -23,11 +23,15 @@ DallasTemperature temperatureSensors(&oneWire);
 bool isInitTemperature = 1;
 
 float CUR_OUT_TMP = 0;
+float CUR_INS_TMP = 0;
 
 float getTmpOut() {
     return CUR_OUT_TMP;
 }
 
+float getTmpIns() {
+    return CUR_INS_TMP;
+}
 
 void setupTemperature() {
     temperatureSensors.begin();
@@ -39,11 +43,19 @@ void setupTemperature() {
 void sensTmp() {
 
 #if defined(DEBUG_TEMPERATURE_IN)
-    if (ampInt.isMid()) {
-        Serial.print("Dallas temperature: \n");
+    if (ampInt.isBig()) {
+        temperatureSensors.requestTemperatures();
+        Serial.print("Dallas temperature: \t");
         Serial.println(temperatureSensors.getTempCByIndex(0)); // Why "byIndex"?
     }
 #endif
+
+    if (ampInt.isBig()) {
+        temperatureSensors.requestTemperatures();
+        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
+    }
+//    temperatureSensors.requestTemperatures();
+//    temperatureSensors.getTempCByIndex(0);
 
     float temperatureC;
     //
@@ -71,7 +83,7 @@ void sensTmp() {
 
         //      255 max reading
         //      4.34 is voltage passes temperature sensor
-        float cofVolt = 4.34;
+        float cofVolt = 5;
 
         // not correct
         /// new type  id: (147 / 2.666666 - 76) *1

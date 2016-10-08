@@ -80,8 +80,8 @@ void sensVss() {
 
     //
     // Alarm speeding at city
-    if (ampInt.isBig() && CUR_VSS > VssAlarmCitySpeed) {
-        tone(ADT_ALR_PIN, 4000, 100);
+    if (ampInt.isSec() && CUR_VSS > VssAlarmCitySpeed) {
+        tone(ADT_ALR_PIN, 4000, 500);
     }
 
 }

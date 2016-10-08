@@ -119,7 +119,7 @@ float getInstCons() {
 }
 
 float getTripCons() {
-    float dist = getTravelDistance();
+    float dist = getTravelTime();
 
     float result = (float(dist / CUR_TLH) * 100) / 100;
 
@@ -130,6 +130,9 @@ float getTripCons() {
     return result;
 }
 
+float getTotalCons() {
+    return TTL_TLH;
+}
 
 /**
  * @deprecated ECU signal gives this value
