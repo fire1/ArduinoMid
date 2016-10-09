@@ -157,11 +157,8 @@ void setup() {
     //
     // Turn display off
     lcd.noDisplay();
-    //
-    // set timer 3 prescale factor to 64
-    sbi(TCCR3B, CS22);
-    // configure timer 3 for phase correct pwm (8-bit)
-    sbi(TCCR3A, WGM20);
+
+    setupUseTimer3();
     //
     // Debug serial
     Serial.begin(9600);
@@ -220,9 +217,9 @@ void loop() {
     // Inject data from serial command
 //    serialInject.listenerSerial();
 
-    while (Serial.available()) {
-        TTL_TLH = Serial.parseFloat();
-    }
+//    while (Serial.available()) {
+//        TTL_TLH = Serial.parseFloat();
+//    }
 
     //
     // Amplitude loop init
@@ -237,13 +234,13 @@ void loop() {
 //        Serial.print(" Listener shutdown is: \t");
 //        Serial.println(analogRead(SAV_PIN_DTC));
     }
-
-    if (analogRead(SAV_PIN_DTC) < 500) {
-        tone(ADT_ALR_PIN, 4000, 500);
-//        eepRom.saveCurrentData();
-        delay(500);
-        analogWrite(SAV_PIN_CTR, 0);
-    }
+//
+//    if (analogRead(SAV_PIN_DTC) < 500) {
+//        tone(ADT_ALR_PIN, 4000, 500);
+////        eepRom.saveCurrentData();
+//        delay(500);
+//        analogWrite(SAV_PIN_CTR, 0);
+//    }
     //
     // Sensors
     sensorsInit();

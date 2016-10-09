@@ -11,7 +11,7 @@
 
 //
 // Creates test with maximum send value
-#define TST_DIG_POD 128 // Test full range resistance of digital potentiometer
+#define TST_DIG_POD 256 // Test full range resistance of digital potentiometer
 #define DIG_POD_KOM 50 // 50k digital potentiometer
 #define DIG_POD_STP 128 // Max steps of digital potentiometer
 #define ADR_DIG_POD B10001
@@ -125,16 +125,16 @@ void StrButtonsSony::testDigitalPod() {
     digitalWrite(pinDigitalOut, LOW);
     SPI.transfer(B10001); // 17
     SPI.transfer(testIndex);
-
+    digitalWrite(pinDigitalOut, HIGH);
     //
     // Show value
     Serial.print("\n Test of digital pod is: ");
     Serial.println(testIndex);
 
     testIndex++;
-    delay(1500);
+    delay(700);
     if (testIndex >= TST_DIG_POD) {
-        testIndex = 0;
+        testIndex = 10;
     }
 
 #endif
@@ -175,11 +175,27 @@ void StrButtonsSony::listenButtons() {
     int readingSteeringButton = analogRead(pinSteering);
     //
     // Testing method
-//     StrButtonsSony::testDigitalPod();
+
+//    StrButtonsSony::testDigitalPod();
 
 //    if(ampInt.isMid()){
 //        Serial.println(readingSteeringButton);
 //    }
+
+
+//    digitalWrite(pinDigitalOut, HIGH);
+
+    if (Serial.available()) {
+        int val = Serial.parseInt();
+        Serial.println(val);
+        if (val != 0) {
+            digitalWrite(pinDigitalOut, LOW);
+            SPI.transfer(B10001); // 17
+            SPI.transfer(val);
+            delay(50);
+            digitalWrite(pinDigitalOut, HIGH);
+        }
+    }
 
     //
     // Default value  for sony whe Steering wheel is not used

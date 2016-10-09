@@ -14,9 +14,9 @@ const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 60;
 //
 // Correction of VSS
-const float VssCorrection = 1; // One mile 1.621371192 [changed from int to float]
+const float VssCorrection = 3.8; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
-const int VssLoopLength = 220;
+const int VssLoopLength = 200;
 //
 // Rpm Container
 int CUR_VSS = 0;
@@ -61,7 +61,7 @@ void sensVss() {
         vssTimerStart = vssTimerEnds;
         //
         // Pass vss to global
-        CUR_VSS = int(vssHitsCount * VssCorrection);
+        CUR_VSS = int(vssHitsCount / VssCorrection);
         //
         // debug info
         if (VssSensDebug && ampInt.isMid()) {

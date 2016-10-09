@@ -83,7 +83,7 @@ void sensTmp() {
 
         //      255 max reading
         //      4.34 is voltage passes temperature sensor
-        float cofVolt = 5;
+        float cofVolt = 3.8;
 
         // not correct
         /// new type  id: (147 / 2.666666 - 76) *1
