@@ -203,6 +203,10 @@ int getTravelDistanceMt() {
     return int(travelDistance);
 }
 
+float getDistanceTime() {
+    return CUR_TDT;
+}
+
 /**
  * Gets total travel time
  */

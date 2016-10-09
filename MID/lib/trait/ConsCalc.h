@@ -119,9 +119,13 @@ float getInstCons() {
 }
 
 float getTripCons() {
-    float dist = getTravelTime();
-
-    float result = (float(dist / CUR_TLH) * 100) / 100;
+    float totalTime = getTravelTime();
+    float dist = getTravelDistance();
+    float travelTime = getDistanceTime();
+    //
+    // Removing distance time and adding total travel time
+    float allTimeAndDistance = (dist - travelTime) + totalTime;
+    float result = (float(dist / allTimeAndDistance) * 100) / 100;
 
     if (CUR_TLH <= 0) {
         return (float) 0;
