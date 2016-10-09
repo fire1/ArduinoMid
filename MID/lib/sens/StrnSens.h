@@ -126,7 +126,7 @@ int StrButtonsSony::digitalPotWrite(int resistanceValue) {
     SPI.transfer(B10001); // 17
     SPI.transfer(resistanceValue);
     digitalWrite(pinDigitalOut, HIGH);
-    delay(30);
+    delay(150);
     digitalWrite(pinOutVoltage, HIGH);
 
     isButtonPressActive = 0;
@@ -201,22 +201,22 @@ void StrButtonsSony::listenButtons() {
     }
     //
     // Volume up
-    if (readingSteeringButton > 10 && readingSteeringButton < 20) {
+    if (readingSteeringButton > 9 && readingSteeringButton < 20) {
         digitalPotWrite(95);
     }
     //
     // Volume down
-    if (readingSteeringButton > 2 && readingSteeringButton < 10) {
+    if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
         digitalPotWrite(115);
     }
     //
     // Right arrow / seek up
-    if (readingSteeringButton > 40 && readingSteeringButton < 50) {
+    if (readingSteeringButton > 35 && readingSteeringButton < 50) {
         digitalPotWrite(45);
     }
     //
     // Left arrow / seek down
-    if (readingSteeringButton > 70 && readingSteeringButton < 80) {
+    if (readingSteeringButton > 60 && readingSteeringButton < 80) {
         digitalPotWrite(65);
     }
     //
