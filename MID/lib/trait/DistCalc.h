@@ -24,6 +24,7 @@ const int correctionDistanceTime = 1;
 
 
 double long travelDistance = 0;
+double long travelConsumtion = 0;
 int long travelAllPulse = 0;
 
 double long travelingTimeForDistance = 0;
@@ -147,17 +148,13 @@ void detectDistance() {
 
 
 
-            travelDistance = travelDistanceInKM * (CUR_TDT / (3600 /*+ 2390*/));
+            travelDistance = travelDistanceInKM * (CUR_VTT / (3600 /*+ 2390*/));
+            travelConsumtion = travelDistanceInKM * (CUR_TDT / (3600 /*+ 2390*/));
             //
             // Km with last meters
             int long buff = int(travelDistance / 1000000);
             //
             // Km with last meters
-//            int long buff = int(travelDistance / 1000000);
-            //
-            // 479 = 2,918km
-            // correction
-//            CUR_VTD = float(buff / 164.60);
             CUR_VTD = travelDistance;
 
         }
@@ -203,7 +200,15 @@ int getTravelDistanceMt() {
     return int(travelDistance);
 }
 
+float getConsumptionDistance() {
+    if (travelConsumtion < 0) {
+        return 0;
+    }
+    return travelConsumtion;
+}
+
 float getDistanceTime() {
+
     return CUR_TDT;
 }
 
