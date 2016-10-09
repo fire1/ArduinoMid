@@ -65,7 +65,7 @@ const int ADT_ALR_PIN = 11;
 // Alpine / Steering Wheel buttons
 const int ALP_PIN_INP = A8;
 const int ALP_PIN_OUT = 53;
-const int ALP_PIN_VOL = A1;
+const int ALP_PIN_VOL = 14;
 
 
 
@@ -244,13 +244,12 @@ void loop() {
     //
     // Sensors
     sensorsInit();
-
-    //
-    //
-    SensStr.listenButtons();
     //
     //
     detectDistance();
+    //
+    //
+    SensStr.listenButtons();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
