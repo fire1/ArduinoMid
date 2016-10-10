@@ -137,22 +137,12 @@ void detectDistance() {
         //
         // Check is collected enough data for calculation
         if (travelDistanceInKM > 1) {
-
             //
-            // Travel distance in meters for second =
-            // (travelAllPulse * VssCorrection) = All travel km  * 1000 =
-            //      all distance in meters / (travel time / 1000 = 1 Second )
-//            travelDistance = travelDistance + (travelDistanceInKM / (CUR_TDT));
-//            travelDistance = (travelDistanceInKM * CUR_TDT) / 3600000;
-
-
-
-
+            // time distance when moving
             travelDistance = travelDistanceInKM * (CUR_VTT / (3600 /*+ 2390*/));
-            travelConsumtion = travelDistanceInKM * (CUR_TDT / (3600 /*+ 2390*/));
             //
-            // Km with last meters
-            int long buff = int(travelDistance / 1000000);
+            // Total distance time
+            travelConsumtion = travelDistanceInKM * (CUR_TDT / 60);
             //
             // Km with last meters
             CUR_VTD = travelDistance;

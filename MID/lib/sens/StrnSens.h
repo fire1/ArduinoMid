@@ -12,10 +12,10 @@
 //
 // Creates test with maximum send value
 #define TST_DIG_POD 256 // Test full range resistance of digital potentiometer
-#define DIG_POD_KOM 50 // 50k digital potentiometer
-#define DIG_POD_STP 128 // Max steps of digital potentiometer
 #define ADR_DIG_POD B10001
-#define STR_BTN_INF true
+//
+// Uncomment to send resistance values from terminal
+//#define STR_ACC_SER true
 
 /**
  * Class converts Opel||Vauxhall steering wheel to Sony remote control
@@ -29,12 +29,26 @@ private:
     int testIndex = 0;
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
 
-    void testDigitalPod();
 
     int digitalPotWrite(int resistance);
 
+    int currentStateButton;
+    int lastStateButton = 0;
+
+    void setCurrentState(int currentButton);
 
 public:
+
+    const int STR_BTN_NON = 0;
+    const int STR_BTN_VLD = 1;
+    const int STR_BTN_VLU = 2;
+    const int STR_BTN_SKU = 3;
+    const int STR_BTN_SKD = 4;
+    const int STR_BTN_BCK = 5;
+    const int STR_BTN_ATT = 6;
+
+    int getCurrentState();
+
     StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
         pinSteering = pinTargetSteering;
         pinDigitalOut = pinDigitalPod;
@@ -46,6 +60,8 @@ public:
 
     void listenButtons();
 
+    void sendRadioButtons();
+
 };
 
 /***********************************************************************************************
@@ -55,47 +71,18 @@ public:
  ***********************************************************************************************/
 
 
-
-
-
-/*
- * Test method of digital potentiometer
+/**
+ * Sets current button press
  */
-void StrButtonsSony::testDigitalPod() {
+void StrButtonsSony::setCurrentState(int currentButton) {
+    currentStateButton = currentButton;
+}
 
-#if defined(TST_DIG_POD)
-
-    // adjust high and low resistance of potentiometer
-    // adjust Highest Resistance .
-//    digitalPotWrite(0x00);
-//    delay(1000);
-//
-//    // adjust  wiper in the  Mid point  .
-//    digitalPotWrite(0x80);
-//    delay(1000);
-//
-//    // adjust Lowest Resistance .
-//    digitalPotWrite(0xFF);
-//    delay(1000);
-
-
-
-    digitalWrite(pinDigitalOut, LOW);
-    SPI.transfer(B10001); // 17
-    SPI.transfer(testIndex);
-    digitalWrite(pinDigitalOut, HIGH);
-    //
-    // Show value
-    Serial.print("\n Test of digital pod is: ");
-    Serial.println(testIndex);
-
-    testIndex++;
-    delay(700);
-    if (testIndex >= TST_DIG_POD) {
-        testIndex = 10;
-    }
-
-#endif
+/**
+ *  GEts current pressed button
+ */
+int StrButtonsSony::getCurrentState() {
+    return currentStateButton;
 }
 
 /*
@@ -119,17 +106,8 @@ void StrButtonsSony::setup() {
  * Send command to pod
  */
 int StrButtonsSony::digitalPotWrite(int resistanceValue) {
-
-    digitalWrite(pinDigitalOut, LOW);
-    delay(30);
-    digitalWrite(pinOutVoltage, LOW);
     SPI.transfer(B10001); // 17
     SPI.transfer(resistanceValue);
-    digitalWrite(pinDigitalOut, HIGH);
-    delay(150);
-    digitalWrite(pinOutVoltage, HIGH);
-
-    isButtonPressActive = 0;
 }
 
 /*
@@ -153,15 +131,7 @@ void StrButtonsSony::listenButtons() {
     //
     // Testing method
 
-//    StrButtonsSony::testDigitalPod();
-
-//    if(ampInt.isMid()){
-//        Serial.println(readingSteeringButton);
-//    }
-
-
-//    digitalWrite(pinDigitalOut, HIGH);
-
+#if defined(STR_ACC_SER)
     if (Serial.available()) {
         int val = Serial.parseInt();
         Serial.println(val);
@@ -176,60 +146,120 @@ void StrButtonsSony::listenButtons() {
             digitalWrite(pinOutVoltage, HIGH);
         }
     }
+#endif
 
     //
     // Default value  for sony whe Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {
-
+        setCurrentState(STR_BTN_NON);
+        //
+        // Lock digital pot
+        digitalWrite(pinDigitalOut, HIGH);
         digitalWrite(pinOutVoltage, HIGH);
         //
         // Do not enter in here next loop
         isButtonPressActive = 1;
     }
 
-    if (ampInt.isSec()) {
-        Serial.println(readingSteeringButton);
-    }
+//    if (ampInt.isSec()) {
+//        Serial.println(readingSteeringButton);
+//    }
 
-
-    //
-    // Zero button
-    if (readingSteeringButton > 20 && readingSteeringButton < 30) {
-        //
-        // TODO long press 155 volume press button
-        digitalPotWrite(225); // moda
-    }
     //
     // Volume up
     if (readingSteeringButton > 9 && readingSteeringButton < 20) {
-        digitalPotWrite(95);
+        setCurrentState(STR_BTN_VLU);
+//        digitalPotWrite(95);
     }
     //
     // Volume down
     if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
-        digitalPotWrite(115);
+        setCurrentState(STR_BTN_VLD);
+//        digitalPotWrite(115);
+    }
+    //
+    // Zero button
+    if (readingSteeringButton > 20 && readingSteeringButton < 30) {
+        setCurrentState(STR_BTN_ATT);
+
+        //
+        // TODO long press 155 volume press button
+//        digitalPotWrite(225); // moda
     }
     //
     // Right arrow / seek up
     if (readingSteeringButton > 35 && readingSteeringButton < 50) {
-        digitalPotWrite(45);
+        setCurrentState(STR_BTN_SKU);
+//        digitalPotWrite(45);
     }
     //
     // Left arrow / seek down
     if (readingSteeringButton > 60 && readingSteeringButton < 80) {
-        digitalPotWrite(65);
+        setCurrentState(STR_BTN_SKD);
+//        digitalPotWrite(65);
     }
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 160) {
-        digitalPotWrite(15);
+        setCurrentState(STR_BTN_BCK);
+//        digitalPotWrite(15);
         // TODO long press 225 MODE
         // 5 - off
         //
     }
 
-
 }
 
+/**
+ * Sends commands to radio
+ */
+void StrButtonsSony::sendRadioButtons() {
+
+    int currentState = getCurrentState();
+
+    //
+    // Determinate button is pressed
+    if (currentState != STR_BTN_NON && lastStateButton != currentState) {
+        digitalWrite(pinDigitalOut, LOW);
+        delay(20);
+        digitalWrite(pinOutVoltage, LOW);
+        lastStateButton = currentState;
+        isButtonPressActive = 0;
+    }
+
+
+    switch (currentState) {
+
+        case STR_BTN_VLU: // Volume up
+            digitalPotWrite(95);
+            break;
+
+        case STR_BTN_VLD: // Volume up
+            digitalPotWrite(115);
+            break;
+
+        case STR_BTN_ATT: // Zero
+            digitalPotWrite(225);
+            break;
+
+        case STR_BTN_SKU:
+            digitalPotWrite(45);
+            break;
+
+        case STR_BTN_SKD:
+            digitalPotWrite(65);
+            break;
+
+        case STR_BTN_BCK:
+            digitalPotWrite(15);
+            break;
+    }
+
+
+    if (currentState == STR_BTN_NON && lastStateButton == currentState) {
+        lastStateButton = currentState;
+    }
+
+}
 
 #endif

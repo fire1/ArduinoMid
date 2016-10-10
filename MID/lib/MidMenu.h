@@ -124,7 +124,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
-        if (ampInt.isMin() && !digitalRead(buttonPinUp) == HIGH) {
+        delay(10);
+        if (!digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
     }
@@ -132,8 +133,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-
-        if (ampInt.isMin() && !digitalRead(buttonPinDw) == HIGH) {
+        delay(10);
+        if (!digitalRead(buttonPinDw) == HIGH) {
             delay(900);
             if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
                 //

@@ -248,8 +248,11 @@ void loop() {
     //
     detectDistance();
     //
-    //
+    // Reads buttons from steering
     SensStr.listenButtons();
+    //
+    // Simulate resistance in radio
+    SensStr.sendRadioButtons();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
@@ -282,7 +285,8 @@ void loop() {
         case 3:
             displayConsumption();
             break;
-
+        case 0:
+            break;
     }
 }
 
