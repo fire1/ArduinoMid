@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
+    <content url="file:///Users/Angel Zaprianov/Documents/Arduino/libraries/OneWire/OneWire.cpp">
+      <sourceFolder url="file:///Users/Angel Zaprianov/Documents/Arduino/libraries/OneWire/OneWire.cpp" isTestSource="false" />
+    </content>
     <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/CDC.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/CDC.cpp" isTestSource="false" />
     </content>
@@ -104,6 +107,8 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
+          <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
+          <root url="file://$MODULE_DIR$/../libraries/OneWire" />
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
@@ -114,6 +119,8 @@
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </CLASSES>
         <SOURCES>
+          <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
+          <root url="file://$MODULE_DIR$/../libraries/OneWire" />
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
