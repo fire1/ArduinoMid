@@ -192,7 +192,10 @@ public:
 			cb_menuUse(mue);
 		}
 	}
+	void toRoot() {
 
+		setCurrent( &getRoot() );
+	}
 private:
 	void setCurrent( MenuItem *next ) {
 		if (next) {
