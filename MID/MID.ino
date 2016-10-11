@@ -147,8 +147,9 @@ EepRom eepRom;
 // Shutdown constructor
 MidShutdown shutDown(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
 LiquidCrystal MidShutdown::lcd = lcd;
-TimeAmp MidShutdown::amp = ampInt;
-EepRom MidShutdown::rom = eepRom;
+TimeAmp MidShutdown::timeAmp = ampInt;
+EepRom MidShutdown::eepRom = eepRom;
+
 //
 //
 static void playWelcomeScreen();
@@ -270,7 +271,12 @@ void loop() {
     navigateMenu();
     //
     // Listener [switch to shutdown menu]
-    shutDown.listener(cursorMenu);
+    cursorMenu = shutDown.listener(cursorMenu);
+
+    if (ampInt.isSec()) {
+        Serial.print("Cursor menu \t");
+        Serial.println(cursorMenu);
+    }
     //
     // Switch menu from cursor
     switch (cursorMenu) {

@@ -201,21 +201,20 @@ void StrButtonsSony::listenButtons() {
         isButtonPressActive = 1;
     }
 
-//    if (ampInt.isSec()) {
-//        Serial.println(readingSteeringButton);
-//    }
+    if (ampInt.isSec()) {
+        Serial.print("Steering \t");
+        Serial.println(readingSteeringButton);
+    }
 
     //
     // Volume up
     if (readingSteeringButton > 9 && readingSteeringButton < 20) {
         _setCurrentState(STR_BTN_VLU);
-//        digitalPotWrite(95);
     }
     //
     // Volume down
     if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
         _setCurrentState(STR_BTN_VLD);
-//        digitalPotWrite(115);
     }
     //
     // Zero button
@@ -230,19 +229,16 @@ void StrButtonsSony::listenButtons() {
     // Right arrow / seek up
     if (readingSteeringButton > 35 && readingSteeringButton < 50) {
         _setCurrentState(STR_BTN_SKU);
-//        digitalPotWrite(45);
     }
     //
     // Left arrow / seek down
     if (readingSteeringButton > 60 && readingSteeringButton < 80) {
         _setCurrentState(STR_BTN_SKD);
-//        digitalPotWrite(65);
     }
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 160) {
         _setCurrentState(STR_BTN_BCK);
-//        digitalPotWrite(15);
         // TODO long press 225 MODE
         // 5 - off
         //
@@ -259,13 +255,19 @@ void StrButtonsSony::sendRadioButtons() {
 
     //
     // Determinate button is pressed
-    if (currentState != STR_BTN_NON && lastStateButton != currentState) {
+    if (currentState != STR_BTN_NON /*&& lastStateButton != currentState*/) {
         digitalWrite(pinDigitalOut, LOW);
-        delay(20);
+        delay(15);
         digitalWrite(pinOutVoltage, LOW);
         lastStateButton = currentState;
         isButtonPressActive = 0;
     }
+    if (ampInt.isSec()) {
+        Serial.print("Radio button \t");
+        Serial.println(currentState);
+    }
+
+
     //
     // Send values to radio
     _parseButtonState(currentState);

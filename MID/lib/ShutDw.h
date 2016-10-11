@@ -30,8 +30,8 @@ private :
 public:
 
     static LiquidCrystal lcd;
-    static TimeAmp amp;
-    static EepRom rom;
+    static TimeAmp timeAmp;
+    static EepRom eepRom;
 
     static constexpr int MENU_SHUTDOWN = 99;
 
@@ -39,7 +39,7 @@ public:
 
     void setup();
 
-    void listener(int &cursorMenu);
+    int listener(int &cursorMenu);
 
     void display();
 
@@ -71,11 +71,12 @@ void MidShutdown::setup() {
 }
 
 
-void MidShutdown::listener(int &cursorMenu) {
+int MidShutdown::listener(int &cursorMenu) {
     if (analogRead(pinDtct) < 500) {
         cursorMenu = MENU_SHUTDOWN;
-        tone(pinTone, 4000, 500);
     }
+
+    return cursorMenu;
 }
 
 
@@ -85,26 +86,26 @@ void MidShutdown::display() {
 
     if (entryDysplay == 0) {
         lcd.clear();
-        MidShutdown::lcd.setCursor(1, 0);
-        MidShutdown::lcd.print("Shutting  down!");
+        lcd.setCursor(0, 0);
+        lcd.print(" Shutting  down!");
         delay(400);
         entryDysplay = 1;
     }
 
 
-    if (MidShutdown::amp.isSec()) {
+    if (timeAmp.isSec()) {
 
-        MidShutdown::lcd.setCursor(0, 0);
-        MidShutdown::lcd.print("Waiting ");
+        lcd.setCursor(0, 0);
+        lcd.print("Waiting ");
 
         sprintf(sec, "%02d", (indexWait / 100));
 
-        MidShutdown::lcd.print(sec);
-        MidShutdown::lcd.print(" sec.  ");
+        lcd.print(sec);
+        lcd.print(" sec.  ");
 
-        MidShutdown::lcd.setCursor(1, 2);
-        MidShutdown::lcd.print("Press 0 to save");
-        tone(pinTone, 2000, 500);
+        lcd.setCursor(1, 2);
+        lcd.print("Press 0 to save");
+        tone(pinTone, 1000, 500);
     }
 
 
@@ -114,7 +115,7 @@ void MidShutdown::display() {
             tone(pinTone, 4000, 500);
             //
             // Save current data and shutdown
-            rom.saveCurrentData();
+//            eepRom.saveCurrentData();
             delay(500);
             digitalWrite(pinCtrl, LOW);
         }
@@ -127,6 +128,7 @@ void MidShutdown::display() {
         delay(500);
         digitalWrite(pinCtrl, LOW);
     }
+    indexWait++;
 
 }
 
