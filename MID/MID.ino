@@ -104,8 +104,6 @@ const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
 const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
 int showerCounter = 0;
 
-#include "lib/InjData.h"
-
 //
 //
 #include "lib/TimeAmp.h"
@@ -127,11 +125,9 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200)
 // Adding sensors
 #include "lib/SensInit.h"
 
-StrButtonsSony SensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
 
-//
-// Serial inject with max length 80 characters
-InjData serialInject(80);
+
 //
 //
 #include "lib/EepRom.h"
@@ -141,23 +137,34 @@ InjData serialInject(80);
 EepRom eepRom;
 
 //
+// Change state of shutdown "press to save"
+#define SHUTDOWN_SAVE_STATE LOW
+//
+// Add library
+#include "lib/ShutDw.h"
+
+//
+// Shutdown constructor
+MidShutdown shutDown(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
+LiquidCrystal MidShutdown::lcd = lcd;
+TimeAmp MidShutdown::amp = ampInt;
+EepRom MidShutdown::rom = eepRom;
+//
 //
 static void playWelcomeScreen();
+
 
 //
 // Setup the code...
 void setup() {
-
-
-    pinMode(SAV_PIN_CTR, OUTPUT);
-
-    pinMode(SAV_PIN_DTC, INPUT);
-
-    analogWrite(SAV_PIN_CTR, 255);
+    //
+    // Shutdown setup
+    shutDown.setup();
     //
     // Turn display off
     lcd.noDisplay();
-
+    //
+    // Change timer 3
     setupUseTimer3();
     //
     // Debug serial
@@ -198,7 +205,7 @@ void setup() {
     setupMenu();
     //
     // Setup SPI lib
-    SensStr.setup();
+    sensStr.setup();
     //
     // Restore data
     eepRom.loadCurrentData();
@@ -241,6 +248,8 @@ void loop() {
 //        delay(500);
 //        analogWrite(SAV_PIN_CTR, 0);
 //    }
+
+
     //
     // Sensors
     sensorsInit();
@@ -249,16 +258,19 @@ void loop() {
     detectDistance();
     //
     // Reads buttons from steering
-    SensStr.listenButtons();
+    sensStr.listenButtons();
     //
     // Simulate resistance in radio
-    SensStr.sendRadioButtons();
+    sensStr.sendRadioButtons();
     //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
     //
     // Handle navigation
     navigateMenu();
+    //
+    // Listener [switch to shutdown menu]
+    shutDown.listener(cursorMenu);
     //
     // Switch menu from cursor
     switch (cursorMenu) {
@@ -285,7 +297,8 @@ void loop() {
         case 3:
             displayConsumption();
             break;
-        case 0:
+        case MidShutdown::MENU_SHUTDOWN:
+            shutDown.display();
             break;
     }
 }
