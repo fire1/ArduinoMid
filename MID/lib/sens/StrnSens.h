@@ -1,7 +1,17 @@
-//
-// Created by Angel Zaprianov on 5/10/2016.
-//
-
+/**
+ *
+ *  Created by Angel Zaprianov on 5/10/2016.
+ *
+ *  Class converts Opel||Vauxhall steering wheel to Sony remote control.
+ *     + This class support SPI communication to digital potentiometer.
+ *     + 50k digital potentiometer [MCP41050] is used to simulate
+ *          Alphine remote controller.
+ *     + 20k pull-up resistor from 5v Supplying voltage is used to
+ *          determinate steering wheel button.
+ *     + Some of buttons are out of resistant range if used digit pot.
+ *
+ *
+ */
 
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
@@ -11,44 +21,41 @@
 
 //
 // Creates test with maximum send value
-#define TST_DIG_POD 256 // Test full range resistance of digital potentiometer
 #define ADR_DIG_POD B10001
 //
 // Uncomment to send resistance values from terminal
-//#define STR_ACC_SER true
+//#define STR_INJ_SRL true
 
-/**
- * Class converts Opel||Vauxhall steering wheel to Sony remote control
- */
+
 class StrButtonsSony {
 
 private:
-
     bool isButtonPressActive = 0;
-
-    int testIndex = 0;
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
-
-
-    int digitalPotWrite(int resistance);
-
     int currentStateButton;
     int lastStateButton = 0;
 
-    void setCurrentState(int currentButton);
+    void _setDigitalPot(int resistance);
+
+    void _setCurrentState(int currentButton);
+
+    void _parseButtonState(int currentState);
 
 public:
 
-    const int STR_BTN_NON = 0;
-    const int STR_BTN_VLD = 1;
-    const int STR_BTN_VLU = 2;
-    const int STR_BTN_SKU = 3;
-    const int STR_BTN_SKD = 4;
-    const int STR_BTN_BCK = 5;
-    const int STR_BTN_ATT = 6;
+    //
+    // Define buttons values
+    static constexpr int STR_BTN_NON = 0;
+    static constexpr int STR_BTN_VLD = 1;
+    static constexpr int STR_BTN_VLU = 2;
+    static constexpr int STR_BTN_SKU = 3;
+    static constexpr int STR_BTN_SKD = 4;
+    static constexpr int STR_BTN_BCK = 5;
+    static constexpr int STR_BTN_ATT = 6;
 
-    int getCurrentState();
-
+    /**
+     *  Constrictor of StrButtonsSony class
+     */
     StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
         pinSteering = pinTargetSteering;
         pinDigitalOut = pinDigitalPod;
@@ -62,6 +69,7 @@ public:
 
     void sendRadioButtons();
 
+    int getCurrentState();
 };
 
 /***********************************************************************************************
@@ -74,7 +82,7 @@ public:
 /**
  * Sets current button press
  */
-void StrButtonsSony::setCurrentState(int currentButton) {
+void StrButtonsSony::_setCurrentState(int currentButton) {
     currentStateButton = currentButton;
 }
 
@@ -95,18 +103,50 @@ void StrButtonsSony::setup() {
     digitalWrite(pinOutVoltage, HIGH);
 //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
 //  pinMode (SLAVESELECT,OUTPUT); //same as above?
-// initialize SPI:
+    //
+    // initialize SPI:
     SPI.begin();
     SPI.setDataMode(SPI_MODE0);//SPI_MODE0, SPI_MODE1, SPI_MODE2, or SPI_MODE3
     SPI.setBitOrder(MSBFIRST); // LSBFIRST or MSBFIRST
 
 }
 
+
+void StrButtonsSony::_parseButtonState(int currentState) {
+    switch (currentState) {
+
+        case STR_BTN_VLU: // Volume up
+            _setDigitalPot(95);
+            break;
+
+        case STR_BTN_VLD: // Volume up
+            _setDigitalPot(115);
+            break;
+
+        case STR_BTN_ATT: // Zero
+            _setDigitalPot(225);
+            break;
+
+        case STR_BTN_SKU: // seek up
+            _setDigitalPot(45);
+            break;
+
+        case STR_BTN_SKD: // seek down
+            _setDigitalPot(65);
+            break;
+
+        case STR_BTN_BCK: // back button
+            _setDigitalPot(15);
+            break;
+    }
+}
+
+
 /**
  * Send command to pod
  */
-int StrButtonsSony::digitalPotWrite(int resistanceValue) {
-    SPI.transfer(B10001); // 17
+void StrButtonsSony::_setDigitalPot(int resistanceValue) {
+    SPI.transfer(ADR_DIG_POD); // 17
     SPI.transfer(resistanceValue);
 }
 
@@ -131,7 +171,7 @@ void StrButtonsSony::listenButtons() {
     //
     // Testing method
 
-#if defined(STR_ACC_SER)
+#if defined(STR_INJ_SRL)
     if (Serial.available()) {
         int val = Serial.parseInt();
         Serial.println(val);
@@ -151,7 +191,7 @@ void StrButtonsSony::listenButtons() {
     //
     // Default value  for sony whe Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {
-        setCurrentState(STR_BTN_NON);
+        _setCurrentState(STR_BTN_NON);
         //
         // Lock digital pot
         digitalWrite(pinDigitalOut, HIGH);
@@ -168,19 +208,19 @@ void StrButtonsSony::listenButtons() {
     //
     // Volume up
     if (readingSteeringButton > 9 && readingSteeringButton < 20) {
-        setCurrentState(STR_BTN_VLU);
+        _setCurrentState(STR_BTN_VLU);
 //        digitalPotWrite(95);
     }
     //
     // Volume down
     if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
-        setCurrentState(STR_BTN_VLD);
+        _setCurrentState(STR_BTN_VLD);
 //        digitalPotWrite(115);
     }
     //
     // Zero button
     if (readingSteeringButton > 20 && readingSteeringButton < 30) {
-        setCurrentState(STR_BTN_ATT);
+        _setCurrentState(STR_BTN_ATT);
 
         //
         // TODO long press 155 volume press button
@@ -189,19 +229,19 @@ void StrButtonsSony::listenButtons() {
     //
     // Right arrow / seek up
     if (readingSteeringButton > 35 && readingSteeringButton < 50) {
-        setCurrentState(STR_BTN_SKU);
+        _setCurrentState(STR_BTN_SKU);
 //        digitalPotWrite(45);
     }
     //
     // Left arrow / seek down
     if (readingSteeringButton > 60 && readingSteeringButton < 80) {
-        setCurrentState(STR_BTN_SKD);
+        _setCurrentState(STR_BTN_SKD);
 //        digitalPotWrite(65);
     }
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 160) {
-        setCurrentState(STR_BTN_BCK);
+        _setCurrentState(STR_BTN_BCK);
 //        digitalPotWrite(15);
         // TODO long press 225 MODE
         // 5 - off
@@ -226,35 +266,9 @@ void StrButtonsSony::sendRadioButtons() {
         lastStateButton = currentState;
         isButtonPressActive = 0;
     }
-
-
-    switch (currentState) {
-
-        case STR_BTN_VLU: // Volume up
-            digitalPotWrite(95);
-            break;
-
-        case STR_BTN_VLD: // Volume up
-            digitalPotWrite(115);
-            break;
-
-        case STR_BTN_ATT: // Zero
-            digitalPotWrite(225);
-            break;
-
-        case STR_BTN_SKU:
-            digitalPotWrite(45);
-            break;
-
-        case STR_BTN_SKD:
-            digitalPotWrite(65);
-            break;
-
-        case STR_BTN_BCK:
-            digitalPotWrite(15);
-            break;
-    }
-
+    //
+    // Send values to radio
+    _parseButtonState(currentState);
 
     if (currentState == STR_BTN_NON && lastStateButton == currentState) {
         lastStateButton = currentState;
