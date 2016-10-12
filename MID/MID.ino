@@ -146,9 +146,6 @@ EepRom eepRom;
 //
 // Shutdown constructor
 MidShutdown shutDown(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
-LiquidCrystal MidShutdown::lcd = lcd;
-TimeAmp MidShutdown::amp = ampInt;
-EepRom MidShutdown::rom = eepRom;
 //
 //
 static void playWelcomeScreen();

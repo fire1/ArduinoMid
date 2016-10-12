@@ -2,9 +2,6 @@
 // Created by Angel Zaprianov on 11.10.2016 г..
 //
 #include <Arduino.h>
-#include <LiquidCrystal.h>
-#include "TimeAmp.h"
-#include "EEProm.h"
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -24,15 +21,11 @@ private :
     uint8_t pinCtrl, pinDtct, pinSave, pinTone;
 
     int indexWait = 0;
-    int entryDysplay = 0;
+    int entryDisplay = 0;
+    int alreadySaved = 0;
 
 
 public:
-
-    static LiquidCrystal lcd;
-    static TimeAmp amp;
-    static EepRom rom;
-
     static constexpr int MENU_SHUTDOWN = 99;
 
     MidShutdown(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
@@ -83,38 +76,43 @@ void MidShutdown::display() {
 
     char sec[2];
 
-    if (entryDysplay == 0) {
+    if (entryDisplay == 0) {
         lcd.clear();
-        MidShutdown::lcd.setCursor(1, 0);
-        MidShutdown::lcd.print("Shutting  down!");
+        lcd.setCursor(1, 0);
+        lcd.print("Shutting  down!");
         delay(400);
-        entryDysplay = 1;
+        entryDisplay = 1;
     }
 
 
-    if (MidShutdown::amp.isSec()) {
+    if (amp.isSec()) {
 
-        MidShutdown::lcd.setCursor(0, 0);
-        MidShutdown::lcd.print("Waiting ");
+        lcd.setCursor(0, 0);
+        lcd.print("Waiting ");
 
         sprintf(sec, "%02d", (indexWait / 100));
 
-        MidShutdown::lcd.print(sec);
-        MidShutdown::lcd.print(" sec.  ");
+        lcd.print(sec);
+        lcd.print(" sec.  ");
 
-        MidShutdown::lcd.setCursor(1, 2);
-        MidShutdown::lcd.print("Press 0 to save");
+        lcd.setCursor(1, 2);
+        lcd.print("Press 0 to save");
         tone(pinTone, 2000, 500);
     }
 
 
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
-        delay(10);
-        if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
+        delay(5);
+        if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             tone(pinTone, 4000, 500);
             //
             // Save current data and shutdown
-            rom.saveCurrentData();
+//            rom.saveCurrentData();
+            alreadySaved = 1;
+            delay(500);
+            digitalWrite(pinCtrl, LOW);
+        }else{
+            tone(pinTone, 800, 500);
             delay(500);
             digitalWrite(pinCtrl, LOW);
         }

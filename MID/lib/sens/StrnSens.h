@@ -34,6 +34,7 @@ private:
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
     int currentStateButton;
     int lastStateButton = 0;
+    int closeStateButton = 0;
 
     void _setDigitalPot(int resistance);
 
@@ -113,32 +114,14 @@ void StrButtonsSony::setup() {
 
 
 void StrButtonsSony::_parseButtonState(int currentState) {
-    switch (currentState) {
 
-        case STR_BTN_VLU: // Volume up
-            _setDigitalPot(95);
-            break;
-
-        case STR_BTN_VLD: // Volume up
-            _setDigitalPot(115);
-            break;
-
-        case STR_BTN_ATT: // Zero
-            _setDigitalPot(225);
-            break;
-
-        case STR_BTN_SKU: // seek up
-            _setDigitalPot(45);
-            break;
-
-        case STR_BTN_SKD: // seek down
-            _setDigitalPot(65);
-            break;
-
-        case STR_BTN_BCK: // back button
-            _setDigitalPot(15);
-            break;
-    }
+    if (currentState == STR_BTN_VLU) _setDigitalPot(95);// Volume up
+    if (currentState == STR_BTN_VLD) _setDigitalPot(115);// Volume down
+    if (currentState == STR_BTN_ATT) _setDigitalPot(225); // Zero
+    if (currentState == STR_BTN_SKU) _setDigitalPot(45);// seek up
+    if (currentState == STR_BTN_SKD) _setDigitalPot(65);// seek down
+    if (currentState == STR_BTN_BCK) _setDigitalPot(15);// back button
+    if (currentState == STR_BTN_NON) _setDigitalPot(0);// return to default
 }
 
 
@@ -189,63 +172,43 @@ void StrButtonsSony::listenButtons() {
 #endif
 
     //
-    // Default value  for sony whe Steering wheel is not used
+    // Default value  for sony when Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {
         _setCurrentState(STR_BTN_NON);
-        //
-        // Lock digital pot
-        digitalWrite(pinDigitalOut, HIGH);
-        digitalWrite(pinOutVoltage, HIGH);
         //
         // Do not enter in here next loop
         isButtonPressActive = 1;
     }
-
-//    if (ampInt.isSec()) {
-//        Serial.println(readingSteeringButton);
-//    }
-
     //
     // Volume up
     if (readingSteeringButton > 9 && readingSteeringButton < 20) {
         _setCurrentState(STR_BTN_VLU);
-//        digitalPotWrite(95);
     }
     //
     // Volume down
     if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
         _setCurrentState(STR_BTN_VLD);
-//        digitalPotWrite(115);
     }
     //
     // Zero button
     if (readingSteeringButton > 20 && readingSteeringButton < 30) {
         _setCurrentState(STR_BTN_ATT);
-
-        //
         // TODO long press 155 volume press button
-//        digitalPotWrite(225); // moda
     }
     //
     // Right arrow / seek up
     if (readingSteeringButton > 35 && readingSteeringButton < 50) {
         _setCurrentState(STR_BTN_SKU);
-//        digitalPotWrite(45);
     }
     //
     // Left arrow / seek down
     if (readingSteeringButton > 60 && readingSteeringButton < 80) {
         _setCurrentState(STR_BTN_SKD);
-//        digitalPotWrite(65);
     }
     //
     // Back button
     if (readingSteeringButton > 130 && readingSteeringButton < 160) {
         _setCurrentState(STR_BTN_BCK);
-//        digitalPotWrite(15);
-        // TODO long press 225 MODE
-        // 5 - off
-        //
     }
 
 }
@@ -259,9 +222,9 @@ void StrButtonsSony::sendRadioButtons() {
 
     //
     // Determinate button is pressed
-    if (currentState != STR_BTN_NON && lastStateButton != currentState) {
+    if (lastStateButton != currentState) {
         digitalWrite(pinDigitalOut, LOW);
-        delay(20);
+        delay(10);
         digitalWrite(pinOutVoltage, LOW);
         lastStateButton = currentState;
         isButtonPressActive = 0;
@@ -270,8 +233,16 @@ void StrButtonsSony::sendRadioButtons() {
     // Send values to radio
     _parseButtonState(currentState);
 
-    if (currentState == STR_BTN_NON && lastStateButton == currentState) {
-        lastStateButton = currentState;
+    //
+    //
+    if (closeStateButton != currentState) {
+        //
+        // Lock digital pot
+        digitalWrite(pinDigitalOut, HIGH);
+        closeStateButton = currentState;
+
+    } else if (isButtonPressActive == 1) {
+        digitalWrite(pinOutVoltage, HIGH);
     }
 
 }
