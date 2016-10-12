@@ -2,9 +2,6 @@
 // Created by Angel Zaprianov on 11.10.2016 г..
 //
 #include <Arduino.h>
-#include <LiquidCrystal.h>
-#include "TimeAmp.h"
-#include "EEProm.h"
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -24,22 +21,18 @@ private :
     uint8_t pinCtrl, pinDtct, pinSave, pinTone;
 
     int indexWait = 0;
-    int entryDysplay = 0;
+    int entryDisplay = 0;
+    int alreadySaved = 0;
 
 
 public:
-
-    static LiquidCrystal lcd;
-    static TimeAmp timeAmp;
-    static EepRom eepRom;
-
     static constexpr int MENU_SHUTDOWN = 99;
 
     MidShutdown(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
 
     void setup();
 
-    int listener(int &cursorMenu);
+    void listener(int &cursorMenu);
 
     void display();
 
@@ -71,12 +64,11 @@ void MidShutdown::setup() {
 }
 
 
-int MidShutdown::listener(int &cursorMenu) {
+void MidShutdown::listener(int &cursorMenu) {
     if (analogRead(pinDtct) < 500) {
         cursorMenu = MENU_SHUTDOWN;
+        tone(pinTone, 4000, 500);
     }
-
-    return cursorMenu;
 }
 
 
@@ -84,16 +76,16 @@ void MidShutdown::display() {
 
     char sec[2];
 
-    if (entryDysplay == 0) {
+    if (entryDisplay == 0) {
         lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(" Shutting  down!");
+        lcd.setCursor(1, 0);
+        lcd.print("Shutting  down!");
         delay(400);
-        entryDysplay = 1;
+        entryDisplay = 1;
     }
 
 
-    if (timeAmp.isSec()) {
+    if (ampInt.isSec()) {
 
         lcd.setCursor(0, 0);
         lcd.print("Waiting ");
@@ -105,17 +97,22 @@ void MidShutdown::display() {
 
         lcd.setCursor(1, 2);
         lcd.print("Press 0 to save");
-        tone(pinTone, 1000, 500);
+        tone(pinTone, 2000, 500);
     }
 
 
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
-        delay(10);
-        if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
+        delayMicroseconds(150);
+        if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             tone(pinTone, 4000, 500);
             //
             // Save current data and shutdown
-//            eepRom.saveCurrentData();
+//            rom.saveCurrentData();
+            alreadySaved = 1;
+            delay(500);
+            digitalWrite(pinCtrl, LOW);
+        } else {
+            tone(pinTone, 800, 500);
             delay(500);
             digitalWrite(pinCtrl, LOW);
         }
@@ -128,7 +125,6 @@ void MidShutdown::display() {
         delay(500);
         digitalWrite(pinCtrl, LOW);
     }
-    indexWait++;
 
 }
 

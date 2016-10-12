@@ -46,26 +46,45 @@ long debounceDelay = 43;
 long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
 long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
+/* MID menu mMap
+
+        Main
+        |
+        Trip-------------------------------Trip----------------------------------------------------Fuel
+        |                                   |
+        Item1SubItem1-----Item1SubItem2     Item2SubItem1------Item2SubItem2------Item2SubItem3
+
+ */
+
+//
+// Main menu
 MenuItem menuItem1 = MenuItem("Main", 1);
+//
+// Sub menu for MAIN
+MenuItem menuItemMain1 = MenuItem("Panel", 11);
+MenuItem menuItemMain2 = MenuItem("Test", 12);
+
 MenuItem menuItem2 = MenuItem("Trip", 2);
 MenuItem menuItem3 = MenuItem("Fuel", 3);
 MenuItem menuItem4 = MenuItem("Average", 4);
 
-MenuItem menuItemMain1 = MenuItem("Panel", 11);
-MenuItem menuItemMain2 = MenuItem("Test", 12);
-/*
- *
-  menu.getRoot().add(menu1Item1);
-  menu1Item1.addRight(menu1Item2).addRight(menu1Item3);
-  menu1Item1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
-  menu1Item2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
 
- */
 static void setupMenu() {
-    menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
+
+    /*
+     *
+      menu.getRoot().add(menu1Item1);
+      menu1Item1.addRight(menu1Item2).addRight(menu1Item3);
+      menu1Item1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
+      menu1Item2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
+
+     */
+
+    menu.getRoot().add(menuItem1);
+    menuItem1.add(menuItem2).add(menuItem3).add(menuItem4);
     menuItem4.add(menuItem1); // Create Loop menu
 
-    menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
+    menuItem1.add(menuItemMain1).addRight(menuItemMain2);
 
     menuItemMain2.addRight(menuItemMain1); // loop
     //
@@ -131,7 +150,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
-        delay(5);
+        delayMicroseconds(150);
         if (!digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
@@ -140,7 +159,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-        delay(5);
+        delayMicroseconds(150);
         if (!digitalRead(buttonPinDw) == HIGH) {
             delay(900);
             if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
@@ -254,9 +273,9 @@ static void menuUsed(MenuUseEvent used) {
     //lcd.print("You are in:       ");
     //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
-    delay(250);
+    delay(150);
     lcd.print(" Menu");
-    delay(500);  //delay to allow message reading
+    delay(350);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //menu.toRoot();  //back to Main
