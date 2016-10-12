@@ -119,7 +119,7 @@ float getInstCons() {
 float getTripCons() {
 
 
-    float dist = getConsumptionDistance();
+    float dist = getConsumptionDistance() / 10;
     float result = (float(dist / CUR_TLH) * 100) / 100;
 
     if (CUR_TLH <= 0) {

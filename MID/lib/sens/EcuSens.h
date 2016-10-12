@@ -8,7 +8,7 @@
 //
 // Sensor configs
 const bool EcuSensDebug = 0;
-const int EcuCorrection = 1;
+const float EcuCorrection = 1.2;
 //
 // Rpm Container
 int CUR_ECU = 0;
@@ -56,7 +56,7 @@ void sensEcu() {
         ecuTimerStart = ecuTimerEnds;
         //
         // Pass ecu to global
-        CUR_ECU = ecuHitsCount * EcuCorrection;
+        CUR_ECU = int(ecuHitsCount * EcuCorrection);
         //
         // debug info
         if (EcuSensDebug) {

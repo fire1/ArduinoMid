@@ -207,7 +207,7 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-    TTL_TLH = 6.34;
+//    TTL_TLH = 6.34;
 
 }
 

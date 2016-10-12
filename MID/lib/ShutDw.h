@@ -8,7 +8,7 @@
 #endif
 
 #ifndef SHUTDOWN_SAVE_LOOPS
-#define SHUTDOWN_SAVE_LOOPS 500
+#define SHUTDOWN_SAVE_LOOPS 1000
 #endif
 
 #ifndef ARDUINOMID_SHUTDOWN_H
@@ -65,7 +65,15 @@ void MidShutdown::setup() {
 
 
 void MidShutdown::listener(int &cursorMenu) {
-    if (analogRead(pinDtct) < 500) {
+
+    int detectorValue = analogRead(pinDtct);
+
+    if (ampInt.isSec()) {
+        Serial.print("Detector is \t");
+        Serial.println(detectorValue);
+    }
+
+    if (detectorValue < 500) {
         cursorMenu = MENU_SHUTDOWN;
         tone(pinTone, 4000, 500);
     }
@@ -80,7 +88,7 @@ void MidShutdown::display() {
         lcd.clear();
         lcd.setCursor(1, 0);
         lcd.print("Shutting  down!");
-        delay(400);
+        delay(2000);
         entryDisplay = 1;
     }
 
@@ -90,7 +98,7 @@ void MidShutdown::display() {
         lcd.setCursor(0, 0);
         lcd.print("Waiting ");
 
-        sprintf(sec, "%02d", (indexWait / 100));
+        sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 100) * -1);
 
         lcd.print(sec);
         lcd.print(" sec.  ");
@@ -107,13 +115,21 @@ void MidShutdown::display() {
             tone(pinTone, 4000, 500);
             //
             // Save current data and shutdown
-//            rom.saveCurrentData();
+            eepRom.saveCurrentData();
+
+            Serial.println("Data saved!");
+
             alreadySaved = 1;
-            delay(500);
+            lcd.clear();
+            lcd.setCursor(1, 0);
+            lcd.print(" Data saved :)");
+            lcd.setCursor(1, 2);
+            lcd.print(" Bay bay ...");
+            delay(2000);
             digitalWrite(pinCtrl, LOW);
         } else {
             tone(pinTone, 800, 500);
-            delay(500);
+            delay(2000);
             digitalWrite(pinCtrl, LOW);
         }
     }
@@ -121,10 +137,14 @@ void MidShutdown::display() {
     //
     // Shutdown without wait ...
     if (indexWait >= SHUTDOWN_SAVE_LOOPS) {
+        lcd.clear();
+        lcd.setCursor(1, 0);
+        lcd.print("Bay bay ...!");
         tone(pinTone, 800, 500);
-        delay(500);
-        digitalWrite(pinCtrl, LOW);
+        delay(2000);
+        analogWrite(pinCtrl, LOW);
     }
+    indexWait++;
 
 }
 
