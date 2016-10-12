@@ -23,6 +23,7 @@ private :
     int indexWait = 0;
     int entryDisplay = 0;
     int alreadySaved = 0;
+    int alreadyShutdown = 0;
 
 
 public:
@@ -73,9 +74,14 @@ void MidShutdown::listener(int &cursorMenu) {
         Serial.println(detectorValue);
     }
 
-    if (detectorValue < 500) {
+    if (detectorValue < 500 && alreadyShutdown != 2) {
         cursorMenu = MENU_SHUTDOWN;
-        tone(pinTone, 4000, 500);
+        tone(pinTone, 4000, 10);
+    }
+    if (alreadyShutdown == 1) {
+        cursorMenu = 1;
+        alreadyShutdown = 2;
+        lcd.clear();
     }
 }
 
@@ -105,14 +111,15 @@ void MidShutdown::display() {
 
         lcd.setCursor(1, 2);
         lcd.print("Press 0 to save");
-        tone(pinTone, 2000, 500);
+        tone(pinTone, 2000, 100);
+        delay(100);
     }
 
 
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
         delayMicroseconds(150);
         if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
-            tone(pinTone, 4000, 500);
+            tone(pinTone, 2000, 100);
             //
             // Save current data and shutdown
             eepRom.saveCurrentData();
@@ -128,21 +135,24 @@ void MidShutdown::display() {
             delay(2000);
             digitalWrite(pinCtrl, LOW);
         } else {
-            tone(pinTone, 800, 500);
+            tone(pinTone, 800, 100);
             delay(2000);
             digitalWrite(pinCtrl, LOW);
         }
     }
 
+
+
     //
     // Shutdown without wait ...
-    if (indexWait >= SHUTDOWN_SAVE_LOOPS) {
+    if (indexWait >= SHUTDOWN_SAVE_LOOPS && alreadyShutdown == 0) {
         lcd.clear();
         lcd.setCursor(1, 0);
         lcd.print("Bay bay ...!");
         tone(pinTone, 800, 500);
         delay(2000);
         analogWrite(pinCtrl, LOW);
+        alreadyShutdown = 1;
     }
     indexWait++;
 

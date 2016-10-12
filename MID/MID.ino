@@ -218,33 +218,9 @@ int long lastProtectRead = 0;
 void loop() {
 
     //
-    // Inject data from serial command
-//    serialInject.listenerSerial();
-
-//    while (Serial.available()) {
-//        TTL_TLH = Serial.parseFloat();
-//    }
-
-    //
     // Amplitude loop init
     ampInt.listener();
 
-
-    if (ampInt.isBig()) {
-
-//        Serial.print(" EepRom is: \t");
-//        Serial.println(TTL_TLH);
-
-//        Serial.print(" Listener shutdown is: \t");
-//        Serial.println(analogRead(SAV_PIN_DTC));
-    }
-//
-//    if (analogRead(SAV_PIN_DTC) < 500) {
-//        tone(ADT_ALR_PIN, 4000, 500);
-////        eepRom.saveCurrentData();
-//        delay(500);
-//        analogWrite(SAV_PIN_CTR, 0);
-//    }
 
 
     //
