@@ -85,7 +85,7 @@ void MidShutdown::display() {
     }
 
 
-    if (amp.isSec()) {
+    if (ampInt.isSec()) {
 
         lcd.setCursor(0, 0);
         lcd.print("Waiting ");
@@ -102,7 +102,7 @@ void MidShutdown::display() {
 
 
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
-        delay(5);
+        delayMicroseconds(150);
         if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             tone(pinTone, 4000, 500);
             //
@@ -111,7 +111,7 @@ void MidShutdown::display() {
             alreadySaved = 1;
             delay(500);
             digitalWrite(pinCtrl, LOW);
-        }else{
+        } else {
             tone(pinTone, 800, 500);
             delay(500);
             digitalWrite(pinCtrl, LOW);

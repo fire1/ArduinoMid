@@ -224,7 +224,7 @@ void StrButtonsSony::sendRadioButtons() {
     // Determinate button is pressed
     if (lastStateButton != currentState) {
         digitalWrite(pinDigitalOut, LOW);
-        delay(10);
+        delayMicroseconds(150);
         digitalWrite(pinOutVoltage, LOW);
         lastStateButton = currentState;
         isButtonPressActive = 0;

@@ -150,7 +150,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
-        delay(10);
+        delayMicroseconds(150);
         if (!digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
@@ -159,7 +159,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-        delay(10);
+        delayMicroseconds(150);
         if (!digitalRead(buttonPinDw) == HIGH) {
             delay(900);
             if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
@@ -273,9 +273,9 @@ static void menuUsed(MenuUseEvent used) {
     //lcd.print("You are in:       ");
     //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
-    delay(250);
+    delay(150);
     lcd.print(" Menu");
-    delay(500);  //delay to allow message reading
+    delay(350);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //menu.toRoot();  //back to Main
