@@ -84,6 +84,11 @@ void sensVss() {
         tone(ADT_ALR_PIN, 4000, 500);
     }
 
+//    if (ampInt.isSec()) {
+//        Serial.print("Vss count: \n");
+//        Serial.println(vssHitsCount);
+//    }
+
 }
 
 #endif //ARDUINOMID_VssSens_H

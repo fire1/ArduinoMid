@@ -211,18 +211,12 @@ void setup() {
 
 }
 
-int long saveProtectInit = 0;
-int long curProtectValue = 0;
-int long lastProtectRead = 0;
 
 void loop() {
 
     //
     // Amplitude loop init
     ampInt.listener();
-
-
-
     //
     // Sensors
     sensorsInit();

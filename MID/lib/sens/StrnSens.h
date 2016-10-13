@@ -223,25 +223,32 @@ void StrButtonsSony::sendRadioButtons() {
     //
     // Determinate button is pressed
     if (lastStateButton != currentState) {
-        digitalWrite(pinDigitalOut, LOW);
-        delayMicroseconds(150);
         digitalWrite(pinOutVoltage, LOW);
-        lastStateButton = currentState;
-        isButtonPressActive = 0;
+        delayMicroseconds(50);
+        if (currentState == getCurrentState()) {
+            digitalWrite(pinDigitalOut, LOW);
+            lastStateButton = currentState;
+            isButtonPressActive = 0;
+            _parseButtonState(currentState);
+        } else {
+            digitalWrite(pinOutVoltage, HIGH);
+        }
     }
     //
     // Send values to radio
-    _parseButtonState(currentState);
+
 
     //
     //
-    if (closeStateButton != currentState) {
+    if (isButtonPressActive == 0 && closeStateButton != currentState || currentState == STR_BTN_NON) {
         //
         // Lock digital pot
         digitalWrite(pinDigitalOut, HIGH);
         closeStateButton = currentState;
 
-    } else if (isButtonPressActive == 1) {
+    }
+
+    if (isButtonPressActive == 1 ) {
         digitalWrite(pinOutVoltage, HIGH);
     }
 
