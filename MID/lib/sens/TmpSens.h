@@ -92,7 +92,7 @@ void sensTmp() {
         temperatureC = ((reading / cofVolt) - (255 / cofVolt)) * -1;
         //
         //
-        temperatureC = temperatureC - 3;
+        temperatureC = temperatureC - 2;
 
 #if defined(DEBUG_TEMPERATURE_OU)
         if (ampInt.isMid()) {

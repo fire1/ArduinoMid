@@ -46,6 +46,10 @@ public:
  *                                                                                             *
  ***********************************************************************************************/
 
+
+/**
+ * Constructor of shutdown
+ */
 MidShutdown::MidShutdown(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm) {
     pinCtrl = uint8_t(pinControl);
     pinDtct = uint8_t(pinDetect);
@@ -53,6 +57,9 @@ MidShutdown::MidShutdown(int pinControl, int pinDetect, int pintPressSave, int p
     pinTone = uint8_t(pinToAlarm);
 }
 
+/**
+ * Setup shutdown class
+ */
 void MidShutdown::setup() {
     //
     // Control save shutdown
@@ -64,20 +71,29 @@ void MidShutdown::setup() {
 
 }
 
-
+/**
+ * Listen shutdown and change menu to shutdown
+ */
 void MidShutdown::listener(int &cursorMenu) {
 
+    //
+    // Get voltage from pin
     int detectorValue = analogRead(pinDtct);
+    //
+    // Gets index loop to detect USB is active
+    int detectUsbAct = ampInt.getLoopIndex();
 
     if (ampInt.isSec()) {
         Serial.print("Detector is \t");
         Serial.println(detectorValue);
     }
 
-    if (detectorValue < 500 && alreadyShutdown != 2) {
+    if (detectorValue < 500 && detectUsbAct > 50 && alreadyShutdown != 2) {
         cursorMenu = MENU_SHUTDOWN;
-        tone(pinTone, 4000, 10);
+        tone(pinTone, 4000, 100);
     }
+    //
+    //
     if (alreadyShutdown == 1) {
         cursorMenu = 1;
         alreadyShutdown = 2;
@@ -85,25 +101,32 @@ void MidShutdown::listener(int &cursorMenu) {
     }
 }
 
-
+/**
+ * Display shutdown menu
+ */
 void MidShutdown::display() {
 
     char sec[2];
 
+    //
+    // Show message before straiting procedure
     if (entryDisplay == 0) {
         lcd.clear();
         lcd.setCursor(1, 0);
         lcd.print("Shutting  down!");
-        delay(2000);
+        delay(4000);
         entryDisplay = 1;
     }
 
 
+    //
+    // Catch seconds from loop
     if (ampInt.isSec()) {
 
         lcd.setCursor(0, 0);
         lcd.print("Waiting ");
-
+        //
+        // Convert data to human format
         sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 100) * -1);
 
         lcd.print(sec);
@@ -115,9 +138,10 @@ void MidShutdown::display() {
         delay(100);
     }
 
-
+    //
+    // Listen press button
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
-        delayMicroseconds(150);
+        delay(15);
         if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             tone(pinTone, 2000, 100);
             //
@@ -125,17 +149,16 @@ void MidShutdown::display() {
             eepRom.saveCurrentData();
 
             Serial.println("Data saved!");
-
+            //
+            // Mark saved
             alreadySaved = 1;
             lcd.clear();
             lcd.setCursor(1, 0);
             lcd.print(" Data saved :)");
             lcd.setCursor(1, 2);
             lcd.print(" Bay bay ...");
-            delay(2000);
-            digitalWrite(pinCtrl, LOW);
-        } else {
-            tone(pinTone, 800, 100);
+            //
+            // Shutdown the system
             delay(2000);
             digitalWrite(pinCtrl, LOW);
         }

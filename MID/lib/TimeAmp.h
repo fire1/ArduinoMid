@@ -31,6 +31,8 @@ public:
     bool isMid() { return (boolean) _isMid; }
 
     bool isBig() { return (boolean) _isBig; }
+
+    unsigned long getLoopIndex() { return loopCounter; }
 };
 
 

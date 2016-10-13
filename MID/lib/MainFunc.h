@@ -40,7 +40,7 @@ char displayFloat(float value, char *output) {
 /**
  * Limits display floats
  */
-void separateFloat(float value,int arrOutput[]) {
+void separateFloat(float value, int arrOutput[]) {
 
 //    out1 = 0;
 //    out2 = 0;
@@ -52,19 +52,23 @@ void separateFloat(float value,int arrOutput[]) {
         dig2 = dig2 * -1;
     }
 
-    arrOutput[0]= dig1;
-    arrOutput[1]= dig2;
+    arrOutput[0] = dig1;
+    arrOutput[1] = dig2;
 }
 
+/**
+ * Create float from two integers
+ */
 float restoreFloat(int a, int b) {
 
-    float bf = b * 0.010;
+    float bf = b * 0.01;
 
-    float c = a+bf;
+    float c = a + bf;
     return c;
 }
 
-
+//
+// Deprecated
 void setupUseTimer2() {
 
     /* First disable the timer overflow interrupt while we're configuring */
@@ -114,8 +118,7 @@ void setupUseTimer3() {
     TCCR3B &= ~(1 << WGM32);
 
 
-
-    TCCR3A = TCCR3A|(1<<COM3A1)|(1<<COM3B1)|(1<<COM3C1);
+    TCCR3A = TCCR3A | (1 << COM3A1) | (1 << COM3B1) | (1 << COM3C1);
     /* Select clock source: internal I/O clock */
 //    ASSR &= ~(1 << AS3);
 
@@ -127,9 +130,9 @@ void setupUseTimer3() {
     TCCR3B &= ~(1 << CS31);             // Clear bit
 
 
-    sbi(TCCR3B, CS31);		// set timer 3 prescale factor to 64
+    sbi(TCCR3B, CS31);        // set timer 3 prescale factor to 64
     sbi(TCCR3B, CS30);
-    sbi(TCCR3A, WGM30);		// put timer 3 in 8-bit phase correct pwm mode
+    sbi(TCCR3A, WGM30);        // put timer 3 in 8-bit phase correct pwm mode
 }
 
 #endif //ARDUINOMID_UTILS_H

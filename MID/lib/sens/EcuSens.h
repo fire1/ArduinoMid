@@ -8,7 +8,7 @@
 //
 // Sensor configs
 const bool EcuSensDebug = 0;
-const float EcuCorrection = 1.2;
+const float EcuCorrection = 1.8;
 //
 // Rpm Container
 int CUR_ECU = 0;
