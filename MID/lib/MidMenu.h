@@ -276,7 +276,7 @@ static void menuUsed(MenuUseEvent used) {
     lcd.print(used.item.getName());
     delay(150);
     lcd.print(" Menu");
-    delay(250);  //delay to allow message reading
+    delay(450);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //menu.toRoot();  //back to Main

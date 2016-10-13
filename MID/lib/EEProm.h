@@ -150,11 +150,8 @@ private:
  * Saves data to EepRom
  */
 void EepRom::saveCurrentData() {
-
-    TTL_TLH = float(TTL_TLH + (float) CUR_TLH);
+    TTL_TLH += CUR_TLH;
     saveTravelConsumption(TTL_TLH);
-
-
 }
 
 

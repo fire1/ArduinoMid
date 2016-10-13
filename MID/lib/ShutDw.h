@@ -24,6 +24,7 @@ private :
     int entryDisplay = 0;
     int alreadySaved = 0;
     int alreadyShutdown = 0;
+    bool entryUsbDetected = false;
 
 
 public:
@@ -76,6 +77,7 @@ void MidShutdown::setup() {
  */
 void MidShutdown::listener(int &cursorMenu) {
 
+
     //
     // Get voltage from pin
     int detectorValue = analogRead(pinDtct);
@@ -83,14 +85,30 @@ void MidShutdown::listener(int &cursorMenu) {
     // Gets index loop to detect USB is active
     int detectUsbAct = ampInt.getLoopIndex();
 
-    if (ampInt.isSec()) {
-        Serial.print("Detector is \t");
-        Serial.println(detectorValue);
+
+    if (detectorValue < 500 && entryUsbDetected) {
+        analogWrite(pinCtrl, LOW);
+        return;
     }
 
-    if (detectorValue < 500 && detectUsbAct > 50 && alreadyShutdown != 2) {
+    if (entryUsbDetected) {
+        return;
+    }
+
+    if (detectorValue < 500 && detectUsbAct < 50) {
+        entryUsbDetected = true;
+        return;
+    }
+//
+//    if (ampInt.isSec()) {
+//        Serial.print("Detector is \t");
+//        Serial.println(detectUsbAct);
+//    }
+
+
+    if (detectorValue < 500 && alreadyShutdown != 2) {
         cursorMenu = MENU_SHUTDOWN;
-        tone(pinTone, 4000, 100);
+//        tone(pinTone, 4000, 100);
     }
     //
     //
@@ -113,8 +131,8 @@ void MidShutdown::display() {
     if (entryDisplay == 0) {
         lcd.clear();
         lcd.setCursor(1, 0);
-        lcd.print("Shutting  down!");
-        delay(4000);
+        lcd.print("Shutting  down");
+        delay(2000);
         entryDisplay = 1;
     }
 
@@ -135,7 +153,6 @@ void MidShutdown::display() {
         lcd.setCursor(1, 2);
         lcd.print("Press 0 to save");
         tone(pinTone, 2000, 100);
-        delay(100);
     }
 
     //
