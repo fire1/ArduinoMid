@@ -69,7 +69,7 @@ public:
      *  Saves travel consumption
      */
     void saveTravelConsumption(float value = 0) {
-        int val[1];
+        int val[2];
 
         separateFloat(value, val);
 
@@ -81,8 +81,12 @@ public:
         Serial.print("\n\r");
 #endif
 
-        WireEepRomWriteByte(EEP_ADR_TC1, val[0]);
-        WireEepRomWriteByte(EEP_ADR_TC2, val[1]);
+        int a, b;
+        a = val[0];
+        b = val[1];
+
+        WireEepRomWriteByte(EEP_ADR_TC1, a);
+        WireEepRomWriteByte(EEP_ADR_TC2, b);
     }
 
     /**

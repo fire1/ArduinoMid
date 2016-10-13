@@ -40,7 +40,7 @@ char displayFloat(float value, char *output) {
 /**
  * Limits display floats
  */
-void separateFloat(float value, int arrOutput[]) {
+void separateFloat(float value, int arrOutput[2]) {
 
 //    out1 = 0;
 //    out2 = 0;
