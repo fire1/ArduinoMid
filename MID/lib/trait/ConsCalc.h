@@ -33,7 +33,7 @@ float CUR_LPH;
 float CUR_TLH;
 
 float consumptionBankCalculator = 0;
-int long consumptionBankCountHits = 0;
+int long consumptionBankDividerHits = 0;
 
 static int getVolumetricEfficiency(int rpm_var);
 
@@ -43,6 +43,50 @@ float getUsedFuel() {
 }
 // airValue // Naliagane  kPa // давление впускного коллектора // Intake air
 
+
+/**
+ *  Gets consumption short wave
+ */
+float currentShortWaveConsumptionContainer = 0;
+int currentShortWaveDividerHandler = 0;
+
+float getShortWaveConsumption(float currentLitersPerHour) {
+
+    //
+    // Add litters per hour in shot amplitude
+    currentShortWaveConsumptionContainer = currentShortWaveConsumptionContainer + currentLitersPerHour;
+
+    // At 24 * 1000
+    // Check long time collection to remove older data
+    if (currentShortWaveDividerHandler >= 24) {
+        currentShortWaveDividerHandler = 0;
+        //
+        // Lower collected data to be more precise
+        consumptionBankDividerHits = consumptionBankDividerHits / 2;
+        currentShortWaveConsumptionContainer = currentShortWaveConsumptionContainer / 2;
+    }
+
+    //
+    // Calculate average consumption
+    float averageWaveConsumption = currentShortWaveConsumptionContainer / consumptionBankDividerHits;
+
+    //
+    // At lower consumption be more precise
+    if (averageWaveConsumption < 10 && CUR_RPM > 500) {
+        currentShortWaveConsumptionContainer = averageWaveConsumption;
+    }
+
+    //
+    // Increase thousand loop divider
+    if (ampInt.isMax()) {
+        currentShortWaveDividerHandler++;
+    }
+
+    //
+    // Consumption
+    consumptionBankDividerHits++;
+    return currentShortWaveConsumptionContainer;
+}
 
 double short_term_val = 0.78125;
 
@@ -61,27 +105,6 @@ void sensCon() {
 
     double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
 
-    /*
-     *
-     *  *_term_val = 0.00/1.275
-     *
-       IMAP=double(rpm_var*dvk_var)/double(intake_air_temp_var+273.15);
-
-       MAF=double(IMAP/120.0)*double(double(VE*VE_correct)/100.0)*ED*28.9644/8.314472;
-
-
-       if (fss_val==2) {   // если замкнутая обратная связь  - Closed Loop
-           ls_term_val=double(100.0+(long_term_val+short_term_val))/100.0; // коэффициент корректировки расхода по ShortTerm и LongTerm
-         }
-       else {
-           ls_term_val=double(100.0+long_term_val)/100.0; // коэффициент корректировки расхода по LongTerm
-         }
-
-       FuelFlowGramsPerSecond = double(MAF/AirFuelRatio)*ls_term_val;   // Получаем расход грамм бензина в секунду в соотношении 14,7 воздуха/к 1 литра бензина, корректировка ls_term_val
-       FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;  // Переводим граммы бензина в литры
-       LPH = FuelFlowLitersPerSecond * 3600.0;       // Ковертирование литров в час
-
-     */
 
 
     termvalue = CUR_ECU * 0.78125;
@@ -97,23 +120,25 @@ void sensCon() {
 
     CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);
     //
-    consumptionBankCountHits++;
+/*    consumptionBankDividerHits++;
     // Ковертирование литров в час
     consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
     //
     // Trip consumption detection
     if (CUR_RPM > 500) {
-        CUR_TLH = consumptionBankCalculator / consumptionBankCountHits;
-    }
+        CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
+    }*/
+
+
+    CUR_TLH = getShortWaveConsumption(CUR_LPH);
 }
+
 
 /**
  *
  */
 float getInstCons() {
-    return (float(CUR_TLH) * 100) / 100;
-//    return CUR_LPH;
-//    return CUR_LPH;
+    return CUR_TLH;
 }
 
 float getTripCons() {
@@ -268,5 +293,27 @@ static int getVolumetricEfficiency(int rpm_var) {
     }
     return VE;
 }
+
+/*
+ *
+ *  *_term_val = 0.00/1.275
+ *
+   IMAP=double(rpm_var*dvk_var)/double(intake_air_temp_var+273.15);
+
+   MAF=double(IMAP/120.0)*double(double(VE*VE_correct)/100.0)*ED*28.9644/8.314472;
+
+
+   if (fss_val==2) {   // если замкнутая обратная связь  - Closed Loop
+       ls_term_val=double(100.0+(long_term_val+short_term_val))/100.0; // коэффициент корректировки расхода по ShortTerm и LongTerm
+     }
+   else {
+       ls_term_val=double(100.0+long_term_val)/100.0; // коэффициент корректировки расхода по LongTerm
+     }
+
+   FuelFlowGramsPerSecond = double(MAF/AirFuelRatio)*ls_term_val;   // Получаем расход грамм бензина в секунду в соотношении 14,7 воздуха/к 1 литра бензина, корректировка ls_term_val
+   FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;  // Переводим граммы бензина в литры
+   LPH = FuelFlowLitersPerSecond * 3600.0;       // Ковертирование литров в час
+
+ */
 
 #endif //ARDUINOMID_CONSUMPTION_H

@@ -25,7 +25,10 @@ private :
     int alreadySaved = 0;
     int alreadyShutdown = 0;
     bool entryUsbDetected = false;
+    bool idShutdownActive = false;
+    int handlerCursorMenu;
 
+    void resolveUsbActive(int _detectorValue, int _detectUsbAct);
 
 public:
     static constexpr int MENU_SHUTDOWN = 99;
@@ -34,9 +37,13 @@ public:
 
     void setup();
 
-    void listener(int &cursorMenu);
+    void listener();
 
     void display();
+
+    bool isUsbActive();
+
+    void cursor(int &cursorMenu);
 
 };
 
@@ -73,49 +80,61 @@ void MidShutdown::setup() {
 }
 
 /**
- * Listen shutdown and change menu to shutdown
+ * When mid is started and loop si lower number resolve as USB active
  */
-void MidShutdown::listener(int &cursorMenu) {
-
-
-    //
-    // Get voltage from pin
-    int detectorValue = analogRead(pinDtct);
-    //
-    // Gets index loop to detect USB is active
-    int detectUsbAct = ampInt.getLoopIndex();
-
-
-    if (detectorValue < 500 && entryUsbDetected) {
-        analogWrite(pinCtrl, LOW);
-        return;
+void  MidShutdown::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
+    if (_detectorValue < 500 && _detectUsbAct < 50) {
+        entryUsbDetected = true;
     }
+}
+/**
+ *  Is mid started from USB power supply
+ */
+bool MidShutdown::isUsbActive() {
 
     if (entryUsbDetected) {
-        return;
+        return true;
     }
 
     if (detectorValue < 500 && detectUsbAct < 50) {
         entryUsbDetected = true;
-        return;
+        return true;
     }
-//
-//    if (ampInt.isSec()) {
-//        Serial.print("Detector is \t");
-//        Serial.println(detectUsbAct);
-//    }
+}
 
+/**
+ * Handler the cursor menu
+ */
+void MidShutdown::cursor(int &cursorMenu) {
 
-    if (detectorValue < 500 && alreadyShutdown != 2) {
-        cursorMenu = MENU_SHUTDOWN;
-//        tone(pinTone, 4000, 100);
-    }
     //
-    //
+    // Switch menu if cannot shutdown ...
     if (alreadyShutdown == 1) {
         cursorMenu = 1;
         alreadyShutdown = 2;
         lcd.clear();
+    }
+
+    if (idShutdownActive && alreadyShutdown != 2) {
+        cursorMenu = MENU_SHUTDOWN;
+    }
+
+}
+
+/**
+ * Listen shutdown and change menu to shutdown
+ */
+void MidShutdown::listener() {
+    //
+    // Get voltage from pin
+    int detectorValue = analogRead(pinDtct);
+    //
+    // Detect usb
+    resolveUsbActive(detectorValue, ampInt.getLoopIndex());
+    //
+    // Is shutdown mode ....
+    if (detectorValue < 500 && alreadyShutdown != 2) {
+        idShutdownActive = true;
     }
 }
 
@@ -132,6 +151,7 @@ void MidShutdown::display() {
         lcd.clear();
         lcd.setCursor(1, 0);
         lcd.print("Shutting  down");
+        tone(pinTone, 2000, 500);
         delay(2000);
         entryDisplay = 1;
     }
@@ -149,18 +169,16 @@ void MidShutdown::display() {
 
         lcd.print(sec);
         lcd.print(" sec.  ");
-
         lcd.setCursor(1, 2);
         lcd.print("Press 0 to save");
-        tone(pinTone, 2000, 100);
     }
 
     //
     // Listen press button
     if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
-        delay(15);
+        delay(10);
         if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
-            tone(pinTone, 2000, 100);
+
             //
             // Save current data and shutdown
             eepRom.saveCurrentData();
@@ -176,12 +194,14 @@ void MidShutdown::display() {
             lcd.print(" Bay bay ...");
             //
             // Shutdown the system
+            tone(pinTone, 2000, 500);
             delay(2000);
             digitalWrite(pinCtrl, LOW);
+            //
+            // Mark mid as shutdown
+            alreadyShutdown = 1;
         }
     }
-
-
 
     //
     // Shutdown without wait ...
@@ -192,6 +212,8 @@ void MidShutdown::display() {
         tone(pinTone, 800, 500);
         delay(2000);
         analogWrite(pinCtrl, LOW);
+        //
+        // Mark mid as shutdown
         alreadyShutdown = 1;
     }
     indexWait++;

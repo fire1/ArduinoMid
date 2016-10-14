@@ -114,6 +114,21 @@ void displayCarKMH() {
     }
 }
 
+void displayCarDST() {
+
+    char tmpDisplay[3];
+
+    if (ampInt.isMid()) {
+
+        lcd.setCursor(10, 2);
+        lcd.print("DST:");
+        //
+        // Handle ECU screen print
+        displayFloat(getDstSens(), tmpDisplay);
+        lcd.print(tmpDisplay);
+    }
+}
+
 /****************************************************************
  * Display engine KMh
  */

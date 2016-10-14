@@ -25,15 +25,18 @@
 //
 // Saves Addresses in EEP Rom
 const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
-const int EEP_ADR_TTD = 1; // Total Travel distance
-const int EEP_ADR_TRD = 2; // Trip distance
+
+const int EEP_ADR_TC1 = 1; // Consumption Float A
+const int EEP_ADR_TC2 = 2; // Consumption Float B
+
+//const int EEP_ADR_TTD = 1; // Total Travel distance
+//const int EEP_ADR_TRD = 2; // Trip distance
 const int EEP_ADR_TR2 = 3; // Trip distance
 const int EEP_ADR_TTT = 4; // Total Trip Time
 const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size
-const int EEP_ADR_TC1 = 7; // Gas tank size
-const int EEP_ADR_TC2 = 8; // Travel Consumption
+
 //
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
@@ -69,7 +72,7 @@ public:
      *  Saves travel consumption
      */
     void saveTravelConsumption(float value = 0) {
-        int val[2];
+        uint8_t val[2];
 
         separateFloat(value, val);
 
@@ -81,7 +84,7 @@ public:
         Serial.print("\n\r");
 #endif
 
-        int a, b;
+        uint8_t a, b;
         a = val[0];
         b = val[1];
 
@@ -132,7 +135,7 @@ private:
         Wire.write((theMemoryAddress >> 0) & 0xFF);
         Wire.write((uint8_t) u8Byte);
         Wire.endTransmission();
-        delay(6);
+        delay(10);
     }
 
 

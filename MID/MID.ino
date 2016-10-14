@@ -111,7 +111,7 @@ int showerCounter = 0;
 //
 // Amplitude interval setup
 //      between loops
-TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200); // TODO need tests
+TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -146,6 +146,7 @@ EepRom eepRom;
 //
 // Shutdown constructor
 MidShutdown shutDown(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
+
 //
 //
 static void playWelcomeScreen();
@@ -230,14 +231,17 @@ void loop() {
     // Simulate resistance in radio
     sensStr.sendRadioButtons();
     //
+    // Listener shutdown
+    shutDown.listener();
+    //
     //  Read main buttons
     readButtons(BTN_PIN_UP, BTN_PIN_DW);
     //
     // Handle navigation
     navigateMenu();
     //
-    // Listener [switch to shutdown menu]
-    shutDown.listener(cursorMenu);
+    //  Switch to shutdown menu
+    shutDown.cursor(cursorMenu);
     //
     // Switch menu from cursor
     switch (cursorMenu) {
@@ -252,6 +256,7 @@ void loop() {
             displayEngRPM();
             displayCarKMH();
             displayCarECU();
+            displayCarDST();
             break;
         case 4:
             displayAverage();

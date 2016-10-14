@@ -13,12 +13,15 @@
 class TimeAmp {
 
 private:
-    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0;
-    int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0;
-    int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0;
+    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
+    long int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
+    long int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
+    /**
+     * MAX 1,193,046 Hour	(h)
+     */
     unsigned long loopCounter = 0;
 public:
-    TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig);
+    TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax);
 
     void listener();
 
@@ -32,6 +35,8 @@ public:
 
     bool isBig() { return (boolean) _isBig; }
 
+    bool isMax() { return (boolean) _isMax; }
+
     unsigned long getLoopIndex() { return loopCounter; }
 };
 
@@ -43,13 +48,14 @@ public:
  ***********************************************************************************************/
 
 
-TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig) {
+TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax) {
 
     ampMin = intervalMin;
     ampLow = intervalLow;
     ampSec = intervalSec;
     ampMid = intervalMid;
     ampBig = intervalBig;
+    ampMax = intervalMax;
 
 }
 
@@ -91,6 +97,13 @@ void TimeAmp::listener() {
         _isBig = 1;
     } else {
         _isBig = 0;
+    }
+
+    if (curTime >= curMax + ampMax) {
+        curMax = curTime;
+        _isMax = 1;
+    } else {
+        _isMax = 0;
     }
 
     loopCounter++;

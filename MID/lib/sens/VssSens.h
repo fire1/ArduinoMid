@@ -11,15 +11,18 @@
 // Sensor configs
 const bool VssSensDebug = 0;
 const bool VssSAlarmSpeed = 1;
-const int VssAlarmCitySpeed = 60;
+const int VssAlarmCitySpeed = 63;
 //
 // Correction of VSS
-const float VssCorrection = 3.8; // One mile 1.621371192 [changed from int to float]
+const float VssCorrection = 3.6; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
 const int VssLoopLength = 200;
 //
-// Rpm Container
+// Vehicle Speed sensor Container
 int CUR_VSS = 0;
+//
+// Vehicle Distance sensor Container
+unsigned double CUR_DST = 0;
 //
 // Working vars
 int vssHitsCount = 0;
@@ -49,6 +52,10 @@ int getVssSens() {
     return CUR_VSS;
 }
 
+float getDstSens() {
+    return CUR_DST / 1000;
+}
+
 /**
  * Detect Vss
  */
@@ -62,6 +69,7 @@ void sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / VssCorrection);
+        CUR_DST = CUR_DST + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
         //
         // debug info
         if (VssSensDebug && ampInt.isMid()) {

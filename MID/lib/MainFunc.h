@@ -40,12 +40,12 @@ char displayFloat(float value, char *output) {
 /**
  * Limits display floats
  */
-void separateFloat(float value, int arrOutput[2]) {
+void separateFloat(float value, uint8_t arrOutput[2]) {
 
 //    out1 = 0;
 //    out2 = 0;
-    int dig1 = int(value) * 100; // 210
-    int dig2 = int((value * 100) - dig1);
+    uint8_t dig1 = uint8_t(value) * 100; // 210
+    uint8_t dig2 = uint8_t((value * 100) - dig1);
 
     dig1 = dig1 / 100;
     if (dig2 < 0) {
@@ -65,48 +65,6 @@ float restoreFloat(int a, int b) {
 
     float c = a + bf;
     return c;
-}
-
-//
-// Deprecated
-void setupUseTimer2() {
-
-    /* First disable the timer overflow interrupt while we're configuring */
-    TIMSK2 &= ~(1 << TOIE2);
-
-    /* Configure timer2 in normal mode (pure counting, no PWM etc.) */
-    TCCR2A &= ~((1 << WGM21) | (1 << WGM20));
-    TCCR2B &= ~(1 << WGM22);
-
-    /* Select clock source: internal I/O clock */
-//    ASSR &= ~(1 << AS2);
-
-    /* Disable Compare Match A interrupt enable (only want overflow) */
-    TIMSK2 &= ~(1 << OCIE2A);
-
-    /* Now configure the prescaler to CPU clock divided by 128 */
-    TCCR2B |= (1 << CS22) | (1 << CS20); // Set bits
-    TCCR2B &= ~(1 << CS21);             // Clear bit
-
-    /* We need to calculate a proper value to load the timer counter.
-     * The following loads the value 131 into the Timer 2 counter register
-     * The math behind this is:
-     * (CPU frequency) / (prescaler value) = 125000 Hz = 8us.
-     * (desired period) / 8us = 125.
-     * MAX(uint8) + 1 - 125 = 131;
-     */
-    /* Save value globally for later reload in ISR */
-    //tcnt2 = 131;
-
-    /* Finally load end enable the timer */
-    //TCNT2 = tcnt2;
-    TCNT2 = 0;
-    TIMSK2 |= (1 << TOIE2);
-
-    // set timer 2 prescale factor to 64
-    sbi(TCCR2B, CS22);
-    // configure timer 2 for phase correct pwm (8-bit)
-    sbi(TCCR2A, WGM20);
 }
 
 void setupUseTimer3() {
