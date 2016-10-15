@@ -15,9 +15,8 @@
 #define ARDUINOMID_EepRom_H
 
 #define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
-
 #define DEBUG_EEP_ROM
-
+#define EEP__INJ_SER true
 
 //
 //  Mega2560
@@ -29,8 +28,8 @@ const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
 const int EEP_ADR_TC1 = 1; // Consumption Float A
 const int EEP_ADR_TC2 = 2; // Consumption Float B
 
-//const int EEP_ADR_TTD = 1; // Total Travel distance
-//const int EEP_ADR_TRD = 2; // Trip distance
+const int EEP_ADR_TTD = 8; // Total Travel distance
+const int EEP_ADR_TRD = 7; // Trip distance
 const int EEP_ADR_TR2 = 3; // Trip distance
 const int EEP_ADR_TTT = 4; // Total Trip Time
 const int EEP_ADR_TER = 4; // Time Engine Run
@@ -84,12 +83,8 @@ public:
         Serial.print("\n\r");
 #endif
 
-        uint8_t a, b;
-        a = val[0];
-        b = val[1];
-
-        WireEepRomWriteByte(EEP_ADR_TC1, a);
-        WireEepRomWriteByte(EEP_ADR_TC2, b);
+        WireEepRomWriteByte(EEP_ADR_TC1, val[0]);
+        WireEepRomWriteByte(EEP_ADR_TC2, val[1]);
     }
 
     /**
@@ -139,16 +134,16 @@ private:
     }
 
 
-    uint8_t WireEepRomRead(uint16_t theMemoryAddress) {
+    int WireEepRomRead(uint16_t theMemoryAddress) {
 
-        uint8_t u8retVal = 0;
+        int u8retVal = 0;
         Wire.beginTransmission(EEP_ROM_ADDRESS);
         Wire.write((theMemoryAddress >> 8) & 0xFF);
         Wire.write((theMemoryAddress >> 0) & 0xFF);
         Wire.endTransmission();
         delay(10);
         Wire.requestFrom(EEP_ROM_ADDRESS, 1);
-        u8retVal = Wire.read();
+        if (Wire.available()) u8retVal = Wire.read();
         return u8retVal;
     }
 };
@@ -157,7 +152,11 @@ private:
  * Saves data to EepRom
  */
 void EepRom::saveCurrentData() {
+
+
     TTL_TLH += CUR_TLH;
+
+
     saveTravelConsumption(TTL_TLH);
 }
 

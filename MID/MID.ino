@@ -215,6 +215,37 @@ void setup() {
 
 void loop() {
 
+#if defined(EEP__INJ_SER)
+    if (Serial.available()) {
+        int val = Serial.parseInt();
+
+        if (val != 0) {
+
+            CUR_TLH = val * 0.001;
+
+            Serial.print(" TTL_TLH value is \t ");
+            Serial.println(TTL_TLH);
+            Serial.print("Sum between two is \t");
+            Serial.println(TTL_TLH + CUR_TLH);
+
+            TTL_TLH = TTL_TLH + CUR_TLH;
+
+
+            Serial.print("Saving value \t ");
+            Serial.println(CUR_TLH);
+            eepRom.saveTravelConsumption(TTL_TLH);
+            delay(1000);
+
+
+            TTL_TLH = eepRom.loadTravelConsumption();
+            Serial.print("Restoring value \t ");
+            Serial.println(TTL_TLH);
+
+        }
+
+    }
+#endif
+
     //
     // Amplitude loop init
     ampInt.listener();

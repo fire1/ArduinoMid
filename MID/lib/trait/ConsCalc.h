@@ -58,7 +58,7 @@ float getShortWaveConsumption(float currentLitersPerHour) {
 
     // At 24 * 1000
     // Check long time collection to remove older data
-    if (currentShortWaveDividerHandler >= 24) {
+    if (currentShortWaveDividerHandler >= 24000) {
         currentShortWaveDividerHandler = 0;
         //
         // Lower collected data to be more precise

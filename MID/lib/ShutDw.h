@@ -26,6 +26,7 @@ private :
     int alreadyShutdown = 0;
     bool entryUsbDetected = false;
     bool idShutdownActive = false;
+    int detectorValue = 1000;
     int handlerCursorMenu;
 
     void resolveUsbActive(int _detectorValue, int _detectUsbAct);
@@ -96,7 +97,7 @@ bool MidShutdown::isUsbActive() {
         return true;
     }
 
-    if (detectorValue < 500 && detectUsbAct < 50) {
+    if (detectorValue < 500 && ampInt.getLoopIndex() < 50) {
         entryUsbDetected = true;
         return true;
     }
@@ -127,7 +128,7 @@ void MidShutdown::cursor(int &cursorMenu) {
 void MidShutdown::listener() {
     //
     // Get voltage from pin
-    int detectorValue = analogRead(pinDtct);
+    detectorValue = analogRead(pinDtct);
     //
     // Detect usb
     resolveUsbActive(detectorValue, ampInt.getLoopIndex());

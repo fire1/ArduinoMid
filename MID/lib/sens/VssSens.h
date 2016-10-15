@@ -22,7 +22,7 @@ const int VssLoopLength = 200;
 int CUR_VSS = 0;
 //
 // Vehicle Distance sensor Container
-unsigned double CUR_DST = 0;
+ double CUR_DST = 0;
 //
 // Working vars
 int vssHitsCount = 0;
