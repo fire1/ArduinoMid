@@ -69,6 +69,7 @@ MenuItem menuItem4 = MenuItem("Average", 4);
 // Sub menu for MAIN
 MenuItem menuItemMain1 = MenuItem("Panel", 11);
 MenuItem menuItemMain2 = MenuItem("Test", 12);
+
 static void setupMenu() {
 
     /*
@@ -81,7 +82,6 @@ static void setupMenu() {
      */
 
     menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
-
 
 
     menuItem4.add(menuItem1); // Create Loop menu
@@ -141,10 +141,13 @@ static void menuChanged(MenuChangeEvent changed) {
 
 unsigned long lastButtonPress = 0;
 
+
 /**
  * Lower the code
  */
 void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
+
+    int OUTER_BUTTON_STATE = 0;
 
     lastButtonPushed = LOW;
     unsigned long curTime = millis();
@@ -163,7 +166,13 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         delay(5);
         if (!digitalRead(buttonPinDw) == HIGH) {
             delay(900);
-            if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0) {
+            if (sensStr.getCurrentState() == sensStr.STR_BTN_BCK && !digitalRead(buttonPinDw) == HIGH) {
+                TTL_TLH = 0;
+                return;
+            }
+
+
+            if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0 ) {
                 //
                 // Enter inner level menu
                 isInSubMenu = 1;

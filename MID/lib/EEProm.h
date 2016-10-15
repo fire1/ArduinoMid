@@ -8,6 +8,7 @@
 
 // http://playground.arduino.cc/Main/LibraryForI2CEEPROM
 #include <Wire.h>
+
 #include "MainFunc.h"
 
 
@@ -41,15 +42,14 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
-
-
-
 //
 //
 class EepRom {
 
 public:
-    void setup() { Wire.begin(); };
+    void setup() {
+        Wire.begin();
+    };
 
     void saveFuelTankLevel(unsigned int value = 0) {
         WireEepRomWriteByte(EEP_ADR_FTK, value);
@@ -71,7 +71,7 @@ public:
      *  Saves travel consumption
      */
     void saveTravelConsumption(float value = 0) {
-        uint8_t val[2];
+        int val[2];
 
         separateFloat(value, val);
 
@@ -107,6 +107,7 @@ public:
         return restoreFloat(va1, va2);
     }
 
+
     void saveTripDistance(unsigned int value = 0) {
         WireEepRomWriteByte(EEP_ADR_TRD, value / 4);
     }
@@ -119,9 +120,6 @@ public:
 
     void loadCurrentData();
 
-private:
-    byte noElem = 12;
-    unsigned int baseAddress = 0;
 
     void WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
 
@@ -146,6 +144,13 @@ private:
         if (Wire.available()) u8retVal = Wire.read();
         return u8retVal;
     }
+
+private:
+
+    byte noElem = 12;
+    unsigned int baseAddress = 0;
+
+
 };
 
 /**
@@ -153,9 +158,17 @@ private:
  */
 void EepRom::saveCurrentData() {
 
+    Serial.print("Recording data .... Current is: ");
+    Serial.print(CUR_TLH);
 
-    TTL_TLH += CUR_TLH;
+    Serial.print("Global data is ");
+    Serial.print(TTL_TLH);
+    TTL_TLH = TTL_TLH + TTL_CLH;
 
+
+    Serial.print("Sum math is: ");
+    Serial.print(TTL_TLH);
+    Serial.print("\n\r\n\r\n\r");
 
     saveTravelConsumption(TTL_TLH);
 }

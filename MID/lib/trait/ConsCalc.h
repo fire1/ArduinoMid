@@ -25,9 +25,10 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // 56 litres ÷ 800km = 0.07.
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
-
+float TTL_CLH; // Total Consumption trip
 float TTL_TLH;
 float CUR_LPH;
+
 //
 // Trip consumption
 float CUR_TLH;
@@ -48,17 +49,17 @@ float getUsedFuel() {
  *  Gets consumption short wave
  */
 float currentShortWaveConsumptionContainer = 0;
-int currentShortWaveDividerHandler = 0;
+int long currentShortWaveDividerHandler = 0;
 
 float getShortWaveConsumption(float currentLitersPerHour) {
-
+    consumptionBankDividerHits++;
     //
     // Add litters per hour in shot amplitude
     currentShortWaveConsumptionContainer = currentShortWaveConsumptionContainer + currentLitersPerHour;
 
     // At 24 * 1000
     // Check long time collection to remove older data
-    if (currentShortWaveDividerHandler >= 24000) {
+    if (currentShortWaveDividerHandler > 360000000) {
         currentShortWaveDividerHandler = 0;
         //
         // Lower collected data to be more precise
@@ -72,19 +73,18 @@ float getShortWaveConsumption(float currentLitersPerHour) {
 
     //
     // At lower consumption be more precise
-    if (averageWaveConsumption < 10 && CUR_RPM > 500) {
+    if (/*averageWaveConsumption < 10  && */ CUR_RPM > 500) {
         currentShortWaveConsumptionContainer = averageWaveConsumption;
     }
 
     //
     // Increase thousand loop divider
-    if (ampInt.isMax()) {
+    if (ampInt.isMid()) {
         currentShortWaveDividerHandler++;
     }
 
     //
     // Consumption
-    consumptionBankDividerHits++;
     return currentShortWaveConsumptionContainer;
 }
 
@@ -106,8 +106,7 @@ void sensCon() {
     double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
 
 
-
-    termvalue = CUR_ECU * 0.78125;
+    termvalue = CUR_ECU * /*0.78125*/ 3.78125;
 
     IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
     MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
@@ -120,17 +119,17 @@ void sensCon() {
 
     CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);
     //
-/*    consumptionBankDividerHits++;
+    consumptionBankDividerHits++;
     // Ковертирование литров в час
     consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
     //
     // Trip consumption detection
     if (CUR_RPM > 500) {
         CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
-    }*/
+    }
 
 
-    CUR_TLH = getShortWaveConsumption(CUR_LPH);
+//    CUR_TLH = getShortWaveConsumption(CUR_LPH);
 }
 
 
@@ -147,11 +146,15 @@ float getTripCons() {
     float dist = getConsumptionDistance() / 10;
     float result = (float(dist / CUR_TLH) * 100) / 100;
 
-    if (CUR_TLH <= 0) {
-        return (float) 0;
+
+    if (CUR_TLH < 30) {
+        TTL_CLH = result;
     }
 
-    return result;
+    if (TTL_CLH <= 0) {
+        return (float) 0;
+    }
+    return TTL_CLH;
 }
 
 float getTotalCons() {

@@ -8,7 +8,7 @@
 #endif
 
 #ifndef SHUTDOWN_SAVE_LOOPS
-#define SHUTDOWN_SAVE_LOOPS 1000
+#define SHUTDOWN_SAVE_LOOPS 1200
 #endif
 
 #ifndef ARDUINOMID_SHUTDOWN_H
@@ -166,7 +166,7 @@ void MidShutdown::display() {
         lcd.print("Waiting ");
         //
         // Convert data to human format
-        sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 100) * -1);
+        sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 200) * -1);
 
         lcd.print(sec);
         lcd.print(" sec.  ");
@@ -192,7 +192,7 @@ void MidShutdown::display() {
             lcd.setCursor(1, 0);
             lcd.print(" Data saved :)");
             lcd.setCursor(1, 2);
-            lcd.print(" Bay bay ...");
+            lcd.print(" Bye bye ...");
             //
             // Shutdown the system
             tone(pinTone, 2000, 500);
@@ -209,7 +209,7 @@ void MidShutdown::display() {
     if (indexWait >= SHUTDOWN_SAVE_LOOPS && alreadyShutdown == 0) {
         lcd.clear();
         lcd.setCursor(1, 0);
-        lcd.print("Bay bay ...!");
+        lcd.print("Bye bye ...!");
         tone(pinTone, 800, 500);
         delay(2000);
         analogWrite(pinCtrl, LOW);

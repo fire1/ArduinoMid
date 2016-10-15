@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <OneWire.h>
+#include <I2C_eeprom.h>
 #include <DallasTemperature.h>
 #include <MenuBackend.h>
+
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -119,13 +122,15 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 //
 #include "lib/LcdChar.h"
 //
-// Adding menu source
-#include "lib/MidMenu.h"
-//
 // Adding sensors
 #include "lib/SensInit.h"
-
+//
+// Config class
 StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+//
+// Adding menu source
+#include "lib/MidMenu.h"
+
 
 
 //
@@ -221,25 +226,48 @@ void loop() {
 
         if (val != 0) {
 
-            CUR_TLH = val * 0.001;
+            float value = val * 0.01;
 
-            Serial.print(" TTL_TLH value is \t ");
-            Serial.println(TTL_TLH);
-            Serial.print("Sum between two is \t");
-            Serial.println(TTL_TLH + CUR_TLH);
+            int vl[2];
 
-            TTL_TLH = TTL_TLH + CUR_TLH;
 
+            Serial.print(" Insert value is \t ");
+            Serial.println(vl[0]);
+            Serial.println(",");
+            Serial.println(vl[1]);
+//            Serial.print("Sum between two is \t");
+//            Serial.println(TTL_TLH + CUR_TLH);
+
+            TTL_TLH + TTL_CLH;
+
+            separateFloat(value, vl);
 
             Serial.print("Saving value \t ");
-            Serial.println(CUR_TLH);
-            eepRom.saveTravelConsumption(TTL_TLH);
+            Serial.println(value);
+
+
+            eepRom.WireEepRomWriteByte(1, vl[0]);
+            eepRom.WireEepRomWriteByte(2, vl[1]);
+
             delay(1000);
 
+            int ts1, ts2;
 
-            TTL_TLH = eepRom.loadTravelConsumption();
+            ts1 = eepRom.WireEepRomRead(1);
+            ts2 = eepRom.WireEepRomRead(2);
+
+
+//            TTL_TLH = eepRom.loadTravelConsumption();
             Serial.print("Restoring value \t ");
-            Serial.println(TTL_TLH);
+            Serial.println(ts1);
+            Serial.println(",");
+            Serial.println(ts2);
+
+            float ttl = restoreFloat(int(ts1), int(ts2));
+
+
+
+            Serial.println(ttl);
 
         }
 
