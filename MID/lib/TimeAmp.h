@@ -13,9 +13,13 @@
 class TimeAmp {
 
 private:
+    unsigned long timer;
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
     long int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
     long int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
+    long int _isSecond = 0, _isMinute = 0, _isHour = 0;
+    unsigned long curSecond = 0, curMinute = 0, curHour = 0;
+
     /**
      * MAX 1,193,046 Hour	(h)
      */
@@ -24,6 +28,8 @@ public:
     TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax);
 
     void listener();
+
+    unsigned long getLoopIndex() { return loopCounter; }
 
     bool isLow() { return (boolean) _isLow; }
 
@@ -37,7 +43,17 @@ public:
 
     bool isMax() { return (boolean) _isMax; }
 
-    unsigned long getLoopIndex() { return loopCounter; }
+    /************** Real Time *********************/
+
+    bool isSecond() { return (boolean) _isSecond; }
+
+    bool isMinute() { return (boolean) _isMinute; }
+
+    bool isHour() { return (boolean) _isHour; }
+
+    void setTimer(unsigned long time);
+
+
 };
 
 
@@ -59,52 +75,86 @@ TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int interval
 
 }
 
+/**
+ * Sets external timer
+ */
+void TimeAmp::setTimer(unsigned long time) {
+    timer = time;
+}
+
+/**
+ * Listen cases
+ */
 void TimeAmp::listener() {
 
-    unsigned long curTime = loopCounter;
+    unsigned long curIndex = loopCounter;
 
-    if (curTime >= curMin + ampMin) {
-        curMin = curTime;
+    if (curIndex >= curMin + ampMin) {
+        curMin = curIndex;
         _isMin = 1;
     } else {
         _isMin = 0;
     }
 
-    if (curTime >= curLow + ampLow) {
-        curLow = curTime;
+    if (curIndex >= curLow + ampLow) {
+        curLow = curIndex;
         _isLow = 1;
     } else {
         _isLow = 0;
     }
 
 
-    if (curTime >= curSec + ampSec) {
-        curSec = curTime;
+    if (curIndex >= curSec + ampSec) {
+        curSec = curIndex;
         _isSec = 1;
     } else {
         _isSec = 0;
     }
 
-    if (curTime >= curMid + ampMid) {
-        curMid = curTime;
+    if (curIndex >= curMid + ampMid) {
+        curMid = curIndex;
         _isMid = 1;
     } else {
         _isMid = 0;
     }
 
-    if (curTime >= curBig + ampBig) {
-        curBig = curTime;
+    if (curIndex >= curBig + ampBig) {
+        curBig = curIndex;
         _isBig = 1;
     } else {
         _isBig = 0;
     }
 
-    if (curTime >= curMax + ampMax) {
-        curMax = curTime;
+    if (curIndex >= curMax + ampMax) {
+        curMax = curIndex;
         _isMax = 1;
     } else {
         _isMax = 0;
     }
+
+    /************** Real Time *********************/
+
+    if (timer >= _isSecond + MILLIS_PER_SC) {
+        curSecond = timer;
+        _isSecond = 1;
+    } else {
+        _isSecond = 0;
+    }
+
+    if (timer >= _isMinute + MILLIS_PER_MN) {
+        curMinute = timer;
+        _isMinute = 1;
+    } else {
+        _isMinute = 0;
+    }
+
+    if (timer >= _isHour + MILLIS_PER_HR) {
+        curHour = timer;
+        _isHour = 1;
+    } else {
+        _isHour = 0;
+    }
+
 
     loopCounter++;
 };

@@ -7,6 +7,7 @@
 
 #include <USBAPI.h>
 
+unsigned long testVarVtd = 0;
 //
 // Sensor configs
 const bool VssSensDebug = 0;
@@ -14,7 +15,7 @@ const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 63;
 //
 // Correction of VSS
-const float VssCorrection = 3.6; // One mile 1.621371192 [changed from int to float]
+const float VssCorrection = 3.4; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
 const int VssLoopLength = 200;
 //
@@ -22,7 +23,7 @@ const int VssLoopLength = 200;
 int CUR_VSS = 0;
 //
 // Vehicle Distance sensor Container
- double CUR_DST = 0;
+double CUR_DST = 0;
 //
 // Working vars
 int vssHitsCount = 0;
@@ -70,6 +71,7 @@ void sensVss() {
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / VssCorrection);
         CUR_DST = CUR_DST + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
+        testVarVtd++;
         //
         // debug info
         if (VssSensDebug && ampInt.isMid()) {

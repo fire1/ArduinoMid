@@ -99,14 +99,19 @@ int airTemp = 90;
  */
 void sensCon() {
 
-    double airValue = (CUR_ECU * 16.38375 /* 32.7675*/);// there are two vendor data in single signal
+    /*19.38375*/
+    /* 32.7675 */
+    double airValue = (CUR_ECU * 14.7675);// there are two vendor data in single signal
 
     double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 
     double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
 
 
-    termvalue = CUR_ECU * /*0.78125*/ 3.78125;
+
+    //
+    // min -40 | Max 215 || {formula A-40}
+    termvalue = (analogRead(ENG_CLT_TMP) / 4 - 41) * 0.78125;
 
     IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
     MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
@@ -129,6 +134,12 @@ void sensCon() {
     }
 
 
+    if (ampInt.isHour()) {
+        consumptionBankCalculator = consumptionBankCalculator / 2;
+        consumptionBankDividerHits = consumptionBankDividerHits / 2;
+    }
+
+
 //    CUR_TLH = getShortWaveConsumption(CUR_LPH);
 }
 
@@ -147,7 +158,7 @@ float getTripCons() {
     float result = (float(dist / CUR_TLH) * 100) / 100;
 
 
-    if (CUR_TLH < 30) {
+    if (CUR_TLH < 50) {
         TTL_CLH = result;
     }
 

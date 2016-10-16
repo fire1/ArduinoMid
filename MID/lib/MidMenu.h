@@ -141,6 +141,7 @@ static void menuChanged(MenuChangeEvent changed) {
 
 unsigned long lastButtonPress = 0;
 
+unsigned long entryDownState = 0;
 
 /**
  * Lower the code
@@ -154,8 +155,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
-        delay(5);
-        if (!digitalRead(buttonPinUp) == HIGH) {
+
+        if (ampInt.isLow() && !digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
     }
@@ -163,27 +164,47 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-        delay(5);
-        if (!digitalRead(buttonPinDw) == HIGH) {
-            delay(900);
-            if (sensStr.getCurrentState() == sensStr.STR_BTN_BCK && !digitalRead(buttonPinDw) == HIGH) {
-                TTL_TLH = 0;
-                return;
-            }
+
+//        unsigned long current= millis()
+        if (entryDownState == 0) {
+            entryDownState = millis();
+        }
 
 
-            if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 0 ) {
+        if (entryDownState + 2600 < millis()) {
+            //
+            // If is still high state [pressed]
+            if (!digitalRead(buttonPinDw) == HIGH) {
                 //
-                // Enter inner level menu
-                isInSubMenu = 1;
-                tone(ADT_ALR_PIN, 400, 200);
+                // Reset entry down state
+                entryDownState = 0;
+
+                // [SHORTCUTS]
+                // Steering button is pressed
+                if (sensStr.getCurrentState() == sensStr.STR_BTN_BCK) {
+                    TTL_TLH = 0;
+                    return;
+                }
                 //
-                // Exit inner level menu
-            } else if (!digitalRead(buttonPinDw) == HIGH && isInSubMenu == 1) {
-                isInSubMenu = 0;
-                tone(ADT_ALR_PIN, 1600, 200);
+                // Check for subMenu if not got inner level entry
+                if (isInSubMenu == 0) {
+                    //
+                    // Enter inner level menu
+                    isInSubMenu = 1;
+                    tone(ADT_ALR_PIN, 400, 200);
+                    //
+                    // Exit inner level menu
+                } else if (isInSubMenu == 1) {
+                    isInSubMenu = 0;
+                    tone(ADT_ALR_PIN, 1600, 200);
+                }
             } else {
+                //
+                // Perform button is released action
                 lastButtonPushed = buttonPinDw;
+                //
+                // Reset entry down state
+                entryDownState = 0;
             }
         }
     }
@@ -280,12 +301,12 @@ static void menuUsed(MenuUseEvent used) {
 
     lcd.clear();
     lcd.setCursor(0, 0);
-    //lcd.print("You are in:       ");
-    //lcd.setCursor(0, 1);
+//    //lcd.print("You are in:       ");
+//    //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
-    delay(150);
+    delay(200);
     lcd.print(" Menu");
-    delay(450);  //delay to allow message reading
+    delay(400);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //menu.toRoot();  //back to Main

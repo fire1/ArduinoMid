@@ -120,7 +120,7 @@ void displayCarDST() {
 
     if (ampInt.isMid()) {
 
-        lcd.setCursor(10, 2);
+        lcd.setCursor(9, 2);
         lcd.print("DST:");
         //
         // Handle ECU screen print
@@ -254,5 +254,24 @@ void displayAverage() {
         lcd.print("kmh");
     }
 }
+
+void displayTest() {
+    if (ampInt.isMid()) {
+        lcd.setCursor(0, 0);
+        lcd.print("DST ");
+        lcd.print(testVarVtd / 200);
+
+//        lcd.setCursor(0, 2);
+//        lcd.print(" ");
+//        lcd.print(getAverageRpm());
+//        lcd.print("rpm");
+//
+//        lcd.setCursor(8, 2);
+//        lcd.print(" ");
+//        lcd.print(getAverageVss());
+//        lcd.print("kmh");
+    }
+}
+
 
 #endif //ARDUINOMID_READINNTERTEMP_H

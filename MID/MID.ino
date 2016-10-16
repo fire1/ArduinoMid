@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <OneWire.h>
-#include <I2C_eeprom.h>
 #include <DallasTemperature.h>
 #include <MenuBackend.h>
 
@@ -41,17 +40,18 @@ double AirFuelRatio = 14.70;  // константа расхода 14,7 возд
 // MID plug pins definition over Arduino
 //
 // Define button pins for steering controller
-const int BTN_PIN_UP = 8;
-const int BTN_PIN_DW = 9;
+const uint8_t BTN_PIN_UP = 8;
+const uint8_t BTN_PIN_DW = 9;
 //
 // Shutdown protection pin
-const int SAV_PIN_CTR = A6; //
-const int SAV_PIN_DTC = A7; //
+const uint8_t SAV_PIN_CTR = A6; //
+const uint8_t SAV_PIN_DTC = A7; //
 //
 // Engine pins
-const int RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
-const int SPD_SNS_PIN = 3;  // MID12 Speed sensor hub [attachInterrupt]
-const int ECU_SGN_PIN = 19; // ECU signal
+const uint8_t ENG_CLT_TMP = A5;  //  Engine Temp. MID32 RPM [attachInterrupt]
+const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
+const uint8_t SPD_SNS_PIN = 3;  // MID12 Speed sensor hub [attachInterrupt]
+const uint8_t ECU_SGN_PIN = 19; // ECU signal
 //
 // Display dim pins
 const int DIM_PIN_VAL = A10; // MID7 input Dim of display
@@ -124,6 +124,7 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 //
 // Adding sensors
 #include "lib/SensInit.h"
+
 //
 // Config class
 StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -183,6 +184,7 @@ void setup() {
     setupRpmSens(RPM_SNS_PIN); // Engine RPM
     setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
     setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU  
+    pinMode(ENG_CLT_TMP, INPUT);
 
     setupTemperature();
 
@@ -266,7 +268,6 @@ void loop() {
             float ttl = restoreFloat(int(ts1), int(ts2));
 
 
-
             Serial.println(ttl);
 
         }
@@ -274,6 +275,9 @@ void loop() {
     }
 #endif
 
+    //
+    // Set new time every begin
+    ampInt.setTimer(millis());
     //
     // Amplitude loop init
     ampInt.listener();
@@ -316,6 +320,10 @@ void loop() {
             displayCarKMH();
             displayCarECU();
             displayCarDST();
+            break;
+
+        case 12:
+            displayTest();
             break;
         case 4:
             displayAverage();
