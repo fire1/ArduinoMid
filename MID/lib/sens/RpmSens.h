@@ -7,8 +7,8 @@
 
 //
 // Sensor configs
-const bool RpmSensDebug = 0;
-const float RpmCorrection = 32.4;
+//#define RPM_SENS_DEBUG
+const float RpmCorrection = 41.42 /*32.4*/;
 //45
 const int rpmLoopTime = 200;
 //700
@@ -30,17 +30,9 @@ void catchRpmHits() {
 }
 
 
-void setupRpmSens(int pinTarget) {
+void setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), catchRpmHits, FALLING);
-
-
-
-    // set timer 2 prescale factor to 64
-    sbi(TCCR2B, CS22);
-    // configure timer 2 for phase correct pwm (8-bit)
-    sbi(TCCR2A, WGM20);
-
 }
 
 /**
@@ -55,8 +47,9 @@ int getRpmSens() {
  * Detect RPMs
  */
 void sensRpm() {
-    rpmTimerEnds = millis();
-    if (rpmTimerEnds >= (rpmTimerStart + rpmLoopTime)) {
+//    rpmTimerEnds = millis();
+//    if (rpmTimerEnds >= (rpmTimerStart + rpmLoopTime)) {
+    if (ampInt.isSens()) {
         //
         // Handle cycles
         rpmTimerStart = rpmTimerEnds;
@@ -66,14 +59,14 @@ void sensRpm() {
 
         //
         // debug info
-        if (RpmSensDebug) {
-            Serial.print("\n");
-            Serial.print(" RPM count:  \t");
-            Serial.print(rpmHitsCount);
-            Serial.print(" RPM is:  \t");
-            Serial.print(rpmHitsCount * 450);
-            Serial.print("\n");
-        }
+#if defined(RPM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+        Serial.print("\n");
+        Serial.print(" RPM count:  \t");
+        Serial.print(rpmHitsCount);
+        Serial.print(" RPM is:  \t");
+        Serial.print(rpmHitsCount * 450);
+        Serial.print("\n");
+#endif
         //
         // Clear value
         rpmHitsCount = 0;

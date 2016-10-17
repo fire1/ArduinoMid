@@ -59,7 +59,7 @@ float getShortWaveConsumption(float currentLitersPerHour) {
 
     // At 24 * 1000
     // Check long time collection to remove older data
-    if (currentShortWaveDividerHandler > 360000000) {
+    if (currentShortWaveDividerHandler > MILLIS_PER_HR) {
         currentShortWaveDividerHandler = 0;
         //
         // Lower collected data to be more precise
@@ -99,48 +99,54 @@ int airTemp = 90;
  */
 void sensCon() {
 
-    /*19.38375*/
-    /* 32.7675 */
-    double airValue = (CUR_ECU * 14.7675);// there are two vendor data in single signal
+    if (ampInt.isSens()) {
+        /*19.38375*/
+        /* 32.7675 */
+        double airValue = (CUR_ECU * 14.7675);// there are two vendor data in single signal
 
-    double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
+        double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 
-    double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
-
-
-
-    //
-    // min -40 | Max 215 || {formula A-40}
-    termvalue = (analogRead(ENG_CLT_TMP) / 4 - 41) * 0.78125;
-
-    IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
-    MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
-          8.314472;
-
-    FuelFlowGramsPerSecond = double(MAF / AirFuelRatio) * double(100.0 + termvalue) / 100.0;
-
-    // Переводим граммы бензина в литры
-    FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;
-
-    CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);
-    //
-    consumptionBankDividerHits++;
-    // Ковертирование литров в час
-    consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
-    //
-    // Trip consumption detection
-    if (CUR_RPM > 500) {
-        CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
-    }
+        double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
 
 
-    if (ampInt.isHour()) {
-        consumptionBankCalculator = consumptionBankCalculator / 2;
-        consumptionBankDividerHits = consumptionBankDividerHits / 2;
-    }
+        /* proper way to map value
+                 long int engTemperature = map(analogRead(ENG_CLT_TMP), 0, 1023, -40, 215);
+                 termValue = ( engTemperature/ 4 - 41) * 0.78125;
+         */
+
+        //
+        // min -40 | Max 215 || {formula A-40}
+        termvalue = (analogRead(ENG_CLT_TMP) / 4 - 41) * 0.78125;
+
+        IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
+        MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
+              8.314472;
+
+        FuelFlowGramsPerSecond = double(MAF / AirFuelRatio) * double(100.0 + termvalue) / 100.0;
+
+        // Переводим граммы бензина в литры
+        FuelFlowLitersPerSecond = FuelFlowGramsPerSecond / FuelDensityGramsPerLiter;
+
+        CUR_LPH = float(FuelFlowLitersPerSecond * 3600.0);
+        //
+        consumptionBankDividerHits++;
+        // Ковертирование литров в час
+        consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
+        //
+        // Trip consumption detection
+        if (CUR_RPM > 500) {
+            CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
+        }
+
+
+        if (ampInt.isHour()) {
+            consumptionBankCalculator = consumptionBankCalculator / 2;
+            consumptionBankDividerHits = consumptionBankDividerHits / 2;
+        }
 
 
 //    CUR_TLH = getShortWaveConsumption(CUR_LPH);
+    }
 }
 
 

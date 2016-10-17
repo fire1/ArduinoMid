@@ -6,7 +6,7 @@
  *     + This class support SPI communication to digital potentiometer.
  *     + 50k digital potentiometer [MCP41050] is used to simulate
  *          Alphine remote controller.
- *     + 20k pull-up resistor from 5v Supplying voltage is used to
+ *     + 10k pull-up resistor from 5v Supplying voltage is used to
  *          determinate steering wheel button.
  *     + Some of buttons are out of resistant range if used digit pot.
  *
@@ -18,6 +18,9 @@
 
 #include <SPI.h>
 
+
+//#define STR_TYPE_A
+#define STR_TYPE_B
 
 //
 // Creates test with maximum send value
@@ -220,11 +223,12 @@ void StrButtonsSony::sendRadioButtons() {
 
     int currentState = getCurrentState();
 
+#if defined(STR_TYPE_A)
     //
     // Determinate button is pressed
     if (lastStateButton != currentState) {
         digitalWrite(pinOutVoltage, LOW);
-        delayMicroseconds(50);
+        delay(10);
         if (currentState == getCurrentState()) {
             digitalWrite(pinDigitalOut, LOW);
             lastStateButton = currentState;
@@ -234,9 +238,6 @@ void StrButtonsSony::sendRadioButtons() {
             digitalWrite(pinOutVoltage, HIGH);
         }
     }
-    //
-    // Send values to radio
-
 
     //
     //
@@ -248,9 +249,40 @@ void StrButtonsSony::sendRadioButtons() {
 
     }
 
-    if (isButtonPressActive == 1 ) {
+    if (isButtonPressActive == 1) {
         digitalWrite(pinOutVoltage, HIGH);
     }
+#endif
+
+
+#if defined(STR_TYPE_B)
+    //
+    // When is not none state
+    if (currentState != STR_BTN_NON) {
+        //
+        // Open resistance to pot
+        digitalWrite(pinOutVoltage, LOW);
+        digitalWrite(pinDigitalOut, LOW);
+        //
+        // Check is still pressing and need to change state
+        if (ampInt.isLow() && currentState == getCurrentState() && currentState != lastStateButton) {
+            lastStateButton = currentState;
+            _parseButtonState(currentState);
+            digitalWrite(pinDigitalOut, HIGH);
+        } else {
+            //
+            // Close state
+            digitalWrite(pinDigitalOut, HIGH);
+        }
+        //
+        // When button is returned to none
+    } else if (currentState != lastStateButton) {
+        digitalWrite(pinOutVoltage, HIGH);
+        digitalWrite(pinDigitalOut, HIGH);
+        lastStateButton = currentState;
+    }
+
+#endif
 
 }
 

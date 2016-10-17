@@ -10,7 +10,8 @@
 unsigned long testVarVtd = 0;
 //
 // Sensor configs
-const bool VssSensDebug = 0;
+//#define VSS_SENS_DEBUG
+
 const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 63;
 //
@@ -41,7 +42,7 @@ void catchVssHits() {
 /**
   * Setup Vss
  */
-void setupVssSens(int pinTarget) {
+void setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), catchVssHits, FALLING);
 }
@@ -62,8 +63,9 @@ float getDstSens() {
  */
 void sensVss() {
 
-    vssTimerEnds = millis();
-    if (vssTimerEnds >= (vssTimerStart + VssLoopLength)) {
+//    vssTimerEnds = millis();
+//    if (vssTimerEnds >= (vssTimerStart + VssLoopLength)) {
+    if (ampInt.isSens()) {
         //
         // Handle cycles
         vssTimerStart = vssTimerEnds;
@@ -72,16 +74,16 @@ void sensVss() {
         CUR_VSS = int(vssHitsCount / VssCorrection);
         CUR_DST = CUR_DST + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
         testVarVtd++;
-        //
-        // debug info
-        if (VssSensDebug && ampInt.isMid()) {
-            Serial.print("\n");
-            Serial.print(" vss count:  \t");
-            Serial.print(vssHitsCount);
-            Serial.print(" vss is:  \t");
-            Serial.print(vssHitsCount * VssCorrection);
-            Serial.print("\n");
-        }
+//
+// debug info
+#if defined(VSS_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+        Serial.print("\n");
+        Serial.print(" vss count:  \t");
+        Serial.print(vssHitsCount);
+        Serial.print(" vss is:  \t");
+        Serial.print(vssHitsCount * VssCorrection);
+        Serial.print("\n");
+#endif
 
         //
         // Reset pulse counter

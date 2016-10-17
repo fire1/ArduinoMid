@@ -7,7 +7,7 @@
 
 //
 // Sensor configs
-const bool EcuSensDebug = 0;
+//#define ECU_SENS_DEBUG
 const float EcuCorrection = 1.8;
 //
 // Rpm Container
@@ -32,7 +32,7 @@ void catchEcuHits() {
 /**
   * Setup Ecu
  */
-void setupEcuSens(int pinTarget) {
+void setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), catchEcuHits, FALLING);
 }
@@ -49,24 +49,25 @@ int getEcuSens() {
  */
 void sensEcu() {
 
-    ecuTimerEnds = millis();
-    if (ecuTimerEnds >= (ecuTimerStart + 150)) {
+//    ecuTimerEnds = millis();
+//    if (ecuTimerEnds >= (ecuTimerStart + 150)) {
+    if (ampInt.isSens()) {
         //
         // Handle cycles
         ecuTimerStart = ecuTimerEnds;
         //
         // Pass ecu to global
         CUR_ECU = int(ecuHitsCount * EcuCorrection);
-        //
-        // debug info
-        if (EcuSensDebug) {
-            Serial.print("\n");
-            Serial.print(" ecu count:  \t");
-            Serial.print(ecuHitsCount);
-            Serial.print(" ecu is:  \t");
-            Serial.print(ecuHitsCount * 1.6);
-            Serial.print("\n");
-        }
+//
+// debug info
+#if defined(ECU_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+        Serial.print("\n");
+        Serial.print(" ecu count:  \t");
+        Serial.print(ecuHitsCount);
+        Serial.print(" ecu is:  \t");
+        Serial.print(ecuHitsCount * 1.6);
+        Serial.print("\n");
+#endif
 
         ecuHitsCount = 0;
     }

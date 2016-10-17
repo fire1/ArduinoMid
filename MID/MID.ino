@@ -20,6 +20,9 @@
 */
 
 //
+// Uncommented to debug basics
+//#define GLOBAL_SENS_DEBUG
+//
 // Time information
 #define MILLIS_PER_HR    3600000 // Hour
 #define MILLIS_PER_MN    60000    // Minute
@@ -32,9 +35,8 @@ const int CON_ENG_CL = 4; // Cylinders
 const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
 const double AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
 const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
-//double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
-double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
-double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
+const double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
+const double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
 
 //
 // MID plug pins definition over Arduino
@@ -54,21 +56,21 @@ const uint8_t SPD_SNS_PIN = 3;  // MID12 Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19; // ECU signal
 //
 // Display dim pins
-const int DIM_PIN_VAL = A10; // MID7 input Dim of display
-const int DIM_PIN_OUT = 46; // output dim of display
+const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of display
+const uint8_t DIM_PIN_OUT = 46; // output dim of display
 //
 // Temperatures
-const int TMP_PIN_OUT = A9;
+const uint8_t TMP_PIN_OUT = A9;
 
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
-const int ADT_ALR_PIN = 11;
+const uint8_t ADT_ALR_PIN = 11;
 //
 // Alpine / Steering Wheel buttons
-const int ALP_PIN_INP = A8;
-const int ALP_PIN_OUT = 53;
-const int ALP_PIN_VOL = 14;
+const uint8_t ALP_PIN_INP = A8;
+const uint8_t ALP_PIN_OUT = 53;
+const uint8_t ALP_PIN_VOL = 14;
 
 
 
@@ -177,13 +179,10 @@ void setup() {
     //
     eepRom.setup();
     //
-    //
-
-    //
     // Engine sensors pin mode input
     setupRpmSens(RPM_SNS_PIN); // Engine RPM
     setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
-    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU  
+    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
     pinMode(ENG_CLT_TMP, INPUT);
 
     setupTemperature();
@@ -239,8 +238,6 @@ void loop() {
             Serial.println(vl[1]);
 //            Serial.print("Sum between two is \t");
 //            Serial.println(TTL_TLH + CUR_TLH);
-
-            TTL_TLH + TTL_CLH;
 
             separateFloat(value, vl);
 

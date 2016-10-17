@@ -83,13 +83,13 @@ void sensTmp() {
 
         //      255 max reading
         //      4.34 is voltage passes temperature sensor
-        float cofVolt = 3.8;
+        float cofVolt = /*3.8*/ 4 ;
 
         // not correct
         /// new type  id: (147 / 2.666666 - 76) *1
-        //
+        // min -40	max 215	°C	 {formula A-40}
         // separate reading
-        temperatureC = ((reading / cofVolt) - (255 / cofVolt)) * -1;
+        temperatureC = ((reading / cofVolt) - (256 / cofVolt)) * -1;
         //
         //
         temperatureC = temperatureC - 2;

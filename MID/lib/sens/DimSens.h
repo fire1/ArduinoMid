@@ -21,7 +21,7 @@ static void sensDim(void);
 /**
  * Setup pins of display dim
  */
-void setupBackLight(int pinInputInstrumentValue, int pinOutputDisplayContrast) {
+void setupBackLight(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast) {
     pinMode(pinInputInstrumentValue, INPUT);
     pinMode(pinOutputDisplayContrast, OUTPUT);
 
