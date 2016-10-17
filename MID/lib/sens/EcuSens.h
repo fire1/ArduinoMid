@@ -65,7 +65,7 @@ void sensEcu() {
         Serial.print(" ecu count:  \t");
         Serial.print(ecuHitsCount);
         Serial.print(" ecu is:  \t");
-        Serial.print(ecuHitsCount * 1.6);
+        Serial.print(ecuHitsCount * EcuCorrection);
         Serial.print("\n");
 #endif
 

@@ -64,7 +64,7 @@ void sensRpm() {
         Serial.print(" RPM count:  \t");
         Serial.print(rpmHitsCount);
         Serial.print(" RPM is:  \t");
-        Serial.print(rpmHitsCount * 450);
+        Serial.print(rpmHitsCount * RpmCorrection);
         Serial.print("\n");
 #endif
         //
