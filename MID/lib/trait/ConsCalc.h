@@ -104,6 +104,8 @@ void sensCon() {
         /* 32.7675 */
 
 
+        //
+        // Need test with CUR_ECU * X = ~655.35
         double airValue = (CUR_ECU * /*14.7675*/  22.15125);// there are two vendor data in single signal
 
         double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
