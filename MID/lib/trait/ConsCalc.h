@@ -143,7 +143,7 @@ void sensCon() {
         }
 
 
-        if (ampInt.isHour()) {
+        if (ampInt.isMin()) {
             consumptionBankCalculator = consumptionBankCalculator / 2;
             consumptionBankDividerHits = consumptionBankDividerHits / 2;
         }
