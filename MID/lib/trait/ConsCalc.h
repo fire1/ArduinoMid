@@ -148,15 +148,15 @@ void sensCon() {
         //
         // Count minutes
         if (ampInt.isMinute()) {
-            countForFiveMinutes++;
+            consumptionBankCalculator = consumptionBankCalculator / 2;
+            consumptionBankDividerHits = consumptionBankDividerHits / 2;
+            tone(ADT_ALR_PIN, 1000, 100);
         }
 
         //
         // count five minutes and lower the average
         if (countForFiveMinutes >= 5) {
-            consumptionBankCalculator = consumptionBankCalculator / 2;
-            consumptionBankDividerHits = consumptionBankDividerHits / 2;
-            tone(ADT_ALR_PIN, 1000, 100);
+
             //
             // Five minutes back to zero
             countForFiveMinutes = 0;
@@ -181,9 +181,9 @@ float getTripCons() {
     float dist = getDstSens();
     float time = getTravelTime();
 
-    double  estimateTravelDistance = dist * time;
+    double estimateTravelDistance = dist * time;
 
-    float result = (estimateTravelDistance / CUR_TLH);
+    float result = (estimateTravelDistance / CUR_TLH) / MILLIS_PER_MN;
 
 
     if (CUR_TLH < 50) {
