@@ -106,7 +106,7 @@ void sensCon() {
 
         //
         // Need test with CUR_ECU * X = ~655.35
-        double airValue = (CUR_ECU * /*14.7675*/  29.535);// there are two vendor data in single signal
+        double airValue = (CUR_ECU * /*14.7675*/  44.3025);// there are two vendor data in single signal
 
         double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 
@@ -143,7 +143,7 @@ void sensCon() {
         }
 
 
-        if (ampInt.isMin()) {
+        if (ampInt.isHour()) {
             consumptionBankCalculator = consumptionBankCalculator / 2;
             consumptionBankDividerHits = consumptionBankDividerHits / 2;
         }
