@@ -39,6 +39,7 @@ void sensorsInit() {
     sensEcu();
     //
     // Sens Extra
+    sensDst();
     sensTmp();
     sensCon();
     sensAvr();

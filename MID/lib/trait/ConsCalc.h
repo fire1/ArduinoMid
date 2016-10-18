@@ -94,6 +94,9 @@ int ls_term_val;
 byte fss_val = 0;
 int airTemp = 90;
 
+
+int countForFiveMinutes = 0;
+
 /**
  * gets Instant consumption
  */
@@ -142,10 +145,21 @@ void sensCon() {
             CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
         }
 
+        //
+        // Count minutes
+        if (ampInt.isMinute()) {
+            countForFiveMinutes++;
+        }
 
-        if (ampInt.isMin()) {
+        //
+        // count five minutes and lower the average
+        if (countForFiveMinutes >= 5) {
             consumptionBankCalculator = consumptionBankCalculator / 2;
             consumptionBankDividerHits = consumptionBankDividerHits / 2;
+            tone(ADT_ALR_PIN, 1000, 100);
+            //
+            // Five minutes back to zero
+            countForFiveMinutes = 0;
         }
 
 
@@ -164,8 +178,12 @@ float getInstCons() {
 float getTripCons() {
 
 
-    float dist = getConsumptionDistance() / 10;
-    float result = (float(dist / CUR_TLH) * 100) / 100;
+    float dist = getDstSens();
+    float time = getTravelTime();
+
+    double  estimateTravelDistance = dist * time;
+
+    float result = (estimateTravelDistance / CUR_TLH);
 
 
     if (CUR_TLH < 50) {

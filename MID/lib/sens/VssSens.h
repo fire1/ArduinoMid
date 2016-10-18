@@ -24,7 +24,7 @@ const int VssLoopLength = 200;
 int CUR_VSS = 0;
 //
 // Vehicle Distance sensor Container
-double CUR_DST = 0;
+int long CUR_VSD = 0;
 //
 // Working vars
 int vssHitsCount = 0;
@@ -54,8 +54,8 @@ int getVssSens() {
     return CUR_VSS;
 }
 
-float getDstSens() {
-    return CUR_DST / 1000;
+int long getDstSens() {
+    return CUR_VSD /* real value is divided 1000, be more precise */;
 }
 
 /**
@@ -72,8 +72,8 @@ void sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / VssCorrection);
-        CUR_DST = CUR_DST + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
-        testVarVtd++;
+//        CUR_VSD = CUR_VSD + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
+        CUR_VSD++;
 //
 // debug info
 #if defined(VSS_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
