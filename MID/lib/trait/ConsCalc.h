@@ -181,10 +181,9 @@ float getTripCons() {
     float dist = getDstSens();
     float time = getTravelTime();
 
-    double estimateTravelDistance = (dist * time) / 10000;
+    double ratioTravel = (dist * time) / 10000;
 
-    float result = (estimateTravelDistance / CUR_TLH);
-
+    float result = (ratioTravel / CUR_TLH);
 
     if (CUR_TLH < 50) {
         TTL_CLH = result;
