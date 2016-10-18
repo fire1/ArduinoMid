@@ -170,9 +170,9 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         if (entryDownState == 0) {
             entryDownState = millis();
         }
-
-
-        if (entryDownState + 2600 < millis()) {
+        //
+        // Hold
+        if (entryDownState + 2600 < millis() && !digitalRead(buttonPinDw) == HIGH) {
             //
             // If is still high state [pressed]
             if (!digitalRead(buttonPinDw) == HIGH) {
@@ -208,6 +208,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 entryDownState = 0;
             }
         }
+    } else {
+        entryDownState = 0;
     }
 }
 
@@ -220,14 +222,11 @@ void navigateMenu() {
 
     if (isMainNavigationStatus == 0) {
         MenuItem currentMenu = menu.getCurrent();
-//        Serial.print("Last button:");
-//        Serial.print(lastButtonPushed);
-//        Serial.print("Is sub menu:");
-//        Serial.print(isInSubMenu);
-//        Serial.print("\n");
 
         switch (lastButtonPushed) {
-            case BTN_PIN_UP :
+            //
+            // UP button
+            case BTN_PIN_UP:
                 if (isInSubMenu == 0) {
                     menu.moveDown();
                     menu.use();
@@ -235,8 +234,10 @@ void navigateMenu() {
                     menu.moveRight();
                     menu.use();
                 }
-
                 break;
+
+                //
+                // Down button
             case BTN_PIN_DW:
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
 
@@ -250,8 +251,6 @@ void navigateMenu() {
                     menu.moveBack();
                     menu.use();
 #endif
-
-
                 } else if (isInSubMenu == 0) {
                     menu.moveUp();
                     menu.use();
@@ -308,20 +307,19 @@ void printNavMenuD() {
 }
 
 static void menuUsed(MenuUseEvent used) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(used.item.getName());
+    delay(300);
+    lcd.print(" Menu");
+    delay(300);  //delay to allow message reading
+    lcd.setCursor(0, 0);
+    lcd.clear();
     //
     // fixes value peek
     // reset base global vars
     CUR_VSS = 0;
     CUR_RPM = 0;
     CUR_ECU = 0;
-
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(used.item.getName());
-    delay(300);
-    lcd.print(" Menu");
-    delay(400);  //delay to allow message reading
-    lcd.setCursor(0, 0);
-    lcd.clear();
 }
 
