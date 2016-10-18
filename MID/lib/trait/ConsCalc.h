@@ -102,7 +102,9 @@ void sensCon() {
     if (ampInt.isSens()) {
         /*19.38375*/
         /* 32.7675 */
-        double airValue = (CUR_ECU * 14.7675);// there are two vendor data in single signal
+
+
+        double airValue = (CUR_ECU * /*14.7675*/  22.15125);// there are two vendor data in single signal
 
         double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 

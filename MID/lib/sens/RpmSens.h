@@ -8,7 +8,7 @@
 //
 // Sensor configs
 //#define RPM_SENS_DEBUG
-const float RpmCorrection = 41.42 /*32.4*/;
+const float RpmCorrection = 32.8 /*32.4*/;
 //45
 const int rpmLoopTime = 200;
 //700

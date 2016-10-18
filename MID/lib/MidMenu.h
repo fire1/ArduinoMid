@@ -238,6 +238,7 @@ void navigateMenu() {
                 break;
             case BTN_PIN_DW:
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
+                    menu.getRoot();
                     menu.moveBack();
                     menu.getRoot();
                     menu.moveBack();

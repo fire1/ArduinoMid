@@ -19,8 +19,8 @@
 #include <SPI.h>
 
 
-//#define STR_TYPE_A
-#define STR_TYPE_B
+#define STR_TYPE_A
+//#define STR_TYPE_B
 
 //
 // Creates test with maximum send value
