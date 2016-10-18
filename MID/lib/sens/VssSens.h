@@ -16,7 +16,7 @@ const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 63;
 //
 // Correction of VSS
-const float VssCorrection = 3.4; // One mile 1.621371192 [changed from int to float]
+const float VssCorrection = 3.357; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
 const int VssLoopLength = 200;
 //
@@ -72,8 +72,9 @@ void sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / VssCorrection);
+        CUR_VSD = vssHitsCount;
 //        CUR_VSD = CUR_VSD + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
-        CUR_VSD++;
+
 //
 // debug info
 #if defined(VSS_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
@@ -88,6 +89,11 @@ void sensVss() {
         //
         // Reset pulse counter
         vssHitsCount = 0;
+    }
+
+    if (ampInt.isBig()) {
+        Serial.print("Counted VSD is: ");
+        Serial.println(CUR_VSD);
     }
 
     //
