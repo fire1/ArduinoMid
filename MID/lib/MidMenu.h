@@ -10,6 +10,7 @@
 // And good example can be found here:
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
+//#define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
 
 static void menuUsed(MenuUseEvent used);
 
@@ -238,11 +239,19 @@ void navigateMenu() {
                 break;
             case BTN_PIN_DW:
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
+
+#if defined(MENUb_TO_ROOT)
+                    menu.toRoot();
+                    menu.use();
+#else
                     menu.getRoot();
                     menu.moveBack();
                     menu.getRoot();
                     menu.moveBack();
                     menu.use();
+#endif
+
+
                 } else if (isInSubMenu == 0) {
                     menu.moveUp();
                     menu.use();
@@ -299,17 +308,20 @@ void printNavMenuD() {
 }
 
 static void menuUsed(MenuUseEvent used) {
+    //
+    // fixes value peek
+    // reset base global vars
+    CUR_VSS = 0;
+    CUR_RPM = 0;
+    CUR_ECU = 0;
 
     lcd.clear();
     lcd.setCursor(0, 0);
-//    //lcd.print("You are in:       ");
-//    //lcd.setCursor(0, 1);
     lcd.print(used.item.getName());
-    delay(200);
+    delay(300);
     lcd.print(" Menu");
     delay(400);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
-    //menu.toRoot();  //back to Main
 }
 

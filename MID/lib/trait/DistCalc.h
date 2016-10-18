@@ -83,10 +83,12 @@ int getTravelTime(int long currentTimeTrip) {
         currentTimeTrip = currentTimeTrip * -1;
     }
 
-
+    //
+    // Time detector bay removing last record
     timeTravelTrip = timeTravelTrip + (currentTimeTrip - lastRecordTravelTimeTrip);
 
-
+    //
+    //
     lastRecordTravelTimeTrip = currentTimeTrip;
     vehicleStopped = LOW;
 
@@ -98,6 +100,26 @@ int maxCountsDistance = 1000;
 unsigned long collectionDistance = 0;
 
 /**
+ * Sens travel time and distance
+ */
+void sensDst() {
+
+    if (ampInt.isSens()) {
+        int long vssDistanceDetector = getDstSens();
+        CUR_VTD = (vssDistanceDetector / MILLIS_SENS) / 1.3333;
+    }
+    //
+    // Detect time
+    if (CUR_VSS < 1) {
+        vehicleStopped = HIGH;
+    }
+    //
+    // Total Travel time  (with stops...)
+    CUR_VTT = getTravelTime(millis());
+}
+
+
+/** @deprecated
  * Gets travel distance in meters
  */
 void detectDistance() {

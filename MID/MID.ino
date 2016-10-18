@@ -27,6 +27,7 @@
 #define MILLIS_PER_HR    3600000 // Hour
 #define MILLIS_PER_MN    60000    // Minute
 #define MILLIS_PER_SC    1000    // Second
+#define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
 //
 //
 bool THROTTLE_UP = false; // Is open throttle  (acceleration)
@@ -283,7 +284,7 @@ void loop() {
     sensorsInit();
     //
     //
-    detectDistance();
+//    detectDistance();
     //
     // Reads buttons from steering
     sensStr.listenButtons();
