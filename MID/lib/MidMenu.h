@@ -10,7 +10,9 @@
 // And good example can be found here:
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
-//#define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
+
+#define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
+
 
 static void menuUsed(MenuUseEvent used);
 
@@ -83,12 +85,14 @@ static void setupMenu() {
      */
 
     menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
-
-
     menuItem4.add(menuItem1); // Create Loop menu
 
+    //
+    // Main menu layers
     menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
     menuItemMain2.addRight(menuItemMain1); // loop
+    menuItemMain1.add(menuItem1);
+    menuItemMain2.add(menuItem1);
     //
     // Move cursor to menu
     menu.moveDown();
@@ -172,7 +176,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         }
         //
         // Hold
-        if (entryDownState + 2600 < millis() && !digitalRead(buttonPinDw) == HIGH) {
+        if (entryDownState + 1600 < millis() && !digitalRead(buttonPinDw) == HIGH) {
             //
             // If is still high state [pressed]
             if (!digitalRead(buttonPinDw) == HIGH) {
@@ -192,12 +196,12 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                     //
                     // Enter inner level menu
                     isInSubMenu = 1;
-                    tone(ADT_ALR_PIN, 400, 200);
+                    tone(ADT_ALR_PIN, 400, 100);
                     //
                     // Exit inner level menu
                 } else if (isInSubMenu == 1) {
                     isInSubMenu = 0;
-                    tone(ADT_ALR_PIN, 1600, 200);
+                    tone(ADT_ALR_PIN, 1600, 100);
                 }
             } else {
                 //
@@ -242,7 +246,8 @@ void navigateMenu() {
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
 
 #if defined(MENUb_TO_ROOT)
-                    menu.toRoot();
+//                    menu.getRoot();
+                    menu.moveBack();
                     menu.use();
 #else
                     menu.getRoot();
