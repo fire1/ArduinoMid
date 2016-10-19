@@ -141,7 +141,7 @@ void displayCarECU() {
         lcd.print("ECU:");
         //
         // Handle ECU screen print
-        sprintf(ecuDisplay, "%02d",engSens.getEcuSens());
+        sprintf(ecuDisplay, "%02d", engSens.getEcuSens());
         lcd.print(ecuDisplay);
     }
 
@@ -165,7 +165,6 @@ void displayDistance() {
     char dspTime[5];
     sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
-
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
@@ -179,7 +178,7 @@ void displayDistance() {
         // Display travel distance
 
         char dspDist[4];
-        displayFloat(getTravelDistance(), dspDist);
+        displayFloat(engSens.getDstSens(), dspDist);
 
         lcd.print(" ");
         lcd.setCursor(9, 2);

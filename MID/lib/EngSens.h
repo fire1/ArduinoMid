@@ -94,8 +94,14 @@ public:
         return CUR_ECU;
     }
 
-    int long getDstSens() {
-        return CUR_VDS /* real value is divided 1000, be more precise */;
+    float getDstSens() {
+
+        float km = (CUR_VDS / 16.09344) / 1000;
+
+        if (km <= 0) {
+            km = 0;
+        }
+        return km;
     }
 
     void listener() {
