@@ -13,15 +13,18 @@ int maxReachedSpeed = 0;
 int long averageDivider = 0;
 
 void sensAvr(void) {
-    averageAllVssValues += CUR_VSS;
-    if (CUR_RPM > 0) {
-        averageAllRpmValues += CUR_RPM;
+    int vss = engSens.getVssSens();
+    int rpm = engSens.getRpmSens();
+
+    averageAllVssValues += vss;
+    if (rpm > 0) {
+        averageAllRpmValues += rpm;
     }
     averageDivider += 1;
     //
     //  Resolve maximum speed reached
-    if (maxReachedSpeed < CUR_VSS)
-        maxReachedSpeed = CUR_VSS;
+    if (maxReachedSpeed < vss)
+        maxReachedSpeed = vss;
 }
 
 /**

@@ -14,6 +14,9 @@
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [old: 32.8]
 #define ECU_CORRECTION 1.8
 
+#define VSD_SENS_DEBUG;
+
+
 static  void EngSens_catchRpmHits();
 static  void EngSens_catchVssHits();
 static  void EngSens_catchEcuHits();
