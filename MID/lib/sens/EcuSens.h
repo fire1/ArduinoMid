@@ -10,9 +10,6 @@
 //#define ECU_SENS_DEBUG
 const float EcuCorrection = 1.8;
 //
-// Rpm Container
-int CUR_ECU = 0;
-//
 // Working vars
 int ecuHitsCount = 0;
 int long ecuTimerStart = 0, ecuTimerEnds = 0;

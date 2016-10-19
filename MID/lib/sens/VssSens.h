@@ -16,15 +16,11 @@ const bool VssSAlarmSpeed = 1;
 const int VssAlarmCitySpeed = 63;
 //
 // Correction of VSS
-const float VssCorrection = 3.357; // One mile 1.621371192 [changed from int to float]
+//
+// 3.357 - two high
+const float VssCorrection = 3.2; // One mile 1.621371192 [changed from int to float]
 //const double VssCorrection = 1.621371192; // One mile 1.621371192
 const int VssLoopLength = 200;
-//
-// Vehicle Speed sensor Container
-int CUR_VSS = 0;
-//
-// Vehicle Distance sensor Container
-int long CUR_VSD = 0;
 //
 // Working vars
 int vssHitsCount = 0;
@@ -55,7 +51,7 @@ int getVssSens() {
 }
 
 int long getDstSens() {
-    return CUR_VSD /* real value is divided 1000, be more precise */;
+    return CUR_VDS /* real value is divided 1000, be more precise */;
 }
 
 /**
@@ -72,8 +68,8 @@ void sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / VssCorrection);
-        CUR_VSD = vssHitsCount;
-//        CUR_VSD = CUR_VSD + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
+        CUR_VDS = vssHitsCount + CUR_VDS;
+//        CUR_VDS = CUR_VDS + ((CUR_VSS / MILLIS_PER_HR) * VssLoopLength);
 
 //
 // debug info
@@ -93,7 +89,7 @@ void sensVss() {
 
     if (ampInt.isBig()) {
         Serial.print("Counted VSD is: ");
-        Serial.println(CUR_VSD);
+        Serial.println(CUR_VDS);
     }
 
     //

@@ -72,8 +72,22 @@ const uint8_t ALP_PIN_INP = A8;
 const uint8_t ALP_PIN_OUT = 53;
 const uint8_t ALP_PIN_VOL = 14;
 
-
-
+/*********************** Global Vars ***********************/
+//
+// volatile Rpm Container
+volatile int CUR_RPM = 0;
+//
+// volatile Vehicle Speed Sense
+volatile int CUR_VSS = 0;
+//
+// volatile Rpm Container
+volatile int CUR_ECU = 0;
+//
+// volatile Vehicle Distance Sense
+volatile int CUR_VDS = 0;
+//
+//  volatile Vehicle time travel
+volatile float CUR_VTT = 0;
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -84,9 +98,6 @@ const uint8_t ALP_PIN_VOL = 14;
 
 //
 // Includes Libraries
-
-#include <LiquidCrystal.h>
-
 //#include <SPI.h>
 
 
@@ -95,6 +106,8 @@ const uint8_t ALP_PIN_VOL = 14;
 /* Todo
 #include <Wire.h>
 */
+
+#include <LiquidCrystal.h>
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)

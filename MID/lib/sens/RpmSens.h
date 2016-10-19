@@ -11,11 +11,6 @@
 const float RpmCorrection = 32.8 /*32.4*/;
 //45
 const int rpmLoopTime = 200;
-//700
-//
-// Rpm Container
-int CUR_RPM = 0;
-
 //
 // Working vars
 int rpmHitsCount = 0;

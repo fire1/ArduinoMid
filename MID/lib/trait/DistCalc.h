@@ -31,7 +31,7 @@ double long travelingTimeForDistance = 0;
 
 float CUR_VTD = 0; // Travel distance
 float CUR_TDT = 0; //travel time
-float CUR_VTT = 0;
+//float CUR_VTT = 0;
 
 int vehicleStopped = LOW;
 
