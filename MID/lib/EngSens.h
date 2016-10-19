@@ -10,16 +10,18 @@
 #define VSS_ALARM_CITY_SPEED  61 // km
 //
 // Sensor correctors
-#define VSS_CORRECTION 3.1767 // 3.2
+#define VSS_CORRECTION 3.6 // 3.2
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [old: 32.8]
 #define ECU_CORRECTION 1.8
 
 #define VSD_SENS_DEBUG;
 
 
-static  void EngSens_catchRpmHits();
-static  void EngSens_catchVssHits();
-static  void EngSens_catchEcuHits();
+static void EngSens_catchRpmHits();
+
+static void EngSens_catchVssHits();
+
+static void EngSens_catchEcuHits();
 
 //
 // Hint counters
@@ -31,7 +33,8 @@ private:
     int
     //
     // Human Results
-            CUR_VSS, CUR_VDS, CUR_RPM, CUR_ECU;
+            CUR_VSS, CUR_RPM, CUR_ECU;
+    long int CUR_VDS;
 protected:
 
     /**
@@ -67,7 +70,6 @@ protected:
 
 
 public:
-
 
 
     void setup(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu) {
@@ -181,7 +183,7 @@ void EngSens::sensRpm() {
     if (ampInt.isSens()) {
         //
         // Pass rpm to global
-        CUR_RPM = int( rpmHitsCount * RPM_CORRECTION);
+        CUR_RPM = int(rpmHitsCount * RPM_CORRECTION);
 
 //
 // debug info
