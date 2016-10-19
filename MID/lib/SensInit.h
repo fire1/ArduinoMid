@@ -8,13 +8,13 @@
 
 //
 // Read Tachometer
-#include "sens/RpmSens.h"
+//#include "sens/RpmSens.h"
 //
 // Read SpeedHub
-#include "sens/VssSens.h"
+//#include "sens/VssSens.h"
 //
 //
-#include "sens/EcuSens.h"
+//#include "sens/EcuSens.h"
 //
 // Screen back-light sensor
 #include "sens/DimSens.h"
@@ -34,9 +34,9 @@ void sensorsInit() {
     cli();
     //
     // Sense Basic car sensors ;)
-    sensRpm();
-    sensVss();
-    sensEcu();
+//    sensRpm();
+//    sensVss();
+//    sensEcu();
     //
     // Sens Extra
     sensDst();

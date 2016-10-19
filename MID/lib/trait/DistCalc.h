@@ -104,13 +104,14 @@ unsigned long collectionDistance = 0;
  */
 void sensDst() {
 
+    int vss = engSens.getVssSens();
     if (ampInt.isSens()) {
-        int long vssDistanceDetector = getDstSens();
+        int long vssDistanceDetector = engSens.getDstSens();
         CUR_VTD = (vssDistanceDetector / MILLIS_SENS) / 1.3333;
     }
     //
     // Detect time
-    if (CUR_VSS < 1) {
+    if (vss < 1) {
         vehicleStopped = HIGH;
     }
     //

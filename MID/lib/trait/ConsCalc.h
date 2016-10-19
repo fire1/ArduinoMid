@@ -5,7 +5,6 @@
 #ifndef ARDUINOMID_CONSUMPTION_H
 #define ARDUINOMID_CONSUMPTION_H
 
-
 const int ConsumptionCalibrationReadingsFuel = 10;
 const int ConsumptionCalibrationReadingsDistance = 9;
 
@@ -106,14 +105,16 @@ void sensCon() {
         /*19.38375*/
         /* 32.7675 */
 
+        int rpm = engSens.getRpmSens();
+        int ecu = engSens.getEcuSens();
 
         //
         // Need test with CUR_ECU * X = ~655.35
-        double airValue = (CUR_ECU * /*14.7675*/  44.3025);// there are two vendor data in single signal
+        double airValue = (ecu * /*14.7675*/  44.3025);// there are two vendor data in single signal
 
         double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
 
-        double VolumetricEfficiency = getVolumetricEfficiency(CUR_RPM);
+        double VolumetricEfficiency = getVolumetricEfficiency(rpm);
 
 
         /* proper way to map value
@@ -125,7 +126,7 @@ void sensCon() {
         // min -40 | Max 215 || {formula A-40}
         termvalue = (analogRead(ENG_CLT_TMP) / 4 - 41) * 0.78125;
 
-        IMAP = double(CUR_RPM * airValue) / double(airTemp + 273.15);
+        IMAP = double(rpm * airValue) / double(airTemp + 273.15);
         MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
               8.314472;
 
@@ -141,7 +142,7 @@ void sensCon() {
         consumptionBankCalculator = consumptionBankCalculator + CUR_LPH;
         //
         // Trip consumption detection
-        if (CUR_RPM > 500) {
+        if (rpm > 500) {
             CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
         }
 
@@ -178,7 +179,7 @@ float getInstCons() {
 float getTripCons() {
 
 
-    float dist = getDstSens();
+    float dist = engSens.getDstSens();
     float time = getTravelTime();
 
     double ratioTravel = (dist * time) / 10000;

@@ -137,6 +137,12 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 //
 #include "lib/LcdChar.h"
 //
+// Engine sensors
+#include "lib/EngSens.h"
+
+EngSens engSens;
+
+//
 // Adding sensors
 #include "lib/SensInit.h"
 
@@ -146,9 +152,6 @@ StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
 //
 // Adding menu source
 #include "lib/MidMenu.h"
-
-
-
 //
 //
 #include "lib/EepRom.h"
@@ -193,9 +196,12 @@ void setup() {
     eepRom.setup();
     //
     // Engine sensors pin mode input
-    setupRpmSens(RPM_SNS_PIN); // Engine RPM
-    setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
-    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
+//    setupRpmSens(RPM_SNS_PIN); // Engine RPM
+//    setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
+//    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
+
+    engSens.setup(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN);
+
     pinMode(ENG_CLT_TMP, INPUT);
 
     setupTemperature();
@@ -291,6 +297,9 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
+
+
+    engSens.listener();
     //
     // Sensors
     sensorsInit();
