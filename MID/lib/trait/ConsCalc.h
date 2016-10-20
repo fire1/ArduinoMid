@@ -119,7 +119,7 @@ void sensCon() {
 
 
         /* proper way to map value
-                 long int engTemperature = map(analogRead(ENG_CLT_TMP), 0, 1023, -40, 215);
+                 long int engTemperature = map(analogRead(ENG_CLT_PIN), 0, 1023, -40, 215);
                  termValue = ( engTemperature/ 4 - 41) * 0.78125;
          */
 

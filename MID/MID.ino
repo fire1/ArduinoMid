@@ -50,10 +50,10 @@ const uint8_t SAV_PIN_CTR = A6; //
 const uint8_t SAV_PIN_DTC = A7; //
 //
 // Engine pins
-const uint8_t ENG_CLT_TMP = A5;  //  Engine Temp. MID32 RPM [attachInterrupt]
+const uint8_t ENG_CLT_PIN = A5; // Engine Temp. MID32 RPM [attachInterrupt]
 const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;  // MID12 Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19; // ECU signal
+const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
+const uint8_t ECU_SGN_PIN = 19; //  ECU signal
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of display
@@ -73,18 +73,6 @@ const uint8_t ALP_PIN_OUT = 53;
 const uint8_t ALP_PIN_VOL = 14;
 
 /*********************** Global Vars ***********************/
-//
-// volatile Rpm Container
-volatile int CUR_RPM = 0;
-//
-// volatile Vehicle Speed Sense
-volatile int CUR_VSS = 0;
-//
-// volatile Rpm Container
-volatile int CUR_ECU = 0;
-//
-// volatile Vehicle Distance Sense
-volatile int CUR_VDS = 0;
 //
 //  volatile Vehicle time travel
 volatile float CUR_VTT = 0;
@@ -125,7 +113,6 @@ int showerCounter = 0;
 //
 //
 #include "lib/TimeAmp.h"
-
 //
 // Amplitude interval setup
 //      between loops
@@ -138,9 +125,9 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 #include "lib/LcdChar.h"
 //
 // Engine sensors
-#include "lib/EngSens.h"
+#include "lib/sens/CarSens.h"
 
-EngSens engSens;
+CarSens carSens;
 
 //
 // Adding sensors
@@ -196,16 +183,9 @@ void setup() {
     eepRom.setup();
     //
     // Engine sensors pin mode input
-//    setupRpmSens(RPM_SNS_PIN); // Engine RPM
-//    setupVssSens(SPD_SNS_PIN);    // Vehicle Speed Sensor
-//    setupEcuSens(ECU_SGN_PIN); // Signal from engine ECU
-
-    engSens.setup(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN);
-
-    pinMode(ENG_CLT_TMP, INPUT);
+    carSens.setup(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
 
     setupTemperature();
-
     //
     // Display back-light handler
     setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
@@ -297,15 +277,12 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
-
-
-    engSens.listener();
+    //
+    // Listen engine
+    carSens.listener();
     //
     // Sensors
     sensorsInit();
-    //
-    //
-//    detectDistance();
     //
     // Reads buttons from steering
     sensStr.listenButtons();
