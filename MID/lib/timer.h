@@ -75,7 +75,7 @@ public:
 //
 //// Usage
 //
-//void setup () {
+//void setupEngine () {
 //    Timer::setup_timer();
 //
 //    long s1 = Timer::get_stamp();

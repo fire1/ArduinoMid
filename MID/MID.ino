@@ -113,8 +113,9 @@ int showerCounter = 0;
 //
 //
 #include "lib/TimeAmp.h"
+
 //
-// Amplitude interval setup
+// Amplitude interval setupEngine
 //      between loops
 TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
 //
@@ -125,7 +126,7 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 #include "lib/LcdChar.h"
 //
 // Engine sensors
-#include "lib/sens/CarSens.h"
+#include "lib/CarSens.h"
 
 CarSens carSens;
 
@@ -167,7 +168,7 @@ static void playWelcomeScreen();
 // Setup the code...
 void setup() {
     //
-    // Shutdown setup
+    // Shutdown setupEngine
     shutDown.setup();
     //
     // Turn display off
@@ -182,8 +183,11 @@ void setup() {
     //
     eepRom.setup();
     //
+    //
+//    carSens.setTimeAmp(ampInt);
+    //
     // Engine sensors pin mode input
-    carSens.setup(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
+    carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
 
     setupTemperature();
     //
@@ -194,7 +198,7 @@ void setup() {
     lcd.begin(16, 2);
     lcd.clear();
     //
-    // main setup
+    // main setupEngine
     setupMain();
     //
     // Adding custom characters to LCD

@@ -27,7 +27,7 @@ void setupBackLight(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayCon
 
     analogWrite(pinOutputDisplayContrast, backLightDefault);
     //
-    // Sens dim level at setup
+    // Sens dim level at setupEngine
     sensDim();
 
 }

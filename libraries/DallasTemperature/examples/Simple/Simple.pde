@@ -12,7 +12,7 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 /*
- * The setup function. We only start the sensors here
+ * The setupEngine function. We only start the sensors here
  */
 void setup(void)
 {

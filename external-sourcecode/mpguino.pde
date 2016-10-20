@@ -1356,7 +1356,7 @@ void delayMicroseconds2 (unsigned int us)
 
 void init2 ()
 {
-  // this needs to be called before setup() or some functions won't
+  // this needs to be called before setupEngine() or some functions won't
   // work there
   sei ();
 

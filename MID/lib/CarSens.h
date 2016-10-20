@@ -2,6 +2,7 @@
 // Created by Angel Zaprianov on 19.10.2016 г..
 //
 #include <Arduino.h>
+#include "TimeAmp.h"
 
 #ifndef ARDUINOMID_ENGSENS_H
 #define ARDUINOMID_ENGSENS_H
@@ -32,6 +33,11 @@ volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
 
 class CarSens {
 private:
+    //
+    //
+    // Take a pointer to time amplitude instance
+//    TimeAmp _amp;
+
     //
     // Speeding alarm modes
     boolean ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 0, ENABLE_SPEED_HW = 0;
@@ -103,11 +109,17 @@ protected:
 
 public:
 
+    /**
+     * Clear peak
+     */
     void clearBaseData() {
         CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
     }
 
-    void setup(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
+    /**
+     * Setup engine
+     */
+    void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
         setupRpmSens(pinRpm);
         setupVssSens(pinVss);
         setupEcuSens(pinEcu);
@@ -117,6 +129,16 @@ public:
         pinTemp = pinTmp;
     }
 
+    /**
+     * Sets time amplitudes
+     */
+//    void setTimeAmp(TimeAmp timeAmplitudes) {
+//        _amp = timeAmplitudes;
+//    }
+
+    /**
+     * Gets engine temperature
+     */
     int getTmp() {
         return (analogRead(pinTemp) / 4 - 41);
     }

@@ -113,7 +113,7 @@ byte brightnessIdx = 1;
 
 /* PID stuff */
 
-unsigned long pid01to20_support;  // this one always initialized at setup()
+unsigned long pid01to20_support;  // this one always initialized at setupEngine()
 unsigned long pid21to40_support = 0;
 unsigned long pid41to60_support = 0;
 #define PID_SUPPORT00 0x00
