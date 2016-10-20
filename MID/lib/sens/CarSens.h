@@ -8,12 +8,15 @@
 //
 // City Speed alarm
 #define VSS_ALARM_CITY_SPEED  61 // km
+#define VSS_ALARM_VWAY_SPEED  101 // km
+#define VSS_ALARM_HWAY_SPEED  141 // km
+#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // Sensor correctors
-#define VSS_CORRECTION 3.6 // 3.2
-#define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [old: 32.8]
+#define VSS_CORRECTION 3.673788 // original value is 3.609344 my tires are smaller so + 0.064444
+#define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 #define ECU_CORRECTION 1.8
-
+#define TRS_CORRECTION 0.064444 // a proximity  6,4(~6.5)%
 #define VSD_SENS_DEBUG;
 
 
@@ -27,14 +30,43 @@ static void EngSens_catchEcuHits();
 // Hint counters
 volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
 
-class EngSens {
+class CarSens {
 private:
+    //
+    // Speeding alarm modes
+    boolean ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 0, ENABLE_SPEED_HW = 0;
+    //
+    // Engine temperature pin
+    uint8_t pinTemp;
 
     int
     //
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU;
-    long int CUR_VDS;
+    unsigned long int CUR_VDS;
+
+    /**
+     * Handles speeding alarms
+     */
+    void speedingAlarms() {
+#if defined(VSS_ALARM_ENABLED)
+        //
+        // Alarm speeding at city
+        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && ENABLE_SPEED_CT) {
+            tone(ADT_ALR_PIN, 4000, 500);
+        }
+
+        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && ENABLE_SPEED_VW) {
+            tone(ADT_ALR_PIN, 4000, 500);
+        }
+
+        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && ENABLE_SPEED_HW) {
+            tone(ADT_ALR_PIN, 4000, 500);
+        }
+#endif
+    }
+
+
 protected:
 
     /**
@@ -71,32 +103,51 @@ protected:
 
 public:
 
+    void clearBaseData() {
+        CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
+    }
 
-    void setup(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu) {
+    void setup(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
         setupRpmSens(pinRpm);
         setupVssSens(pinVss);
         setupEcuSens(pinEcu);
+        //
+        // Engine temperature
+        pinMode(pinTmp, INPUT);
+        pinTemp = pinTmp;
+    }
 
+    int getTmp() {
+        return (analogRead(pinTemp) / 4 - 41);
     }
 
     /**
      * Gets current Vss
      */
-    int getVssSens() {
+    int getVss() {
         return CUR_VSS;
     }
 
-    int getRpmSens() {
+    /**
+     * Gets current Rpm
+     */
+    int getRpm() {
         return CUR_RPM;
     }
 
-    int getEcuSens() {
+    /**
+     * Gets current Ecu
+     */
+    int getEcu() {
         return CUR_ECU;
     }
 
-    float getDstSens() {
-
-        float km = (CUR_VDS / 16.09344) / 1000;
+    /**
+     *  Gets current Distance
+     */
+    float getDst() {
+        /* my tires are smaller then original ... so my number must be lower, original must be / 16093.44 // one mile */
+        float km = CUR_VDS / (16093.44 - TRS_CORRECTION);
 
         if (km <= 0) {
             km = 0;
@@ -104,6 +155,9 @@ public:
         return km;
     }
 
+    /**
+     *  Listen sensors
+     */
     void listener() {
         //
         // No Interrupts
@@ -135,13 +189,13 @@ void EngSens_catchEcuHits() {
 /*******************************************************************
  * Detect Vss
  */
-void EngSens::sensVss() {
+void CarSens::sensVss() {
 
     if (ampInt.isSens()) {
 
         //
         // Pass vss to global
-        CUR_VSS = int(vssHitsCount / VSS_CORRECTION);
+        CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
         CUR_VDS = vssHitsCount + CUR_VDS;
 
 //
@@ -154,14 +208,15 @@ void EngSens::sensVss() {
         Serial.print(vssHitsCount * VssCorrection);
         Serial.print("\n");
 #endif
-
-
-
         //
         // Reset pulse counter
         vssHitsCount = 0;
     }
-
+    //
+    // Alarms
+    speedingAlarms();
+    //
+    // Distance
 #if defined(VSD_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (ampInt.isBig()) {
         Serial.print("Counted VSD is: ");
@@ -169,22 +224,13 @@ void EngSens::sensVss() {
     }
 #endif
 
-
-
-    //
-    // Alarm speeding at city
-    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED) {
-        tone(ADT_ALR_PIN, 4000, 500);
-    }
-
-
 }
 
 
 /*******************************************************************
  * Detect RPMs
  */
-void EngSens::sensRpm() {
+void CarSens::sensRpm() {
 
     if (ampInt.isSens()) {
         //
@@ -210,7 +256,7 @@ void EngSens::sensRpm() {
 /*******************************************************************
 * Detect Ecu
 */
-void EngSens::sensEcu() {
+void CarSens::sensEcu() {
 
     if (ampInt.isSens()) {
         //

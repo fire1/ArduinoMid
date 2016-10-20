@@ -104,11 +104,7 @@ unsigned long collectionDistance = 0;
  */
 void sensDst() {
 
-    int vss = engSens.getVssSens();
-    if (ampInt.isSens()) {
-        int long vssDistanceDetector = engSens.getDstSens();
-        CUR_VTD = (vssDistanceDetector / MILLIS_SENS) / 1.3333;
-    }
+    int vss = carSens.getVss();
     //
     // Detect time
     if (vss < 1) {
@@ -123,6 +119,7 @@ void sensDst() {
 /** @deprecated
  * Gets travel distance in meters
  */
+/*
 void detectDistance() {
 
     float travelDistanceInKM = 0;
@@ -156,13 +153,13 @@ void detectDistance() {
     // Total Travel time  (with stops...)
     CUR_VTT = getTravelTime(millis());
 
-    if (/*isSensorReadLow()*/ ampInt.isLow()) {
+    if ( ampInt.isLow()) {
         //
         // Check is collected enough data for calculation
         if (travelDistanceInKM > 1) {
             //
             // time distance when moving
-            travelDistance = travelDistanceInKM * (CUR_VTT / (3600 /*+ 2390*/));
+            travelDistance = travelDistanceInKM * (CUR_VTT / (3600 ));
             //
             // Total distance time
             travelConsumtion = travelDistanceInKM * (CUR_TDT / 60);
@@ -189,7 +186,7 @@ void detectDistance() {
         Serial.print("\n");
     }
 }
-
+*/
 
 /**
  * Get Distance Kilometers

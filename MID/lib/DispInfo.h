@@ -91,7 +91,7 @@ void displayEngRPM() {
         lcd.print("RPM:");
         //
         // Handle RPM screen print
-        sprintf(rpmDisplay, "%04d", engSens.getRpmSens());
+        sprintf(rpmDisplay, "%04d", carSens.getRpm());
         lcd.print(rpmDisplay);
     }
 
@@ -109,7 +109,7 @@ void displayCarKMH() {
         lcd.print("KMh:");
         //
         // Handle VSS screen print
-        sprintf(vssDisplay, "%03d", engSens.getVssSens());
+        sprintf(vssDisplay, "%03d", carSens.getVss());
         lcd.print(vssDisplay);
     }
 }
@@ -124,7 +124,7 @@ void displayCarDST() {
         lcd.print("D:");
         //
         // Handle Dst screen print
-        displayFloat(engSens.getDstSens(), tmpDisplay);
+        displayFloat(carSens.getDst(), tmpDisplay);
         lcd.print(tmpDisplay);
     }
 }
@@ -141,7 +141,7 @@ void displayCarECU() {
         lcd.print("ECU:");
         //
         // Handle ECU screen print
-        sprintf(ecuDisplay, "%02d", engSens.getEcuSens());
+        sprintf(ecuDisplay, "%02d", carSens.getEcu());
         lcd.print(ecuDisplay);
     }
 
@@ -178,7 +178,7 @@ void displayDistance() {
         // Display travel distance
 
         char dspDist[4];
-        displayFloat(engSens.getDstSens(), dspDist);
+        displayFloat(carSens.getDst(), dspDist);
 
         lcd.print(" ");
         lcd.setCursor(9, 2);
@@ -258,7 +258,7 @@ void displayTest() {
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("DST ");
-        lcd.print(engSens.getDstSens() / 200);
+        lcd.print(carSens.getDst() / 200);
 
 //        lcd.setCursor(0, 2);
 //        lcd.print(" ");

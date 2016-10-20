@@ -72,7 +72,7 @@ float getShortWaveConsumption(float currentLitersPerHour) {
 
     //
     // At lower consumption be more precise
-    if (/*averageWaveConsumption < 10  && */ CUR_RPM > 500) {
+    if (/*averageWaveConsumption < 10  && */ carSens.getRpm() > 500) {
         currentShortWaveConsumptionContainer = averageWaveConsumption;
     }
 
@@ -101,12 +101,13 @@ int countForFiveMinutes = 0;
  */
 void sensCon() {
 
+    int rpm = carSens.getRpm();
+    int ecu = carSens.getEcu();
+
     if (ampInt.isSens()) {
         /*19.38375*/
         /* 32.7675 */
 
-        int rpm = engSens.getRpmSens();
-        int ecu = engSens.getEcuSens();
 
         //
         // Need test with CUR_ECU * X = ~655.35
@@ -124,7 +125,8 @@ void sensCon() {
 
         //
         // min -40 | Max 215 || {formula A-40}
-        termvalue = (analogRead(ENG_CLT_TMP) / 4 - 41) * 0.78125;
+        termvalue = carSens.getTmp() * 0.78125;
+
 
         IMAP = double(rpm * airValue) / double(airTemp + 273.15);
         MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
@@ -179,7 +181,7 @@ float getInstCons() {
 float getTripCons() {
 
 
-    float dist = engSens.getDstSens();
+    float dist = carSens.getDst();
     float time = getTravelTime();
 
     double ratioTravel = (dist * time) / 10000;

@@ -323,8 +323,6 @@ static void menuUsed(MenuUseEvent used) {
     //
     // fixes value peek
     // reset base global vars
-    CUR_VSS = 0;
-    CUR_RPM = 0;
-    CUR_ECU = 0;
+    carSens.clearBaseData();
 }
 

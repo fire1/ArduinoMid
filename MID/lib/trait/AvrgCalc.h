@@ -13,8 +13,8 @@ int maxReachedSpeed = 0;
 int long averageDivider = 0;
 
 void sensAvr(void) {
-    int vss = engSens.getVssSens();
-    int rpm = engSens.getRpmSens();
+    int vss = carSens.getVss();
+    int rpm = carSens.getRpm();
 
     averageAllVssValues += vss;
     if (rpm > 0) {
