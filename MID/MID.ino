@@ -233,8 +233,6 @@ void loop() {
             float value = val * 0.01;
 
             int vl[2];
-
-
             Serial.print(" Insert value is \t ");
             Serial.println(vl[0]);
             Serial.println(",");

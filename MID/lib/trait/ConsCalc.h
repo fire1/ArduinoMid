@@ -101,22 +101,24 @@ int countForFiveMinutes = 0;
  */
 void sensCon() {
 
+    //
+    // THis consumption is ony luring ...
+    //  ECU signal is single wire can ... I'm waiting for chip to make this work
     int rpm = carSens.getRpm();
     int ecu = carSens.getEcu();
+
+    //
+    // Need test with CUR_ECU * X = ~655.35
+    // 44.3025
+    double airValue = (ecu * 14.7675);// there are two vendor data in single signal
+
+    double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
+
+    double VolumetricEfficiency = getVolumetricEfficiency(rpm);
 
     if (ampInt.isSens()) {
         /*19.38375*/
         /* 32.7675 */
-
-
-        //
-        // Need test with CUR_ECU * X = ~655.35
-        double airValue = (ecu * /*14.7675*/  44.3025);// there are two vendor data in single signal
-
-        double IMAP, MAF, FuelFlowGramsPerSecond, FuelFlowLitersPerSecond, termvalue;
-
-        double VolumetricEfficiency = getVolumetricEfficiency(rpm);
-
 
         /* proper way to map value
                  long int engTemperature = map(analogRead(ENG_CLT_PIN), 0, 1023, -40, 215);
@@ -147,7 +149,6 @@ void sensCon() {
         if (rpm > 500) {
             CUR_TLH = consumptionBankCalculator / consumptionBankDividerHits;
         }
-
         //
         // Count minutes
         if (ampInt.isMinute()) {
@@ -155,7 +156,6 @@ void sensCon() {
             consumptionBankDividerHits = consumptionBankDividerHits / 2;
             tone(ADT_ALR_PIN, 1000, 100);
         }
-
         //
         // count five minutes and lower the average
         if (countForFiveMinutes >= 5) {
