@@ -39,6 +39,10 @@ private:
     int lastStateButton = 0;
     int closeStateButton = 0;
 
+    //
+    // Used for shortcuts ...
+    boolean isDisabled = 0;
+
     void _setDigitalPot(int resistance);
 
     void _setCurrentState(int currentButton);
@@ -57,6 +61,7 @@ public:
     static constexpr int STR_BTN_BCK = 5;
     static constexpr int STR_BTN_ATT = 6;
 
+
     /**
      *  Constrictor of StrButtonsSony class
      */
@@ -74,6 +79,14 @@ public:
     void sendRadioButtons();
 
     int getCurrentState();
+
+    void disable() {
+        isDisabled = 1;
+    }
+
+    void enable() {
+        isDisabled = 0;
+    }
 };
 
 /***********************************************************************************************
@@ -228,6 +241,11 @@ void StrButtonsSony::listenButtons() {
 void StrButtonsSony::sendRadioButtons() {
 
     int currentState = getCurrentState();
+
+
+    if (isDisabled) {
+        return;
+    }
 
 #if defined(STR_TYPE_A)
     //

@@ -8,16 +8,18 @@
 #define ARDUINOMID_ENGSENS_H
 //
 // City Speed alarm
-#define VSS_ALARM_CITY_SPEED  61 // km
+#define VSS_ALARM_CITY_SPEED  62 // km
 #define VSS_ALARM_VWAY_SPEED  101 // km
 #define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // Sensor correctors
-#define VSS_CORRECTION 3.673788 // original value is 3.609344 my tires are smaller so + 0.064444
-#define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 #define ECU_CORRECTION 1.8
-#define TRS_CORRECTION 0.064444 // a proximity  6,4(~6.5)%
+#define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
+#define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
+#define DST_CORRECTION 15436.62671159184 // 16093.44
+#define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
+
 //#define VSD_SENS_DEBUG;
 
 
@@ -38,9 +40,8 @@ private:
     // Take a pointer to time amplitude instance
 //    TimeAmp _amp;
 
-    //
-    // Speeding alarm modes
-    boolean ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 0, ENABLE_SPEED_HW = 0;
+    int speedAlarmCursor = 1;
+
     //
     // Engine temperature pin
     uint8_t pinTemp;
@@ -54,23 +55,7 @@ private:
     /**
      * Handles speeding alarms
      */
-    void speedingAlarms() {
-#if defined(VSS_ALARM_ENABLED)
-        //
-        // Alarm speeding at city
-        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && ENABLE_SPEED_CT) {
-            tone(ADT_ALR_PIN, 4000, 500);
-        }
-
-        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && ENABLE_SPEED_VW) {
-            tone(ADT_ALR_PIN, 4000, 500);
-        }
-
-        if (ampInt.isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && ENABLE_SPEED_HW) {
-            tone(ADT_ALR_PIN, 4000, 500);
-        }
-#endif
-    }
+    void speedingAlarms();
 
 
 protected:
@@ -108,6 +93,13 @@ protected:
 
 
 public:
+    //
+    // Speeding alarm modes
+    const int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
+
+    void speedingAlarmsUp();
+
+    void speedingAlarmsDw();
 
     /**
      * Clear peak
@@ -170,7 +162,7 @@ public:
      */
     float getDst() {
         /* my tires are smaller then original ... so my number must be lower, original must be / 16093.44 // one mile */
-        float km = CUR_VDS / (16093.44 + TRS_CORRECTION);
+        float km = CUR_VDS / (DST_CORRECTION + TRS_CORRECTION);
 
         if (km <= 0) {
             km = 0;
@@ -307,5 +299,48 @@ void CarSens::sensEcu() {
 
 }
 
+/*******************************************************************
+* Speed Alarms
+*/
+void CarSens::speedingAlarms() {
+#if defined(VSS_ALARM_ENABLED)
+    //
+    // Alarm speeding at city
+
+    if (speedAlarmCursor < DISABLE_SPEED_AL) {
+        speedAlarmCursor = ENABLE_SPEED_HW;
+    }
+
+    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
+        tone(ADT_ALR_PIN, 4000, 500);
+    }
+
+    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
+        tone(ADT_ALR_PIN, 4000, 500);
+    }
+
+    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
+        tone(ADT_ALR_PIN, 4000, 500);
+    }
+
+    if (speedAlarmCursor > ENABLE_SPEED_HW) {
+        speedAlarmCursor = DISABLE_SPEED_AL;
+    }
+
+
+#endif
+}
+/**
+ * Alarm cursor changer UP
+ */
+void CarSens::speedingAlarmsUp() {
+    speedAlarmCursor++;
+}
+/**
+ * Alarm cursor changer Down
+ */
+void CarSens::speedingAlarmsDw() {
+    speedAlarmCursor--;
+}
 
 #endif //ARDUINOMID_ENGSENS_H
