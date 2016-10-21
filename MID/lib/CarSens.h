@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include "TimeAmp.h"
 
+#define MID_CAR_SENS_VERSION 0.1
+
 #ifndef ARDUINOMID_ENGSENS_H
 #define ARDUINOMID_ENGSENS_H
 //
@@ -23,6 +25,8 @@
 //#define VSD_SENS_DEBUG;
 
 
+//
+// Using Arduino API for Attach interrupt
 static void EngSens_catchRpmHits();
 
 static void EngSens_catchVssHits();
@@ -33,13 +37,15 @@ static void EngSens_catchEcuHits();
 // Hint counters
 unsigned volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
 
+
 class CarSens {
-private:
-    //
+
     //
     // Take a pointer to time amplitude instance
-//    TimeAmp _amp;
+    TimeAmp *_amp;
 
+private:
+    //
     int speedAlarmCursor = 1;
 
     //
@@ -93,6 +99,9 @@ protected:
 
 
 public:
+
+    CarSens(TimeAmp *ampInt);
+
     //
     // Speeding alarm modes
     const int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
@@ -120,13 +129,6 @@ public:
         pinMode(pinTmp, INPUT);
         pinTemp = pinTmp;
     }
-
-    /**
-     * Sets time amplitudes
-     */
-//    void setTimeAmp(TimeAmp timeAmplitudes) {
-//        _amp = timeAmplitudes;
-//    }
 
     /**
      * Gets engine temperature
@@ -184,6 +186,10 @@ public:
         // Interrupts
         sei();
 
+        //
+        // I don't know way but this is a fix ... ?
+        // Only like this way base vars are initialized every single loop
+        //
         if (ampInt.isSens()) {
             int foo1 = getEcu();
             int foo2 = getRpm();
@@ -192,6 +198,15 @@ public:
     }
 
 };
+
+/***********************************************************************************************
+ *                                                                                             *
+ *                                   CPP part of file                                          *
+ *                                                                                             *
+ ***********************************************************************************************/
+CarSens::CarSens(TimeAmp *ampInt) {
+    _amp = ampInt;
+}
 
 
 void EngSens_catchVssHits() {
@@ -330,12 +345,14 @@ void CarSens::speedingAlarms() {
 
 #endif
 }
+
 /**
  * Alarm cursor changer UP
  */
 void CarSens::speedingAlarmsUp() {
     speedAlarmCursor++;
 }
+
 /**
  * Alarm cursor changer Down
  */

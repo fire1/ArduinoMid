@@ -128,8 +128,7 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 // Engine sensors
 #include "lib/CarSens.h"
 
-CarSens carSens;
-
+CarSens carSens(&ampInt);
 //
 // Adding sensors
 #include "lib/SensInit.h"
@@ -182,9 +181,6 @@ void setup() {
     //
     //
     eepRom.setup();
-    //
-    //
-//    carSens.setTimeAmp(ampInt);
     //
     // Engine sensors pin mode input
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
