@@ -18,7 +18,7 @@
 
 #include <SPI.h>
 
-
+//#define STR_DEBUG
 #define STR_TYPE_A
 //#define STR_TYPE_B
 
@@ -174,6 +174,12 @@ void StrButtonsSony::listenButtons() {
     }
 #endif
 
+#if defined(STR_DEBUG)
+    if (ampInt.isBig()) {
+        Serial.print("Steering button: ");
+        Serial.println(readingSteeringButton);
+    }
+#endif
     //
     // Default value  for sony when Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {

@@ -18,7 +18,7 @@
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 #define ECU_CORRECTION 1.8
 #define TRS_CORRECTION 0.064444 // a proximity  6,4(~6.5)%
-#define VSD_SENS_DEBUG;
+//#define VSD_SENS_DEBUG;
 
 
 static void EngSens_catchRpmHits();
@@ -29,7 +29,7 @@ static void EngSens_catchEcuHits();
 
 //
 // Hint counters
-volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
+unsigned volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
 
 class CarSens {
 private:
@@ -164,12 +164,13 @@ public:
         return CUR_ECU;
     }
 
+
     /**
      *  Gets current Distance
      */
     float getDst() {
         /* my tires are smaller then original ... so my number must be lower, original must be / 16093.44 // one mile */
-        float km = CUR_VDS / (16093.44 - TRS_CORRECTION);
+        float km = CUR_VDS / (16093.44 + TRS_CORRECTION);
 
         if (km <= 0) {
             km = 0;
@@ -190,6 +191,12 @@ public:
         //
         // Interrupts
         sei();
+
+        if (ampInt.isSens()) {
+            int foo1 = getEcu();
+            int foo2 = getRpm();
+            int foo3 = getVss();
+        }
     }
 
 };
