@@ -16,6 +16,8 @@
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
 
+
+
 #include <SPI.h>
 
 //#define STR_DEBUG
@@ -25,6 +27,11 @@
 //
 // Creates test with maximum send value
 #define ADR_DIG_POD B10001
+// pull up Resistance 10k - After test is not good ...
+//#define STR_READ_RESIST_A
+//
+// pull up Resistance ~ 220 ohm
+#define STR_READ_RESIST_B
 //
 // Uncomment to send resistance values from terminal
 //#define STR_INJ_SRL true
@@ -71,6 +78,8 @@ public:
         pinOutVoltage = pinVoltage;
 
     }
+
+    int getAnalogReadButtons();
 
     void setup();
 
@@ -166,7 +175,7 @@ void StrButtonsSony::_setDigitalPot(int resistanceValue) {
 */
 void StrButtonsSony::listenButtons() {
 
-    int readingSteeringButton = analogRead(pinSteering);
+    int readingSteeringButton = getAnalogReadButtons();
     //
     // Testing method
 
@@ -193,6 +202,9 @@ void StrButtonsSony::listenButtons() {
         Serial.println(readingSteeringButton);
     }
 #endif
+
+
+#if defined(STR_READ_A)
     //
     // Default value  for sony when Steering wheel is not used
     if (readingSteeringButton > 250 && isButtonPressActive == 0) {
@@ -233,6 +245,57 @@ void StrButtonsSony::listenButtons() {
         _setCurrentState(STR_BTN_BCK);
     }
 
+#endif
+
+#if defined(STR_READ_RESIST_B)
+    //
+    // Default value  for sony when Steering wheel is not used
+    if (readingSteeringButton > 900 && readingSteeringButton < 999 && isButtonPressActive == 0) {
+        _setCurrentState(STR_BTN_NON);
+        //
+        // Do not enter in here next loop
+        isButtonPressActive = 1;
+    }
+    //
+    // Volume up
+    if (readingSteeringButton > 400 && readingSteeringButton < 499) {
+        _setCurrentState(STR_BTN_VLU);
+    }
+    //
+    // Volume down
+    if (readingSteeringButton > 200 && readingSteeringButton < 299) {
+        _setCurrentState(STR_BTN_VLD);
+    }
+    //
+    // Zero button
+    if (readingSteeringButton > 500 && readingSteeringButton < 590) {
+        _setCurrentState(STR_BTN_ATT);
+        // TODO long press 155 volume press button
+    }
+    //
+    // Right arrow / seek up
+    if (readingSteeringButton > 600 && readingSteeringButton < 699) {
+        _setCurrentState(STR_BTN_SKU);
+    }
+    //
+    // Left arrow / seek down
+    if (readingSteeringButton > 700 && readingSteeringButton < 799) {
+        _setCurrentState(STR_BTN_SKD);
+    }
+    //
+    // Back button
+    if (readingSteeringButton > 800 && readingSteeringButton < 899) {
+        _setCurrentState(STR_BTN_BCK);
+    }
+
+#endif
+}
+
+/**
+ * Gets reading from steering buttons
+ */
+int StrButtonsSony::getAnalogReadButtons() {
+    return analogRead(pinSteering);
 }
 
 /**

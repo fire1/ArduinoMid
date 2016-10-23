@@ -255,10 +255,16 @@ void displayAverage() {
 }
 
 void displayTest() {
+
+    char display[4];
+
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("DST ");
-        lcd.print(carSens.getDst() / 200);
+
+        sprintf(display, "%04d", sensStr.getAnalogReadButtons());
+
+        lcd.print(display);
 
 //        lcd.setCursor(0, 2);
 //        lcd.print(" ");

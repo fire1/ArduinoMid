@@ -129,13 +129,19 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 #include "lib/CarSens.h"
 
 CarSens carSens(&ampInt);
+
+
 //
-// Adding sensors
-#include "lib/SensInit.h"
+// Adding Alphine emulator
+#include "lib/sens/StrnSens.h"
 
 //
 // Config class
 StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+//
+// Adding sensors
+#include "lib/SensInit.h"
+
 //
 // Adding menu source
 #include "lib/MidMenu.h"

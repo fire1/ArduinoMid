@@ -11,6 +11,7 @@
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
 
+
 #define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
 
 
@@ -186,7 +187,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
                 /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
                 // Steering button is pressed
-                if (sensStr.getCurrentState() == sensStr.STR_BTN_BCK) {
+                if (sensStr.getCurrentState() == sensStr.STR_BTN_ATT) {
                     TTL_TLH = 0;
                     tone(ADT_ALR_PIN, 1000, 50);
                     delay(50);
