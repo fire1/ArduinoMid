@@ -19,7 +19,7 @@
 #define ECU_CORRECTION 1.8
 #define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
-#define DST_CORRECTION 15436.62671159184 // 16093.44
+#define DST_CORRECTION 15436.62671159184 // 16093.44 // next 15121.59351339609
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
 
 //#define VSD_SENS_DEBUG;

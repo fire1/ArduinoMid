@@ -199,10 +199,10 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 // Change Speed alarm Up
                 if (sensStr.getCurrentState() == sensStr.STR_BTN_VLU) {
                     carSens.speedingAlarmsUp();
-                    tone(ADT_ALR_PIN, 1600, 50);
+                    tone(ADT_ALR_PIN, 800, 50);
                     delay(50);
-                    tone(ADT_ALR_PIN, 1800, 50);
-                    delay(50);
+                    tone(ADT_ALR_PIN, 1600, 80);
+                    delay(80);
                     sensStr.enable();
                     return;
                 }
@@ -210,10 +210,10 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 // Change Speed alarm Down
                 if (sensStr.getCurrentState() == sensStr.STR_BTN_VLD) {
                     carSens.speedingAlarmsDw();
-                    tone(ADT_ALR_PIN, 1000, 50);
+                    tone(ADT_ALR_PIN, 1600, 50);
                     delay(50);
-                    tone(ADT_ALR_PIN, 800, 50);
-                    delay(50);
+                    tone(ADT_ALR_PIN, 800, 80);
+                    delay(80);
                     sensStr.enable();
                     return;
                 }
