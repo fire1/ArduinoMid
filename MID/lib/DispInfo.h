@@ -262,7 +262,7 @@ void displayTest() {
         lcd.setCursor(0, 0);
         lcd.print("DST ");
 
-        sprintf(display, "%04d", sensStr.getAnalogReadButtons());
+        sprintf(display, "%04d", whlSens.getAnalogReadButtons());
 
         lcd.print(display);
 

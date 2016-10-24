@@ -37,7 +37,7 @@
 //#define STR_INJ_SRL true
 
 
-class StrButtonsSony {
+class WhlSens {
 
 private:
     bool isButtonPressActive = 0;
@@ -72,7 +72,7 @@ public:
     /**
      *  Constrictor of StrButtonsSony class
      */
-    StrButtonsSony(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
+    WhlSens(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
         pinSteering = pinTargetSteering;
         pinDigitalOut = pinDigitalPod;
         pinOutVoltage = pinVoltage;
@@ -108,21 +108,21 @@ public:
 /**
  * Sets current button press
  */
-void StrButtonsSony::_setCurrentState(int currentButton) {
+void WhlSens::_setCurrentState(int currentButton) {
     currentStateButton = currentButton;
 }
 
 /**
  *  GEts current pressed button
  */
-int StrButtonsSony::getCurrentState() {
+int WhlSens::getCurrentState() {
     return currentStateButton;
 }
 
 /*
  * Setup Steering Wheel to Sony audio
  */
-void StrButtonsSony::setup() {
+void WhlSens::setup() {
     pinMode(pinSteering, INPUT);
     pinMode(pinDigitalOut, OUTPUT);
     pinMode(pinOutVoltage, OUTPUT);
@@ -138,7 +138,7 @@ void StrButtonsSony::setup() {
 }
 
 
-void StrButtonsSony::_parseButtonState(int currentState) {
+void WhlSens::_parseButtonState(int currentState) {
 
     if (currentState == STR_BTN_VLU) _setDigitalPot(95);// Volume up
     if (currentState == STR_BTN_VLD) _setDigitalPot(115);// Volume down
@@ -153,7 +153,7 @@ void StrButtonsSony::_parseButtonState(int currentState) {
 /**
  * Send command to pod
  */
-void StrButtonsSony::_setDigitalPot(int resistanceValue) {
+void WhlSens::_setDigitalPot(int resistanceValue) {
     SPI.transfer(ADR_DIG_POD); // 17
     SPI.transfer(resistanceValue);
 }
@@ -173,7 +173,7 @@ void StrButtonsSony::_setDigitalPot(int resistanceValue) {
         front	        33940	1.13
         bottom	        48800	0.84
 */
-void StrButtonsSony::listenButtons() {
+void WhlSens::listenButtons() {
 
     int readingSteeringButton = getAnalogReadButtons();
     //
@@ -294,14 +294,14 @@ void StrButtonsSony::listenButtons() {
 /**
  * Gets reading from steering buttons
  */
-int StrButtonsSony::getAnalogReadButtons() {
+int WhlSens::getAnalogReadButtons() {
     return analogRead(pinSteering);
 }
 
 /**
  * Sends commands to radio
  */
-void StrButtonsSony::sendRadioButtons() {
+void WhlSens::sendRadioButtons() {
 
     int currentState = getCurrentState();
 

@@ -171,7 +171,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
 
-        sensStr.disable();
+        whlSens.disable();
         if (entryDownState == 0) {
             entryDownState = millis();
         }
@@ -187,35 +187,35 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
                 /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
                 // Steering button is pressed
-                if (sensStr.getCurrentState() == sensStr.STR_BTN_ATT) {
+                if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
                     TTL_TLH = 0;
                     tone(ADT_ALR_PIN, 1000, 50);
                     delay(50);
                     tone(ADT_ALR_PIN, 1000, 50);
                     delay(50);
-                    sensStr.enable();
+                    whlSens.enable();
                     return;
                 }
                 //
                 // Change Speed alarm Up
-                if (sensStr.getCurrentState() == sensStr.STR_BTN_VLU) {
+                if (whlSens.getCurrentState() == whlSens.STR_BTN_VLU) {
                     carSens.speedingAlarmsUp();
                     tone(ADT_ALR_PIN, 800, 50);
                     delay(50);
                     tone(ADT_ALR_PIN, 1600, 80);
                     delay(80);
-                    sensStr.enable();
+                    whlSens.enable();
                     return;
                 }
                 //
                 // Change Speed alarm Down
-                if (sensStr.getCurrentState() == sensStr.STR_BTN_VLD) {
+                if (whlSens.getCurrentState() == whlSens.STR_BTN_VLD) {
                     carSens.speedingAlarmsDw();
                     tone(ADT_ALR_PIN, 1600, 50);
                     delay(50);
                     tone(ADT_ALR_PIN, 800, 80);
                     delay(80);
-                    sensStr.enable();
+                    whlSens.enable();
                     return;
                 }
                 /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/

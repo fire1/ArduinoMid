@@ -137,7 +137,7 @@ CarSens carSens(&ampInt);
 
 //
 // Config class
-StrButtonsSony sensStr(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+WhlSens whlSens(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
 //
 // Adding sensors
 #include "lib/SensInit.h"
@@ -214,7 +214,7 @@ void setup() {
     setupMenu();
     //
     // Setup SPI lib
-    sensStr.setup();
+    whlSens.setup();
     //
     // Restore data
     eepRom.loadCurrentData();
@@ -289,10 +289,10 @@ void loop() {
     sensorsInit();
     //
     // Reads buttons from steering
-    sensStr.listenButtons();
+    whlSens.listenButtons();
     //
     // Simulate resistance in radio
-    sensStr.sendRadioButtons();
+    whlSens.sendRadioButtons();
     //
     // Listener shutdown
     shutDown.listener();
