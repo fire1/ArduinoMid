@@ -133,11 +133,11 @@ CarSens carSens(&ampInt);
 
 //
 // Adding Alphine emulator
-#include "lib/sens/StrnSens.h"
+#include "lib/WhlSens.h"
 
 //
 // Config class
-WhlSens whlSens(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+WhlSens whlSens(&ampInt);
 //
 // Adding sensors
 #include "lib/SensInit.h"
@@ -214,7 +214,7 @@ void setup() {
     setupMenu();
     //
     // Setup SPI lib
-    whlSens.setup();
+    whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
     //
     // Restore data
     eepRom.loadCurrentData();

@@ -17,12 +17,12 @@
 #define ARDUINO_MID_STR_SENS_H
 
 
-
 #include <SPI.h>
+#include "TimeAmp.h"
 
 //#define STR_DEBUG
-#define STR_TYPE_A
-//#define STR_TYPE_B
+//#define STR_WHL_SEND_A
+#define STR_WHL_SEND_B
 
 //
 // Creates test with maximum send value
@@ -35,11 +35,13 @@
 //
 // Uncomment to send resistance values from terminal
 //#define STR_INJ_SRL true
-
-
 class WhlSens {
 
+
 private:
+
+    TimeAmp *_amp;
+
     bool isButtonPressActive = 0;
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
     int currentStateButton;
@@ -50,13 +52,14 @@ private:
     // Used for shortcuts ...
     boolean isDisabled = 0;
 
-    void _setDigitalPot(int resistance);
+    void _setDigitalPot(uint8_t resistance);
 
     void _setCurrentState(int currentButton);
 
-    void _parseButtonState(int currentState);
+    void setButtonStateParser(int currentState);
 
 public:
+    WhlSens(TimeAmp *timeAmp);
 
     //
     // Define buttons values
@@ -69,19 +72,9 @@ public:
     static constexpr int STR_BTN_ATT = 6;
 
 
-    /**
-     *  Constrictor of StrButtonsSony class
-     */
-    WhlSens(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
-        pinSteering = pinTargetSteering;
-        pinDigitalOut = pinDigitalPod;
-        pinOutVoltage = pinVoltage;
-
-    }
-
     int getAnalogReadButtons();
 
-    void setup();
+    void setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage);
 
     void listenButtons();
 
@@ -105,6 +98,10 @@ public:
  ***********************************************************************************************/
 
 
+WhlSens::WhlSens(TimeAmp *timeAmp) {
+    _amp = timeAmp;
+}
+
 /**
  * Sets current button press
  */
@@ -122,7 +119,14 @@ int WhlSens::getCurrentState() {
 /*
  * Setup Steering Wheel to Sony audio
  */
-void WhlSens::setup() {
+void WhlSens::setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
+
+
+    pinSteering = pinTargetSteering;
+    pinDigitalOut = pinDigitalPod;
+    pinOutVoltage = pinVoltage;
+
+
     pinMode(pinSteering, INPUT);
     pinMode(pinDigitalOut, OUTPUT);
     pinMode(pinOutVoltage, OUTPUT);
@@ -138,7 +142,7 @@ void WhlSens::setup() {
 }
 
 
-void WhlSens::_parseButtonState(int currentState) {
+void WhlSens::setButtonStateParser(int currentState) {
 
     if (currentState == STR_BTN_VLU) _setDigitalPot(95);// Volume up
     if (currentState == STR_BTN_VLD) _setDigitalPot(115);// Volume down
@@ -153,7 +157,7 @@ void WhlSens::_parseButtonState(int currentState) {
 /**
  * Send command to pod
  */
-void WhlSens::_setDigitalPot(int resistanceValue) {
+void WhlSens::_setDigitalPot(uint8_t resistanceValue) {
     SPI.transfer(ADR_DIG_POD); // 17
     SPI.transfer(resistanceValue);
 }
@@ -203,51 +207,6 @@ void WhlSens::listenButtons() {
     }
 #endif
 
-
-#if defined(STR_READ_A)
-    //
-    // Default value  for sony when Steering wheel is not used
-    if (readingSteeringButton > 250 && isButtonPressActive == 0) {
-        _setCurrentState(STR_BTN_NON);
-        //
-        // Do not enter in here next loop
-        isButtonPressActive = 1;
-    }
-    //
-    // Volume up
-    if (readingSteeringButton > 9 && readingSteeringButton < 20) {
-        _setCurrentState(STR_BTN_VLU);
-    }
-    //
-    // Volume down
-    if (readingSteeringButton >= 0 && readingSteeringButton < 9) {
-        _setCurrentState(STR_BTN_VLD);
-    }
-    //
-    // Zero button
-    if (readingSteeringButton > 20 && readingSteeringButton < 30) {
-        _setCurrentState(STR_BTN_ATT);
-        // TODO long press 155 volume press button
-    }
-    //
-    // Right arrow / seek up
-    if (readingSteeringButton > 35 && readingSteeringButton < 50) {
-        _setCurrentState(STR_BTN_SKU);
-    }
-    //
-    // Left arrow / seek down
-    if (readingSteeringButton > 60 && readingSteeringButton < 80) {
-        _setCurrentState(STR_BTN_SKD);
-    }
-    //
-    // Back button
-    if (readingSteeringButton > 130 && readingSteeringButton < 160) {
-        _setCurrentState(STR_BTN_BCK);
-    }
-
-#endif
-
-#if defined(STR_READ_RESIST_B)
     //
     // Default value  for sony when Steering wheel is not used
     if (readingSteeringButton > 900 && readingSteeringButton < 999 && isButtonPressActive == 0) {
@@ -255,6 +214,9 @@ void WhlSens::listenButtons() {
         //
         // Do not enter in here next loop
         isButtonPressActive = 1;
+#if defined(STR_WHL_SEND_B)
+        digitalWrite(pinOutVoltage, HIGH);
+#endif
     }
     //
     // Volume up
@@ -288,7 +250,6 @@ void WhlSens::listenButtons() {
         _setCurrentState(STR_BTN_BCK);
     }
 
-#endif
 }
 
 /**
@@ -310,7 +271,7 @@ void WhlSens::sendRadioButtons() {
         return;
     }
 
-#if defined(STR_TYPE_A)
+#if defined(STR_WHL_SEND_A)
     //
     // Determinate button is pressed
     if (lastStateButton != currentState) {
@@ -342,7 +303,7 @@ void WhlSens::sendRadioButtons() {
 #endif
 
 
-#if defined(STR_TYPE_B)
+#if defined(STR_WHL_SEND_B)
     //
     // When is not none state
     if (currentState != STR_BTN_NON) {
@@ -352,9 +313,9 @@ void WhlSens::sendRadioButtons() {
         digitalWrite(pinDigitalOut, LOW);
         //
         // Check is still pressing and need to change state
-        if (ampInt.isLow() && currentState == getCurrentState() && currentState != lastStateButton) {
+        if (_amp->isLow() && currentState == getCurrentState() && currentState != lastStateButton) {
             lastStateButton = currentState;
-            _parseButtonState(currentState);
+            setButtonStateParser(currentState);
             digitalWrite(pinDigitalOut, HIGH);
         } else {
             //
@@ -364,7 +325,6 @@ void WhlSens::sendRadioButtons() {
         //
         // When button is returned to none
     } else if (currentState != lastStateButton) {
-        digitalWrite(pinOutVoltage, HIGH);
         digitalWrite(pinDigitalOut, HIGH);
         lastStateButton = currentState;
     }
