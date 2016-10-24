@@ -21,8 +21,8 @@
 #include "TimeAmp.h"
 
 //#define STR_DEBUG
-//#define STR_WHL_SEND_A
-#define STR_WHL_SEND_B
+#define STR_WHL_SEND_A
+//#define STR_WHL_SEND_B
 
 //
 // Creates test with maximum send value
@@ -276,13 +276,13 @@ void WhlSens::sendRadioButtons() {
     // Determinate button is pressed
     if (lastStateButton != currentState) {
         digitalWrite(pinOutVoltage, LOW);
-        delay(10);
-        if (currentState == getCurrentState()) {
+        if (_amp->isLow() && currentState == getCurrentState()) {
             digitalWrite(pinDigitalOut, LOW);
             lastStateButton = currentState;
             isButtonPressActive = 0;
-            _parseButtonState(currentState);
+            setButtonStateParser(currentState);
         } else {
+            digitalWrite(pinOutVoltage, HIGH);
             digitalWrite(pinOutVoltage, HIGH);
         }
     }
@@ -324,7 +324,7 @@ void WhlSens::sendRadioButtons() {
         }
         //
         // When button is returned to none
-    } else if (currentState != lastStateButton) {
+    } else  {
         digitalWrite(pinDigitalOut, HIGH);
         lastStateButton = currentState;
     }
