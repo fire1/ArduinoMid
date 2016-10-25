@@ -19,11 +19,13 @@
 #define ECU_CORRECTION 1.8
 #define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
-#define DST_CORRECTION 15436.62671159184 // 16093.44 // next 15121.59351339609
+#define DST_CORRECTION 15836 // 15436.62671159184, 16093.44 // next 15121.59351339609
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
 
 //#define VSD_SENS_DEBUG;
 
+#define SCREEN_DEF_LIGHT 22
+#define SCREEN_GO_TO_DEF 15
 
 //
 // Using Arduino API for Attach interrupt
@@ -45,8 +47,7 @@ class CarSens {
     TimeAmp *_amp;
 
 private:
-    //
-    int speedAlarmCursor = 1;
+
 
     //
     // Engine temperature pin
@@ -57,11 +58,28 @@ private:
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU;
     unsigned long int CUR_VDS;
+    //
+    // Speeding alarms
+    int speedAlarmCursor = 1;
 
     /**
      * Handles speeding alarms
      */
     void speedingAlarms();
+
+    //
+    // Screen back light vars
+    static const int numReadingsDim = 10;
+    int indexReadValDim = 0;
+    int lastReadingsDim[numReadingsDim];
+    int totalReadingDim = 0;
+    int backLightLevel = 0; // Container of current level
+    uint8_t pinScreenInput, pinScreenOutput;
+
+/**
+ * Handle display dim
+ */
+    int long lastReadValueDim = 0;
 
 
 protected:
@@ -97,6 +115,8 @@ protected:
 
     void sensEcu();
 
+    void sensDim();
+
 
 public:
 
@@ -128,6 +148,25 @@ public:
         // Engine temperature
         pinMode(pinTmp, INPUT);
         pinTemp = pinTmp;
+    }
+
+    /**
+    * Setup screen pins
+    */
+    void setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast) {
+
+        pinScreenInput = pinInputInstrumentValue;
+        pinScreenOutput = pinOutputDisplayContrast;
+
+        pinMode(pinScreenInput, INPUT);
+        pinMode(pinScreenOutput, OUTPUT);
+        //
+        // Set default value
+        analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT);
+        //
+        // Sens dim level at setupEngine
+        sensDim();
+
     }
 
     /**
@@ -182,6 +221,7 @@ public:
         sensVss();
         sensRpm();
         sensEcu();
+        sensDim();
         //
         // Interrupts
         sei();
@@ -190,7 +230,7 @@ public:
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
         //
-        if (ampInt.isSens()) {
+        if (_amp->isSens()) {
             int foo1 = getEcu();
             int foo2 = getRpm();
             int foo3 = getVss();
@@ -227,7 +267,7 @@ void EngSens_catchEcuHits() {
  */
 void CarSens::sensVss() {
 
-    if (ampInt.isSens()) {
+    if (_amp->isSens()) {
 
         //
         // Pass vss to global
@@ -254,7 +294,7 @@ void CarSens::sensVss() {
     //
     // Distance
 #if defined(VSD_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    if (ampInt.isBig()) {
+    if (_amp->isBig()) {
         Serial.print("Counted VSD is: ");
         Serial.println(CUR_VDS);
     }
@@ -268,7 +308,7 @@ void CarSens::sensVss() {
  */
 void CarSens::sensRpm() {
 
-    if (ampInt.isSens()) {
+    if (_amp->isSens()) {
         //
         // Pass rpm to global
         CUR_RPM = int(rpmHitsCount * RPM_CORRECTION);
@@ -294,7 +334,7 @@ void CarSens::sensRpm() {
 */
 void CarSens::sensEcu() {
 
-    if (ampInt.isSens()) {
+    if (_amp->isSens()) {
         //
         // Pass ecu to global
         CUR_ECU = int(ecuHitsCount * ECU_CORRECTION);
@@ -326,15 +366,15 @@ void CarSens::speedingAlarms() {
         speedAlarmCursor = ENABLE_SPEED_HW;
     }
 
-    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
+    if (_amp->isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
         tone(ADT_ALR_PIN, 4000, 500);
     }
 
-    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
+    if (_amp->isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
         tone(ADT_ALR_PIN, 4000, 500);
     }
 
-    if (ampInt.isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
+    if (_amp->isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
         tone(ADT_ALR_PIN, 4000, 500);
     }
 
@@ -359,5 +399,47 @@ void CarSens::speedingAlarmsUp() {
 void CarSens::speedingAlarmsDw() {
     speedAlarmCursor--;
 }
+/**
+ *  Sensing Screen DIM
+ */
+void CarSens::sensDim() {
+
+    int defaultActive = 0;
+
+    totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
+    // read from the sensor:
+    lastReadingsDim[indexReadValDim] = (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
+    // add the reading to the total:
+    totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
+    // advance to the next position in the array:
+    indexReadValDim = indexReadValDim + 1;
+
+
+    backLightLevel = totalReadingDim / numReadingsDim;
+
+
+    if (indexReadValDim >= numReadingsDim) {
+        // ...wrap around to the beginning:
+        indexReadValDim = 0;
+    }
+
+
+    if (backLightLevel < SCREEN_GO_TO_DEF) {
+        backLightLevel = SCREEN_DEF_LIGHT;
+        defaultActive = 1;
+    } else {
+        defaultActive = 0;
+    }
+
+    if (lastReadValueDim != backLightLevel && backLightLevel > 0) {
+        lastReadValueDim = backLightLevel;
+
+        if (defaultActive == 0) {
+            backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
+        }
+        analogWrite(pinScreenOutput, backLightLevel);
+    }
+}
+
 
 #endif //ARDUINOMID_ENGSENS_H

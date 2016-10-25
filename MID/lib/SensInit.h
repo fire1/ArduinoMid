@@ -17,7 +17,7 @@
 //#include "sens/EcuSens.h"
 //
 // Screen back-light sensor
-#include "sens/DimSens.h"
+//#include "sens/DimSens.h"
 //
 // Temperature
 #include "sens/TmpSens.h"
@@ -41,7 +41,7 @@ void sensorsInit() {
     sensCon();
     sensAvr();
 
-    sensDim(); // Dim display
+//    sensDim(); // Dim display
     //
     // Interrupts
     sei();

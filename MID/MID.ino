@@ -113,11 +113,9 @@ int showerCounter = 0;
 //
 //
 #include "lib/TimeAmp.h"
-
 //
-// Amplitude interval setupEngine
-//      between loops
-TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
+// Adding Alphine emulator
+#include "lib/WhlSens.h"
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
@@ -128,17 +126,18 @@ TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200,
 // Engine sensors
 #include "lib/CarSens.h"
 
+//
+// Amplitude interval
+//      between loops
+TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
+//
+// Constructing the class
 CarSens carSens(&ampInt);
-
-
 //
-// Adding Alphine emulator
-#include "lib/WhlSens.h"
-
-//
-// Config class
+// Constructing the class
 WhlSens whlSens(&ampInt);
 //
+// other sensors initialization
 // Adding sensors
 #include "lib/SensInit.h"
 
@@ -188,13 +187,14 @@ void setup() {
     //
     eepRom.setup();
     //
-    // Engine sensors pin mode input
+    // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
+    //
+    // Screen back-light
+    carSens.setupScreen(DIM_PIN_VAL, DIM_PIN_OUT);
+//    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
 
     setupTemperature();
-    //
-    // Display back-light handler
-    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
     //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
