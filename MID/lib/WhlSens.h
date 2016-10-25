@@ -283,7 +283,6 @@ void WhlSens::sendRadioButtons() {
             setButtonStateParser(currentState);
         } else {
             digitalWrite(pinOutVoltage, HIGH);
-            digitalWrite(pinOutVoltage, HIGH);
         }
     }
 

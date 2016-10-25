@@ -121,7 +121,7 @@ void displayCarDST() {
     if (ampInt.isMid()) {
 
         lcd.setCursor(9, 2);
-        lcd.print("D:");
+        lcd.print(" D:");
         //
         // Handle Dst screen print
         displayFloat(carSens.getDst(), tmpDisplay);
