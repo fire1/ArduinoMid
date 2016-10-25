@@ -91,7 +91,7 @@ double short_term_val = 0.78125;
 
 int ls_term_val;
 byte fss_val = 0;
-int airTemp = 90;
+int airTemp = 98;
 
 
 int countForFiveMinutes = 0;
@@ -130,7 +130,7 @@ void sensCon() {
         termvalue = carSens.getTmp() * 0.78125;
 
 
-        IMAP = double(rpm * airValue) / double(/*airTemp*/termvalue + 273.15);
+        IMAP = double(rpm * airValue) / double(airTemp/*termvalue*/ + 273.15);
         MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
               8.314472;
 
