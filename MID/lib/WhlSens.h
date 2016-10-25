@@ -46,7 +46,7 @@ private:
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
     int currentStateButton;
     int lastStateButton = 0;
-    int closeStateButton = 0;
+    int closeCurrentState = 0;
 
     //
     // Used for shortcuts ...
@@ -282,20 +282,22 @@ void WhlSens::sendRadioButtons() {
             isButtonPressActive = 0;
             setButtonStateParser(currentState);
         } else {
+            //
             digitalWrite(pinOutVoltage, HIGH);
         }
     }
 
     //
     //
-    if (isButtonPressActive == 0 && closeStateButton != currentState || currentState == STR_BTN_NON) {
+    if (isButtonPressActive == 0 && closeCurrentState != currentState || currentState == STR_BTN_NON) {
         //
         // Lock digital pot
         digitalWrite(pinDigitalOut, HIGH);
-        closeStateButton = currentState;
+        closeCurrentState = currentState;
 
     }
-
+    //
+    // At second  loop after pressing button hide dig-pot
     if (isButtonPressActive == 1) {
         digitalWrite(pinOutVoltage, HIGH);
     }

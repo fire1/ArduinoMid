@@ -180,13 +180,17 @@ float getInstCons() {
 
 float getTripCons() {
 
-
+/*
     float dist = carSens.getDst();
     float time = getTravelTime();
 
     double ratioTravel = (dist * time) / 10000;
 
-    float result = (ratioTravel / CUR_TLH);
+    float result = (ratioTravel / CUR_TLH);*/
+
+    float dist = carSens.getDst();
+
+    float result = dist / (100 / CUR_TLH);
 
     if (CUR_TLH < 50) {
         TTL_CLH = result;
@@ -195,6 +199,8 @@ float getTripCons() {
     if (TTL_CLH <= 0) {
         return (float) 0;
     }
+
+
     return TTL_CLH;
 }
 
