@@ -32,6 +32,7 @@
 //
 // pull up Resistance ~ 220 ohm
 #define STR_READ_RESIST_B
+
 //
 // Uncomment to send resistance values from terminal
 //#define STR_INJ_SRL true
@@ -218,19 +219,20 @@ void WhlSens::listenButtons() {
         digitalWrite(pinOutVoltage, HIGH);
 #endif
     }
-    //
-    // Volume up
-    if (readingSteeringButton > 400 && readingSteeringButton < 499) {
-        _setCurrentState(STR_BTN_VLU);
-    }
+
     //
     // Volume down
     if (readingSteeringButton > 200 && readingSteeringButton < 299) {
         _setCurrentState(STR_BTN_VLD);
     }
     //
+    // Volume up
+    if (readingSteeringButton > 300 && readingSteeringButton < 499) {
+        _setCurrentState(STR_BTN_VLU);
+    }
+    //
     // Zero button
-    if (readingSteeringButton > 500 && readingSteeringButton < 590) {
+    if (readingSteeringButton > 500 && readingSteeringButton < 599) {
         _setCurrentState(STR_BTN_ATT);
         // TODO long press 155 volume press button
     }
@@ -276,31 +278,27 @@ void WhlSens::sendRadioButtons() {
     // Determinate button is pressed
     if (lastStateButton != currentState) {
         digitalWrite(pinOutVoltage, LOW);
-        if (_amp->isLow() && currentState == getCurrentState()) {
-            digitalWrite(pinDigitalOut, LOW);
+        digitalWrite(pinDigitalOut, LOW);
+        if (_amp->isMin() && currentState == getCurrentState()) {
             lastStateButton = currentState;
             isButtonPressActive = 0;
+
             setButtonStateParser(currentState);
+            digitalWrite(pinDigitalOut, HIGH);
         } else {
             //
             digitalWrite(pinOutVoltage, HIGH);
+
         }
-    }
-
-    //
-    //
-    if (isButtonPressActive == 0 && closeCurrentState != currentState || currentState == STR_BTN_NON) {
-        //
-        // Lock digital pot
+    } else if (currentState != STR_BTN_NON) {
+        digitalWrite(pinOutVoltage, LOW);
         digitalWrite(pinDigitalOut, HIGH);
-        closeCurrentState = currentState;
-
     }
-    //
-    // At second  loop after pressing button hide dig-pot
-    if (isButtonPressActive == 1) {
+
+    if (currentState == STR_BTN_NON) {
         digitalWrite(pinOutVoltage, HIGH);
     }
+
 #endif
 
 
