@@ -11,15 +11,15 @@
 //
 // City Speed alarm
 #define VSS_ALARM_CITY_SPEED  62 // km
-#define VSS_ALARM_VWAY_SPEED  101 // km
-#define VSS_ALARM_HWAY_SPEED  141 // km
+#define VSS_ALARM_VWAY_SPEED  102 // km
+#define VSS_ALARM_HWAY_SPEED  142 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // Sensor correctors
 #define ECU_CORRECTION 1.8
 #define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
-#define DST_CORRECTION 15836 // 15436.62671159184, 16093.44 // next 15121.59351339609
+#define DST_CORRECTION 15636 // 15836, 15436.62671159184, 16093.44 // next 15121.59351339609
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
 
 //#define VSD_SENS_DEBUG;
@@ -221,11 +221,9 @@ public:
         sensVss();
         sensRpm();
         sensEcu();
-        sensDim();
-        //
         // Interrupts
+        //
         sei();
-
         //
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
@@ -234,6 +232,11 @@ public:
             int foo1 = getEcu();
             int foo2 = getRpm();
             int foo3 = getVss();
+        }
+        //
+        // Sens display dim
+        if (_amp->isMin()) {
+            sensDim();
         }
     }
 
@@ -399,6 +402,7 @@ void CarSens::speedingAlarmsUp() {
 void CarSens::speedingAlarmsDw() {
     speedAlarmCursor--;
 }
+
 /**
  *  Sensing Screen DIM
  */
