@@ -170,9 +170,10 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
-
-        whlSens.disable();
+        //
+        // Controlling start of press state
         if (entryDownState == 0) {
+            whlSens.disable();
             entryDownState = millis();
         }
         //
@@ -243,6 +244,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         }
     } else {
         entryDownState = 0;
+        whlSens.enable(); // unlock radio
     }
 }
 
