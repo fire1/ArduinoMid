@@ -8,7 +8,7 @@
 const int ConsumptionCalibrationReadingsFuel = 10;
 const int ConsumptionCalibrationReadingsDistance = 9;
 
-
+//  80% X 80% X 80% = 51.2% of the max
 //
 // Common Air/Fuel Ratios:
 //
@@ -154,7 +154,7 @@ void sensCon() {
         if (ampInt.isMinute()) {
             consumptionBankCalculator = consumptionBankCalculator / 2;
             consumptionBankDividerHits = consumptionBankDividerHits / 2;
-            tone(ADT_ALR_PIN, 1000, 100);
+            tone(ADT_ALR_PIN, 3000, 50);
         }
         //
         // count five minutes and lower the average

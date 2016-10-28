@@ -15,10 +15,16 @@
 #define ARDUINOMID_SHUTDOWN_H
 
 
-class MidShutdown {
+class ShutDw {
+
+
+    TimeAmp *_amp;
+
+    EepRom *_eep;
+
 
 private :
-    uint8_t pinCtrl, pinDtct, pinSave, pinTone;
+    uint8_t pinCtrl, pinDtct, pinSaveCancel, pinTone;
 
     int indexWait = 0;
     int entryDisplay = 0;
@@ -31,12 +37,16 @@ private :
 
     void resolveUsbActive(int _detectorValue, int _detectUsbAct);
 
+    void displaySaved();
+
+    void displayCancel();
+
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
-    MidShutdown(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
+    ShutDw(EepRom *eepRom, TimeAmp *ampInt) ;
 
-    void setup();
+    void setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
 
     void listener();
 
@@ -59,17 +69,22 @@ public:
 /**
  * Constructor of shutdown
  */
-MidShutdown::MidShutdown(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm) {
-    pinCtrl = uint8_t(pinControl);
-    pinDtct = uint8_t(pinDetect);
-    pinSave = uint8_t(pintPressSave);
-    pinTone = uint8_t(pinToAlarm);
+ShutDw::ShutDw(EepRom *eepRom, TimeAmp *ampInt) {
+    _eep = eepRom;
+    _amp = ampInt;
 }
 
 /**
  * Setup shutdown class
  */
-void MidShutdown::setup() {
+void ShutDw::setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm) {
+
+    pinCtrl = uint8_t(pinControl);
+    pinDtct = uint8_t(pinDetect);
+    pinSaveCancel = uint8_t(pintPressSave);
+    pinTone = uint8_t(pinToAlarm);
+
+
     //
     // Control save shutdown
     pinMode(pinCtrl, OUTPUT);
@@ -83,7 +98,7 @@ void MidShutdown::setup() {
 /**
  * When mid is started and loop si lower number resolve as USB active
  */
-void  MidShutdown::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
+void  ShutDw::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
     if (_detectorValue < 500 && _detectUsbAct < 50) {
         entryUsbDetected = true;
     }
@@ -91,13 +106,13 @@ void  MidShutdown::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
 /**
  *  Is mid started from USB power supply
  */
-bool MidShutdown::isUsbActive() {
+bool ShutDw::isUsbActive() {
 
     if (entryUsbDetected) {
         return true;
     }
 
-    if (detectorValue < 500 && ampInt.getLoopIndex() < 50) {
+    if (detectorValue < 500 && _amp->getLoopIndex() < 50) {
         entryUsbDetected = true;
         return true;
     }
@@ -106,7 +121,7 @@ bool MidShutdown::isUsbActive() {
 /**
  * Handler the cursor menu
  */
-void MidShutdown::cursor(int &cursorMenu) {
+void ShutDw::cursor(int &cursorMenu) {
 
     //
     // Switch menu if cannot shutdown ...
@@ -125,13 +140,13 @@ void MidShutdown::cursor(int &cursorMenu) {
 /**
  * Listen shutdown and change menu to shutdown
  */
-void MidShutdown::listener() {
+void ShutDw::listener() {
     //
     // Get voltage from pin
     detectorValue = analogRead(pinDtct);
     //
     // Detect usb
-    resolveUsbActive(detectorValue, ampInt.getLoopIndex());
+    resolveUsbActive(detectorValue, _amp->getLoopIndex());
     //
     // Is shutdown mode ....
     if (detectorValue < 500 && alreadyShutdown != 2) {
@@ -142,7 +157,7 @@ void MidShutdown::listener() {
 /**
  * Display shutdown menu
  */
-void MidShutdown::display() {
+void ShutDw::display() {
 
     char sec[2];
 
@@ -176,49 +191,69 @@ void MidShutdown::display() {
 
     //
     // Listen press button
-    if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE) {
+    if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE) {
         delay(10);
-        if (digitalRead(pinSave) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
+        if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
 
-            //
-            // Save current data and shutdown
-            eepRom.saveCurrentData();
 
-            Serial.println("Data saved!");
-            //
-            // Mark saved
-            alreadySaved = 1;
-            lcd.clear();
-            lcd.setCursor(1, 0);
-            lcd.print(" Data saved :)");
-            lcd.setCursor(1, 2);
-            lcd.print(" Bye bye ...");
-            //
-            // Shutdown the system
-            tone(pinTone, 2000, 500);
-            delay(2000);
-            digitalWrite(pinCtrl, LOW);
-            //
-            // Mark mid as shutdown
-            alreadyShutdown = 1;
+            displayCancel();
         }
     }
-
     //
     // Shutdown without wait ...
     if (indexWait >= SHUTDOWN_SAVE_LOOPS && alreadyShutdown == 0) {
-        lcd.clear();
-        lcd.setCursor(1, 0);
-        lcd.print("Bye bye ...!");
-        tone(pinTone, 800, 500);
-        delay(2000);
-        analogWrite(pinCtrl, LOW);
         //
-        // Mark mid as shutdown
-        alreadyShutdown = 1;
+        // Save current data and shutdown
+        _eep->saveCurrentData();
+        //
+        // Show on display
+        displaySaved();
     }
+    //
+    // Count loops
     indexWait++;
 
+}
+
+/**
+ * Cancel state
+ */
+void ShutDw::displayCancel() {
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print(" Data cancel :(");
+    lcd.setCursor(1, 2);
+    lcd.print(" Bye bye ...");
+    //
+    // Shutdown the system
+    tone(pinTone, 800, 500);
+    delay(2000);
+    analogWrite(pinCtrl, LOW);
+    //
+    // Mark mid as shutdown
+    alreadyShutdown = 1;
+}
+
+/**
+ * Save state
+ */
+void ShutDw::displaySaved() {
+    //
+    // Mark saved
+    alreadySaved = 1;
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print(" Data saved :)");
+    lcd.setCursor(1, 2);
+    lcd.print(" Bye bye ...");
+    //
+    // Shutdown the system
+    tone(pinTone, 2000, 500);
+    delay(2000);
+    digitalWrite(pinCtrl, LOW);
+    //
+    // Mark mid as shutdown
+    alreadyShutdown = 1;
 }
 
 #endif //ARDUINOMID_SHUTDOWN_H

@@ -161,7 +161,7 @@ EepRom eepRom;
 
 //
 // Shutdown constructor
-MidShutdown shutDown(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
+ShutDw shutDown(&eepRom, &ampInt);
 
 //
 //
@@ -173,7 +173,7 @@ static void playWelcomeScreen();
 void setup() {
     //
     // Shutdown setupEngine
-    shutDown.setup();
+    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
     //
     // Turn display off
     lcd.noDisplay();
@@ -336,7 +336,7 @@ void loop() {
         case 3:
             displayConsumption();
             break;
-        case MidShutdown::MENU_SHUTDOWN:
+        case ShutDw::MENU_SHUTDOWN:
             shutDown.display();
             break;
     }
