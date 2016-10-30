@@ -127,7 +127,7 @@ void sensCon() {
 
         //
         // min -40 | Max 215 || {formula A-40}
-        termvalue = carSens.getTmp() * 0.78125;
+        termvalue = carSens.getEngTmp() * 0.78125;
 
 
         IMAP = double(rpm * airValue) / double(airTemp/*termvalue*/ + 273.15);
@@ -178,6 +178,16 @@ float getInstCons() {
     return CUR_TLH;
 }
 
+void sensFus(){
+    if (ampInt.isSens()) {
+        float result = TTL_CLH + ((CUR_TLH / 3600) /*/ 2*/);
+
+        if (CUR_TLH < 50) {
+            TTL_CLH = result;
+        }
+    }
+}
+
 float getTripCons() {
 
 /*
@@ -188,17 +198,8 @@ float getTripCons() {
 
     float result = (ratioTravel / CUR_TLH);*/
 
-    float dist = carSens.getDst();
+//    float dist = carSens.getDst();
 
-    float result = dist / (100 / CUR_TLH);
-
-    if (CUR_TLH < 50) {
-        TTL_CLH = result;
-    }
-
-    if (TTL_CLH <= 0) {
-        return (float) 0;
-    }
 
 
     return TTL_CLH;

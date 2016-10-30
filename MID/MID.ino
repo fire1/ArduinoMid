@@ -54,6 +54,8 @@ const uint8_t ENG_CLT_PIN = A5; // Engine Temp. MID32 RPM [attachInterrupt]
 const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19; //  ECU signal
+
+const uint8_t LPG_LVL_PIN = A4;
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of display
@@ -76,6 +78,8 @@ const uint8_t ALP_PIN_VOL = 14;
 //
 //  volatile Vehicle time travel
 volatile float CUR_VTT = 0;
+float TTL_TTD; // Total travel distance
+
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -186,6 +190,11 @@ void setup() {
     //
     //
     eepRom.setup();
+
+    //
+    //
+    carSens.setupLpg(LPG_LVL_PIN);
+
     //
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
@@ -312,6 +321,7 @@ void loop() {
         // Main / first menu
         case 1:
             displayTotalCons();
+            displayTotalDst();
             displayOutTmp();
             displayInsTmp();
             break;

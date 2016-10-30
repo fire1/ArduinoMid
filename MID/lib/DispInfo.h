@@ -57,8 +57,25 @@ void displayInsTmp() {
 
 void displayTotalCons() {
     char tmp[3];
-
     float value = getTotalCons();
+    if (ampInt.isSec()) {
+
+        if (ampInt.isBig()) {
+            lcd.print("    ");
+        }
+        //
+        // Preformat ...
+        displayFloat(value, tmp);
+        lcd.setCursor(0, 0);
+        lcd.print(" ");
+        lcd.print(tmp);
+        lcd.write((uint8_t) 4);
+    }
+}
+
+void displayTotalDst() {
+    char tmp[3];
+    float value = TTL_TTD + carSens.getDst();
 
 
     if (ampInt.isSec()) {
@@ -66,16 +83,15 @@ void displayTotalCons() {
         if (ampInt.isBig()) {
             lcd.print("    ");
         }
-
         //
         // Preformat ...
         displayFloat(value, tmp);
-        lcd.setCursor(1, 0);
+        lcd.setCursor(0, 2);
+        lcd.print(" ");
         lcd.print(tmp);
-        lcd.write((uint8_t) 4);
+        lcd.write("km");
     }
 }
-
 
 /****************************************************************
  * Display engine RPMs
@@ -244,12 +260,12 @@ void displayAverage() {
 
         lcd.setCursor(0, 2);
         lcd.print(" ");
-        lcd.print(getAverageRpm());
+        lcd.print(carSens.getAvrRpm());
         lcd.print("rpm");
 
         lcd.setCursor(8, 2);
         lcd.print(" ");
-        lcd.print(getAverageVss());
+        lcd.print(carSens.getAvrVss());
         lcd.print("kmh");
     }
 }
@@ -260,16 +276,23 @@ void displayTest() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("DST ");
+        lcd.print("Lpg Tank: ");
 
-        sprintf(display, "%04d", whlSens.getAnalogReadButtons());
+        sprintf(display, "%04d", carSens.getTnkLpg());
 
         lcd.print(display);
 
-//        lcd.setCursor(0, 2);
-//        lcd.print(" ");
-//        lcd.print(getAverageRpm());
-//        lcd.print("rpm");
+        lcd.setCursor(0, 2);
+        lcd.print("Wheel Btn: ");
+
+        lcd.print(whlSens.getAnalogReadButtons() / 100);
+
+        if (whlSens.isDisable()) {
+            lcd.print("'");
+        } else {
+            lcd.print(" ");
+        }
+        lcd.print(whlSens.getCurrentState());
 //
 //        lcd.setCursor(8, 2);
 //        lcd.print(" ");

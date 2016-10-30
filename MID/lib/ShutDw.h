@@ -44,7 +44,7 @@ private :
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
-    ShutDw(EepRom *eepRom, TimeAmp *ampInt) ;
+    ShutDw(EepRom *eepRom, TimeAmp *ampInt);
 
     void setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
 
@@ -175,7 +175,7 @@ void ShutDw::display() {
 
     //
     // Catch seconds from loop
-    if (ampInt.isSec()) {
+    if (_amp->isSec()) {
 
         lcd.setCursor(0, 0);
         lcd.print("Waiting ");
@@ -194,8 +194,6 @@ void ShutDw::display() {
     if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE) {
         delay(10);
         if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
-
-
             displayCancel();
         }
     }
@@ -248,7 +246,13 @@ void ShutDw::displaySaved() {
     lcd.print(" Bye bye ...");
     //
     // Shutdown the system
-    tone(pinTone, 2000, 500);
+    tone(pinTone, 1000, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 2000, 50);
     delay(2000);
     digitalWrite(pinCtrl, LOW);
     //

@@ -90,6 +90,10 @@ public:
     void enable() {
         isDisabled = 0;
     }
+
+    boolean isDisable(){
+        return isDisabled;
+    }
 };
 
 /***********************************************************************************************
@@ -269,7 +273,7 @@ void WhlSens::sendRadioButtons() {
     int currentState = getCurrentState();
 
 
-    if (isDisabled) {
+    if (isDisable()) {
         return;
     }
 

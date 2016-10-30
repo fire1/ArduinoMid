@@ -29,9 +29,10 @@ const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
 const int EEP_ADR_TC1 = 1; // Consumption Float A
 const int EEP_ADR_TC2 = 2; // Consumption Float B
 
-const int EEP_ADR_TTD = 8; // Total Travel distance
+const int EEP_ADR_TT1 = 3; // Total Travel distance
+const int EEP_ADR_TT2 = 4; // Total Travel distance
 const int EEP_ADR_TRD = 7; // Trip distance
-const int EEP_ADR_TR2 = 3; // Trip distance
+const int EEP_ADR_TR2 = 5; // Trip distance
 const int EEP_ADR_TTT = 4; // Total Trip Time
 const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
@@ -59,12 +60,36 @@ public:
         WireEepRomRead(EEP_ADR_FTK);
     };
 
-    void saveTravelDistance(unsigned int value = 0) {
-        WireEepRomWriteByte(EEP_ADR_TTD, value / 4);
+    void saveTravelDistance(float value = 0) {
+        int val[2];
+
+        separateFloat(value, val);
+
+#if defined(DEBUG_EEP_ROM)
+        Serial.print("EEP ROM records value A: ");
+        Serial.print(val[0]);
+        Serial.print(" and  value B:");
+        Serial.print(val[1]);
+        Serial.print("\n\r");
+#endif
+
+        WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
+        WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
     }
 
-    int long loadTravelDistance() {
-        return WireEepRomRead(EEP_ADR_TTD) * 4;
+    float loadTravelDistance() {
+        int va1 = WireEepRomRead(EEP_ADR_TT1);
+        int va2 = WireEepRomRead(EEP_ADR_TT2);
+
+#if defined(DEBUG_EEP_ROM)
+        Serial.print("EEP ROM restore value A: ");
+        Serial.print(va1);
+        Serial.print(" and  value B:");
+        Serial.print(va2);
+        Serial.print("\n\r");
+#endif
+
+        return restoreFloat(va1, va2);
     }
 
     /**
@@ -158,19 +183,13 @@ private:
  */
 void EepRom::saveCurrentData() {
 
-    Serial.print("Recording data .... Current is: ");
-    Serial.print(CUR_TLH);
-
-    Serial.print("Global data is ");
-    Serial.print(TTL_TLH);
     TTL_TLH = TTL_TLH + TTL_CLH;
-
-
-    Serial.print("Sum math is: ");
-    Serial.print(TTL_TLH);
-    Serial.print("\n\r\n\r\n\r");
-
     saveTravelConsumption(TTL_TLH);
+
+    TTL_TTD = TTL_TTD + carSens.getDst();
+
+    saveTravelDistance(TTL_TTD);
+
 }
 
 
@@ -178,7 +197,7 @@ void EepRom::loadCurrentData() {
 
 
     TTL_TLH = loadTravelConsumption();
-
+    TTL_TTD = loadTravelDistance();
 }
 
 

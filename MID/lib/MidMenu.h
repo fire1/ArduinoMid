@@ -190,6 +190,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 // Steering button is pressed
                 if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
                     TTL_TLH = 0;
+                    TTL_TTD = 0;
                     tone(ADT_ALR_PIN, 1000, 50);
                     delay(50);
                     tone(ADT_ALR_PIN, 1000, 50);
@@ -242,7 +243,17 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 entryDownState = 0;
             }
         }
-    } else {
+//    } else if (entryDownState > 0  && !digitalRead(buttonPinDw) == LOW) {
+//        //
+//        // Perform button is released action
+//        lastButtonPushed = buttonPinDw;
+//        //
+//        // Reset entry down state
+//        entryDownState = 0;
+//        whlSens.enable(); // unlock radio
+//        //
+//        //
+    } else { // <- deprecated
         entryDownState = 0;
         whlSens.enable(); // unlock radio
     }

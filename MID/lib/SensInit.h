@@ -28,7 +28,7 @@
 void sensorsInit() {
     //
     // No Interrupts
-    cli();
+//    cli();
     //
     // Sense Basic car sensors ;)
 //    sensRpm();
@@ -36,15 +36,17 @@ void sensorsInit() {
 //    sensEcu();
     //
     // Sens Extra
-    sensDst();
+//    sensDst();
     sensTmp();
     sensCon();
-    sensAvr();
+    sensFus();
+
+//    sensAvr();
 
 //    sensDim(); // Dim display
     //
     // Interrupts
-    sei();
+//    sei();
 }
 
 #endif //ARDUINOMID_SENSINIT_H

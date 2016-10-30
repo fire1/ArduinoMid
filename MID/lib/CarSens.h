@@ -20,8 +20,8 @@
 #define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // 15636.44
-// Best  15736.44 need to be 14902.25
-#define DST_CORRECTION 14952.25 // 15836, 15436.62671159184, 16093.44 // next 15121.59351339609
+// Best 14952.25, 15736.44,
+#define DST_CORRECTION 15012.25 // 15836, 15436.62671159184, 16093.44 // next 15121.59351339609
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
 //
 //#define VSD_SENS_DEBUG;
@@ -50,16 +50,27 @@ class CarSens {
 
 private:
 
+    //
+    // Divider for averages
+    unsigned long LOOP_SENS_INDEX = 0;
 
     //
     // Engine temperature pin
     uint8_t pinTemp;
+    uint8_t pinLpgTank;
 
     int
     //
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU;
     unsigned long int CUR_VDS;
+    //
+    // LPG tank
+    int CUR_LTK;
+
+    unsigned long indexLpgTank = 0;
+    int long containerLpgTank = 0;
+
     //
     // Speeding alarms
     int speedAlarmCursor = 1;
@@ -77,6 +88,17 @@ private:
     int totalReadingDim = 0;
     int backLightLevel = 0; // Container of current level
     uint8_t pinScreenInput, pinScreenOutput;
+
+
+    //
+    // Car's average
+    unsigned long averageAllVssValues = 0;
+    unsigned long averageAllRpmValues;
+    int long averageDivider = 0;
+    //
+    // Car's reached ...
+    int maxReachedSpeed = 0;
+
 
 /**
  * Handle display dim
@@ -119,6 +141,9 @@ protected:
 
     void sensDim();
 
+    void sensTnk();
+
+    void sensAvr();
 
 public:
 
@@ -153,6 +178,15 @@ public:
     }
 
     /**
+     *
+     */
+    void setupLpg(uint8_t pinTank) {
+        pinMode(pinTank, INPUT);
+        pinLpgTank = pinTank;
+    }
+
+
+    /**
     * Setup screen pins
     */
     void setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast) {
@@ -174,7 +208,7 @@ public:
     /**
      * Gets engine temperature
      */
-    int getTmp() {
+    int getEngTmp() {
         return (analogRead(pinTemp) / 4 - 41);
     }
 
@@ -199,6 +233,9 @@ public:
         return CUR_ECU;
     }
 
+    int getTnkLpg() {
+        return CUR_LTK;
+    }
 
     /**
      *  Gets current Distance
@@ -213,10 +250,33 @@ public:
         return km;
     }
 
+
+    /**
+     * Gets Average Vss
+     */
+    int getAvrVss();
+
+    /**
+     * Gets Average Rpm
+     */
+    int getAvrRpm();
+
+    /**
+     * Gets maximum car speed
+     */
+    int getMxmVss();
+
     /**
      *  Listen sensors
      */
     void listener() {
+        if (_amp->isSens()) {
+            //
+            // Counting sens loops
+            LOOP_SENS_INDEX += 1;
+        }
+
+
         //
         // No Interrupts
         cli();
@@ -226,15 +286,22 @@ public:
         // Interrupts
         //
         sei();
+        sensTnk();
+        sensAvr();
         //
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
         //
         if (_amp->isSens()) {
-            int foo1 = getEcu();
-            int foo2 = getRpm();
-            int foo3 = getVss();
+            int foo;
+            foo = getEcu();
+            foo = getRpm();
+            foo = getVss();
+            foo = getAvrVss();
+            foo = getAvrRpm();
+
         }
+
         //
         // Sens display dim
         if (_amp->isMin()) {
@@ -445,6 +512,69 @@ void CarSens::sensDim() {
         }
         analogWrite(pinScreenOutput, backLightLevel);
     }
+}
+/**
+ * Car tank/s sens
+ */
+void CarSens::sensTnk() {
+
+    if (_amp->isSens()) {
+        indexLpgTank++;
+        int lpgTankLevel = analogRead(pinLpgTank);
+
+        if (lpgTankLevel > 500) {
+            containerLpgTank += lpgTankLevel;
+            CUR_LTK = int(containerLpgTank / indexLpgTank);
+        }
+    }
+
+    if (_amp->isMinute()) {
+        containerLpgTank = containerLpgTank / 2;
+        indexLpgTank = indexLpgTank / 2;
+    }
+
+
+}
+
+/**
+ *  Average sens
+ */
+void CarSens::sensAvr() {
+
+    int vss = getVss();
+    int rpm = getRpm();
+
+    if (_amp->isSens()) {
+        averageAllVssValues += vss;
+        if (rpm > 0) {
+            averageAllRpmValues += rpm;
+        }
+        averageDivider += 1;
+        //
+        //  Resolve maximum speed reached
+        if (maxReachedSpeed < vss)
+            maxReachedSpeed = vss;
+    }
+
+}
+
+
+/**
+ * Gets Average Vss
+ */
+int CarSens::getAvrVss() {
+    return int(averageAllVssValues / averageDivider);
+}
+
+/**
+ * Gets Average Rpm
+ */
+int CarSens::getAvrRpm() {
+    return int(averageAllRpmValues / averageDivider);
+}
+
+int CarSens::getMxmVss() {
+    return maxReachedSpeed;
 }
 
 
