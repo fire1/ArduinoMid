@@ -32,29 +32,17 @@ void printNavMenuD();
 //
 //
 MenuBackend menu = MenuBackend(menuUsed, menuChanged);
-
 //
 //
 int lastButtonPushed = LOW;
-int buttonLastDwSt = LOW;
-int buttonLastUpSt = LOW;
-
-bool activeStateMenu = false;
-
 int isMainNavigationStatus = 0;
 int isInSubMenu = 0;
-//
-// The debounce time
-long debounceDelay = 43;
-
-long lastDebounceTimeDw = 0;  // the last time the output pin was toggled
-long lastDebounceTimeUp = 0;  // the last time the output pin was toggled
 
 /* MID menu mMap
 
-        Main
-        |
-        Trip-------------------------------Trip----------------------------------------------------Fuel
+
+
+Main        Trip-------------------------------Trip----------------------------------------------------Fuel
         |                                   |
         Item1SubItem1-----Item1SubItem2     Item2SubItem1------Item2SubItem2------Item2SubItem3
 

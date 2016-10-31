@@ -21,7 +21,7 @@
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // 15636.44
 // Best 14952.25, 15736.44,
-#define DST_CORRECTION 15012.25 // 15836, 15436.62671159184, 16093.44 // next 15121.59351339609
+#define DST_CORRECTION 15000.01 // 15836, 15436.62671159184, 16093.44  - ~6% = 15127.8336
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
 //
 //#define VSD_SENS_DEBUG;
@@ -41,7 +41,9 @@ static void EngSens_catchEcuHits();
 // Hint counters
 unsigned volatile int vssHitsCount, rpmHitsCount, ecuHitsCount;
 
-
+/**
+ * Car's sensing class
+ */
 class CarSens {
 
     //
@@ -63,10 +65,15 @@ private:
     //
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU;
+    //
+    // Distance container
     unsigned long int CUR_VDS;
     //
     // LPG tank
     int CUR_LTK;
+    //
+    // Travel time
+    unsigned long CUR_VTT;
 
     unsigned long indexLpgTank = 0;
     int long containerLpgTank = 0;
@@ -99,6 +106,12 @@ private:
     // Car's reached ...
     int maxReachedSpeed = 0;
 
+
+    //
+    // Car's Travel time
+    unsigned long timeTravelTrip = 0;
+    int long lastRecordTravelTimeTrip = 0;
+    int vehicleStopped = LOW;
 
 /**
  * Handle display dim
@@ -144,6 +157,8 @@ protected:
     void sensTnk();
 
     void sensAvr();
+
+    void sensCrm();
 
 public:
 
@@ -238,6 +253,35 @@ public:
     }
 
     /**
+     *  Gets travel time
+     */
+    int long getTime() {
+        return CUR_VTT;
+    }
+
+    /**
+     *  Gets Human time
+     */
+    char *getHTm() {
+
+        char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
+
+        int long tmSec;
+        int tmMin, tmHrs;
+
+        tmSec = getTime();
+        tmMin = int(tmSec / 60);
+        tmHrs = tmMin / 60;
+
+//        char dspTime[5];
+        sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
+
+//        strcpy(ch, dspTime);
+
+        return dspTime;
+    }
+
+    /**
      *  Gets current Distance
      */
     float getDst() {
@@ -302,6 +346,17 @@ public:
 
         }
 
+        int vss = getVss();
+        //
+        // Detect time
+        if (vss < 1) {
+            vehicleStopped = HIGH;
+        } else {
+            vehicleStopped = LOW;
+        }
+        //
+        // Car Run time
+        sensCrm();
         //
         // Sens display dim
         if (_amp->isMin()) {
@@ -513,6 +568,7 @@ void CarSens::sensDim() {
         analogWrite(pinScreenOutput, backLightLevel);
     }
 }
+
 /**
  * Car tank/s sens
  */
@@ -558,7 +614,6 @@ void CarSens::sensAvr() {
 
 }
 
-
 /**
  * Gets Average Vss
  */
@@ -577,5 +632,26 @@ int CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
+/**
+ *
+ */
+void CarSens::sensCrm() {
+
+    if (_amp->isSecond()) {
+        unsigned long currentTimeTrip = millis();
+        //
+        // Pass records from mil sec
+        if (currentTimeTrip < 1) {
+            currentTimeTrip = currentTimeTrip * -1;
+        }
+        //
+        // Time detector bay removing last record
+        timeTravelTrip = timeTravelTrip + (currentTimeTrip - lastRecordTravelTimeTrip);
+        //
+        //
+        lastRecordTravelTimeTrip = currentTimeTrip;
+        CUR_VDS = timeTravelTrip / 1000;
+    }
+}
 
 #endif //ARDUINOMID_ENGSENS_H

@@ -170,16 +170,16 @@ void displayDistance() {
     //
     // Handle Distance screen
 
-    int long tmSec;
-
-    int tmMin, tmHrs;
-    tmSec = getTravelTime();
-
-    tmMin = tmSec / 60;
-    tmHrs = tmMin / 60;
-
-    char dspTime[5];
-    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
+//    int long tmSec;
+//
+//    int tmMin, tmHrs;
+//    tmSec = carSens.getTime();
+//
+//    tmMin = tmSec / 60;
+//    tmHrs = tmMin / 60;
+//
+//    char dspTime[5];
+//    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
@@ -188,7 +188,7 @@ void displayDistance() {
         // Display travel time
         lcd.setCursor(0, 2);
         lcd.print(" ");
-        lcd.print(dspTime);
+        lcd.print(carSens.getHTm());
         lcd.print("h");
         //
         // Display travel distance
