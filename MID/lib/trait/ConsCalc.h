@@ -116,6 +116,11 @@ void sensCon() {
 
     double VolumetricEfficiency = getVolumetricEfficiency(rpm);
 
+    if (ampInt.isMax()) {
+        Serial.print("Temperature engine");
+        Serial.println(carSens.getEngTmp());
+    }
+
     if (ampInt.isSens()) {
         /*19.38375*/
         /* 32.7675 */
@@ -128,6 +133,7 @@ void sensCon() {
         //
         // min -40 | Max 215 || {formula A-40}
         termvalue = carSens.getEngTmp() * 0.78125;
+
 
 
         IMAP = double(rpm * airValue) / double(airTemp/*termvalue*/ + 273.15);
@@ -178,7 +184,7 @@ float getInstCons() {
     return CUR_TLH;
 }
 
-void sensFus(){
+void sensFus() {
     if (ampInt.isSens()) {
         float result = TTL_CLH + ((CUR_TLH / 3600) /*/ 2*/);
 

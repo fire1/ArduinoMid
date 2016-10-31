@@ -77,7 +77,7 @@ const uint8_t ALP_PIN_VOL = 14;
 /*********************** Global Vars ***********************/
 //
 //  volatile Vehicle time travel
-volatile float CUR_VTT = 0;
+//volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
 
 /*
@@ -341,7 +341,7 @@ void loop() {
             //
             // Travel menu
         case 2:
-            displayDistance();
+            displayTrip();
             break;
         case 3:
             displayConsumption();

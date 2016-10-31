@@ -266,12 +266,17 @@ public:
 
         char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
 
-        int long tmSec;
+        unsigned long tmSec;
         int tmMin, tmHrs;
 
-        tmSec = getTime();
+        tmSec = millis() / 1000;
         tmMin = int(tmSec / 60);
         tmHrs = tmMin / 60;
+
+        if (_amp->isMid()) {
+            Serial.print("Time running: ");
+            Serial.println(tmSec);
+        }
 
 //        char dspTime[5];
         sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
@@ -356,7 +361,7 @@ public:
         }
         //
         // Car Run time
-        sensCrm();
+        // sensCrm();
         //
         // Sens display dim
         if (_amp->isMin()) {
@@ -639,6 +644,8 @@ void CarSens::sensCrm() {
 
     if (_amp->isSecond()) {
         unsigned long currentTimeTrip = millis();
+        CUR_VDS = currentTimeTrip / 1000;
+        /*
         //
         // Pass records from mil sec
         if (currentTimeTrip < 1) {
@@ -650,7 +657,7 @@ void CarSens::sensCrm() {
         //
         //
         lastRecordTravelTimeTrip = currentTimeTrip;
-        CUR_VDS = timeTravelTrip / 1000;
+        CUR_VDS = timeTravelTrip / 1000;*/
     }
 }
 
