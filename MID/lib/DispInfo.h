@@ -10,7 +10,7 @@
 //
 // add Calculators
 #include "trait/AvrgCalc.h"
-#include "trait/DistCalc.h"
+//#include "trait/DistCalc.h"
 #include "trait/ConsCalc.h"
 
 #include "MainFunc.h"
@@ -166,7 +166,7 @@ void displayCarECU() {
 /****************************************************************
  *  Travel distance
  */
-void displayDistance() {
+void displayTrip() {
     //
     // Handle Distance screen
 
