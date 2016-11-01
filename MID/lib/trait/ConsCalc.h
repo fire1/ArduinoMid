@@ -177,10 +177,12 @@ void sensCon() {
 float getInstCons() {
     return CUR_TLH;
 }
-
-void sensFus(){
+/**
+ *
+ */
+void sensFus() {
     if (ampInt.isSens()) {
-        float result = TTL_CLH + ((CUR_TLH / 3600) /*/ 2*/);
+        float result = TTL_CLH + ((CUR_TLH / 3600) / 2);
 
         if (CUR_TLH < 50) {
             TTL_CLH = result;
