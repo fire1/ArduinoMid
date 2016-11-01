@@ -187,8 +187,6 @@ float getInstCons() {
  *
  */
 void sensFus() {
-
-void sensFus() {
     if (ampInt.isSens()) {
         float result = TTL_CLH + ((CUR_TLH / 3600) / 2);
 
