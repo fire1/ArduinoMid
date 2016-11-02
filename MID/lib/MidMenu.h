@@ -23,16 +23,6 @@ static void menuUsed(MenuUseEvent used);
 
 static void menuChanged(MenuChangeEvent changed);
 
-void printNavMenuA();
-
-void printNavMenuB();
-
-void printNavMenuC();
-
-void navigateMenus();
-
-void printNavMenuD();
-
 //
 //
 MenuBackend menu = MenuBackend(menuUsed, menuChanged);
@@ -103,17 +93,17 @@ static void menuChanged(MenuChangeEvent changed) {
 
     if (newMenuItem.getName() == "Main") {
         cursorMenu = 1;
-        printNavMenuA();
+
 
     } else if (newMenuItem.getName() == "Panel") {
         cursorMenu = 11;
     } else if (newMenuItem.getName() == "Test") {
         cursorMenu = 12;
     } else if (newMenuItem.getName() == "Average") {
-        printNavMenuD();
+
         cursorMenu = 4;
     } else if (newMenuItem.getName() == "Trip") {
-        printNavMenuB();
+
         cursorMenu = 2;
     } else if (newMenuItem.getName() == "Item2SubItem1") {
         lcd.print("Item2SubItem1   ");
@@ -125,7 +115,7 @@ static void menuChanged(MenuChangeEvent changed) {
         lcd.print("Item2SubItem3   ");
     }
     else if (newMenuItem.getName() == "Fuel") {
-        printNavMenuC();
+
         cursorMenu = 3;
     }
     else {
