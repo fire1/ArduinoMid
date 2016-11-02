@@ -36,9 +36,29 @@ float getTmpIns() {
 void setupTemperature() {
     temperatureSensors.begin();
 }
+//
+// balance/pad resistor value, set this to
+// the measured resistance of your pad resistor
+float pad = 5000;
+//
+//
+float thermistor(int RawADC) {
+    long Resistance;
+    float Temp;  // Dual-Purpose variable to save space.
+
+    Resistance = long(pad * ((1024.0 / RawADC) - 1));
+    Temp = log(Resistance); // Saving the Log(resistance) so not to calculate  it 4 times later
+    Temp = 1 / (0.001129148 + (0.000234125 * Temp) + (0.0000000876741 * Temp * Temp * Temp));
+    Temp = Temp - 273.15;  // Convert Kelvin to Celsius
+    return Temp;
+}
+
 
 /**
  * Temperature sensor
+ *      new DATA:
+ *      Temperature range to [°C]: 250
+ *      Resistance [Ohm]: 5000
  */
 void sensTmp() {
 
@@ -83,16 +103,16 @@ void sensTmp() {
 
         //      255 max reading
         //      4.34 is voltage passes temperature sensor
-        float cofVolt = /*3.8*/ 4 ;
+        float cofVolt = /*3.8*/ 5 ;
 
         // not correct
         /// new type  id: (147 / 2.666666 - 76) *1
         // min -40	max 215	°C	 {formula A-40}
         // separate reading
-        temperatureC = ((reading / cofVolt) - (256 / cofVolt)) * -1;
+        temperatureC = ((reading / cofVolt) - (250 / cofVolt)) * -1;
         //
         //
-        temperatureC = temperatureC - 2;
+//        temperatureC = temperatureC;
 
 #if defined(DEBUG_TEMPERATURE_OU)
         if (ampInt.isMid()) {

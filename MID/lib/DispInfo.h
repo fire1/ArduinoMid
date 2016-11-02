@@ -37,7 +37,9 @@ void displayOutTmp() {
         lcd.write((uint8_t) 1);
     }
 }
-
+/**
+ * Inside temperature
+ */
 void displayInsTmp() {
 
     char tmpTemp[3];
@@ -54,7 +56,9 @@ void displayInsTmp() {
         lcd.write((uint8_t) 1);
     }
 }
-
+/**
+ * Total consumption
+ */
 void displayTotalCons() {
     char tmp[3];
     float value = getTotalCons();
@@ -72,7 +76,9 @@ void displayTotalCons() {
         lcd.write((uint8_t) 4);
     }
 }
-
+/**
+ * Total distance
+ */
 void displayTotalDst() {
     char tmp[3];
     float value = TTL_TTD + carSens.getDst();
@@ -115,7 +121,7 @@ void displayEngRPM() {
 }
 
 /****************************************************************
- * Display engine KMh
+ * Display  KMh
  */
 void displayCarKMH() {
     char vssDisplay[3];
@@ -129,24 +135,27 @@ void displayCarKMH() {
         lcd.print(vssDisplay);
     }
 }
-
-void displayCarDST() {
+/**
+ * Engine Temperature
+ */
+void displayEngTmp() {
 
     char tmpDisplay[3];
 
     if (ampInt.isMid()) {
 
-        lcd.setCursor(9, 2);
-        lcd.print(" D:");
+        lcd.setCursor(10, 2);
+        lcd.print("ENG:");
         //
         // Handle Dst screen print
-        displayFloat(carSens.getDst(), tmpDisplay);
+        sprintf(tmpDisplay, "%02d", carSens.getEngTmp());
         lcd.print(tmpDisplay);
+        lcd.write((uint8_t) 1);
     }
 }
 
 /****************************************************************
- * Display engine KMh
+ * Display  KMh
  */
 void displayCarECU() {
     char ecuDisplay[2];

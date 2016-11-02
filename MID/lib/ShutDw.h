@@ -165,10 +165,18 @@ void ShutDw::display() {
     // Show message before straiting procedure
     if (entryDisplay == 0) {
         lcd.clear();
+        lcd.setCursor(0, 2);
+        lcd.print('Hit "S" to skip');
+        tone(pinTone, 2000, 50);
+        delay(300);
+        lcd.setCursor(0, 2);
+        lcd.print('and unsave data');
+        delay(700);
+        lcd.clear();
         lcd.setCursor(1, 0);
         lcd.print("Shutting  down");
         tone(pinTone, 2000, 500);
-        delay(2000);
+        delay(1000);
         entryDisplay = 1;
     }
 
@@ -186,7 +194,7 @@ void ShutDw::display() {
         lcd.print(sec);
         lcd.print(" sec.  ");
         lcd.setCursor(1, 2);
-        lcd.print("Press 0 to save");
+        lcd.print("to canceling save");
     }
 
     //

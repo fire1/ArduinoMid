@@ -27,6 +27,7 @@
 //#define VSD_SENS_DEBUG;
 #define SCREEN_DEF_LIGHT 22
 #define SCREEN_GO_TO_DEF 15
+
 //
 // Using Arduino API for Attach interrupt
 static void EngSens_catchRpmHits();
@@ -100,6 +101,7 @@ private:
     unsigned long averageAllVssValues = 0;
     unsigned long averageAllRpmValues;
     int long averageDivider = 0;
+    bool initializeAverage = 0;
     //
     // Car's reached ...
     int maxReachedSpeed = 0;
@@ -603,7 +605,15 @@ void CarSens::sensAvr() {
     int vss = getVss();
     int rpm = getRpm();
 
-    if (_amp->isSens()) {
+    //
+    // Start average collection after run
+    if (!initializeAverage && vss > 1) {
+        initializeAverage = 1;
+    }
+
+    //
+    // Check is initialize Average
+    if (_amp->isSens() && initializeAverage) {
         averageAllVssValues += vss;
         if (rpm > 0) {
             averageAllRpmValues += rpm;
@@ -611,8 +621,9 @@ void CarSens::sensAvr() {
         averageDivider += 1;
         //
         //  Resolve maximum speed reached
-        if (maxReachedSpeed < vss)
+        if (maxReachedSpeed < vss) {
             maxReachedSpeed = vss;
+        }
     }
 
 }

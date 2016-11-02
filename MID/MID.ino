@@ -327,11 +327,13 @@ void loop() {
             displayOutTmp();
             displayInsTmp();
             break;
+            //
+            // Dashboard
         case 11:
             displayEngRPM();
             displayCarKMH();
             displayCarECU();
-            displayCarDST();
+            displayEngTmp();
             break;
 
         case 12:

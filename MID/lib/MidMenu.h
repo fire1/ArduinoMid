@@ -1,7 +1,10 @@
 //
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
-#include "MainFunc.h"
+
+
+#ifndef ARDUINO_MID_MENU
+#define ARDUINO_MID_MENU
 //
 //  MenuBackend library - copyright by Alexander Brevig
 // Import it from:
@@ -11,8 +14,9 @@
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
 
-
-#define MENUb_TO_ROOT // declare existence of method "toRoot" in MenuBackend
+#include "MainFunc.h"
+#include "CarSens.h"
+#include "WhlSens.h"
 
 
 static void menuUsed(MenuUseEvent used);
@@ -274,18 +278,8 @@ void navigateMenu() {
                 // Down button
             case BTN_PIN_DW:
                 if (lastMainMenuState != 0 && isInSubMenu == 0) {
-
-#if defined(MENUb_TO_ROOT)
-//                    menu.getRoot();
                     menu.moveBack();
                     menu.use();
-#else
-                    menu.getRoot();
-                    menu.moveBack();
-                    menu.getRoot();
-                    menu.moveBack();
-                    menu.use();
-#endif
                 } else if (isInSubMenu == 0) {
                     menu.moveUp();
                     menu.use();
@@ -301,51 +295,12 @@ void navigateMenu() {
     lastButtonPushed = 0; //reset the lastButtonPushed variable
 }
 
-void printNavMenuA() {
-    lcd.setCursor(12, 2);
-    lcd.write((uint8_t) 3);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.setCursor(0, 0);
-
-}
-
-void printNavMenuB() {
-    lcd.setCursor(12, 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 3);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.setCursor(0, 0);
-
-}
-
-void printNavMenuC() {
-    lcd.setCursor(12, 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 3);
-    lcd.write((uint8_t) 2);
-    lcd.setCursor(0, 0);
-
-}
-
-void printNavMenuD() {
-    lcd.setCursor(12, 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 2);
-    lcd.write((uint8_t) 3);
-    lcd.setCursor(0, 0);
-
-}
 
 static void menuUsed(MenuUseEvent used) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(used.item.getName());
-    delay(300);
+    delay(100);
     lcd.print(" Menu");
     delay(300);  //delay to allow message reading
     lcd.setCursor(0, 0);
@@ -356,3 +311,4 @@ static void menuUsed(MenuUseEvent used) {
     carSens.clearBaseData();
 }
 
+#endif
