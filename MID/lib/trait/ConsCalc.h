@@ -135,7 +135,6 @@ void sensCon() {
         termvalue = carSens.getEngTmp() * 0.78125;
 
 
-
         IMAP = double(rpm * airValue) / double(airTemp/*termvalue*/ + 273.15);
         MAF = double(IMAP / 120.0) * double(double(VolumetricEfficiency * VEC_FUL_RT) / 100.0) * CON_ENG_CC * 28.9644 /
               8.314472;
@@ -183,12 +182,10 @@ void sensCon() {
 float getInstCons() {
     return CUR_TLH;
 }
-/**
- *
- */
+
 void sensFus() {
     if (ampInt.isSens()) {
-        float result = TTL_CLH + ((CUR_TLH / 3600) / 2);
+        float result = TTL_CLH + ((CUR_TLH / 3600) / 2.2);
 
         if (CUR_TLH < 50) {
             TTL_CLH = result;

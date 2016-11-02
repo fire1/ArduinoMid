@@ -17,6 +17,8 @@
      file that was distributed with this source code.
 ---------------------------------------------------
 
+ MID function menu
+
 */
 
 //
@@ -130,8 +132,6 @@ int showerCounter = 0;
 // Engine sensors
 #include "lib/CarSens.h"
 
-#include "lib/MidMenu.h"
-
 //
 // Amplitude interval
 //      between loops
@@ -143,14 +143,13 @@ CarSens carSens(&ampInt);
 // Constructing the class
 WhlSens whlSens(&ampInt);
 //
-//
-MidMenu midMenu(&lcd, &carSens, &ampInt, &whlSens);
-
-//
 // other sensors initialization
 // Adding sensors
 #include "lib/SensInit.h"
 
+//
+// Adding menu source
+#include "lib/MidMenu.h"
 //
 //
 #include "lib/EepRom.h"
@@ -219,8 +218,11 @@ void setup() {
     setLcdBaseChar();
     lcd.display();
     //
+    // Show welcome from car
+//    playWelcomeScreen();
+    //
     // Set MID menu
-    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, ADT_ALR_PIN);
+    setupMenu();
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -306,10 +308,11 @@ void loop() {
     // Listener shutdown
     shutDown.listener();
     //
+    //  Read main buttons
+    readButtons(BTN_PIN_UP, BTN_PIN_DW);
     //
-    midMenu.listener();
-
-    cursorMenu = midMenu.getCursor();
+    // Handle navigation
+    navigateMenu();
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);
