@@ -17,7 +17,7 @@
 
 #define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
 #define DEBUG_EEP_ROM
-#define EEP__INJ_SER true
+//#define EEP__INJ_SER true
 
 //
 //  Mega2560

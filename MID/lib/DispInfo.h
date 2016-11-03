@@ -35,6 +35,7 @@ void displayOutTmp() {
         lcd.print("^");
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
+        lcd.print(" ");
     }
 }
 
@@ -55,6 +56,7 @@ void displayInsTmp() {
         lcd.write((uint8_t) 5);
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
+        lcd.print(" ");
     }
 }
 
@@ -88,10 +90,6 @@ void displayTotalDst() {
 
 
     if (ampInt.isSec()) {
-
-        if (ampInt.isBig()) {
-            lcd.print("    ");
-        }
         //
         // Preformat ...
         displayFloat(value, tmp);
@@ -146,7 +144,7 @@ void displayEngTmp() {
 
     char tmpDisplay[3];
 
-    if (ampInt.isMid()) {
+    if (ampInt.isSec()) {
 
         lcd.setCursor(9, 2);
         lcd.print("ENg:");
@@ -194,7 +192,7 @@ void displayTrip() {
 //    char dspTime[5];
 //    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
 
-    if (ampInt.isMid()) {
+    if (ampInt.isSec()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
         //
@@ -262,13 +260,14 @@ void displayConsumption() {
     lcd.print(getTripCons());
 }
 
-void displayTanks() {
+void displayFuelTanks() {
     char dspLpg[2];
     char dspBnz[2];
 
-    if (ampInt.isMid()) {
+    if (ampInt.isSec()) {
 
-        sprintf(dspLpg, "%04d", carSens.getTnkLpg());
+        sprintf(dspLpg, "%04d", carSens.getTnkLpgPer());
+        sprintf(dspBnz, "%04d", carSens.getTnkBnzPer());
 
 
         lcd.setCursor(0, 0);
@@ -277,7 +276,7 @@ void displayTanks() {
 
         lcd.setCursor(1, 2);
         lcd.print(" Bnz:");
-
+        lcd.print(dspBnz);
         lcd.print("%");
         lcd.print(" Lpg:");
         lcd.print(dspLpg);

@@ -44,17 +44,20 @@ Main        Trip-------------------------------Trip-----------------------------
 
 //
 // Main menu
-MenuItem menuItem1 = MenuItem("Main", 1);
+MenuItem mainMenu = MenuItem("Main", 1);
 
 
-MenuItem menuItem2 = MenuItem("Trip", 2);
-MenuItem menuItem3 = MenuItem("Fuel", 3);
-MenuItem menuItem4 = MenuItem("Average", 4);
+MenuItem tripMenu = MenuItem("Trip", 2);
+MenuItem fuelMenu = MenuItem("Fuel", 3);
+MenuItem averMenu = MenuItem("Average", 4);
 
 //
 // Sub menu for MAIN
-MenuItem menuItemMain1 = MenuItem("Panel", 11);
-MenuItem menuItemMain2 = MenuItem("Test", 12);
+MenuItem dshBoardMenu = MenuItem("Panel", 11);
+MenuItem testingsMenu = MenuItem("Test", 12);
+//
+// Sub menu for fuel
+MenuItem FuelTankMenu = MenuItem("F-Tanks", 11);
 
 static void setupMenu() {
 
@@ -67,15 +70,21 @@ static void setupMenu() {
 
      */
 
-    menu.getRoot().add(menuItem1).add(menuItem2).add(menuItem3).add(menuItem4);
-    menuItem4.add(menuItem1); // Create Loop menu
+    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(averMenu);
+    averMenu.add(mainMenu); // Create Loop menu
 
     //
     // Main menu layers
-    menuItem1.addRight(menuItemMain1).addRight(menuItemMain2);
-    menuItemMain2.addRight(menuItemMain1); // loop
-    menuItemMain1.add(menuItem1);
-    menuItemMain2.add(menuItem1);
+    mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
+    testingsMenu.addRight(dshBoardMenu); // loop
+    //
+    // add return menu
+    dshBoardMenu.add(mainMenu);
+    testingsMenu.add(mainMenu);
+    //
+    // Fuel tank layers
+    fuelMenu.addRight(FuelTankMenu);
+    FuelTankMenu.add(fuelMenu);
     //
     // Move cursor to menu
     menu.moveDown();
@@ -93,8 +102,6 @@ static void menuChanged(MenuChangeEvent changed) {
 
     if (newMenuItem.getName() == "Main") {
         cursorMenu = 1;
-
-
     } else if (newMenuItem.getName() == "Panel") {
         cursorMenu = 11;
     } else if (newMenuItem.getName() == "Test") {
@@ -103,20 +110,19 @@ static void menuChanged(MenuChangeEvent changed) {
 
         cursorMenu = 4;
     } else if (newMenuItem.getName() == "Trip") {
-
         cursorMenu = 2;
-    } else if (newMenuItem.getName() == "Item2SubItem1") {
-        lcd.print("Item2SubItem1   ");
+//    } else if (newMenuItem.getName() == "Item2SubItem1") {
+//        lcd.print("Item2SubItem1   ");
+//    }
+//    else if (newMenuItem.getName() == "Item2SubItem2") {
+//        lcd.print("Item2SubItem2   ");
+//    }
+//    else if (newMenuItem.getName() == "Item2SubItem3") {
+//        lcd.print("Item2SubItem3   ");
     }
-    else if (newMenuItem.getName() == "Item2SubItem2") {
-        lcd.print("Item2SubItem2   ");
-    }
-    else if (newMenuItem.getName() == "Item2SubItem3") {
-        lcd.print("Item2SubItem3   ");
-    }
-    else if (newMenuItem.getName() == "Fuel") {
-
-        cursorMenu = 3;
+    else if (newMenuItem.getName() == "F-Tanks") {
+        cursorMenu = 31;
+    } else if (newMenuItem.getName() == "Trip") {
     }
     else {
         lcd.print(newMenuItem.getName());
@@ -292,7 +298,7 @@ static void menuUsed(MenuUseEvent used) {
     lcd.print(used.item.getName());
     delay(100);
     lcd.print(" Menu");
-    delay(300);  //delay to allow message reading
+    delay(500);  //delay to allow message reading
     lcd.setCursor(0, 0);
     lcd.clear();
     //

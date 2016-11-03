@@ -262,6 +262,18 @@ public:
         return CUR_LTK;
     }
 
+    int getTnkLpgPer() {
+        return (int) map(CUR_LTK, 790, 840, 0, 100);
+    }
+
+    int getTnkBnz() {
+        return 0;
+    }
+
+    int getTnkBnzPer() {
+        return 0;
+    }
+
     /**
      *  Gets travel time
      */
@@ -600,8 +612,8 @@ void CarSens::sensTnk() {
     }
 
     if (_amp->isMinute()) {
-        containerLpgTank = containerLpgTank / 2;
-        indexLpgTank = indexLpgTank / 2;
+        containerLpgTank = containerLpgTank / 3;
+        indexLpgTank = indexLpgTank / 3;
     }
 
 

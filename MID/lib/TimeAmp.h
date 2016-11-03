@@ -47,27 +47,27 @@ public:
 
     unsigned long getLoopIndex() { return loopCounter; }
 
-    bool isLow() { return (boolean) _isLow; }
+    bool isLow() { return (bool) _isLow; }
 
-    bool isMin() { return (boolean) _isMin; }
+    bool isMin() { return (bool) _isMin; }
 
-    bool isSec() { return (boolean) _isSec; }
+    bool isSec() { return (bool) _isSec; }
 
-    bool isMid() { return (boolean) _isMid; }
+    bool isMid() { return (bool) _isMid; }
 
-    bool isBig() { return (boolean) _isBig; }
+    bool isBig() { return (bool) _isBig; }
 
-    bool isMax() { return (boolean) _isMax; }
+    bool isMax() { return (bool) _isMax; }
 
     /************** Real Time *********************/
 
-    bool isSecond() { return (boolean) _isSecond; }
+    bool isSecond() { return (bool) _isSecond; }
 
-    bool isMinute() { return (boolean) _isMinute; }
+    bool isMinute() { return (bool) _isMinute; }
 
-    bool isHour() { return (boolean) _isHour; }
+    bool isHour() { return (bool) _isHour; }
 
-    bool isSens() { return (boolean) _isSens; }
+    bool isSens() { return (bool) _isSens; }
 
     void setTimer(unsigned long time);
 

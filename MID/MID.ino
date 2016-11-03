@@ -350,6 +350,9 @@ void loop() {
         case 3:
             displayConsumption();
             break;
+        case 31:
+            displayFuelTanks();
+            break;
         case ShutDw::MENU_SHUTDOWN:
             shutDown.display();
             break;
