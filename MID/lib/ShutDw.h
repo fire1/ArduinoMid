@@ -161,13 +161,14 @@ void ShutDw::listener() {
     }
     //
     // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
-    if (detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunDst() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE ||
-        detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE) {
+    if (/*detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunDst() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE ||*/
+        detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng() /*&& digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE*/) {
         //
         // Skip shutdown menu when vehicle is not moved or engine is off
         isShutdownActive = false;
         alreadyShutdown = 2;
         isShutdownInactive = true;
+        digitalWrite(pinCtrl, LOW);
     }
 }
 

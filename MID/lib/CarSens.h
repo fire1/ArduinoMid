@@ -263,7 +263,7 @@ public:
     }
 
     int getTnkLpgPer() {
-        return (int) map(CUR_LTK, 790, 840, 0, 100);
+        return (int) map(CUR_LTK, 785, 860, 0, 100);
     }
 
     int getTnkBnz() {
@@ -388,6 +388,10 @@ public:
         // Sens display dim
         if (_amp->isMin()) {
             sensDim();
+        }
+
+        if (CUR_RPM > 500) {
+            _isEngineSens = true;
         }
     }
 

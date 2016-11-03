@@ -119,12 +119,11 @@ static void menuChanged(MenuChangeEvent changed) {
 //    }
 //    else if (newMenuItem.getName() == "Item2SubItem3") {
 //        lcd.print("Item2SubItem3   ");
-    }
-    else if (newMenuItem.getName() == "F-Tanks") {
+    } else if (newMenuItem.getName() == "Fuel") {
+        cursorMenu = 3;
+    } else if (newMenuItem.getName() == "F-Tanks") {
         cursorMenu = 31;
-    } else if (newMenuItem.getName() == "Trip") {
-    }
-    else {
+    } else {
         lcd.print(newMenuItem.getName());
     }
 }

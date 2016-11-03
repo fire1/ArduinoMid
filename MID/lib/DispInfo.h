@@ -266,8 +266,8 @@ void displayFuelTanks() {
 
     if (ampInt.isSec()) {
 
-        sprintf(dspLpg, "%04d", carSens.getTnkLpgPer());
-        sprintf(dspBnz, "%04d", carSens.getTnkBnzPer());
+        sprintf(dspLpg, "%02d", carSens.getTnkLpgPer());
+        sprintf(dspBnz, "%02d", carSens.getTnkBnzPer());
 
 
         lcd.setCursor(0, 0);
@@ -275,7 +275,7 @@ void displayFuelTanks() {
 
 
         lcd.setCursor(1, 2);
-        lcd.print(" Bnz:");
+        lcd.print("Bnz:");
         lcd.print(dspBnz);
         lcd.print("%");
         lcd.print(" Lpg:");
