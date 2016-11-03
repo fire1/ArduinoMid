@@ -57,14 +57,14 @@ const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19; //  ECU signal
 
-const uint8_t LPG_LVL_PIN = A4;
+const uint8_t LPG_LVL_PIN = A4; // LPG tank sensor [20k resistance is mine]
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of display
 const uint8_t DIM_PIN_OUT = 46; // output dim of display
 //
 // Temperatures
-const uint8_t TMP_PIN_OUT = A9;
+const uint8_t TMP_PIN_OUT = A9; // External temperature sensor
 
 /* Extras ...   ******/
 //
@@ -81,7 +81,7 @@ const uint8_t ALP_PIN_VOL = 14;
 //  volatile Vehicle time travel
 //volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
-
+float TTL_TLH; // Total Liters per hour consumed
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -167,7 +167,7 @@ EepRom eepRom;
 
 //
 // Shutdown constructor
-ShutDw shutDown(&eepRom, &ampInt);
+ShutDw shutDown(&eepRom, &ampInt, &carSens);
 
 //
 //

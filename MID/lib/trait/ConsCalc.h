@@ -25,7 +25,7 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
 float TTL_CLH; // Total Consumption trip
-float TTL_TLH;
+
 float CUR_LPH;
 
 //

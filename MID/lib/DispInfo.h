@@ -37,6 +37,7 @@ void displayOutTmp() {
         lcd.write((uint8_t) 1);
     }
 }
+
 /**
  * Inside temperature
  */
@@ -56,6 +57,7 @@ void displayInsTmp() {
         lcd.write((uint8_t) 1);
     }
 }
+
 /**
  * Total consumption
  */
@@ -76,6 +78,7 @@ void displayTotalCons() {
         lcd.write((uint8_t) 4);
     }
 }
+
 /**
  * Total distance
  */
@@ -110,7 +113,7 @@ void displayEngRPM() {
         // Gets RPM
 
         lcd.setCursor(0, 2);
-        lcd.print("RPM:");
+        lcd.print("RPm:");
         //
         // Handle RPM screen print
         sprintf(rpmDisplay, "%04d", carSens.getRpm());
@@ -135,8 +138,9 @@ void displayCarKMH() {
         lcd.print(vssDisplay);
     }
 }
-/**
- * Engine Temperature
+
+/****************************************************************
+ * Display  ENG Temp
  */
 void displayEngTmp() {
 
@@ -144,8 +148,8 @@ void displayEngTmp() {
 
     if (ampInt.isMid()) {
 
-        lcd.setCursor(10, 2);
-        lcd.print("ENG:");
+        lcd.setCursor(9, 2);
+        lcd.print("ENg:");
         //
         // Handle Dst screen print
         sprintf(tmpDisplay, "%02d", carSens.getEngTmp());
@@ -155,15 +159,15 @@ void displayEngTmp() {
 }
 
 /****************************************************************
- * Display  KMh
+ * Display  ECU
  */
 void displayCarECU() {
     char ecuDisplay[2];
 
     if (ampInt.isMid()) {
 
-        lcd.setCursor(10, 0);
-        lcd.print("ECU:");
+        lcd.setCursor(9, 0);
+        lcd.print("ECu:");
         //
         // Handle ECU screen print
         sprintf(ecuDisplay, "%02d", carSens.getEcu());
@@ -258,6 +262,30 @@ void displayConsumption() {
     lcd.print(getTripCons());
 }
 
+void displayTanks() {
+    char dspLpg[2];
+    char dspBnz[2];
+
+    if (ampInt.isMid()) {
+
+        sprintf(dspLpg, "%04d", carSens.getTnkLpg());
+
+
+        lcd.setCursor(0, 0);
+        lcd.print(" Fuel Tanks");
+
+
+        lcd.setCursor(1, 2);
+        lcd.print(" Bnz:");
+
+        lcd.print("%");
+        lcd.print(" Lpg:");
+        lcd.print(dspLpg);
+        lcd.print("%");
+    }
+}
+
+
 /****************************************************************
  * Average
  */
@@ -278,6 +306,7 @@ void displayAverage() {
         lcd.print("kmh");
     }
 }
+
 
 void displayTest() {
 

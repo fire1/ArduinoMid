@@ -17,12 +17,12 @@
 //
 // Sensor correctors
 #define ECU_CORRECTION 1.8
-#define VSS_CORRECTION 3.867232 // original value is 3.609344 my tires are smaller so + 0.064444
+#define VSS_CORRECTION 3.847232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
-// 15636.44
-// Best 14952.25, 15736.44,
-#define DST_CORRECTION 15127.81 // 15836, 15436.62671159184, 16093.44  - ~6% = 15127.8336
-#define TRS_CORRECTION 0 // 0.064444 a proximity  6,4(~6.5)%
+//
+// Best 15636.44, 14952.25, 15736.44,
+#define DST_CORRECTION 15167.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
+#define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
 #define SCREEN_DEF_LIGHT 22
@@ -51,6 +51,8 @@ class CarSens {
 
 private:
 
+    bool _isEngineSens = false;
+    bool _isVehicleSens = false;
     //
     // Divider for averages
     unsigned long LOOP_SENS_INDEX = 0;
@@ -190,6 +192,14 @@ public:
         // Engine temperature
         pinMode(pinTmp, INPUT);
         pinTemp = pinTmp;
+    }
+
+    bool isRunEng() {
+        return _isEngineSens;
+    }
+
+    bool isRunDst() {
+        return _isVehicleSens;
     }
 
     /**

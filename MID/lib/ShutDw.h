@@ -11,6 +11,10 @@
 #define SHUTDOWN_SAVE_LOOPS 1200
 #endif
 
+#ifndef SHUTDOWN_LOW_VALUE
+#define SHUTDOWN_LOW_VALUE 500
+#endif
+
 #ifndef ARDUINOMID_SHUTDOWN_H
 #define ARDUINOMID_SHUTDOWN_H
 
@@ -22,6 +26,7 @@ class ShutDw {
 
     EepRom *_eep;
 
+    CarSens *_car;
 
 private :
     uint8_t pinCtrl, pinDtct, pinSaveCancel, pinTone;
@@ -31,7 +36,8 @@ private :
     int alreadySaved = 0;
     int alreadyShutdown = 0;
     bool entryUsbDetected = false;
-    bool idShutdownActive = false;
+    bool isShutdownActive = false;
+    bool isShutdownInactive = false;
     int detectorValue = 1000;
     int handlerCursorMenu;
 
@@ -44,7 +50,7 @@ private :
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
-    ShutDw(EepRom *eepRom, TimeAmp *ampInt);
+    ShutDw(EepRom *eepRom, TimeAmp *ampInt, CarSens *carSens);
 
     void setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
 
@@ -69,9 +75,10 @@ public:
 /**
  * Constructor of shutdown
  */
-ShutDw::ShutDw(EepRom *eepRom, TimeAmp *ampInt) {
+ShutDw::ShutDw(EepRom *eepRom, TimeAmp *ampInt, CarSens *carSens) {
     _eep = eepRom;
     _amp = ampInt;
+    _car = carSens;
 }
 
 /**
@@ -131,7 +138,7 @@ void ShutDw::cursor(int &cursorMenu) {
         lcd.clear();
     }
 
-    if (idShutdownActive && alreadyShutdown != 2) {
+    if (isShutdownActive && alreadyShutdown != 2) {
         cursorMenu = MENU_SHUTDOWN;
     }
 
@@ -149,8 +156,18 @@ void ShutDw::listener() {
     resolveUsbActive(detectorValue, _amp->getLoopIndex());
     //
     // Is shutdown mode ....
-    if (detectorValue < 500 && alreadyShutdown != 2) {
-        idShutdownActive = true;
+    if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
+        isShutdownActive = true;
+    }
+    //
+    // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
+    if (detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunDst() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE ||
+        detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE) {
+        //
+        // Skip shutdown menu when vehicle is not moved or engine is off
+        isShutdownActive = false;
+        alreadyShutdown = 2;
+        isShutdownInactive = true;
     }
 }
 
@@ -159,6 +176,9 @@ void ShutDw::listener() {
  */
 void ShutDw::display() {
 
+    if (isShutdownInactive) {
+        return;
+    }
     char sec[2];
 
     //
