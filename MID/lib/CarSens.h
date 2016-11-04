@@ -28,6 +28,49 @@
 #define SCREEN_DEF_LIGHT 22
 #define SCREEN_GO_TO_DEF 15
 
+/**************************/
+/* GASOLINE ENGINE CONFIG */
+/**************************/
+// [CONFIRMED] For gas car use 3355 (1/14.7/730*3600)*10000
+#define FUEL_BNZ_CNS 3355
+#define BNZ_MAF_CONST 107310 // 14.7*730*10
+
+/************************/
+/* LPG ENGINE CONFIG    */
+/************************/
+//LPG mass/volume is 520-580gr/ltr depending on propane/butane mix
+
+// LPG/air ratio:
+// 15.8:1 if 50/50 propane/butate is used
+// 15:1 if 100 propane is used
+// 15.4 if 60/40 propane/butane is used
+// experiments shows that something in middle should be used eg. 15.4:1 :)
+
+// [TEST PROGRESS] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
+#define FUEL_LPG_CNS 4329
+#define LPG_MAF_CONST 83160  // 15.4*540*10 = 83160
+#define LPG_SWTC_PIN 7
+/************************/
+/* DIESEL ENGINE CONFIG */
+/************************/
+// [NOT TESTED] For diesel car use ??? (1/??/830*3600)*10000
+//#define GasConst ????
+//#define GasMafConst ???   // ??*830*10
+#define FUEL_ADJUST 1
+/************************/
+/*        ENGINE CONFIG */
+/************************/
+// https://en.wikipedia.org/wiki/Engine_displacement
+// displacement = 0.7854.. X bore2 X stroke X Numb of Cylinders
+//  Chevy bore is 4.312 in, and the stroke is 3.65 in, therefore the displacement for this eight-cylinder engine is:
+//          3.1416/4 × (4.312 in)2 × 3.65 in × 8 = 426.4 cu in
+/*
+X18XE1
+Engine size - Displacement - Engine capacity :	1796 cm3 or 109.6 cu-in
+ */
+#define ENGINE_DSP  109.6   // engine displacement in dL
+#define CNS_TGL_VS  3       // speed from which we toggle to fuel/hour (km/h)
+
 //
 // Using Arduino API for Attach interrupt
 static void EngSens_catchRpmHits();
@@ -51,6 +94,10 @@ class CarSens {
 
 private:
 
+    unsigned long sensCnsOldTime,
+            TTL_FL_CNS,  // Consumed fuel
+            TTL_FL_WST;  // Waste fuel
+
     bool _isEngineSens = false;
     bool _isVehicleSens = false;
     //
@@ -73,8 +120,9 @@ private:
     // LPG tank
     int CUR_LTK;
     //
-    // Travel time
-    unsigned long CUR_VTT;
+    unsigned long
+            CUR_VTT,// Travel time
+            CUR_MAF;// Current Mas Air Flow
 
     unsigned long indexLpgTank = 0;
     int long containerLpgTank = 0;
@@ -120,9 +168,11 @@ private:
  */
     int long lastReadValueDim = 0;
 
+    unsigned int convertToLitres(unsigned int gallons) {
+        return (unsigned int) (((unsigned long) gallons * 378L) / 100L);
+    }
 
 protected:
-
     /**
       * Setup RPM
      */
@@ -147,6 +197,14 @@ protected:
         attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
     }
 
+    int getFuelVal() {
+        // TODO make detection when car is running  on LPG
+#if defined(LPG_SWTC_PIN)
+
+#endif
+        return FUEL_LPG_CNS;
+
+    }
 
     void sensVss();
 
@@ -161,6 +219,8 @@ protected:
     void sensAvr();
 
     void sensCrm();
+
+    void sensCns();
 
 public:
 
@@ -230,6 +290,8 @@ public:
 
     }
 
+    int getIfc();
+
     /**
      * Gets engine temperature
      */
@@ -263,6 +325,14 @@ public:
     }
 
     int getTnkLpgPer() {
+        //
+        // I received some additional information from the manufacturer of the fuel gauge if this changes anything:
+        // The fuel input is approximately 4.5V through 150 ohm.
+        // 73 ohm sender voltage would be 4.5*73/(150+73) = 1.5V
+        // 10 ohm sender voltage would be 4.5*10/(150+10) = 0.3V
+        // 240 ohm sender voltage would be 4.5*240/(150+240) = 2.8V
+        // 33 ohm sender voltage would be 4.5*33/(150+33) = 0.8V
+        // So in my case 20k fuel gauge
         return (int) map(CUR_LTK, 785, 860, 0, 100);
     }
 
@@ -370,7 +440,6 @@ public:
             foo = getVss();
             foo = getAvrVss();
             foo = getAvrRpm();
-
         }
 
         int vss = getVss();
@@ -389,7 +458,8 @@ public:
         if (_amp->isMin()) {
             sensDim();
         }
-
+        //
+        // Mark engine on
         if (CUR_RPM > 500) {
             _isEngineSens = true;
         }
@@ -694,6 +764,90 @@ void CarSens::sensCrm() {
         lastRecordTravelTimeTrip = currentTimeTrip;
         CUR_VDS = timeTravelTrip / 1000;*/
     }
+}
+
+/**
+ * Based on OBDuino32K
+ * Calculate Consumption
+ *      This method is running locally (only from class) to resolve MAF && consume
+ */
+void CarSens::sensCns() {
+    unsigned long delta_dist, delta_fuel;
+    unsigned long time_now, delta_time;
+
+    // time elapsed
+    time_now = millis();
+    delta_time = time_now - sensCnsOldTime;
+    sensCnsOldTime = time_now;
+    /*
+    I just hope if you don't have a MAF, you have a MAP!!
+
+     No MAF (Uses MAP and Absolute Temp to approximate MAF):
+     IMAP = RPM * MAP / IAT
+     MAF = (IMAP/120)*(VE/100)*(ED)*(MM)/(R)
+     MAP - Manifold Absolute Pressure in kPa
+     IAT - Intake Air Temperature in Kelvin
+     R - Specific Gas Constant (8.314472 J/(mol.K)
+     MM - Average molecular mass of air (28.9644 g/mol)
+     VE - volumetric efficiency measured in percent, let's say 80%
+     ED - Engine Displacement in liters
+     This method requires tweaking of the VE for accuracy.
+     */
+    long imap, rpm, manp, iat, maf;
+
+
+    imap = (CUR_RPM * manp) / (iat + 273);
+    // does not divide by 100 at the end because we use (MAF*100) in formula
+    // but divide by 10 because engine displacement is in dL
+    // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
+    // ex: VSS=80km/h, MAP=64kPa, RPM=1800, IAT=21C
+    //     engine=2.2L, efficiency=70%
+    // maf = ( (1800*64)/(21+273) * 22 * 20 ) / 100
+    // maf = 17.24 g/s which is about right at 80km/h
+    CUR_MAF = (long) (imap * ENGINE_DSP) / 5;
+    // at idle MAF output is about 2.25 g of air /s on my car
+    // so about 0.15g of fuel or 0.210 mL
+    // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
+    // as we sample about 4 times per second at 9600 bauds
+    // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
+    // also, adjust maf with fuel param, will be used to display instant cons
+    delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / BNZ_MAF_CONST;
+
+    TTL_FL_CNS += delta_fuel;
+
+    //code to accumlate fuel wasted while idling
+    if (CUR_VSS == 0) {//car not moving
+        TTL_FL_WST += delta_fuel;
+    }
+}
+
+/**
+ * Based on OBDuino32K
+ * Instance Fuel Consumption
+ */
+int CarSens::getIfc() {
+    long cons;
+    char decs[16];
+
+
+    // divide MAF by 100 because our function return MAF*100
+    // but multiply by 100 for double digits precision
+    // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
+    // divide by 730 (g/L at 15°C) according to Canadian Gov to have L/s
+    // multiply by 3600 to get litre per hour
+    // formula: (3600 * MAF) / (14.7 * 730 * VSS)
+    // = maf*0.3355/vss L/km
+    // mul by 100 to have L/100km
+
+    // if maf is 0 it will just output 0
+    if (CUR_VSS < CNS_TGL_VS) {
+        cons = (CUR_MAF * FUEL_BNZ_CNS) / 10000;  // L/h, do not use float so mul first then divide
+    } else {
+        cons = (CUR_MAF * FUEL_BNZ_CNS) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
+    }
+
+
+    return (unsigned int) cons;
 }
 
 #endif //ARDUINOMID_ENGSENS_H

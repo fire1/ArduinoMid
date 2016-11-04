@@ -274,7 +274,7 @@ void displayFuelTanks() {
         lcd.print(" Fuel Tanks");
 
 
-        lcd.setCursor(1, 2);
+        lcd.setCursor(0, 2);
         lcd.print("Bnz:");
         lcd.print(dspBnz);
         lcd.print("%");
