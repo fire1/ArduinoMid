@@ -170,6 +170,7 @@ void displayCarECU() {
         // Handle ECU screen print
         sprintf(ecuDisplay, "%02d", carSens.getEcu());
         lcd.print(ecuDisplay);
+        lcd.print(" ");
     }
 
 }
@@ -218,7 +219,7 @@ void displayTrip() {
 /****************************************************************
  * Consumptions
  */
-void displayConsumption() {
+void displayConsumption2() {
 
     if (ampInt.isMid()) {
 
@@ -259,6 +260,50 @@ void displayConsumption() {
     lcd.write((uint8_t) 8);
     lcd.print(getTripCons());
 }
+
+void displayConsumption() {
+
+    if (ampInt.isMax()) {
+
+        lcd.setCursor(0, 0);
+        lcd.print(" Consumption 2");
+
+
+        lcd.setCursor(1, 2);
+
+        lcd.write((uint8_t) 5);
+        lcd.write((uint8_t) 6);
+        lcd.print("  ");
+
+        lcd.setCursor(9, 2);
+        lcd.write((uint8_t) 7);
+        lcd.write((uint8_t) 8);
+        lcd.print("   ");
+
+
+    }
+
+    char dspInst[3];
+    char dspTotal[3];
+
+    if (ampInt.isLow()) {
+
+        displayFloat(carSens.getIfc() * 0.001, dspInst);
+
+        lcd.setCursor(1, 2);
+        lcd.print((char) 5);
+        lcd.print((char) 6);
+        lcd.print(dspInst);
+
+        displayFloat(carSens.getTfc() * 0.0001, dspTotal);
+
+        lcd.setCursor(9, 2);
+        lcd.write((uint8_t) 7);
+        lcd.write((uint8_t) 8);
+        lcd.print(dspTotal);
+    }
+}
+
 
 void displayFuelTanks() {
     char dspLpg[2];

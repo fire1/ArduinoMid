@@ -18,7 +18,7 @@
 
 
 #include <SPI.h>
-#include "TimeAmp.h"
+#include "IntAmp.h"
 
 //#define STR_DEBUG
 #define STR_WHL_SEND_A
@@ -41,7 +41,7 @@ class WhlSens {
 
 private:
 
-    TimeAmp *_amp;
+    IntAmp *_amp;
 
     bool isButtonPressActive = 0;
     uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
@@ -60,7 +60,7 @@ private:
     void setButtonStateParser(int currentState);
 
 public:
-    WhlSens(TimeAmp *timeAmp);
+    WhlSens(IntAmp *timeAmp);
 
     //
     // Define buttons values
@@ -103,7 +103,7 @@ public:
  ***********************************************************************************************/
 
 
-WhlSens::WhlSens(TimeAmp *timeAmp) {
+WhlSens::WhlSens(IntAmp *timeAmp) {
     _amp = timeAmp;
 }
 

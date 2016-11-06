@@ -24,7 +24,7 @@ const int ConsumptionCalibrationReadingsDistance = 9;
 // 56 litres ÷ 800km = 0.07.
 // 0.07 x 100 = 7.0 litres (ℓ) per 100 km.
 // Therefore, the fuel consumption for that driving period would be 7ℓ/100km
-float TTL_CLH; // Total Consumption trip
+
 
 float CUR_LPH;
 
@@ -116,10 +116,10 @@ void sensCon() {
 
     double VolumetricEfficiency = getVolumetricEfficiency(rpm);
 
-    if (ampInt.isMax()) {
-        Serial.print("Temperature engine");
-        Serial.println(carSens.getEngTmp());
-    }
+//    if (ampInt.isMax()) {
+//        Serial.print("Temperature engine");
+//        Serial.println(carSens.getEngTmp());
+//    }
 
     if (ampInt.isSens()) {
         /*19.38375*/
@@ -184,13 +184,13 @@ float getInstCons() {
 }
 
 void sensFus() {
-    if (ampInt.isSens()) {
-        float result = TTL_CLH + ((CUR_TLH / 3600) / 2.2);
-
-        if (CUR_TLH < 50) {
-            TTL_CLH = result;
-        }
-    }
+//    if (ampInt.isSens()) {
+//        float result = TTL_CLH + ((CUR_TLH / 3600) / 2.2);
+//
+//        if (CUR_TLH < 50) {
+//            TTL_CLH = result;
+//        }
+//    }
 }
 
 float getTripCons() {

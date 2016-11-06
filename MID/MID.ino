@@ -82,6 +82,7 @@ const uint8_t ALP_PIN_VOL = 14;
 //volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
 float TTL_TLH; // Total Liters per hour consumed
+float TTL_CLH; // Total Consumption trip
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -118,7 +119,7 @@ int showerCounter = 0;
 
 //
 //
-#include "lib/TimeAmp.h"
+#include "lib/IntAmp.h"
 //
 // Adding Alphine emulator
 #include "lib/WhlSens.h"
@@ -135,7 +136,7 @@ int showerCounter = 0;
 //
 // Amplitude interval
 //      between loops
-TimeAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
+IntAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
 //
 // Constructing the class
 CarSens carSens(&ampInt);
@@ -177,6 +178,8 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
+
+
     //
     // Shutdown setupEngine
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
@@ -184,11 +187,11 @@ void setup() {
     // Turn display off
     lcd.noDisplay();
     //
-    // Change timer 3
-    setupUseTimer3();
-    //
     // Debug serial
     Serial.begin(9600);
+    //
+    // Change timer 3
+    setupUseTimer3();
     //
     //
     eepRom.setup();
@@ -351,6 +354,9 @@ void loop() {
             displayConsumption();
             break;
         case 31:
+            displayConsumption2();
+            break;
+        case 32:
             displayFuelTanks();
             break;
         case ShutDw::MENU_SHUTDOWN:

@@ -67,6 +67,10 @@ float restoreFloat(int a, int b) {
     return c;
 }
 
+/**
+ * Setup timer for ECU,RPM,VSS input pins
+ * Timer 3
+ */
 void setupUseTimer3() {
 
     TIMSK3 &= ~(1 << TOIE3);

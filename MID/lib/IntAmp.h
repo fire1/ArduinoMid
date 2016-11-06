@@ -26,7 +26,7 @@
 /** @description
  *
  */
-class TimeAmp {
+class IntAmp {
 
 private:
     unsigned long timer;
@@ -41,7 +41,7 @@ private:
      */
     unsigned long loopCounter = 0;
 public:
-    TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax);
+    IntAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax);
 
     void listener();
 
@@ -82,7 +82,7 @@ public:
  ***********************************************************************************************/
 
 
-TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax) {
+IntAmp::IntAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax) {
 
     ampMin = intervalMin;
     ampLow = intervalLow;
@@ -96,25 +96,25 @@ TimeAmp::TimeAmp(int intervalMin, int intervalLow, int intervalMid, int interval
 /**
  * Sets external timer
  */
-void TimeAmp::setTimer(unsigned long time) {
+void IntAmp::setTimer(unsigned long time) {
     timer = time;
 }
 
 /**
  * Listen cases
  */
-void TimeAmp::listener() {
+void IntAmp::listener() {
 
     unsigned long curIndex = loopCounter;
 
-    if (curIndex >= curMin + ampMin) {
+    if (curIndex >= curMin + ampMin && !_isMin) {
         curMin = curIndex;
         _isMin = 1;
     } else {
         _isMin = 0;
     }
 
-    if (curIndex >= curLow + ampLow) {
+    if (curIndex >= curLow + ampLow && !_isLow) {
         curLow = curIndex;
         _isLow = 1;
     } else {
@@ -122,28 +122,28 @@ void TimeAmp::listener() {
     }
 
 
-    if (curIndex >= curSec + ampSec) {
+    if (curIndex >= curSec + ampSec && !_isSec) {
         curSec = curIndex;
         _isSec = 1;
     } else {
         _isSec = 0;
     }
 
-    if (curIndex >= curMid + ampMid) {
+    if (curIndex >= curMid + ampMid && !_isMid) {
         curMid = curIndex;
         _isMid = 1;
     } else {
         _isMid = 0;
     }
 
-    if (curIndex >= curBig + ampBig) {
+    if (curIndex >= curBig + ampBig && !_isBig) {
         curBig = curIndex;
         _isBig = 1;
     } else {
         _isBig = 0;
     }
 
-    if (curIndex >= curMax + ampMax) {
+    if (curIndex >= curMax + ampMax && !_isMax) {
         curMax = curIndex;
         _isMax = 1;
     } else {

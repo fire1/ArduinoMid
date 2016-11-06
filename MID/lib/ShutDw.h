@@ -22,7 +22,7 @@
 class ShutDw {
 
 
-    TimeAmp *_amp;
+    IntAmp *_amp;
 
     EepRom *_eep;
 
@@ -50,7 +50,7 @@ private :
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
-    ShutDw(EepRom *eepRom, TimeAmp *ampInt, CarSens *carSens);
+    ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens);
 
     void setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
 
@@ -75,7 +75,7 @@ public:
 /**
  * Constructor of shutdown
  */
-ShutDw::ShutDw(EepRom *eepRom, TimeAmp *ampInt, CarSens *carSens) {
+ShutDw::ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens) {
     _eep = eepRom;
     _amp = ampInt;
     _car = carSens;
@@ -151,25 +151,28 @@ void ShutDw::listener() {
     //
     // Get voltage from pin
     detectorValue = analogRead(pinDtct);
-    //
-    // Detect usb
-    resolveUsbActive(detectorValue, _amp->getLoopIndex());
-    //
-    // Is shutdown mode ....
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
-        isShutdownActive = true;
-    }
-    //
-    // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
-    if (/*detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunDst() && digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE ||*/
-        detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng() /*&& digitalRead(pinSaveCancel) != SHUTDOWN_SAVE_STATE*/) {
         //
-        // Skip shutdown menu when vehicle is not moved or engine is off
-        isShutdownActive = false;
-        alreadyShutdown = 2;
-        isShutdownInactive = true;
-        digitalWrite(pinCtrl, LOW);
+        // get data again
+        detectorValue = analogRead(pinDtct);
+        //
+        // Is shutdown mode .... not noise
+        if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE) {
+            isShutdownActive = true;
+        }
+        //
+        // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
+        if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng()) {
+            //
+            // Skip save and shutdown
+            digitalWrite(pinCtrl, LOW);
+        }
+        //
+        // Reverse value for next check
+        detectorValue = !detectorValue;
     }
+
+
 }
 
 /**
@@ -177,9 +180,7 @@ void ShutDw::listener() {
  */
 void ShutDw::display() {
 
-    if (isShutdownInactive) {
-        return;
-    }
+
     char sec[2];
 
     //
@@ -220,7 +221,7 @@ void ShutDw::display() {
     //
     // Listen press button
     if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE) {
-        delay(10);
+        delay(5);
         if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             displayCancel();
         }

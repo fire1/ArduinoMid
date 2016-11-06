@@ -57,7 +57,8 @@ MenuItem dshBoardMenu = MenuItem("Panel", 11);
 MenuItem testingsMenu = MenuItem("Test", 12);
 //
 // Sub menu for fuel
-MenuItem FuelTankMenu = MenuItem("F-Tanks", 11);
+MenuItem FuelConsMenu = MenuItem("F-Cons");
+MenuItem FuelTankMenu = MenuItem("F-Tanks");
 
 static void setupMenu() {
 
@@ -82,9 +83,10 @@ static void setupMenu() {
     dshBoardMenu.add(mainMenu);
     testingsMenu.add(mainMenu);
     //
-    // Fuel tank layers
-    fuelMenu.addRight(FuelTankMenu);
+    // Fuel  layers
+    fuelMenu.addRight(FuelConsMenu).addRight(FuelTankMenu);
     FuelTankMenu.add(fuelMenu);
+    FuelConsMenu.add(fuelMenu);
     //
     // Move cursor to menu
     menu.moveDown();
@@ -121,8 +123,10 @@ static void menuChanged(MenuChangeEvent changed) {
 //        lcd.print("Item2SubItem3   ");
     } else if (newMenuItem.getName() == "Fuel") {
         cursorMenu = 3;
-    } else if (newMenuItem.getName() == "F-Tanks") {
+    } else if (newMenuItem.getName() == "F-Cons") {
         cursorMenu = 31;
+    } else if (newMenuItem.getName() == "F-Tanks") {
+        cursorMenu = 32;
     } else {
         lcd.print(newMenuItem.getName());
     }

@@ -2,7 +2,7 @@
 // Created by Angel Zaprianov on 19.10.2016 г..
 //
 #include <Arduino.h>
-#include "TimeAmp.h"
+#include "IntAmp.h"
 
 #define MID_CAR_SENS_VERSION 0.1
 
@@ -16,12 +16,12 @@
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // Sensor correctors
-#define ECU_CORRECTION 1.8
+#define ECU_CORRECTION 3
 #define VSS_CORRECTION 3.847232 // original value is 3.609344 my tires are smaller
-#define RPM_CORRECTION 32.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
+#define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 //
 // Best 15636.44, 14952.25, 15736.44,
-#define DST_CORRECTION 15167.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
+#define DST_CORRECTION 15177.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
@@ -72,6 +72,15 @@ Engine size - Displacement - Engine capacity :	1796 cm3 or 109.6 cu-in
 #define CNS_TGL_VS  3       // speed from which we toggle to fuel/hour (km/h)
 
 //
+// Car's ratio gears
+#define CAR_GEAR_G1  3.308
+#define CAR_GEAR_G2  2.13
+#define CAR_GEAR_G3  1.483
+#define CAR_GEAR_G4  1.139
+#define CAR_GEAR_G5  0.949
+#define CAR_GEAR_G6  0.816
+
+//
 // Using Arduino API for Attach interrupt
 static void EngSens_catchRpmHits();
 
@@ -90,9 +99,14 @@ class CarSens {
 
     //
     // Take a pointer to time amplitude instance
-    TimeAmp *_amp;
+    IntAmp *_amp;
 
 private:
+
+    //
+    // Gears resolver constants
+    const float CAR_GEAR_Dia = 616;
+    const float CAR_GEAR_Pi = 3.14;
 
     unsigned long sensCnsOldTime,
             TTL_FL_CNS,  // Consumed fuel
@@ -112,7 +126,7 @@ private:
     int
     //
     // Human Results
-            CUR_VSS, CUR_RPM, CUR_ECU;
+            CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT, CUR_IFC;
     //
     // Distance container
     unsigned long int CUR_VDS;
@@ -130,6 +144,10 @@ private:
     //
     // Speeding alarms
     int speedAlarmCursor = 1;
+
+    //
+    //
+    int carGearNum = 0;
 
     /**
      * Handles speeding alarms
@@ -222,9 +240,19 @@ protected:
 
     void sensCns();
 
+    void sensIfc();
+
+    void sensEnt() {
+        if (_amp->isSens()) {
+            int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
+            if (val > -40)
+                CUR_ENT = val;
+        }
+    }
+
 public:
 
-    CarSens(TimeAmp *ampInt);
+    CarSens(IntAmp *ampInt);
 
     //
     // Speeding alarm modes
@@ -240,6 +268,8 @@ public:
     void clearBaseData() {
         CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
     }
+
+    int getGear(int CarSpeed, int Rpm);
 
     /**
      * Setup engine
@@ -290,13 +320,15 @@ public:
 
     }
 
-    int getIfc();
+    int getIfc() {
+        return CUR_IFC;
+    }
 
     /**
      * Gets engine temperature
      */
     int getEngTmp() {
-        return (analogRead(pinTemp) / 4 - 41);
+        return CUR_ENT;
     }
 
     /**
@@ -391,6 +423,9 @@ public:
         return km;
     }
 
+    long getTfc() {
+        return TTL_FL_CNS;
+    }
 
     /**
      * Gets Average Vss
@@ -429,6 +464,9 @@ public:
         sei();
         sensTnk();
         sensAvr();
+        sensEnt();
+        sensCns();
+        sensIfc();
         //
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
@@ -472,7 +510,7 @@ public:
  *                                   CPP part of file                                          *
  *                                                                                             *
  ***********************************************************************************************/
-CarSens::CarSens(TimeAmp *ampInt) {
+CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
 }
 
@@ -794,38 +832,46 @@ void CarSens::sensCns() {
      This method requires tweaking of the VE for accuracy.
      */
     long imap, rpm, manp, iat, maf;
+    if (_amp->isSens()) {
+        iat = getEngTmp();
 
+        manp = getEcu();
 
-    imap = (CUR_RPM * manp) / (iat + 273);
-    // does not divide by 100 at the end because we use (MAF*100) in formula
-    // but divide by 10 because engine displacement is in dL
-    // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
-    // ex: VSS=80km/h, MAP=64kPa, RPM=1800, IAT=21C
-    //     engine=2.2L, efficiency=70%
-    // maf = ( (1800*64)/(21+273) * 22 * 20 ) / 100
-    // maf = 17.24 g/s which is about right at 80km/h
-    CUR_MAF = (long) (imap * ENGINE_DSP) / 5;
-    // at idle MAF output is about 2.25 g of air /s on my car
-    // so about 0.15g of fuel or 0.210 mL
-    // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
-    // as we sample about 4 times per second at 9600 bauds
-    // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
-    // also, adjust maf with fuel param, will be used to display instant cons
-    delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / BNZ_MAF_CONST;
+        imap = (CUR_RPM * manp) / (iat + 273);
+        // does not divide by 100 at the end because we use (MAF*100) in formula
+        // but divide by 10 because engine displacement is in dL
+        // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
+        // ex: VSS=80km/h, MAP=64kPa, RPM=1800, IAT=21C
+        //     engine=2.2L, efficiency=70%
+        // maf = ( (1800*64)/(21+273) * 22 * 20 ) / 100
+        // maf = 17.24 g/s which is about right at 80km/h
+        CUR_MAF = (long) (imap * ENGINE_DSP) / 5;
+        // at idle MAF output is about 2.25 g of air /s on my car
+        // so about 0.15g of fuel or 0.210 mL
+        // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
+        // as we sample about 4 times per second at 9600 bauds
+        // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
+        // also, adjust maf with fuel param, will be used to display instant cons
+        delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / BNZ_MAF_CONST;
 
-    TTL_FL_CNS += delta_fuel;
+        TTL_FL_CNS += delta_fuel;
 
-    //code to accumlate fuel wasted while idling
-    if (CUR_VSS == 0) {//car not moving
-        TTL_FL_WST += delta_fuel;
+        //code to accumlate fuel wasted while idling
+        if (CUR_VSS == 0) {//car not moving
+            TTL_FL_WST += delta_fuel;
+        }
+
+        TTL_CLH = (TTL_FL_CNS * 0.0001);
     }
+
+
 }
 
 /**
  * Based on OBDuino32K
  * Instance Fuel Consumption
  */
-int CarSens::getIfc() {
+void CarSens::sensIfc() {
     long cons;
     char decs[16];
 
@@ -839,15 +885,53 @@ int CarSens::getIfc() {
     // = maf*0.3355/vss L/km
     // mul by 100 to have L/100km
 
-    // if maf is 0 it will just output 0
-    if (CUR_VSS < CNS_TGL_VS) {
-        cons = (CUR_MAF * FUEL_BNZ_CNS) / 10000;  // L/h, do not use float so mul first then divide
-    } else {
-        cons = (CUR_MAF * FUEL_BNZ_CNS) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
+    if (_amp->isSens()) {
+        // if maf is 0 it will just output 0
+        if (CUR_VSS < CNS_TGL_VS) {
+            cons = (CUR_MAF * FUEL_BNZ_CNS) / 10000;  // L/h, do not use float so mul first then divide
+        } else {
+            cons = (CUR_MAF * FUEL_BNZ_CNS) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
+        }
+        CUR_IFC = cons;
     }
 
+    if (_amp->isMax()) {
 
-    return (unsigned int) cons;
+        Serial.print("\n\n Fuel Cons  | ins: ");
+        Serial.print(CUR_IFC);
+        Serial.print(" ||  ttl: ");
+        Serial.print(TTL_FL_CNS);
+        Serial.print(" || maf:");
+        Serial.print(CUR_MAF);
+
+        Serial.print("\n\n ");
+    }
+}
+
+/**
+ * Car gear
+ * todo Needs testing
+ */
+int CarSens::getGear(int CarSpeed, int Rpm) {
+    float FinalG, Ratio, Diff;
+
+    FinalG = 3.706;
+    if (CarSpeed != 0) {
+
+        Ratio = (Rpm * CAR_GEAR_Pi * CAR_GEAR_Dia * 60) / (CarSpeed * FinalG * 1000000);
+
+        carGearNum = 7;
+
+        if ((-0.1 < Ratio - CAR_GEAR_G1) and (Ratio - CAR_GEAR_G1 < 0.1)) carGearNum = 1;
+        if ((-0.1 < Ratio - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
+        if ((-0.1 < Ratio - CAR_GEAR_G3) and (Ratio - CAR_GEAR_G3 < 0.1)) carGearNum = 3;
+        if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
+        if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
+        if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
+    }
+    else carGearNum = 0;
+
+    return carGearNum;
 }
 
 #endif //ARDUINOMID_ENGSENS_H
