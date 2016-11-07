@@ -141,6 +141,9 @@ private:
     unsigned long indexLpgTank = 0;
     int long containerLpgTank = 0;
 
+    float AVR_IFC;
+    unsigned long collectionIfc, indexIfc;
+
     //
     // Speeding alarms
     int speedAlarmCursor = 1;
@@ -322,6 +325,10 @@ public:
 
     int getIfc() {
         return CUR_IFC;
+    }
+
+    float getIfcAvr() {
+        return AVR_IFC;
     }
 
     /**
@@ -861,7 +868,7 @@ void CarSens::sensCns() {
             TTL_FL_WST += delta_fuel;
         }
 
-        TTL_CLC = (TTL_FL_CNS * 0.0001);
+        TTL_CLC = (TTL_FL_CNS * 0.0001);// L/h, comes from the /10000*100
     }
 
 
@@ -893,7 +900,18 @@ void CarSens::sensIfc() {
             cons = (CUR_MAF * FUEL_BNZ_CNS) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
+
+        indexIfc++;
+        collectionIfc += cons;
+
+        AVR_IFC = (collectionIfc / indexIfc) * 0.001;
     }
+
+    if (_amp->isMax()) {
+        indexIfc = indexIfc / 4;
+        collectionIfc = collectionIfc / 4;
+    }
+
 
     if (_amp->isMax()) {
 

@@ -320,42 +320,42 @@ void loop() {
 //
 // Serial injection
 #if defined(SERIAL_INJECT_DATA)
-    String allData;
-    String stringName;
-
-    boolean _r = false;
+    String srlAllData;
+    String srlStrName;
+    String srlOutputs;
+    //
+    // Default message
+    srlOutputs = " None ... Sorry! ";
     //
     // Execute command from serial
     if (Serial.available() > 0) {
-        stringName = Serial.readStringUntil('=');
-        if (stringName == "TTD") {
-            _r = 1;
+        srlStrName = Serial.readStringUntil('=');
+        //
+        // So ... C++ is static language...
+        //      is not good idea to re-set dynamically
+        if (srlStrName == "TTD") {
             TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_TTD";
+            srlOutputs += TTL_TTD;
         }
-        if (stringName == "TLC") {
-            _r = 1;
+        if (srlStrName == "TLC") {
             TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_TLC";
+            srlOutputs += TTL_TLC;
         }
-        if (stringName == "CLC") {
-            _r = 1;
+        if (srlStrName == "CLC") {
             TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_CLC";
+            srlOutputs += TTL_CLC;
         }
-    }
-
-    //
-    // Show message to human ...
-    while (Serial.available() > 0) {
-        char recieved = Serial.read();
-
-        // Process message when new line character is recieved
-        if (recieved == '\n') {
-            Serial.print("[MID $]> ");
-            Serial.print(allData);
-            Serial.println(_r ? " \t\t [OK] " : " \t\t [NO] ");
-
-            stringName = "";
-            allData = ""; // Clear recieved buffer
-        }
+        //
+        // Show command information to human
+        Serial.println("[MID $]> Affected value of " + srlOutputs);
+        //
+        // Remove containers
+        srlStrName = "";
+        srlAllData = ""; // Clear recieved buffer
+        srlOutputs = "";
     }
 #endif
 
@@ -366,18 +366,14 @@ void loop() {
  */
 static void playWelcomeScreen() {
     lcd.setCursor(0, 0);
-    lcd.print("Welcome to Astra");
+    lcd.print("    ASTRA       ");
     //
     // Test tone
     tone(ADT_ALR_PIN, 400, 100);
-    delay(1000);
+    delay(10);
     lcd.setCursor(0, 1);
-    lcd.print("Nice driving! ");
-    tone(ADT_ALR_PIN, 400, 200);
-    delay(500);
-    tone(ADT_ALR_PIN, 600, 300);
-    lcd.print(":)");
-    delay(1500);
+    lcd.print("    Bertnone    ");
+    delay(1000);
     lcd.clear();
 }
 

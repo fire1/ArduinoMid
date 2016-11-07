@@ -284,14 +284,14 @@ void displayConsumption() {
 
     if (ampInt.isMid()) {
 
-        displayFloat(carSens.getIfc() * 0.001, dspInst);
+        displayFloat(/*carSens.getIfc() * 0.001*/ carSens.getIfcAvr(), dspInst);
 
         lcd.setCursor(1, 2);
         lcd.print((char) 5);
         lcd.print((char) 6);
         lcd.print(dspInst);
 
-        displayFloat(carSens.getTfc() * 0.0001, dspTotal);
+        displayFloat(TTL_CLC /*carSens.getTfc() * 0.0001*/, dspTotal);
 
         lcd.setCursor(9, 2);
         lcd.write((uint8_t) 7);
