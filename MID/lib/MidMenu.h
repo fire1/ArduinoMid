@@ -136,6 +136,8 @@ unsigned long lastButtonPress = 0;
 
 unsigned long entryDownState = 0;
 
+boolean secondTone = 0;
+
 /**
  * Lower the code
  */
@@ -165,7 +167,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         }
         //
         // Hold
-        if (entryDownState + 1200 < millis() && !digitalRead(buttonPinDw) == HIGH) {
+        if (entryDownState + 1000 < millis() && !digitalRead(buttonPinDw) == HIGH) {
             //
             // If is still high state [pressed]
             if (!digitalRead(buttonPinDw) == HIGH) {
@@ -219,7 +221,8 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                     // Exit inner level menu
                 } else if (isInSubMenu == 1) {
                     isInSubMenu = 0;
-                    tone(ADT_ALR_PIN, 1600, 100);
+                    tone(ADT_ALR_PIN, 400, 50);
+                    secondTone = 1;
                 }
             } else {
                 //
@@ -244,6 +247,12 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         entryDownState = 0;
         whlSens.enable(); // unlock radio
     }
+
+    if (ampInt.isSec() && secondTone) {
+        tone(ADT_ALR_PIN, 800, 50);
+        secondTone = 0;
+    }
+
 }
 
 char lastMainMenuState = 0;

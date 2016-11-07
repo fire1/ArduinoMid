@@ -335,17 +335,17 @@ void loop() {
         //      is not good idea to re-set dynamically
         if (srlStrName == "TTD") {
             TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TTD";
+            srlOutputs = "TTL_TTD ";
             srlOutputs += TTL_TTD;
         }
         if (srlStrName == "TLC") {
             TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TLC";
+            srlOutputs = "TTL_TLC ";
             srlOutputs += TTL_TLC;
         }
         if (srlStrName == "CLC") {
             TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_CLC";
+            srlOutputs = "TTL_CLC ";
             srlOutputs += TTL_CLC;
         }
         //

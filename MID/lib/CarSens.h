@@ -10,18 +10,18 @@
 #define ARDUINOMID_ENGSENS_H
 //
 // City Speed alarm
-#define VSS_ALARM_CITY_SPEED  62 // km
-#define VSS_ALARM_VWAY_SPEED  102 // km
-#define VSS_ALARM_HWAY_SPEED  142 // km
+#define VSS_ALARM_CITY_SPEED  61 // km
+#define VSS_ALARM_VWAY_SPEED  101 // km
+#define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // Sensor correctors
 #define ECU_CORRECTION 3
-#define VSS_CORRECTION 3.847232 // original value is 3.609344 my tires are smaller
+#define VSS_CORRECTION 3.837232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 //
 // Best 15636.44, 14952.25, 15736.44,
-#define DST_CORRECTION 15177.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
+#define DST_CORRECTION 15197.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
@@ -901,15 +901,19 @@ void CarSens::sensIfc() {
         }
         CUR_IFC = cons;
 
+
         indexIfc++;
         collectionIfc += cons;
+
 
         AVR_IFC = (collectionIfc / indexIfc) * 0.001;
     }
 
-    if (_amp->isMax()) {
-        indexIfc = indexIfc / 4;
-        collectionIfc = collectionIfc / 4;
+    //
+    // Null but keep 1/3 of assumed data
+    if (_amp->is5Seconds()) {
+        indexIfc = 3;
+        collectionIfc = (int) AVR_IFC * 3;
     }
 
 
