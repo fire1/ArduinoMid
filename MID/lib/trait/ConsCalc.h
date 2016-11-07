@@ -185,10 +185,10 @@ float getInstCons() {
 
 void sensFus() {
 //    if (ampInt.isSens()) {
-//        float result = TTL_CLH + ((CUR_TLH / 3600) / 2.2);
+//        float result = TTL_CLC + ((CUR_TLH / 3600) / 2.2);
 //
 //        if (CUR_TLH < 50) {
-//            TTL_CLH = result;
+//            TTL_CLC = result;
 //        }
 //    }
 }

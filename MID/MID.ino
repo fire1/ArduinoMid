@@ -20,7 +20,7 @@
  MID function menu
 
 */
-
+#define SERIAL_INJECT_DATA
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -81,8 +81,10 @@ const uint8_t ALP_PIN_VOL = 14;
 //  volatile Vehicle time travel
 //volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
-float TTL_TLH; // Total Liters per hour consumed
-float TTL_CLH; // Total Consumption trip
+float TTL_TLC; // Total Liters per hour consumed
+float TTL_CLC; // Total Consumption trip
+
+
 /*
 #include <SerialDebug.h>
 #define DEBUG true
@@ -233,61 +235,13 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-//    TTL_TLH = 12.34;
+//    TTL_TLC = 12.34;
 
 }
 
 
 void loop() {
 
-#if defined(EEP__INJ_SER)
-    if (Serial.available()) {
-        int val = Serial.parseInt();
-
-        if (val != 0) {
-
-            float value = val * 0.01;
-
-            int vl[2];
-            Serial.print(" Insert value is \t ");
-            Serial.println(vl[0]);
-            Serial.println(",");
-            Serial.println(vl[1]);
-//            Serial.print("Sum between two is \t");
-//            Serial.println(TTL_TLH + CUR_TLH);
-
-            separateFloat(value, vl);
-
-            Serial.print("Saving value \t ");
-            Serial.println(value);
-
-
-            eepRom.WireEepRomWriteByte(1, vl[0]);
-            eepRom.WireEepRomWriteByte(2, vl[1]);
-
-            delay(1000);
-
-            int ts1, ts2;
-
-            ts1 = eepRom.WireEepRomRead(1);
-            ts2 = eepRom.WireEepRomRead(2);
-
-
-//            TTL_TLH = eepRom.loadTravelConsumption();
-            Serial.print("Restoring value \t ");
-            Serial.println(ts1);
-            Serial.println(",");
-            Serial.println(ts2);
-
-            float ttl = restoreFloat(int(ts1), int(ts2));
-
-
-            Serial.println(ttl);
-
-        }
-
-    }
-#endif
 
     //
     // Set new time every begin
@@ -353,9 +307,6 @@ void loop() {
         case 3:
             displayConsumption();
             break;
-        case 31:
-            displayConsumption2();
-            break;
         case 32:
             displayFuelTanks();
             break;
@@ -363,6 +314,51 @@ void loop() {
             shutDown.display();
             break;
     }
+
+
+
+//
+// Serial injection
+#if defined(SERIAL_INJECT_DATA)
+    String allData;
+    String stringName;
+
+    boolean _r = false;
+    //
+    // Execute command from serial
+    if (Serial.available() > 0) {
+        stringName = Serial.readStringUntil('=');
+        if (stringName == "TTD") {
+            _r = 1;
+            TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
+        }
+        if (stringName == "TLC") {
+            _r = 1;
+            TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
+        }
+        if (stringName == "CLC") {
+            _r = 1;
+            TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
+        }
+    }
+
+    //
+    // Show message to human ...
+    while (Serial.available() > 0) {
+        char recieved = Serial.read();
+
+        // Process message when new line character is recieved
+        if (recieved == '\n') {
+            Serial.print("[MID $]> ");
+            Serial.print(allData);
+            Serial.println(_r ? " \t\t [OK] " : " \t\t [NO] ");
+
+            stringName = "";
+            allData = ""; // Clear recieved buffer
+        }
+    }
+#endif
+
 }
 
 /**

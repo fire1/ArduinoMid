@@ -183,8 +183,8 @@ private:
  */
 void EepRom::saveCurrentData() {
 
-    TTL_TLH = TTL_TLH + TTL_CLH;
-    saveTravelConsumption(TTL_TLH);
+    TTL_TLC = TTL_TLC + TTL_CLC;
+    saveTravelConsumption(TTL_TLC);
 
     TTL_TTD = TTL_TTD + carSens.getDst();
 
@@ -196,7 +196,7 @@ void EepRom::saveCurrentData() {
 void EepRom::loadCurrentData() {
 
 
-    TTL_TLH = loadTravelConsumption();
+    TTL_TLC = loadTravelConsumption();
     TTL_TTD = loadTravelDistance();
 }
 

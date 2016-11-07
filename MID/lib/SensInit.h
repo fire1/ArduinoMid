@@ -38,8 +38,8 @@ void sensorsInit() {
     // Sens Extra
 //    sensDst();
     sensTmp();
-    sensCon();
-    sensFus();
+//    sensCon();
+//    sensFus();
 
 //    sensAvr();
 

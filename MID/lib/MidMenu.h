@@ -57,7 +57,6 @@ MenuItem dshBoardMenu = MenuItem("Panel", 11);
 MenuItem testingsMenu = MenuItem("Test", 12);
 //
 // Sub menu for fuel
-MenuItem FuelConsMenu = MenuItem("F-Cons");
 MenuItem FuelTankMenu = MenuItem("F-Tanks");
 
 static void setupMenu() {
@@ -84,9 +83,8 @@ static void setupMenu() {
     testingsMenu.add(mainMenu);
     //
     // Fuel  layers
-    fuelMenu.addRight(FuelConsMenu).addRight(FuelTankMenu);
+    fuelMenu.addRight(FuelTankMenu);
     FuelTankMenu.add(fuelMenu);
-    FuelConsMenu.add(fuelMenu);
     //
     // Move cursor to menu
     menu.moveDown();
@@ -123,8 +121,6 @@ static void menuChanged(MenuChangeEvent changed) {
 //        lcd.print("Item2SubItem3   ");
     } else if (newMenuItem.getName() == "Fuel") {
         cursorMenu = 3;
-    } else if (newMenuItem.getName() == "F-Cons") {
-        cursorMenu = 31;
     } else if (newMenuItem.getName() == "F-Tanks") {
         cursorMenu = 32;
     } else {
@@ -180,7 +176,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
                 // Steering button is pressed
                 if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
-                    TTL_TLH = 0;
+                    TTL_TLC = 0;
                     TTL_TTD = 0;
                     tone(ADT_ALR_PIN, 1000, 50);
                     delay(50);

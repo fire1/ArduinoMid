@@ -9,10 +9,6 @@
 #include <LiquidCrystal.h>
 //
 // add Calculators
-#include "trait/AvrgCalc.h"
-//#include "trait/DistCalc.h"
-#include "trait/ConsCalc.h"
-
 #include "MainFunc.h"
 
 
@@ -65,7 +61,7 @@ void displayInsTmp() {
  */
 void displayTotalCons() {
     char tmp[3];
-    float value = getTotalCons();
+    float value = TTL_TLC + TTL_CLC;
     if (ampInt.isSec()) {
 
         if (ampInt.isBig()) {
@@ -218,7 +214,7 @@ void displayTrip() {
 
 /****************************************************************
  * Consumptions
- */
+
 void displayConsumption2() {
 
     if (ampInt.isMid()) {
@@ -259,14 +255,14 @@ void displayConsumption2() {
     lcd.write((uint8_t) 7);
     lcd.write((uint8_t) 8);
     lcd.print(getTripCons());
-}
+}*/
 
 void displayConsumption() {
 
     if (ampInt.isMax()) {
 
         lcd.setCursor(0, 0);
-        lcd.print(" Consumption 2");
+        lcd.print(" Consumption");
 
 
         lcd.setCursor(1, 2);
@@ -286,7 +282,7 @@ void displayConsumption() {
     char dspInst[3];
     char dspTotal[3];
 
-    if (ampInt.isLow()) {
+    if (ampInt.isMid()) {
 
         displayFloat(carSens.getIfc() * 0.001, dspInst);
 

@@ -861,7 +861,7 @@ void CarSens::sensCns() {
             TTL_FL_WST += delta_fuel;
         }
 
-        TTL_CLH = (TTL_FL_CNS * 0.0001);
+        TTL_CLC = (TTL_FL_CNS * 0.0001);
     }
 
 
