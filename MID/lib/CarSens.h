@@ -67,7 +67,7 @@
 // [NOT TESTED] For diesel car use ??? (1/??/830*3600)*10000
 //#define GasConst ????
 //#define GasMafConst ???   // ??*830*10
-#define FUEL_ADJUST 1
+#define FUEL_ADJUST 3
 /************************/
 /*        ENGINE CONFIG */
 /************************/
@@ -493,10 +493,10 @@ public:
         tmMin = int(tmSec / 60);
         tmHrs = tmMin / 60;
 
-        if (_amp->isMid()) {
-            Serial.print("Time running: ");
-            Serial.println(tmSec);
-        }
+//        if (_amp->isMid()) {
+//            Serial.print("Time running: ");
+//            Serial.println(tmSec);
+//        }
 
 //        char dspTime[5];
         sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
@@ -568,7 +568,7 @@ public:
         sensTmp();
         //
         // Test Ecu
-        sensDre();
+//        sensDre();
         //
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
@@ -1013,7 +1013,7 @@ void CarSens::sensIfc() {
 
 
         indexIfc++;
-        collectionIfc += (cons * MILLIS_SENS); // Comes from missing 200 milliseconds between _amp->isSens()
+        collectionIfc += (cons /** MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
 
         //
         // Average instance fuel consumption for 5 sec

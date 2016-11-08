@@ -324,16 +324,19 @@ void loop() {
         // So ... C++ is static language...
         //      is not good idea to re-set dynamically
         if (srlStrName == "TTD") {
+            // Total Trave distance
             TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_TTD ";
             srlOutputs += TTL_TTD;
         }
         if (srlStrName == "TLC") {
+            // Total Liters per hour consumed
             TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_TLC ";
             srlOutputs += TTL_TLC;
         }
         if (srlStrName == "CLC") {
+            // Total Liters consumed in trip
             TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_CLC ";
             srlOutputs += TTL_CLC;
