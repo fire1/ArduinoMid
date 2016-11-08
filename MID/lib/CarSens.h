@@ -245,13 +245,7 @@ protected:
 
     void sensIfc();
 
-    void sensEnt() {
-        if (_amp->isSens()) {
-            int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
-            if (val > -40)
-                CUR_ENT = val;
-        }
-    }
+    void sensEnt();
 
 public:
 
@@ -335,7 +329,8 @@ public:
      * Gets engine temperature
      */
     int getEngTmp() {
-        return CUR_ENT;
+        // resistor 5.6k  to GND || pull-up resistor 4.2k from MID plug pin 31
+        return CUR_ENT - 100; // output must be 1:1 so... 95°C gives reading of 195
     }
 
     /**
@@ -376,6 +371,7 @@ public:
     }
 
     int getTnkBnz() {
+
         return 0;
     }
 
@@ -460,7 +456,7 @@ public:
         }
 
 
-        //
+        // Important!
         // No Interrupts
         cli();
         sensVss();
@@ -469,6 +465,8 @@ public:
         // Interrupts
         //
         sei();
+        //
+        // Other
         sensTnk();
         sensAvr();
         sensEnt();
@@ -739,6 +737,17 @@ void CarSens::sensTnk() {
 }
 
 /**
+ *  Engine temperature
+ */
+void CarSens::sensEnt() {
+    if (_amp->isSens()) {
+        int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
+        if (val > -40)
+            CUR_ENT = val;
+    }
+}
+
+/**
  *  Average sens
  */
 void CarSens::sensAvr() {
@@ -903,14 +912,15 @@ void CarSens::sensIfc() {
 
 
         indexIfc++;
-        collectionIfc += cons;
+        collectionIfc += (cons * MILLIS_SENS); // Comes from missing 200 milliseconds between _amp->isSens()
 
-
+        //
+        // Average instance fuel consumption for 5 sec
         AVR_IFC = (collectionIfc / indexIfc) * 0.001;
     }
 
-    //
-    // Null but keep 1/3 of assumed data
+    // Average IFC for 5 sec
+    // Null it but keep last value as one third rate
     if (_amp->is5Seconds()) {
         indexIfc = 3;
         collectionIfc = (int) AVR_IFC * 3;
