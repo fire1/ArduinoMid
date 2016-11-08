@@ -21,6 +21,7 @@
 
 */
 #define SERIAL_INJECT_DATA
+
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -31,7 +32,6 @@
 #define MILLIS_PER_SC    1000    // Second
 //
 //
-bool THROTTLE_UP = false; // Is open throttle  (acceleration)
 const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
 const int CON_ENG_CL = 4; // Cylinders
 const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
@@ -146,9 +146,8 @@ CarSens carSens(&ampInt);
 // Constructing the class
 WhlSens whlSens(&ampInt);
 //
-// other sensors initialization
-// Adding sensors
-#include "lib/SensInit.h"
+// Display driver
+#include "lib/Lcd16x2.h"
 
 //
 // Adding menu source
@@ -208,23 +207,21 @@ void setup() {
     //
     // Screen back-light
     carSens.setupScreen(DIM_PIN_VAL, DIM_PIN_OUT);
-//    setupBackLight(DIM_PIN_VAL, DIM_PIN_OUT);
-
-    setupTemperature();
+    //
+    // Outside temperature (car stock temp sns)
+    carSens.setupTemperature(TMP_PIN_OUT);
     //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
+    // and clear it ...
     lcd.clear();
-    //
-    // main setupEngine
-    setupMain();
     //
     // Adding custom characters to LCD
     setLcdBaseChar();
     lcd.display();
     //
     // Show welcome from car
-//    playWelcomeScreen();
+    playWelcomeScreen();
     //
     // Set MID menu
     setupMenu();
@@ -235,14 +232,10 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
-//    TTL_TLC = 12.34;
-
 }
 
 
 void loop() {
-
-
     //
     // Set new time every begin
     ampInt.setTimer(millis());
@@ -252,9 +245,6 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
-    //
-    // Sensors
-    sensorsInit();
     //
     // Reads buttons from steering
     whlSens.listenButtons();

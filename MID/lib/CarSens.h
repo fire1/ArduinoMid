@@ -15,10 +15,21 @@
 #define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
-// Sensor correctors
-#define ECU_CORRECTION 3
-#define VSS_CORRECTION 3.837232 // original value is 3.609344 my tires are smaller
+// ABOUT ECU signal (actuated consumption signal)
+// There are 2 types of each of these sensors.
+// The most common is what I'll call a "voltage type" MAP or MAF.
+// The voltage type communicates to the ECU by giving it a voltage,
+// and this voltage tells the ECU what the MAP's current pressure reading is,
+// or the MAF's current volume of air flow.
+// The ECU gives a control voltage to the sensor of 5 volts.
+// The sensor then gives back a fraction of that 5 volts that signifies it's current reading.
+// The vast majority of all MAF and MAP sensors are of this type.
+#define ECU_CORRECTION 3 //  Using as frequency MAP/MAF Enhancer
+#define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
+// As you can see everything is multiplied by 3*
+//      this is caused by read time amplitude of 200ms [way more stable in my tests]
+//
 //
 // Best 15636.44, 14952.25, 15736.44,
 #define DST_CORRECTION 15197.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
@@ -80,6 +91,24 @@ Engine size - Displacement - Engine capacity :	1796 cm3 or 109.6 cu-in
 #define CAR_GEAR_G5  0.949
 #define CAR_GEAR_G6  0.816
 
+
+//
+// Inside temperature [very cheep temperature sensor]
+// additional mounted temperature sensor from DallasTemperature
+#define INSIDE_TEMPERATURE_DS
+//#define  DEBUG_TEMPERATURE_OU
+//#define  DEBUG_TEMPERATURE_IN
+#if defined(INSIDE_TEMPERATURE_DS)
+
+#include <OneWire.h>
+#include <DallasTemperature.h>
+// Data wire is plugged into pin A7 on the Arduino
+#define ONE_WIRE_BUS 7
+OneWire oneWire(ONE_WIRE_BUS);
+// Pass our oneWire reference to Dallas Temperature.
+DallasTemperature temperatureSensors(&oneWire);
+#endif
+
 //
 // Using Arduino API for Attach interrupt
 static void EngSens_catchRpmHits();
@@ -103,6 +132,18 @@ class CarSens {
 
 private:
 
+    //
+    // bool for read sensor at first loop
+    bool isInitTemperature = 1;
+    //
+    // temperature pin container
+    uint8_t pinTmpOut;
+    //
+    // Temperatures
+    float CUR_OUT_TMP = 0; // Outside temperature
+#if defined(INSIDE_TEMPERATURE_DS)
+    float CUR_INS_TMP = 0; // Inside temperature /Dallas Temperature Sensors/
+#endif
     //
     // Gears resolver constants
     const float CAR_GEAR_Dia = 616;
@@ -189,9 +230,23 @@ private:
  */
     int long lastReadValueDim = 0;
 
-    unsigned int convertToLitres(unsigned int gallons) {
-        return (unsigned int) (((unsigned long) gallons * 378L) / 100L);
+    //
+    // Digital read ECU
+    uint8_t ecuPin;
+    String ecuCollection;
+    String ecuLine;
+
+    //
+    // Sense ECU signal
+    void sensDre() {
+        ecuCollection += digitalRead(ecuPin);
+        if (_amp->isSens()) {
+            ecuLine = ecuCollection;
+            ecuCollection = "";
+            Serial.println(ecuLine);
+        }
     }
+
 
 protected:
     /**
@@ -247,6 +302,8 @@ protected:
 
     void sensEnt();
 
+    void sensTmp();
+
 public:
 
     CarSens(IntAmp *ampInt);
@@ -275,6 +332,9 @@ public:
         setupRpmSens(pinRpm);
         setupVssSens(pinVss);
         setupEcuSens(pinEcu);
+        //
+        // Pass ecu pin
+        ecuPin = pinEcu;
         //
         // Engine temperature
         pinMode(pinTmp, INPUT);
@@ -315,6 +375,29 @@ public:
         // Sens dim level at setupEngine
         sensDim();
 
+    }
+
+    /**
+     * Setup temperature
+     */
+    void setupTemperature(uint8_t pinOutsideTemperature) {
+        pinTmpOut = pinOutsideTemperature;
+        //
+        // Setup outside pin
+        pinMode(pinOutsideTemperature, INPUT);
+        //
+        // Setup inside pin
+#if defined(INSIDE_TEMPERATURE_DS)
+        temperatureSensors.begin();
+#endif
+    }
+
+    float getTmpOut() {
+        return CUR_OUT_TMP;
+    }
+
+    float getTmpIns() {
+        return CUR_INS_TMP;
     }
 
     int getIfc() {
@@ -472,6 +555,10 @@ public:
         sensEnt();
         sensCns();
         sensIfc();
+        sensTmp();
+        //
+        // Test Ecu
+        sensDre();
         //
         // I don't know way but this is a fix ... ?
         // Only like this way base vars are initialized every single loop
@@ -511,9 +598,13 @@ public:
 };
 
 /***********************************************************************************************
+ * ########################################################################################### *
+ * ########################################################################################### *
  *                                                                                             *
  *                                   CPP part of file                                          *
  *                                                                                             *
+ * ########################################################################################### *
+ * ########################################################################################### *
  ***********************************************************************************************/
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
@@ -965,5 +1056,83 @@ int CarSens::getGear(int CarSpeed, int Rpm) {
 
     return carGearNum;
 }
+
+
+void CarSens::sensTmp() {
+
+/*******************************     DS    temperature sensor ******************************************/
+#if defined(DEBUG_TEMPERATURE_IN)
+    if (ampInt.isBig()) {
+        temperatureSensors.requestTemperatures();
+        Serial.print("Dallas temperature: \t");
+        Serial.println(temperatureSensors.getTempCByIndex(0)); // Why "byIndex"?
+    }
+#endif
+
+    //
+    // Read inside temperature
+#if defined(INSIDE_TEMPERATURE_DS)
+    if (_amp->isBig()) {
+        temperatureSensors.requestTemperatures();
+        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
+    }
+#endif
+//    temperatureSensors.requestTemperatures();
+//    temperatureSensors.getTempCByIndex(0);
+
+
+    /******************************* Car's temperature sensor ******************************************/
+    float temperatureC;
+    /**
+     * About GM Temperature sensor
+     *      Temperature range to [°C]: 250
+     *      Resistance [Ohm]: 5000
+     */
+
+    //
+    // Init on first loop the when is big amplitude
+    if (isInitTemperature || _amp->isBig()) {
+        //
+        // Read new data
+        int reading = analogRead(TMP_PIN_OUT);
+
+        // Measurement
+        // --------------------------------------------
+        // 147 = 21*
+        // 140/139 = 22 / 21
+        // 139 =  25/6
+        // 118 = 27/8
+
+        //      255 max reading
+        //      4.34 is voltage passes temperature sensor
+        float cofVolt = /*3.8*/ 5;
+
+        // not correct
+        /// new type  id: (147 / 2.666666 - 76) *1
+        // min -40	max 215	°C	 {formula A-40}
+        // separate reading
+        temperatureC = ((reading / cofVolt) - (250 / cofVolt)) * -1;
+        //
+        //
+//        temperatureC = temperatureC;
+
+#if defined(DEBUG_TEMPERATURE_OU)
+        if (ampInt.isMid()) {
+            Serial.print("Read Temp: ");
+            Serial.println(reading);
+        }
+#endif
+
+        //
+        // Close first loop
+        isInitTemperature = 0;
+
+        //
+        // Pass value to global
+        CUR_OUT_TMP = temperatureC;
+    }
+
+}
+
 
 #endif //ARDUINOMID_ENGSENS_H

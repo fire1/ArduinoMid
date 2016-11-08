@@ -5,48 +5,17 @@
 #ifndef ARDUINOMID_SENSINIT_H
 #define ARDUINOMID_SENSINIT_H
 
-
-//
-// Read Tachometer
-//#include "sens/RpmSens.h"
-//
-// Read SpeedHub
-//#include "sens/VssSens.h"
-//
-//
-//#include "sens/EcuSens.h"
-//
-// Screen back-light sensor
-//#include "sens/DimSens.h"
 //
 // Temperature
-#include "sens/TmpSens.h"
+//#include "../../~erase/TmpSens.h"
 //
 // Read inside temperature
-#include "DispInfo.h"
+//#include "Lcd16x2.h"
 
 void sensorsInit() {
-    //
-    // No Interrupts
-//    cli();
-    //
-    // Sense Basic car sensors ;)
-//    sensRpm();
-//    sensVss();
-//    sensEcu();
-    //
-    // Sens Extra
-//    sensDst();
-    sensTmp();
-//    sensCon();
-//    sensFus();
 
-//    sensAvr();
+//    sensTmp();
 
-//    sensDim(); // Dim display
-    //
-    // Interrupts
-//    sei();
 }
 
 #endif //ARDUINOMID_SENSINIT_H

@@ -60,7 +60,10 @@ MenuItem testingsMenu = MenuItem("Test", 12);
 MenuItem FuelTankMenu = MenuItem("F-Tanks");
 
 static void setupMenu() {
-
+    //
+    // Pin button mode
+    pinMode(BTN_PIN_UP, INPUT);
+    pinMode(BTN_PIN_DW, INPUT);
     /*
      *
       menu.getRoot().add(menu1Item1);

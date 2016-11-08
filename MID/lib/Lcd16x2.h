@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
 
-#ifndef ARDUINOMID_READINNTERTEMP_H
-#define ARDUINOMID_READINNTERTEMP_H
+#ifndef ARDUINOMID_LCD_DISPLAY_16x2_H
+#define ARDUINOMID_LCD_DISPLAY_16x2_H
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
@@ -21,7 +21,7 @@ void displayOutTmp() {
 
     char tmpTemp[3];
 
-    float value = getTmpOut();
+    float value = carSens.getTmpOut();
 
     if (ampInt.isSec()) {
         //
@@ -42,7 +42,7 @@ void displayInsTmp() {
 
     char tmpTemp[3];
 
-    float value = getTmpIns();
+    float value = carSens.getTmpIns();
 
     if (ampInt.isSec()) {
         //

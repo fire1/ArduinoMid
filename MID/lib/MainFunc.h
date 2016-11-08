@@ -10,15 +10,7 @@
 
 #include <LiquidCrystal.h>
 
-//
-// Setup the mid
-void setupMain() {
-    //
-    // Pin button mode
-    pinMode(BTN_PIN_UP, INPUT);
-    pinMode(BTN_PIN_DW, INPUT);
 
-}
 
 /**
  * Limits display floats
