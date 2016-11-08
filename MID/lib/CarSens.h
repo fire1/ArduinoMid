@@ -67,7 +67,7 @@
 // [NOT TESTED] For diesel car use ??? (1/??/830*3600)*10000
 //#define GasConst ????
 //#define GasMafConst ???   // ??*830*10
-#define FUEL_ADJUST 3
+#define FUEL_ADJUST 1
 /************************/
 /*        ENGINE CONFIG */
 /************************/
@@ -971,6 +971,8 @@ void CarSens::sensCns() {
         // also, adjust maf with fuel param, will be used to display instant cons
         delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / getMafVal();
 
+        delta_fuel = delta_fuel / 3;
+
         TTL_FL_CNS += delta_fuel;
 
         //code to accumlate fuel wasted while idling
@@ -1013,7 +1015,7 @@ void CarSens::sensIfc() {
 
 
         indexIfc++;
-        collectionIfc += (cons /** MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
+        collectionIfc += (cons * 3 /** MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
 
         //
         // Average instance fuel consumption for 5 sec
