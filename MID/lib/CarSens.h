@@ -273,14 +273,24 @@ protected:
         attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
     }
 
+    //
+    // TODO make detection when car is running  on LPG
     int getFuelVal() {
-        // TODO make detection when car is running  on LPG
+
 #if defined(LPG_SWTC_PIN)
 
 #endif
-        return FUEL_LPG_CNS;
-
+        return FUEL_LPG_CNS; // todo change default to FUEL_BNZ_CNS
     }
+
+    long getMafVal() {
+
+#if defined(LPG_SWTC_PIN)
+
+#endif
+        return LPG_MAF_CONST; // todo change default to BNZ_MAF_CONST
+    }
+
 
     void sensVss();
 
@@ -959,7 +969,7 @@ void CarSens::sensCns() {
         // as we sample about 4 times per second at 9600 bauds
         // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
         // also, adjust maf with fuel param, will be used to display instant cons
-        delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / BNZ_MAF_CONST;
+        delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / getMafVal();
 
         TTL_FL_CNS += delta_fuel;
 
@@ -995,9 +1005,9 @@ void CarSens::sensIfc() {
     if (_amp->isSens()) {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CNS_TGL_VS) {
-            cons = (CUR_MAF * FUEL_BNZ_CNS) / 10000;  // L/h, do not use float so mul first then divide
+            cons = (CUR_MAF * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = (CUR_MAF * FUEL_BNZ_CNS) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = (CUR_MAF * getFuelVal()) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
 
