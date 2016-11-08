@@ -4,10 +4,9 @@ This project is rebuild of on board car computer base on
 
 ## Note:
 _This project is rebuild of on-board computer for Vauxhall/Opel vehicles 
- created between 2000/2004 with gray(32 pin) MID plug
-In this project is used Mega2560 RV3 board
-The project sourcecode is based on Internet published information!
-Supports Sony Alphine controller_
+ created between 2000/2004 with gray(32 pin) MID plug.
+In this project is used Mega2560 RV3 board.
+The project sourcecode is based on Internet published information!_
 
 * Source code is in "MID" folder
 * Used libraries are in "libraries" folder [zip them for importing]
