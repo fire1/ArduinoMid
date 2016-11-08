@@ -7,7 +7,7 @@
 
 #include <Arduino.h>
 
-String ecuPreview;
+/*String ecuPreview;
 
 void ISR() {
 
@@ -30,9 +30,9 @@ ISR(INT0_vect) { //processInjOpen by default
 volatile static pFunc int1Func;
 ISR(INT1_vect) {//processInjClosed
     int1Func ();
-}
+}*/
 
-//
+// TODO lets see after first test whats happen with ECU signal then data will be moved here
 // Single-Wire CAN
 class SwrCan {
 
