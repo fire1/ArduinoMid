@@ -986,8 +986,10 @@ void CarSens::sensCns() {
 
 //        deltaFuel = ((/*CUR_MAF*/ CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / mafFuel) / 10; // Davide by 10 from CUR_ECU val
 
-        long deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME)  / getMafFuelVal();
-
+        long deltaFuel = 0;
+        if (CUR_ECU > 0) {
+            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
+        }
 
         TTL_FL_CNS += deltaFuel;
 
@@ -1022,14 +1024,14 @@ void CarSens::sensIfc() {
     // = maf*0.3355/vss L/km
     // mul by 100 to have L/100km
 
-    float maf = CUR_ECU ;
+    float maf = CUR_ECU;
 
     if (_amp->isSens()) {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CNS_TGL_VS) {
-            cons = (maf * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
+            cons = (maf * getFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = (maf * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = (maf * getFuelVal()) / (delta_dist * 10); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
 
@@ -1048,6 +1050,7 @@ void CarSens::sensIfc() {
     if (_amp->is5Seconds()) {
         indexIfc = 1;
         collectionIfc = AVR_IFC;
+        Serial.println(" 5 seconds ... ");
     }
 
 

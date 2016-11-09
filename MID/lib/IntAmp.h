@@ -167,9 +167,9 @@ void IntAmp::listener() {
 
     if (timer >= cur5Seconds + (MILLIS_PER_SC * 5)) {
         cur5Seconds = timer;
-        cur5Seconds = 1;
+        _is5Seconds = 1;
     } else {
-        cur5Seconds = 0;
+        _is5Seconds = 0;
     }
 
     if (timer >= cur10Seconds + (MILLIS_PER_SC * 10)) {
