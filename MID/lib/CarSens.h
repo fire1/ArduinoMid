@@ -16,15 +16,11 @@
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // ABOUT ECU signal (actuated consumption signal)
-// There are 2 types of each of these sensors.
-// The most common is what I'll call a "voltage type" MAP or MAF.
-// The voltage type communicates to the ECU by giving it a voltage,
-// and this voltage tells the ECU what the MAP's current pressure reading is,
-// or the MAF's current volume of air flow.
-// The ECU gives a control voltage to the sensor of 5 volts.
-// The sensor then gives back a fraction of that 5 volts that signifies it's current reading.
-// The vast majority of all MAF and MAP sensors are of this type.
-#define ECU_CORRECTION 3 //  Using as frequency MAP/MAF Enhancer
+// On the GM hot film MAFs, you can also tap into the onboard computer data stream
+// with a scan tool to read the MAF sensor output in "grams per second" (GPS).
+// The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
+//  The frequency range varies from 30 to 150 Hz, with 30 Hz being average for idle and 150 Hz for wide open throttle.
+#define ECU_CORRECTION 3 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
 #define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // As you can see everything is multiplied by 3*
@@ -75,11 +71,10 @@
 // displacement = 0.7854.. X bore2 X stroke X Numb of Cylinders
 //  Chevy bore is 4.312 in, and the stroke is 3.65 in, therefore the displacement for this eight-cylinder engine is:
 //          3.1416/4 × (4.312 in)2 × 3.65 in × 8 = 426.4 cu in
-/*
-X18XE1
-Engine size - Displacement - Engine capacity :	1796 cm3 or 109.6 cu-in
+/* Example
+X18XE1  - 1796 cm3 = 17.96 dl
  */
-#define ENGINE_DSP  109.6   // engine displacement in dL
+#define ENGINE_DSP  17.96   // engine displacement in dL
 #define CNS_TGL_VS  3       // speed from which we toggle to fuel/hour (km/h)
 
 //
@@ -149,7 +144,8 @@ private:
     const float CAR_GEAR_Dia = 616;
     const float CAR_GEAR_Pi = 3.14;
 
-    unsigned long sensCnsOldTime,
+    unsigned long sensDeltaCnsOldTime,
+            CUR_FL_DLT,
             TTL_FL_CNS,  // Consumed fuel
             TTL_FL_WST;  // Waste fuel
 
@@ -313,6 +309,8 @@ protected:
     void sensEnt();
 
     void sensTmp();
+
+    void sensDlt();
 
 public:
 
@@ -922,18 +920,23 @@ void CarSens::sensCrm() {
 }
 
 /**
- * Based on OBDuino32K
+ * Based on ObDuino32K
  * Calculate Consumption
  *      This method is running locally (only from class) to resolve MAF && consume
  */
-void CarSens::sensCns() {
-    unsigned long delta_dist, delta_fuel;
-    unsigned long time_now, delta_time;
-
+void CarSens::sensDlt() {
     // time elapsed
+    unsigned long time_now;
     time_now = millis();
-    delta_time = time_now - sensCnsOldTime;
-    sensCnsOldTime = time_now;
+    CUR_FL_DLT = time_now - sensDeltaCnsOldTime;
+    sensDeltaCnsOldTime = time_now;
+}
+
+void CarSens::sensCns() {
+    unsigned long delta_fuel;
+
+
+
     /*
     I just hope if you don't have a MAF, you have a MAP!!
 
@@ -948,13 +951,13 @@ void CarSens::sensCns() {
      ED - Engine Displacement in liters
      This method requires tweaking of the VE for accuracy.
      */
-    long imap, rpm, manp, iat, maf;
+    long imap, manp, iat;
     if (_amp->isSens()) {
         iat = getEngTmp();
 
-        manp = getEcu();
 
-        imap = (CUR_RPM * manp) / (iat + 273);
+
+        imap = (CUR_RPM * CUR_ECU) / (iat + 273);
         // does not divide by 100 at the end because we use (MAF*100) in formula
         // but divide by 10 because engine displacement is in dL
         // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
@@ -962,16 +965,17 @@ void CarSens::sensCns() {
         //     engine=2.2L, efficiency=70%
         // maf = ( (1800*64)/(21+273) * 22 * 20 ) / 100
         // maf = 17.24 g/s which is about right at 80km/h
-        CUR_MAF = (long) (imap * ENGINE_DSP) / 5;
+
+        // MAF obd formula 256A+B/100
+
+        CUR_MAF = (long) (imap * ENGINE_DSP) / 5; // Deprecated to next test
         // at idle MAF output is about 2.25 g of air /s on my car
         // so about 0.15g of fuel or 0.210 mL
         // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
         // as we sample about 4 times per second at 9600 bauds
         // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
         // also, adjust maf with fuel param, will be used to display instant cons
-        delta_fuel = (CUR_MAF * FUEL_ADJUST * delta_time) / getMafVal();
-
-        delta_fuel = delta_fuel / 3;
+        delta_fuel = (CUR_MAF * FUEL_ADJUST * CUR_FL_DLT) / getMafVal();
 
         TTL_FL_CNS += delta_fuel;
 
@@ -993,7 +997,9 @@ void CarSens::sensCns() {
 void CarSens::sensIfc() {
     long cons;
     char decs[16];
+    unsigned long delta_dist;
 
+    delta_dist = (CUR_VSS * CUR_FL_DLT) / 36;
 
     // divide MAF by 100 because our function return MAF*100
     // but multiply by 100 for double digits precision
@@ -1009,13 +1015,14 @@ void CarSens::sensIfc() {
         if (CUR_VSS < CNS_TGL_VS) {
             cons = (CUR_MAF * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = (CUR_MAF * getFuelVal()) / (CUR_VSS * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = (CUR_MAF * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
 
-
+        //
+        // Average consumption for 5 seconds
         indexIfc++;
-        collectionIfc += (cons * 3 /** MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
+        collectionIfc += (cons  /** * 2 MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
 
         //
         // Average instance fuel consumption for 5 sec
@@ -1025,8 +1032,8 @@ void CarSens::sensIfc() {
     // Average IFC for 5 sec
     // Null it but keep last value as one third rate
     if (_amp->is5Seconds()) {
-        indexIfc = 3;
-        collectionIfc = (int) AVR_IFC * 3;
+        indexIfc = 1;
+        collectionIfc = AVR_IFC;
     }
 
 

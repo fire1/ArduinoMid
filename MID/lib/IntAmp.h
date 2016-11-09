@@ -33,8 +33,8 @@ private:
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
     long int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
     long int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
-    long int _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds, _is5Seconds;
-    long int curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds, cur5Seconds;
+    long int _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0;
+    long int curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0;
 
     /**
      * MAX 1,193,046 Hour	(h)
@@ -165,14 +165,14 @@ void IntAmp::listener() {
         _isSecond = 0;
     }
 
-    if (timer >= cur5Seconds + MILLIS_PER_SC * 5) {
+    if (timer >= cur5Seconds + (MILLIS_PER_SC * 5)) {
         cur5Seconds = timer;
         cur5Seconds = 1;
     } else {
         cur5Seconds = 0;
     }
 
-    if (timer >= cur10Seconds + MILLIS_PER_SC * 10) {
+    if (timer >= cur10Seconds + (MILLIS_PER_SC * 10)) {
         cur10Seconds = timer;
         _is10Seconds = 1;
     } else {
