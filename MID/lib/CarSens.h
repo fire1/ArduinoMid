@@ -986,7 +986,7 @@ void CarSens::sensCns() {
 
 //        deltaFuel = ((/*CUR_MAF*/ CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / mafFuel) / 10; // Davide by 10 from CUR_ECU val
 
-        long deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
+        long deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME)  / getMafFuelVal();
 
 
         TTL_FL_CNS += deltaFuel;
@@ -1011,7 +1011,7 @@ void CarSens::sensIfc() {
     char decs[16];
     unsigned long delta_dist;
 
-    delta_dist = (CUR_VSS * CONS_DELTA_TIME) / 36;
+    delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME) / 36;
 
     // divide MAF by 100 because our function return MAF*100
     // but multiply by 100 for double digits precision
@@ -1022,12 +1022,14 @@ void CarSens::sensIfc() {
     // = maf*0.3355/vss L/km
     // mul by 100 to have L/100km
 
+    float maf = CUR_ECU ;
+
     if (_amp->isSens()) {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CNS_TGL_VS) {
-            cons = (CUR_ECU * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
+            cons = (maf * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = (CUR_ECU * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = (maf * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
 
@@ -1052,11 +1054,13 @@ void CarSens::sensIfc() {
     if (_amp->isMax()) {
 
         Serial.print("\n\n Fuel Cons  | ins: ");
-        Serial.print(CUR_IFC);
-        Serial.print(" ||  ttl: ");
+        Serial.print(CUR_IFC * 0.001);
+        Serial.print(" || ttl: ");
         Serial.print(TTL_FL_CNS);
         Serial.print(" || maf:");
         Serial.print(CUR_MAF);
+        Serial.print(" || ecu:");
+        Serial.print(CUR_ECU);
 
         Serial.print("\n\n ");
     }
