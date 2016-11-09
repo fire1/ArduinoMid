@@ -20,7 +20,7 @@
 // with a scan tool to read the MAF sensor output in "grams per second" (GPS).
 // The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
 //  The frequency range varies from 30 to 150 Hz, with 30 Hz being average for idle and 150 Hz for wide open throttle.
-#define ECU_CORRECTION 3 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
+#define ECU_CORRECTION 16 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
 #define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // As you can see everything is multiplied by 3*
