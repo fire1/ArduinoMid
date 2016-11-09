@@ -20,7 +20,8 @@
 // with a scan tool to read the MAF sensor output in "grams per second" (GPS).
 // The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
 //  The frequency range varies from 30 to 150 Hz, with 30 Hz being average for idle and 150 Hz for wide open throttle.
-#define ECU_CORRECTION 16 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
+//  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
+#define ECU_CORRECTION 160 // mul. by 10  for precision.
 #define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // As you can see everything is multiplied by 3*
@@ -145,7 +146,7 @@ private:
     const float CAR_GEAR_Pi = 3.14;
 
     unsigned long sensDeltaCnsOldTime,
-            CUR_FL_DLT,
+            CONS_DELTA_TIME,
             TTL_FL_CNS,  // Consumed fuel
             TTL_FL_WST;  // Waste fuel
 
@@ -279,7 +280,7 @@ protected:
         return FUEL_LPG_CNS; // todo change default to FUEL_BNZ_CNS
     }
 
-    long getMafVal() {
+    long getMafFuelVal() {
 
 #if defined(LPG_SWTC_PIN)
 
@@ -558,12 +559,18 @@ public:
         sei();
         //
         // Other
+
         sensTnk();
         sensAvr();
         sensEnt();
+        sensTmp();
+
+        //
+        // Consumption
+        sensDlt();
         sensCns();
         sensIfc();
-        sensTmp();
+
         //
         // Test Ecu
 //        sensDre();
@@ -926,14 +933,16 @@ void CarSens::sensCrm() {
  */
 void CarSens::sensDlt() {
     // time elapsed
-    unsigned long time_now;
-    time_now = millis();
-    CUR_FL_DLT = time_now - sensDeltaCnsOldTime;
-    sensDeltaCnsOldTime = time_now;
+    if (_amp->isSens()) {
+        unsigned long time_now;
+        time_now = millis();
+        CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
+        sensDeltaCnsOldTime = time_now;
+    }
 }
 
 void CarSens::sensCns() {
-    unsigned long delta_fuel;
+//    unsigned long delta_fuel;
 
 
 
@@ -951,13 +960,11 @@ void CarSens::sensCns() {
      ED - Engine Displacement in liters
      This method requires tweaking of the VE for accuracy.
      */
-    long imap, manp, iat;
     if (_amp->isSens()) {
-        iat = getEngTmp();
+//        iat = getEngTmp();
 
 
-
-        imap = (CUR_RPM * CUR_ECU) / (iat + 273);
+//        imap = (CUR_RPM * CUR_ECU) / (iat + 273);
         // does not divide by 100 at the end because we use (MAF*100) in formula
         // but divide by 10 because engine displacement is in dL
         // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
@@ -968,20 +975,25 @@ void CarSens::sensCns() {
 
         // MAF obd formula 256A+B/100
 
-        CUR_MAF = (long) (imap * ENGINE_DSP) / 5; // Deprecated to next test
+//        CUR_MAF = (long) (imap * ENGINE_DSP) / 5; // Deprecated to next test
+//        CUR_MAF = CUR_ECU / 5;
         // at idle MAF output is about 2.25 g of air /s on my car
         // so about 0.15g of fuel or 0.210 mL
         // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
         // as we sample about 4 times per second at 9600 bauds
         // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
         // also, adjust maf with fuel param, will be used to display instant cons
-        delta_fuel = (CUR_MAF * FUEL_ADJUST * CUR_FL_DLT) / getMafVal();
 
-        TTL_FL_CNS += delta_fuel;
+//        deltaFuel = ((/*CUR_MAF*/ CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / mafFuel) / 10; // Davide by 10 from CUR_ECU val
+
+        long deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
+
+
+        TTL_FL_CNS += deltaFuel;
 
         //code to accumlate fuel wasted while idling
         if (CUR_VSS == 0) {//car not moving
-            TTL_FL_WST += delta_fuel;
+            TTL_FL_WST += deltaFuel;
         }
 
         TTL_CLC = (TTL_FL_CNS * 0.0001);// L/h, comes from the /10000*100
@@ -999,7 +1011,7 @@ void CarSens::sensIfc() {
     char decs[16];
     unsigned long delta_dist;
 
-    delta_dist = (CUR_VSS * CUR_FL_DLT) / 36;
+    delta_dist = (CUR_VSS * CONS_DELTA_TIME) / 36;
 
     // divide MAF by 100 because our function return MAF*100
     // but multiply by 100 for double digits precision
@@ -1013,9 +1025,9 @@ void CarSens::sensIfc() {
     if (_amp->isSens()) {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CNS_TGL_VS) {
-            cons = (CUR_MAF * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
+            cons = (CUR_ECU * getFuelVal()) / 10000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = (CUR_MAF * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = (CUR_ECU * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
         }
         CUR_IFC = cons;
 

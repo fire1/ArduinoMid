@@ -35,7 +35,7 @@
 const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
 const int CON_ENG_CL = 4; // Cylinders
 const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
-const double AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
+#define AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
 const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
 const double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
 const double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
