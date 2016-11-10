@@ -102,8 +102,8 @@ void setupTimer3() {
     //      disable timer 0 overflow interrupt
     //      TIMSK0 &= !(1 << TOIE0);
     //
-    sbi(TCCR3B, CS31);        // set timer 3 prescale factor to 64
-    sbi(TCCR3B, CS30);        // CS31 set prescaler to 256 and start the timer
+//    sbi(TCCR3B, CS31);      // set timer 3 prescale factor to 64
+    sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
     sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
 }
 
