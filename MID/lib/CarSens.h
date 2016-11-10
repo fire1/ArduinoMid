@@ -8,6 +8,8 @@
 
 #ifndef ARDUINOMID_ENGSENS_H
 #define ARDUINOMID_ENGSENS_H
+
+#define DEBUG_CONS_INFO
 //
 // City Speed alarm
 #define VSS_ALARM_CITY_SPEED  61 // km
@@ -21,7 +23,7 @@
 // The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
 //  The frequency range varies from 30 to 150 Hz, with 30 Hz being average for idle and 150 Hz for wide open throttle.
 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
-#define ECU_CORRECTION 160 // mul. by 10  for precision.
+#define ECU_CORRECTION 162 // Consumption signal mul by 10
 #define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
 #define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
 // As you can see everything is multiplied by 3*
@@ -621,23 +623,34 @@ public:
  * ########################################################################################### *
  * ########################################################################################### *
  ***********************************************************************************************/
+
+/**
+ * Construct class
+ */
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
 }
 
-
+/**
+ * Interrupt function Vss
+ */
 void EngSens_catchVssHits() {
     vssHitsCount++;
 }
 
+/**
+ * Interrupt function Rpm
+ */
 void EngSens_catchRpmHits() {
     rpmHitsCount++;
 }
 
+/**
+ * Interrupt function Ecu
+ */
 void EngSens_catchEcuHits() {
     ecuHitsCount++;
 }
-
 
 /*******************************************************************
  * Detect Vss
@@ -678,7 +691,6 @@ void CarSens::sensVss() {
 #endif
 
 }
-
 
 /*******************************************************************
  * Detect RPMs
@@ -833,13 +845,10 @@ void CarSens::sensTnk() {
             CUR_LTK = int(containerLpgTank / indexLpgTank);
         }
     }
-
     if (_amp->isMinute()) {
         containerLpgTank = containerLpgTank / 3;
         indexLpgTank = indexLpgTank / 3;
     }
-
-
 }
 
 /**
@@ -854,7 +863,8 @@ void CarSens::sensEnt() {
 }
 
 /**
- *  Average sens
+ *  Average speed & revolution
+ *      and also maximum speed
  */
 void CarSens::sensAvr() {
 
@@ -898,204 +908,16 @@ int CarSens::getAvrRpm() {
     return int(averageAllRpmValues / averageDivider);
 }
 
+/**
+ * Max reached speed
+ */
 int CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
 /**
- *
+ * Temperature sensing
  */
-void CarSens::sensCrm() {
-
-    if (_amp->isSecond()) {
-        unsigned long currentTimeTrip = millis();
-        CUR_VDS = currentTimeTrip / 1000;
-        /*
-        //
-        // Pass records from mil sec
-        if (currentTimeTrip < 1) {
-            currentTimeTrip = currentTimeTrip * -1;
-        }
-        //
-        // Time detector bay removing last record
-        timeTravelTrip = timeTravelTrip + (currentTimeTrip - lastRecordTravelTimeTrip);
-        //
-        //
-        lastRecordTravelTimeTrip = currentTimeTrip;
-        CUR_VDS = timeTravelTrip / 1000;*/
-    }
-}
-
-/**
- * Based on ObDuino32K
- * Calculate Consumption
- *      This method is running locally (only from class) to resolve MAF && consume
- */
-void CarSens::sensDlt() {
-    // time elapsed
-    if (_amp->isSens()) {
-        unsigned long time_now;
-        time_now = millis();
-        CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
-        sensDeltaCnsOldTime = time_now;
-    }
-}
-
-void CarSens::sensCns() {
-//    unsigned long delta_fuel;
-
-
-
-    /*
-    I just hope if you don't have a MAF, you have a MAP!!
-
-     No MAF (Uses MAP and Absolute Temp to approximate MAF):
-     IMAP = RPM * MAP / IAT
-     MAF = (IMAP/120)*(VE/100)*(ED)*(MM)/(R)
-     MAP - Manifold Absolute Pressure in kPa
-     IAT - Intake Air Temperature in Kelvin
-     R - Specific Gas Constant (8.314472 J/(mol.K)
-     MM - Average molecular mass of air (28.9644 g/mol)
-     VE - volumetric efficiency measured in percent, let's say 80%
-     ED - Engine Displacement in liters
-     This method requires tweaking of the VE for accuracy.
-     */
-    if (_amp->isSens()) {
-//        iat = getEngTmp();
-
-
-//        imap = (CUR_RPM * CUR_ECU) / (iat + 273);
-        // does not divide by 100 at the end because we use (MAF*100) in formula
-        // but divide by 10 because engine displacement is in dL
-        // imap * VE * ED * MM / (120 * 100 * R * 10) = 0.0020321
-        // ex: VSS=80km/h, MAP=64kPa, RPM=1800, IAT=21C
-        //     engine=2.2L, efficiency=70%
-        // maf = ( (1800*64)/(21+273) * 22 * 20 ) / 100
-        // maf = 17.24 g/s which is about right at 80km/h
-
-        // MAF obd formula 256A+B/100
-
-//        CUR_MAF = (long) (imap * ENGINE_DSP) / 5; // Deprecated to next test
-//        CUR_MAF = CUR_ECU / 5;
-        // at idle MAF output is about 2.25 g of air /s on my car
-        // so about 0.15g of fuel or 0.210 mL
-        // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
-        // as we sample about 4 times per second at 9600 bauds
-        // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
-        // also, adjust maf with fuel param, will be used to display instant cons
-
-//        deltaFuel = ((/*CUR_MAF*/ CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / mafFuel) / 10; // Davide by 10 from CUR_ECU val
-
-        long deltaFuel = 0;
-        if (CUR_ECU > 0) {
-            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
-        }
-
-        TTL_FL_CNS += deltaFuel;
-
-        //code to accumlate fuel wasted while idling
-        if (CUR_VSS == 0) {//car not moving
-            TTL_FL_WST += deltaFuel;
-        }
-
-        TTL_CLC = (TTL_FL_CNS * 0.0001);// L/h, comes from the /10000*100
-    }
-
-
-}
-
-/**
- * Based on OBDuino32K
- * Instance Fuel Consumption
- */
-void CarSens::sensIfc() {
-    long cons;
-    char decs[16];
-    unsigned long delta_dist;
-
-    delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME) / 36;
-
-    // divide MAF by 100 because our function return MAF*100
-    // but multiply by 100 for double digits precision
-    // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
-    // divide by 730 (g/L at 15°C) according to Canadian Gov to have L/s
-    // multiply by 3600 to get litre per hour
-    // formula: (3600 * MAF) / (14.7 * 730 * VSS)
-    // = maf*0.3355/vss L/km
-    // mul by 100 to have L/100km
-
-    float maf = CUR_ECU;
-
-    if (_amp->isSens()) {
-        // if maf is 0 it will just output 0
-        if (CUR_VSS < CNS_TGL_VS) {
-            cons = (maf * getFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
-        } else {
-            cons = (maf * getFuelVal()) / (delta_dist * 10); // L/100kmh, 100 comes from the /10000*100
-        }
-        CUR_IFC = cons;
-
-        //
-        // Average consumption for 5 seconds
-        indexIfc++;
-        collectionIfc += (cons  /** * 2 MILLIS_SENS*/); // Comes from missing 200 milliseconds between _amp->isSens()
-
-        //
-        // Average instance fuel consumption for 5 sec
-        AVR_IFC = (collectionIfc / indexIfc) * 0.001;
-    }
-
-    // Average IFC for 5 sec
-    // Null it but keep last value as one third rate
-    if (_amp->is5Seconds()) {
-        indexIfc = 1;
-        collectionIfc = AVR_IFC;
-        Serial.println(" 5 seconds ... ");
-    }
-
-
-    if (_amp->isMax()) {
-
-        Serial.print("\n\n Fuel Cons  | ins: ");
-        Serial.print(CUR_IFC * 0.001);
-        Serial.print(" || ttl: ");
-        Serial.print(TTL_FL_CNS);
-        Serial.print(" || maf:");
-        Serial.print(CUR_MAF);
-        Serial.print(" || ecu:");
-        Serial.print(CUR_ECU);
-
-        Serial.print("\n\n ");
-    }
-}
-
-/**
- * Car gear
- * todo Needs testing
- */
-int CarSens::getGear(int CarSpeed, int Rpm) {
-    float FinalG, Ratio, Diff;
-
-    FinalG = 3.706;
-    if (CarSpeed != 0) {
-
-        Ratio = (Rpm * CAR_GEAR_Pi * CAR_GEAR_Dia * 60) / (CarSpeed * FinalG * 1000000);
-
-        carGearNum = 7;
-
-        if ((-0.1 < Ratio - CAR_GEAR_G1) and (Ratio - CAR_GEAR_G1 < 0.1)) carGearNum = 1;
-        if ((-0.1 < Ratio - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
-        if ((-0.1 < Ratio - CAR_GEAR_G3) and (Ratio - CAR_GEAR_G3 < 0.1)) carGearNum = 3;
-        if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
-        if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
-        if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
-    }
-    else carGearNum = 0;
-
-    return carGearNum;
-}
-
-
 void CarSens::sensTmp() {
 
 /*******************************     DS    temperature sensor ******************************************/
@@ -1170,6 +992,143 @@ void CarSens::sensTmp() {
         CUR_OUT_TMP = temperatureC;
     }
 
+}
+
+/**
+ * Detect delta time for consumption
+ */
+void CarSens::sensDlt() {
+    // time elapsed
+    if (_amp->isSens()) {
+        unsigned long time_now;
+        time_now = millis();
+        CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
+        sensDeltaCnsOldTime = time_now;
+    }
+}
+
+/**
+ * Trip consumption
+ */
+void CarSens::sensCns() {
+
+    // add MAF result to trip
+    // we want fuel used in ÂµL
+    // maf gives grams of air/s
+    // divide by 100 because our MAF return is not divided!
+    // divide by 14.7 (a/f ratio) to have grams of fuel/s
+    // divide by 730 to have L/s
+    // mul by 1000000 to have ÂµL/s
+    if (_amp->isSens()) {
+        long deltaFuel = 0;
+        if (CUR_ECU > 0) {
+            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
+        }
+        TTL_FL_CNS += deltaFuel;
+        //
+        //code to accumlate fuel wasted while idling
+        if (CUR_VSS == 0) {//car not moving
+            TTL_FL_WST += deltaFuel;
+        }
+        //
+        // Fivide by 1000 because delta time is in ms
+        TTL_CLC = (TTL_FL_CNS * 0.0001);// L/h, comes from the /10000*100
+    }
+
+
+}
+
+/**
+ * Instance Fuel Consumption
+ */
+void CarSens::sensIfc() {
+    long cons;
+    char decs[16];
+    unsigned long delta_dist;
+
+
+
+    // divide MAF by 100 because our function return MAF*100
+    // but multiply by 100 for double digits precision
+    // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
+    // divide by 730 (g/L at 15°C) according to Canadian Gov to have L/s
+    // multiply by 3600 to get litre per hour
+    // formula: (3600 * MAF) / (14.7 * 730 * VSS)
+    // = maf*0.3355/vss L/km
+    // mul by 100 to have L/100km
+
+    float maf = CUR_ECU;
+
+    if (_amp->isSens()) {
+
+        delta_dist = (CUR_VSS * CONS_DELTA_TIME) / 36;
+
+        // if maf is 0 it will just output 0
+        if (CUR_VSS < CNS_TGL_VS) {
+            cons = long(maf * getFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
+        } else {
+            cons = long(maf * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+        }
+        // pass
+        // Current Instance consumption
+        CUR_IFC = (int) cons;
+        //
+        // Average consumption for 5 seconds
+        indexIfc++;
+        // Comes from missing 200 milliseconds between read intervals
+        collectionIfc += (cons  /** *  MILLIS_SENS*/);
+        //
+        // Average instance fuel consumption for 5 sec
+        AVR_IFC = (collectionIfc / indexIfc) * 0.001;
+    }
+
+    // Average IFC for 5 sec
+    // Keep last value as 1:8 rate
+    if (_amp->is5Seconds()) {
+        indexIfc = 2;
+        collectionIfc = (unsigned long) AVR_IFC * 2;
+        Serial.println(" 5 seconds ... ");
+    }
+
+#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
+    if (_amp->isMax()) {
+
+        Serial.print("\n\n Fuel Cons  | INS: ");
+        Serial.print(CUR_IFC * 0.001);
+        Serial.print(" || TTL: ");
+        Serial.print(TTL_FL_CNS);
+        Serial.print(" || ECU: ");
+        Serial.print(CUR_ECU);
+
+        Serial.print("\n\n ");
+    }
+#endif
+}
+
+/**
+ * Car gear
+ * todo Needs testing
+ */
+int CarSens::getGear(int CarSpeed, int Rpm) {
+    float FinalG, Ratio, Diff;
+
+    FinalG = 3.706;
+    if (CarSpeed != 0) {
+
+        Ratio = (Rpm * CAR_GEAR_Pi * CAR_GEAR_Dia * 60) / (CarSpeed * FinalG * 1000000);
+
+        carGearNum = 7;
+
+        if ((-0.1 < Ratio - CAR_GEAR_G1) and (Ratio - CAR_GEAR_G1 < 0.1)) carGearNum = 1;
+        if ((-0.1 < Ratio - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
+        if ((-0.1 < Ratio - CAR_GEAR_G3) and (Ratio - CAR_GEAR_G3 < 0.1)) carGearNum = 3;
+        if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
+        if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
+        if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
+    }
+    else carGearNum = 0;
+
+    return carGearNum;
 }
 
 
