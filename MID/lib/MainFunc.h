@@ -66,6 +66,7 @@ float restoreFloat(int a, int b) {
  */
 void setupTimer3() {
     //
+    // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
     // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
     TIMSK3 &= ~(1 << TOIE3);
     /* Configure timer3 in normal mode (pure counting, no PWM etc.) */
@@ -102,7 +103,7 @@ void setupTimer3() {
     //      TIMSK0 &= !(1 << TOIE0);
     //
     sbi(TCCR3B, CS31);        // set timer 3 prescale factor to 64
-    sbi(TCCR3B, CS30);        //
+    sbi(TCCR3B, CS30);        // CS31 set prescaler to 256 and start the timer
     sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
 }
 
