@@ -7,7 +7,7 @@
 #define ARDUINOMID_TIMEAMP_H
 
 
-#if !defined(MILLIS_SENS)
+#ifndef MILLIS_SENS
 #define MILLIS_SENS 200
 #endif
 

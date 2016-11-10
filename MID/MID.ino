@@ -1,9 +1,5 @@
 #include <Arduino.h>
-#include <SPI.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
 #include <MenuBackend.h>
-
 
 /*
 ---------------------------------------------------
@@ -25,6 +21,9 @@
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
+//
+// Sensing instrument interval time
+#define MILLIS_SENS 200
 //
 // Time information
 #define MILLIS_PER_HR    3600000 // Hour
@@ -84,43 +83,19 @@ float TTL_TTD; // Total travel distance
 float TTL_TLC; // Total Liters per hour consumed
 float TTL_CLC; // Total Consumption trip
 
-
-/*
-#include <SerialDebug.h>
-#define DEBUG true
-*/
 //
-//
-//#include <SoftwareSerial.h>
-
-//
-// Includes Libraries
-//#include <SPI.h>
-
-
-
-#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
-/* Todo
-#include <Wire.h>
-*/
-
+// LiquidCrystal library
+// Including from Arduino IDE
 #include <LiquidCrystal.h>
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-
 //
 // Menu cursor
 int cursorMenu = 0;
 //
-// Global interval
-const int SNS_INTERVAL_TIME_LOW = 150; // Low sensor interval
-const int SNS_INTERVAL_TIME_MID = 2000; // Mid sensor inter
-int showerCounter = 0;
-
-//
-//
+// Interval / Amplitude
 #include "lib/IntAmp.h"
 //
 // Adding Alphine emulator
@@ -137,8 +112,8 @@ int showerCounter = 0;
 
 //
 // Amplitude interval
-//      between loops
-IntAmp ampInt(/* min */5, /* low */10, /* mid */50, /* sec */100, /* big */200, /* max */ 1000); // TODO need tests
+//    ampInt(min,low,mid,sec, big, max);
+IntAmp ampInt(5, 10, 50, 100, 200, 1000);
 //
 // Constructing the class
 CarSens carSens(&ampInt);
@@ -159,7 +134,6 @@ WhlSens whlSens(&ampInt);
 //
 // Data storage
 EepRom eepRom;
-
 //
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
@@ -172,9 +146,8 @@ EepRom eepRom;
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
 
 //
-//
+// Define Welcome screen
 static void playWelcomeScreen();
-
 
 //
 // Setup the code...
@@ -192,15 +165,13 @@ void setup() {
     Serial.begin(9600);
     //
     // Change timer 3
-    setupUseTimer3();
+    setupTimer3();
     //
     //
     eepRom.setup();
-
     //
     //
     carSens.setupLpg(LPG_LVL_PIN);
-
     //
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);

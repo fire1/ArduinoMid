@@ -3,31 +3,42 @@
 //
 #include <Arduino.h>
 #include "IntAmp.h"
-
+//
+// Version of MID plug driver
 #define MID_CAR_SENS_VERSION 0.1
 
 #ifndef ARDUINOMID_ENGSENS_H
 #define ARDUINOMID_ENGSENS_H
-
+//
+// Show information from consumption
 #define DEBUG_CONS_INFO
 //
-// City Speed alarm
+// Speeding alarm
 #define VSS_ALARM_CITY_SPEED  61 // km
 #define VSS_ALARM_VWAY_SPEED  101 // km
 #define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
-// ABOUT ECU signal (actuated consumption signal)
-// On the GM hot film MAFs, you can also tap into the onboard computer data stream
-// with a scan tool to read the MAF sensor output in "grams per second" (GPS).
-// The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
+// --------------------------------------------------------------------------------------------------------------------
+// ABOUT ECU signal
+//      (actuated consumption signal)
+//
+//  On the GM hot film MAFs, you can also tap into the onboard computer data stream
+//  with a scan tool to read the MAF sensor output in "grams per second" (GPS).
+//  The reading might go from 3 to 5 GPS at idle up to 100 to 240 GPS at wide open throttle and 5000(+) RPM.
 //  The frequency range varies from 30 to 150 Hz, with 30 Hz being average for idle and 150 Hz for wide open throttle.
 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
-#define ECU_CORRECTION 162 // Consumption signal mul by 10
-#define VSS_CORRECTION 3.835232 // original value is 3.609344 my tires are smaller
-#define RPM_CORRECTION 33.767 // RPM OBD PID: 16,383.75 [*2] || [old: 32.8]
+// --------------------------------------------------------------------------------------------------------------------
+//
+//
+// Consumption signal mul by *10
+#define ECU_CORRECTION 162      //  <sens:200> 162          ||      <sens:50> 648
+#define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     ||      <sens:50> 15.340928
+#define RPM_CORRECTION 33.767   //  <sens:200> 33.767       ||      <sens:50> 135.068
 // As you can see everything is multiplied by 3*
 //      this is caused by read time amplitude of 200ms [way more stable in my tests]
+//
+//
 //
 //
 // Best 15636.44, 14952.25, 15736.44,
@@ -78,17 +89,16 @@
 X18XE1  - 1796 cm3 = 17.96 dl
  */
 #define ENGINE_DSP  17.96   // engine displacement in dL
-#define CNS_TGL_VS  3       // speed from which we toggle to fuel/hour (km/h)
+#define CONS_TGL_VSS  3       // speed from which we toggle to fuel/hour (km/h)
 
 //
-// Car's ratio gears
+// Car's gears ratio
 #define CAR_GEAR_G1  3.308
 #define CAR_GEAR_G2  2.13
 #define CAR_GEAR_G3  1.483
 #define CAR_GEAR_G4  1.139
 #define CAR_GEAR_G5  0.949
 #define CAR_GEAR_G6  0.816
-
 
 //
 // Inside temperature [very cheep temperature sensor]
@@ -274,7 +284,7 @@ protected:
 
     //
     // TODO make detection when car is running  on LPG
-    int getFuelVal() {
+    int getIfcFuelVal() {
 
 #if defined(LPG_SWTC_PIN)
 
@@ -282,7 +292,7 @@ protected:
         return FUEL_LPG_CNS; // todo change default to FUEL_BNZ_CNS
     }
 
-    long getMafFuelVal() {
+    long getCnsFuelVal() {
 
 #if defined(LPG_SWTC_PIN)
 
@@ -1019,10 +1029,17 @@ void CarSens::sensCns() {
     // divide by 14.7 (a/f ratio) to have grams of fuel/s
     // divide by 730 to have L/s
     // mul by 1000000 to have ÂµL/s
+
+    // Formula:
+    //      MPG = (14.7 * 6.17 * 454 * VSS * 0.621371) / (3600 * MAF / 100)
+    //  We using short way:
+    //      MPG = (710.7 * 10) * VSS / MAF
+    // Since we want only consumption VSS is skipped
+
     if (_amp->isSens()) {
         long deltaFuel = 0;
         if (CUR_ECU > 0) {
-            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getMafFuelVal();
+            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
         }
         TTL_FL_CNS += deltaFuel;
         //
@@ -1064,10 +1081,10 @@ void CarSens::sensIfc() {
         delta_dist = (CUR_VSS * CONS_DELTA_TIME) / 36;
 
         // if maf is 0 it will just output 0
-        if (CUR_VSS < CNS_TGL_VS) {
-            cons = long(maf * getFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
+        if (CUR_VSS < CONS_TGL_VSS) {
+            cons = long(maf * getIfcFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
         } else {
-            cons = long(maf * getFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = long(maf * getIfcFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
         }
         // pass
         // Current Instance consumption
@@ -1079,15 +1096,14 @@ void CarSens::sensIfc() {
         collectionIfc += (cons  /** *  MILLIS_SENS*/);
         //
         // Average instance fuel consumption for 5 sec
-        AVR_IFC = (collectionIfc / indexIfc) * 0.001;
+        AVR_IFC = (collectionIfc / indexIfc) * 0.0001;
     }
 
     // Average IFC for 5 sec
     // Keep last value as 1:8 rate
-    if (_amp->is5Seconds()) {
+    if (_amp->is10Seconds()) {
         indexIfc = 2;
         collectionIfc = (unsigned long) AVR_IFC * 2;
-        Serial.println(" 5 seconds ... ");
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)

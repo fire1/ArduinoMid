@@ -7,9 +7,7 @@
 #define MID_MID_H
 
 #include <wiring.c>
-
 #include <LiquidCrystal.h>
-
 
 
 /**
@@ -59,18 +57,24 @@ float restoreFloat(int a, int b) {
     return c;
 }
 
+
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+
 /**
  * Setup timer for ECU,RPM,VSS input pins
  * Timer 3
  */
-void setupUseTimer3() {
-
+void setupTimer3() {
+    //
+    // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
     TIMSK3 &= ~(1 << TOIE3);
-
     /* Configure timer3 in normal mode (pure counting, no PWM etc.) */
+    //
+    //   TCCR3A = 1 << WGM30 | 1 << WGM31;
+    //      set timer 3 prescale factor to 64
+    //    TCCR3B = 1 << CS32;
     TCCR3A &= ~((1 << WGM31) | (1 << WGM30));
     TCCR3B &= ~(1 << WGM32);
-
 
     TCCR3A = TCCR3A | (1 << COM3A1) | (1 << COM3B1) | (1 << COM3C1);
     /* Select clock source: internal I/O clock */
@@ -80,13 +84,26 @@ void setupUseTimer3() {
     TIMSK3 &= ~(1 << OCIE3A);
 
     /* Now configure the prescaler to CPU clock divided by 128 */
-    TCCR3B |= (1 << CS32) | (1 << CS30); // Set bits
-    TCCR3B &= ~(1 << CS31);             // Clear bit
-
-
+    TCCR3B |= (1 << CS32) | (1 << CS30);    // Set bits
+    TCCR3B &= ~(1 << CS31);                 // Clear bit
+    //
+    // Setting the PWM frequency should be similarly simple..
+    // by setting CS32, CS31, CS30, CS42, CS41, CS40, etc.  I'll play with this as well.
+    //
+    // TEST need to change
+    //
+    //      set timer 3 prescale factor to 64
+    //      TCCR3B = 1 << CS32;
+    //
+    //      enable timer 3 overflow interrupt
+    //      TIMSK3 |= 1 << TOIE3;
+    //
+    //      disable timer 0 overflow interrupt
+    //      TIMSK0 &= !(1 << TOIE0);
+    //
     sbi(TCCR3B, CS31);        // set timer 3 prescale factor to 64
-    sbi(TCCR3B, CS30);
-    sbi(TCCR3A, WGM30);        // put timer 3 in 8-bit phase correct pwm mode
+    sbi(TCCR3B, CS30);        //
+    sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
 }
 
 #endif //ARDUINOMID_UTILS_H
