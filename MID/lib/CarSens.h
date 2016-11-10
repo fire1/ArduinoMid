@@ -1078,13 +1078,14 @@ void CarSens::sensIfc() {
 
     if (_amp->isSens()) {
 
-        delta_dist = (CUR_VSS * CONS_DELTA_TIME) / 36;
+        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); //
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
             cons = long(maf * getIfcFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
+            cons = cons * 0.001;
         } else {
-            cons = long(maf * getIfcFuelVal()) / (delta_dist * 100); // L/100kmh, 100 comes from the /10000*100
+            cons = long(maf * getIfcFuelVal()) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
         // pass
         // Current Instance consumption
@@ -1096,14 +1097,14 @@ void CarSens::sensIfc() {
         collectionIfc += (cons  /** *  MILLIS_SENS*/);
         //
         // Average instance fuel consumption for 5 sec
-        AVR_IFC = (collectionIfc / indexIfc) * 0.0001;
+        AVR_IFC = (collectionIfc / indexIfc)/* * 0.001*/;//
     }
 
     // Average IFC for 5 sec
-    // Keep last value as 1:8 rate
+    // Keep last value as 1:3 rate
     if (_amp->is10Seconds()) {
-        indexIfc = 2;
-        collectionIfc = (unsigned long) AVR_IFC * 2;
+        indexIfc = 3;
+        collectionIfc = (unsigned long) AVR_IFC * 3;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
