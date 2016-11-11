@@ -19,59 +19,90 @@
 #include "WhlSens.h"
 
 
-static void menuUsed(MenuUseEvent used);
+class MidMenu {
 
-static void menuChanged(MenuChangeEvent changed);
+    MenuBackend menu;
+    MenuItem
+    //
+    // Main menu
+            mainMenu,
+            dshBoardMenu,
+            testingsMenu,
+    //
+    // Trip menu
+            tripMenu,
+    //
+    // Averages
+            averMenu,
+    //
+    // Fuel tank
+            fuelMenu,
+            FuelTankMenu;
 
-//
-//
-MenuBackend menu = MenuBackend(menuUsed, menuChanged);
-//
-//
-int lastButtonPushed = LOW;
-int isMainNavigationStatus = 0;
-int isInSubMenu = 0;
+public:
 
-/* MID menu mMap
+    MidMenu();
 
+    void setup(uint8_t pinUp, uint8_t pinDw);
 
+    void menuUsed(MenuUseEvent used);
 
-Main        Trip-------------------------------Trip----------------------------------------------------Fuel
-        |                                   |
-        Item1SubItem1-----Item1SubItem2     Item2SubItem1------Item2SubItem2------Item2SubItem3
+    void menuChanged(MenuChangeEvent changed);
 
+    void listener(int &cursor);
+
+    int cursorMenu;
+
+    int getCursorMenu() {
+        return cursorMenu;
+    }
+
+private:
+
+    uint8_t btnPinUp, btnPinDw;
+
+    unsigned long lastButtonPress = 0;
+    unsigned long entryDownState = 0;
+    boolean secondTone = 0;
+    //
+    //
+    int lastButtonPushed = LOW;
+    int isMainNavigationStatus = 0;
+    int isInSubMenu = 0;
+
+    char lastMainMenuState = 0;
+
+    void buttons(uint8_t buttonPinUp, uint8_t buttonPinDw);
+
+    void shortcuts();
+
+    void navigate();
+};
+/**
+ * constructor
  */
+MidMenu::MidMenu() :
+        menu(MenuBackend(this->menuUsed, this->menuChanged)),
+        mainMenu(MenuItem("Main", 1)),
+        dshBoardMenu(MenuItem("Panel", 1)),
+        testingsMenu(MenuItem("Test", 1)),
+        tripMenu(MenuItem("Trip", 1)),
+        averMenu(MenuItem("Average", 1)),
+        fuelMenu(MenuItem("Fuel", 1)),
+        FuelTankMenu(MenuItem("Tanks", 1)) {
 
-//
-// Main menu
-MenuItem mainMenu = MenuItem("Main", 1);
+}
+/**
+ *  Setup menu
+ */
+void MidMenu::setup(uint8_t pinUp, uint8_t pinDw) {
 
-
-MenuItem tripMenu = MenuItem("Trip", 2);
-MenuItem fuelMenu = MenuItem("Fuel", 3);
-MenuItem averMenu = MenuItem("Average", 4);
-
-//
-// Sub menu for MAIN
-MenuItem dshBoardMenu = MenuItem("Panel", 11);
-MenuItem testingsMenu = MenuItem("Test", 12);
-//
-// Sub menu for fuel
-MenuItem FuelTankMenu = MenuItem("F-Tanks");
-
-static void setupMenu() {
+    btnPinUp = pinUp;
+    btnPinDw = pinDw;
     //
     // Pin button mode
-    pinMode(BTN_PIN_UP, INPUT);
-    pinMode(BTN_PIN_DW, INPUT);
-    /*
-     *
-      menu.getRoot().add(menu1Item1);
-      menu1Item1.addRight(menu1Item2).addRight(menu1Item3);
-      menu1Item1.add(menuItem1SubItem1).addRight(menuItem1SubItem2);
-      menu1Item2.add(menuItem2SubItem1).addRight(menuItem2SubItem2).addRight(menuItem3SubItem3);
-
-     */
+    pinMode(btnPinUp, INPUT);
+    pinMode(btnPinDw, INPUT);
 
     menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(averMenu);
     averMenu.add(mainMenu); // Create Loop menu
@@ -97,8 +128,7 @@ static void setupMenu() {
 /**
  * Event menu changed
  */
-static void menuChanged(MenuChangeEvent changed) {
-
+void MidMenu::menuChanged(MenuChangeEvent changed) {
 
     MenuItem newMenuItem = changed.to; //get the destination menu
     lcd.clear();
@@ -110,18 +140,9 @@ static void menuChanged(MenuChangeEvent changed) {
     } else if (newMenuItem.getName() == "Test") {
         cursorMenu = 12;
     } else if (newMenuItem.getName() == "Average") {
-
         cursorMenu = 4;
     } else if (newMenuItem.getName() == "Trip") {
         cursorMenu = 2;
-//    } else if (newMenuItem.getName() == "Item2SubItem1") {
-//        lcd.print("Item2SubItem1   ");
-//    }
-//    else if (newMenuItem.getName() == "Item2SubItem2") {
-//        lcd.print("Item2SubItem2   ");
-//    }
-//    else if (newMenuItem.getName() == "Item2SubItem3") {
-//        lcd.print("Item2SubItem3   ");
     } else if (newMenuItem.getName() == "Fuel") {
         cursorMenu = 3;
     } else if (newMenuItem.getName() == "F-Tanks") {
@@ -132,24 +153,38 @@ static void menuChanged(MenuChangeEvent changed) {
 }
 
 /**
- * Read pin button states
+ * Event use changed
  */
+void MidMenu::menuUsed(MenuUseEvent used) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(used.item.getName());
+    delay(100);
+    lcd.print(" Menu");
+    delay(500);  //delay to allow message reading
+    lcd.setCursor(0, 0);
+    lcd.clear();
+    //
+    // fixes value peek
+    // reset base global vars
+    carSens.clearBaseData();
+}
 
-unsigned long lastButtonPress = 0;
-
-unsigned long entryDownState = 0;
-
-boolean secondTone = 0;
 
 /**
  * Lower the code
  */
-void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
-
-    int OUTER_BUTTON_STATE = 0;
+void MidMenu::listener(int &cursor) {
+    buttons(btnPinUp, btnPinDw);
+    navigate();
+    cursorMenu = cursor;
+}
+/**
+ * buttons
+ */
+void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     lastButtonPushed = LOW;
-    unsigned long curTime = millis();
     //
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
@@ -178,41 +213,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 // Reset entry down state
                 entryDownState = 0;
 
-                /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
-                // Steering button is pressed
-                if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
-                    TTL_TLC = 0;
-                    TTL_TTD = 0;
-                    tone(ADT_ALR_PIN, 1000, 50);
-                    delay(50);
-                    tone(ADT_ALR_PIN, 1000, 50);
-                    delay(50);
-                    whlSens.enable();
-                    return;
-                }
-                //
-                // Change Speed alarm Up
-                if (whlSens.getCurrentState() == whlSens.STR_BTN_VLU) {
-                    carSens.speedingAlarmsUp();
-                    tone(ADT_ALR_PIN, 800, 50);
-                    delay(50);
-                    tone(ADT_ALR_PIN, 1600, 80);
-                    delay(80);
-                    whlSens.enable();
-                    return;
-                }
-                //
-                // Change Speed alarm Down
-                if (whlSens.getCurrentState() == whlSens.STR_BTN_VLD) {
-                    carSens.speedingAlarmsDw();
-                    tone(ADT_ALR_PIN, 1600, 50);
-                    delay(50);
-                    tone(ADT_ALR_PIN, 800, 80);
-                    delay(80);
-                    whlSens.enable();
-                    return;
-                }
-                /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+                shortcuts();
                 //
                 // Check for subMenu if not got inner level entry
                 if (isInSubMenu == 0) {
@@ -236,16 +237,7 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 entryDownState = 0;
             }
         }
-//    } else if (entryDownState > 0  && !digitalRead(buttonPinDw) == LOW) {
-//        //
-//        // Perform button is released action
-//        lastButtonPushed = buttonPinDw;
-//        //
-//        // Reset entry down state
-//        entryDownState = 0;
-//        whlSens.enable(); // unlock radio
-//        //
-//        //
+
     } else { // <- deprecated
         entryDownState = 0;
         whlSens.enable(); // unlock radio
@@ -257,65 +249,75 @@ void readButtons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     }
 
 }
+/**
+ * Shortcuts
+ */
+void MidMenu::shortcuts() {
+    /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
+    // Steering button is pressed
+    if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
+        TTL_TLC = 0;
+        TTL_TTD = 0;
+        tone(ADT_ALR_PIN, 1000, 50);
+        delay(50);
+        tone(ADT_ALR_PIN, 1000, 50);
+        delay(50);
+        whlSens.enable();
+        return;
+    }
+    //
+    // Change Speed alarm Up
+    if (whlSens.getCurrentState() == whlSens.STR_BTN_VLU) {
+        carSens.speedingAlarmsUp();
+        tone(ADT_ALR_PIN, 800, 50);
+        delay(50);
+        tone(ADT_ALR_PIN, 1600, 80);
+        delay(80);
+        whlSens.enable();
+        return;
+    }
+    //
+    // Change Speed alarm Down
+    if (whlSens.getCurrentState() == whlSens.STR_BTN_VLD) {
+        carSens.speedingAlarmsDw();
+        tone(ADT_ALR_PIN, 1600, 50);
+        delay(50);
+        tone(ADT_ALR_PIN, 800, 80);
+        delay(80);
+        whlSens.enable();
+        return;
+    }
+    /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+}
 
-char lastMainMenuState = 0;
 
 /**
  * Resolve navigation between button press
  */
-void navigateMenu() {
+void MidMenu::navigate() {
 
     if (isMainNavigationStatus == 0) {
-        MenuItem currentMenu = menu.getCurrent();
-
-        switch (lastButtonPushed) {
-            //
-            // UP button
-            case BTN_PIN_UP:
-                if (isInSubMenu == 0) {
-                    menu.moveDown();
-                    menu.use();
-                } else {
-                    menu.moveRight();
-                    menu.use();
-                }
-                break;
-
-                //
-                // Down button
-            case BTN_PIN_DW:
-                if (lastMainMenuState != 0 && isInSubMenu == 0) {
-                    menu.moveBack();
-                    menu.use();
-                } else if (isInSubMenu == 0) {
-                    menu.moveUp();
-                    menu.use();
-                } else {
-                    lastMainMenuState = currentMenu.getShortkey();
-                    menu.moveLeft();
-                    menu.use();
-                }
-                break;
+        if (lastButtonPushed == btnPinUp) {
+            if (isInSubMenu == 0) {
+                menu.moveDown();
+                menu.use();
+            } else {
+                menu.moveRight();
+                menu.use();
+            }
+        }
+        if (lastButtonPushed == btnPinDw) {
+            if (lastMainMenuState != 0 && isInSubMenu == 0) {
+                menu.moveBack();
+                menu.use();
+            } else if (isInSubMenu == 0) {
+                menu.moveUp();
+                menu.use();
+            }
         }
     }
-//    lastSubMenuState = isInSubMenu;
     lastButtonPushed = 0; //reset the lastButtonPushed variable
 }
 
-
-static void menuUsed(MenuUseEvent used) {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(used.item.getName());
-    delay(100);
-    lcd.print(" Menu");
-    delay(500);  //delay to allow message reading
-    lcd.setCursor(0, 0);
-    lcd.clear();
-    //
-    // fixes value peek
-    // reset base global vars
-    carSens.clearBaseData();
-}
 
 #endif
