@@ -65,6 +65,10 @@ class MidMenu {
             fuelMenu,
             FuelTankMenu;
 
+    IntAmp *_amp;
+    WhlSens *_whl;
+    CarSens *_car;
+
 
 public:
     const static int MENU_ENTER = MENU_ENTRY;
@@ -77,7 +81,7 @@ public:
     // External changer var
     int static cursorMenu;
 
-    void setup(uint8_t pinUp, uint8_t pinDw);
+    void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) ;
 
     void listener(int &cursor);
 
@@ -92,7 +96,7 @@ public:
 
     void display();
 
-    MidMenu();
+    MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car);
 
 private:
 
@@ -102,7 +106,8 @@ private:
 
     const char *activeMenu;
 
-    uint8_t btnPinUp, btnPinDw;
+    uint8_t btnPinUp, btnPinDw, pinTones;
+
 
     unsigned long entryDownState = 0;
     boolean secondTone = 0;
@@ -139,7 +144,7 @@ private:
 /**
  * constructor
  */
-MidMenu::MidMenu() :
+MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car) :
 //
 // Define menus
         menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
@@ -154,6 +159,10 @@ MidMenu::MidMenu() :
         averMenu(MenuItem(MENU_NAME_4)),
         fuelMenu(MenuItem(MENU_NAME_3)),
         FuelTankMenu(MenuItem(MENU_NAME_31)) {
+
+    _amp = amp;
+    _whl = whl;
+    _car = car;
 
 }
 
@@ -184,10 +193,11 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
 /**
  *  Setup menu
  */
-void MidMenu::setup(uint8_t pinUp, uint8_t pinDw) {
+void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
 
     btnPinUp = pinUp;
     btnPinDw = pinDw;
+    pinTones = pinTn;
     //
     // Pin button mode
     pinMode(btnPinUp, INPUT);
@@ -270,7 +280,7 @@ void MidMenu::display() {
     lcd.setCursor(0, 0);
 
 
-    carSens.clearBaseData();
+    _car->clearBaseData();
     activeMenu = MidMenu::where;
     enterDisplay = 0;
     MidMenu::cursorMenu = savedCursor;
@@ -333,7 +343,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     // Detect up state button
     if (!digitalRead(buttonPinUp) == HIGH) {
 
-        if (ampInt.isLow() && !digitalRead(buttonPinUp) == HIGH) {
+        if (_amp->isLow() && !digitalRead(buttonPinUp) == HIGH) {
             lastButtonPushed = buttonPinUp;
         }
     }
@@ -344,7 +354,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         //
         // Controlling start of press state
         if (entryDownState == 0) {
-            whlSens.disable();
+            _whl->disable();
             entryDownState = millis();
         }
         //
@@ -364,12 +374,12 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                     //
                     // Enter inner level menu
                     isInSubMenu = 1;
-                    tone(ADT_ALR_PIN, 400, 100);
+                    tone(pinTones, 400, 100);
                     //
                     // Exit inner level menu
                 } else if (isInSubMenu == 1) {
                     isInSubMenu = 0;
-                    tone(ADT_ALR_PIN, 400, 50);
+                    tone(pinTones, 400, 50);
                     secondTone = 1;
                 }
             } else {
@@ -384,11 +394,11 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     } else { // <- deprecated
         entryDownState = 0;
-        whlSens.enable(); // unlock radio
+        _whl->enable(); // unlock radio
     }
 
-    if (ampInt.isSec() && secondTone) {
-        tone(ADT_ALR_PIN, 800, 50);
+    if (_amp->isSec() && secondTone) {
+        tone(pinTones, 800, 50);
         secondTone = 0;
     }
 
@@ -400,36 +410,36 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 void MidMenu::shortcuts() {
     /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
     // Steering button is pressed
-    if (whlSens.getCurrentState() == whlSens.STR_BTN_ATT) {
+    if (_whl->getCurrentState() == _whl->STR_BTN_ATT) {
         TTL_TLC = 0;
         TTL_TTD = 0;
-        tone(ADT_ALR_PIN, 1000, 50);
+        tone(pinTones, 1000, 50);
         delay(50);
-        tone(ADT_ALR_PIN, 1000, 50);
+        tone(pinTones, 1000, 50);
         delay(50);
-        whlSens.enable();
+        _whl->enable();
         return;
     }
     //
     // Change Speed alarm Up
-    if (whlSens.getCurrentState() == whlSens.STR_BTN_VLU) {
-        carSens.speedingAlarmsUp();
-        tone(ADT_ALR_PIN, 800, 50);
+    if (_whl->getCurrentState() == _whl->STR_BTN_VLU) {
+        _car->speedingAlarmsUp();
+        tone(pinTones, 800, 50);
         delay(50);
-        tone(ADT_ALR_PIN, 1600, 80);
+        tone(pinTones, 1600, 80);
         delay(80);
-        whlSens.enable();
+        _whl->enable();
         return;
     }
     //
     // Change Speed alarm Down
-    if (whlSens.getCurrentState() == whlSens.STR_BTN_VLD) {
-        carSens.speedingAlarmsDw();
-        tone(ADT_ALR_PIN, 1600, 50);
+    if (_whl->getCurrentState() == _whl->STR_BTN_VLD) {
+        _car->speedingAlarmsDw();
+        tone(pinTones, 1600, 50);
         delay(50);
-        tone(ADT_ALR_PIN, 800, 80);
+        tone(pinTones, 800, 80);
         delay(80);
-        whlSens.enable();
+        _whl->enable();
         return;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
