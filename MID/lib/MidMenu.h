@@ -240,16 +240,17 @@ void MidMenu::listener(int &cursor) {
     navigate();
     //
     //
-    if (MidMenu::where != activeMenu) {
+    if (MidMenu::where != activeMenu && MidMenu::cursorMenu != MENU_ENTER) {
         //
         // Keep cursor in save place
         savedCursor = MidMenu::cursorMenu;
         //
         // Change menu to show info
-        cursor = MENU_ENTER;
-    } else {
-        cursor = MidMenu::cursorMenu;
+        MidMenu::cursorMenu = MENU_ENTER;
     }
+
+    cursor = MidMenu::cursorMenu;
+
 }
 
 /**
@@ -257,15 +258,53 @@ void MidMenu::listener(int &cursor) {
  */
 void MidMenu::display() {
 
-    if (ampInt.isSec()) {
+    MidMenu::cursorMenu = MENU_ENTER;
+
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.setCursor(0, 0);
+    lcd.print("~ ");
+    delay(100);
+    lcd.print(MidMenu::where);
+    delay(300);  //delay to allow message reading
+    lcd.setCursor(0, 0);
+
+
+    carSens.clearBaseData();
+    activeMenu = MidMenu::where;
+    enterDisplay = 0;
+    MidMenu::cursorMenu = savedCursor;
+    lcd.clear();
+    //
+    // fixes value peek
+    // reset base global vars
+
+/*    if (ampInt.isSec()) {
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print(" ->");
+
+        Serial.print("MENU ");
+        Serial.print(MidMenu::cursorMenu);
+        Serial.print(" ");
+        Serial.print(MidMenu::where);
+        Serial.print(" ");
+        Serial.print(MidMenu::where);
+        Serial.print(" ");
+        Serial.println(savedCursor);
+
     }
 
-    if (ampInt.isMid()) {
-        lcd.setCursor(0, 0);
-        lcd.print("-> ");
+
+    if (enterDisplay && ampInt.isMid()) {
+        //
+        // fixes value peek
+        // reset base global vars
+        carSens.clearBaseData();
+        activeMenu = MidMenu::where;
+        enterDisplay = 0;
+        MidMenu::cursorMenu = savedCursor;
+        lcd.clear();
     }
 
     if (!enterDisplay && ampInt.isBig()) {
@@ -279,17 +318,8 @@ void MidMenu::display() {
         lcd.clear();
         enterDisplay = 1;
     }
+*/
 
-    if (enterDisplay && ampInt.isBig()) {
-        //
-        // fixes value peek
-        // reset base global vars
-        carSens.clearBaseData();
-        activeMenu = MidMenu::where;
-        enterDisplay = 0;
-        MidMenu::cursorMenu = savedCursor;
-        lcd.clear();
-    }
 
 }
 
