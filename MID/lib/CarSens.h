@@ -32,17 +32,15 @@
 //
 //
 // Consumption signal mul by *10
-#define ECU_CORRECTION 162      //  <sens:200> 162          ||      <sens:50> 648
-#define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     ||      <sens:50> 15.340928
-#define RPM_CORRECTION 33.767   //  <sens:200> 33.767       ||      <sens:50> 135.068
-// As you can see everything is multiplied by 3*
-//      this is caused by read time amplitude of 200ms [way more stable in my tests]
-//
-//
-//
-//
+#define ECU_CORRECTION 168      //  <sens:200> 162          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
+#define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
+#define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
+#define DST_CORRECTION 15197.81 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 // Best 15636.44, 14952.25, 15736.44,
-#define DST_CORRECTION 15197.81 // 16093.44  - ~6% = 15127.8336 [lower tire profile]
+//
+//
+//
+//
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
@@ -1033,7 +1031,7 @@ void CarSens::sensCns() {
     // Formula:
     //      MPG = (14.7 * 6.17 * 454 * VSS * 0.621371) / (3600 * MAF / 100)
     //  We using short way:
-    //      MPG = (710.7 * 10) * VSS / MAF
+    //      LKM =  MAF * time /  <fuel sum>
     // Since we want only consumption VSS is skipped
 
     if (_amp->isSens()) {
@@ -1048,8 +1046,8 @@ void CarSens::sensCns() {
             TTL_FL_WST += deltaFuel;
         }
         //
-        // Fivide by 1000 because delta time is in ms
-        TTL_CLC = (TTL_FL_CNS * 0.0001);// L/h, comes from the /10000*100
+        // Convert to float
+        TTL_CLC = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
     }
 
 
@@ -1082,8 +1080,7 @@ void CarSens::sensIfc() {
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = long(maf * getIfcFuelVal()) / 1000;  // L/h, do not use float so mul first then divide
-            cons = cons * 0.001;
+            cons = long(long(maf * getIfcFuelVal()) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
         } else {
             cons = long(maf * getIfcFuelVal()) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
@@ -1097,14 +1094,14 @@ void CarSens::sensIfc() {
         collectionIfc += (cons  /** *  MILLIS_SENS*/);
         //
         // Average instance fuel consumption for 5 sec
-        AVR_IFC = (collectionIfc / indexIfc)/* * 0.001*/;//
+        AVR_IFC = (collectionIfc / indexIfc);//
     }
 
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
-    if (_amp->is10Seconds()) {
-        indexIfc = 3;
-        collectionIfc = (unsigned long) AVR_IFC * 3;
+    if (_amp->isMinute()) {
+        indexIfc = 2;
+        collectionIfc = (unsigned long) AVR_IFC * 2;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)

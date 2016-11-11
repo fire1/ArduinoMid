@@ -279,24 +279,22 @@ void displayConsumption() {
 
     }
 
-    char dspInst[3];
-    char dspTotal[3];
+    int dspInst[2];
+//    char dspTotal[3];
 
     if (ampInt.isMid()) {
 
-        displayFloat(/*carSens.getIfc() * 0.001*/ carSens.getIfcAvr(), dspInst);
+        separateFloat(carSens.getIfcAvr(), dspInst);
 
         lcd.setCursor(1, 2);
         lcd.print((char) 5);
         lcd.print((char) 6);
-        lcd.print(dspInst);
-
-        displayFloat(TTL_CLC /*carSens.getTfc() * 0.0001*/, dspTotal);
+        lcd.print(dspInst[0]);
 
         lcd.setCursor(9, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
-        lcd.print(dspTotal);
+        lcd.print(TTL_CLC);
     }
 }
 

@@ -179,14 +179,14 @@ void IntAmp::listener() {
         _is10Seconds = 0;
     }
 
-    if (timer >= curSecond + MILLIS_PER_MN) {
+    if (timer >= curMinute + MILLIS_PER_MN) {
         curMinute = timer;
         _isMinute = 1;
     } else {
         _isMinute = 0;
     }
 
-    if (timer >= curSecond + MILLIS_PER_HR) {
+    if (timer >= curHour + MILLIS_PER_HR) {
         curHour = timer;
         _isHour = 1;
     } else {
