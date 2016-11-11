@@ -29,6 +29,7 @@
 #define MILLIS_PER_HR    3600000 // Hour
 #define MILLIS_PER_MN    60000    // Minute
 #define MILLIS_PER_SC    1000    // Second
+
 //
 //
 const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
@@ -127,6 +128,7 @@ WhlSens whlSens(&ampInt);
 //
 // Adding menu source
 #include "lib/MidMenu.h"
+
 MidMenu midMenu;
 //
 //
@@ -240,8 +242,12 @@ void loop() {
     //
     // Switch menu from cursor
     switch (cursorMenu) {
-        //
-        // Main / first menu
+
+        case MidMenu::MENU_ENTER:
+            midMenu.display();
+            break;
+            //
+            // Main / first menu
         case 1:
             displayTotalCons();
             displayTotalDst();

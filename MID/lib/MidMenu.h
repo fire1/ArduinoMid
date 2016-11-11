@@ -19,6 +19,32 @@
 #include "WhlSens.h"
 
 
+#ifndef MENU_ENTRY
+#define MENU_ENTRY 0
+#endif
+
+#define MENU_NAME_1 "Main"
+#define MENU_NAME_11 "Panel"
+#define MENU_NAME_12 "Test"
+//
+//
+#define MENU_NAME_2 "Trip"
+//
+//
+#define MENU_NAME_3 "Fuel"
+#define MENU_NAME_31 "Fuel Level"
+//
+//
+#define MENU_NAME_4 "Average"
+
+
+static void MidMenu_menuUsed(MenuUseEvent used);
+
+static void MidMenu_menuChanged(MenuChangeEvent changed);
+
+/**
+ *
+ */
 class MidMenu {
 
     MenuBackend menu;
@@ -39,29 +65,45 @@ class MidMenu {
             fuelMenu,
             FuelTankMenu;
 
-public:
 
-    MidMenu();
+public:
+    const static int MENU_ENTER = MENU_ENTRY;
+
+    //
+    // External changer var
+    const static char *where;
+
+    //
+    // External changer var
+    int static cursorMenu;
 
     void setup(uint8_t pinUp, uint8_t pinDw);
 
-    void menuUsed(MenuUseEvent used);
-
-    void menuChanged(MenuChangeEvent changed);
-
     void listener(int &cursor);
 
-    int cursorMenu;
-
     int getCursorMenu() {
-        return cursorMenu;
+        return MidMenu::cursorMenu;
     }
+
+
+    void setCursor(int val) {
+        MidMenu::cursorMenu = val;
+    }
+
+    void display();
+
+    MidMenu();
 
 private:
 
+    //
+    // Saves cursor between changes
+    int savedCursor;
+
+    const char *activeMenu;
+
     uint8_t btnPinUp, btnPinDw;
 
-    unsigned long lastButtonPress = 0;
     unsigned long entryDownState = 0;
     boolean secondTone = 0;
     //
@@ -72,26 +114,73 @@ private:
 
     char lastMainMenuState = 0;
 
+    bool enterDisplay = 0;
+
     void buttons(uint8_t buttonPinUp, uint8_t buttonPinDw);
 
     void shortcuts();
 
     void navigate();
+
+
 };
+
+/***********************************************************************************************
+ * ########################################################################################### *
+ * ########################################################################################### *
+ *                                                                                             *
+ *                                   CPP part of file                                          *
+ *                                                                                             *
+ * ########################################################################################### *
+ * ########################################################################################### *
+ ***********************************************************************************************/
+
+
 /**
  * constructor
  */
 MidMenu::MidMenu() :
-        menu(MenuBackend(this->menuUsed, this->menuChanged)),
-        mainMenu(MenuItem("Main", 1)),
-        dshBoardMenu(MenuItem("Panel", 1)),
-        testingsMenu(MenuItem("Test", 1)),
-        tripMenu(MenuItem("Trip", 1)),
-        averMenu(MenuItem("Average", 1)),
-        fuelMenu(MenuItem("Fuel", 1)),
-        FuelTankMenu(MenuItem("Tanks", 1)) {
+//
+// Define menus
+        menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
+        //
+        // Main menu initialization
+        mainMenu(MenuItem(MENU_NAME_1)),
+        dshBoardMenu(MenuItem(MENU_NAME_11)),
+        testingsMenu(MenuItem(MENU_NAME_12)),
+        //
+        // Trip menu initialization
+        tripMenu(MenuItem(MENU_NAME_2)),
+        averMenu(MenuItem(MENU_NAME_4)),
+        fuelMenu(MenuItem(MENU_NAME_3)),
+        FuelTankMenu(MenuItem(MENU_NAME_31)) {
 
 }
+
+/**
+ * Event menu changed
+ */
+static void MidMenu_menuChanged(MenuChangeEvent changed) {
+
+    MenuItem curMenuItem = changed.to; //get the destination menu
+
+    if (curMenuItem.getName() == MENU_NAME_1) {
+        MidMenu::cursorMenu = 1;
+    } else if (curMenuItem.getName() == MENU_NAME_11) {
+        MidMenu::cursorMenu = 11;
+    } else if (curMenuItem.getName() == MENU_NAME_12) {
+        MidMenu::cursorMenu = 12;
+    } else if (curMenuItem.getName() == MENU_NAME_2) {
+        MidMenu::cursorMenu = 2;
+    } else if (curMenuItem.getName() == MENU_NAME_3) {
+        MidMenu::cursorMenu = 3;
+    } else if (curMenuItem.getName() == MENU_NAME_31) {
+        MidMenu::cursorMenu = 32;
+    } else if (curMenuItem.getName() == MENU_NAME_4) {
+        MidMenu::cursorMenu = 4;
+    }
+}
+
 /**
  *  Setup menu
  */
@@ -103,10 +192,10 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw) {
     // Pin button mode
     pinMode(btnPinUp, INPUT);
     pinMode(btnPinDw, INPUT);
-
+    //
+    //
     menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(averMenu);
-    averMenu.add(mainMenu); // Create Loop menu
-
+    averMenu.add(mainMenu); // add last menu to create a Loop menu
     //
     // Main menu layers
     mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
@@ -126,59 +215,84 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw) {
 }
 
 /**
- * Event menu changed
+ * Define static cursor
  */
-void MidMenu::menuChanged(MenuChangeEvent changed) {
+int MidMenu::cursorMenu = 0;
 
-    MenuItem newMenuItem = changed.to; //get the destination menu
-    lcd.clear();
 
-    if (newMenuItem.getName() == "Main") {
-        cursorMenu = 1;
-    } else if (newMenuItem.getName() == "Panel") {
-        cursorMenu = 11;
-    } else if (newMenuItem.getName() == "Test") {
-        cursorMenu = 12;
-    } else if (newMenuItem.getName() == "Average") {
-        cursorMenu = 4;
-    } else if (newMenuItem.getName() == "Trip") {
-        cursorMenu = 2;
-    } else if (newMenuItem.getName() == "Fuel") {
-        cursorMenu = 3;
-    } else if (newMenuItem.getName() == "F-Tanks") {
-        cursorMenu = 32;
-    } else {
-        lcd.print(newMenuItem.getName());
-    }
-}
+const char *MidMenu::where = "";
 
 /**
  * Event use changed
  */
-void MidMenu::menuUsed(MenuUseEvent used) {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(used.item.getName());
-    delay(100);
-    lcd.print(" Menu");
-    delay(500);  //delay to allow message reading
-    lcd.setCursor(0, 0);
-    lcd.clear();
+static void MidMenu_menuUsed(MenuUseEvent used) {
     //
-    // fixes value peek
-    // reset base global vars
-    carSens.clearBaseData();
+    // Pass argument to class
+    MidMenu::where = used.item.getName();
 }
 
 
 /**
- * Lower the code
+ * listen menu
  */
 void MidMenu::listener(int &cursor) {
     buttons(btnPinUp, btnPinDw);
     navigate();
-    cursorMenu = cursor;
+    //
+    //
+    if (MidMenu::where != activeMenu) {
+        //
+        // Keep cursor in save place
+        savedCursor = MidMenu::cursorMenu;
+        //
+        // Change menu to show info
+        cursor = MENU_ENTER;
+    } else {
+        cursor = MidMenu::cursorMenu;
+    }
 }
+
+/**
+ * Display menu entry
+ */
+void MidMenu::display() {
+
+    if (ampInt.isSec()) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print(" ->");
+    }
+
+    if (ampInt.isMid()) {
+        lcd.setCursor(0, 0);
+        lcd.print("-> ");
+    }
+
+    if (!enterDisplay && ampInt.isBig()) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print(" ->");
+        //
+        //
+        lcd.print(MidMenu::where);
+        lcd.setCursor(0, 0);
+        lcd.clear();
+        enterDisplay = 1;
+    }
+
+    if (enterDisplay && ampInt.isBig()) {
+        //
+        // fixes value peek
+        // reset base global vars
+        carSens.clearBaseData();
+        activeMenu = MidMenu::where;
+        enterDisplay = 0;
+        MidMenu::cursorMenu = savedCursor;
+        lcd.clear();
+    }
+
+}
+
 /**
  * buttons
  */
@@ -249,6 +363,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
     }
 
 }
+
 /**
  * Shortcuts
  */
