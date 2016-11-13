@@ -131,7 +131,7 @@ WhlSens whlSens(&ampInt);
 // Adding menu source
 #include "lib/MidMenu.h"
 
-MidMenu midMenu;
+MidMenu midMenu(&ampInt, &whlSens, &carSens);
 //
 //
 #include "lib/EepRom.h"
@@ -201,7 +201,7 @@ void setup() {
     //
     // Set MID menu
 //    setupMenu();
-    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW);
+    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, ADT_ALR_PIN);
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
