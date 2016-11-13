@@ -1,3 +1,5 @@
+#include <OneWire.h>
+
 #include <Arduino.h>
 #include <MenuBackend.h>
 
@@ -303,19 +305,19 @@ void loop() {
         //
         // So ... C++ is static language...
         //      is not good idea to re-set dynamically
-        if (srlStrName == "TTD") {
-            // Total Trave distance
+        if (srlStrName == "ttd") {
+            // Total Travel distance
             TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_TTD ";
             srlOutputs += TTL_TTD;
         }
-        if (srlStrName == "TLC") {
+        if (srlStrName == "tlc" || srlStrName == "ttc") {
             // Total Liters per hour consumed
             TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_TLC ";
             srlOutputs += TTL_TLC;
         }
-        if (srlStrName == "CLC") {
+        if (srlStrName == "clc") {
             // Total Liters consumed in trip
             TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
             srlOutputs = "TTL_CLC ";
@@ -345,8 +347,10 @@ static void playWelcomeScreen() {
     tone(ADT_ALR_PIN, 400, 100);
     delay(10);
     lcd.setCursor(0, 1);
-    lcd.print("    Bertnone    ");
-    delay(1000);
+    lcd.print("  ");
+    lcd.write((uint8_t) 2);
+    lcd.print(" Bertnone    ");
+    delay(1500);
     lcd.clear();
 }
 

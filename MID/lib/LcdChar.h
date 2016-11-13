@@ -11,7 +11,7 @@
 void setLcdBaseChar() {
 //
 // Smile face
-    byte CHR_SML[8] =  {
+    byte CHR_SML[8] = {
             0b00000,
             0b00000,
             0b00010,
@@ -183,9 +183,20 @@ void setLcdBaseChar() {
             0b00000
     };
 
+    byte bertone[8] = {
+            0b11000,
+            0b01000,
+            0b01100,
+            0b01010,
+            0b01010,
+            0b01010,
+            0b00100,
+            0b00000
+    };
+
 
     lcd.createChar(1, CHR_CLS);
-    lcd.createChar(2, CHR_MNC1);
+    lcd.createChar(2, bertone);
     lcd.createChar(3, CHR_MNC2);
     lcd.createChar(4, CHR_CONS);
     lcd.createChar(5, instCons1);

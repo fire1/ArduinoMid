@@ -35,8 +35,8 @@
 #define ECU_CORRECTION 168      //  <sens:200> 162          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15197.81 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
-// Best 15636.44, 14952.25, 15736.44,
+#define DST_CORRECTION 15200.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+// Best 15197.81,15636.44, 14952.25, 15736.44,
 //
 //
 //
@@ -1100,8 +1100,8 @@ void CarSens::sensIfc() {
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
     if (_amp->isMinute()) {
-        indexIfc = 2;
-        collectionIfc = (unsigned long) AVR_IFC * 2;
+        indexIfc = 5;
+        collectionIfc = (unsigned long) AVR_IFC * 5;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
