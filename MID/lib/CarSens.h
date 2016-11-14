@@ -4,11 +4,12 @@
 #include <Arduino.h>
 #include "IntAmp.h"
 //
+#ifndef ARDUINO_MID_CAR_SENS_H
+#define ARDUINO_MID_CAR_SENS_H
+//
+//
 // Version of MID plug driver
 #define MID_CAR_SENS_VERSION 0.1
-
-#ifndef ARDUINOMID_ENGSENS_H
-#define ARDUINOMID_ENGSENS_H
 //
 // Show information from consumption
 #define DEBUG_CONS_INFO
@@ -35,7 +36,7 @@
 #define ECU_CORRECTION 168      //  <sens:200> 162          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15200.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15210.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 // Best 15197.81,15636.44, 14952.25, 15736.44,
 //
 //
@@ -97,11 +98,15 @@ X18XE1  - 1796 cm3 = 17.96 dl
 #define CAR_GEAR_G4  1.139
 #define CAR_GEAR_G5  0.949
 #define CAR_GEAR_G6  0.816
-
+//
+// Additional temperature sensor
+//      [Dallas Temperature temperature sensor]
+#ifndef INSIDE_TEMPERATURE_DS // Comment this to disable (check for same definition in main *.ino file )
 //
 // Inside temperature [very cheep temperature sensor]
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
+#endif
 //#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 #if defined(INSIDE_TEMPERATURE_DS)
@@ -1121,7 +1126,7 @@ void CarSens::sensIfc() {
 
 /**
  * Car gear
- * todo Needs testing
+ * TODO Needs testing
  */
 int CarSens::getGear(int CarSpeed, int Rpm) {
     float FinalG, Ratio, Diff;
@@ -1145,5 +1150,7 @@ int CarSens::getGear(int CarSpeed, int Rpm) {
     return carGearNum;
 }
 
+//ARDUINO_MID_CAR_SENS_H
+#endif
 
-#endif //ARDUINOMID_ENGSENS_H
+

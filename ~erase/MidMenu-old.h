@@ -14,9 +14,9 @@
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
 
-#include "MainFunc.h"
-#include "CarSens.h"
-#include "WhlSens.h"
+#include "lib/MainFunc.h"
+#include "lib/CarSens.h"
+#include "lib/WhlSens.h"
 
 
 static void menuUsed(MenuUseEvent used);

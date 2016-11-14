@@ -1,7 +1,10 @@
 #include <OneWire.h>
 
+#include <OneWire.h>
+
 #include <Arduino.h>
 #include <MenuBackend.h>
+#include <DallasTemperature.h>
 
 /*
 ---------------------------------------------------
@@ -31,6 +34,11 @@
 #define MILLIS_PER_HR    3600000 // Hour
 #define MILLIS_PER_MN    60000    // Minute
 #define MILLIS_PER_SC    1000    // Second
+
+//
+// Inside temperature [very cheep temperature sensor]
+// additional mounted temperature sensor from DallasTemperature
+#define INSIDE_TEMPERATURE_DS
 
 //
 //
@@ -90,13 +98,6 @@ float TTL_CLC; // Total Consumption trip
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
-
-//
-// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-//
-// Menu cursor
-int cursorMenu = 0;
 //
 // Interval / Amplitude
 #include "lib/IntAmp.h"
@@ -106,12 +107,19 @@ int cursorMenu = 0;
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
-//
-//
-#include "lib/LcdChar.h"
+
 //
 // Engine sensors
 #include "lib/CarSens.h"
+//
+// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
+LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
+//
+// Special characters
+#include "lib/LcdChar.h"
+//
+// Menu cursor
+int cursorMenu = 0;
 
 //
 // Amplitude interval
@@ -126,7 +134,6 @@ WhlSens whlSens(&ampInt);
 //
 // Display driver
 #include "lib/Lcd16x2.h"
-
 //
 // Adding menu source
 #include "lib/MidMenu.h"
