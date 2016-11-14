@@ -274,6 +274,7 @@ void MidMenu::display() {
     lcd.setCursor(0, 0);
     lcd.setCursor(0, 0);
     lcd.print("~ ");
+    tone(pinTones,2800,20);
     delay(100);
     lcd.print(MidMenu::where);
     delay(300);  //delay to allow message reading
