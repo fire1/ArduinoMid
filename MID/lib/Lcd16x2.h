@@ -10,6 +10,8 @@
 //
 // add Calculators
 #include "MainFunc.h"
+#include "MidMenu.h"
+#include "ShutDw.h"
 
 
 //
@@ -377,5 +379,55 @@ void displayTest() {
     }
 }
 
+/**
+ * Display menu Format
+ */
+void displayMenu(int cursorMenu, MidMenu midMenu, ShutDw shutDown) {
+    //
+    // Switch menu from cursor
+    switch (cursorMenu) {
+
+        case MidMenu::MENU_ENTER:
+            midMenu.lcdDisplay(&lcd);
+            break;
+            //
+            // Main / first menu
+        case 1:
+            displayTotalCons();
+            displayTotalDst();
+            displayOutTmp();
+            displayInsTmp();
+            break;
+            //
+            // Dashboard
+        case 11:
+            displayEngRPM();
+            displayCarKMH();
+            displayCarECU();
+            displayEngTmp();
+            break;
+
+        case 12:
+            displayTest();
+            break;
+        case 4:
+            displayAverage();
+            break;
+            //
+            // Travel menu
+        case 2:
+            displayTrip();
+            break;
+        case 3:
+            displayConsumption();
+            break;
+        case 32:
+            displayFuelTanks();
+            break;
+        case ShutDw::MENU_SHUTDOWN:
+            shutDown.lcdDisplay(&lcd);
+            break;
+    }
+}
 
 #endif //ARDUINOMID_READINNTERTEMP_H
