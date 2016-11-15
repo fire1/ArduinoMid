@@ -5,6 +5,7 @@
 #include <DallasTemperature.h>
 //
 // ArduinoDroid build
+//      @deprecated since IDE wrongly handled the sourcecode
 //      path to internal storage:
 //          /storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/
 //
