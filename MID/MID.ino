@@ -342,52 +342,13 @@ void loop() {
             break;
     }
 
-
-
-//
-// Serial injection
-#if defined(SERIAL_INJECT_DATA)
-    String srlAllData;
-    String srlStrName;
-    String srlOutputs;
     //
-    // Default message
-    srlOutputs = " None ... Sorry! ";
+    // Commands that changes global value from serial monitor
     //
-    // Execute command from serial
-    if (Serial.available() > 0) {
-        srlStrName = Serial.readStringUntil('=');
-        //
-        // So ... C++ is static language...
-        //      is not good idea to re-set dynamically
-        if (srlStrName == "ttd") {
-            // Total Travel distance
-            TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TTD ";
-            srlOutputs += TTL_TTD;
-        }
-        if (srlStrName == "tlc" || srlStrName == "ttc") {
-            // Total Liters per hour consumed
-            TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TLC ";
-            srlOutputs += TTL_TLC;
-        }
-        if (srlStrName == "clc") {
-            // Total Liters consumed in trip
-            TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_CLC ";
-            srlOutputs += TTL_CLC;
-        }
-        //
-        // Show command information to human
-        Serial.println("[MID $]> Affected value of " + srlOutputs);
-        //
-        // Remove containers
-        srlStrName = "";
-        srlAllData = ""; // Clear recieved buffer
-        srlOutputs = "";
-    }
-#endif
+    // ttd=<0000> INJECTS: Total distance
+    // ttc=<0000> INJECTS: Total fuel consumed
+    // clc=<0000> INJECTS: Total trip fuel consumed
+    serialInjectData();
 
 }
 
