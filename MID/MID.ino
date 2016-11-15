@@ -98,23 +98,24 @@ float TTL_CLC; // Total Consumption trip
 #include <LiquidCrystal.h>
 //
 // Interval / Amplitude
-#include "lib/IntAmp.h"
+#include "./lib/IntAmp.h"
 //
 // Adding Alphine emulator
-#include "lib/WhlSens.h"
+#include "./lib/WhlSens.h"
 //
 // Main Sensor handler
-#include "lib/MainFunc.h"
-
+#include "./lib/MainFunc.h"
 //
 // Engine sensors
-#include "lib/CarSens.h"
+#include "./lib/CarSens.h"
+
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 //
 // Special characters
-#include "lib/LcdChar.h"
+#include "./lib/LcdChar.h"
+
 //
 // Menu cursor
 int cursorMenu = 0;
