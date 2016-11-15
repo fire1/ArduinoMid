@@ -96,18 +96,46 @@ float TTL_CLC; // Total Consumption trip
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
+
+
+//
+// ArduinoDroid build
+// #define IDE_ARDUINO_DROID // Uncoment to use ArduinoDroid IDE for upload
+
+#ifndef IDE_ARDUINO_DROID
+
 //
 // Interval / Amplitude
-#include "./lib/IntAmp.h"
+#include "lib/IntAmp.h"
 //
 // Adding Alphine emulator
-#include "./lib/WhlSens.h"
+#include "lib/WhlSens.h"
 //
 // Main Sensor handler
-#include "./lib/MainFunc.h"
+#include "lib/MainFunc.h"
 //
 // Engine sensors
-#include "./lib/CarSens.h"
+#include "lib/CarSens.h"
+
+#else
+
+//
+// Interval / Amplitude
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/IntAmp.h"
+//
+// Adding Alphine emulator
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/WhlSens.h"
+//
+// Main Sensor handler
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/MainFunc.h"
+//
+// Engine sensors
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/CarSens.h"
+
+#endif
+
+
+
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
