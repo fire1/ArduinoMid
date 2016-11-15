@@ -1,7 +1,5 @@
 #include <OneWire.h>
 
-#include <OneWire.h>
-
 #include <Arduino.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
