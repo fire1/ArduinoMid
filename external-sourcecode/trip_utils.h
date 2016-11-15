@@ -66,13 +66,13 @@ void getEngineInTime(char *retbuf)
     } else { //car is not running.  Display final time when stopped.
       run_time = calcTimeDiff(engine_on, engine_off);
     }
-  //Lets display the running time
+  //Lets lcdDisplay the running time
   //hh:mm:ss
   hours =   run_time / MILLIS_PER_HOUR;
   minutes = (run_time % MILLIS_PER_HOUR) / MILLIS_PER_MINUTE;
   seconds = (run_time % MILLIS_PER_MINUTE) / MILLIS_PER_SECOND;
 
-  //Now we have our varriables parsed, lets display them
+  //Now we have our varriables parsed, lets lcdDisplay them
   sprintf_P(retbuf, PSTR("%d:%02d:%02d"), hours, minutes, seconds);
 }
 

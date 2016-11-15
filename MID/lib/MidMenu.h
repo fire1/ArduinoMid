@@ -81,7 +81,7 @@ public:
     // External changer var
     int static cursorMenu;
 
-    void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) ;
+    void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn);
 
     void listener(int &cursor);
 
@@ -94,7 +94,7 @@ public:
         MidMenu::cursorMenu = val;
     }
 
-    void display();
+    void lcdDisplay(LiquidCrystal *lcd);
 
     MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car);
 
@@ -266,70 +266,30 @@ void MidMenu::listener(int &cursor) {
 /**
  * Display menu entry
  */
-void MidMenu::display() {
+void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
 
     MidMenu::cursorMenu = MENU_ENTER;
 
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.setCursor(0, 0);
-    lcd.print("~ ");
-    tone(pinTones,2800,20);
+    lcd->clear();
+    lcd->setCursor(0, 0);
+    lcd->setCursor(0, 0);
+    lcd->print("~ ");
+    tone(pinTones, 2800, 20);
     delay(100);
-    lcd.print(MidMenu::where);
+    lcd->print(MidMenu::where);
     delay(300);  //delay to allow message reading
-    lcd.setCursor(0, 0);
+    lcd->setCursor(0, 0);
 
 
     _car->clearBaseData();
     activeMenu = MidMenu::where;
     enterDisplay = 0;
     MidMenu::cursorMenu = savedCursor;
-    lcd.clear();
+    lcd->clear();
     //
     // fixes value peek
     // reset base global vars
 
-/*    if (ampInt.isSec()) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(" ->");
-
-        Serial.print("MENU ");
-        Serial.print(MidMenu::cursorMenu);
-        Serial.print(" ");
-        Serial.print(MidMenu::where);
-        Serial.print(" ");
-        Serial.print(MidMenu::where);
-        Serial.print(" ");
-        Serial.println(savedCursor);
-
-    }
-
-
-    if (enterDisplay && ampInt.isMid()) {
-        //
-        // fixes value peek
-        // reset base global vars
-        carSens.clearBaseData();
-        activeMenu = MidMenu::where;
-        enterDisplay = 0;
-        MidMenu::cursorMenu = savedCursor;
-        lcd.clear();
-    }
-
-    if (!enterDisplay && ampInt.isBig()) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(" ->");
-        //
-        //
-        lcd.print(MidMenu::where);
-        lcd.setCursor(0, 0);
-        lcd.clear();
-        enterDisplay = 1;
-    }
-*/
 
 
 }

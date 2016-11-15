@@ -239,7 +239,7 @@ private:
     int vehicleStopped = LOW;
 
 /**
- * Handle display dim
+ * Handle lcdDisplay dim
  */
     int long lastReadValueDim = 0;
 
@@ -615,7 +615,7 @@ public:
         // Car Run time
         // sensCrm();
         //
-        // Sens display dim
+        // Sens lcdDisplay dim
         if (_amp->isMin()) {
             sensDim();
         }

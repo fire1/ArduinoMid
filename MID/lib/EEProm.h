@@ -47,7 +47,10 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //
 class EepRom {
 
+    CarSens *_car;
 public:
+    EepRom(CarSens *carSens);
+
     void setup() {
         Wire.begin();
     };
@@ -178,6 +181,11 @@ private:
 
 };
 
+EepRom::EepRom(CarSens *carSens){
+    _car = carSens;
+}
+
+
 /**
  * Saves data to EepRom
  */
@@ -186,7 +194,7 @@ void EepRom::saveCurrentData() {
     TTL_TLC = TTL_TLC + TTL_CLC;
     saveTravelConsumption(TTL_TLC);
 
-    TTL_TTD = TTL_TTD + carSens.getDst();
+    TTL_TTD = TTL_TTD + _car->getDst();
 
     saveTravelDistance(TTL_TTD);
 

@@ -58,7 +58,7 @@ void loop() {
   else if(rtwo < 887) percentage = 20;
   else if(rtwo < 968) percentage = 12;
   else if(rtwo < 1050) percentage = 4;
-  lcd.setCursor(0, 0); // Fuel status display on LCD
+  lcd.setCursor(0, 0); // Fuel status lcdDisplay on LCD
   lcd.print("FUEL LEVEL");
   lcd.print(" ");
   lcd.setCursor(12, 0);

@@ -43,9 +43,9 @@ private :
 
     void resolveUsbActive(int _detectorValue, int _detectUsbAct);
 
-    void displaySaved();
+    void displaySaved(LiquidCrystal *lcd);
 
-    void displayCancel();
+    void displayCancel(LiquidCrystal *lcd);
 
 public:
     static constexpr int MENU_SHUTDOWN = 99;
@@ -56,7 +56,7 @@ public:
 
     void listener();
 
-    void display();
+    void lcdDisplay(LiquidCrystal *lcd);
 
     bool isUsbActive();
 
@@ -135,7 +135,7 @@ void ShutDw::cursor(int &cursorMenu) {
     if (alreadyShutdown == 1) {
         cursorMenu = 1;
         alreadyShutdown = 2;
-        lcd.clear();
+
     }
 
     if (isShutdownActive && alreadyShutdown != 2) {
@@ -178,7 +178,7 @@ void ShutDw::listener() {
 /**
  * Display shutdown menu
  */
-void ShutDw::display() {
+void ShutDw::lcdDisplay(LiquidCrystal *lcd) {
 
 
     char sec[2];
@@ -186,16 +186,16 @@ void ShutDw::display() {
     //
     // Show message before straiting procedure
     if (entryDisplay == 0) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Hit \"S\" to skip");
-        lcd.setCursor(0, 2);
-        lcd.print("and unsave data");
+        lcd->clear();
+        lcd->setCursor(0, 0);
+        lcd->print("Hit \"S\" to skip");
+        lcd->setCursor(0, 2);
+        lcd->print("and unsave data");
         tone(pinTone, 3000, 500);
         delay(2000);
-        lcd.clear();
-        lcd.setCursor(1, 0);
-        lcd.print("Shutting  down");
+        lcd->clear();
+        lcd->setCursor(1, 0);
+        lcd->print("Shutting  down");
         tone(pinTone, 2000, 500);
         delay(1000);
         entryDisplay = 1;
@@ -206,16 +206,16 @@ void ShutDw::display() {
     // Catch seconds from loop
     if (_amp->isSec()) {
 
-        lcd.setCursor(0, 0);
-        lcd.print("Waiting ");
+        lcd->setCursor(0, 0);
+        lcd->print("Waiting ");
         //
         // Convert data to human format
         sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 200) * -1);
 
-        lcd.print(sec);
-        lcd.print(" sec.  ");
-        lcd.setCursor(1, 2);
-        lcd.print("to canceling...");
+        lcd->print(sec);
+        lcd->print(" sec.  ");
+        lcd->setCursor(1, 2);
+        lcd->print("to canceling...");
     }
 
     //
@@ -223,7 +223,7 @@ void ShutDw::display() {
     if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE) {
         delay(5);
         if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
-            displayCancel();
+            displayCancel(lcd);
         }
     }
     //
@@ -233,8 +233,8 @@ void ShutDw::display() {
         // Save current data and shutdown
         _eep->saveCurrentData();
         //
-        // Show on display
-        displaySaved();
+        // Show on lcdDisplay
+        displaySaved(lcd);
     }
     //
     // Count loops
@@ -245,12 +245,12 @@ void ShutDw::display() {
 /**
  * Cancel state
  */
-void ShutDw::displayCancel() {
-    lcd.clear();
-    lcd.setCursor(1, 0);
-    lcd.print(" Data cancel :(");
-    lcd.setCursor(1, 2);
-    lcd.print(" Bye bye ...");
+void ShutDw::displayCancel(LiquidCrystal *lcd) {
+    lcd->clear();
+    lcd->setCursor(1, 0);
+    lcd->print(" Data cancel :(");
+    lcd->setCursor(1, 2);
+    lcd->print(" Bye bye ...");
     //
     // Shutdown the system
     tone(pinTone, 800, 500);
@@ -264,15 +264,15 @@ void ShutDw::displayCancel() {
 /**
  * Save state
  */
-void ShutDw::displaySaved() {
+void ShutDw::displaySaved(LiquidCrystal *lcd) {
     //
     // Mark saved
     alreadySaved = 1;
-    lcd.clear();
-    lcd.setCursor(1, 0);
-    lcd.print(" Data saved :)");
-    lcd.setCursor(1, 2);
-    lcd.print(" Bye bye ...");
+    lcd->clear();
+    lcd->setCursor(1, 0);
+    lcd->print(" Data saved :)");
+    lcd->setCursor(1, 2);
+    lcd->print(" Bye bye ...");
     //
     // Shutdown the system
     tone(pinTone, 1000, 50);

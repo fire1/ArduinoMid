@@ -47,7 +47,7 @@ void getInstantConsumption(char *retbuf) {
         if (vss < toggle_speed)
             cons = (cons * 10) / 378;   // convert to gallon, can be 0 G/h
         else {
-            if (cons == 0)             // if cons is 0 (DFCO?) display 999.9MPG
+            if (cons == 0)             // if cons is 0 (DFCO?) lcdDisplay 999.9MPG
                 cons = 9999;
             else
                 cons = 235214 / cons;     // convert to MPG

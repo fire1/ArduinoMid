@@ -11,7 +11,7 @@
 
 
 /**
- * Limits display floats
+ * Limits lcdDisplay floats
  */
 char displayFloat(float value, char *output) {
 
@@ -28,7 +28,7 @@ char displayFloat(float value, char *output) {
 }
 
 /**
- * Limits display floats
+ * Limits lcdDisplay floats
  */
 void separateFloat(float value, int arrOutput[2]) {
 

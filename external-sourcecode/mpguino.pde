@@ -18,7 +18,7 @@ byte brightness[] = {255, 214, 171, 128}; //middle button cycles through these b
 #define brightnessLength (sizeof(brightness)/sizeof(byte)) //array size      
 byte brightnessIdx = 1;
 
-#define contrastIdx 0  //do contrast first to get display dialed in
+#define contrastIdx 0  //do contrast first to get lcdDisplay dialed in
 #define vssPulsesPerMileIdx 1
 #define microSecondsPerGallonIdx 2
 #define injPulsesPer2Revolutions 3
@@ -60,7 +60,7 @@ byte brightnessIdx = 1;
 #define rbuttonBit 32 // pin19 is a bitmask 32 on port C        
 #define loopsPerSecond 2 // how many times will we try and loop in a second     
 
-typedef void (*pFunc) (void);//type for display function pointers
+typedef void (*pFunc) (void);//type for lcdDisplay function pointers
 
 volatile unsigned long timer2_overflow_count;
 
@@ -317,7 +317,7 @@ void setup (void)
   pinMode (ContrastPin, OUTPUT);
   analogWrite (ContrastPin, parms[contrastIdx]);
   LCD::init ();
-  LCD::LcdCommandWrite (B00000001);  // clear display, set cursor position to zero
+  LCD::LcdCommandWrite (B00000001);  // clear lcdDisplay, set cursor position to zero
   LCD::LcdCommandWrite (B10000);  // set dram to zero
   LCD::gotoXY (0, 0);
   LCD::print (getStr (PSTR("OpenGauge       ")));
@@ -424,10 +424,10 @@ void loop (void)
 
       if (holdDisplay == 0)
         {
-          displayFuncs[screen] ();    //call the appropriate display routine
+          displayFuncs[screen] ();    //call the appropriate lcdDisplay routine
           LCD::gotoXY (0, 0);
 
-//see if any buttons were pressed, display a brief message if so      
+//see if any buttons were pressed, lcdDisplay a brief message if so
           if (!(buttonState & lbuttonBit) && !(buttonState & rbuttonBit))
             {// left and right = initialize
               LCD::print (getStr (PSTR("Setup ")));
@@ -584,9 +584,9 @@ void doDisplayBigTank ()
 { bigNum (tank.mpg (), "TANK", "MPG "); }
 
 void doDisplayCurrentTripData (void)
-{ tDisplay (&current); }   //display current trip formatted data.
+{ tDisplay (&current); }   //lcdDisplay current trip formatted data.
 void doDisplayTankTripData (void)
-{ tDisplay (&tank); }      //display tank trip formatted data.
+{ tDisplay (&tank); }      //lcdDisplay tank trip formatted data.
 void doDisplaySystemInfo (void)
 {
   LCD::gotoXY (0, 0);
@@ -599,7 +599,7 @@ void doDisplaySystemInfo (void)
   LCD::gotoXY (0, 1);
   LCD::print ("FREE MEM: ");
   LCD::print (format (mem));
-}    //display max cpu utilization and ram.        
+}    //lcdDisplay max cpu utilization and ram.
 
 void displayTripCombo (char t1, char t1L1, unsigned long t1V1, char t1L2, unsigned long t1V2, char t2, char t2L1, unsigned long t2V1, char t2L2, unsigned long t2V2)
 {
@@ -621,7 +621,7 @@ void displayTripCombo (char t1, char t1L1, unsigned long t1V1, char t1L2, unsign
 
 //arduino doesn't do well with types defined in a script as parameters, so have to pass as void * and use -> notation.      
 void tDisplay (void *r)
-{ //display trip functions.
+{ //lcdDisplay trip functions.
   Trip *t = (Trip *) r;
   LCD::gotoXY (0, 0);
   LCD::print ("MH");
@@ -680,9 +680,9 @@ void LCD::init ()
   tickleEnable ();
   delay2 (1);                     // wait for more than 100 usec
   // ready to use normal LcdCommandWrite() function now!
-  LcdCommandWrite (B00101000);   // 4-bit interface, 2 display lines, 5x8 font
-  LcdCommandWrite (B00001100);   // display control:
-  LcdCommandWrite (B00000110);   // entry mode set: increment automatically, no display shift
+  LcdCommandWrite (B00101000);   // 4-bit interface, 2 lcdDisplay lines, 5x8 font
+  LcdCommandWrite (B00001100);   // lcdDisplay control:
+  LcdCommandWrite (B00000110);   // entry mode set: increment automatically, no lcdDisplay shift
 
 //creating the custom fonts:
   LcdCommandWrite (B01001000);  // set cgram
@@ -699,7 +699,7 @@ void LCD::init ()
   for (byte x = 0; x < 5; x++)
     for (byte y = 0; y < 8; y++)
       LcdDataWrite (pgm_read_byte(&chars[y * 5 + x])); //write the character data to the character generator ram
-  LcdCommandWrite (B00000001);  // clear display, set cursor position to zero
+  LcdCommandWrite (B00000001);  // clear lcdDisplay, set cursor position to zero
   LcdCommandWrite (B10000000);  // set dram to zero
 
 }
@@ -771,7 +771,7 @@ Trip::Trip ()
 {
 }
 
-//for display computing
+//for lcdDisplay computing
 unsigned long tmp1[2];
 unsigned long tmp2[2];
 unsigned long tmp3[2];
@@ -1219,10 +1219,10 @@ void editParm (byte parmIdx)
 {
   unsigned long v = parms[parmIdx];
   byte p = 9;  //right end of 10 digit number
-  //display label on top line
+  //lcdDisplay label on top line
   //set cursor visible
   //set pos = 0
-  //display v
+  //lcdDisplay v
 
   LCD::gotoXY (8, 0);
   LCD::print ("        ");

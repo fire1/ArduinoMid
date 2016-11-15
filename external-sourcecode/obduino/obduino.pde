@@ -14,7 +14,7 @@
 
 Latest Changes
 Nov 7th, 2010
- Added Hybrid Big Num Screen for display AVG in Bigfont, and instant in small font in the corner
+ Added Hybrid Big Num Screen for lcdDisplay AVG in Bigfont, and instant in small font in the corner
 Oct 28th, 2010
  Changes to make BigNum fuctions work more fluently
 September 14th, 2010:
@@ -48,7 +48,7 @@ June 25, 2009:
 June 27, 2009:
  Minor corrections and tweaks: Antony
 July 23, 2009:
- New menuing system for parameters, and got rid of display flicker: Antony
+ New menuing system for parameters, and got rid of lcdDisplay flicker: Antony
 Sept 01, 2009:
  Better handling of 14230 protocol. Tweak in clear button routine: Antony
 Sept 27, 2009:
@@ -131,8 +131,8 @@ To-Do:
 //#define BIG_font_type_2x2_alpha
 #define BIG_font_type_2x2_beta
 
-//Uncomment to enable hybrid display on Average fuel Big num screen
-//This will display Big Num Average, and in the corner, The instant
+//Uncomment to enable hybrid lcdDisplay on Average fuel Big num screen
+//This will lcdDisplay Big Num Average, and in the corner, The instant
 #define BIG_font_hybrid
 
 // Comment for normal build
@@ -194,7 +194,7 @@ LiquidCrystal lcd(8, 14, 3, 4, 5, 7);
 
 // LCD prototypes
 void lcd_print_P(char *string);  // to work with string in flash and PSTR()
-void lcd_cls_print_P(char *string);  // clear screen and display string
+void lcd_cls_print_P(char *string);  // clear screen and lcdDisplay string
 void lcd_char_init();
 void lcd_char_bignum();
 void bigNum(unsigned long t, char *txt1, char *txt2);
@@ -305,13 +305,13 @@ byte brightnessIdx=2;
 
 /* LCD Display parameters */
 /* Adjust LCD_COLS or LCD_ROWS if LCD is different than 16 characters by 2 rows*/
-// Note: Not currently tested on display larger than 16x2
+// Note: Not currently tested on lcdDisplay larger than 16x2
 
 // How many rows of characters for the LCD (must be at least two)
 #define LCD_ROWS      2
 // How many characters across for the LCD (must be at least sixteen)
 #define LCD_COLS      16
-// Calculate the middle point of the LCD display width
+// Calculate the middle point of the LCD lcdDisplay width
 #define LCD_SPLIT    (LCD_COLS / 2)
 //Calculate how many PIDs fit on a data screen (two per line)
 #define LCD_PID_COUNT  (LCD_ROWS * 2)
@@ -563,7 +563,7 @@ prog_char PID_Desc[256][9] PROGMEM=
                 "Trp Cost", // 0xED   trip cost
                 "Tnk Cost", // 0xEE   tank cost
                 "Out Time", // 0xEF   The length of time car has been running
-                "No Disp",  // 0xF0   No display
+                "No Disp",  // 0xF0   No lcdDisplay
                 "InstCons", // 0xF1   instant cons
                 "Tnk Cons", // 0xF2   average cons of tank
                 "Tnk Fuel", // 0xF3   fuel used in tank
@@ -771,7 +771,7 @@ boolean oldECUconnection;  // Used to test for change in ECU connection state
 #endif
 
 #ifdef carAlarmScreen
-boolean refreshAlarmScreen; // Used to cause non-repeating screen data to display
+boolean refreshAlarmScreen; // Used to cause non-repeating screen data to lcdDisplay
 #endif
 
 boolean ECUconnection;  // Have we connected to the ECU or not
@@ -1108,7 +1108,7 @@ boolean get_pid(byte pid, char *retbuf, long *ret)
             else
                 sprintf_P(retbuf, PSTR("OBD:%02X"), buf[0]);
             break;
-            // for the moment, everything else, display the raw answer
+            // for the moment, everything else, lcdDisplay the raw answer
         default:
             // transform buffer to an hex value
             *ret=0;
@@ -1277,7 +1277,7 @@ unsigned int get_instantFuelConsumption(char *retbuf)
         }
         else
         {
-            if(cons==0)             // if cons is 0 (DFCO?) display 999.9MPG
+            if(cons==0)             // if cons is 0 (DFCO?) lcdDisplay 999.9MPG
             {
                 cons=9999;
             }
@@ -1310,7 +1310,7 @@ unsigned int get_consumption(char *retbuf, byte ctrip)
     // the car has not moved yet or no fuel used
     if(cdist<1000 || cfuel==0)
     {
-        // will display 0.00L/100 or 999.9mpg
+        // will lcdDisplay 0.00L/100 or 999.9mpg
         trip_cons=params.use_metric?0:9999;
     }
     else  // the car has moved and fuel used
@@ -1326,7 +1326,7 @@ unsigned int get_consumption(char *retbuf, byte ctrip)
         {
             if(trip_cons>9999)    // SI
             {
-                trip_cons=9999;     // display 99.99 L/100 maximum
+                trip_cons=9999;     // lcdDisplay 99.99 L/100 maximum
             }
         }
         else
@@ -1339,7 +1339,7 @@ unsigned int get_consumption(char *retbuf, byte ctrip)
             trip_cons=235214/trip_cons;
             if(trip_cons<10)
             {
-                trip_cons=10;  // display 1.0 MPG min
+                trip_cons=10;  // lcdDisplay 1.0 MPG min
             }
         }
     }
@@ -1619,7 +1619,7 @@ void accumulate_trip(void)
         // or about 210 ÂµL of fuel/s so ÂµL is not too weak nor too large
         // as we sample about 4 times per second at 9600 bauds
         // ulong so max value is 4'294'967'295 ÂµL or 4'294 L (about 1136 gallon)
-        // also, adjust maf with fuel param, will be used to display instant cons
+        // also, adjust maf with fuel param, will be used to lcdDisplay instant cons
         delta_fuel=(maf*params.fuel_adjust*delta_time) / GasMafConst;
 
         for(byte i=0; i<CNS_RIP_VL; i++)
@@ -1710,7 +1710,7 @@ void display(byte location, byte pid)
     // left locations are left aligned
     // right locations are right aligned
 
-    // truncate any string that is too long to display correctly
+    // truncate any string that is too long to lcdDisplay correctly
     str[LCD_SPLIT] = '\0';
 
     byte row = location / 2;  // Two PIDs per line
@@ -1795,7 +1795,7 @@ void check_mil_code(bool Silent)
         delay(2000);
         lcd.clear();
 
-        // we display only the first 6 codes
+        // we lcdDisplay only the first 6 codes
         // if you have more than 6 in your ECU
         // your car is obviously wrong :-/
 
@@ -1878,7 +1878,7 @@ void check_mil_code(bool Silent)
             str[k]='\0';  // make asciiz
 
             lcd.print(str);
-            lcd.setCursor(0, 1);  // go to next line to display the 3 next
+            lcd.setCursor(0, 1);  // go to next line to lcdDisplay the 3 next
             delay(1000);
         }
         delay(2000);
@@ -2113,7 +2113,7 @@ void config_menu(void)
     {
         selection = menu_selection(topMenu, ARRAY_SIZE(topMenu));
 
-        if (selection == 1) // display
+        if (selection == 1) // lcdDisplay
         {
             byte displaySelection = 0;
 
@@ -2767,7 +2767,7 @@ void config_menu(void)
         lcd_print_P(PSTR("Please wait..."));
         params_save();
     }
-    lcd.clear(); //Clean up display (important if displaying with "BigNum"
+    lcd.clear(); //Clean up lcdDisplay (important if displaying with "BigNum"
 }
 
 // This helps reduce code size by containing repeated functionality.
@@ -2861,7 +2861,7 @@ void test_buttons(void)
     else if(LEFT_BUTTON_PRESSED(btnsPressed))
     {
 #if 1  // set to 1 to test bignum
-        // + 2 because we can display two thing in bignum
+        // + 2 because we can lcdDisplay two thing in bignum
         active_screen = (active_screen+1) % (NBSCREEN+2);
 #else
         active_screen = (active_screen+1) % (NBSCREEN);
@@ -3180,7 +3180,7 @@ void loop()                     // run over and over again
         // this read and assign vss and maf and accumulate trip data
         accumulate_trip();
 
-        // display on LCD
+        // lcdDisplay on LCD
         if (active_screen<NBSCREEN)
         {
             // Display PID's on the screen.
@@ -3249,10 +3249,10 @@ void loop()                     // run over and over again
         // ECU is off so print ready screen instead of PIDS while we wait for ECU action
     displayAlarmScreen();
 #else
-        // for some reason the display on LCD
+        // for some reason the lcdDisplay on LCD
 //     for(byte current_PID=0; current_PID<LCD_PID_COUNT; current_PID++)
 //     {
-//       display(current_PID, params.screen[active_screen].PID[current_PID]);
+//       lcdDisplay(current_PID, params.screen[active_screen].PID[current_PID]);
 //     }
 #endif
     }
@@ -3305,7 +3305,7 @@ boolean verifyECUAlive(void)
 #endif
 
 #ifdef carAlarmScreen
-// This screen will display a fake security heading,
+// This screen will lcdDisplay a fake security heading,
 // then emulate an array of LED's blinking in Knight Rider style.
 // This could be modified to blink a real LED (or maybe a short array depending on available pins)
 void displayAlarmScreen(void)
@@ -3780,13 +3780,13 @@ void get_engine_on_time(char *retbuf)
     { //car is not running.  Display final time when stopped.
         run_time = calcTimeDiff(engine_on, engine_off);
     }
-    //Lets display the running time
+    //Lets lcdDisplay the running time
     //hh:mm:ss
     hours =   run_time / MILLIS_PER_HOUR;
     minutes = (run_time % MILLIS_PER_HOUR) / MILLIS_PER_MINUTE;
     seconds = (run_time % MILLIS_PER_MINUTE) / MILLIS_PER_SECOND;
 
-    //Now we have our varriables parsed, lets display them
+    //Now we have our varriables parsed, lets lcdDisplay them
     sprintf_P(retbuf, PSTR("%d:%02d:%02d"), hours, minutes, seconds);
 }
 

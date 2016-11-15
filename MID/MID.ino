@@ -5,6 +5,9 @@
 #include <DallasTemperature.h>
 //
 // ArduinoDroid build
+//      path to internal storage:
+//          /storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/
+//
 // #define IDE_ARDUINO_DROID // Uncomment to use ArduinoDroid IDE for upload
 
 
@@ -75,8 +78,8 @@ const uint8_t ECU_SGN_PIN = 19; //  ECU signal
 const uint8_t LPG_LVL_PIN = A4; // LPG tank sensor [20k resistance is mine]
 //
 // Display dim pins
-const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of display
-const uint8_t DIM_PIN_OUT = 46; // output dim of display
+const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of lcdDisplay
+const uint8_t DIM_PIN_OUT = 46; // output dim of lcdDisplay
 //
 // Temperatures
 const uint8_t TMP_PIN_OUT = A9; // External temperature sensor
@@ -98,11 +101,14 @@ const uint8_t ALP_PIN_VOL = 14;
 float TTL_TTD; // Total travel distance
 float TTL_TLC; // Total Liters per hour consumed
 float TTL_CLC; // Total Consumption trip
-
+//
+// Change state of shutdown "press to save"
+#define SHUTDOWN_SAVE_STATE LOW
 //
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
+
 
 #ifndef IDE_ARDUINO_DROID
 
@@ -118,6 +124,16 @@ float TTL_CLC; // Total Consumption trip
 //
 // Engine sensors
 #include "lib/CarSens.h"
+//
+// Adding menu source
+#include "lib/MidMenu.h"
+//
+//
+#include "lib/EepRom.h"
+
+//
+// Add library
+#include "lib/ShutDw.h"
 
 #else
 
@@ -137,14 +153,10 @@ float TTL_CLC; // Total Consumption trip
 #endif
 
 
-
-
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-//
-// Special characters
-#include "./lib/LcdChar.h"
+
 
 //
 // Menu cursor
@@ -160,31 +172,37 @@ CarSens carSens(&ampInt);
 //
 // Constructing the class
 WhlSens whlSens(&ampInt);
-//
-// Display driver
-#include "lib/Lcd16x2.h"
-//
-// Adding menu source
-#include "lib/MidMenu.h"
+
 
 MidMenu midMenu(&ampInt, &whlSens, &carSens);
-//
-//
-#include "lib/EepRom.h"
+
 
 //
 // Data storage
-EepRom eepRom;
-//
-// Change state of shutdown "press to save"
-#define SHUTDOWN_SAVE_STATE LOW
-//
-// Add library
-#include "lib/ShutDw.h"
+EepRom eepRom(&carSens);
+
 
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
+
+#ifndef IDE_ARDUINO_DROID
+//
+// Special characters
+#include "lib/LcdChar.h"
+//
+// Display driver
+#include "lib/Lcd16x2.h"
+
+#else
+//
+// Special characters
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/LcdChar.h"
+//
+// Display driver
+#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/Lcd16x2.h"
+
+#endif
 
 //
 // Define Welcome screen
@@ -199,7 +217,7 @@ void setup() {
     // Shutdown setupEngine
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
     //
-    // Turn display off
+    // Turn lcdDisplay off
     lcd.noDisplay();
     //
     // Debug serial
@@ -282,7 +300,7 @@ void loop() {
     switch (cursorMenu) {
 
         case MidMenu::MENU_ENTER:
-            midMenu.display();
+            midMenu.lcdDisplay(&lcd);
             break;
             //
             // Main / first menu
@@ -319,7 +337,7 @@ void loop() {
             displayFuelTanks();
             break;
         case ShutDw::MENU_SHUTDOWN:
-            shutDown.display();
+            shutDown.lcdDisplay(&lcd);
             break;
     }
 

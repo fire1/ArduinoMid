@@ -112,7 +112,7 @@ char *parmLabels[] = {"Contrast", "VSS Pulses/Km", "MicroSec/Litre", "Pulses/2 r
 byte brightness[] = {0, 15, 128, 255}; //middle button cycles through these brightness settings
 #define brightnessLength (sizeof(brightness)/sizeof(byte)) //array size
 byte brightnessIdx = 3;
-#define contrastIdx 0  //do contrast first to get display dialed in
+#define contrastIdx 0  //do contrast first to get lcdDisplay dialed in
 #define vssPulsesPerMileIdx 1
 volatile unsigned long distancefactor;
 #define microSecondsPerGallonIdx 2
@@ -148,7 +148,7 @@ unsigned long V = (parms[VoltageIdx] * 7982L) / parms[VoltageIdx];
 #define mbuttonBit ( 1 << 4 )
 #define rbuttonBit ( 1 << 5 )
 
-typedef void (*pFunc) (void);//type for display function pointers
+typedef void (*pFunc) (void);//type for lcdDisplay function pointers
 
 volatile unsigned long timer2_overflow_count;
 
@@ -400,7 +400,7 @@ void setup (void) {
   pinMode (DRL, OUTPUT);
   newRun = load ();//load the default parameters
   byte x = 0;
-  LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+  LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
   displayFuncNames[x++] = PSTR("                ");
   displayFuncNames[x++] = PSTR("                ");
   displayFuncNames[x++] = PSTR("                ");
@@ -434,7 +434,7 @@ void setup (void) {
 
   LCD::init ();
 
-  LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+  LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
   LCD::LcdCommandWrite (0b10000); // set dram to zero
   LCD::gotoXY (0, 0);
   LCD::print (getStr (PSTR("  Opel Astra F  ")));
@@ -576,13 +576,13 @@ void mainloop (void) {
 
       if (holdDisplay == 0)
 	{
-	  displayFuncs[screen] (); //call the appropriate display routine
+	  displayFuncs[screen] (); //call the appropriate lcdDisplay routine
 	  LCD::gotoXY (0, 0);
 
-	  //see if any buttons were pressed, display a brief message if so
+	  //see if any buttons were pressed, lcdDisplay a brief message if so
 	  if (!(buttonState & lbuttonBit) && !(buttonState & rbuttonBit))
 	    {// left and right = initialize
-	      LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+	      LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
 	      LCD::print (getStr (PSTR("Setup ")));
 	      delay (100000);
 	      // set values for math-less calibration method - which is used when refilling the tank
@@ -623,7 +623,7 @@ void mainloop (void) {
 						    & mbuttonBit))
 	    {// left and middle = tank reset
 	      tank.reset ();
-	      LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+	      LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
 	      LCD::print (getStr (PSTR("Tank Reset ")));
 	      delay (100000);
 	    }
@@ -631,7 +631,7 @@ void mainloop (void) {
 						    & rbuttonBit))
 	    {// right and middle = current reset
 	      current.reset ();
-	      LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+	      LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
 	      LCD::print (getStr (PSTR("Current Reset ")));
 	      delay (100000);
 	    }
@@ -648,7 +648,7 @@ void mainloop (void) {
 	      brightnessIdx = (brightnessIdx + 1) % brightnessLength;
 	      OCR1A = brightness[brightnessIdx];
 	      //        analogWrite(BrightnessPin,brightness[brightnessIdx]);
-	      LCD::LcdCommandWrite (0b00000001); // clear display, set cursor position to zero
+	      LCD::LcdCommandWrite (0b00000001); // clear lcdDisplay, set cursor position to zero
 	      LCD::print (getStr (PSTR("Brightness ")));
 	      LCD::LcdDataWrite ('0' + brightnessIdx);
 	      LCD::print (" ");
@@ -1082,9 +1082,9 @@ void LCD::init () {
   tickleEnable ();
   delay2 (1); // wait for more than 100 usec
   // ready to use normal LcdCommandWrite() function now!
-  LcdCommandWrite (0b00101000); // 4-bit interface, 2 display lines, 5x8 font
-  LcdCommandWrite (0b00001100); // display control:
-  LcdCommandWrite (0b00000110); // entry mode set: increment automatically, no display shift
+  LcdCommandWrite (0b00101000); // 4-bit interface, 2 lcdDisplay lines, 5x8 font
+  LcdCommandWrite (0b00001100); // lcdDisplay control:
+  LcdCommandWrite (0b00000110); // entry mode set: increment automatically, no lcdDisplay shift
 
   //creating the custom fonts:
   LcdCommandWrite (0b01001000); // set cgram
@@ -1106,7 +1106,7 @@ void LCD::init () {
 	  LcdDataWrite (pgm_read_byte(&chars[y * 8 + x]));
 	}
     }
-  LcdCommandWrite (B00000001);  // clear display, set cursor position to zero
+  LcdCommandWrite (B00000001);  // clear lcdDisplay, set cursor position to zero
   LcdCommandWrite (B10000000);  // set dram to zero
 
 }
@@ -1171,7 +1171,7 @@ int memoryTest () {
 Trip::Trip () {
 }
 
-//for display computing
+//for lcdDisplay computing
 unsigned long tmp1[2];
 unsigned long tmp2[2];
 unsigned long tmp3[2];
@@ -1622,10 +1622,10 @@ unsigned long rformat (char *val) {
 void editParm (byte parmIdx) {
   unsigned long v = parms[parmIdx];
   byte p = 9; //right end of 10 digit number
-  //display label on top line
+  //lcdDisplay label on top line
   //set cursor visible
   //set pos = 0
-  //display v
+  //lcdDisplay v
 
   LCD::gotoXY (8, 0);
   LCD::print ("        ");

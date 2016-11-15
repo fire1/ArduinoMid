@@ -7,8 +7,8 @@
  can usually tell them by the 16-pin interface.
 
  This sketch prints "Hello World!" to the LCD and uses the
- display() and noDisplay() functions to turn on and off
- the display.
+ lcdDisplay() and noDisplay() functions to turn on and off
+ the lcdDisplay.
 
  The circuit:
  * LCD RS pin to digital pin 12
@@ -51,10 +51,10 @@ void setup() {
 }
 
 void loop() {
-  // Turn off the display:
+  // Turn off the lcdDisplay:
   lcd.noDisplay();
   delay(500);
-  // Turn on the display:
+  // Turn on the lcdDisplay:
   lcd.display();
   delay(500);
 }
