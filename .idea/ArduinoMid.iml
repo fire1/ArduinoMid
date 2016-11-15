@@ -76,6 +76,9 @@
     <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c" isTestSource="false" />
     </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp" isTestSource="false" />
+    </content>
     <content url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" isTestSource="false" />
     </content>
@@ -101,24 +104,27 @@
           <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
           <root url="file://$MODULE_DIR$/../libraries/OneWire" />
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
-          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../libraries/MenuBackend" />
           <root url="file://$MODULE_DIR$/../libraries/OneWire" />
           <root url="file://C:/Program Files (x86)/Arduino/libraries" />
-          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include-fixed" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </SOURCES>
         <excluded>
           <root url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.cpp" />

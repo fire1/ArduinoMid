@@ -1,8 +1,12 @@
-#include <OneWire.h>
-
 #include <Arduino.h>
+#include <SPI.h>
+#include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
+//
+// ArduinoDroid build
+// #define IDE_ARDUINO_DROID // Uncomment to use ArduinoDroid IDE for upload
+
 
 /*
 ---------------------------------------------------
@@ -19,6 +23,9 @@
  MID function menu
 
 */
+
+
+
 #define SERIAL_INJECT_DATA
 
 //
@@ -96,11 +103,6 @@ float TTL_CLC; // Total Consumption trip
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
-
-
-//
-// ArduinoDroid build
-// #define IDE_ARDUINO_DROID // Uncoment to use ArduinoDroid IDE for upload
 
 #ifndef IDE_ARDUINO_DROID
 
