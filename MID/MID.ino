@@ -288,11 +288,7 @@ void loop() {
     shutDown.listener();
     //
     //  Read main buttons
-//    readButtons(BTN_PIN_UP, BTN_PIN_DW);
     midMenu.listener(cursorMenu);
-    //
-    // Handle navigation
-//    navigateMenu();
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);
@@ -300,7 +296,6 @@ void loop() {
     // Display menu
 #ifdef ARDUINOMID_LCD_DISPLAY_16x2_H
     switch (cursorMenu) {
-
         case MidMenu::MENU_ENTER:
             midMenu.lcdDisplay(&lcd);
             break;
