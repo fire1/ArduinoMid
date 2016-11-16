@@ -382,7 +382,7 @@ void displayTest() {
 /**
  * Display menu Format
  */
-void displayMenu(int cursorMenu, MidMenu midMenu, ShutDw shutDown) {
+void displayMenu(int &cursorMenu, MidMenu midMenu, ShutDw shutDown) {
     //
     // Switch menu from cursor
     switch (cursorMenu) {

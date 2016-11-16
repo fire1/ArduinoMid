@@ -299,7 +299,49 @@ void loop() {
     //
     // Display menu
 #ifdef ARDUINOMID_LCD_DISPLAY_16x2_H
-    displayMenu(cursorMenu, midMenu, shutDown);
+    switch (cursorMenu) {
+
+        case MidMenu::MENU_ENTER:
+            midMenu.lcdDisplay(&lcd);
+            break;
+            //
+            // Main / first menu
+        case 1:
+            displayTotalCons();
+            displayTotalDst();
+            displayOutTmp();
+            displayInsTmp();
+            break;
+            //
+            // Dashboard
+        case 11:
+            displayEngRPM();
+            displayCarKMH();
+            displayCarECU();
+            displayEngTmp();
+            break;
+
+        case 12:
+            displayTest();
+            break;
+        case 4:
+            displayAverage();
+            break;
+            //
+            // Travel menu
+        case 2:
+            displayTrip();
+            break;
+        case 3:
+            displayConsumption();
+            break;
+        case 32:
+            displayFuelTanks();
+            break;
+        case ShutDw::MENU_SHUTDOWN:
+            shutDown.lcdDisplay(&lcd);
+            break;
+    }
 #endif
     //
     // Commands that changes global value from serial monitor
