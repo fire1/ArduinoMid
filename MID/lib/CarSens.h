@@ -108,7 +108,7 @@ X18XE1  - 1796 cm3 = 17.96 dl
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-//#define  DEBUG_TEMPERATURE_OU
+#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 #if defined(INSIDE_TEMPERATURE_DS)
 
@@ -970,6 +970,7 @@ void CarSens::sensTmp() {
         // Read new data
         int reading = analogRead(TMP_PIN_OUT);
 
+
         // Measurement
         // --------------------------------------------
         // 147 = 21*
@@ -985,13 +986,13 @@ void CarSens::sensTmp() {
         /// new type  id: (147 / 2.666666 - 76) *1
         // min -40	max 215	°C	 {formula A-40}
         // separate reading
-        temperatureC = ((reading / cofVolt) - (250 / cofVolt)) * -1;
+        temperatureC = ((reading / cofVolt) - (340 / cofVolt)) * -1;
         //
         //
 //        temperatureC = temperatureC;
 
 #if defined(DEBUG_TEMPERATURE_OU)
-        if (ampInt.isMid()) {
+        if (_amp->isMid()) {
             Serial.print("Read Temp: ");
             Serial.println(reading);
         }
