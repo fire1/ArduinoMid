@@ -77,7 +77,7 @@ public:
 
     void setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage);
 
-    void listenButtons();
+    void listener();
 
     void sendRadioButtons();
 
@@ -91,7 +91,7 @@ public:
         isDisabled = 0;
     }
 
-    boolean isDisable(){
+    boolean isDisable() {
         return isDisabled;
     }
 };
@@ -182,7 +182,7 @@ void WhlSens::_setDigitalPot(uint8_t resistanceValue) {
         front	        33940	1.13
         bottom	        48800	0.84
 */
-void WhlSens::listenButtons() {
+void WhlSens::listener() {
 
     int readingSteeringButton = getAnalogReadButtons();
     //
@@ -255,7 +255,9 @@ void WhlSens::listenButtons() {
     if (readingSteeringButton > 800 && readingSteeringButton < 899) {
         _setCurrentState(STR_BTN_BCK);
     }
-
+    //
+    // Simulate resistance in radio
+    sendRadioButtons();
 }
 
 /**

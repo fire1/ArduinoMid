@@ -6,6 +6,14 @@
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
+
+//
+// External Temperature
+#define EXT_TMP_VSS  5
+#define EXT_TMP_RST  10000
+#define EXT_TMP_MSR  10 // measured temperature
+#define EXT_TMP_MVL  328 // measured value of temperature
+
 //
 //
 // Version of MID plug driver
@@ -36,7 +44,7 @@
 #define ECU_CORRECTION 168      //  <sens:200> 162          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15240.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15250.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 // cur test +40 = 15240.11
 // Best 15197.81,15636.44, 14952.25, 15736.44,
 //
@@ -961,32 +969,52 @@ void CarSens::sensTmp() {
      * About GM Temperature sensor
      *      Temperature range to [°C]: 250
      *      Resistance [Ohm]: 5000
+     * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
 
+
+
+    float RT, VR, ln, TX, T0, VRT;
     //
     // Init on first loop the when is big amplitude
     if (isInitTemperature || _amp->isBig()) {
+
+        T0 = EXT_TMP_MSR + 273.15;
+
+        VRT = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
+        VRT = (5.00 / 1023.00) * VRT;      // Conversion to voltage
+        VR = EXT_TMP_VSS - VRT;
+        RT = VRT / (VR / EXT_TMP_RST);
+
+
+        ln = log(RT / EXT_TMP_RST /* 10000 pull-up R */);
+        TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
+        temperatureC = TX * 0.01;
+
+/*
+ *
+ *         float reading = 310;
+
+        reading = ( 5 / 1023.00) * reading;
+        reading = 5 - reading;
         //
         // Read new data
-        int reading = analogRead(TMP_PIN_OUT);
+        float reading = analogRead(TMP_PIN_OUT);
+
+        reading = ( 5 / 1023.00) * reading;
+        reading = EXT_TMP_VSS - reading;
 
 
-        // Measurement
-        // --------------------------------------------
-        // 147 = 21*
-        // 140/139 = 22 / 21
-        // 139 =  25/6
-        // 118 = 27/8
-
-        //      255 max reading
-        //      4.34 is voltage passes temperature sensor
-        float cofVolt = /*3.8*/ 5;
+        float cofVolt = 5;
 
         // not correct
         /// new type  id: (147 / 2.666666 - 76) *1
         // min -40	max 215	°C	 {formula A-40}
         // separate reading
+        // 273.15
         temperatureC = ((reading / cofVolt) - (340 / cofVolt)) * -1;
+      */
+
         //
         //
 //        temperatureC = temperatureC;

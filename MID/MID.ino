@@ -3,6 +3,7 @@
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
+#include <SoftwareSerial.h>
 //
 // ArduinoDroid build
 //      @deprecated since IDE wrongly handled the sourcecode
@@ -75,8 +76,10 @@ const uint8_t ENG_CLT_PIN = A5; // Engine Temp. MID32 RPM [attachInterrupt]
 const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19; //  ECU signal
-
-const uint8_t LPG_LVL_PIN = A4; // LPG tank sensor [20k resistance is mine]
+//
+// lpg old pin: A4
+const uint8_t LPG_RXC_PIN = 17; // testing for serial
+const uint8_t LPG_TXC_PIN = 16; // testing for serial
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of lcdDisplay
@@ -122,6 +125,9 @@ float TTL_CLC; // Total Consumption trip
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
+//
+// Read LPG fuel switch
+#include "lib/LpgSens.h" // Test mode
 //
 // Engine sensors
 #include "lib/CarSens.h"
@@ -173,11 +179,12 @@ CarSens carSens(&ampInt);
 //
 // Constructing the class
 WhlSens whlSens(&ampInt);
-
-
+//
+// Menu
 MidMenu midMenu(&ampInt, &whlSens, &carSens);
-
-
+//
+//
+LpgSens lpgSens(&carSens);
 //
 // Data storage
 EepRom eepRom(&carSens);
@@ -224,6 +231,9 @@ void setup() {
     // Debug serial
     Serial.begin(9600);
     //
+    //
+    lpgSens.setup(4800, LPG_RXC_PIN, LPG_TXC_PIN);
+    //
     // Change timer 3
     setupTimer3();
     //
@@ -231,7 +241,7 @@ void setup() {
     eepRom.setup();
     //
     //
-    carSens.setupLpg(LPG_LVL_PIN);
+//    carSens.setupLpg(LPG_LVL_PIN);
     //
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
@@ -279,10 +289,10 @@ void loop() {
     carSens.listener();
     //
     // Reads buttons from steering
-    whlSens.listenButtons();
+    whlSens.listener();
     //
-    // Simulate resistance in radio
-    whlSens.sendRadioButtons();
+    // Listen LPG button
+    lpgSens.listener();
     //
     // Listener shutdown
     shutDown.listener();
