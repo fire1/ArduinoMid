@@ -15,9 +15,7 @@ class LpgSens {
 public:
     LpgSens(CarSens *carSens);
 
-    void setup(int rate, uint8_t pinRx, uint8_t pinTx) {
-
-    }
+    void setup(int rate, uint8_t pinRx, uint8_t pinTx);
 
     void listener();
 
@@ -28,12 +26,13 @@ LpgSens::LpgSens(CarSens *carSens) {
     _car = carSens;
 }
 
-LpgSens::setup(int rate, uint8_t pinRx, uint8_t pinTx) {
+void LpgSens::setup(int rate, uint8_t pinRx, uint8_t pinTx) {
     _lpg = new SoftwareSerial(pinRx, pinTx);
     _lpg->begin(rate);
 }
 
 void LpgSens::listener() {
+
 
     /*if (_car->isRunEng())*/ if (_lpg->available()) {
         Serial.write(_lpg->read());

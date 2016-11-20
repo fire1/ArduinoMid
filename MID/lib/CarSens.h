@@ -7,12 +7,6 @@
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
 
-//
-// External Temperature
-#define EXT_TMP_VSS  5
-#define EXT_TMP_RST  10000
-#define EXT_TMP_MSR  10 // measured temperature
-#define EXT_TMP_MVL  328 // measured value of temperature
 
 //
 //
@@ -116,8 +110,17 @@ X18XE1  - 1796 cm3 = 17.96 dl
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-#define  DEBUG_TEMPERATURE_OU
+//#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
+
+
+//
+// External Temperature
+#define EXT_TMP_VSS  5
+#define EXT_TMP_RST  10000
+#define EXT_TMP_MSR  10 // measured temperature
+#define EXT_TMP_MVL  328 // measured value of temperature
+
 #if defined(INSIDE_TEMPERATURE_DS)
 
 #include <OneWire.h>
@@ -152,6 +155,9 @@ class CarSens {
 
 private:
 
+
+
+
     //
     // bool for read sensor at first loop
     bool isInitTemperature = 1;
@@ -183,6 +189,9 @@ private:
     //
     // Engine temperature pin
     uint8_t pinTemp;
+    int engineTempIndex = 0;
+    int long engineTempCollection = 0;
+
     uint8_t pinLpgTank;
 
     int
@@ -483,7 +492,7 @@ public:
         // 240 ohm sender voltage would be 4.5*240/(150+240) = 2.8V
         // 33 ohm sender voltage would be 4.5*33/(150+33) = 0.8V
         // So in my case 20k fuel gauge
-        return (int) map(CUR_LTK, 785, 860, 0, 100);
+        return (int) map(CUR_LTK, 35, 50, 0, 100);
     }
 
     int getTnkBnz() {
@@ -861,6 +870,13 @@ void CarSens::sensTnk() {
     if (_amp->isSens()) {
         indexLpgTank++;
         int lpgTankLevel = analogRead(pinLpgTank);
+        Serial.print("tank level: ");
+        Serial.println(lpgTankLevel);
+        lpgTankLevel = (int) ((5.00 / 1023.00) * lpgTankLevel) * 10;
+
+
+        Serial.print("after tank level: ");
+        Serial.println(lpgTankLevel);
 
         if (lpgTankLevel > 500) {
             containerLpgTank += lpgTankLevel;
@@ -878,10 +894,29 @@ void CarSens::sensTnk() {
  */
 void CarSens::sensEnt() {
     if (_amp->isSens()) {
-        int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
-        if (val > -40)
-            CUR_ENT = val;
+//        int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
+        //
+        // 286 cold
+        int val = analogRead(pinTemp);
+
+        engineTempCollection = engineTempCollection + val;
+        engineTempIndex++;
+//        if (val > -40)
+
     }
+
+
+    if (_amp->isMinute()) {
+        engineTempIndex = engineTempIndex / 50;
+        engineTempCollection = engineTempCollection / 50;
+    }
+
+    CUR_ENT = int(engineTempCollection / engineTempIndex);
+//
+//    if (_amp->isSens()) {
+//        Serial.print("Engine temp: ");
+//        Serial.println(analogRead(pinTemp));
+//    }
 }
 
 /**
@@ -981,8 +1016,8 @@ void CarSens::sensTmp() {
 
         T0 = EXT_TMP_MSR + 273.15;
 
-        VRT = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
-        VRT = (5.00 / 1023.00) * VRT;      // Conversion to voltage
+        int reading = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
+        VRT = (5.00 / 1023.00) * reading;      // Conversion to voltage
         VR = EXT_TMP_VSS - VRT;
         RT = VRT / (VR / EXT_TMP_RST);
 
@@ -1073,6 +1108,7 @@ void CarSens::sensCns() {
         long deltaFuel = 0;
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
+//            deltaFuel = deltaFuel *2;
         }
         TTL_FL_CNS += deltaFuel;
         //

@@ -72,14 +72,14 @@ const uint8_t SAV_PIN_CTR = A6; //
 const uint8_t SAV_PIN_DTC = A7; //
 //
 // Engine pins
-const uint8_t ENG_CLT_PIN = A5; // Engine Temp. MID32 RPM [attachInterrupt]
+const uint8_t ENG_CLT_PIN = A0; // Engine Temp. MID32 RPM [attachInterrupt]
 const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19; //  ECU signal
 //
 // lpg old pin: A4
-const uint8_t LPG_RXC_PIN = 17; // testing for serial
-const uint8_t LPG_TXC_PIN = 16; // testing for serial
+const uint8_t LPG_LVL_PIN = A5; // testing for serial
+
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of lcdDisplay
@@ -127,7 +127,7 @@ float TTL_CLC; // Total Consumption trip
 #include "lib/MainFunc.h"
 //
 // Read LPG fuel switch
-#include "lib/LpgSens.h" // Test mode
+//#include "lib/LpgSens.h" // Test mode
 //
 // Engine sensors
 #include "lib/CarSens.h"
@@ -182,9 +182,7 @@ WhlSens whlSens(&ampInt);
 //
 // Menu
 MidMenu midMenu(&ampInt, &whlSens, &carSens);
-//
-//
-LpgSens lpgSens(&carSens);
+
 //
 // Data storage
 EepRom eepRom(&carSens);
@@ -232,7 +230,7 @@ void setup() {
     Serial.begin(9600);
     //
     //
-    lpgSens.setup(4800, LPG_RXC_PIN, LPG_TXC_PIN);
+//    lpgSens.setup(4800, LPG_LVL_PIN, LPG_TXC_PIN);
     //
     // Change timer 3
     setupTimer3();
@@ -241,7 +239,7 @@ void setup() {
     eepRom.setup();
     //
     //
-//    carSens.setupLpg(LPG_LVL_PIN);
+    carSens.setupLpg(LPG_LVL_PIN);
     //
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
@@ -290,9 +288,6 @@ void loop() {
     //
     // Reads buttons from steering
     whlSens.listener();
-    //
-    // Listen LPG button
-    lpgSens.listener();
     //
     // Listener shutdown
     shutDown.listener();
