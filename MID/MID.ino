@@ -28,11 +28,7 @@
  MID function menu
 
 */
-
-
-
 #define SERIAL_INJECT_DATA
-
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -49,16 +45,6 @@
 // Inside temperature [very cheep temperature sensor]
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
-
-//
-//
-const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
-const int CON_ENG_CL = 4; // Cylinders
-const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
-#define AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
-const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
-const double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
-const double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
 
 //
 // MID plug pins definition over Arduino
@@ -79,7 +65,6 @@ const uint8_t ECU_SGN_PIN = 19; //  ECU signal
 //
 // lpg old pin: A4
 const uint8_t LPG_LVL_PIN = A5; // testing for serial
-
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of lcdDisplay
@@ -158,17 +143,12 @@ float TTL_CLC; // Total Consumption trip
 #include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/CarSens.h"
 
 #endif
-
-
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-
-
 //
 // Menu cursor
 int cursorMenu = 0;
-
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
