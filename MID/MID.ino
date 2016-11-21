@@ -1,18 +1,3 @@
-#include <Arduino.h>
-#include <SPI.h>
-#include <OneWire.h>
-#include <MenuBackend.h>
-#include <DallasTemperature.h>
-#include <SoftwareSerial.h>
-//
-// ArduinoDroid build
-//      @deprecated since IDE wrongly handled the sourcecode
-//      path to internal storage:
-//          /storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/
-//
-// #define IDE_ARDUINO_DROID // Uncomment to use ArduinoDroid IDE for upload
-
-
 /*
 ---------------------------------------------------
     Arduino MID
@@ -26,13 +11,16 @@
 ---------------------------------------------------
 
  MID function menu
-
 */
 
-
+#include <Arduino.h>
+#include <SPI.h>
+#include <OneWire.h>
+#include <MenuBackend.h>
+#include <DallasTemperature.h>
+#include <SoftwareSerial.h>
 
 #define SERIAL_INJECT_DATA
-
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -41,9 +29,9 @@
 #define MILLIS_SENS 200
 //
 // Time information
-#define MILLIS_PER_HR    3600000 // Hour
-#define MILLIS_PER_MN    60000    // Minute
-#define MILLIS_PER_SC    1000    // Second
+#define MILLIS_PER_HR    3600000    // Hour
+#define MILLIS_PER_MN    60000      // Minute
+#define MILLIS_PER_SC    1000       // Second
 
 //
 // Inside temperature [very cheep temperature sensor]
@@ -51,42 +39,31 @@
 #define INSIDE_TEMPERATURE_DS
 
 //
-//
-const double CON_ENG_CC = 1.796; // Engine capacity [X18XE1]
-const int CON_ENG_CL = 4; // Cylinders
-const double FLW_MTR_FR = 1.414; // Flowmeter factor (revers-pressure)
-#define AIR_FUL_RT = 14.70; // 14.7(oxygen) : 1(fuel) for burning
-const double VEC_FUL_RT = 1.0;    // 14.7(oxygen) : 1(fuel) for burning
-const double FuelDensityGramsPerLiter = 750.0;   // константа - грамм бензина в 1 литре бензина
-const double AirFuelRatio = 14.70;  // константа расхода 14,7 воздуха к 1 литра бензина, у дизеля своя, у газа своя
-
-//
 // MID plug pins definition over Arduino
 //
 // Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 8;
-const uint8_t BTN_PIN_DW = 9;
+const uint8_t BTN_PIN_UP = 8;       //  Plug:23     Column switch
+const uint8_t BTN_PIN_DW = 9;       //  Plug:24     Column switch navigation
 //
 // Shutdown protection pin
-const uint8_t SAV_PIN_CTR = A6; //
-const uint8_t SAV_PIN_DTC = A7; //
+const uint8_t SAV_PIN_CTR = A6;     //  Plug:4      Disconnect supply voltage
+const uint8_t SAV_PIN_DTC = A7;     //  Plug:16     Detect ignition key off state
 //
 // Engine pins
-const uint8_t ENG_CLT_PIN = A0; // Engine Temp. MID32 RPM [attachInterrupt]
-const uint8_t RPM_SNS_PIN = 2;  //  old:10 MID6 RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;  //  MID12 Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19; //  ECU signal
+const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [attachInterrupt]
+const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
+const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
+const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
 //
 // lpg old pin: A4
-const uint8_t LPG_LVL_PIN = A5; // testing for serial
-
+const uint8_t LPG_LVL_PIN = A5;     //  None        Fuel LPG switch
 //
 // Display dim pins
-const uint8_t DIM_PIN_VAL = A10; // MID7 input Dim of lcdDisplay
-const uint8_t DIM_PIN_OUT = 46; // output dim of lcdDisplay
+const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
+const uint8_t DIM_PIN_OUT = 46;     //              Output dim of lcdDisplay
 //
 // Temperatures
-const uint8_t TMP_PIN_OUT = A9; // External temperature sensor
+const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
 
 /* Extras ...   ******/
 //
@@ -112,10 +89,6 @@ float TTL_CLC; // Total Consumption trip
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
-
-
-#ifndef IDE_ARDUINO_DROID
-
 //
 // Interval / Amplitude
 #include "lib/IntAmp.h"
@@ -137,38 +110,16 @@ float TTL_CLC; // Total Consumption trip
 //
 //
 #include "lib/EepRom.h"
-
 //
 // Add library
 #include "lib/ShutDw.h"
 
-#else
-
-//
-// Interval / Amplitude
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/IntAmp.h"
-//
-// Adding Alphine emulator
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/WhlSens.h"
-//
-// Main Sensor handler
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/MainFunc.h"
-//
-// Engine sensors
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/CarSens.h"
-
-#endif
-
-
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-
-
 //
 // Menu cursor
 int cursorMenu = 0;
-
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
@@ -182,33 +133,18 @@ WhlSens whlSens(&ampInt);
 //
 // Menu
 MidMenu midMenu(&ampInt, &whlSens, &carSens);
-
 //
 // Data storage
 EepRom eepRom(&carSens);
-
-
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
-
-#ifndef IDE_ARDUINO_DROID
 //
 // Special characters
 #include "lib/LcdChar.h"
 //
 // Display driver
 #include "lib/Lcd16x2.h"
-
-#else
-//
-// Special characters
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/LcdChar.h"
-//
-// Display driver
-#include "/storage/emulated/0/ArduinoDroid/sketchbook/ArduinoMid/MID/lib/Lcd16x2.h"
-
-#endif
 
 //
 // Define Welcome screen
