@@ -17,6 +17,7 @@
 #include "MainFunc.h"
 #include "CarSens.h"
 #include "WhlSens.h"
+#include "EEProm.h"
 
 
 #ifndef MENU_ENTRY
@@ -68,6 +69,7 @@ class MidMenu {
     IntAmp *_amp;
     WhlSens *_whl;
     CarSens *_car;
+    EepRom *_eep;
 
 
 public:
@@ -96,7 +98,7 @@ public:
 
     void lcdDisplay(LiquidCrystal *lcd);
 
-    MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car);
+    MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car, EepRom *eep);
 
 private:
 
@@ -144,7 +146,7 @@ private:
 /**
  * constructor
  */
-MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car) :
+MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car, EepRom *eep) :
 //
 // Define menus
         menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
@@ -163,7 +165,7 @@ MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car) :
     _amp = amp;
     _whl = whl;
     _car = car;
-
+    _eep = eep;
 }
 
 /**
@@ -269,22 +271,23 @@ void MidMenu::listener(int &cursor) {
 void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
 
     MidMenu::cursorMenu = MENU_ENTER;
-
     lcd->clear();
     lcd->setCursor(0, 0);
     lcd->setCursor(0, 0);
     lcd->print("~ ");
+
     tone(pinTones, 2800, 20);
     delay(100);
     lcd->print(MidMenu::where);
+
     delay(300);  //delay to allow message reading
     lcd->setCursor(0, 0);
-
 
     _car->clearBaseData();
     activeMenu = MidMenu::where;
     enterDisplay = 0;
     MidMenu::cursorMenu = savedCursor;
+
     lcd->clear();
     //
     // fixes value peek
@@ -328,7 +331,47 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 // Reset entry down state
                 entryDownState = 0;
 
-                shortcuts();
+                /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
+                // Steering button is pressed
+                if (_whl->getCurrentState() == _whl->STR_BTN_ATT) {
+                    TTL_TTD = 0; // deprecated
+                    tone(pinTones, 1000, 10);
+                    delay(10);
+                    tone(pinTones, 1000, 10);
+                    delay(10);
+
+                    tone(pinTones, 2500, 10);
+                    delay(20);
+                    tone(pinTones, 2500, 10);
+//                    _eep->saveZeroingData(); // TODO save zeroed data
+                    delay(20);
+                    _whl->enable();
+                    return;
+                }
+                //
+                // Change Speed alarm Up
+                if (_whl->getCurrentState() == _whl->STR_BTN_VLU) {
+                    _car->speedingAlarmsUp();
+                    tone(pinTones, 800, 50);
+                    delay(50);
+                    tone(pinTones, 2000, 80);
+                    delay(80);
+                    _whl->enable();
+                    return;
+                }
+                //
+                // Change Speed alarm Down
+                if (_whl->getCurrentState() == _whl->STR_BTN_VLD) {
+                    _car->speedingAlarmsDw();
+                    tone(pinTones, 2000, 50);
+                    delay(50);
+                    tone(pinTones, 800, 80);
+                    delay(80);
+                    _whl->enable();
+                    return;
+                }
+                /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+
                 //
                 // Check for subMenu if not got inner level entry
                 if (isInSubMenu == 0) {
@@ -369,41 +412,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
  * Shortcuts
  */
 void MidMenu::shortcuts() {
-    /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
-    // Steering button is pressed
-    if (_whl->getCurrentState() == _whl->STR_BTN_ATT) {
-        TTL_TLC = 0;
-        TTL_TTD = 0;
-        tone(pinTones, 1000, 50);
-        delay(50);
-        tone(pinTones, 1000, 50);
-        delay(50);
-        _whl->enable();
-        return;
-    }
-    //
-    // Change Speed alarm Up
-    if (_whl->getCurrentState() == _whl->STR_BTN_VLU) {
-        _car->speedingAlarmsUp();
-        tone(pinTones, 800, 50);
-        delay(50);
-        tone(pinTones, 1600, 80);
-        delay(80);
-        _whl->enable();
-        return;
-    }
-    //
-    // Change Speed alarm Down
-    if (_whl->getCurrentState() == _whl->STR_BTN_VLD) {
-        _car->speedingAlarmsDw();
-        tone(pinTones, 1600, 50);
-        delay(50);
-        tone(pinTones, 800, 80);
-        delay(80);
-        _whl->enable();
-        return;
-    }
-    /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+
 }
 
 
@@ -426,8 +435,12 @@ void MidMenu::navigate() {
             if (lastMainMenuState != 0 && isInSubMenu == 0) {
                 menu.moveBack();
                 menu.use();
+
+                menu.moveDown();
+                menu.use();
+
             } else if (isInSubMenu == 0) {
-                menu.moveUp();
+                menu.moveRight();
                 menu.use();
             }
         }

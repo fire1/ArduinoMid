@@ -35,15 +35,19 @@
 //
 //
 // ECU Consumption signal mul by *10
-#define ECU_CORRECTION 168      //  <sens:200> 162          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
-#define VSS_CORRECTION 3.835232 //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
+// next 3815
+#define ECU_CORRECTION 376      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
+#define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15250.11 //  <sens:200> 15197.81     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15255.11 //  <sens:200> 15255.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+//  DST
+// ===============
 // cur test +40 = 15240.11
 // Best 15197.81,15636.44, 14952.25, 15736.44,
 //
-//
-//
+// VSS
+// ===============
+// 3.835232
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
@@ -1108,7 +1112,8 @@ void CarSens::sensCns() {
         long deltaFuel = 0;
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
-            deltaFuel = deltaFuel *2;
+            // Direct correction in constant
+//            deltaFuel = deltaFuel * 2; // Don't know way but need to be mul by 2
         }
         TTL_FL_CNS += deltaFuel;
         //

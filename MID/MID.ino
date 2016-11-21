@@ -82,6 +82,8 @@ const uint8_t ALP_PIN_VOL = 14;
 float TTL_TTD; // Total travel distance
 float TTL_TLC; // Total Liters per hour consumed
 float TTL_CLC; // Total Consumption trip
+float TTL_WRD; // Total Work distance [changing the timing belt wear collection ]
+
 //
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
@@ -131,11 +133,11 @@ CarSens carSens(&ampInt);
 // Constructing the class
 WhlSens whlSens(&ampInt);
 //
-// Menu
-MidMenu midMenu(&ampInt, &whlSens, &carSens);
-//
 // Data storage
 EepRom eepRom(&carSens);
+//
+// Menu
+MidMenu midMenu(&ampInt, &whlSens, &carSens, &eepRom);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
@@ -297,7 +299,7 @@ static void playWelcomeScreen() {
     lcd.print("    ASTRA       ");
     //
     // Test tone
-    tone(ADT_ALR_PIN, 400, 100);
+    tone(ADT_ALR_PIN, 400, 10);
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("  ");

@@ -28,11 +28,12 @@ const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
 
 const int EEP_ADR_TC1 = 1; // Consumption Float A
 const int EEP_ADR_TC2 = 2; // Consumption Float B
-
 const int EEP_ADR_TT1 = 3; // Total Travel distance
 const int EEP_ADR_TT2 = 4; // Total Travel distance
+const int EEP_ADR_WD1 = 5; // Trip distance
+const int EEP_ADR_WD2 = 6; // Trip distance
 const int EEP_ADR_TRD = 7; // Trip distance
-const int EEP_ADR_TR2 = 5; // Trip distance
+
 const int EEP_ADR_TTT = 4; // Total Trip Time
 const int EEP_ADR_TER = 4; // Time Engine Run
 const int EEP_ADR_TRS = 5; // Tires size
@@ -55,6 +56,10 @@ public:
         Wire.begin();
     };
 
+    //
+    // Called when zeroed current data
+    void saveZeroingData();
+
     void saveFuelTankLevel(unsigned int value = 0) {
         WireEepRomWriteByte(EEP_ADR_FTK, value);
     };
@@ -63,13 +68,16 @@ public:
         WireEepRomRead(EEP_ADR_FTK);
     };
 
+    /**
+     *  SAVE Travel distance
+     */
     void saveTravelDistance(float value = 0) {
         int val[2];
 
         separateFloat(value, val);
 
 #if defined(DEBUG_EEP_ROM)
-        Serial.print("EEP ROM records value A: ");
+        Serial.print("EEP ROM records Travel value A: ");
         Serial.print(val[0]);
         Serial.print(" and  value B:");
         Serial.print(val[1]);
@@ -80,12 +88,15 @@ public:
         WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
     }
 
+    /**
+     *  LOAD Travel distance
+     */
     float loadTravelDistance() {
         int va1 = WireEepRomRead(EEP_ADR_TT1);
         int va2 = WireEepRomRead(EEP_ADR_TT2);
 
 #if defined(DEBUG_EEP_ROM)
-        Serial.print("EEP ROM restore value A: ");
+        Serial.print("EEP ROM restore Travel value A: ");
         Serial.print(va1);
         Serial.print(" and  value B:");
         Serial.print(va2);
@@ -135,6 +146,44 @@ public:
         return restoreFloat(va1, va2);
     }
 
+    /**
+     *  LOAD Work distance
+     */
+    float loadWorkDistance() {
+        int va1 = WireEepRomRead(EEP_ADR_WD1);
+        int va2 = WireEepRomRead(EEP_ADR_WD2);
+
+#if defined(DEBUG_EEP_ROM)
+        Serial.print("EEP ROM restore Work Distance value A: ");
+        Serial.print(va1);
+        Serial.print(" and  value B:");
+        Serial.print(va2);
+        Serial.print("\n\r");
+#endif
+
+        return restoreFloat(va1, va2);
+    }
+
+    /**
+     *  Saves Work distance
+     */
+    void saveWorkingDistance(float value = 0) {
+        int val[2];
+
+        separateFloat(value, val);
+
+#if defined(DEBUG_EEP_ROM)
+        Serial.print("EEP ROM records Work Distance A: ");
+        Serial.print(val[0]);
+        Serial.print(" and  value B:");
+        Serial.print(val[1]);
+        Serial.print("\n\r");
+#endif
+
+        WireEepRomWriteByte(EEP_ADR_WD1, val[0]);
+        WireEepRomWriteByte(EEP_ADR_WD2, val[1]);
+    }
+
 
     void saveTripDistance(unsigned int value = 0) {
         WireEepRomWriteByte(EEP_ADR_TRD, value / 4);
@@ -181,7 +230,7 @@ private:
 
 };
 
-EepRom::EepRom(CarSens *carSens){
+EepRom::EepRom(CarSens *carSens) {
     _car = carSens;
 }
 
@@ -198,15 +247,26 @@ void EepRom::saveCurrentData() {
 
     saveTravelDistance(TTL_TTD);
 
+
 }
 
 
 void EepRom::loadCurrentData() {
-
-
     TTL_TLC = loadTravelConsumption();
     TTL_TTD = loadTravelDistance();
+    TTL_WRD = loadWorkDistance();
 }
 
+
+void EepRom::saveZeroingData() {
+    int assumedTravel = int(TTL_TTD);
+    TTL_TLC = 0;
+    TTL_TTD = 0;
+    TTL_WRD = TTL_WRD + (assumedTravel / 1000);
+
+    saveTravelConsumption(TTL_TLC);
+    saveTravelDistance(TTL_TTD);
+    saveWorkingDistance(TTL_WRD);
+}
 
 #endif
