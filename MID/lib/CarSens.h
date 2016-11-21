@@ -1108,7 +1108,7 @@ void CarSens::sensCns() {
         long deltaFuel = 0;
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
-//            deltaFuel = deltaFuel *2;
+            deltaFuel = deltaFuel *2;
         }
         TTL_FL_CNS += deltaFuel;
         //
