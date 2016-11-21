@@ -79,6 +79,9 @@
     <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp" isTestSource="false" />
     </content>
+    <content url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp">
+      <sourceFolder url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp" isTestSource="false" />
+    </content>
     <content url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp">
       <sourceFolder url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" isTestSource="false" />
     </content>
@@ -109,6 +112,7 @@
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </CLASSES>
         <SOURCES>
@@ -120,11 +124,13 @@
           <root url="file://C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/mega" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino" />
         </SOURCES>
         <excluded>
           <root url="file://C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp" />
+          <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial0.cpp" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c" />
           <root url="file://C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.cpp" />
