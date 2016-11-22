@@ -292,11 +292,13 @@ void displayConsumption() {
         lcd.print((char) 5);
         lcd.print((char) 6);
         lcd.print(dspInst[0]);
+        lcd.print("L");
 
         lcd.setCursor(9, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
         lcd.print(TTL_CLC);
+        lcd.print("L");
     }
 }
 
