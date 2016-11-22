@@ -194,7 +194,7 @@ private:
     // Engine temperature pin
     uint8_t pinTemp;
     int engineTempIndex = 0;
-    int long engineTempCollection = 0;
+    int long engineTempHigh = 0;
 
     uint8_t pinLpgTank;
 
@@ -897,29 +897,19 @@ void CarSens::sensTnk() {
  *  Engine temperature
  */
 void CarSens::sensEnt() {
-    if (_amp->isSens()) {
-//        int val = (int) map(analogRead(pinTemp), 0, 1023, -40, 215);
-        //
-        // 286 cold
-        int val = analogRead(pinTemp);
-
-        engineTempCollection = engineTempCollection + val;
-        engineTempIndex++;
-//        if (val > -40)
-
+//    if (_amp->isLow()) {
+    int val = analogRead(pinTemp);
+    if (500 < val) {
+        engineTempHigh++;
     }
+    engineTempIndex++;
+//    }
 
 
-    if (_amp->isMinute()) {
-        engineTempIndex = engineTempIndex / 50;
-        engineTempCollection = engineTempCollection / 50;
-    }
-
-    CUR_ENT = int(engineTempCollection / engineTempIndex);
-//
     if (_amp->isMax()) {
-        Serial.print("Engine temp: ");
-        Serial.println(analogRead(pinTemp));
+        CUR_ENT = int(engineTempIndex / engineTempHigh);
+        engineTempIndex = 0;
+        engineTempHigh = 0;
     }
 }
 
