@@ -10,6 +10,8 @@
 
 //
 //
+
+#define DEBUG_ENG_TEMP
 // Version of MID plug driver
 #define MID_CAR_SENS_VERSION 0.1
 //
@@ -459,7 +461,7 @@ public:
      */
     int getEngTmp() {
         // resistor 5.6k  to GND || pull-up resistor 4.2k from MID plug pin 31
-        return CUR_ENT - 100; // output must be 1:1 so... 95°C gives reading of 195
+        return CUR_ENT; // output must be 1:1 so... 95°C gives reading of 195
     }
 
     /**
@@ -899,7 +901,7 @@ void CarSens::sensTnk() {
 void CarSens::sensEnt() {
 //    if (_amp->isLow()) {
     int val = analogRead(pinTemp);
-    if (500 < val) {
+    if (val > 500) {
         engineTempHigh++;
     }
     engineTempIndex++;
@@ -907,9 +909,22 @@ void CarSens::sensEnt() {
 
 
     if (_amp->isMax()) {
-        CUR_ENT = int(engineTempIndex / engineTempHigh);
+        CUR_ENT = int(engineTempIndex - engineTempHigh);
+
+#ifdef DEBUG_ENG_TEMP
+
+        Serial.print("Engine temperature: ");
+        Serial.print(val);
+        Serial.print(" / ");
+        Serial.print(engineTempHigh);
+        Serial.print(" / result:");
+        Serial.println(CUR_ENT);
+#endif
+
         engineTempIndex = 0;
         engineTempHigh = 0;
+
+
     }
 }
 

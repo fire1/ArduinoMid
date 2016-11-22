@@ -333,7 +333,6 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
                 // Steering button is pressed
                 if (whl->getCurrentState() == whl->STR_BTN_ATT) {
-                    TTL_TTD = 0; // deprecated
                     tone(pinTones, 1000, 10);
                     delay(10);
                     tone(pinTones, 1000, 10);
@@ -342,7 +341,7 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
                     tone(pinTones, 2500, 10);
                     delay(20);
                     tone(pinTones, 2500, 10);
-//                    _eep->saveZeroingData(); // TODO save zeroed data
+                    _eep->saveZeroingData();
                     delay(20);
                     whl->enable();
                     return;

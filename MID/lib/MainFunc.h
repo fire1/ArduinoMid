@@ -108,8 +108,7 @@ void setupTimer3() {
 }
 
 
-
-void serialInjectData(){
+void serialInjectData() {
     //
 // Serial injection
 #if defined(SERIAL_INJECT_DATA)
@@ -138,6 +137,13 @@ void serialInjectData(){
             srlOutputs = "TTL_TLC ";
             srlOutputs += TTL_TLC;
         }
+        if (srlStrName == "wrd" || srlStrName == "wrk") {
+            // Total Liters per hour consumed
+            TTL_WRD = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_WRD ";
+            srlOutputs += TTL_WRD;
+        }
+
         if (srlStrName == "clc") {
             // Total Liters consumed in trip
             TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;

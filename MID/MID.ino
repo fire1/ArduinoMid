@@ -305,7 +305,7 @@ static void playWelcomeScreen() {
     lcd.print("    ASTRA       ");
     //
     // Test tone
-    tone(ADT_ALR_PIN, 400, 10);
+    tone(ADT_ALR_PIN, 400, 20);
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("  ");
