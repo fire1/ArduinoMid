@@ -14,7 +14,7 @@
 #define MID_CAR_SENS_VERSION 0.1
 //
 // Show information from consumption
-#define DEBUG_CONS_INFO
+//#define DEBUG_CONS_INFO
 //
 // Speeding alarm
 #define VSS_ALARM_CITY_SPEED  61 // km
@@ -882,14 +882,14 @@ void CarSens::sensTnk() {
         Serial.print("after tank level: ");
         Serial.println(lpgTankLevel);
 
-        if (lpgTankLevel > 500) {
+        if (lpgTankLevel > 0) {
             containerLpgTank += lpgTankLevel;
             CUR_LTK = int(containerLpgTank / indexLpgTank);
         }
     }
     if (_amp->isMinute()) {
-        containerLpgTank = containerLpgTank / 3;
-        indexLpgTank = indexLpgTank / 3;
+        containerLpgTank = 3;
+        indexLpgTank = CUR_LTK * 3;
     }
 }
 
@@ -1162,6 +1162,9 @@ void CarSens::sensIfc() {
         }
         // pass
         // Current Instance consumption
+        if (cons > 99) {
+            cons = 99;
+        }
         CUR_IFC = (int) cons;
         //
         // Average consumption for 5 seconds
@@ -1176,8 +1179,8 @@ void CarSens::sensIfc() {
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
     if (_amp->isMinute()) {
-        indexIfc = 5;
-        collectionIfc = (unsigned long) AVR_IFC * 5;
+        indexIfc = 3;
+        collectionIfc = (unsigned long) AVR_IFC * 3;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
