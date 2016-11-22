@@ -147,6 +147,7 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens);
 //
 // Display driver
 #include "lib/Lcd16x2.h"
+
 //
 // Define Welcome screen
 static void playWelcomeScreen();
@@ -209,6 +210,7 @@ void setup() {
     // Restore data
     eepRom.loadCurrentData();
 
+    pinMode(18, INPUT_PULLUP);
 }
 
 
@@ -219,6 +221,11 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
+
+    if (ampInt.isMax()) {
+        Serial.print("Window washer value: ");
+        Serial.println(digitalRead(18));
+    }
     //
     // Listen engine
     carSens.listener();

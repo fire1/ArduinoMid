@@ -871,10 +871,10 @@ void CarSens::sensDim() {
  */
 void CarSens::sensTnk() {
 
-    if (_amp->isSens()) {
+    if (_amp->isMax()) {
         indexLpgTank++;
         int lpgTankLevel = analogRead(pinLpgTank);
-        Serial.print("tank level: ");
+        Serial.print("Tank level: ");
         Serial.println(lpgTankLevel);
         lpgTankLevel = (int) ((5.00 / 1023.00) * lpgTankLevel) * 10;
 
@@ -917,10 +917,10 @@ void CarSens::sensEnt() {
 
     CUR_ENT = int(engineTempCollection / engineTempIndex);
 //
-//    if (_amp->isSens()) {
-//        Serial.print("Engine temp: ");
-//        Serial.println(analogRead(pinTemp));
-//    }
+    if (_amp->isMax()) {
+        Serial.print("Engine temp: ");
+        Serial.println(analogRead(pinTemp));
+    }
 }
 
 /**
