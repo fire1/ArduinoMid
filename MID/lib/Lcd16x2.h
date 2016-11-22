@@ -292,13 +292,13 @@ void displayConsumption() {
         lcd.print((char) 5);
         lcd.print((char) 6);
         lcd.print(dspInst[0]);
-        lcd.print("L");
+        lcd.print("L ");
 
-        lcd.setCursor(9, 2);
+        lcd.setCursor(8, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
         lcd.print(TTL_CLC);
-        lcd.print("L");
+        lcd.print("L ");
     }
 }
 
@@ -381,55 +381,5 @@ void displayTest() {
     }
 }
 
-/**
- * Display menu Format
- */
-void displayMenu(int &cursorMenu, MidMenu midMenu, ShutDw shutDown) {
-    //
-    // Switch menu from cursor
-    switch (cursorMenu) {
-
-        case MidMenu::MENU_ENTER:
-            midMenu.lcdDisplay(&lcd);
-            break;
-            //
-            // Main / first menu
-        case 1:
-            displayTotalCons();
-            displayTotalDst();
-            displayOutTmp();
-            displayInsTmp();
-            break;
-            //
-            // Dashboard
-        case 11:
-            displayEngRPM();
-            displayCarKMH();
-            displayCarECU();
-            displayEngTmp();
-            break;
-
-        case 12:
-            displayTest();
-            break;
-        case 4:
-            displayAverage();
-            break;
-            //
-            // Travel menu
-        case 2:
-            displayTrip();
-            break;
-        case 3:
-            displayConsumption();
-            break;
-        case 32:
-            displayFuelTanks();
-            break;
-        case ShutDw::MENU_SHUTDOWN:
-            shutDown.lcdDisplay(&lcd);
-            break;
-    }
-}
 
 #endif //ARDUINOMID_READINNTERTEMP_H

@@ -137,7 +137,7 @@ WhlSens whlSens(&ampInt);
 EepRom eepRom(&carSens);
 //
 // Menu
-MidMenu midMenu(&ampInt, &whlSens, &carSens, &eepRom);
+MidMenu midMenu(&ampInt, &carSens, &eepRom);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
@@ -231,7 +231,7 @@ void loop() {
     shutDown.listener();
     //
     //  Read main buttons
-    midMenu.listener(cursorMenu);
+    midMenu.listener(&whlSens, cursorMenu);
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);

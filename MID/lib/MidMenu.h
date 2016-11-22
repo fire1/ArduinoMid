@@ -67,7 +67,7 @@ class MidMenu {
             FuelTankMenu;
 
     IntAmp *_amp;
-    WhlSens *_whl;
+
     CarSens *_car;
     EepRom *_eep;
 
@@ -85,7 +85,7 @@ public:
 
     void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn);
 
-    void listener(int &cursor);
+    void listener(WhlSens *whl, int &cursor);
 
     int getCursorMenu() {
         return MidMenu::cursorMenu;
@@ -98,7 +98,7 @@ public:
 
     void lcdDisplay(LiquidCrystal *lcd);
 
-    MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car, EepRom *eep);
+    MidMenu(IntAmp *amp, CarSens *car, EepRom *eep);
 
 private:
 
@@ -123,9 +123,9 @@ private:
 
     bool enterDisplay = 0;
 
-    void buttons(uint8_t buttonPinUp, uint8_t buttonPinDw);
+    void buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw);
 
-    void shortcuts();
+    void shortcuts(WhlSens *whl);
 
     void navigate();
 
@@ -146,7 +146,7 @@ private:
 /**
  * constructor
  */
-MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car, EepRom *eep) :
+MidMenu::MidMenu(IntAmp *amp, CarSens *car, EepRom *eep) :
 //
 // Define menus
         menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
@@ -163,7 +163,6 @@ MidMenu::MidMenu(IntAmp *amp, WhlSens *whl, CarSens *car, EepRom *eep) :
         FuelTankMenu(MenuItem(MENU_NAME_31)) {
 
     _amp = amp;
-    _whl = whl;
     _car = car;
     _eep = eep;
 }
@@ -247,8 +246,8 @@ static void MidMenu_menuUsed(MenuUseEvent used) {
 /**
  * listen menu
  */
-void MidMenu::listener(int &cursor) {
-    buttons(btnPinUp, btnPinDw);
+void MidMenu::listener(WhlSens *whl, int &cursor) {
+    buttons(whl, btnPinUp, btnPinDw);
     navigate();
     //
     //
@@ -300,7 +299,7 @@ void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
 /**
  * buttons
  */
-void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
+void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     lastButtonPushed = LOW;
     //
@@ -318,7 +317,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
         //
         // Controlling start of press state
         if (entryDownState == 0) {
-            _whl->disable();
+            whl->disable();
             entryDownState = millis();
         }
         //
@@ -333,7 +332,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
                 /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
                 // Steering button is pressed
-                if (_whl->getCurrentState() == _whl->STR_BTN_ATT) {
+                if (whl->getCurrentState() == whl->STR_BTN_ATT) {
                     TTL_TTD = 0; // deprecated
                     tone(pinTones, 1000, 10);
                     delay(10);
@@ -345,29 +344,29 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
                     tone(pinTones, 2500, 10);
 //                    _eep->saveZeroingData(); // TODO save zeroed data
                     delay(20);
-                    _whl->enable();
+                    whl->enable();
                     return;
                 }
                 //
                 // Change Speed alarm Up
-                if (_whl->getCurrentState() == _whl->STR_BTN_VLU) {
+                if (whl->getCurrentState() == whl->STR_BTN_VLU) {
                     _car->speedingAlarmsUp();
                     tone(pinTones, 800, 50);
                     delay(50);
                     tone(pinTones, 2000, 80);
                     delay(80);
-                    _whl->enable();
+                    whl->enable();
                     return;
                 }
                 //
                 // Change Speed alarm Down
-                if (_whl->getCurrentState() == _whl->STR_BTN_VLD) {
+                if (whl->getCurrentState() == whl->STR_BTN_VLD) {
                     _car->speedingAlarmsDw();
                     tone(pinTones, 2000, 50);
                     delay(50);
                     tone(pinTones, 800, 80);
                     delay(80);
-                    _whl->enable();
+                    whl->enable();
                     return;
                 }
                 /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
@@ -398,7 +397,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     } else { // <- deprecated
         entryDownState = 0;
-        _whl->enable(); // unlock radio
+        whl->enable(); // unlock radio
     }
 
     if (_amp->isSec() && secondTone) {
@@ -411,7 +410,7 @@ void MidMenu::buttons(uint8_t buttonPinUp, uint8_t buttonPinDw) {
 /**
  * Shortcuts
  */
-void MidMenu::shortcuts() {
+void MidMenu::shortcuts(WhlSens *whl) {
 
 }
 
