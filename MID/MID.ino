@@ -147,7 +147,6 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens);
 //
 // Display driver
 #include "lib/Lcd16x2.h"
-
 //
 // Define Welcome screen
 static void playWelcomeScreen();
