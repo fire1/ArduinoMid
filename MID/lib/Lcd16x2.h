@@ -323,7 +323,7 @@ void displayFuelTanks() {
         lcd.print("%");
         lcd.print(" Lpg:");
         lcd.print(dspLpg);
-        lcd.print("%");
+        lcd.print("% ");
     }
 }
 

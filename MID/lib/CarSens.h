@@ -498,7 +498,7 @@ public:
         // 240 ohm sender voltage would be 4.5*240/(150+240) = 2.8V
         // 33 ohm sender voltage would be 4.5*33/(150+33) = 0.8V
         // So in my case 20k fuel gauge
-        return (int) map(CUR_LTK, 35, 50, 0, 100);
+        return (int) map(CUR_LTK, 10, 55, 0, 100);
     }
 
     int getTnkBnz() {
@@ -885,14 +885,17 @@ void CarSens::sensTnk() {
         Serial.println(lpgTankLevel);
 
         if (lpgTankLevel > 0) {
-            containerLpgTank += lpgTankLevel;
+            containerLpgTank = containerLpgTank + lpgTankLevel;
             CUR_LTK = int(containerLpgTank / indexLpgTank);
+
+            CUR_LTK = lpgTankLevel;
+
         }
     }
-    if (_amp->isMinute()) {
-        containerLpgTank = 3;
-        indexLpgTank = CUR_LTK * 3;
-    }
+//    if (_amp->isMinute()) {
+    containerLpgTank = 3;
+    indexLpgTank = CUR_LTK * 3;
+//    }
 }
 
 /**
@@ -902,20 +905,22 @@ void CarSens::sensEnt() {
 //    if (_amp->isLow()) {
 
     int val = analogRead(pinTemp);
-    if (val > 500) {
+    if (val > 800) {
         engineTempHigh++;
     }
     engineTempIndex++;
 
 
     if (_amp->isSens()) {
-        CUR_ENT = int(engineTempIndex - engineTempHigh) * 8;
+        CUR_ENT = int(engineTempIndex - engineTempHigh);
 
 #ifdef DEBUG_ENG_TEMP
 
         Serial.print("Engine temperature: ");
         Serial.print(val);
-        Serial.print(" / ");
+        Serial.print(" / index: ");
+        Serial.print(engineTempIndex);
+        Serial.print(" / high: ");
         Serial.print(engineTempHigh);
         Serial.print(" / result:");
         Serial.println(CUR_ENT);
