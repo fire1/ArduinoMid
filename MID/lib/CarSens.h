@@ -900,16 +900,16 @@ void CarSens::sensTnk() {
  */
 void CarSens::sensEnt() {
 //    if (_amp->isLow()) {
+
     int val = analogRead(pinTemp);
     if (val > 500) {
         engineTempHigh++;
     }
     engineTempIndex++;
-//    }
 
 
-    if (_amp->isMax()) {
-        CUR_ENT = int(engineTempIndex - engineTempHigh);
+    if (_amp->isSens()) {
+        CUR_ENT = int(engineTempIndex - engineTempHigh) * 8;
 
 #ifdef DEBUG_ENG_TEMP
 
