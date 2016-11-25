@@ -41,7 +41,7 @@
 #define ECU_CORRECTION 376      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15300.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15400.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -160,9 +160,6 @@ class CarSens {
     IntAmp *_amp;
 
 private:
-
-
-
 
     //
     // bool for read sensor at first loop
@@ -793,15 +790,15 @@ void CarSens::speedingAlarms() {
     }
 
     if (_amp->isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
-        tone(ADT_ALR_PIN, 4000, 500);
+        tone(ADT_ALR_PIN, 4000, 200);
     }
 
     if (_amp->isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
-        tone(ADT_ALR_PIN, 4000, 500);
+        tone(ADT_ALR_PIN, 4000, 200);
     }
 
     if (_amp->isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
-        tone(ADT_ALR_PIN, 4000, 500);
+        tone(ADT_ALR_PIN, 4000, 200);
     }
 
     if (speedAlarmCursor > ENABLE_SPEED_HW) {
@@ -892,10 +889,10 @@ void CarSens::sensTnk() {
 
         }
     }
-//    if (_amp->isMinute()) {
-    containerLpgTank = 3;
-    indexLpgTank = CUR_LTK * 3;
-//    }
+    if (_amp->isMinute()) {
+        containerLpgTank = 3;
+        indexLpgTank = CUR_LTK * 3;
+    }
 }
 
 /**
@@ -1040,33 +1037,6 @@ void CarSens::sensTmp() {
         TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
         temperatureC = TX * 0.01;
 
-/*
- *
- *         float reading = 310;
-
-        reading = ( 5 / 1023.00) * reading;
-        reading = 5 - reading;
-        //
-        // Read new data
-        float reading = analogRead(TMP_PIN_OUT);
-
-        reading = ( 5 / 1023.00) * reading;
-        reading = EXT_TMP_VSS - reading;
-
-
-        float cofVolt = 5;
-
-        // not correct
-        /// new type  id: (147 / 2.666666 - 76) *1
-        // min -40	max 215	°C	 {formula A-40}
-        // separate reading
-        // 273.15
-        temperatureC = ((reading / cofVolt) - (340 / cofVolt)) * -1;
-      */
-
-        //
-        //
-//        temperatureC = temperatureC;
 
 #if defined(DEBUG_TEMPERATURE_OU)
         if (_amp->isMid()) {
