@@ -30,7 +30,7 @@ The project sourcecode is based on Internet published information!_
 * Critical level sensors [Todo]
 * Engine temperature.
 * Power saving operation [factory Bord. Comp. have energy drain when engine is off ...]
-* Check alert menu - based on worked time / distance [Todo]
+* Check menu - based on worked time / distance [Todo]
 * Brake pedal as button [Todo ]
 * Resolving driving gears 
 * Sport mode [Todo ... luring ECU signal]
