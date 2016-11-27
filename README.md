@@ -26,7 +26,7 @@ The project sourcecode is based on Internet published information!_
 * Outside temperature [needs more tests / TODO inside temperature]
 * Steering wheel buttons handler.
 * Support Sony xPlod to vehicles steering wheel media buttons.
-* LPG fuel installation.
+* Fuel gauge/switch support [analog detection from fuel switch].
 * Critical level sensors [Todo]
 * Еngine temperature.
 * Power savingoperation [factory Bord. Comp. have energy drain when engine is off ...]
