@@ -37,6 +37,10 @@ The project sourcecode is based on Internet published information!_
 * Several fuel lines support [benzine, propane-butane ... ]
 * Todo more ...
 
+## Schematics
+   _Hardware is  in development..._
+
+
 
 
 
