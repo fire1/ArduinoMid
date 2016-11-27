@@ -16,19 +16,26 @@ The project sourcecode is based on Internet published information!_
 
 ## ArduinoMid supported features
 
-* Engine RPMs
-* Vehicle speed in KMh RPMs
-* Display back-light works with dashboard lighting
+* Engine RPMs.
+* Vehicle speed in KMh RPMs.
+* Display back-light works with dashboard lighting.
 * Consumption for distance and instance [not tested well]
-* Trip time and distance
-* Speed alarm [TODO City / highway]
-* Average speed and engine revolution
+* Trip time and distance.
+* Speed alarm  City / Highway / Out-City
+* Average speed braking and engine revolutions.
 * Outside temperature [needs more tests / TODO inside temperature]
-* Steering wheel buttons handler  
+* Steering wheel buttons handler.
+* Support Sony xPlod to vehicles steering wheel media buttons.
+* LPG fuel installation.
+* Critical level sensors [Todo]
+* Еngine temperature.
+* Power savingoperation [factory Bord. Comp. have energy drain when engine is off ...]
+* Check alert menu - based on worked time / distance [Todo]
+* Brake pedal as button [Todo ]
+* Resolving driving gears 
+* Sport mode [Todo ... luring ECU signal]
+* Several fuel lines support [benzine, propane-butane ... ]
 * Todo more ...
-* Support Sony xPlod to vehicles steering wheel media buttons
-* LPG fuel installation
-
 
 
 
