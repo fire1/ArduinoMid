@@ -28,8 +28,8 @@ The project sourcecode is based on Internet published information!_
 * Support Sony xPlod to vehicles steering wheel media buttons.
 * Fuel gauge/switch support [analog detection from fuel switch].
 * Critical level sensors [Todo]
-* Еngine temperature.
-* Power savingoperation [factory Bord. Comp. have energy drain when engine is off ...]
+* Engine temperature.
+* Power saving operation [factory Bord. Comp. have energy drain when engine is off ...]
 * Check alert menu - based on worked time / distance [Todo]
 * Brake pedal as button [Todo ]
 * Resolving driving gears 
