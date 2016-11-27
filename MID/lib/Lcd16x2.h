@@ -63,7 +63,7 @@ void displayInsTmp() {
  */
 void displayTotalCons() {
     char tmp[3];
-    float value = TTL_TLC + TTL_CLC;
+    float value = TTL_LPG + CRT_LPG;
     if (ampInt.isSec()) {
 
         if (ampInt.isBig()) {
@@ -297,7 +297,7 @@ void displayConsumption() {
         lcd.setCursor(8, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
-        lcd.print(TTL_CLC);
+        lcd.print(CRT_LPG);
         lcd.print("L ");
     }
 }

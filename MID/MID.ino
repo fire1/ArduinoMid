@@ -15,6 +15,7 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <Wire.h>
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
@@ -51,12 +52,16 @@ const uint8_t SAV_PIN_DTC = A7;     //  Plug:16     Detect ignition key off stat
 //
 // Engine pins
 const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [may be capacitor is needed]
+const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
 //
-// lpg old pin: A4
-const uint8_t LPG_LVL_PIN = A5;     //  None        Fuel LPG switch
+// 4 Pins LPG fuel switch/gauge
+//      Two wires are for power supply, other two wires is for displayed information.
+//      * Check wiring diagram in order to determine wiring
+const uint8_t LPG_LVL_PIN = A5;     //  None        Tank fuel level
+const uint8_t LPG_SWT_PIN = A4;     //  None        Fuel switcher
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
@@ -80,13 +85,15 @@ const uint8_t ALP_PIN_VOL = 14;
 //  volatile Vehicle time travel
 //volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
-float TTL_TLC; // Total Liters per hour consumed
-float TTL_CLC; // Total Consumption trip
+float TTL_LPG; // Total  LPG Travel Liters
+float TTL_BNZ; // Total  BNZ Travel Liters
+float CRT_LPG; // Current LPG Consumption trip
+float CRT_BNZ; // Current BNZ Consumption trip
 float TTL_WRD; // Total Work distance [changing the timing belt wear collection ]
-
 //
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
+#define SHUTDOWN_SAVE_BUTTON 9
 //
 // LiquidCrystal library
 // Including from Arduino IDE
@@ -159,7 +166,7 @@ void setup() {
 
     //
     // Shutdown setupEngine
-    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, BTN_PIN_UP, ADT_ALR_PIN);
+    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, ADT_ALR_PIN);
     //
     // Turn lcdDisplay off
     lcd.noDisplay();
@@ -211,10 +218,15 @@ void setup() {
     eepRom.loadCurrentData();
 
     pinMode(18, INPUT_PULLUP);
+
+    pinMode(LPG_LVL_PIN, INPUT);
+    pinMode(LPG_SWT_PIN, INPUT);
 }
 
 
 void loop() {
+
+
     //
     // Set new time every begin
     ampInt.setTimer(millis());
@@ -226,6 +238,7 @@ void loop() {
         Serial.print("Window washer value: ");
         Serial.println(digitalRead(18));
     }
+
     //
     // Listen engine
     carSens.listener();
@@ -314,5 +327,3 @@ static void playWelcomeScreen() {
     delay(1500);
     lcd.clear();
 }
-
-

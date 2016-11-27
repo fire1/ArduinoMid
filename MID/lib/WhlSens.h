@@ -21,8 +21,8 @@
 #include "IntAmp.h"
 
 //#define STR_DEBUG
-#define STR_WHL_SEND_A
-//#define STR_WHL_SEND_B
+//#define STR_WHL_SEND_A
+#define STR_WHL_SEND_B
 
 //
 // Creates test with maximum send value
@@ -71,6 +71,7 @@ public:
     static constexpr int STR_BTN_SKD = 4;
     static constexpr int STR_BTN_BCK = 5;
     static constexpr int STR_BTN_ATT = 6;
+    static constexpr int STR_BTN_MNT = 7;
 
 
     int getAnalogReadButtons();
@@ -152,10 +153,12 @@ void WhlSens::setButtonStateParser(int currentState) {
     if (currentState == STR_BTN_VLU) _setDigitalPot(95);// Volume up
     if (currentState == STR_BTN_VLD) _setDigitalPot(115);// Volume down
     if (currentState == STR_BTN_ATT) _setDigitalPot(225); // Zero
+    if (currentState == STR_BTN_MNT) _setDigitalPot(155);// Mute
     if (currentState == STR_BTN_SKU) _setDigitalPot(45);// seek up
     if (currentState == STR_BTN_SKD) _setDigitalPot(65);// seek down
     if (currentState == STR_BTN_BCK) _setDigitalPot(15);// back button
     if (currentState == STR_BTN_NON) _setDigitalPot(0);// return to default
+
 }
 
 
@@ -211,18 +214,19 @@ void WhlSens::listener() {
         Serial.println(readingSteeringButton);
     }
 #endif
-
-    //
-    // Default value  for sony when Steering wheel is not used
-    if (readingSteeringButton > 900 && readingSteeringButton < 999 && isButtonPressActive == 0) {
-        _setCurrentState(STR_BTN_NON);
-        //
-        // Do not enter in here next loop
-        isButtonPressActive = 1;
-#if defined(STR_WHL_SEND_B)
-        digitalWrite(pinOutVoltage, HIGH);
-#endif
-    }
+    _setCurrentState(STR_BTN_NON);
+//
+//    //
+//    // Default value  for sony when Steering wheel is not used
+//    if (readingSteeringButton > 900 && readingSteeringButton < 999 && isButtonPressActive == 0) {
+//
+//        //
+//        // Do not enter in here next loop
+//        isButtonPressActive = 1;
+//#if defined(STR_WHL_SEND_B)
+//        digitalWrite(pinOutVoltage, HIGH);
+//#endif
+//    }
 
     //
     // Volume down
@@ -238,6 +242,9 @@ void WhlSens::listener() {
     // Zero button
     if (readingSteeringButton > 500 && readingSteeringButton < 599) {
         _setCurrentState(STR_BTN_ATT);
+        if (_amp->isMin()) {
+            _setCurrentState(STR_BTN_MNT);
+        }
         // TODO long press 155 volume press button
     }
     //
@@ -309,6 +316,12 @@ void WhlSens::sendRadioButtons() {
 
 
 #if defined(STR_WHL_SEND_B)
+
+    if (_amp->isMid()) {
+        Serial.print("WHL Current State ");
+        Serial.println(currentState);
+    }
+
     //
     // When is not none state
     if (currentState != STR_BTN_NON) {
@@ -316,23 +329,23 @@ void WhlSens::sendRadioButtons() {
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
         digitalWrite(pinDigitalOut, LOW);
-        //
-        // Check is still pressing and need to change state
-        if (_amp->isLow() && currentState == getCurrentState() && currentState != lastStateButton) {
-            lastStateButton = currentState;
-            setButtonStateParser(currentState);
-            digitalWrite(pinDigitalOut, HIGH);
-        } else {
-            //
-            // Close state
-            digitalWrite(pinDigitalOut, HIGH);
-        }
-        //
-        // When button is returned to none
-    } else  {
+
+        setButtonStateParser(currentState);
+        delay(1); // Some separation fix
         digitalWrite(pinDigitalOut, HIGH);
         lastStateButton = currentState;
+        //
+        // Returned to none
+        currentState = STR_BTN_NON;
+
+    } else {
+        digitalWrite(pinOutVoltage, HIGH);
+        if (_amp->isMid()) {
+            Serial.println("WHL Current State Disable");
+
+        }
     }
+
 
 #endif
 

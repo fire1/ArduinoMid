@@ -131,11 +131,17 @@ void serialInjectData() {
             srlOutputs = "TTL_TTD ";
             srlOutputs += TTL_TTD;
         }
-        if (srlStrName == "tlc" || srlStrName == "ttc") {
+        if (srlStrName == "lpg") {
             // Total Liters per hour consumed
-            TTL_TLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TLC ";
-            srlOutputs += TTL_TLC;
+            TTL_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_LPG ";
+            srlOutputs += TTL_LPG;
+        }
+        if (srlStrName == "bnz") {
+            // Total Liters per hour consumed
+            TTL_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_BNZ ";
+            srlOutputs += TTL_BNZ;
         }
         if (srlStrName == "wrd" || srlStrName == "wrk") {
             // Total Liters per hour consumed
@@ -146,9 +152,9 @@ void serialInjectData() {
 
         if (srlStrName == "clc") {
             // Total Liters consumed in trip
-            TTL_CLC = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_CLC ";
-            srlOutputs += TTL_CLC;
+            CRT_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "CRT_LPG ";
+            srlOutputs += CRT_LPG;
         }
         //
         // Show command information to human

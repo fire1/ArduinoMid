@@ -6,6 +6,9 @@
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
 #endif
+#ifndef SHUTDOWN_SAVE_BUTTON
+#define SHUTDOWN_SAVE_BUTTON 8
+#endif
 
 #ifndef SHUTDOWN_SAVE_LOOPS
 #define SHUTDOWN_SAVE_LOOPS 1200
@@ -29,7 +32,7 @@ class ShutDw {
     CarSens *_car;
 
 private :
-    uint8_t pinCtrl, pinDtct, pinSaveCancel, pinTone;
+    uint8_t pinCtrl, pinDtct, pinTone;
 
     int indexWait = 0;
     int entryDisplay = 0;
@@ -52,7 +55,7 @@ public:
 
     ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens);
 
-    void setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm);
+    void setup(int pinControl, int pinDetect, int pinToAlarm);
 
     void listener();
 
@@ -84,11 +87,10 @@ ShutDw::ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens) {
 /**
  * Setup shutdown class
  */
-void ShutDw::setup(int pinControl, int pinDetect, int pintPressSave, int pinToAlarm) {
+void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
 
     pinCtrl = uint8_t(pinControl);
     pinDtct = uint8_t(pinDetect);
-    pinSaveCancel = uint8_t(pintPressSave);
     pinTone = uint8_t(pinToAlarm);
 
 
@@ -188,11 +190,11 @@ void ShutDw::lcdDisplay(LiquidCrystal *lcd) {
     if (entryDisplay == 0) {
         lcd->clear();
         lcd->setCursor(0, 0);
-        lcd->print("Hit \"S\" to skip");
+        lcd->print("Hit \"S<\" to ");
         lcd->setCursor(0, 2);
-        lcd->print("and unsave data");
+        lcd->print("skip saving data");
         tone(pinTone, 3000, 500);
-        delay(2000);
+        delay(3400);
         lcd->clear();
         lcd->setCursor(1, 0);
         lcd->print("Shutting  down");
@@ -215,14 +217,14 @@ void ShutDw::lcdDisplay(LiquidCrystal *lcd) {
         lcd->print(sec);
         lcd->print(" sec.  ");
         lcd->setCursor(1, 2);
-        lcd->print("to canceling...");
+        lcd->print(" for ESC saving");
     }
 
     //
     // Listen press button
-    if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE) {
+    if (digitalRead(SHUTDOWN_SAVE_BUTTON) == SHUTDOWN_SAVE_STATE) {
         delay(5);
-        if (digitalRead(pinSaveCancel) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
+        if (digitalRead(SHUTDOWN_SAVE_BUTTON) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
             displayCancel(lcd);
         }
     }

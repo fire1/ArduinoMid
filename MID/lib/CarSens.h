@@ -38,10 +38,11 @@
 //
 // ECU Consumption signal mul by *10
 // next 3815
-#define ECU_CORRECTION 376      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
+#define ENG_CORRECTION 4        //  Divider pure voltage
+#define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15400.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15600.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -207,6 +208,7 @@ private:
     //
     // LPG tank
     int CUR_LTK;
+    int FUEL_STATE = 0;
     //
     unsigned long
             CUR_VTT,// Travel time
@@ -487,15 +489,8 @@ public:
     }
 
     int getTnkLpgPer() {
-        //
-        // I received some additional information from the manufacturer of the fuel gauge if this changes anything:
-        // The fuel input is approximately 4.5V through 150 ohm.
-        // 73 ohm sender voltage would be 4.5*73/(150+73) = 1.5V
-        // 10 ohm sender voltage would be 4.5*10/(150+10) = 0.3V
-        // 240 ohm sender voltage would be 4.5*240/(150+240) = 2.8V
-        // 33 ohm sender voltage would be 4.5*33/(150+33) = 0.8V
-        // So in my case 20k fuel gauge
-        return (int) map(CUR_LTK, 10, 55, 0, 100);
+
+        return (int) CUR_LTK;/* map(CUR_LTK, 10, 100, 0, 100)*/
     }
 
     int getTnkBnz() {
@@ -789,15 +784,15 @@ void CarSens::speedingAlarms() {
         speedAlarmCursor = ENABLE_SPEED_HW;
     }
 
-    if (_amp->isSec() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
+    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
         tone(ADT_ALR_PIN, 4000, 200);
     }
 
-    if (_amp->isSec() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
+    if (_amp->is10Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
         tone(ADT_ALR_PIN, 4000, 200);
     }
 
-    if (_amp->isSec() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
+    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
         tone(ADT_ALR_PIN, 4000, 200);
     }
 
@@ -870,12 +865,16 @@ void CarSens::sensDim() {
  */
 void CarSens::sensTnk() {
 
+    //
+    // LPG tank
+    //      Full tank reading        805
+    //      Empty tank reading       ---
     if (_amp->isMax()) {
         indexLpgTank++;
         int lpgTankLevel = analogRead(pinLpgTank);
         Serial.print("Tank level: ");
         Serial.println(lpgTankLevel);
-        lpgTankLevel = (int) ((5.00 / 1023.00) * lpgTankLevel) * 10;
+        lpgTankLevel = int(lpgTankLevel - 805);
 
 
         Serial.print("after tank level: ");
@@ -884,7 +883,6 @@ void CarSens::sensTnk() {
         if (lpgTankLevel > 0) {
             containerLpgTank = containerLpgTank + lpgTankLevel;
             CUR_LTK = int(containerLpgTank / indexLpgTank);
-
             CUR_LTK = lpgTankLevel;
 
         }
@@ -899,34 +897,17 @@ void CarSens::sensTnk() {
  *  Engine temperature
  */
 void CarSens::sensEnt() {
-//    if (_amp->isLow()) {
-
-    int val = analogRead(pinTemp);
-    if (val > 800) {
-        engineTempHigh++;
-    }
-    engineTempIndex++;
-
-
     if (_amp->isSens()) {
-        CUR_ENT = int(engineTempIndex - engineTempHigh);
+        int val = analogRead(pinTemp);
+        CUR_ENT = int(val / ENG_CORRECTION);
 
 #ifdef DEBUG_ENG_TEMP
 
         Serial.print("Engine temperature: ");
         Serial.print(val);
-        Serial.print(" / index: ");
-        Serial.print(engineTempIndex);
-        Serial.print(" / high: ");
-        Serial.print(engineTempHigh);
         Serial.print(" / result:");
         Serial.println(CUR_ENT);
 #endif
-
-        engineTempIndex = 0;
-        engineTempHigh = 0;
-
-
     }
 }
 
@@ -1103,7 +1084,7 @@ void CarSens::sensCns() {
         }
         //
         // Convert to float
-        TTL_CLC = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
+        CRT_LPG = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
     }
 
 
@@ -1136,9 +1117,10 @@ void CarSens::sensIfc() {
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = long(long(maf * getIfcFuelVal()) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
+            cons = long(
+                    long(maf * getIfcFuelVal() / 2) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
         } else {
-            cons = long(maf * getIfcFuelVal()) / delta_dist; // L/100kmh, 100 comes from the /10000*100
+            cons = long(maf * getIfcFuelVal() / 2) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
         // pass
         // Current Instance consumption

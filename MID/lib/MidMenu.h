@@ -37,7 +37,7 @@
 //
 //
 #define MENU_NAME_4 "Average"
-
+#define AWAITING 1500
 
 static void MidMenu_menuUsed(MenuUseEvent used);
 
@@ -101,7 +101,7 @@ public:
     MidMenu(IntAmp *amp, CarSens *car, EepRom *eep);
 
 private:
-
+    boolean enterSub = false;
     //
     // Saves cursor between changes
     int savedCursor;
@@ -311,6 +311,21 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
         }
     }
 
+    if (entryDownState + AWAITING > millis() && enterSub && !digitalRead(buttonPinDw) == LOW) {
+        //
+        //
+        tone(pinTones, 700, 20);
+        delay(20);
+        tone(pinTones, 700, 20);
+        enterSub = false;
+        //
+        // Perform button is released action
+        lastButtonPushed = buttonPinDw;
+        //
+        // Reset entry down state
+        entryDownState = 0;
+    }
+
     //
     // Detect down state button
     if (!digitalRead(buttonPinDw) == HIGH) {
@@ -320,56 +335,22 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
             whl->disable();
             entryDownState = millis();
         }
+
+
+        if (_amp->isLow() && !digitalRead(buttonPinDw) == HIGH) {
+            enterSub = true;
+        }
+
         //
         // Hold
-        if (entryDownState + 1000 < millis() && !digitalRead(buttonPinDw) == HIGH) {
+        if (entryDownState + AWAITING < millis() && !digitalRead(buttonPinDw) == HIGH) {
             //
             // If is still high state [pressed]
             if (!digitalRead(buttonPinDw) == HIGH) {
                 //
                 // Reset entry down state
                 entryDownState = 0;
-
-                /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
-                // Steering button is pressed
-                if (whl->getCurrentState() == whl->STR_BTN_ATT) {
-                    tone(pinTones, 1000, 10);
-                    delay(10);
-                    tone(pinTones, 1000, 10);
-                    delay(10);
-
-                    tone(pinTones, 2500, 10);
-                    delay(20);
-                    tone(pinTones, 2500, 10);
-                    _eep->saveZeroingData();
-                    delay(20);
-                    whl->enable();
-                    return;
-                }
-                //
-                // Change Speed alarm Up
-                if (whl->getCurrentState() == whl->STR_BTN_VLU) {
-                    _car->speedingAlarmsUp();
-                    tone(pinTones, 800, 50);
-                    delay(50);
-                    tone(pinTones, 2000, 80);
-                    delay(80);
-                    whl->enable();
-                    return;
-                }
-                //
-                // Change Speed alarm Down
-                if (whl->getCurrentState() == whl->STR_BTN_VLD) {
-                    _car->speedingAlarmsDw();
-                    tone(pinTones, 2000, 50);
-                    delay(50);
-                    tone(pinTones, 800, 80);
-                    delay(80);
-                    whl->enable();
-                    return;
-                }
-                /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
-
+                shortcuts(whl);
                 //
                 // Check for subMenu if not got inner level entry
                 if (isInSubMenu == 0) {
@@ -411,6 +392,46 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
  */
 void MidMenu::shortcuts(WhlSens *whl) {
 
+    /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
+    // Steering button is pressed
+    if (whl->getCurrentState() == whl->STR_BTN_ATT) {
+        tone(pinTones, 1000, 10);
+        delay(10);
+        tone(pinTones, 1000, 10);
+        delay(10);
+
+        tone(pinTones, 2500, 10);
+        delay(20);
+        tone(pinTones, 2500, 10);
+        _eep->saveZeroingData();
+        delay(20);
+        whl->enable();
+        return;
+    }
+    //
+    // Change Speed alarm Up
+    if (whl->getCurrentState() == whl->STR_BTN_VLU) {
+        _car->speedingAlarmsUp();
+        tone(pinTones, 800, 50);
+        delay(50);
+        tone(pinTones, 2000, 80);
+        delay(80);
+        whl->enable();
+        return;
+    }
+    //
+    // Change Speed alarm Down
+    if (whl->getCurrentState() == whl->STR_BTN_VLD) {
+        _car->speedingAlarmsDw();
+        tone(pinTones, 2000, 50);
+        delay(50);
+        tone(pinTones, 800, 80);
+        delay(80);
+        whl->enable();
+        return;
+    }
+    /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+
 }
 
 
@@ -424,10 +445,11 @@ void MidMenu::navigate() {
             if (isInSubMenu == 0) {
                 menu.moveDown();
                 menu.use();
-            } else {
+            }
+            /*else {
                 menu.moveRight();
                 menu.use();
-            }
+            }*/
         }
         if (lastButtonPushed == btnPinDw) {
             if (lastMainMenuState != 0 && isInSubMenu == 0) {
