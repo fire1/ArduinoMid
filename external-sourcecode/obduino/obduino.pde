@@ -93,7 +93,7 @@ To-Do:
 /* GASOLINE ENGINE CONFIG */
 /**************************/
 // [CONFIRMED] For gas car use 3355 (1/14.7/730*3600)*10000
-#define FUEL_BNZ_CNS 3355
+#define FUEL_BNZ_IFC 3355
 #define GasMafConst 107310 // 14.7*730*10
 
 /************************/
@@ -1249,11 +1249,11 @@ unsigned int get_instantFuelConsumption(char *retbuf)
     // if maf is 0 it will just output 0
     if(vss<toggle_speed)
     {
-        cons=(maf * FUEL_BNZ_CNS) / 10000;  // L/h, do not use float so mul first then divide
+        cons=(maf * FUEL_BNZ_IFC) / 10000;  // L/h, do not use float so mul first then divide
     }
     else
     {
-        cons=(maf * FUEL_BNZ_CNS) / (vss*100); // L/100kmh, 100 comes from the /10000*100
+        cons=(maf * FUEL_BNZ_IFC) / (vss*100); // L/100kmh, 100 comes from the /10000*100
     }
 
     if(params.use_metric)

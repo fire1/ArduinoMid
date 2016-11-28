@@ -133,15 +133,15 @@ void serialInjectData() {
         }
         if (srlStrName == "lpg") {
             // Total Liters per hour consumed
-            TTL_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_LPG ";
-            srlOutputs += TTL_LPG;
+            TTL_CNS_ADT = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_CNS_ADT ";
+            srlOutputs += TTL_CNS_ADT;
         }
         if (srlStrName == "bnz") {
             // Total Liters per hour consumed
-            TTL_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_BNZ ";
-            srlOutputs += TTL_BNZ;
+            TTL_CNS_ADT = Serial.readStringUntil('\n').toInt() * 0.01;
+            srlOutputs = "TTL_CNS_DEF ";
+            srlOutputs += TTL_CNS_DEF;
         }
         if (srlStrName == "wrd" || srlStrName == "wrk") {
             // Total Liters per hour consumed
@@ -150,12 +150,12 @@ void serialInjectData() {
             srlOutputs += TTL_WRD;
         }
 
-        if (srlStrName == "clc") {
-            // Total Liters consumed in trip
-            CRT_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "CRT_LPG ";
-            srlOutputs += CRT_LPG;
-        }
+//        if (srlStrName == "clc") {
+//            // Total Liters consumed in trip
+//            CRT_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
+//            srlOutputs = "CRT_LPG ";
+//            srlOutputs += CRT_LPG;
+//        }
         //
         // Show command information to human
         Serial.println("[MID $]> Affected value of " + srlOutputs);

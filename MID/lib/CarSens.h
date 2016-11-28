@@ -38,7 +38,7 @@
 //
 // ECU Consumption signal mul by *10
 // next 3815
-#define ENG_CORRECTION 4        //  Divider pure voltage
+#define ENG_CORRECTION 7.6        //  Divider pure voltage
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
@@ -62,8 +62,8 @@
 /* GASOLINE ENGINE CONFIG */
 /**************************/
 // [CONFIRMED] For gas car use 3355 (1/14.7/730*3600)*10000
-#define FUEL_BNZ_CNS 3355
-#define BNZ_MAF_CONST 107310 // 14.7*730*10
+#define FUEL_BNZ_IFC 3355
+#define FUEL_BNZ_CNS 107310 // 14.7*730*10
 
 /************************/
 /* LPG ENGINE CONFIG    */
@@ -77,15 +77,15 @@
 // experiments shows that something in middle should be used eg. 15.4:1 :)
 
 // [TEST PROGRESS] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
-#define FUEL_LPG_CNS 4329
-#define LPG_MAF_CONST 83160  // 15.4*540*10 = 83160
+#define FUEL_LPG_IFC 4329
+#define FUEL_LPG_CNS 83160  // 15.4*540*10 = 83160
 #define LPG_SWTC_PIN 7
 /************************/
 /* DIESEL ENGINE CONFIG */
 /************************/
 // [NOT TESTED] For diesel car use ??? (1/??/830*3600)*10000
-//#define GasConst ????
-//#define GasMafConst ???   // ??*830*10
+//#define FUEL_DSL_CNS ????
+//#define DSL_MAF_CNST ???   // ??*830*10
 #define FUEL_ADJUST 1
 /************************/
 /*        ENGINE CONFIG */
@@ -193,31 +193,34 @@ private:
     //
     // Engine temperature pin
     uint8_t pinTemp;
-    int engineTempIndex = 0;
-    int long engineTempHigh = 0;
-
     uint8_t pinLpgTank;
 
     int
     //
     // Human Results
-            CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT, CUR_IFC;
+            CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
     //
     // Distance container
     unsigned long int CUR_VDS;
     //
     // LPG tank
     int CUR_LTK;
-    int FUEL_STATE = 0;
+    unsigned long lastFuelStateSwitched = 0; // Record time when is switched
+    int FUEL_STATE = 0, FUEL_INST_CONS;
+    boolean FUEL_ADDITION = false;
+    long FUEL_PARAM_DEF[2], FUEL_PARAM_ADT[2];
     //
-    unsigned long
-            CUR_VTT,// Travel time
-            CUR_MAF;// Current Mas Air Flow
+    // Fuel consumption variables
+    long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
+
+
+    //
+    unsigned long CUR_VTT;// Travel time
 
     unsigned long indexLpgTank = 0;
     int long containerLpgTank = 0;
 
-    float AVR_IFC;
+    float FUEL_AVRG_INST_CONS;
     unsigned long collectionIfc, indexIfc;
 
     //
@@ -232,6 +235,9 @@ private:
      * Handles speeding alarms
      */
     void speedingAlarms();
+
+
+    void setConsumedFuel(float value);
 
     //
     // Screen back light vars
@@ -311,19 +317,16 @@ protected:
     //
     // TODO make detection when car is running  on LPG
     int getIfcFuelVal() {
-
-#if defined(LPG_SWTC_PIN)
-
-#endif
-        return FUEL_LPG_CNS; // todo change default to FUEL_BNZ_CNS
+        if (FUEL_STATE == 0) return (int) FUEL_PARAM_DEF[1];
+        if (FUEL_STATE == 1) return (int) FUEL_PARAM_ADT[1];
+//        FUEL_BNZ_IFC
+//        FUEL_LPG_IFC
     }
 
     long getCnsFuelVal() {
-
-#if defined(LPG_SWTC_PIN)
-
-#endif
-        return LPG_MAF_CONST; // todo change default to BNZ_MAF_CONST
+        if (FUEL_STATE == 0) return FUEL_PARAM_DEF[2];
+        if (FUEL_STATE == 1) return FUEL_PARAM_ADT[2];
+        // FUEL_LPG_CNS || FUEL_BNZ_CNS
     }
 
 
@@ -425,6 +428,19 @@ public:
     }
 
     /**
+     * Setups fuel lines to listen
+     */
+    void setupFuel(long defFuel[2], long adtFuel[2] = NULL) {
+        if (adtFuel != NULL) {
+            FUEL_PARAM_ADT[1] = adtFuel[1];
+            FUEL_PARAM_ADT[2] = adtFuel[2];
+            FUEL_ADDITION = true;
+        }
+        FUEL_PARAM_DEF[1] = defFuel[1];
+        FUEL_PARAM_DEF[2] = defFuel[2];
+    }
+
+    /**
      * Setup temperature
      */
     void setupTemperature(uint8_t pinOutsideTemperature) {
@@ -447,12 +463,46 @@ public:
         return CUR_INS_TMP;
     }
 
+    /**
+     * Gets instant fuel consumption
+     */
     int getIfc() {
-        return CUR_IFC;
+        return FUEL_INST_CONS;
     }
 
+    /**
+     * Gets Instant fuel consumption average value
+     */
     float getIfcAvr() {
-        return AVR_IFC;
+        return FUEL_AVRG_INST_CONS;
+    }
+
+    /**
+     * Gets default fuel line consumption
+     */
+    float getDefFuelCns() {
+        return float(FL_CNS_DEF * 0.00001);
+    }
+
+    /**
+     * Gets additional fuel line consumption
+     */
+    float getAdtFuelCns() {
+        return float(FL_CNS_ADT * 0.00001);
+    }
+
+    /**
+     * Gets fuel state  used
+     */
+    float getCurFuelCns() {
+        if (FUEL_STATE == 0) return float(FL_CNS_DEF * 0.00001);
+        if (FUEL_STATE == 1) return float(FL_CNS_ADT * 0.00001);
+    }
+    /*
+     * Gets current fuel state
+     */
+    int getFuelState() {
+        return FUEL_STATE;
     }
 
     /**
@@ -567,6 +617,11 @@ public:
      * Gets maximum car speed
      */
     int getMxmVss();
+
+    /**
+     * Fuel pin listener
+     */
+    void listenFuelSwitch(uint8_t pinToListen, int stateSwitch);
 
     /**
      *  Listen sensors
@@ -1076,15 +1131,23 @@ void CarSens::sensCns() {
             // Direct correction in constant
 //            deltaFuel = deltaFuel * 2; // Don't know way but need to be mul by 2
         }
-        TTL_FL_CNS += deltaFuel;
-        //
-        //code to accumlate fuel wasted while idling
-        if (CUR_VSS == 0) {//car not moving
-            TTL_FL_WST += deltaFuel;
-        }
-        //
-        // Convert to float
-        CRT_LPG = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
+
+        setConsumedFuel(deltaFuel);
+
+
+//        //
+//        // Deprecated from here ....        ----        >>>>>>
+//        TTL_FL_CNS += deltaFuel;
+//        //
+//        //code to accumlate fuel wasted while idling
+//        if (CUR_VSS == 0) {//car not moving
+//            TTL_FL_WST += deltaFuel;
+//        }
+//        //
+//        // Convert to float
+////        CRT_LPG = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
+//        float consumedFuel = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
+////        setConsumedFuel(consumedFuel);
     }
 
 
@@ -1127,7 +1190,7 @@ void CarSens::sensIfc() {
         if (cons > 99) {
             cons = 99;
         }
-        CUR_IFC = (int) cons;
+        FUEL_INST_CONS = (int) cons;
         //
         // Average consumption for 5 seconds
         indexIfc++;
@@ -1135,21 +1198,21 @@ void CarSens::sensIfc() {
         collectionIfc += (cons  /** *  MILLIS_SENS*/);
         //
         // Average instance fuel consumption for 5 sec
-        AVR_IFC = (collectionIfc / indexIfc);//
+        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
     }
 
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
     if (_amp->isMinute()) {
         indexIfc = 3;
-        collectionIfc = (unsigned long) AVR_IFC * 3;
+        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS * 3;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
     if (_amp->isMax()) {
 
         Serial.print("\n\n Fuel Cons  | INS: ");
-        Serial.print(CUR_IFC * 0.001);
+        Serial.print(FUEL_INST_CONS * 0.001);
         Serial.print(" || TTL: ");
         Serial.print(TTL_FL_CNS);
         Serial.print(" || ECU: ");
@@ -1184,6 +1247,57 @@ int CarSens::getGear(int CarSpeed, int Rpm) {
     else carGearNum = 0;
 
     return carGearNum;
+}
+
+/**
+ * Sets Fuel consumed by engine
+ */
+void CarSens::setConsumedFuel(float value) {
+
+    //
+    // Recording wasted fuel
+    if (CUR_VSS < 1) {
+        if (FUEL_ADDITION) {
+            if (FUEL_STATE == 0) {
+                FL_WST_DEF += value;
+            } else {
+                FL_WST_ADT += value;
+            }
+        } else
+            FL_WST_DEF += value;
+        return;
+    }
+
+    //
+    //  Recording used fuel
+    if (FUEL_ADDITION) {
+        if (FUEL_STATE == 0) {
+            FL_CNS_DEF += value;
+        } else {
+            FL_CNS_ADT += value;
+        }
+    } else
+        FL_CNS_DEF += value;
+}
+
+
+void CarSens::listenFuelSwitch(uint8_t pinToListen, int stateSwitch) {
+    //
+    // Get current read time
+    unsigned long currentListenSwitchTime = millis();
+
+    if (digitalRead(pinToListen) == stateSwitch && lastFuelStateSwitched + 1000 > currentListenSwitchTime) {
+        //
+        // Protecting Duplicated reads ...
+        lastFuelStateSwitched = currentListenSwitchTime;
+        //
+        // Changing fuel state
+        if (FUEL_STATE == 1) {
+            FUEL_STATE = 0;
+        } else
+            FUEL_STATE = 1;
+    }
+
 }
 
 //ARDUINO_MID_CAR_SENS_H

@@ -71,13 +71,13 @@ public:
 
 private:
 
-    float loadLpgCons();
+    float loadAdtCons();
 
-    void saveLpgCons(float value = 0);
+    void saveAdtCons(float value = 0);
 
-    float loadBnzCons();
+    float loadDefCons();
 
-    void saveBnzCons(float value = 0);
+    void saveDefCons(float value = 0);
 
     float loadWorkDistance();
 
@@ -121,7 +121,7 @@ EepRom::EepRom(CarSens *carSens) {
 /**
  *  Loads travel consumption
  */
-float EepRom::loadLpgCons() {
+float EepRom::loadAdtCons() {
     int va1 = WireEepRomRead(EEP_ADR_CL1);
     int va2 = WireEepRomRead(EEP_ADR_Cl2);
     return restoreFloat(va1, va2);
@@ -130,7 +130,7 @@ float EepRom::loadLpgCons() {
 /**
  *  Saves travel consumption
  */
-void EepRom::saveLpgCons(float value = 0) {
+void EepRom::saveAdtCons(float value) {
     int val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_CL1, val[0]);
@@ -140,7 +140,7 @@ void EepRom::saveLpgCons(float value = 0) {
 /**
  *  Loads travel consumption
  */
-float EepRom::loadBnzCons() {
+float EepRom::loadDefCons() {
     int va1 = WireEepRomRead(EEP_ADR_CB1);
     int va2 = WireEepRomRead(EEP_ADR_CB2);
     return restoreFloat(va1, va2);
@@ -149,7 +149,7 @@ float EepRom::loadBnzCons() {
 /**
  *  Saves travel consumption
  */
-void EepRom::saveBnzCons(float value = 0) {
+void EepRom::saveDefCons(float value) {
     int val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_CB1, val[0]);
@@ -168,7 +168,7 @@ float EepRom::loadTravelDistance() {
 /**
  *  SAVE Travel distance
  */
-void EepRom::saveTravelDistance(float value = 0) {
+void EepRom::saveTravelDistance(float value) {
     int val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
@@ -187,7 +187,7 @@ float EepRom::loadWorkDistance() {
 /**
  *  Saves Work distance
  */
-void EepRom::saveWorkingDistance(float value = 0) {
+void EepRom::saveWorkingDistance(float value) {
     int val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_WD1, val[0]);
@@ -204,11 +204,12 @@ void EepRom::saveWorkingDistance(float value = 0) {
  */
 void EepRom::saveCurrentData() {
 
-    TTL_LPG = TTL_LPG + CRT_LPG;
-    saveLpgCons(TTL_LPG);
 
-    TTL_BNZ = TTL_BNZ + CRT_BNZ;
-    saveBnzCons(TTL_BNZ);
+    TTL_CNS_ADT = TTL_CNS_ADT + _car->getAdtFuelCns();
+    saveAdtCons(TTL_CNS_ADT);
+
+    TTL_CNS_DEF = TTL_CNS_DEF + _car->getDefFuelCns();
+    saveDefCons(TTL_CNS_DEF);
 
     TTL_TTD = TTL_TTD + _car->getDst();
     saveTravelDistance(TTL_TTD);
@@ -218,8 +219,8 @@ void EepRom::saveCurrentData() {
  * Load data from chip
  */
 void EepRom::loadCurrentData() {
-    TTL_LPG = loadLpgCons();
-    TTL_BNZ = loadBnzCons();
+    TTL_CNS_ADT = loadAdtCons();
+    TTL_CNS_DEF = loadDefCons();
 
     TTL_TTD = loadTravelDistance();
     TTL_WRD = loadWorkDistance();
@@ -230,13 +231,13 @@ void EepRom::loadCurrentData() {
  */
 void EepRom::saveZeroingData() {
     int assumedTravel = int(TTL_TTD);
-    TTL_LPG = 0;
-    TTL_BNZ = 0;
+    TTL_CNS_ADT = 0;
+    TTL_CNS_DEF = 0;
 
     TTL_TTD = 0;
     TTL_WRD = TTL_WRD + (assumedTravel / 1000);
 
-    saveLpgCons(TTL_LPG);
+    saveAdtCons(TTL_CNS_ADT);
     saveTravelDistance(TTL_TTD);
     saveWorkingDistance(TTL_WRD);
 }

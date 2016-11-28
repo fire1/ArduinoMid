@@ -63,8 +63,18 @@ void displayInsTmp() {
  */
 void displayTotalCons() {
     char tmp[3];
-    float value = TTL_LPG + CRT_LPG;
+    float value = 0;
+
+
     if (ampInt.isSec()) {
+
+        if (carSens.getFuelState() == 0) {
+            value = TTL_CNS_ADT + carSens.getDefFuelCns();
+        }
+        if (carSens.getFuelState() == 1) {
+            value = TTL_CNS_ADT + carSens.getAdtFuelCns();
+        }
+
 
         if (ampInt.isBig()) {
             lcd.print("    ");
@@ -180,17 +190,6 @@ void displayTrip() {
     //
     // Handle Distance screen
 
-//    int long tmSec;
-//
-//    int tmMin, tmHrs;
-//    tmSec = carSens.getTime();
-//
-//    tmMin = tmSec / 60;
-//    tmHrs = tmMin / 60;
-//
-//    char dspTime[5];
-//    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
-
     if (ampInt.isSec()) {
         lcd.setCursor(0, 0);
         lcd.print(" Current Trip");
@@ -214,50 +213,6 @@ void displayTrip() {
     }
 }
 
-/****************************************************************
- * Consumptions
-
-void displayConsumption2() {
-
-    if (ampInt.isMid()) {
-
-        lcd.setCursor(0, 0);
-        lcd.print(" Consumption");
-
-
-        lcd.setCursor(1, 2);
-
-        lcd.write((uint8_t) 5);
-        lcd.write((uint8_t) 6);
-        lcd.print("  ");
-
-        lcd.setCursor(9, 2);
-        lcd.write((uint8_t) 7);
-        lcd.write((uint8_t) 8);
-        lcd.print("   ");
-
-    }
-
-    char dspInst[3];
-
-    //
-    // Handle Distance screen
-
-    displayFloat(getInstCons(), dspInst);
-
-    lcd.setCursor(1, 2);
-    lcd.print((char) 5);
-    lcd.print((char) 6);
-    lcd.print(dspInst);
-
-//    char dspTotal[3];
-//    displayFloat(getTripCons(), dspTotal);
-
-    lcd.setCursor(9, 2);
-    lcd.write((uint8_t) 7);
-    lcd.write((uint8_t) 8);
-    lcd.print(getTripCons());
-}*/
 
 void displayConsumption() {
 
@@ -282,11 +237,20 @@ void displayConsumption() {
     }
 
     int dspInst[2];
-//    char dspTotal[3];
 
     if (ampInt.isMid()) {
 
         separateFloat(carSens.getIfcAvr(), dspInst);
+
+        float valueConsFuel = 0;
+
+
+        if (carSens.getFuelState() == 0) {
+            valueConsFuel = TTL_CNS_ADT + carSens.getDefFuelCns();
+        }
+        if (carSens.getFuelState() == 1) {
+            valueConsFuel = TTL_CNS_ADT + carSens.getAdtFuelCns();
+        }
 
         lcd.setCursor(1, 2);
         lcd.print((char) 5);
@@ -297,7 +261,7 @@ void displayConsumption() {
         lcd.setCursor(8, 2);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
-        lcd.print(CRT_LPG);
+        lcd.print(valueConsFuel);
         lcd.print("L ");
     }
 }

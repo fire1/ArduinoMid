@@ -60,12 +60,17 @@ const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
+
+#define LPG_INSTALLATION
+#ifdef LPG_INSTALLATION
 //
-// 4 Pins LPG fuel switch/gauge
+// [Used LPG ECU is EG Avance 32]
+// 4 Pins 5V LPG fuel switch/gauge
 //      Two wires are for power supply, other two wires is for displayed information.
-//      * Check wiring diagram in order to determine wiring
-const uint8_t LPG_LVL_PIN = A5;     //  None        Tank fuel level
-const uint8_t LPG_SWT_PIN = A4;     //  None        Fuel switcher
+//      * Check wiring diagram in order to determine your wiring
+const uint8_t LPG_LVL_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level
+const uint8_t LPG_SWT_PIN = A4;     //  [blue]      Switch button   Fuel switcher
+#endif
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
@@ -84,15 +89,16 @@ const uint8_t ALP_PIN_INP = A8;
 const uint8_t ALP_PIN_OUT = 53;
 const uint8_t ALP_PIN_VOL = 14;
 
+
 /*********************** Global Vars ***********************/
 //
 //  volatile Vehicle time travel
 //volatile float CUR_VTT = 0;
 float TTL_TTD; // Total travel distance
-float TTL_LPG; // Total  LPG Travel Liters
-float TTL_BNZ; // Total  BNZ Travel Liters
-float CRT_LPG; // Current LPG Consumption trip
-float CRT_BNZ; // Current BNZ Consumption trip
+float TTL_CNS_ADT; // Total  LPG Travel Liters
+float TTL_CNS_DEF; // Total  BNZ Travel Liters
+//float CRT_LPG; // Current LPG Consumption trip
+//float CRT_BNZ; // Current BNZ Consumption trip
 float TTL_WRD; // Total Work distance [changing the timing belt wear collection ]
 //
 // Change state of shutdown "press to save"
@@ -190,7 +196,17 @@ void setup() {
     //
     //
     carSens.setupLpg(LPG_LVL_PIN);
+
     //
+    // Sets Default Fuel as Benzine (fuel that engine will start)
+    long bnzFuel[2] = {FUEL_BNZ_IFC, FUEL_BNZ_CNS};
+    //
+    //
+    long lpgFuel[2] = {FUEL_LPG_IFC, FUEL_LPG_CNS};
+    //
+    // Setup fuel
+    carSens.setupFuel(bnzFuel, lpgFuel);
+    // consumption
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
     //
@@ -252,6 +268,9 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
+    //
+    // Listen fuel switch
+    carSens.listenFuelSwitch(LPG_SWT_PIN, LOW);
     //
     // Reads buttons from steering
     whlSens.listener();
