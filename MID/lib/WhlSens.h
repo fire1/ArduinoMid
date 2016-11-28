@@ -316,11 +316,11 @@ void WhlSens::sendRadioButtons() {
 
 
 #if defined(STR_WHL_SEND_B)
-
-    if (_amp->isMid()) {
-        Serial.print("WHL Current State ");
-        Serial.println(currentState);
-    }
+// Debugging
+//    if (_amp->isMid()) {
+//        Serial.print("WHL Current State ");
+//        Serial.println(currentState);
+//    }
 
     //
     // When is not none state
@@ -341,7 +341,7 @@ void WhlSens::sendRadioButtons() {
     } else {
         digitalWrite(pinOutVoltage, HIGH);
         if (_amp->isMid()) {
-            Serial.println("WHL Current State Disable");
+//            Serial.println("WHL Current State Disable");
 
         }
     }

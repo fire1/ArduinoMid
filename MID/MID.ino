@@ -228,7 +228,7 @@ void setup() {
     pinMode(LPG_SWT_PIN, INPUT);
 
 #if defined(USBCON)
-    Serial.print("USB Connected ...");
+    Serial.println("USB Connected ...");
 #endif
 
 }
