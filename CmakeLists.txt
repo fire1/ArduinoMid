@@ -10,3 +10,8 @@ set(${CMAKE_PROJECT_NAME}_SKETCH MID/MID.ino)
 generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
 set(SOURCE_FILES MID.ino)
+
+#
+# Enable syntax check for Serial class from UsbApi.h
+# To set definitions use "-D"[DefName]
+add_definitions( -DUSBCON=1 )

@@ -13,6 +13,9 @@
  MID function menu
 */
 
+
+
+
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -20,6 +23,7 @@
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+
 
 #define SERIAL_INJECT_DATA
 //
@@ -98,6 +102,7 @@ float TTL_WRD; // Total Work distance [changing the timing belt wear collection 
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
+
 //
 // Interval / Amplitude
 #include "lib/IntAmp.h"
@@ -155,6 +160,7 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens);
 // Display driver
 #include "lib/Lcd16x2.h"
 
+
 //
 // Define Welcome screen
 static void playWelcomeScreen();
@@ -162,7 +168,6 @@ static void playWelcomeScreen();
 //
 // Setup the code...
 void setup() {
-
 
     //
     // Shutdown setupEngine
@@ -221,6 +226,11 @@ void setup() {
 
     pinMode(LPG_LVL_PIN, INPUT);
     pinMode(LPG_SWT_PIN, INPUT);
+
+#if defined(USBCON)
+    Serial.print("USB Connected ...");
+#endif
+
 }
 
 
