@@ -325,20 +325,28 @@ void loop() {
         case 12:
             displayTest();
             break;
-        case 4:
-            displayAverage();
-            break;
+
             //
             // Travel menu
         case 2:
             displayTrip();
             break;
+        case 21:
+            displayAverage();
+            break;
+
+            //
+            // Fuel menu
         case 3:
             displayConsumption();
             break;
         case 32:
             displayFuelTanks();
             break;
+
+        case 4:
+            break;
+
         case ShutDw::MENU_SHUTDOWN:
             shutDown.lcdDisplay(&lcd);
             break;

@@ -59,7 +59,7 @@ after tank level: 4
 Current fuel state is: 1        DUMP||  swt: 0 ||  tnk: 0 || cnt: 3001
 Engine temperature: 154 / result:20
 83160
-Current fuel state is: 1        DUMP||  swt: 53 ||  tnk: 0 || cnt: 3201
+Current fuel state is: 1        DUMP||  swt: 53 ||  tnk: 0 || cnt: 3201             <---
 Engine temperature: 157 / result:20
 83160
 Current fuel state is: 1        DUMP||  swt: 53 ||  tnk: 0 || cnt: 3401
@@ -101,7 +101,7 @@ Engine temperature: 153 / result:20
 Current fuel state is: 1        DUMP||  swt: 53 ||  tnk: 0 || cnt: 5401
 Engine temperature: 156 / result:20
 83160
-Current fuel state is: 1        DUMP||  swt: 116 ||  tnk: 0 || cnt: 5601
+Current fuel state is: 1        DUMP||  swt: 116 ||  tnk: 0 || cnt: 5601            <---
 Engine temperature: 159 / result:20
 83160
 Current fuel state is: 1        DUMP||  swt: 116 ||  tnk: 0 || cnt: 5801
@@ -326,7 +326,7 @@ Engine temperature: 155 / result:20
 Window washer value: 0
 Tank level: 803
 after tank level: -2
-Current fuel state is: 1        DUMP||  swt: 199 ||  tnk: 0 || cnt: 18001
+Current fuel state is: 1        DUMP||  swt: 199 ||  tnk: 0 || cnt: 18001            <---
 Engine temperature: 155 / result:20
 83160
 Current fuel state is: 1        DUMP||  swt: 199 ||  tnk: 0 || cnt: 18201
@@ -668,7 +668,7 @@ Engine temperature: 156 / result:20
 Window washer value: 0
 Tank level: 803
 after tank level: -2
-Current fuel state is: 1        DUMP||  swt: 280 ||  tnk: 0 || cnt: 37001
+Current fuel state is: 1        DUMP||  swt: 280 ||  tnk: 0 || cnt: 37001            <---
 Engine temperature: 157 / result:20
 83160
 Current fuel state is: 1        DUMP||  swt: 280 ||  tnk: 0 || cnt: 37201

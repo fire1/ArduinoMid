@@ -30,13 +30,21 @@
 //
 //
 #define MENU_NAME_2 "Trip"
+#define MENU_NAME_21 "Trip Average"
 //
 //
 #define MENU_NAME_3 "Fuel"
 #define MENU_NAME_31 "Fuel Level"
 //
 //
-#define MENU_NAME_4 "Average"
+#define MENU_NAME_4 "Car State"
+#define MENU_NAME_41 "Brake wear "
+#define MENU_NAME_42 "Coolant level"
+#define MENU_NAME_43 "Window washer "
+#define MENU_NAME_44 "Oil level "
+#define MENU_NAME_45 "Voltage "
+
+
 #define AWAITING 1500
 
 static void MidMenu_menuUsed(MenuUseEvent used);
@@ -58,13 +66,19 @@ class MidMenu {
     //
     // Trip menu
             tripMenu,
-    //
-    // Averages
-            averMenu,
+            tripAvrage,
     //
     // Fuel tank
             fuelMenu,
-            FuelTankMenu;
+            FuelTankMenu,
+    //
+    // States
+            statMenu,
+            stateBrkWre,
+            stateClnLvl,
+            stateWndWsh,
+            stateOilLvl,
+            stateBatVlt;
 
     IntAmp *_amp;
 
@@ -158,9 +172,17 @@ MidMenu::MidMenu(IntAmp *amp, CarSens *car, EepRom *eep) :
         //
         // Trip menu initialization
         tripMenu(MenuItem(MENU_NAME_2)),
-        averMenu(MenuItem(MENU_NAME_4)),
+        tripAvrage(MenuItem(MENU_NAME_21)),
         fuelMenu(MenuItem(MENU_NAME_3)),
-        FuelTankMenu(MenuItem(MENU_NAME_31)) {
+        FuelTankMenu(MenuItem(MENU_NAME_31)),
+        //
+        // Car State menu
+        statMenu(MenuItem(MENU_NAME_4)),
+        stateBrkWre(MenuItem(MENU_NAME_41)),
+        stateClnLvl(MenuItem(MENU_NAME_42)),
+        stateWndWsh(MenuItem(MENU_NAME_43)),
+        stateOilLvl(MenuItem(MENU_NAME_44)),
+        stateBatVlt(MenuItem(MENU_NAME_45)) {
 
     _amp = amp;
     _car = car;
@@ -181,13 +203,32 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
     } else if (curMenuItem.getName() == MENU_NAME_12) {
         MidMenu::cursorMenu = 12;
     } else if (curMenuItem.getName() == MENU_NAME_2) {
+        //
+        // Trip Menu
         MidMenu::cursorMenu = 2;
+    } else if (curMenuItem.getName() == MENU_NAME_21) {
+        MidMenu::cursorMenu = 21;
+        //
+        // Fuel Menu
     } else if (curMenuItem.getName() == MENU_NAME_3) {
         MidMenu::cursorMenu = 3;
     } else if (curMenuItem.getName() == MENU_NAME_31) {
         MidMenu::cursorMenu = 32;
+
+        //
+        // Car State Menu
     } else if (curMenuItem.getName() == MENU_NAME_4) {
         MidMenu::cursorMenu = 4;
+    } else if (curMenuItem.getName() == MENU_NAME_41) {
+        MidMenu::cursorMenu = 41;
+    } else if (curMenuItem.getName() == MENU_NAME_42) {
+        MidMenu::cursorMenu = 42;
+    } else if (curMenuItem.getName() == MENU_NAME_43) {
+        MidMenu::cursorMenu = 43;
+    } else if (curMenuItem.getName() == MENU_NAME_44) {
+        MidMenu::cursorMenu = 44;
+    } else if (curMenuItem.getName() == MENU_NAME_45) {
+        MidMenu::cursorMenu = 45;
     }
 }
 
