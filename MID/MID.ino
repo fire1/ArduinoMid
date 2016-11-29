@@ -281,7 +281,9 @@ void loop() {
         Serial.print("        DUMP||  swt: ");
         Serial.print(dumpFuelSwitchSwt);
         Serial.print(" ||  tnk: ");
-        Serial.println(dumpFuelSwitchLvl);
+        Serial.print(dumpFuelSwitchLvl);
+        Serial.print(" || cnt: ");
+        Serial.println(dumpFuelSwitchCnt);
     }
 
     //

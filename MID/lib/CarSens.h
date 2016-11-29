@@ -657,6 +657,7 @@ public:
         sensVss();
         sensRpm();
         sensEcu();
+        CarSens::listenFuelSwitch();
         // Interrupts
         //
         sei();
@@ -760,15 +761,6 @@ void EngSens_catchEcuHits() {
     ecuHitsCount++;
 }
 
-#if defined(ADDITIONAL_FUEL_SYSTEM)
-/**
- * Listening fuel switch
- */
-ISR(TIMER3_OVF_vect) {
-    CarSens::listenFuelSwitch();
-}
-
-#endif
 
 /*******************************************************************
  * Detect Vss
@@ -1308,15 +1300,16 @@ void CarSens::setConsumedFuel(long value) {
     }
 
 }
-
-long dumpFuelSwitchLvl = 0;
-long dumpFuelSwitchSwt = 0;
+unsigned long dumpFuelSwitchCnt = 0;
+unsigned long dumpFuelSwitchLvl = 0;
+unsigned long dumpFuelSwitchSwt = 0;
 
 /**
  * Detector of fuel switch
  */
 void CarSens::listenFuelSwitch() {
 
+    dumpFuelSwitchCnt++;
 
     if (!digitalRead(CarSens::pinSwitchFuel)) {
         dumpFuelSwitchSwt++;
