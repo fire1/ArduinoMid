@@ -14,8 +14,6 @@
 */
 
 
-
-
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -24,7 +22,8 @@
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
 
-
+//
+// Inject data from serial monitor
 #define SERIAL_INJECT_DATA
 //
 // Uncommented to debug basics
@@ -42,7 +41,7 @@
 // Inside temperature [very cheep temperature sensor]
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
-
+#define ADDITIONAL_FUEL_SYSTEM // comment to disable additional fuel system such as LPG
 //
 // MID plug pins definition over Arduino
 //
@@ -193,19 +192,27 @@ void setup() {
     //
     //
     eepRom.setup();
-    //
-    //
-    carSens.setupLpg(LPG_LVL_PIN);
+
+
+//    long bnzFuel[2] = {FUEL_BNZ_IFC, FUEL_BNZ_CNS};
+//    bnzFuel.ifc = FUEL_BNZ_IFC;
+//    bnzFuel.cns = FUEL_BNZ_CNS;
+//    //
+//    //
+//    lpgFuel.ifc = FUEL_LPG_IFC;
+//    lpgFuel.cns = FUEL_LPG_CNS;
+
 
     //
-    // Sets Default Fuel as Benzine (fuel that engine will start)
-    long bnzFuel[2] = {FUEL_BNZ_IFC, FUEL_BNZ_CNS};
-    //
-    //
-    long lpgFuel[2] = {FUEL_LPG_IFC, FUEL_LPG_CNS};
+    // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
+//    Fuel bnzFuel = {FUEL_BNZ_IFC,FUEL_BNZ_CNS}, lpgFuel = {FUEL_LPG_IFC,FUEL_LPG_CNS};
     //
     // Setup fuel
-    carSens.setupFuel(bnzFuel, lpgFuel);
+    carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
+    //
+    // Setup fuel gauge two required wires
+    carSens.setupAdtFuel(LPG_LVL_PIN, LPG_SWT_PIN);
+    //
     // consumption
     // Engine / Speed sensors
     carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
@@ -268,9 +275,6 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
-    cli();
-    carSens.listenFuelSwitch(LPG_SWT_PIN, LOW);
-    sei();
     //
     // Listen fuel switch
     if (ampInt.isMax()) {

@@ -101,6 +101,13 @@ X18XE1  - 1796 cm3 = 17.96 dl
  */
 #define ENGINE_DSP  17.96   // engine displacement in dL
 #define CONS_TGL_VSS  3       // speed from which we toggle to fuel/hour (km/h)
+#ifndef SWITCH_FUEL_ON_STATE
+#define SWITCH_FUEL_ON_STATE LOW
+#endif
+struct Fuel {
+    int ifc;
+    long cns;
+};
 
 //
 // Car's gears ratio
@@ -207,10 +214,14 @@ private:
     //
     // LPG tank
     int CUR_LTK;
-    unsigned long lastFuelStateSwitched = 0; // Record time when is switched
-    int FUEL_STATE = DEFAULT_FUEL_STATE, FUEL_INST_CONS;
-    boolean FUEL_ADDITION = false;
-    long FUEL_PARAM_DEF[2], FUEL_PARAM_ADT[2];
+    //
+    // Detect fuel switch
+    static unsigned long lastFuelStateSwitched; // Record time when is switched
+    static int FUEL_STATE;
+    static uint8_t pinSwitchFuel;
+
+    int FUEL_INST_CONS;
+    Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
     //
     // Fuel consumption variables
     unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
@@ -319,15 +330,15 @@ protected:
     //
     // TODO make detection when car is running  on LPG
     int getIfcFuelVal() {
-        if (FUEL_STATE == 0) return (int) FUEL_PARAM_DEF[0];
-        if (FUEL_STATE == 1) return (int) FUEL_PARAM_ADT[0];
+        if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
+        if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
 //        FUEL_BNZ_IFC
 //        FUEL_LPG_IFC
     }
 
     long getCnsFuelVal() {
-        if (FUEL_STATE == 0) return FUEL_PARAM_DEF[1];
-        if (FUEL_STATE == 1) return FUEL_PARAM_ADT[1];
+        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
+        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
         // FUEL_LPG_CNS || FUEL_BNZ_CNS
     }
 
@@ -402,10 +413,14 @@ public:
     }
 
     /**
-     *
+     * Setup additional fuel line
      */
-    void setupLpg(uint8_t pinTank) {
+    void setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
         pinMode(pinTank, INPUT);
+        pinMode(pinSwitch, INPUT);
+        //
+        //
+        CarSens::pinSwitchFuel = pinSwitch;
         pinLpgTank = pinTank;
     }
 
@@ -432,14 +447,13 @@ public:
     /**
      * Setups fuel lines to listen
      */
-    void setupFuel(long defFuel[2], long adtFuel[2] = NULL) {
-        if (adtFuel != NULL) {
-            FUEL_PARAM_ADT[0] = adtFuel[0];
-            FUEL_PARAM_ADT[1] = adtFuel[1];
-            FUEL_ADDITION = true;
+    void setupFuel(Fuel defFuel, Fuel adtFuel = {0, 0}) {
+        FUEL_PARAM_DEF = defFuel;
+        //
+        // Optional
+        if (adtFuel.cns > 0 && adtFuel.ifc > 0) {
+            FUEL_PARAM_ADT = adtFuel;
         }
-        FUEL_PARAM_DEF[0] = defFuel[0];
-        FUEL_PARAM_DEF[1] = defFuel[1];
     }
 
     /**
@@ -497,15 +511,15 @@ public:
      * Gets fuel state  used
      */
     float getCurFuelCns() {
-        if (FUEL_STATE == 0) return float(FL_CNS_DEF * 0.00001);
-        if (FUEL_STATE == 1) return float(FL_CNS_ADT * 0.00001);
+        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
+        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
     }
 
     /*
      * Gets current fuel state
      */
     int getFuelState() {
-        return FUEL_STATE;
+        return CarSens::FUEL_STATE;
     }
 
     /**
@@ -624,7 +638,7 @@ public:
     /**
      * Fuel pin listener
      */
-    void listenFuelSwitch(uint8_t pinToListen, int stateSwitch);
+    static void listenFuelSwitch();
 
     /**
      *  Listen sensors
@@ -648,7 +662,6 @@ public:
         sei();
         //
         // Other
-
         sensTnk();
         sensAvr();
         sensEnt();
@@ -711,12 +724,20 @@ public:
  * ########################################################################################### *
  ***********************************************************************************************/
 
+
+
 /**
  * Construct class
  */
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
 }
+
+//
+// Fuel switch detection variables
+int CarSens::FUEL_STATE = DEFAULT_FUEL_STATE;
+unsigned long CarSens::lastFuelStateSwitched = 0;
+uint8_t CarSens::pinSwitchFuel;
 
 /**
  * Interrupt function Vss
@@ -738,6 +759,16 @@ void EngSens_catchRpmHits() {
 void EngSens_catchEcuHits() {
     ecuHitsCount++;
 }
+
+#if defined(ADDITIONAL_FUEL_SYSTEM)
+/**
+ * Listening fuel switch
+ */
+ISR(TIMER3_OVF_vect) {
+    CarSens::listenFuelSwitch();
+}
+
+#endif
 
 /*******************************************************************
  * Detect Vss
@@ -1260,8 +1291,8 @@ void CarSens::setConsumedFuel(long value) {
 
     //
     // Recording wasted fuel
-    if (CUR_VSS > 2) {
-        if (FUEL_STATE == 0) {
+    if (CUR_VSS > CONS_TGL_VSS) {
+        if (getFuelState() == 0) {
             FL_WST_DEF = FL_WST_DEF + value;
         } else {
             FL_WST_ADT = FL_WST_ADT + value;
@@ -1270,7 +1301,7 @@ void CarSens::setConsumedFuel(long value) {
 
     //
     //  Recording used fuel
-    if (FUEL_STATE == 0) {
+    if (getFuelState() == 0) {
         FL_CNS_DEF = FL_CNS_DEF + value;
     } else {
         FL_CNS_ADT = FL_CNS_ADT + value;
@@ -1278,22 +1309,28 @@ void CarSens::setConsumedFuel(long value) {
 
 }
 
+/**
+ * Detector of fuel switch
+ */
+void CarSens::listenFuelSwitch() {
 
-void CarSens::listenFuelSwitch(uint8_t pinToListen, int stateSwitch) {
     //
-    // Get current read time
-    unsigned long currentListenSwitchTime = millis();
-
-    if (digitalRead(pinToListen) == stateSwitch && lastFuelStateSwitched + 1000 > currentListenSwitchTime) {
+    // Wait for event
+    if (digitalRead(CarSens::pinSwitchFuel) == SWITCH_FUEL_ON_STATE) {
         //
-        // Protecting Duplicated reads ...
-        lastFuelStateSwitched = currentListenSwitchTime;
-        //
-        // Changing fuel state
-        if (FUEL_STATE == 1) {
-            FUEL_STATE = 0;
-        } else
-            FUEL_STATE = 1;
+        // Get current read time
+        unsigned long currentListenSwitchTime = millis();
+        if (CarSens::lastFuelStateSwitched + 1000 > currentListenSwitchTime) {
+            //
+            // Protecting Duplicated reads ...
+            CarSens::lastFuelStateSwitched = currentListenSwitchTime;
+            //
+            // Changing fuel state
+            if (CarSens::FUEL_STATE == 1) {
+                CarSens::FUEL_STATE = 0;
+            } else
+                CarSens::FUEL_STATE = 1;
+        }
     }
 
 }
