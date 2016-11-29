@@ -246,10 +246,10 @@ void displayConsumption() {
 
 
         if (carSens.getFuelState() == 0) {
-            valueConsFuel = TTL_CNS_ADT + carSens.getDefFuelCns();
+            valueConsFuel = carSens.getDefFuelCns();
         }
         if (carSens.getFuelState() == 1) {
-            valueConsFuel = TTL_CNS_ADT + carSens.getAdtFuelCns();
+            valueConsFuel = carSens.getAdtFuelCns();
         }
 
         lcd.setCursor(1, 2);

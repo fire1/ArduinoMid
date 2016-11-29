@@ -213,7 +213,7 @@ private:
     long FUEL_PARAM_DEF[2], FUEL_PARAM_ADT[2];
     //
     // Fuel consumption variables
-    long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
+    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
 
 
     //
@@ -239,7 +239,7 @@ private:
     void speedingAlarms();
 
 
-    void setConsumedFuel(float value);
+    void setConsumedFuel(long value);
 
     //
     // Screen back light vars
@@ -319,15 +319,15 @@ protected:
     //
     // TODO make detection when car is running  on LPG
     int getIfcFuelVal() {
-        if (FUEL_STATE == 0) return (int) FUEL_PARAM_DEF[1];
-        if (FUEL_STATE == 1) return (int) FUEL_PARAM_ADT[1];
+        if (FUEL_STATE == 0) return (int) FUEL_PARAM_DEF[0];
+        if (FUEL_STATE == 1) return (int) FUEL_PARAM_ADT[0];
 //        FUEL_BNZ_IFC
 //        FUEL_LPG_IFC
     }
 
     long getCnsFuelVal() {
-        if (FUEL_STATE == 0) return FUEL_PARAM_DEF[2];
-        if (FUEL_STATE == 1) return FUEL_PARAM_ADT[2];
+        if (FUEL_STATE == 0) return FUEL_PARAM_DEF[1];
+        if (FUEL_STATE == 1) return FUEL_PARAM_ADT[1];
         // FUEL_LPG_CNS || FUEL_BNZ_CNS
     }
 
@@ -434,12 +434,12 @@ public:
      */
     void setupFuel(long defFuel[2], long adtFuel[2] = NULL) {
         if (adtFuel != NULL) {
+            FUEL_PARAM_ADT[0] = adtFuel[0];
             FUEL_PARAM_ADT[1] = adtFuel[1];
-            FUEL_PARAM_ADT[2] = adtFuel[2];
             FUEL_ADDITION = true;
         }
+        FUEL_PARAM_DEF[0] = defFuel[0];
         FUEL_PARAM_DEF[1] = defFuel[1];
-        FUEL_PARAM_DEF[2] = defFuel[2];
     }
 
     /**
@@ -1129,6 +1129,7 @@ void CarSens::sensCns() {
 
     if (_amp->isSens()) {
         long deltaFuel = 0;
+        Serial.println(getCnsFuelVal());
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
@@ -1255,24 +1256,24 @@ int CarSens::getGear(int CarSpeed, int Rpm) {
 /**
  * Sets Fuel consumed by engine
  */
-void CarSens::setConsumedFuel(float value) {
+void CarSens::setConsumedFuel(long value) {
 
     //
     // Recording wasted fuel
     if (CUR_VSS > 2) {
         if (FUEL_STATE == 0) {
-            FL_WST_DEF += value;
+            FL_WST_DEF = FL_WST_DEF + value;
         } else {
-            FL_WST_ADT += value;
+            FL_WST_ADT = FL_WST_ADT + value;
         }
     }
 
     //
     //  Recording used fuel
     if (FUEL_STATE == 0) {
-        FL_CNS_DEF += value;
+        FL_CNS_DEF = FL_CNS_DEF + value;
     } else {
-        FL_CNS_ADT += value;
+        FL_CNS_ADT = FL_CNS_ADT + value;
     }
 
 }
