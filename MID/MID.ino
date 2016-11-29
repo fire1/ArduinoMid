@@ -59,7 +59,15 @@ const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
-
+//
+// Car state pins
+const uint8_t STT_OIL_PIN = 18;
+const uint8_t STT_CLN_PIN = 17;
+const uint8_t STT_WNW_PIN = 16;
+const uint8_t STT_BRK_PIN = 15;
+const uint8_t STT_VLT_PIN = A3;
+//
+// Additional fuel installation
 #define LPG_INSTALLATION
 #ifdef LPG_INSTALLATION
 //
@@ -124,6 +132,9 @@ float TTL_WRD; // Total Work distance [changing the timing belt wear collection 
 // Engine sensors
 #include "lib/CarSens.h"
 //
+// Car state
+#include "lib/CarState.h"
+//
 // Adding menu source
 #include "lib/MidMenu.h"
 //
@@ -146,6 +157,9 @@ IntAmp ampInt(5, 10, 50, 100, 200, 1000);
 //
 // Constructing the class
 CarSens carSens(&ampInt);
+//
+// Constructing car state
+CarState carStat(&ampInt);
 //
 // Constructing the class
 WhlSens whlSens(&ampInt);
@@ -223,6 +237,9 @@ void setup() {
     // Outside temperature (car stock temp sns)
     carSens.setupTemperature(TMP_PIN_OUT);
     //
+    //  Setup car state pins to detect
+    carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
+    //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
     // and clear it ...
@@ -285,7 +302,9 @@ void loop() {
         Serial.print(" || cnt: ");
         Serial.println(dumpFuelSwitchCnt);
     }
-
+    //
+    // Listen state pins
+    carStat.listener();
     //
     // Reads buttons from steering
     whlSens.listener();
@@ -345,6 +364,13 @@ void loop() {
             break;
 
         case 4:
+            diaplyCarState();
+            break;
+        case 41:
+        case 42:
+        case 43:
+        case 44:
+        case 45:
             break;
 
         case ShutDw::MENU_SHUTDOWN:

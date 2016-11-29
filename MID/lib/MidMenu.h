@@ -246,20 +246,28 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     pinMode(btnPinDw, INPUT);
     //
     //
-    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(averMenu);
-    averMenu.add(mainMenu); // add last menu to create a Loop menu
+    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu);
+    statMenu.add(mainMenu); // add last menu to create a Loop menu
     //
     // Main menu layers
     mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-    testingsMenu.addRight(dshBoardMenu); // loop
-    //
+    testingsMenu.addRight(mainMenu); // loop
     // add return menu
     dshBoardMenu.add(mainMenu);
     testingsMenu.add(mainMenu);
     //
+    // Trip Menu
+    tripMenu.addRight(tripAvrage);
+    tripAvrage.addRight(tripMenu);
+    tripAvrage.add(tripMenu);
+    //
     // Fuel  layers
     fuelMenu.addRight(FuelTankMenu);
+    FuelTankMenu.addRight(fuelMenu);
     FuelTankMenu.add(fuelMenu);
+    //
+    //
+
     //
     // Move cursor to menu
     menu.moveDown();

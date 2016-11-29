@@ -12,7 +12,7 @@
 #include "MainFunc.h"
 #include "MidMenu.h"
 #include "ShutDw.h"
-
+#include "CarState.h"
 
 //
 //
@@ -313,7 +313,9 @@ void displayAverage() {
     }
 }
 
-
+/****************************************************************
+ * Testing menu
+ */
 void displayTest() {
 
     char display[4];
@@ -338,10 +340,46 @@ void displayTest() {
         }
         lcd.print(whlSens.getCurrentState());
 //
-//        lcd.setCursor(8, 2);
-//        lcd.print(" ");
-//        lcd.print(getAverageVss());
-//        lcd.print("kmh");
+
+    }
+}
+
+bool dspStateDig = false;
+
+/****************************************************************
+ * State menu
+ */
+void diaplyCarState() {
+
+    Diagnostic dig = carStat.getResult();
+    if (ampInt.isMax()) {
+        lcd.setCursor(0, 0);
+        if (!dspStateDig) {
+            dspStateDig = true;
+            lcd.print("Diagnostic State");
+        } else {
+            dspStateDig = false;
+            lcd.print(" Ol Ct Bk Wn Vl ");
+        }
+    }
+
+    if (ampInt.isMid()) {
+        lcd.setCursor(0, 2);
+        if (dig.oil) lcd.print("X"); else lcd.write((uint8_t) 3);
+        lcd.print(" | ");
+        if (dig.cnt) lcd.print("X"); else lcd.write((uint8_t) 3);
+        lcd.print(" | ");
+        if (dig.brk) lcd.print("X"); else lcd.write((uint8_t) 3);
+        lcd.print(" | ");
+        if (dig.win) lcd.print("X"); else lcd.write((uint8_t) 3);
+        lcd.print(" ~");
+        if (dig.vol) lcd.print("X"); else lcd.write((uint8_t) 3);
+
+    }
+
+    if (ampInt.isMax()) {
+        lcd.setCursor(0, 0);
+        lcd.print(" Ol Ct Bk Wn Vl ");
     }
 }
 

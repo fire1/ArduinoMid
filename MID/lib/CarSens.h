@@ -249,7 +249,10 @@ private:
      */
     void speedingAlarms();
 
-
+    /**
+    *
+    * @param value
+    */
     void setConsumedFuel(long value);
 
     //
@@ -305,7 +308,8 @@ private:
 protected:
     /**
       * Setup RPM
-     */
+      * @param pinTarget
+      */
     void setupRpmSens(uint8_t pinTarget) {
         pinMode(pinTarget, INPUT_PULLUP);
         attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
@@ -313,7 +317,8 @@ protected:
 
     /**
       * Setup VSS
-     */
+      * @param pinTarget
+      */
     void setupVssSens(uint8_t pinTarget) {
         pinMode(pinTarget, INPUT_PULLUP);
         attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
@@ -321,25 +326,29 @@ protected:
 
     /**
       * Setup Ecu
-     */
+      * @param pinTarget
+      */
     void setupEcuSens(uint8_t pinTarget) {
         pinMode(pinTarget, INPUT_PULLUP);
         attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
     }
 
-    //
-    // TODO make detection when car is running  on LPG
+    /**
+     * Gets calculate constant for instant consumption
+     * @return int
+     */
     int getIfcFuelVal() {
         if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
         if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
-//        FUEL_BNZ_IFC
-//        FUEL_LPG_IFC
     }
 
+    /**
+     * Gets calculated constant for consumption
+     * @return
+     */
     long getCnsFuelVal() {
         if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
         if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
-        // FUEL_LPG_CNS || FUEL_BNZ_CNS
     }
 
 
@@ -390,7 +399,11 @@ public:
 
     /**
      * Setup engine
-     */
+      * @param pinVss
+      * @param pinRpm
+      * @param pinEcu
+      * @param pinTmp
+      */
     void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
         setupRpmSens(pinRpm);
         setupVssSens(pinVss);
@@ -414,7 +427,9 @@ public:
 
     /**
      * Setup additional fuel line
-     */
+      * @param pinTank
+      * @param pinSwitch
+      */
     void setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
         pinMode(pinTank, INPUT);
         pinMode(pinSwitch, INPUT);
@@ -446,7 +461,9 @@ public:
 
     /**
      * Setups fuel lines to listen
-     */
+      * @param defFuel
+      * @param adtFuel
+      */
     void setupFuel(Fuel defFuel, Fuel adtFuel = {0, 0}) {
         FUEL_PARAM_DEF = defFuel;
         //
@@ -458,7 +475,8 @@ public:
 
     /**
      * Setup temperature
-     */
+      * @param pinOutsideTemperature
+      */
     void setupTemperature(uint8_t pinOutsideTemperature) {
         pinTmpOut = pinOutsideTemperature;
         //
@@ -729,7 +747,8 @@ public:
 
 /**
  * Construct class
- */
+  * @param ampInt
+  */
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
 }
@@ -1270,8 +1289,7 @@ int CarSens::getGear(int CarSpeed, int Rpm) {
         if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
         if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
         if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
-    }
-    else carGearNum = 0;
+    } else carGearNum = 0;
 
     return carGearNum;
 }
@@ -1300,6 +1318,7 @@ void CarSens::setConsumedFuel(long value) {
     }
 
 }
+
 unsigned long dumpFuelSwitchCnt = 0;
 unsigned long dumpFuelSwitchLvl = 0;
 unsigned long dumpFuelSwitchSwt = 0;

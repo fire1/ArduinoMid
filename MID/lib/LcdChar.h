@@ -10,21 +10,8 @@
 // LCD Character handler
 void setLcdBaseChar() {
 //
-// Smile face
-    byte CHR_SML[8] = {
-            0b00000,
-            0b00000,
-            0b00010,
-            0b01001,
-            0b00001,
-            0b01001,
-            0b00010,
-            0b00000
-    };
-
-//
 // Temperature celsius
-    byte CHR_CLS[8] = {
+    byte chrCelsius[8] = {
             0b01000,
             0b10100,
             0b01000,
@@ -36,32 +23,20 @@ void setLcdBaseChar() {
     };
 
 //
-// Menu empty marker
-    byte CHR_MNC1[8] = {
-            0b00000,
-            0b11111,
-            0b10001,
-            0b10001,
-            0b10001,
-            0b11111,
-            0b00000,
-            0b00000
-    };
-//
 // Menu active marker
-    byte CHR_MNC2[8] = {
+    byte chrCheck[8] = {
             0b00000,
-            0b11111,
-            0b11111,
-            0b11111,
-            0b11111,
-            0b11111,
             0b00000,
+            0b00000,
+            0b00000,
+            0b00001,
+            0b01010,
+            0b00100,
             0b00000
     };
-//
-// Menu gas marker
-    byte CHR_CONS[8] = {
+    //
+    // Menu gas marker
+    byte chrGasMark[8] = {
             0b00000,
             0b01110,
             0b01011,
@@ -71,44 +46,9 @@ void setLcdBaseChar() {
             0b01110,
             0b11111
     };
-    //
-    // pomp1
-    byte Pomp1[8] = {
-            0b00000,
-            0b00011,
-            0b00010,
-            0b00011,
-            0b00011,
-            0b00011,
-            0b00011,
-            0b00000
-    };
-    //
-    // pomp 2
-    byte Pomp2[8] = {
-            0b00000,
-            0b11000,
-            0b01100,
-            0b01010,
-            0b11010,
-            0b11100,
-            0b11000,
-            0b11100
-    };
-    //
-    // Fi diameter
-    byte Diameter[8] = {
-            0b00000,
-            0b01101,
-            0b10010,
-            0b10101,
-            0b01001,
-            0b10110,
-            0b00000,
-            0b00000
-    };
 
-    byte instCons1[8] = {
+
+    byte chrInstCons1[8] = {
             0b00000,
             0b00000,
             0b10000,
@@ -118,7 +58,7 @@ void setLcdBaseChar() {
             0b10101,
             0b00000
     };
-    byte instCons2[8] = {
+    byte chrInstCons2[8] = {
             0b00000,
             0b00000,
             0b00000,
@@ -129,7 +69,7 @@ void setLcdBaseChar() {
             0b00000
     };
 
-    byte allCons1[8] = {
+    byte chrAllCons1[8] = {
             0b00000,
             0b00000,
             0b00000,
@@ -139,7 +79,7 @@ void setLcdBaseChar() {
             0b10101,
             0b00000
     };
-    byte allCons2[8] = {
+    byte chrAllCons2[8] = {
             0b00000,
             0b00000,
             0b00000,
@@ -150,40 +90,8 @@ void setLcdBaseChar() {
             0b00000
     };
 
-    byte dspSpeed1[8] = {
-            0b00000,
-            0b00000,
-            0b00000,
-            0b01001,
-            0b10010,
-            0b01011,
-            0b10010,
-            0b00000
-    };
 
-    byte dspSpeed2[8] = {
-            0b00000,
-            0b00000,
-            0b00000,
-            0b00001,
-            0b10011,
-            0b00101,
-            0b00011,
-            0b00000
-    };
-
-    byte dspRpm1[8] = {
-            0b00000,
-            0b00000,
-            0b00000,
-            0b01000,
-            0b10101,
-            0b11001,
-            0b10101,
-            0b00000
-    };
-
-    byte bertone[8] = {
+    byte chrBertone[8] = {
             0b11000,
             0b01000,
             0b01100,
@@ -195,14 +103,14 @@ void setLcdBaseChar() {
     };
 
 
-    lcd.createChar(1, CHR_CLS);
-    lcd.createChar(2, bertone);
-    lcd.createChar(3, CHR_MNC2);
-    lcd.createChar(4, CHR_CONS);
-    lcd.createChar(5, instCons1);
-    lcd.createChar(6, instCons2);
-    lcd.createChar(7, allCons1);
-    lcd.createChar(8, allCons2);
+    lcd.createChar(1, chrCelsius);
+    lcd.createChar(2, chrBertone);
+    lcd.createChar(3, chrCheck);
+    lcd.createChar(4, chrGasMark);
+    lcd.createChar(5, chrInstCons1);
+    lcd.createChar(6, chrInstCons2);
+    lcd.createChar(7, chrAllCons1);
+    lcd.createChar(8, chrAllCons2);
 
 }
 
