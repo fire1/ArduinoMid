@@ -268,9 +268,24 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
+    cli();
+    carSens.listenFuelSwitch(LPG_SWT_PIN, LOW);
+    sei();
     //
     // Listen fuel switch
-    carSens.listenFuelSwitch(LPG_SWT_PIN, LOW);
+    if (ampInt.isMax()) {
+        Serial.println(" \n\n");
+        Serial.print("Current fuel state is: ");
+        Serial.print(carSens.getFuelState());
+        Serial.println(" \n\n");
+    }
+
+
+    if (ampInt.isBig()) {
+        Serial.print("Current fuel state is: ");
+        Serial.println(carSens.getFuelState());
+    }
+
     //
     // Reads buttons from steering
     whlSens.listener();

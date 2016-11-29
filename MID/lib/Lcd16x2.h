@@ -69,7 +69,7 @@ void displayTotalCons() {
     if (ampInt.isSec()) {
 
         if (carSens.getFuelState() == 0) {
-            value = TTL_CNS_ADT + carSens.getDefFuelCns();
+            value = TTL_CNS_DEF + carSens.getDefFuelCns();
         }
         if (carSens.getFuelState() == 1) {
             value = TTL_CNS_ADT + carSens.getAdtFuelCns();

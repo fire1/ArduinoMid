@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15600.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15555.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -58,6 +58,8 @@
 #define SCREEN_DEF_LIGHT 22
 #define SCREEN_GO_TO_DEF 15
 
+
+#define DEFAULT_FUEL_STATE 1
 /**************************/
 /* GASOLINE ENGINE CONFIG */
 /**************************/
@@ -206,7 +208,7 @@ private:
     // LPG tank
     int CUR_LTK;
     unsigned long lastFuelStateSwitched = 0; // Record time when is switched
-    int FUEL_STATE = 0, FUEL_INST_CONS;
+    int FUEL_STATE = DEFAULT_FUEL_STATE, FUEL_INST_CONS;
     boolean FUEL_ADDITION = false;
     long FUEL_PARAM_DEF[2], FUEL_PARAM_ADT[2];
     //
@@ -498,6 +500,7 @@ public:
         if (FUEL_STATE == 0) return float(FL_CNS_DEF * 0.00001);
         if (FUEL_STATE == 1) return float(FL_CNS_ADT * 0.00001);
     }
+
     /*
      * Gets current fuel state
      */
@@ -1256,28 +1259,22 @@ void CarSens::setConsumedFuel(float value) {
 
     //
     // Recording wasted fuel
-    if (CUR_VSS < 1) {
-        if (FUEL_ADDITION) {
-            if (FUEL_STATE == 0) {
-                FL_WST_DEF += value;
-            } else {
-                FL_WST_ADT += value;
-            }
-        } else
+    if (CUR_VSS > 2) {
+        if (FUEL_STATE == 0) {
             FL_WST_DEF += value;
-        return;
+        } else {
+            FL_WST_ADT += value;
+        }
     }
 
     //
     //  Recording used fuel
-    if (FUEL_ADDITION) {
-        if (FUEL_STATE == 0) {
-            FL_CNS_DEF += value;
-        } else {
-            FL_CNS_ADT += value;
-        }
-    } else
+    if (FUEL_STATE == 0) {
         FL_CNS_DEF += value;
+    } else {
+        FL_CNS_ADT += value;
+    }
+
 }
 
 
