@@ -242,9 +242,9 @@ void WhlSens::listener() {
     // Zero button
     if (readingSteeringButton > 500 && readingSteeringButton < 599) {
         _setCurrentState(STR_BTN_ATT);
-        if (_amp->isMin()) {
-            _setCurrentState(STR_BTN_MNT);
-        }
+//        if (_amp->isMin()) {
+//            _setCurrentState(STR_BTN_MNT);
+//        }
         // TODO long press 155 volume press button
     }
     //
