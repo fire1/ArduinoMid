@@ -1,11 +1,10 @@
 //
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
-#include <Arduino.h>
+
 
 #ifndef MID_MID_H
 #define MID_MID_H
-
 #include <wiring.c>
 #include <LiquidCrystal.h>
 

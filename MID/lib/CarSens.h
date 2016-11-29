@@ -202,7 +202,7 @@ private:
     //
     // Engine temperature pin
     uint8_t pinTemp;
-    uint8_t pinLpgTank;
+
 
     int
     //
@@ -218,7 +218,7 @@ private:
     // Detect fuel switch
     static unsigned long lastFuelStateSwitched; // Record time when is switched
     static int FUEL_STATE;
-    static uint8_t pinSwitchFuel;
+    static uint8_t pinSwitchFuel, pinLpgTank;
 
     int FUEL_INST_CONS;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
@@ -421,7 +421,7 @@ public:
         //
         //
         CarSens::pinSwitchFuel = pinSwitch;
-        pinLpgTank = pinTank;
+        CarSens::pinLpgTank = pinTank;
     }
 
 
@@ -737,7 +737,7 @@ CarSens::CarSens(IntAmp *ampInt) {
 // Fuel switch detection variables
 int CarSens::FUEL_STATE = DEFAULT_FUEL_STATE;
 unsigned long CarSens::lastFuelStateSwitched = 0;
-uint8_t CarSens::pinSwitchFuel;
+uint8_t CarSens::pinSwitchFuel, CarSens::pinLpgTank;
 
 /**
  * Interrupt function Vss
@@ -960,7 +960,7 @@ void CarSens::sensTnk() {
     //      Empty tank reading       ---
     if (_amp->isMax()) {
         indexLpgTank++;
-        int lpgTankLevel = analogRead(pinLpgTank);
+        int lpgTankLevel = analogRead(CarSens::pinLpgTank);
         Serial.print("Tank level: ");
         Serial.println(lpgTankLevel);
         lpgTankLevel = int(lpgTankLevel - 805);
@@ -1309,10 +1309,22 @@ void CarSens::setConsumedFuel(long value) {
 
 }
 
+long dumpFuelSwitchLvl = 0;
+long dumpFuelSwitchSwt = 0;
+
 /**
  * Detector of fuel switch
  */
 void CarSens::listenFuelSwitch() {
+
+
+    if (!digitalRead(CarSens::pinSwitchFuel)) {
+        dumpFuelSwitchSwt++;
+    }
+
+    if (!digitalRead(CarSens::pinLpgTank)) {
+        dumpFuelSwitchLvl++;
+    }
 
     //
     // Wait for event

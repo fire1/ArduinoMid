@@ -275,19 +275,13 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
-    //
-    // Listen fuel switch
-    if (ampInt.isMax()) {
-        Serial.println(" \n\n");
-        Serial.print("Current fuel state is: ");
-        Serial.print(carSens.getFuelState());
-        Serial.println(" \n\n");
-    }
-
-
     if (ampInt.isBig()) {
         Serial.print("Current fuel state is: ");
-        Serial.println(carSens.getFuelState());
+        Serial.print(carSens.getFuelState());
+        Serial.print("        DUMP||  swt: ");
+        Serial.print(dumpFuelSwitchSwt);
+        Serial.print(" ||  tnk: ");
+        Serial.println(dumpFuelSwitchLvl);
     }
 
     //
