@@ -1,5 +1,7 @@
+#include <Boards.h>
 #include <Arduino.h>
-#include <OneWire.h>
+#include <Firmata.h>
+
 
 //
 // 4 Pins LPG fuel switch/gauge
@@ -9,45 +11,36 @@ const uint8_t LPG_LVL_PIN = A5;     //  None        Data Line   Tank fuel level
 const uint8_t LPG_SWT_PIN = A4;     //  None        Fuel switcher
 
 
-OneWire ds(LPG_LVL_PIN);
 
-static void discoverOneWireDevices(void);
+int analogInputsToReport = 0; // bitwise array to store pin reporting
+int analogPin = LPG_LVL_PIN; // counter for reading analog pins
+/* timer variables */
+unsigned long currentMillis;     // store the current value from millis()
+unsigned long previousMillis;    // for comparison with currentMillis
 
-void setup(void) {
-    Serial.begin(9600);
-    discoverOneWireDevices();
+
+void analogWriteCallback(byte pin, int value) {
+    pinMode(pin, OUTPUT);
+    analogWrite(pin, value);
 }
 
-static void discoverOneWireDevices(void) {
-    byte i;
-    byte present = 0;
-    byte data[12];
-    byte addr[8];
+void setup() {
+    Firmata.setFirmwareVersion(FIRMATA_MAJOR_VERSION, FIRMATA_MINOR_VERSION);
+    Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
+    Firmata.begin();
+//    Firmata.begin(57600);
+}
 
-    Serial.print("Looking for 1-Wire devices...\n\r");
-    while(ds.search(addr)) {
-        Serial.print("\n\rFound \'1-Wire\' device with address:\n\r");
-        for( i = 0; i < 8; i++) {
-            Serial.print("0x");
-            if (addr[i] < 16) {
-                Serial.print('0');
-            }
-            Serial.print(addr[i], HEX);
-            if (i < 7) {
-                Serial.print(", ");
-            }
-        }
-        if ( OneWire::crc8( addr, 7) != addr[7]) {
-            Serial.print("CRC is not valid!\n");
-            return;
+void loop() {
+    while (Firmata.available())
+        Firmata.processInput();
+    currentMillis = millis();
+    if (currentMillis - previousMillis > 20) {
+        previousMillis += 20;                   // run this every 20ms
+        for (analogPin = 0; analogPin < TOTAL_ANALOG_PINS; analogPin++) {
+            if (analogInputsToReport & (1 << analogPin))
+                Firmata.sendAnalog(analogPin, analogRead(analogPin));
         }
     }
-    Serial.print("\n\r\n\rThat's it.\r\n");
-    ds.reset_search();
-    return;
-}
-
-void loop(void) {
-    // nothing to see here
 }
 

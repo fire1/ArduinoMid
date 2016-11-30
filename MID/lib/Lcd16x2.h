@@ -344,43 +344,47 @@ void displayTest() {
     }
 }
 
-bool dspStateDig = false;
 
 /****************************************************************
  * State menu
  */
-void diaplyCarState() {
+void displayCarState(int target) {
 
     Diagnostic dig = carStat.getResult();
-    if (ampInt.isMax()) {
+
+    if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        if (!dspStateDig) {
-            dspStateDig = true;
-            lcd.print("Diagnostic State");
-        } else {
-            dspStateDig = false;
-            lcd.print(" Ol Ct Bk Wn Vl ");
+        lcd.print("Diagnostic state");
+
+        lcd.setCursor(0, 2);
+        switch (target) {
+            default:
+                lcd.print("use >R to switch");
+                break;
+            case 41:
+                if (dig.brk) lcd.print("CHECK brake wear");
+                else lcd.print("Brake wear OK   ");
+                break;
+            case 42:
+                if (dig.cnt) lcd.print("CHECK coolant   ");
+                else lcd.print("Coolant is OK   ");
+                break;
+            case 43:
+                if (dig.win) lcd.print("Low window wash");
+                else lcd.print("Window washer OK");
+                break;
+            case 44:
+                if (dig.oil) lcd.print("CHECK oil level ");
+                else lcd.print("Oil level is OK ");
+                break;
+            case 45:
+                if (dig.vol) lcd.print("Voltage problem!");
+                else lcd.print("Voltage is OK   ");
+                break;
         }
     }
 
-    if (ampInt.isMid()) {
-        lcd.setCursor(0, 2);
-        if (dig.oil) lcd.print("X"); else lcd.write((uint8_t) 3);
-        lcd.print(" | ");
-        if (dig.cnt) lcd.print("X"); else lcd.write((uint8_t) 3);
-        lcd.print(" | ");
-        if (dig.brk) lcd.print("X"); else lcd.write((uint8_t) 3);
-        lcd.print(" | ");
-        if (dig.win) lcd.print("X"); else lcd.write((uint8_t) 3);
-        lcd.print(" ~");
-        if (dig.vol) lcd.print("X"); else lcd.write((uint8_t) 3);
 
-    }
-
-    if (ampInt.isMax()) {
-        lcd.setCursor(0, 0);
-        lcd.print(" Ol Ct Bk Wn Vl ");
-    }
 }
 
 

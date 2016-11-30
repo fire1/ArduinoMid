@@ -22,8 +22,8 @@ void setLcdBaseChar() {
             0b00000
     };
 
-//
-// Menu active marker
+    //
+    // Check
     byte chrCheck[8] = {
             0b00000,
             0b00000,

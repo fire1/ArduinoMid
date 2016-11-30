@@ -18,6 +18,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <OneWire.h>
+#include <Firmata.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
@@ -362,16 +363,15 @@ void loop() {
         case 32:
             displayFuelTanks();
             break;
-
         case 4:
-            diaplyCarState();
-            break;
         case 41:
         case 42:
         case 43:
         case 44:
         case 45:
+            displayCarState(cursorMenu);
             break;
+
 
         case ShutDw::MENU_SHUTDOWN:
             shutDown.lcdDisplay(&lcd);
