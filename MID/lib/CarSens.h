@@ -1114,7 +1114,7 @@ void CarSens::sensTmp() {
         RT = voltage / (VR / EXT_TMP_RST);
 
 
-        ln = log(RT / EXT_TMP_RST * 10000 /* 10000 pull-up R */);
+        ln = log(RT / EXT_TMP_RST * 10000 /* 10k pull-up Resistor */);
         TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
         temperatureC = TX * 0.01 + 3; // + 3 maybe
 
