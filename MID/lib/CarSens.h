@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15555.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15541.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -1175,25 +1175,10 @@ void CarSens::sensCns() {
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
-//            deltaFuel = deltaFuel * 2; // Don't know way but need to be mul by 2
         }
 
         setConsumedFuel(deltaFuel);
 
-
-//        //
-//        // Deprecated from here ....        ----        >>>>>>
-//        TTL_FL_CNS += deltaFuel;
-//        //
-//        //code to accumlate fuel wasted while idling
-//        if (CUR_VSS == 0) {//car not moving
-//            TTL_FL_WST += deltaFuel;
-//        }
-//        //
-//        // Convert to float
-////        CRT_LPG = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
-//        float consumedFuel = float(TTL_FL_CNS * 0.00001);// L/h, comes from the /10000*100
-////        setConsumedFuel(consumedFuel);
     }
 
 
@@ -1318,7 +1303,9 @@ void CarSens::setConsumedFuel(long value) {
     }
 
 }
-
+//
+// TODO driver to detect fuel level and fuel type
+//
 unsigned long dumpFuelSwitchCnt = 0;
 unsigned long dumpFuelSwitchLvl = 0;
 unsigned long dumpFuelSwitchSwt = 0;

@@ -17,7 +17,7 @@
 #include "MainFunc.h"
 #include "CarSens.h"
 #include "WhlSens.h"
-#include "EEProm.h"
+#include "EepRom.h"
 
 
 #ifndef MENU_ENTRY

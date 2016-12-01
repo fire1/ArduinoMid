@@ -3,8 +3,9 @@
 //
 
 
-#ifndef MID_MID_H
-#define MID_MID_H
+#ifndef MID_FUNCTION_H
+#define MID_FUNCTION_H
+
 #include <wiring.c>
 #include <LiquidCrystal.h>
 
@@ -23,7 +24,6 @@ char displayFloat(float value, char *output) {
     }
 
     sprintf(output, "%02d.%1d", dig1, dig2);
-
 }
 
 /**
@@ -107,65 +107,6 @@ void setupTimer3() {
 }
 
 
-void serialInjectData() {
-    //
-// Serial injection
-#if defined(SERIAL_INJECT_DATA)
-    String srlAllData;
-    String srlStrName;
-    String srlOutputs;
-    //
-    // Default message
-    srlOutputs = " None ... Sorry! ";
-    //
-    // Execute command from serial
-    if (Serial.available() > 0) {
-        srlStrName = Serial.readStringUntil('=');
-        //
-        // So ... C++ is static language...
-        //      is not good idea to re-set dynamically
-        if (srlStrName == "ttd") {
-            // Total Travel distance
-            TTL_TTD = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_TTD ";
-            srlOutputs += TTL_TTD;
-        }
-        if (srlStrName == "lpg") {
-            // Total Liters per hour consumed
-            TTL_CNS_ADT = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_CNS_ADT ";
-            srlOutputs += TTL_CNS_ADT;
-        }
-        if (srlStrName == "bnz") {
-            // Total Liters per hour consumed
-            TTL_CNS_ADT = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_CNS_DEF ";
-            srlOutputs += TTL_CNS_DEF;
-        }
-        if (srlStrName == "wrd" || srlStrName == "wrk") {
-            // Total Liters per hour consumed
-            TTL_WRD = Serial.readStringUntil('\n').toInt() * 0.01;
-            srlOutputs = "TTL_WRD ";
-            srlOutputs += TTL_WRD;
-        }
-
-//        if (srlStrName == "clc") {
-//            // Total Liters consumed in trip
-//            CRT_LPG = Serial.readStringUntil('\n').toInt() * 0.01;
-//            srlOutputs = "CRT_LPG ";
-//            srlOutputs += CRT_LPG;
-//        }
-        //
-        // Show command information to human
-        Serial.println("[MID $]> Affected value of " + srlOutputs);
-        //
-        // Remove containers
-        srlStrName = "";
-        srlAllData = ""; // Clear recieved buffer
-        srlOutputs = "";
-    }
-#endif
-}
 
 
 #endif //ARDUINOMID_UTILS_H

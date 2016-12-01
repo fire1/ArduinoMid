@@ -13,7 +13,7 @@
 #include "MidMenu.h"
 #include "ShutDw.h"
 #include "CarState.h"
-
+#include "graphics/LcdChar.h"
 //
 //
 /****************************************************************
@@ -65,14 +65,15 @@ void displayTotalCons() {
     char tmp[3];
     float value = 0;
 
+    SavedData data = eepRom.getData();
 
     if (ampInt.isSec()) {
 
         if (carSens.getFuelState() == 0) {
-            value = TTL_CNS_DEF + carSens.getDefFuelCns();
+            value = data.fuel_def + carSens.getDefFuelCns();
         }
         if (carSens.getFuelState() == 1) {
-            value = TTL_CNS_ADT + carSens.getAdtFuelCns();
+            value = data.fuel_adt + carSens.getAdtFuelCns();
         }
 
 
@@ -94,7 +95,10 @@ void displayTotalCons() {
  */
 void displayTotalDst() {
     char tmp[3];
-    float value = TTL_TTD + carSens.getDst();
+
+    SavedData data = eepRom.getData();
+
+    float value = data.distance + carSens.getDst();
 
 
     if (ampInt.isSec()) {
@@ -102,11 +106,23 @@ void displayTotalDst() {
         // Preformat ...
         displayFloat(value, tmp);
         lcd.setCursor(0, 2);
-        lcd.print(" ");
+        if (value < 100) {
+            lcd.print(" ");
+        }
         lcd.print(tmp);
-        lcd.write("km");
+        lcd.print("km");
     }
 }
+
+void diaplayAlert() {
+    if (carStat.isAlert() && ampInt.is10Seconds()) {
+        lcd.setCursor(0, 2);
+        lcd.print("  ");
+        lcd.write((uint8_t) 3);
+        lcd.print("  ");
+    }
+}
+
 
 /****************************************************************
  * Display engine RPMs
@@ -350,8 +366,6 @@ void displayTest() {
  */
 void displayCarState(int target) {
 
-    Diagnostic dig = carStat.getResult();
-
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("Diagnostic state");
@@ -362,24 +376,37 @@ void displayCarState(int target) {
                 lcd.print("use >R to switch");
                 break;
             case 41:
-                if (dig.brk) lcd.print("CHECK brake wear");
+                if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
                 else lcd.print("Brake wear OK   ");
                 break;
             case 42:
-                if (dig.cnt) lcd.print("CHECK coolant   ");
+                if (carStat.getLiveCnt()) lcd.print("CHECK coolant   ");
                 else lcd.print("Coolant is OK   ");
                 break;
             case 43:
-                if (dig.win) lcd.print("Low window wash");
+                if (carStat.getLiveWin()) lcd.print("Low window wash");
                 else lcd.print("Window washer OK");
                 break;
             case 44:
-                if (dig.oil) lcd.print("CHECK oil level ");
+                if (carStat.getLiveOil()) lcd.print("CHECK oil level ");
                 else lcd.print("Oil level is OK ");
                 break;
             case 45:
-                if (dig.vol) lcd.print("Voltage problem!");
-                else lcd.print("Voltage is OK   ");
+                if (carStat.getLiveVol()) {
+                    lcd.print("Voltage ");
+                    if (ampInt.isSec()) {
+                        lcd.write((uint8_t) 3);
+                        lcd.print(" ");
+                        lcd.print(carStat.getVoltage());
+                        lcd.print("V   ");
+                        lcd.setCursor(11, 13);
+                    }
+
+                    if (ampInt.isMax()) {
+                        lcd.print("problem!");
+                    }
+
+                } else lcd.print("Voltage is OK   ");
                 break;
         }
     }

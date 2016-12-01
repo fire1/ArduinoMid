@@ -97,17 +97,6 @@ const uint8_t ALP_PIN_INP = A8;
 const uint8_t ALP_PIN_OUT = 53;
 const uint8_t ALP_PIN_VOL = 14;
 
-
-/*********************** Global Vars ***********************/
-//
-//  volatile Vehicle time travel
-//volatile float CUR_VTT = 0;
-float TTL_TTD; // Total travel distance
-float TTL_CNS_ADT; // Total  LPG Travel Liters
-float TTL_CNS_DEF; // Total  BNZ Travel Liters
-//float CRT_LPG; // Current LPG Consumption trip
-//float CRT_BNZ; // Current BNZ Consumption trip
-float TTL_WRD; // Total Work distance [changing the timing belt wear collection ]
 //
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
@@ -126,9 +115,6 @@ float TTL_WRD; // Total Work distance [changing the timing belt wear collection 
 //
 // Main Sensor handler
 #include "lib/MainFunc.h"
-//
-// Read LPG fuel switch
-//#include "lib/LpgSens.h" // Test mode
 //
 // Engine sensors
 #include "lib/CarSens.h"
@@ -174,9 +160,6 @@ MidMenu midMenu(&ampInt, &carSens, &eepRom);
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
 //
-// Special characters
-#include "lib/LcdChar.h"
-//
 // Display driver
 #include "lib/Lcd16x2.h"
 
@@ -207,22 +190,8 @@ void setup() {
     //
     //
     eepRom.setup();
-
-
-//    long bnzFuel[2] = {FUEL_BNZ_IFC, FUEL_BNZ_CNS};
-//    bnzFuel.ifc = FUEL_BNZ_IFC;
-//    bnzFuel.cns = FUEL_BNZ_CNS;
-//    //
-//    //
-//    lpgFuel.ifc = FUEL_LPG_IFC;
-//    lpgFuel.cns = FUEL_LPG_CNS;
-
-
     //
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
-//    Fuel bnzFuel = {FUEL_BNZ_IFC,FUEL_BNZ_CNS}, lpgFuel = {FUEL_LPG_IFC,FUEL_LPG_CNS};
-    //
-    // Setup fuel
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
     //
     // Setup fuel gauge two required wires
@@ -260,17 +229,21 @@ void setup() {
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
     //
+    // Test usb detection
+#if defined(USBCON)
+    Serial.println("USB Connected ...");
+#endif
+    //
     // Restore data
     eepRom.loadCurrentData();
+    //
+    // Pass saved data to car state for calculation
+    carStat.setWorkState(eepRom.getWorkDistance());
 
     pinMode(18, INPUT_PULLUP);
 
     pinMode(LPG_LVL_PIN, INPUT);
     pinMode(LPG_SWT_PIN, INPUT);
-
-#if defined(USBCON)
-    Serial.println("USB Connected ...");
-#endif
 
 }
 
@@ -328,6 +301,7 @@ void loop() {
             //
             // Main / first menu
         case 1:
+            diaplayAlert();
             displayTotalCons();
             displayTotalDst();
             displayOutTmp();
@@ -384,7 +358,7 @@ void loop() {
     // ttd=<0000> INJECTS: Total distance
     // ttc=<0000> INJECTS: Total fuel consumed
     // clc=<0000> INJECTS: Total trip fuel consumed
-    serialInjectData();
+    eepRom.injectFromSerial();
 
 }
 

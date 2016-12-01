@@ -1,11 +1,8 @@
 //
 // Created by Angel Zaprianov on 30.6.2016 г..
 //
-#ifndef ARDUINOMID_LCDCHAR_H
-#define ARDUINOMID_LCDCHAR_H
-
-#include <USBAPI.h>
-
+#ifndef ARDUINOM_MID_LCD_CHAR_H
+#define ARDUINOM_MID_LCD_CHAR_H
 //
 // LCD Character handler
 void setLcdBaseChar() {
@@ -24,14 +21,14 @@ void setLcdBaseChar() {
 
     //
     // Check
-    byte chrCheck[8] = {
+    byte chrAlert[8] = {
             0b00000,
-            0b00000,
-            0b00000,
-            0b00000,
-            0b00001,
-            0b01010,
-            0b00100,
+            0b01110,
+            0b11011,
+            0b11011,
+            0b11111,
+            0b11011,
+            0b01110,
             0b00000
     };
     //
@@ -105,7 +102,7 @@ void setLcdBaseChar() {
 
     lcd.createChar(1, chrCelsius);
     lcd.createChar(2, chrBertone);
-    lcd.createChar(3, chrCheck);
+    lcd.createChar(3, chrAlert);
     lcd.createChar(4, chrGasMark);
     lcd.createChar(5, chrInstCons1);
     lcd.createChar(6, chrInstCons2);

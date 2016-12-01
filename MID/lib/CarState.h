@@ -8,11 +8,16 @@
 #include "IntAmp.h"
 
 struct Diagnostic {
-    boolean oil;
-    boolean cnt;
-    boolean win;
-    boolean brk;
-    boolean vol;
+    boolean all;    // All combined
+    boolean oil;    // oil level
+    boolean cnt;    // Coolant level
+    boolean win;    // Window washer level
+    boolean brk;    // Brake ware
+    boolean vol;    // Car Voltage
+    boolean blt;    // Belt ware change
+    boolean och;    // Oil level change
+    boolean air;    // Air filter change
+
 };
 
 /**
@@ -31,13 +36,30 @@ private:
 
     IntAmp *_amp;
 
+    float workDistance;
+
+    boolean alertSatate = false;
+
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol;
+
+    boolean isBadVoltage();
+
 public:
     /**
      *
      * @param amp
      */
     CarState(IntAmp *amp);
+
+    void setWorkState(float distance);
+
+    boolean isAlert();
+
+    /**
+     *
+     * @return int Voltage
+     */
+    int getVoltage(void);
 
     boolean getLiveOil();
 
@@ -106,15 +128,28 @@ void CarState::listener() {
         result.brk = (boolean) digitalRead(pinBrk);
         result.cnt = (boolean) digitalRead(pinCnt);
         result.win = (boolean) digitalRead(pinWin);
-        result.vol = (analogRead(pinVol) > 1020);
+        result.vol = isBadVoltage();
 
-//        result.oil = stateOil;
-//        result.brk = stateBrk;
-//        result.cnt = stateCnt;
-//        result.win = stateWin;
-//        result.vol = stateVol;
-
+        if (result.oil || result.brk || result.cnt, result.win || result.vol) {
+            alertSatate = true;
+        }
     }
+}
+
+/**
+ *
+ * @return
+ */
+boolean CarState::isBadVoltage(void) {
+    return !((analogRead(pinVol) < 1020) && boolean(analogRead(pinVol) > 950));
+}
+
+/**
+ * Sets work distance from EepRom for calculation
+ * @param distance
+ */
+void CarState::setWorkState(float distance) {
+    workDistance = distance;
 }
 
 /**
@@ -154,7 +189,15 @@ boolean CarState::getLiveBrk() {
  * @return boolean
  */
 boolean CarState::getLiveVol() {
-    return boolean(analogRead(pinVol) > 1020);
+    return isBadVoltage();
+}
+
+/**
+ *  Gets car voltage
+ * @return integer
+ */
+int CarState::getVoltage(void) {
+    return isBadVoltage();
 }
 
 /**
@@ -163,6 +206,14 @@ boolean CarState::getLiveVol() {
  */
 Diagnostic CarState::getResult() {
     return result;
+}
+
+/**
+ * Is car have some issue
+ * @return
+ */
+boolean CarState::isAlert() {
+    return alertSatate;
 }
 
 #endif //ARDUINOMID_CARSTAT_H
