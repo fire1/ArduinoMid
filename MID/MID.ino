@@ -62,10 +62,10 @@ const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInte
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
 //
 // Car state pins
-const uint8_t STT_OIL_PIN = 18;
-const uint8_t STT_CLN_PIN = 17;
-const uint8_t STT_WNW_PIN = 16;
-const uint8_t STT_BRK_PIN = 15;
+const uint8_t STT_OIL_PIN = 22;
+const uint8_t STT_CLN_PIN = 23;
+const uint8_t STT_WNW_PIN = 24;
+const uint8_t STT_BRK_PIN = 25;
 const uint8_t STT_VLT_PIN = A3;
 //
 // Additional fuel installation

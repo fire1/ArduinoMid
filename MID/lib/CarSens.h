@@ -134,8 +134,8 @@ struct Fuel {
 // External Temperature
 #define EXT_TMP_VSS  5
 #define EXT_TMP_RST  10000
-#define EXT_TMP_MSR  10 // measured temperature
-#define EXT_TMP_MVL  328 // measured value of temperature
+#define EXT_TMP_MSR  4      // 10 // measured temperature
+#define EXT_TMP_MVL  409    // 328 // measured value of temperature
 
 #if defined(INSIDE_TEMPERATURE_DS)
 
@@ -1098,25 +1098,56 @@ void CarSens::sensTmp() {
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
-
-
-
-    float RT, VR, ln, TX, T0, voltage;
-    //
-    // Init on first loop the when is big amplitude
     if (isInitTemperature || _amp->isBig()) {
+        //
+        // Old version
+        /*
+         float RT, VR, ln, TX, T0, voltage;
+         //
+         // Init on first loop the when is big amplitude
 
-        T0 = EXT_TMP_MSR + 273.15;
 
-        int reading = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
-        voltage = (5.00 / 1023.00) * reading;      // Conversion to voltage
-        VR = EXT_TMP_VSS - voltage;
-        RT = voltage / (VR / EXT_TMP_RST);
+             T0 = EXT_TMP_MSR + 273.15;
+
+             int reading = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
+             voltage = (5.00 / 1023.00) * reading;      // Conversion to voltage
+             VR = EXT_TMP_VSS - voltage;
+             RT = voltage / (VR / EXT_TMP_RST);
 
 
-        ln = log(RT / EXT_TMP_RST * 10000 /* 10k pull-up Resistor */);
-        TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
-        temperatureC = TX * 0.01 + 3; // + 3 maybe
+             ln = log(RT / EXT_TMP_RST); //  * 10000 // 10k pull-up Resistor
+             TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
+             temperatureC = TX * 0.01 + 3; // + 3 maybe
+     */
+
+
+        float Vin = 5.0;     // [V]
+        float Rt = 10000;    // Resistor t [ohm]
+        float R0 = 10000;    // value of rct in T0 [ohm]
+        float T0 = 280.15;   // use T0 in Kelvin [K]                        < -----  (correct this value )
+        float Vout = 0.0;    // Vout in A0
+        float Rout = 0.0;    // Rout in A0
+// use the datasheet to get this data.
+        float T1 = 250.15;      // [K] in datasheet 0º C
+        float T2 = 360.15;      // [K] in datasheet 100° C
+        float RT1 = 30100;   // [ohms]  resistence in T1
+        float RT2 = 40;    // [ohms]   resistence in T2
+        float beta = 0.0;    // initial parameters [K]
+        float Rinf = 0.0;    // initial parameters [ohm]
+        float TempK = 0.0;   // variable output
+        float TempC = 0.0;   // variable output
+
+
+        beta = (log(RT1 / RT2)) / ((1 / T1) - (1 / T2));
+        Rinf = R0 * exp(-beta / T0);
+//auto
+
+        int reading = analogRead(TMP_PIN_OUT);
+        Vout = Vin * ((float) ((reading)) / 1024.0); // calc for ntc
+        Rout = (Rt * Vout / (Vin - Vout));
+
+        TempK = (beta / log(Rout / Rinf)); // calc for temperature
+        temperatureC = TempK - 283.15;
 
 
 #if defined(DEBUG_TEMPERATURE_OU)
@@ -1124,7 +1155,7 @@ void CarSens::sensTmp() {
             Serial.print("Read Temp  value: ");
             Serial.print(reading);
             Serial.print("  | volts: ");
-            Serial.print(voltage);
+            Serial.print(Vout);
             Serial.print(" | calculation:");
             Serial.println(temperatureC);
         }
@@ -1307,6 +1338,7 @@ void CarSens::setConsumedFuel(long value) {
     }
 
 }
+
 //
 // TODO driver to detect fuel level and fuel type
 //
