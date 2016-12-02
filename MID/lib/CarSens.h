@@ -126,7 +126,7 @@ struct Fuel {
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-//#define  DEBUG_TEMPERATURE_OU
+#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 
 
@@ -1101,7 +1101,7 @@ void CarSens::sensTmp() {
 
 
 
-    float RT, VR, ln, TX, T0, VRT;
+    float RT, VR, ln, TX, T0, voltage;
     //
     // Init on first loop the when is big amplitude
     if (isInitTemperature || _amp->isBig()) {
@@ -1109,20 +1109,24 @@ void CarSens::sensTmp() {
         T0 = EXT_TMP_MSR + 273.15;
 
         int reading = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
-        VRT = (5.00 / 1023.00) * reading;      // Conversion to voltage
-        VR = EXT_TMP_VSS - VRT;
-        RT = VRT / (VR / EXT_TMP_RST);
+        voltage = (5.00 / 1023.00) * reading;      // Conversion to voltage
+        VR = EXT_TMP_VSS - voltage;
+        RT = voltage / (VR / EXT_TMP_RST);
 
 
-        ln = log(RT / EXT_TMP_RST /* 10000 pull-up R */);
+        ln = log(RT / EXT_TMP_RST * 10000 /* 10k pull-up Resistor */);
         TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
-        temperatureC = TX * 0.01;
+        temperatureC = TX * 0.01 + 3; // + 3 maybe
 
 
 #if defined(DEBUG_TEMPERATURE_OU)
         if (_amp->isMid()) {
-            Serial.print("Read Temp: ");
-            Serial.println(reading);
+            Serial.print("Read Temp  value: ");
+            Serial.print(reading);
+            Serial.print("  | volts: ");
+            Serial.print(voltage);
+            Serial.print(" | calculation:");
+            Serial.println(temperatureC);
         }
 #endif
 
