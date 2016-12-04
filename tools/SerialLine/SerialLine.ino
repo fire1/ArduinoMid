@@ -1,6 +1,6 @@
 #include <ReceiveOnlySoftwareSerial.h>
 
-ReceiveOnlySoftwareSerial mySerial(10); // RX
+ReceiveOnlySoftwareSerial mySerial(0); // RX
 
 void setup()
 {

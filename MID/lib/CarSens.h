@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15541.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15538.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -216,9 +216,9 @@ private:
     int CUR_LTK;
     //
     // Detect fuel switch
-    static unsigned long lastFuelStateSwitched; // Record time when is switched
-    static int FUEL_STATE;
-    static uint8_t pinSwitchFuel, pinLpgTank;
+    unsigned long lastFuelStateSwitched; // Record time when is switched
+    int FUEL_STATE;
+    uint8_t pinLpgClock, pinLpgData;
 
     int FUEL_INST_CONS;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
@@ -230,8 +230,9 @@ private:
     //
     unsigned long CUR_VTT;// Travel time
 
-    unsigned long indexLpgTank = 0;
-    int long containerLpgTank = 0;
+    int indexLpgSwitchSens = 0;
+    unsigned long lastDetectionLpg = 0;
+    uint8_t tempCurrentLpgState = 0;
 
     float FUEL_AVRG_INST_CONS;
     unsigned long collectionIfc, indexIfc;
@@ -360,7 +361,7 @@ protected:
 
     void sensDim();
 
-    void sensTnk();
+    void sensLpg();
 
     void sensAvr();
 
@@ -435,8 +436,8 @@ public:
         pinMode(pinSwitch, INPUT);
         //
         //
-        CarSens::pinSwitchFuel = pinSwitch;
-        CarSens::pinLpgTank = pinTank;
+        pinLpgClock = pinSwitch;
+        pinLpgData = pinTank;
     }
 
 
@@ -537,7 +538,7 @@ public:
      * Gets current fuel state
      */
     int getFuelState() {
-        return CarSens::FUEL_STATE;
+        return FUEL_STATE;
     }
 
     /**
@@ -656,7 +657,7 @@ public:
     /**
      * Fuel pin listener
      */
-    static void listenFuelSwitch();
+//    static void listenFuelSwitch();
 
     /**
      *  Listen sensors
@@ -675,13 +676,12 @@ public:
         sensVss();
         sensRpm();
         sensEcu();
-        CarSens::listenFuelSwitch();
+        sensLpg();
         // Interrupts
         //
         sei();
         //
         // Other
-        sensTnk();
         sensAvr();
         sensEnt();
         sensTmp();
@@ -751,13 +751,8 @@ public:
   */
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
+    FUEL_STATE = DEFAULT_FUEL_STATE;
 }
-
-//
-// Fuel switch detection variables
-int CarSens::FUEL_STATE = DEFAULT_FUEL_STATE;
-unsigned long CarSens::lastFuelStateSwitched = 0;
-uint8_t CarSens::pinSwitchFuel, CarSens::pinLpgTank;
 
 /**
  * Interrupt function Vss
@@ -963,33 +958,42 @@ void CarSens::sensDim() {
 /**
  * Car tank/s sens
  */
-void CarSens::sensTnk() {
-
+void CarSens::sensLpg() {
     //
     // LPG tank
     //      Full tank reading        805
     //      Empty tank reading       ---
-    if (_amp->isMax()) {
-        indexLpgTank++;
-        int lpgTankLevel = analogRead(CarSens::pinLpgTank);
-        Serial.print("Tank level: ");
-        Serial.println(lpgTankLevel);
-        lpgTankLevel = int(lpgTankLevel - 805);
+//    if (!digitalRead(CarSens::pinLpgClock))
 
 
-        Serial.print("after tank level: ");
-        Serial.println(lpgTankLevel);
+    tempCurrentLpgState |= digitalRead(pinLpgClock) << indexLpgSwitchSens;
 
-        if (lpgTankLevel > 0) {
-            containerLpgTank = containerLpgTank + lpgTankLevel;
-            CUR_LTK = int(containerLpgTank / indexLpgTank);
-            CUR_LTK = lpgTankLevel;
-
-        }
+    int value = 0;
+    indexLpgSwitchSens++;
+    if (indexLpgSwitchSens >= 8) {
+        indexLpgSwitchSens = 0;
+        value = tempCurrentLpgState;
     }
-    if (_amp->isMinute()) {
-        containerLpgTank = 3;
-        indexLpgTank = CUR_LTK * 3;
+
+    unsigned long currentTime = millis();
+
+    if (value < 200 && value > 0 && lastDetectionLpg + 1000 > currentTime) {
+        lastDetectionLpg = currentTime;
+        if (FUEL_STATE == 1) {
+            FUEL_STATE = 0;
+        } else
+            FUEL_STATE = 1;
+
+        Serial.print("CHANGED FUEL STATE TO ");
+        Serial.println(FUEL_STATE);
+    }
+
+
+    if (_amp->isMax()) {
+        Serial.print("Last read LPG Values ");
+        Serial.println(value);
+        Serial.print("Fuel state is ");
+        Serial.println(CarSens::FUEL_STATE);
     }
 }
 
@@ -1348,22 +1352,22 @@ unsigned long dumpFuelSwitchSwt = 0;
 
 /**
  * Detector of fuel switch
- */
+
 void CarSens::listenFuelSwitch() {
 
     dumpFuelSwitchCnt++;
 
-    if (!digitalRead(CarSens::pinSwitchFuel)) {
+    if (!digitalRead(CarSens::pinLpgClock)) {
         dumpFuelSwitchSwt++;
     }
 
-    if (!digitalRead(CarSens::pinLpgTank)) {
+    if (!digitalRead(CarSens::pinLpgData)) {
         dumpFuelSwitchLvl++;
     }
 
     //
     // Wait for event
-    if (digitalRead(CarSens::pinSwitchFuel) == SWITCH_FUEL_ON_STATE) {
+    if (digitalRead(CarSens::pinLpgClock) == SWITCH_FUEL_ON_STATE) {
         //
         // Get current read time
         unsigned long currentListenSwitchTime = millis();
@@ -1381,7 +1385,7 @@ void CarSens::listenFuelSwitch() {
     }
 
 }
-
+*/
 //ARDUINO_MID_CAR_SENS_H
 #endif
 

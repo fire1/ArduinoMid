@@ -267,7 +267,14 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     FuelTankMenu.add(fuelMenu);
     //
     //
-
+    statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
+            .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
+    stateBatVlt.addRight(stateBrkWre);
+    stateWndWsh.add(stateBrkWre);
+    stateWndWsh.add(stateClnLvl);
+    stateWndWsh.add(statMenu);
+    stateOilLvl.add(statMenu);
+    stateBatVlt.add(statMenu);
     //
     // Move cursor to menu
     menu.moveDown();

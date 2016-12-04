@@ -62,11 +62,11 @@ const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInte
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
 //
 // Car state pins
-const uint8_t STT_OIL_PIN = 22;
-const uint8_t STT_CLN_PIN = 23;
-const uint8_t STT_WNW_PIN = 24;
-const uint8_t STT_BRK_PIN = 25;
-const uint8_t STT_VLT_PIN = A3;
+const uint8_t STT_BRK_PIN = A12;     //  Plug        Critical Brake ware
+const uint8_t STT_CLN_PIN = A13;     //  Plug        Critical Coolant level
+const uint8_t STT_OIL_PIN = A14;     //  Plug        Critical oil level
+const uint8_t STT_WNW_PIN = A15;     //  Plug        Critical window washer
+const uint8_t STT_VLT_PIN = A3;     //
 //
 // Additional fuel installation
 #define LPG_INSTALLATION
@@ -301,9 +301,9 @@ void loop() {
             //
             // Main / first menu
         case 1:
-            diaplayAlert();
             displayTotalCons();
             displayTotalDst();
+            displayAlert();
             displayOutTmp();
             displayInsTmp();
             break;
@@ -343,7 +343,7 @@ void loop() {
         case 43:
         case 44:
         case 45:
-            displayCarState(cursorMenu);
+            displayCarState();
             break;
 
 

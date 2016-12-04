@@ -101,7 +101,7 @@ void displayTotalDst() {
     float value = data.distance + carSens.getDst();
 
 
-    if (ampInt.isSec()) {
+    if (ampInt.isSecond()) {
         //
         // Preformat ...
         displayFloat(value, tmp);
@@ -114,12 +114,19 @@ void displayTotalDst() {
     }
 }
 
-void diaplayAlert() {
-    if (carStat.isAlert() && ampInt.is10Seconds()) {
+boolean displayAlertActive = false;
+
+void displayAlert() {
+    if (!displayAlertActive && carStat.isAlert() && ampInt.is10Seconds() || displayAlertActive && ampInt.isMin()) {
         lcd.setCursor(0, 2);
         lcd.print("  ");
         lcd.write((uint8_t) 3);
-        lcd.print("  ");
+        lcd.print("    ");
+        displayAlertActive = true;
+    }
+
+    if (displayAlertActive && ampInt.is5Seconds()) {
+        displayAlertActive = false;
     }
 }
 
@@ -364,51 +371,51 @@ void displayTest() {
 /****************************************************************
  * State menu
  */
-void displayCarState(int target) {
+void displayCarState() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("Diagnostic state");
+        lcd.print("Alert states");
 
         lcd.setCursor(0, 2);
-        switch (target) {
-            default:
-                lcd.print("use >R to switch");
-                break;
-            case 41:
-                if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
-                else lcd.print("Brake wear OK   ");
-                break;
-            case 42:
-                if (carStat.getLiveCnt()) lcd.print("CHECK coolant   ");
-                else lcd.print("Coolant is OK   ");
-                break;
-            case 43:
-                if (carStat.getLiveWin()) lcd.print("Low window wash");
-                else lcd.print("Window washer OK");
-                break;
-            case 44:
-                if (carStat.getLiveOil()) lcd.print("CHECK oil level ");
-                else lcd.print("Oil level is OK ");
-                break;
-            case 45:
-                if (carStat.getLiveVol()) {
-                    lcd.print("Voltage ");
-                    if (ampInt.isSec()) {
-                        lcd.write((uint8_t) 3);
-                        lcd.print(" ");
-                        lcd.print(carStat.getVoltage());
-                        lcd.print("V   ");
-                        lcd.setCursor(11, 13);
-                    }
 
-                    if (ampInt.isMax()) {
-                        lcd.print("problem!");
-                    }
-
-                } else lcd.print("Voltage is OK   ");
-                break;
+        if (MidMenu::cursorMenu == 4) {
+            lcd.print("use >R to switch");
         }
+        if (MidMenu::cursorMenu == 41) {
+            if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
+            else lcd.print("Brake wear OK   ");
+        }
+        if (MidMenu::cursorMenu == 42) {
+            if (carStat.getLiveCnt()) lcd.print("CHECK coolant lv");
+            else lcd.print("Coolant is OK   ");
+        }
+        if (MidMenu::cursorMenu == 43) {
+            if (carStat.getLiveWin()) lcd.print("Low window wash");
+            else lcd.print("Window washer OK");
+        }
+        if (MidMenu::cursorMenu == 44) {
+            if (carStat.getLiveOil()) lcd.print("CHECK oil level ");
+            else lcd.print("Oil level is OK ");
+        }
+        if (MidMenu::cursorMenu == 45) {
+            if (carStat.getLiveVol()) {
+                lcd.print("Voltage ");
+                if (ampInt.isBig()) {
+                    lcd.write((uint8_t) 3);
+                    lcd.print(" ");
+                    lcd.print(carStat.getVoltage());
+                    lcd.print("V    ");
+                    lcd.setCursor(11, 13);
+                }
+
+                if (ampInt.isSecond()) {
+                    lcd.print("problem!");
+                }
+
+            } else lcd.print("Voltage is OK   ");
+        }
+
     }
 
 
