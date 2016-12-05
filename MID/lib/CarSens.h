@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15538.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15525.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -288,71 +288,39 @@ private:
  */
     int long lastReadValueDim = 0;
 
-    //
-    // Digital read ECU
-    uint8_t ecuPin;
-    String ecuCollection;
-    String ecuLine;
-
-    //
-    // Sense ECU signal
-    void sensDre() {
-        ecuCollection += digitalRead(ecuPin);
-        if (_amp->isSens()) {
-            ecuLine = ecuCollection;
-            ecuCollection = "";
-            Serial.println(ecuLine);
-        }
-    }
-
 
 protected:
     /**
       * Setup RPM
       * @param pinTarget
       */
-    void setupRpmSens(uint8_t pinTarget) {
-        pinMode(pinTarget, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
-    }
+    void setupRpmSens(uint8_t pinTarget);
 
     /**
       * Setup VSS
       * @param pinTarget
       */
-    void setupVssSens(uint8_t pinTarget) {
-        pinMode(pinTarget, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
-    }
+    void setupVssSens(uint8_t pinTarget);
 
     /**
       * Setup Ecu
       * @param pinTarget
       */
-    void setupEcuSens(uint8_t pinTarget) {
-        pinMode(pinTarget, INPUT_PULLUP);
-        attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
-    }
+    void setupEcuSens(uint8_t pinTarget);
 
     /**
      * Gets calculate constant for instant consumption
      * @return int
      */
-    int getIfcFuelVal() {
-        if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
-        if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
-    }
+    int getIfcFuelVal();
 
     /**
      * Gets calculated constant for consumption
      * @return
      */
-    long getCnsFuelVal() {
-        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
-        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
-    }
+    long getCnsFuelVal();
 
-
+private:
     void sensVss();
 
     void sensRpm();
@@ -364,8 +332,6 @@ protected:
     void sensLpg();
 
     void sensAvr();
-
-    void sensCrm();
 
     void sensCns();
 
@@ -409,9 +375,6 @@ public:
         setupRpmSens(pinRpm);
         setupVssSens(pinVss);
         setupEcuSens(pinEcu);
-        //
-        // Pass ecu pin
-        ecuPin = pinEcu;
         //
         // Engine temperature
         pinMode(pinTmp, INPUT);
@@ -662,74 +625,7 @@ public:
     /**
      *  Listen sensors
      */
-    void listener() {
-        if (_amp->isSens()) {
-            //
-            // Counting sens loops
-            LOOP_SENS_INDEX += 1;
-        }
-
-
-        // Important!
-        // No Interrupts
-        cli();
-        sensVss();
-        sensRpm();
-        sensEcu();
-        sensLpg();
-        // Interrupts
-        //
-        sei();
-        //
-        // Other
-        sensAvr();
-        sensEnt();
-        sensTmp();
-
-        //
-        // Consumption
-        sensDlt();
-        sensCns();
-        sensIfc();
-
-        //
-        // Test Ecu
-//        sensDre();
-        //
-        // I don't know way but this is a fix ... ?
-        // Only like this way base vars are initialized every single loop
-        //
-        if (_amp->isSens()) {
-            int foo;
-            foo = getEcu();
-            foo = getRpm();
-            foo = getVss();
-            foo = getAvrVss();
-            foo = getAvrRpm();
-        }
-
-        int vss = getVss();
-        //
-        // Detect time
-        if (vss < 1) {
-            vehicleStopped = HIGH;
-        } else {
-            vehicleStopped = LOW;
-        }
-        //
-        // Car Run time
-        // sensCrm();
-        //
-        // Sens lcdDisplay dim
-        if (_amp->isMin()) {
-            sensDim();
-        }
-        //
-        // Mark engine on
-        if (CUR_RPM > 500) {
-            _isEngineSens = true;
-        }
-    }
+    void listener();
 
 };
 
@@ -773,6 +669,122 @@ void EngSens_catchRpmHits() {
  */
 void EngSens_catchEcuHits() {
     ecuHitsCount++;
+}
+/*******************************************************************
+ *      SETUP
+ */
+/**
+  * Setup RPM
+  * @param pinTarget
+  */
+void CarSens::setupRpmSens(uint8_t pinTarget) {
+    pinMode(pinTarget, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
+}
+
+/**
+  * Setup VSS
+  * @param pinTarget
+  */
+void CarSens::setupVssSens(uint8_t pinTarget) {
+    pinMode(pinTarget, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
+}
+
+/**
+  * Setup Ecu
+  * @param pinTarget
+  */
+void CarSens::setupEcuSens(uint8_t pinTarget) {
+    pinMode(pinTarget, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
+}
+
+/**
+ * Gets calculate constant for instant consumption
+ * @return int
+ */
+int CarSens::getIfcFuelVal() {
+    if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
+    if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
+}
+
+/**
+ * Gets calculated constant for consumption
+ * @return
+ */
+long CarSens::getCnsFuelVal() {
+    if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
+    if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
+}
+
+/*******************************************************************
+ *      LISTENER
+ */
+void CarSens::listener() {
+    if (_amp->isSens()) {
+        //
+        // Counting sens loops
+        LOOP_SENS_INDEX += 1;
+    }
+
+
+    // Important!
+    // No Interrupts
+    cli();
+    sensVss();
+    sensRpm();
+    sensEcu();
+    sensLpg();
+    // Interrupts
+    //
+    sei();
+    //
+    // Other
+    sensAvr();
+    sensEnt();
+    sensTmp();
+
+    //
+    // Consumption
+    sensDlt();
+    sensCns();
+    sensIfc();
+
+    //
+    // Test Ecu
+//        sensDre();
+    //
+    // I don't know way but this is a fix ... ?
+    // Only like this way base vars are initialized every single loop
+    //
+    if (_amp->isSens()) {
+        int foo;
+        foo = getEcu();
+        foo = getRpm();
+        foo = getVss();
+        foo = getAvrVss();
+        foo = getAvrRpm();
+    }
+
+    int vss = getVss();
+    //
+    // Detect time
+    if (vss < 1) {
+        vehicleStopped = HIGH;
+    } else {
+        vehicleStopped = LOW;
+    }
+    //
+    // Sens lcdDisplay dim
+    if (_amp->isMin()) {
+        sensDim();
+    }
+    //
+    // Mark engine on
+    if (CUR_RPM > 500) {
+        _isEngineSens = true;
+    }
 }
 
 
