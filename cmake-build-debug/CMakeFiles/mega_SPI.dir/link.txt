@@ -1,0 +1,2 @@
+C:\PROGRA~2\Arduino\hardware\tools\avr\bin\avr-ar.exe qc libmega_SPI.a  CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj
+C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-RA~1.EXE libmega_SPI.a

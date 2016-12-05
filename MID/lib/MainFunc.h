@@ -64,6 +64,7 @@ float restoreFloat(int a, int b) {
  * Timer 3
  */
 void setupTimer3() {
+    cli();//stop interrupts
     //
     // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
     // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
@@ -104,9 +105,16 @@ void setupTimer3() {
 //    sbi(TCCR3B, CS31);      // set timer 3 prescale factor to 64
     sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
     sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
+
+    sei();//allow interrupts
 }
 
-
+void pciSetup(byte pin)
+{
+    *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
+    PCIFR  |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt
+    PCICR  |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
+}
 
 
 #endif //ARDUINOMID_UTILS_H

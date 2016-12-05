@@ -230,9 +230,9 @@ private:
     //
     unsigned long CUR_VTT;// Travel time
 
-    int indexLpgSwitchSens = 0;
+    int receivingLpgIndex = 0;
     unsigned long lastDetectionLpg = 0;
-    uint8_t tempCurrentLpgState = 0;
+    uint8_t receivingLpgBuffer = 0;
 
     float FUEL_AVRG_INST_CONS;
     unsigned long collectionIfc, indexIfc;
@@ -329,8 +329,6 @@ private:
 
     void sensDim();
 
-    void sensLpg();
-
     void sensAvr();
 
     void sensCns();
@@ -344,6 +342,8 @@ private:
     void sensDlt();
 
 public:
+
+    void sensLpg();
 
     CarSens(IntAmp *ampInt);
 
@@ -420,7 +420,7 @@ public:
         // Set default value
         analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT);
         //
-        // Sens dim level at setupEngine
+        // Sens dim level at start
         sensDim();
 
     }
@@ -979,14 +979,15 @@ void CarSens::sensLpg() {
     //      Empty tank reading       ---
 //    if (!digitalRead(CarSens::pinLpgClock))
 
+    if (digitalRead(pinLpgData) == HIGH)
+        receivingLpgBuffer |= digitalRead(pinLpgClock) << receivingLpgIndex;
 
-    tempCurrentLpgState |= digitalRead(pinLpgClock) << indexLpgSwitchSens;
 
     int value = 0;
-    indexLpgSwitchSens++;
-    if (indexLpgSwitchSens >= 8) {
-        indexLpgSwitchSens = 0;
-        value = tempCurrentLpgState;
+    receivingLpgIndex++;
+    if (receivingLpgIndex >= 8) {
+        receivingLpgIndex = 0;
+        value = receivingLpgBuffer;
     }
 
     unsigned long currentTime = millis();

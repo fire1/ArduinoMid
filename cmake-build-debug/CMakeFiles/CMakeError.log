@@ -1,0 +1,10 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+collect2.exe: error: ld returned 255 exit status
+
+

@@ -2,10 +2,10 @@
 // Created by Angel Zaprianov on 5.12.2016 г..
 //
 
-#ifndef ARDUINO_MID_LPG_SENS_H
-#define ARDUINO_MID_LPG_SENS_H
+#ifndef ARDUINO_I2C_FUEL_DETECTION_SWITCH
+#define ARDUINO_I2C_FUEL_DETECTION_SWITCH
 
-
+#include <SoftI2CMaster.h>
 #include "CarSens.h"
 
 #define LPG_RECEIVE_BUFFER_LENGTH 8

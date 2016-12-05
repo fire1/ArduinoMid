@@ -1,0 +1,2 @@
+C:\PROGRA~2\Arduino\hardware\tools\avr\bin\avr-ar.exe qc libmega_SoftwareSerial.a  CMakeFiles/mega_SoftwareSerial.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.obj
+C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-RA~1.EXE libmega_SoftwareSerial.a

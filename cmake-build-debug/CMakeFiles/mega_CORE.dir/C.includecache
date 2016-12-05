@@ -1,0 +1,156 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h
+stdlib.h
+-
+stdbool.h
+-
+string.h
+-
+math.h
+-
+avr/pgmspace.h
+-
+avr/io.h
+-
+avr/interrupt.h
+-
+binary.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/binary.h
+WCharacter.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WCharacter.h
+WString.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.h
+HardwareSerial.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial.h
+USBAPI.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBAPI.h
+pins_arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/pins_arduino.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/HardwareSerial.h
+inttypes.h
+-
+Stream.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Print.h
+inttypes.h
+-
+stdio.h
+-
+WString.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.h
+Printable.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Printable.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Printable.h
+stdlib.h
+-
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Stream.h
+inttypes.h
+-
+Print.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Print.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBAPI.h
+inttypes.h
+-
+avr/pgmspace.h
+-
+avr/eeprom.h
+-
+avr/interrupt.h
+-
+util/delay.h
+-
+Arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h
+USBDesc.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBDesc.h
+USBCore.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBCore.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBCore.h
+USBAPI.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBAPI.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/USBDesc.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WCharacter.h
+ctype.h
+-
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WInterrupts.c
+inttypes.h
+-
+avr/io.h
+-
+avr/interrupt.h
+-
+avr/pgmspace.h
+-
+stdio.h
+-
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/WString.h
+stdlib.h
+-
+string.h
+-
+ctype.h
+-
+avr/pgmspace.h
+-
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/binary.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/hooks.c
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring.c
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_analog.c
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+pins_arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/pins_arduino.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_digital.c
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+pins_arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/pins_arduino.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+avr/io.h
+-
+avr/interrupt.h
+-
+stdio.h
+-
+stdarg.h
+-
+Arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_pulse.c
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+pins_arduino.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/pins_arduino.h
+
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_shift.c
+wiring_private.h
+C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/wiring_private.h
+

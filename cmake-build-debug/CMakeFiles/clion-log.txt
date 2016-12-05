@@ -1,0 +1,17 @@
+"C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug USBCON=true -G "CodeBlocks - MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
+-- Generating ArduinoMid
+-- Generating mega_SPI for library SPI
+-- Generating mega_Wire for library Wire
+-- Generating mega_twi for library twi
+-- Found library Wire needs mega_Wire;mega_twi
+-- Generating mega_OneWire for library OneWire
+-- Generating mega_Firmata for library Firmata
+-- Generating mega_MenuBackend for library MenuBackend
+-- Generating mega_SoftI2CMaster for library SoftI2CMaster
+-- Generating mega_DallasTemperature for library DallasTemperature
+-- Generating mega_SoftwareSerial for library SoftwareSerial
+-- Generating mega_LiquidCrystal for library LiquidCrystal
+-- Using C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-objcopy.exe for converting firmware image to hex
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug
