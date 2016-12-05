@@ -355,6 +355,8 @@ public:
 
     void speedingAlarmsDw();
 
+    void switchCurrentFuel(void);
+
     /**
      * Clear peak
      */
@@ -1362,6 +1364,23 @@ unsigned long dumpFuelSwitchCnt = 0;
 unsigned long dumpFuelSwitchLvl = 0;
 unsigned long dumpFuelSwitchSwt = 0;
 
+/**
+ * Makes fuel switch
+ */
+void CarSens::switchCurrentFuel() {
+    unsigned long currentTime = millis();
+    if (lastDetectionLpg + 1000 > currentTime) {
+        lastDetectionLpg = currentTime;
+
+        if (FUEL_STATE == 1) {
+            FUEL_STATE = 0;
+        } else {
+            FUEL_STATE = 1;
+        }
+        Serial.print("CHANGED FUEL STATE TO ");
+        Serial.println(FUEL_STATE);
+    }
+}
 /**
  * Detector of fuel switch
 

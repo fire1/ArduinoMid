@@ -76,6 +76,7 @@ const uint8_t STT_VLT_PIN = A3;     //
 // 4 Pins 5V LPG fuel switch/gauge
 //      Two wires are for power supply, other two wires is for displayed information.
 //      * Check wiring diagram in order to determine your wiring
+// 20, 21 for attachInterrupt ...
 const uint8_t LPG_LVL_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level
 const uint8_t LPG_SWT_PIN = A4;     //  [blue]      Switch button   Fuel switcher
 #endif
