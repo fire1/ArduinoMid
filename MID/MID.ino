@@ -266,7 +266,7 @@ void setup() {
 #ifdef LPG_DET_IN_TIMER
 //TIMER0_COMPA_vect
 // https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
-ISR(TIMER0_COMPA_vect) {
+ISR(TIMER3_COMPA_vect) {
     carSens.sensLpg();
 };
 
