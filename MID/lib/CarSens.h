@@ -990,6 +990,9 @@ void CarSens::sensLpg() {
         value = receivingLpgBuffer;
     }
 
+
+
+
     unsigned long currentTime = millis();
 
     if (value < 200 && value > 0 && lastDetectionLpg + 1000 > currentTime) {
@@ -1004,7 +1007,7 @@ void CarSens::sensLpg() {
     }
 
 
-    if (_amp->isMax()) {
+    if (value) {
         Serial.print("Last read LPG Values ");
         Serial.println(value);
         Serial.print("Fuel state is ");
