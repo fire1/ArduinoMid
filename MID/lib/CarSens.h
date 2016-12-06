@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 155.11 //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 1550.11 //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -800,7 +800,7 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
-        CUR_VDS = (vssHitsCount / 100) + CUR_VDS;
+        CUR_VDS = (vssHitsCount / 10) + CUR_VDS;
 
 //
 // debug info
@@ -1024,7 +1024,7 @@ void CarSens::sensEnt() {
     if (_amp->isSec()) {
 
         int val = analogRead(pinTemp);
-        CUR_ENT = (int) map(val, 385, 630, 80, 90);
+        CUR_ENT = (int) map(val, 385, 625, 80, 90);
 
 #ifdef DEBUG_ENG_TEMP
 

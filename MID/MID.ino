@@ -77,7 +77,7 @@ const uint8_t STT_VLT_PIN = A3;     //
 #define LPG_INSTALLATION
 #ifdef LPG_INSTALLATION
 
-#define LPG_DET_IN_TIMER
+//#define LPG_DET_IN_TIMER
 //
 // [Used LPG ECU is EG Avance 32]
 // 4 Pins 5V LPG fuel switch/gauge

@@ -373,27 +373,29 @@ void displayTest() {
  */
 void displayCarState() {
 
+
+    if (MidMenu::cursorMenu == 4) {
+
+        boolean issue = carStat.isAlert();
+
+        if (ampInt.isSecond() && !ampInt.is2Seconds()) {
+            lcd.setCursor(0, 2);
+            if (issue) {
+                lcd.print("no complaints :)");
+            } else {
+                lcd.print("finds alert  ");
+                lcd.write((uint8_t) 4);
+                lcd.print("  ");
+            }
+        } else if (ampInt.is2Seconds()) {
+            lcd.setCursor(0, 2);
+            lcd.print("use >R to switch");
+        }
+    }
+
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
         lcd.print("Inspection state");
-
-        lcd.setCursor(0, 2);
-        if (MidMenu::cursorMenu == 4) {
-
-            boolean issue = carStat.isAlert();
-
-            if (ampInt.isSecond() && !ampInt.is2Seconds()) {
-                if (issue) {
-                    lcd.print("no complaints :)");
-                } else {
-                    lcd.print("finds alert  ");
-                    lcd.write((uint8_t) 4);
-                    lcd.print("  ");
-                }
-            } else if (ampInt.is2Seconds()) {
-                lcd.print("use >R to switch");
-            }
-        }
         if (MidMenu::cursorMenu == 41) {
             if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
             else lcd.print("Brake wear OK   ");
