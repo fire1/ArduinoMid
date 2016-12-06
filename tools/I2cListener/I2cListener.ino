@@ -134,6 +134,7 @@ void loop() {
 
 
 
+/*
 
 // function that executes whenever data is received from master
 // this function is registered as an event, see setup()
@@ -144,4 +145,4 @@ void receiveEvent(int howMany) {
     }
     int x = Wire.read();    // receive byte as an integer
     Serial.println(x);         // print the integer
-}
+}*/
