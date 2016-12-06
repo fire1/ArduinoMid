@@ -737,7 +737,7 @@ void CarSens::listener() {
     sensVss();
     sensRpm();
     sensEcu();
-    sensLpg();
+//    sensLpg();
     // Interrupts
     //
     sei();
