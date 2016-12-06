@@ -393,7 +393,7 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
         }
 
 
-        if (_amp->isLow() && !digitalRead(buttonPinDw) == HIGH) {
+        if (_amp->isMin() && !digitalRead(buttonPinDw) == HIGH) {
             enterSub = true;
         }
 

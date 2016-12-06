@@ -375,12 +375,24 @@ void displayCarState() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("Alert states");
+        lcd.print("Inspection state");
 
         lcd.setCursor(0, 2);
-
         if (MidMenu::cursorMenu == 4) {
-            lcd.print("use >R to switch");
+
+            boolean issue = carStat.isAlert();
+
+            if (ampInt.isSecond() && !ampInt.is2Seconds()) {
+                if (issue) {
+                    lcd.print("no complaints :)");
+                } else {
+                    lcd.print("finds alert  ");
+                    lcd.write((uint8_t) 4);
+                    lcd.print("  ");
+                }
+            } else if (ampInt.is2Seconds()) {
+                lcd.print("use >R to switch");
+            }
         }
         if (MidMenu::cursorMenu == 41) {
             if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
@@ -401,18 +413,15 @@ void displayCarState() {
         if (MidMenu::cursorMenu == 45) {
             if (carStat.getLiveVol()) {
                 lcd.print("Voltage ");
-                if (ampInt.isBig()) {
+                if (ampInt.isSecond() && !ampInt.is2Seconds()) {
                     lcd.write((uint8_t) 3);
                     lcd.print(" ");
                     lcd.print(carStat.getVoltage());
                     lcd.print("V    ");
                     lcd.setCursor(11, 13);
-                }
-
-                if (ampInt.isSecond()) {
+                } else if (ampInt.is2Seconds()) {
                     lcd.print("problem!");
                 }
-
             } else lcd.print("Voltage is OK   ");
         }
 

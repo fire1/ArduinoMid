@@ -33,8 +33,8 @@ private:
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
     long int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
     long int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
-    long int _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0;
-    long int curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0;
+    long int _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
+    long int curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
 
     /**
      * MAX 1,193,046 Hour	(h)
@@ -66,6 +66,10 @@ public:
     bool is10Seconds() { return (bool) _is10Seconds; }
 
     bool is5Seconds() { return (bool) _is5Seconds; }
+
+    bool is2Seconds() { return (bool) _is2Seconds; }
+
+    bool is4Seconds() { return (bool) _is4Seconds; }
 
     bool isMinute() { return (bool) _isMinute; }
 
@@ -163,6 +167,20 @@ void IntAmp::listener() {
         _isSecond = 1;
     } else {
         _isSecond = 0;
+    }
+
+    if (timer >= cur2Seconds + (MILLIS_PER_SC * 2)) {
+        cur2Seconds = timer;
+        _is2Seconds = 1;
+    } else {
+        _is2Seconds = 0;
+    }
+
+    if (timer >= cur4Seconds + (MILLIS_PER_SC * 4)) {
+        cur4Seconds = timer;
+        _is4Seconds = 1;
+    } else {
+        _is4Seconds = 0;
     }
 
     if (timer >= cur5Seconds + (MILLIS_PER_SC * 5)) {

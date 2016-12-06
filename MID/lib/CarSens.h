@@ -42,7 +42,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15500.11 //  <sens:200> 15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 155.11 //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -800,7 +800,7 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
-        CUR_VDS = vssHitsCount + CUR_VDS;
+        CUR_VDS = (vssHitsCount / 100) + CUR_VDS;
 
 //
 // debug info
@@ -894,6 +894,10 @@ void CarSens::speedingAlarms() {
     }
 
     if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
+        tone(ADT_ALR_PIN, 4000, 200);
+    }
+
+    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED + 10 && speedAlarmCursor == ENABLE_SPEED_CT) {
         tone(ADT_ALR_PIN, 4000, 200);
     }
 
@@ -1017,9 +1021,10 @@ void CarSens::sensLpg() {
  *  Engine temperature
  */
 void CarSens::sensEnt() {
-    if (_amp->isSens()) {
+    if (_amp->isSec()) {
+
         int val = analogRead(pinTemp);
-        CUR_ENT = int(val / ENG_CORRECTION);
+        CUR_ENT = (int) map(val, 385, 630, 80, 90);
 
 #ifdef DEBUG_ENG_TEMP
 
@@ -1144,14 +1149,14 @@ void CarSens::sensTmp() {
         float Vin = 5.0;     // [V]
         float Rt = 10000;    // Resistor t [ohm]
         float R0 = 10000;    // value of rct in T0 [ohm]
-        float T0 = 280.15;   // use T0 in Kelvin [K]                        < -----  (correct this value )
+        float T0 = 280.15;   // use T0 in Kelvin [K]  (corect this value )
         float Vout = 0.0;    // Vout in A0
         float Rout = 0.0;    // Rout in A0
 // use the datasheet to get this data.
         float T1 = 250.15;      // [K] in datasheet 0º C
         float T2 = 360.15;      // [K] in datasheet 100° C
-        float RT1 = 30100;   // [ohms]  resistence in T1
-        float RT2 = 40;    // [ohms]   resistence in T2
+        float RT1 = 50000;   // [ohms]  resistence in T1
+        float RT2 = 150;    // [ohms]   resistence in T2
         float beta = 0.0;    // initial parameters [K]
         float Rinf = 0.0;    // initial parameters [ohm]
         float TempK = 0.0;   // variable output
@@ -1167,7 +1172,7 @@ void CarSens::sensTmp() {
         Rout = (Rt * Vout / (Vin - Vout));
 
         TempK = (beta / log(Rout / Rinf)); // calc for temperature
-        temperatureC = TempK - 283.15;
+        temperatureC = TempK - 284.15;
 
 
 #if defined(DEBUG_TEMPERATURE_OU)
