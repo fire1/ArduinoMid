@@ -382,7 +382,7 @@ void displayCarState() {
                 lcd.print("no complaints :)");
             } else {
                 lcd.print("finds alert  ");
-                lcd.write((uint8_t) 4);
+                lcd.write((uint8_t) 3);
                 lcd.print("  ");
             }
         } else if (ampInt.is4Seconds()) {

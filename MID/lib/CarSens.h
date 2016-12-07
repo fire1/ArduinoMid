@@ -7,6 +7,10 @@
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
 
+// TODO this is test mode
+#ifndef ADT_FUEL_SYSTEM_I2C
+#define ADT_FUEL_SYSTEM_I2C
+#endif
 
 //
 //
@@ -141,7 +145,7 @@ struct Fuel {
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include <drivers/I2cSimpleListener.h>
+#include "drivers/I2cSimpleListener.h"
 // Data wire is plugged into pin A7 on the Arduino
 #define ONE_WIRE_BUS 7
 OneWire oneWire(ONE_WIRE_BUS);
@@ -344,7 +348,9 @@ private:
 
 public:
 #ifdef ADT_FUEL_SYSTEM_I2C
+
     void listenerI2cLpg(I2cSimpleListener *i2c);
+
 #endif
 
     CarSens(IntAmp *ampInt);
@@ -975,7 +981,9 @@ void CarSens::sensDim() {
     }
 }
 
+
 #ifdef ADT_FUEL_SYSTEM_I2C
+
 /**
  * Car tank/s sens
  */
@@ -1015,14 +1023,16 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     }
 
 
-    if (value < 255 && value > 0) {
-        Serial.print("Last read LPG Values ");
-        Serial.println(value);
-        Serial.print("Fuel state is ");
-        Serial.println(CarSens::FUEL_STATE);
+    if (_amp->isMid()) {
+        if (value < 255 && value > 0) {
+            Serial.print("Last read LPG Values ");
+            Serial.println(value);
+            Serial.print("Fuel state is ");
+            Serial.println(FUEL_STATE);
+        }
     }
-
 }
+
 #endif
 
 /**

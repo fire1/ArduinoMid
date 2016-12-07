@@ -117,7 +117,7 @@ void CarState::setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
  * Readings states
  */
 void CarState::listener() {
-    if (_amp->is10Seconds()) {
+    if (_amp->is2Seconds()) {
         result.oil = (boolean) digitalRead(pinOil);
         result.brk = (boolean) digitalRead(pinBrk);
         result.cnt = (boolean) digitalRead(pinCnt);

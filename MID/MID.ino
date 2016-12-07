@@ -22,7 +22,7 @@
 #include <MenuBackend.h>
 #include <SoftwareSerial.h>
 #include <DallasTemperature.h>
-#include <drivers/I2cSimpleListener.h>
+#include "lib/drivers/I2cSimpleListener.h"
 
 //
 // Inject data from serial monitor
