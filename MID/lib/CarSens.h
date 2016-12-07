@@ -126,7 +126,7 @@ struct Fuel {
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-#define  DEBUG_TEMPERATURE_OU
+//#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 
 
@@ -141,6 +141,7 @@ struct Fuel {
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <drivers/I2cSimpleListener.h>
 // Data wire is plugged into pin A7 on the Arduino
 #define ONE_WIRE_BUS 7
 OneWire oneWire(ONE_WIRE_BUS);
@@ -739,7 +740,6 @@ void CarSens::listener() {
     sensVss();
     sensRpm();
     sensEcu();
-
     // Interrupts
     //
     sei();
@@ -1015,7 +1015,7 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     }
 
 
-    if (value < 245 && value > 0) {
+    if (value < 255 && value > 0) {
         Serial.print("Last read LPG Values ");
         Serial.println(value);
         Serial.print("Fuel state is ");
@@ -1190,7 +1190,7 @@ void CarSens::sensTmp() {
         Rout = (Rt * Vout / (Vin - Vout));
 
         TempK = (beta / log(Rout / Rinf)); // calc for temperature
-        temperatureC = TempK - 284.15;
+        temperatureC = TempK - 284.75;
 
 
 #if defined(DEBUG_TEMPERATURE_OU)

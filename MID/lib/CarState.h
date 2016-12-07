@@ -26,12 +26,6 @@ struct Diagnostic {
 class CarState {
 
 private:
-    boolean stateOil = false;
-    boolean stateCnt = false;
-    boolean stateWin = false;
-    boolean stateBrk = false;
-    boolean stateVol = false;
-
     Diagnostic result;
 
     IntAmp *_amp;

@@ -21,9 +21,8 @@
 #include <Firmata.h>
 #include <MenuBackend.h>
 #include <SoftwareSerial.h>
-#include <I2cSimpleListener.h>
 #include <DallasTemperature.h>
-
+#include <drivers/I2cSimpleListener.h>
 
 //
 // Inject data from serial monitor
@@ -256,19 +255,11 @@ void setup() {
     // Pass saved data to car state for calculation
     carStat.setWorkState(eepRom.getWorkDistance());
 
-    pinMode(18, INPUT_PULLUP);
+//    pinMode(18, INPUT_PULLUP);
 
 
 }
 
-#ifdef LPG_DET_IN_TIMER
-//TIMER0_COMPA_vect
-// https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
-ISR(TIMER3_COMPA_vect) {
-    carSens.sensLpg();
-};
-
-#endif
 
 void loop() {
 
@@ -288,8 +279,11 @@ void loop() {
         Serial.println(digitalRead(18));
     }
 
+
 #ifdef ADT_FUEL_SYSTEM_I2C
+    cli();
     carSens.listenerI2cLpg(&i2cLpg);
+    sei();
 #endif
 
     //
@@ -385,8 +379,8 @@ void loop() {
     // Commands that changes global value from serial monitor
     //
     // ttd=<0000> INJECTS: Total distance
-    // ttc=<0000> INJECTS: Total fuel consumed
-    // clc=<0000> INJECTS: Total trip fuel consumed
+    // lpg=<0000> INJECTS: lpg consumption
+    // bnz=<0000> INJECTS: bnz consumption
     eepRom.injectFromSerial();
 
 }
