@@ -53,15 +53,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -102,15 +99,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -151,15 +145,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -200,15 +191,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -249,15 +237,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -298,15 +283,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -316,104 +298,6 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SPI/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="mega_SoftI2CMaster">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftI2CMaster.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="2"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DUSBCON=1"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftI2CMaster"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="mega_SoftI2CMaster/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftI2CMaster.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="2"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DUSBCON=1"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftI2CMaster/fast"/>
 					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -445,15 +329,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -494,15 +375,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -543,15 +421,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -592,15 +467,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -651,15 +523,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -700,15 +569,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -749,15 +615,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -798,15 +661,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -816,104 +676,6 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_twi/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="mega_OneWire">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="2"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DUSBCON=1"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="mega_OneWire/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="2"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DUSBCON=1"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
-					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire/fast"/>
 					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -945,15 +707,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -994,15 +753,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -1012,6 +768,98 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftwareSerial/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mega_OneWire">
+				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSBCON=1"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mega_OneWire/fast">
+				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSBCON=1"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
+					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire/fast"/>
 					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -1043,15 +891,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -1092,15 +937,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -1141,15 +983,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -1190,15 +1029,12 @@
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
 					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
@@ -1433,12 +1269,6 @@
 		</Unit>
 		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/OneWire.h">
 			<Option target="mega_OneWire"/>
-		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/SoftI2CMaster.h">
-			<Option target="mega_SoftI2CMaster"/>
-		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/SoftI2CMaster/SoftWire.h">
-			<Option target="mega_SoftI2CMaster"/>
 		</Unit>
 		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/CmakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

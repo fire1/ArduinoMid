@@ -162,19 +162,6 @@ mega_SPI/fast:
 .PHONY : mega_SPI/fast
 
 #=============================================================================
-# Target rules for targets named mega_SoftI2CMaster
-
-# Build rule for target.
-mega_SoftI2CMaster: cmake_check_build_system
-	$(MAKE) -f CMakeFiles\Makefile2 mega_SoftI2CMaster
-.PHONY : mega_SoftI2CMaster
-
-# fast build rule for target.
-mega_SoftI2CMaster/fast:
-	$(MAKE) -f CMakeFiles\mega_SoftI2CMaster.dir\build.make CMakeFiles/mega_SoftI2CMaster.dir/build
-.PHONY : mega_SoftI2CMaster/fast
-
-#=============================================================================
 # Target rules for targets named mega_MenuBackend
 
 # Build rule for target.
@@ -240,19 +227,6 @@ mega_twi/fast:
 .PHONY : mega_twi/fast
 
 #=============================================================================
-# Target rules for targets named mega_OneWire
-
-# Build rule for target.
-mega_OneWire: cmake_check_build_system
-	$(MAKE) -f CMakeFiles\Makefile2 mega_OneWire
-.PHONY : mega_OneWire
-
-# fast build rule for target.
-mega_OneWire/fast:
-	$(MAKE) -f CMakeFiles\mega_OneWire.dir\build.make CMakeFiles/mega_OneWire.dir/build
-.PHONY : mega_OneWire/fast
-
-#=============================================================================
 # Target rules for targets named mega_SoftwareSerial
 
 # Build rule for target.
@@ -264,6 +238,19 @@ mega_SoftwareSerial: cmake_check_build_system
 mega_SoftwareSerial/fast:
 	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/build
 .PHONY : mega_SoftwareSerial/fast
+
+#=============================================================================
+# Target rules for targets named mega_OneWire
+
+# Build rule for target.
+mega_OneWire: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 mega_OneWire
+.PHONY : mega_OneWire
+
+# fast build rule for target.
+mega_OneWire/fast:
+	$(MAKE) -f CMakeFiles\mega_OneWire.dir\build.make CMakeFiles/mega_OneWire.dir/build
+.PHONY : mega_OneWire/fast
 
 #=============================================================================
 # Target rules for targets named mega_LiquidCrystal
@@ -1211,14 +1198,13 @@ help:
 	@echo ... mega_DallasTemperature
 	@echo ... mega_CORE
 	@echo ... mega_SPI
-	@echo ... mega_SoftI2CMaster
 	@echo ... mega_MenuBackend
 	@echo ... mega_Wire
 	@echo ... upload
 	@echo ... mega_Firmata
 	@echo ... mega_twi
-	@echo ... mega_OneWire
 	@echo ... mega_SoftwareSerial
+	@echo ... mega_OneWire
 	@echo ... mega_LiquidCrystal
 	@echo ... ArduinoMid
 	@echo ... ArduinoMid-size

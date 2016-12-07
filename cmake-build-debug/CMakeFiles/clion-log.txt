@@ -7,9 +7,8 @@
 -- Generating mega_OneWire for library OneWire
 -- Generating mega_Firmata for library Firmata
 -- Generating mega_MenuBackend for library MenuBackend
--- Generating mega_SoftI2CMaster for library SoftI2CMaster
--- Generating mega_DallasTemperature for library DallasTemperature
 -- Generating mega_SoftwareSerial for library SoftwareSerial
+-- Generating mega_DallasTemperature for library DallasTemperature
 -- Generating mega_LiquidCrystal for library LiquidCrystal
 -- Using C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-objcopy.exe for converting firmware image to hex
 -- Configuring done

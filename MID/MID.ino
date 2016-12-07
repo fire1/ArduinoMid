@@ -20,13 +20,10 @@
 #include <OneWire.h>
 #include <Firmata.h>
 #include <MenuBackend.h>
-//#define SCL_PIN 2
-//#define SCL_PORT PORTD
-//#define SDA_PIN 0
-//#define SDA_PORT PORTC
-//#include <SoftI2CMaster.h>
-#include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+#include <I2cSimpleListener.h>
+#include <DallasTemperature.h>
+
 
 //
 // Inject data from serial monitor
@@ -47,7 +44,7 @@
 // Inside temperature [very cheep temperature sensor]
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
-#define ADDITIONAL_FUEL_SYSTEM // comment to disable additional fuel system such as LPG
+#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
 //
 // MID plug pins definition over Arduino
 //
@@ -99,7 +96,7 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
-const uint8_t ADT_ALR_PIN = 11;
+#define TONE_ADT_PIN 11
 //
 // Alpine / Steering Wheel buttons
 const uint8_t ALP_PIN_INP = A8;
@@ -170,6 +167,8 @@ MidMenu midMenu(&ampInt, &carSens, &eepRom);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
+
+
 //
 //
 //LpgSens lpgSens;
@@ -177,6 +176,9 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens);
 // Display driver
 #include "lib/Lcd16x2.h"
 
+#ifdef ADT_FUEL_SYSTEM_I2C
+I2cSimpleListener i2cLpg(LPG_DAT_PIN, LPG_CLC_PIN);
+#endif
 
 //
 // Define Welcome screen
@@ -188,7 +190,7 @@ void setup() {
 
     //
     // Shutdown setupEngine
-    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, ADT_ALR_PIN);
+    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     //
 //    lpgSens.setup(LPG_DAT_PIN, LPG_CLC_PIN);
@@ -238,7 +240,7 @@ void setup() {
     //
     // Set MID menu
 //    setupMenu();
-    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, ADT_ALR_PIN);
+    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -256,13 +258,9 @@ void setup() {
 
     pinMode(18, INPUT_PULLUP);
 
-    pciSetup(LPG_DAT_PIN);
-    pciSetup(LPG_CLC_PIN);
-
-    pinMode(LPG_DAT_PIN, INPUT);
-    pinMode(LPG_CLC_PIN, INPUT);
 
 }
+
 #ifdef LPG_DET_IN_TIMER
 //TIMER0_COMPA_vect
 // https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
@@ -290,8 +288,8 @@ void loop() {
         Serial.println(digitalRead(18));
     }
 
-#ifndef LPG_DET_IN_TIMER
-    carSens.sensLpg();
+#ifdef ADT_FUEL_SYSTEM_I2C
+    carSens.listenerI2cLpg(&i2cLpg);
 #endif
 
     //
@@ -401,7 +399,7 @@ static void playWelcomeScreen() {
     lcd.print("    ASTRA       ");
     //
     // Test tone
-    tone(ADT_ALR_PIN, 400, 20);
+    tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("  ");

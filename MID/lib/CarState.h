@@ -26,11 +26,11 @@ struct Diagnostic {
 class CarState {
 
 private:
-    boolean stateOil = 0;
-    boolean stateCnt = 0;
-    boolean stateWin = 0;
-    boolean stateBrk = 0;
-    boolean stateVol = 0;
+    boolean stateOil = false;
+    boolean stateCnt = false;
+    boolean stateWin = false;
+    boolean stateBrk = false;
+    boolean stateVol = false;
 
     Diagnostic result;
 
@@ -210,7 +210,7 @@ Diagnostic CarState::getResult() {
 
 /**
  * Is car have some issue
- * @return
+ * @return boolean
  */
 boolean CarState::isAlert() {
     return alertSatate;

@@ -70,7 +70,7 @@ CMakeFiles/ArduinoMid-upload.dir/all: CMakeFiles/ArduinoMid.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ArduinoMid-upload.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 47
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/ArduinoMid-upload.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/ArduinoMid-upload.dir/rule
@@ -202,43 +202,6 @@ clean: CMakeFiles/mega_SPI.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/mega_SoftI2CMaster.dir
-
-# All Build rule for target.
-CMakeFiles/mega_SoftI2CMaster.dir/all: CMakeFiles/mega_CORE.dir/all
-	$(MAKE) -f CMakeFiles\mega_SoftI2CMaster.dir\build.make CMakeFiles/mega_SoftI2CMaster.dir/depend
-	$(MAKE) -f CMakeFiles\mega_SoftI2CMaster.dir\build.make CMakeFiles/mega_SoftI2CMaster.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=41 "Built target mega_SoftI2CMaster"
-.PHONY : CMakeFiles/mega_SoftI2CMaster.dir/all
-
-# Include target in all.
-all: CMakeFiles/mega_SoftI2CMaster.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/mega_SoftI2CMaster.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 26
-	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/mega_SoftI2CMaster.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
-.PHONY : CMakeFiles/mega_SoftI2CMaster.dir/rule
-
-# Convenience name for target.
-mega_SoftI2CMaster: CMakeFiles/mega_SoftI2CMaster.dir/rule
-
-.PHONY : mega_SoftI2CMaster
-
-# clean rule for target.
-CMakeFiles/mega_SoftI2CMaster.dir/clean:
-	$(MAKE) -f CMakeFiles\mega_SoftI2CMaster.dir\build.make CMakeFiles/mega_SoftI2CMaster.dir/clean
-.PHONY : CMakeFiles/mega_SoftI2CMaster.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/mega_SoftI2CMaster.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/mega_MenuBackend.dir
 
 # All Build rule for target.
@@ -282,7 +245,7 @@ clean: CMakeFiles/mega_MenuBackend.dir/clean
 CMakeFiles/mega_Wire.dir/all: CMakeFiles/mega_CORE.dir/all
 	$(MAKE) -f CMakeFiles\mega_Wire.dir\build.make CMakeFiles/mega_Wire.dir/depend
 	$(MAKE) -f CMakeFiles\mega_Wire.dir\build.make CMakeFiles/mega_Wire.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=44,45,46 "Built target mega_Wire"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=43,44,45 "Built target mega_Wire"
 .PHONY : CMakeFiles/mega_Wire.dir/all
 
 # Include target in all.
@@ -324,7 +287,7 @@ CMakeFiles/upload.dir/all: CMakeFiles/ArduinoMid-upload.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/upload.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 47
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/upload.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/upload.dir/rule
@@ -388,7 +351,7 @@ clean: CMakeFiles/mega_Firmata.dir/clean
 CMakeFiles/mega_twi.dir/all: CMakeFiles/mega_CORE.dir/all
 	$(MAKE) -f CMakeFiles\mega_twi.dir\build.make CMakeFiles/mega_twi.dir/depend
 	$(MAKE) -f CMakeFiles\mega_twi.dir\build.make CMakeFiles/mega_twi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=47,48,49 "Built target mega_twi"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=46,47,48 "Built target mega_twi"
 .PHONY : CMakeFiles/mega_twi.dir/all
 
 # Include target in all.
@@ -415,6 +378,43 @@ CMakeFiles/mega_twi.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/mega_twi.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/mega_SoftwareSerial.dir
+
+# All Build rule for target.
+CMakeFiles/mega_SoftwareSerial.dir/all: CMakeFiles/mega_CORE.dir/all
+	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/depend
+	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=41,42 "Built target mega_SoftwareSerial"
+.PHONY : CMakeFiles/mega_SoftwareSerial.dir/all
+
+# Include target in all.
+all: CMakeFiles/mega_SoftwareSerial.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/mega_SoftwareSerial.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 27
+	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/mega_SoftwareSerial.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
+.PHONY : CMakeFiles/mega_SoftwareSerial.dir/rule
+
+# Convenience name for target.
+mega_SoftwareSerial: CMakeFiles/mega_SoftwareSerial.dir/rule
+
+.PHONY : mega_SoftwareSerial
+
+# clean rule for target.
+CMakeFiles/mega_SoftwareSerial.dir/clean:
+	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/clean
+.PHONY : CMakeFiles/mega_SoftwareSerial.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/mega_SoftwareSerial.dir/clean
 
 .PHONY : clean
 
@@ -452,43 +452,6 @@ CMakeFiles/mega_OneWire.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/mega_OneWire.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/mega_SoftwareSerial.dir
-
-# All Build rule for target.
-CMakeFiles/mega_SoftwareSerial.dir/all: CMakeFiles/mega_CORE.dir/all
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/depend
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=42,43 "Built target mega_SoftwareSerial"
-.PHONY : CMakeFiles/mega_SoftwareSerial.dir/all
-
-# Include target in all.
-all: CMakeFiles/mega_SoftwareSerial.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/mega_SoftwareSerial.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 27
-	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/mega_SoftwareSerial.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
-.PHONY : CMakeFiles/mega_SoftwareSerial.dir/rule
-
-# Convenience name for target.
-mega_SoftwareSerial: CMakeFiles/mega_SoftwareSerial.dir/rule
-
-.PHONY : mega_SoftwareSerial
-
-# clean rule for target.
-CMakeFiles/mega_SoftwareSerial.dir/clean:
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/clean
-.PHONY : CMakeFiles/mega_SoftwareSerial.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/mega_SoftwareSerial.dir/clean
 
 .PHONY : clean
 
@@ -533,17 +496,16 @@ clean: CMakeFiles/mega_LiquidCrystal.dir/clean
 # Target rules for target CMakeFiles/ArduinoMid.dir
 
 # All Build rule for target.
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_DallasTemperature.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_CORE.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Wire.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SoftI2CMaster.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_MenuBackend.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Firmata.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_twi.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SoftwareSerial.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Firmata.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SPI.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_CORE.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_MenuBackend.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_DallasTemperature.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_twi.dir/all
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/depend
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=1,2,3 "Built target ArduinoMid"
@@ -556,7 +518,7 @@ all: CMakeFiles/ArduinoMid.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ArduinoMid.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 47
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/ArduinoMid.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/ArduinoMid.dir/rule
@@ -588,7 +550,7 @@ CMakeFiles/ArduinoMid-size.dir/all: CMakeFiles/ArduinoMid.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ArduinoMid-size.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 49
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 48
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/ArduinoMid-size.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/ArduinoMid-size.dir/rule

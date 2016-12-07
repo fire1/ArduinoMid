@@ -2,8 +2,13 @@
 
 #include <Arduino.h>
 
+#ifndef IC2_LISTENER_LENGTH
+#define IC2_LISTENER_LENGTH 8
 
-class I2cListener {
+/**
+ * Simple I2C listener
+ */
+class I2cSimpleListener {
 
 private:
     //
@@ -27,9 +32,9 @@ protected:
     uint8_t i2cReadBit(void);
 
 public:
-    I2cListener(void);
+    I2cSimpleListener(void);
 
-    I2cListener(uint8_t sclPin, uint8_t sdaPin);
+    I2cSimpleListener(uint8_t sclPin, uint8_t sdaPin);
 
     void setPins(uint8_t sdaPin, uint8_t sclPin);
 
@@ -43,7 +48,7 @@ public:
 /**
  * Constructor
  */
-I2cListener::I2cListener(void) {
+I2cSimpleListener::I2cSimpleListener(void) {
     // do nothing, use setPins() later
 }
 
@@ -52,7 +57,7 @@ I2cListener::I2cListener(void) {
  * @param sclPin
  * @param sdaPin
  */
-I2cListener::I2cListener(uint8_t sclPin, uint8_t sdaPin) {
+I2cSimpleListener::I2cSimpleListener(uint8_t sclPin, uint8_t sdaPin) {
     setPins(sclPin, sdaPin);
 }
 
@@ -61,7 +66,7 @@ I2cListener::I2cListener(uint8_t sclPin, uint8_t sdaPin) {
  * @param sdaPin
  * @param sclPin
  */
-void I2cListener::setPins(uint8_t sdaPin, uint8_t sclPin) {
+void I2cSimpleListener::setPins(uint8_t sdaPin, uint8_t sclPin) {
     uint8_t port;
 
 
@@ -77,9 +82,11 @@ void I2cListener::setPins(uint8_t sdaPin, uint8_t sclPin) {
 
 }
 
-// read a byte from the I2C slave device
-//
-uint8_t I2cListener::i2cRead(void) {
+/**
+ * Read a byte from the I2C slave device
+ * @return
+ */
+uint8_t I2cSimpleListener::i2cRead(void) {
     uint8_t res = 0;
 
     for (uint8_t i = 0; i < 8; i++) {
@@ -95,7 +102,7 @@ uint8_t I2cListener::i2cRead(void) {
  * Reads message when is coming
  * @return bits
  */
-uint8_t I2cListener::listen() {
+uint8_t I2cSimpleListener::listen() {
     if (!digitalRead(_sclPin))
         return i2cRead();
 }
@@ -103,7 +110,7 @@ uint8_t I2cListener::listen() {
  * Reads single bit
  * @return uint8_t
  */
-uint8_t I2cListener::i2cReadBit(void) {
+uint8_t I2cSimpleListener::i2cReadBit(void) {
     uint8_t port = digitalPinToPort(_sdaPin);
     volatile uint8_t *pinReg = portInputRegister(port);
     uint8_t c = *pinReg;  // I2C_PIN;
@@ -112,7 +119,7 @@ uint8_t I2cListener::i2cReadBit(void) {
 
 
 
-I2cListener i2c(A5,A4);
+I2cSimpleListener i2c(A5,A4);
 
 void setup() {
     Serial.begin(9600);           // start serial for output

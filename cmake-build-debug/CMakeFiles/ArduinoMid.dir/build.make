@@ -99,10 +99,9 @@ ArduinoMid.elf: libmega_twi.a
 ArduinoMid.elf: libmega_OneWire.a
 ArduinoMid.elf: libmega_Firmata.a
 ArduinoMid.elf: libmega_MenuBackend.a
-ArduinoMid.elf: libmega_SoftI2CMaster.a
+ArduinoMid.elf: libmega_SoftwareSerial.a
 ArduinoMid.elf: libmega_OneWire.a
 ArduinoMid.elf: libmega_DallasTemperature.a
-ArduinoMid.elf: libmega_SoftwareSerial.a
 ArduinoMid.elf: libmega_LiquidCrystal.a
 ArduinoMid.elf: libmega_CORE.a
 ArduinoMid.elf: CMakeFiles/ArduinoMid.dir/link.txt

@@ -22,13 +22,10 @@
 #include <OneWire.h>
 #include <Firmata.h>
 #include <MenuBackend.h>
-#define SCL_PIN 2
-#define SCL_PORT PORTD
-#define SDA_PIN 0
-#define SDA_PORT PORTC
-#include <SoftI2CMaster.h>
-#include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+#include <I2cSimpleListener.h>
+#include <DallasTemperature.h>
+
 
 //
 // Inject data from serial monitor
@@ -49,12 +46,12 @@
 // Inside temperature [very cheep temperature sensor]
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
-#define ADDITIONAL_FUEL_SYSTEM // comment to disable additional fuel system such as LPG
+#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
 //
 // MID plug pins definition over Arduino
 //
 // Define button pins for steering controller
-#line 58 "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid_MID.ino.cpp"
+#line 55 "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid_MID.ino.cpp"
 #include "Arduino.h"
 
 //=== START Forward: C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/MID/MID.ino
@@ -65,7 +62,7 @@
  static void playWelcomeScreen() ;
  static void playWelcomeScreen() ;
 //=== END Forward: C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/MID/MID.ino
-#line 53 "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/MID/MID.ino"
+#line 50 "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/MID/MID.ino"
 
 
 const uint8_t BTN_PIN_UP = 8;       //  Plug:23     Column switch
@@ -92,14 +89,17 @@ const uint8_t STT_VLT_PIN = A3;     //
 // Additional fuel installation
 #define LPG_INSTALLATION
 #ifdef LPG_INSTALLATION
+
+//#define LPG_DET_IN_TIMER
 //
 // [Used LPG ECU is EG Avance 32]
 // 4 Pins 5V LPG fuel switch/gauge
 //      Two wires are for power supply, other two wires is for displayed information.
 //      * Check wiring diagram in order to determine your wiring
 // 20, 21 for attachInterrupt ...
-const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level
-const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher
+// https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
+const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
 #endif
 //
 // Display dim pins
@@ -112,7 +112,7 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
-const uint8_t ADT_ALR_PIN = 11;
+#define TONE_ADT_PIN 11
 //
 // Alpine / Steering Wheel buttons
 const uint8_t ALP_PIN_INP = A8;
@@ -183,6 +183,8 @@ MidMenu midMenu(&ampInt, &carSens, &eepRom);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens);
+
+
 //
 //
 //LpgSens lpgSens;
@@ -190,6 +192,9 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens);
 // Display driver
 #include "lib/Lcd16x2.h"
 
+#ifdef ADT_FUEL_SYSTEM_I2C
+I2cSimpleListener i2cLpg(LPG_DAT_PIN, LPG_CLC_PIN);
+#endif
 
 //
 // Define Welcome screen
@@ -201,7 +206,7 @@ void setup() {
 
     //
     // Shutdown setupEngine
-    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, ADT_ALR_PIN);
+    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     //
 //    lpgSens.setup(LPG_DAT_PIN, LPG_CLC_PIN);
@@ -251,7 +256,7 @@ void setup() {
     //
     // Set MID menu
 //    setupMenu();
-    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, ADT_ALR_PIN);
+    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -269,16 +274,22 @@ void setup() {
 
     pinMode(18, INPUT_PULLUP);
 
-    pinMode(LPG_DAT_PIN, INPUT);
-    pinMode(LPG_CLC_PIN, INPUT);
 
 }
 
+#ifdef LPG_DET_IN_TIMER
+//TIMER0_COMPA_vect
+// https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
+ISR(TIMER3_COMPA_vect) {
+    carSens.sensLpg();
+};
+
+#endif
 
 void loop() {
 
 //    if (ampInt.isBig()) {
-////        Serial.println(lpgSens.getValue());
+//        Serial.println(lpgSens.getValue());
 //    }
 
     //
@@ -292,6 +303,10 @@ void loop() {
         Serial.print("Window washer value: ");
         Serial.println(digitalRead(18));
     }
+
+#ifdef ADT_FUEL_SYSTEM_I2C
+    carSens.listenerI2cLpg(&i2cLpg);
+#endif
 
     //
     // Listen engine
@@ -400,7 +415,7 @@ static void playWelcomeScreen() {
     lcd.print("    ASTRA       ");
     //
     // Test tone
-    tone(ADT_ALR_PIN, 400, 20);
+    tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("  ");

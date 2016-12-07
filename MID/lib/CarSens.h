@@ -38,11 +38,11 @@
 //
 // ECU Consumption signal mul by *10
 // next 3815
-#define ENG_CORRECTION 7.6        //  Divider pure voltage
+#define ENG_CORRECTION 7.6      //  Divider pure voltage
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 1550.11 //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 1549.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -342,8 +342,9 @@ private:
     void sensDlt();
 
 public:
-
-    void sensLpg();
+#ifdef ADT_FUEL_SYSTEM_I2C
+    void listenerI2cLpg(I2cSimpleListener *i2c);
+#endif
 
     CarSens(IntAmp *ampInt);
 
@@ -650,6 +651,7 @@ public:
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
     FUEL_STATE = DEFAULT_FUEL_STATE;
+
 }
 
 /**
@@ -737,7 +739,7 @@ void CarSens::listener() {
     sensVss();
     sensRpm();
     sensEcu();
-//    sensLpg();
+
     // Interrupts
     //
     sei();
@@ -894,19 +896,19 @@ void CarSens::speedingAlarms() {
     }
 
     if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
-        tone(ADT_ALR_PIN, 4000, 200);
+        tone(TONE_ADT_PIN, 4000, 200);
     }
 
     if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED + 10 && speedAlarmCursor == ENABLE_SPEED_CT) {
-        tone(ADT_ALR_PIN, 4000, 200);
+        tone(TONE_ADT_PIN, 4000, 200);
     }
 
     if (_amp->is10Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
-        tone(ADT_ALR_PIN, 4000, 200);
+        tone(TONE_ADT_PIN, 4000, 200);
     }
 
     if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
-        tone(ADT_ALR_PIN, 4000, 200);
+        tone(TONE_ADT_PIN, 4000, 200);
     }
 
     if (speedAlarmCursor > ENABLE_SPEED_HW) {
@@ -973,17 +975,18 @@ void CarSens::sensDim() {
     }
 }
 
+#ifdef ADT_FUEL_SYSTEM_I2C
 /**
  * Car tank/s sens
  */
-void CarSens::sensLpg() {
+void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     //
     // LPG tank
     //      Full tank reading        805
     //      Empty tank reading       ---
 //    if (!digitalRead(CarSens::pinLpgClock))
 
-    if (digitalRead(pinLpgData) == HIGH)
+/*    if (digitalRead(pinLpgData) == HIGH)
         receivingLpgBuffer |= digitalRead(pinLpgClock) << receivingLpgIndex;
 
 
@@ -992,8 +995,11 @@ void CarSens::sensLpg() {
     if (receivingLpgIndex >= 8) {
         receivingLpgIndex = 0;
         value = receivingLpgBuffer;
-    }
+    }*/
 
+
+
+    int value = i2c->listen();
 
     unsigned long currentTime = millis();
 
@@ -1015,7 +1021,9 @@ void CarSens::sensLpg() {
         Serial.print("Fuel state is ");
         Serial.println(CarSens::FUEL_STATE);
     }
+
 }
+#endif
 
 /**
  *  Engine temperature
@@ -1023,8 +1031,18 @@ void CarSens::sensLpg() {
 void CarSens::sensEnt() {
     if (_amp->isSec()) {
 
+        //
+        // 80 = 390
+        // 82 = 420
+        // 90 = 630
         int val = analogRead(pinTemp);
-        CUR_ENT = (int) map(val, 385, 625, 80, 90);
+        CUR_ENT = (int) map(val, 385, 620, 80, 90);
+
+        //
+        // Over heating ALARM
+        if (_amp->isSecond() && CUR_ENT > 95) {
+            tone(TONE_ADT_PIN, 4000, 400);
+        }
 
 #ifdef DEBUG_ENG_TEMP
 
