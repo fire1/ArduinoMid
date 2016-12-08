@@ -27,15 +27,24 @@ The project sourcecode is based on Internet published information!_
 * Steering wheel buttons handler.
 * Support Sony xPlod to vehicles steering wheel media buttons.
 * Fuel gauge/switch support [analog detection from fuel switch].
-* Critical level sensors [Todo]
+* Car Inspection menu detects critical level for  Oil, Window washer, Brake ware, voltage [Todo lamps, belt, and other ]
 * Engine temperature.
 * Power saving operation [factory Bord. Comp. have energy drain when engine is off ...]
 * Check menu - based on worked time / distance [Todo]
 * Brake pedal as button [Todo ]
 * Resolving driving gears 
 * Sport mode [Todo ... luring ECU signal]
-* Several fuel lines support [benzine, propane-butane ... ]
+* Two fuel lines supported [For benzine & propane-butane ... ]
 * Todo more ...
+
+## Menu structure
+
+-----[Main Menu]-----[Trip Menu]-----[Consumption]-----[Inspection]-----
+----------|---------------|---------------|-----------------|-----------
+-----[Dashboard]-----[Averages ]-----[Fuel levels]-----[Sensor list]----
+----------|--------------------------------------------------*----------
+-----[Test Menu]-----
+
 
 ## Schematics
    _Hardware is  in development..._

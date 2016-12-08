@@ -22,8 +22,6 @@
 #include <MenuBackend.h>
 #include <SoftwareSerial.h>
 #include <DallasTemperature.h>
-#include "lib/drivers/I2cSimpleListener.h"
-
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -39,12 +37,6 @@
 #define MILLIS_PER_HR    3600000    // Hour
 #define MILLIS_PER_MN    60000      // Minute
 #define MILLIS_PER_SC    1000       // Second
-
-//
-// Inside temperature [very cheep temperature sensor]
-// additional mounted temperature sensor from DallasTemperature
-#define INSIDE_TEMPERATURE_DS
-#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
 //
 // MID plug pins definition over Arduino
 //
@@ -70,21 +62,6 @@ const uint8_t STT_OIL_PIN = A14;     //  Plug        Critical oil level
 const uint8_t STT_WNW_PIN = A15;     //  Plug        Critical window washer
 const uint8_t STT_VLT_PIN = A3;     //
 //
-// Additional fuel installation
-#define LPG_INSTALLATION
-#ifdef LPG_INSTALLATION
-
-//#define LPG_DET_IN_TIMER
-//
-// [Used LPG ECU is EG Avance 32]
-// 4 Pins 5V LPG fuel switch/gauge
-//      Two wires are for power supply, other two wires is for displayed information.
-//      * Check wiring diagram in order to determine your wiring
-// 20, 21 for attachInterrupt ...
-// https://github.com/NicoHood/PinChangeInterrupt/#pinchangeinterrupt-table
-const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
-#endif
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
@@ -107,6 +84,47 @@ const uint8_t ALP_PIN_VOL = 14;
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
 #define SHUTDOWN_SAVE_BUTTON 9
+//
+//
+/// Additional temperature sensor
+// Inside temperature [very cheep temperature sensor]
+// additional mounted temperature sensor from DallasTemperature
+#define INSIDE_TEMPERATURE_DS
+//
+//
+//
+/***************************************************************************
+ * LPG fuel support configuration
+ */
+
+//
+// In my case  ... about LPG installation:
+// My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
+//  so ... i made simple driver "I2cSimpleListener" to listen communication without make any connection to devices
+#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
+//
+// Include simple driver
+#ifdef ADT_FUEL_SYSTEM_I2C
+
+#include "lib/drivers/I2cSimpleListener.h"
+
+#endif
+//
+// This definition is for carSens class
+// Additional fuel installation
+#define LPG_INSTALLATION
+#ifdef LPG_INSTALLATION
+//
+// [LPG ECU Avance 32]
+// 4 Pins 5V LPG fuel switch/gauge
+//      Two wires are for power supply, other two wires is for displayed information.
+//      * Check wiring diagram in order to determine your wiring
+const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
+#endif
+//
+/***************************************************************************/
+//
 //
 // LiquidCrystal library
 // Including from Arduino IDE

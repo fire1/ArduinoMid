@@ -192,7 +192,7 @@ boolean CarState::getLiveVol() {
  * @return integer
  */
 int CarState::getVoltage(void) {
-    return isBadVoltage();
+    return isBadVoltage(); // todo replace with detection
 }
 
 /**

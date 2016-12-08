@@ -5,7 +5,7 @@
 #ifndef ARDUINO_I2C_FUEL_DETECTION_SWITCH
 #define ARDUINO_I2C_FUEL_DETECTION_SWITCH
 
-#include <SoftI2CMaster.h>
+
 #include "CarSens.h"
 
 #define LPG_RECEIVE_BUFFER_LENGTH 8

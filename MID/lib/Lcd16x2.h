@@ -379,9 +379,9 @@ void displayCarState() {
 
             lcd.setCursor(0, 2);
             if (!carStat.isAlert()) {
-                lcd.print("no complaints :)");
+                lcd.print("no warnings  :) ");
             } else {
-                lcd.print("finds alert  ");
+                lcd.print("finds warning ");
                 lcd.write((uint8_t) 3);
                 lcd.print("  ");
             }
@@ -395,7 +395,7 @@ void displayCarState() {
         //
         // Shows header menu title
         lcd.setCursor(0, 0);
-        lcd.print("Inspection state");
+        lcd.print("Car Inspection  ");
         //
         // Continue with info
         lcd.setCursor(0, 2);
@@ -415,21 +415,19 @@ void displayCarState() {
             if (carStat.getLiveOil()) lcd.print("CHECK oil level ");
             else lcd.print("Oil level is OK ");
         }
-        if (MidMenu::cursorMenu == 45) {
+    }
+
+    if (MidMenu::cursorMenu == 45) {
+        if (ampInt.isMid()) {
             if (carStat.getLiveVol()) {
                 lcd.print("Voltage ");
-                if (ampInt.isSecond() && !ampInt.is2Seconds()) {
-                    lcd.write((uint8_t) 3);
-                    lcd.print(" ");
-                    lcd.print(carStat.getVoltage());
-                    lcd.print("V    ");
-                    lcd.setCursor(11, 13);
-                } else if (ampInt.is2Seconds()) {
-                    lcd.print("problem!");
-                }
+                lcd.write((uint8_t) 3);
+                lcd.print(" ");
+                lcd.print(carStat.getVoltage());
+                lcd.print("V    ");
+                lcd.setCursor(11, 13);
             } else lcd.print("Voltage is OK   ");
         }
-
     }
 
 

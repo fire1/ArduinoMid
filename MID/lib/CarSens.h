@@ -215,7 +215,7 @@ private:
             CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
     //
     // Distance container
-    unsigned long int CUR_VDS;
+    unsigned double CUR_VDS;
     //
     // LPG tank
     int CUR_LTK;
@@ -600,12 +600,14 @@ public:
      */
     float getDst() {
         /* my tires are smaller then original ... so my number must be lower, original must be / 16093.44 // one mile */
-        float km = CUR_VDS / (DST_CORRECTION + TRS_CORRECTION);
+        return float(CUR_VDS);
+        /*
+        float km = ;
 
         if (km <= 0) {
             km = 0;
         }
-        return km;
+        return km;*/
     }
 
     long getTfc() {
@@ -808,7 +810,9 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
-        CUR_VDS = (vssHitsCount) + CUR_VDS;
+        //
+        // Calculate distance
+        CUR_VDS = (vssHitsCount / (DST_CORRECTION + TRS_CORRECTION)) + CUR_VDS;
 
 //
 // debug info
@@ -902,10 +906,11 @@ void CarSens::speedingAlarms() {
     }
 
     if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
-        tone(TONE_ADT_PIN, 4000, 200);
+        tone(TONE_ADT_PIN, 4000, 150);
     }
 
-    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED + 10 && speedAlarmCursor == ENABLE_SPEED_CT) {
+    if (!_amp->is5Seconds() && _amp->is2Seconds() && CUR_VSS > (VSS_ALARM_CITY_SPEED + 10) &&
+        speedAlarmCursor == ENABLE_SPEED_CT) {
         tone(TONE_ADT_PIN, 4000, 200);
     }
 
@@ -1271,7 +1276,8 @@ void CarSens::sensIfc() {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
             cons = long(
-                    long(maf * (getIfcFuelVal() / 2)) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
+                    long(maf * (getIfcFuelVal() / 2)) / 1000 *
+                    0.001);  // L/h, do not use float so mul first then divide
         } else {
             cons = long(maf * (getIfcFuelVal() / 2)) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
