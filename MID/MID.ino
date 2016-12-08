@@ -287,13 +287,6 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
-
-    if (ampInt.isMax()) {
-        Serial.print("Window washer value: ");
-        Serial.println(digitalRead(18));
-    }
-
-
 #ifdef ADT_FUEL_SYSTEM_I2C
     cli();
     carSens.listenerI2cLpg(&i2cLpg);
