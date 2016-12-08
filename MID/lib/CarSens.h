@@ -215,7 +215,7 @@ private:
             CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
     //
     // Distance container
-    unsigned double CUR_VDS;
+    double CUR_VDS;
     //
     // LPG tank
     int CUR_LTK;
