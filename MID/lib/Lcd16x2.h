@@ -19,6 +19,9 @@
 /****************************************************************
  * Display temperature sensor
  */
+
+boolean outTempLowController = true;
+
 void displayOutTmp() {
 
     char tmpTemp[3];
@@ -35,6 +38,19 @@ void displayOutTmp() {
         lcd.write((uint8_t) 1);
         lcd.print(" ");
     }
+
+    if (value < 3 && ampInt.isMin() && outTempLowController) {
+        lcd.setCursor(0, 2);
+        lcd.print("  ");
+        lcd.write((char) 176);
+        lcd.print("  * ");
+    }
+
+    if (value < 3 && ampInt.is5Seconds() && outTempLowController) {
+        outTempLowController = false;
+    }
+
+
 }
 
 /**

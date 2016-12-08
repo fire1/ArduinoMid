@@ -60,7 +60,7 @@ const uint8_t STT_BRK_PIN = A12;     //  Plug        Critical Brake ware
 const uint8_t STT_CLN_PIN = A13;     //  Plug        Critical Coolant level
 const uint8_t STT_OIL_PIN = A14;     //  Plug        Critical oil level
 const uint8_t STT_WNW_PIN = A15;     //  Plug        Critical window washer
-const uint8_t STT_VLT_PIN = A3;     //
+const uint8_t STT_VLT_PIN = A7;      // Duplicating  SAV_PIN_DTC
 //
 //
 // Display dim pins

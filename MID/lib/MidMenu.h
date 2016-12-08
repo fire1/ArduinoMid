@@ -96,6 +96,7 @@ public:
     //
     // External changer var
     int static cursorMenu;
+
 /**
  * Sets pins
  * @param pinUp
@@ -103,12 +104,14 @@ public:
  * @param pinTn
  */
     void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn);
+
 /**
  * Listen buttons and navigate
  * @param whl
  * @param cursor
  */
     void listener(WhlSens *whl, int &cursor);
+
 /**
  *
  * @return int
@@ -126,6 +129,7 @@ public:
     }
 
     void lcdDisplay(LiquidCrystal *lcd);
+
 /**
  * Constructor
  * @param amp
@@ -286,12 +290,12 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     FuelTankMenu.addRight(fuelMenu);
     FuelTankMenu.add(fuelMenu);
     //
-    //
+    // Inspection menu
     statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
             .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
     stateBatVlt.addRight(stateBrkWre);
-    stateWndWsh.add(stateBrkWre);
-    stateWndWsh.add(stateClnLvl);
+    stateWndWsh.add(statMenu);
+    stateWndWsh.add(statMenu);
     stateWndWsh.add(statMenu);
     stateOilLvl.add(statMenu);
     stateBatVlt.add(statMenu);
