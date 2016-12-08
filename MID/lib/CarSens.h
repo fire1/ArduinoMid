@@ -11,7 +11,11 @@
 #ifndef ADT_FUEL_SYSTEM_I2C
 #define ADT_FUEL_SYSTEM_I2C
 #endif
+#ifdef ADT_FUEL_SYSTEM_I2C
 
+#include "drivers/I2cSimpleListener.h"
+
+#endif
 //
 //
 
@@ -145,7 +149,6 @@ struct Fuel {
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include "drivers/I2cSimpleListener.h"
 // Data wire is plugged into pin A7 on the Arduino
 #define ONE_WIRE_BUS 7
 OneWire oneWire(ONE_WIRE_BUS);
