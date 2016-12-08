@@ -31,6 +31,8 @@ class ShutDw {
 
     CarSens *_car;
 
+    WhlSens *_whl;
+
 private :
     uint8_t pinCtrl, pinDtct, pinTone;
 
@@ -53,7 +55,7 @@ private :
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
-    ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens);
+    ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens, WhlSens *whlSens);
 
     void setup(int pinControl, int pinDetect, int pinToAlarm);
 
@@ -77,11 +79,16 @@ public:
 
 /**
  * Constructor of shutdown
- */
-ShutDw::ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens) {
+  * @param eepRom
+  * @param ampInt
+  * @param carSens
+  * @param whlSens
+  */
+ShutDw::ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens, WhlSens *whlSens) {
     _eep = eepRom;
     _amp = ampInt;
     _car = carSens;
+    _whl = whlSens;
 }
 
 /**
@@ -107,7 +114,7 @@ void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
 /**
  * When mid is started and loop si lower number resolve as USB active
  */
-void  ShutDw::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
+void ShutDw::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
     if (_detectorValue < 500 && _detectUsbAct < 50) {
         entryUsbDetected = true;
     }
@@ -165,6 +172,10 @@ void ShutDw::listener() {
         //
         // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
         if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng()) {
+            _whl->shutdownMode();
+            //
+            // Wait dig pot
+            delay(100);
             //
             // Skip save and shutdown
             digitalWrite(pinCtrl, LOW);
@@ -256,6 +267,7 @@ void ShutDw::displayCancel(LiquidCrystal *lcd) {
     //
     // Shutdown the system
     tone(pinTone, 800, 500);
+    _whl->shutdownMode();
     delay(2000);
     analogWrite(pinCtrl, LOW);
     //
@@ -286,6 +298,7 @@ void ShutDw::displaySaved(LiquidCrystal *lcd) {
     tone(pinTone, 2000, 50);
     delay(50);
     tone(pinTone, 3000, 50);
+    _whl->shutdownMode();
     delay(2000);
     digitalWrite(pinCtrl, LOW);
     //

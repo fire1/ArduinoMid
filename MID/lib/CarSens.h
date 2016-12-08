@@ -46,7 +46,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 1549.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15500.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -808,7 +808,7 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
-        CUR_VDS = (vssHitsCount / 10) + CUR_VDS;
+        CUR_VDS = (vssHitsCount) + CUR_VDS;
 
 //
 // debug info
@@ -1005,8 +1005,6 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         value = receivingLpgBuffer;
     }*/
 
-
-
     int value = i2c->listen();
 
     unsigned long currentTime = millis();
@@ -1014,10 +1012,10 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     if (value < 245 && value > 0 && lastDetectionLpg + 1000 > currentTime) {
         lastDetectionLpg = currentTime;
         if (FUEL_STATE == 1) {
-            FUEL_STATE = 0;
-        } else
-            FUEL_STATE = 1;
-
+//            FUEL_STATE = 0;
+        } else {
+//            FUEL_STATE = 1;
+        }
         Serial.print("CHANGED FUEL STATE TO ");
         Serial.println(FUEL_STATE);
     }
@@ -1027,8 +1025,6 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         if (value < 255 && value > 0) {
             Serial.print("Last read LPG Values ");
             Serial.println(value);
-            Serial.print("Fuel state is ");
-            Serial.println(FUEL_STATE);
         }
     }
 }
@@ -1123,6 +1119,10 @@ int CarSens::getMxmVss() {
 void CarSens::sensTmp() {
 
 /*******************************     DS    temperature sensor ******************************************/
+    //
+    // Read inside temperature
+#if defined(INSIDE_TEMPERATURE_DS)
+
 #if defined(DEBUG_TEMPERATURE_IN)
     if (ampInt.isBig()) {
         temperatureSensors.requestTemperatures();
@@ -1131,9 +1131,6 @@ void CarSens::sensTmp() {
     }
 #endif
 
-    //
-    // Read inside temperature
-#if defined(INSIDE_TEMPERATURE_DS)
     if (_amp->isBig()) {
         temperatureSensors.requestTemperatures();
         CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
@@ -1152,28 +1149,6 @@ void CarSens::sensTmp() {
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
     if (isInitTemperature || _amp->isBig()) {
-        //
-        // Old version
-        /*
-         float RT, VR, ln, TX, T0, voltage;
-         //
-         // Init on first loop the when is big amplitude
-
-
-             T0 = EXT_TMP_MSR + 273.15;
-
-             int reading = analogRead(TMP_PIN_OUT);              // Acquisition analog value of VRT
-             voltage = (5.00 / 1023.00) * reading;      // Conversion to voltage
-             VR = EXT_TMP_VSS - voltage;
-             RT = voltage / (VR / EXT_TMP_RST);
-
-
-             ln = log(RT / EXT_TMP_RST); //  * 10000 // 10k pull-up Resistor
-             TX = (1 / ((ln / EXT_TMP_MVL) + (1 / T0))); // Temperature from thermistor
-             temperatureC = TX * 0.01 + 3; // + 3 maybe
-     */
-
-
         float Vin = 5.0;     // [V]
         float Rt = 10000;    // Resistor t [ohm]
         float R0 = 10000;    // value of rct in T0 [ohm]
@@ -1202,7 +1177,6 @@ void CarSens::sensTmp() {
         TempK = (beta / log(Rout / Rinf)); // calc for temperature
         temperatureC = TempK - 284.75;
 
-
 #if defined(DEBUG_TEMPERATURE_OU)
         if (_amp->isMid()) {
             Serial.print("Read Temp  value: ");
@@ -1213,11 +1187,9 @@ void CarSens::sensTmp() {
             Serial.println(temperatureC);
         }
 #endif
-
         //
         // Close first loop
         isInitTemperature = 0;
-
         //
         // Pass value to global
         CUR_OUT_TMP = temperatureC;
@@ -1277,7 +1249,6 @@ void CarSens::sensCns() {
  */
 void CarSens::sensIfc() {
     long cons;
-    char decs[16];
     unsigned long delta_dist;
 
 
@@ -1300,9 +1271,9 @@ void CarSens::sensIfc() {
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
             cons = long(
-                    long(maf * getIfcFuelVal() / 2) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
+                    long(maf * (getIfcFuelVal() / 2)) / 1000 * 0.001);  // L/h, do not use float so mul first then divide
         } else {
-            cons = long(maf * getIfcFuelVal() / 2) / delta_dist; // L/100kmh, 100 comes from the /10000*100
+            cons = long(maf * (getIfcFuelVal() / 2)) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
         // pass
         // Current Instance consumption
@@ -1416,42 +1387,7 @@ void CarSens::switchCurrentFuel() {
         Serial.println(FUEL_STATE);
     }
 }
-/**
- * Detector of fuel switch
 
-void CarSens::listenFuelSwitch() {
-
-    dumpFuelSwitchCnt++;
-
-    if (!digitalRead(CarSens::pinLpgClock)) {
-        dumpFuelSwitchSwt++;
-    }
-
-    if (!digitalRead(CarSens::pinLpgData)) {
-        dumpFuelSwitchLvl++;
-    }
-
-    //
-    // Wait for event
-    if (digitalRead(CarSens::pinLpgClock) == SWITCH_FUEL_ON_STATE) {
-        //
-        // Get current read time
-        unsigned long currentListenSwitchTime = millis();
-        if (CarSens::lastFuelStateSwitched + 1000 > currentListenSwitchTime) {
-            //
-            // Protecting Duplicated reads ...
-            CarSens::lastFuelStateSwitched = currentListenSwitchTime;
-            //
-            // Changing fuel state
-            if (CarSens::FUEL_STATE == 1) {
-                CarSens::FUEL_STATE = 0;
-            } else
-                CarSens::FUEL_STATE = 1;
-        }
-    }
-
-}
-*/
 //ARDUINO_MID_CAR_SENS_H
 #endif
 

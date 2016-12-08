@@ -17,7 +17,8 @@ struct Diagnostic {
     boolean blt;    // Belt ware change
     boolean och;    // Oil level change
     boolean air;    // Air filter change
-
+    boolean la1;    // 1 Incandescent lamps
+    boolean la2;    // 2 incandescent lamps
 };
 
 /**
@@ -32,7 +33,7 @@ private:
 
     float workDistance;
 
-    boolean alertSatate = false;
+    boolean alertState = false;
 
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol;
 
@@ -124,8 +125,8 @@ void CarState::listener() {
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
 
-        if (result.oil || result.brk || result.cnt, result.win || result.vol) {
-            alertSatate = true;
+        if (result.oil || result.brk || result.cnt, result.win /*|| result.vol*/) {
+            alertState = true;
         }
     }
 }
@@ -207,7 +208,7 @@ Diagnostic CarState::getResult() {
  * @return boolean
  */
 boolean CarState::isAlert() {
-    return alertSatate;
+    return alertState;
 }
 
 #endif //ARDUINOMID_CARSTAT_H

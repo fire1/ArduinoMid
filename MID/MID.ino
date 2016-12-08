@@ -25,8 +25,9 @@
 #include "lib/drivers/I2cSimpleListener.h"
 
 //
-// Inject data from serial monitor
-#define SERIAL_INJECT_DATA
+// Serial configuration
+#define SERIAL_INJECT_DATA          // Inject data from serial monitor
+#define SERIAL_MONITOR_BAUD 250000  // 115200 - Normal Speed of monitoring messages
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -165,7 +166,7 @@ EepRom eepRom(&carSens);
 MidMenu midMenu(&ampInt, &carSens, &eepRom);
 //
 // Shutdown constructor
-ShutDw shutDown(&eepRom, &ampInt, &carSens);
+ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 
 
 //
@@ -198,7 +199,7 @@ void setup() {
     lcd.noDisplay();
     //
     // Debug serial
-    Serial.begin(9600);
+    Serial.begin(SERIAL_MONITOR_BAUD);
     //
     // Change timer 3
     setupTimer3();
@@ -262,11 +263,6 @@ void setup() {
 
 
 void loop() {
-
-//    if (ampInt.isBig()) {
-//        Serial.println(lpgSens.getValue());
-//    }
-
     //
     // Set new time every begin
     ampInt.setTimer(millis());
@@ -289,7 +285,7 @@ void loop() {
     //
     // Listen engine
     carSens.listener();
-    if (ampInt.isBig()) {
+    if (ampInt.isBig() && false) {
         Serial.print("Current fuel state is: ");
         Serial.print(carSens.getFuelState());
         Serial.print("        DUMP||  swt: ");

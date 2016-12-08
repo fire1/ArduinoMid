@@ -96,22 +96,42 @@ public:
     //
     // External changer var
     int static cursorMenu;
-
+/**
+ * Sets pins
+ * @param pinUp
+ * @param pinDw
+ * @param pinTn
+ */
     void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn);
-
+/**
+ * Listen buttons and navigate
+ * @param whl
+ * @param cursor
+ */
     void listener(WhlSens *whl, int &cursor);
-
+/**
+ *
+ * @return int
+ */
     int getCursorMenu() {
         return MidMenu::cursorMenu;
     }
 
-
+/**
+ *
+ * @param val
+ */
     void setCursor(int val) {
         MidMenu::cursorMenu = val;
     }
 
     void lcdDisplay(LiquidCrystal *lcd);
-
+/**
+ * Constructor
+ * @param amp
+ * @param car
+ * @param eep
+ */
     MidMenu(IntAmp *amp, CarSens *car, EepRom *eep);
 
 private:

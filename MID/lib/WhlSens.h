@@ -95,6 +95,9 @@ public:
     boolean isDisable() {
         return isDisabled;
     }
+
+    void shutdownMode(void);
+
 };
 
 /***********************************************************************************************
@@ -349,6 +352,12 @@ void WhlSens::sendRadioButtons() {
 
 #endif
 
+}
+/**
+ * Change dig pod to shutdown mode
+ */
+void WhlSens::shutdownMode(void) {
+    _setDigitalPot(0);
 }
 
 #endif
