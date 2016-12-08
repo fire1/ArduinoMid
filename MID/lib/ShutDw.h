@@ -160,15 +160,17 @@ void ShutDw::listener() {
     //
     // Get voltage from pin
     detectorValue = analogRead(pinDtct);
+
+
+    if (_amp->isMid()) {
+        Serial.print("Detected car voltage is: ");
+        Serial.println(detectorValue);
+    }
+
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
         //
         // get data again
         detectorValue = analogRead(pinDtct);
-
-        if (_amp->isMax()) {
-            Serial.print("Detected car voltage is: ");
-            Serial.println(detectorValue);
-        }
 
         //
         // Is shutdown mode .... not noise
