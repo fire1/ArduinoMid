@@ -162,10 +162,10 @@ void ShutDw::listener() {
     detectorValue = analogRead(pinDtct);
 
 
-    if (_amp->isMid()) {
-        Serial.print("Detected car voltage is: ");
-        Serial.println(detectorValue);
-    }
+//    if (_amp->isMid()) {
+//        Serial.print("Detected car voltage is: ");
+//        Serial.println(detectorValue);
+//    }
 
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
         //
