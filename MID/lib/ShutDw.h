@@ -180,6 +180,8 @@ void ShutDw::listener() {
         //
         // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
         if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng()) {
+            //
+            // Fixes digital pot
             _whl->shutdownMode();
             //
             // Wait dig pot

@@ -44,7 +44,7 @@ private:
     IntAmp *_amp;
 
     bool isButtonPressActive = 0;
-    uint8_t pinSteering, pinDigitalOut, pinOutVoltage;
+    uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
     int currentStateButton;
     int lastStateButton = 0;
     int closeCurrentState = 0;
@@ -132,12 +132,12 @@ void WhlSens::setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pi
 
 
     pinSteering = pinTargetSteering;
-    pinDigitalOut = pinDigitalPod;
+    pinDigPotCntr = pinDigitalPod;
     pinOutVoltage = pinVoltage;
 
 
     pinMode(pinSteering, INPUT);
-    pinMode(pinDigitalOut, OUTPUT);
+    pinMode(pinDigPotCntr, OUTPUT);
     pinMode(pinOutVoltage, OUTPUT);
     digitalWrite(pinOutVoltage, HIGH);
 //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
@@ -164,9 +164,9 @@ void WhlSens::setButtonStateParser(int currentState) {
 
 }
 
-
 /**
- * Send command to pod
+ * Send value to dig-pot
+ * @param  resistanceValue
  */
 void WhlSens::_setDigitalPot(uint8_t resistanceValue) {
     SPI.transfer(ADR_DIG_POD); // 17
@@ -199,12 +199,12 @@ void WhlSens::listener() {
         int val = Serial.parseInt();
         Serial.println(val);
         if (val != 0) {
-            digitalWrite(pinDigitalOut, LOW);
+            digitalWrite(pinDigPotCntr, LOW);
             delay(30);
             digitalWrite(pinOutVoltage, LOW);
             SPI.transfer(B10001); // 17
             SPI.transfer(val);
-            digitalWrite(pinDigitalOut, HIGH);
+            digitalWrite(pinDigPotCntr, HIGH);
             delay(30);
             digitalWrite(pinOutVoltage, HIGH);
         }
@@ -218,19 +218,6 @@ void WhlSens::listener() {
     }
 #endif
     _setCurrentState(STR_BTN_NON);
-//
-//    //
-//    // Default value  for sony when Steering wheel is not used
-//    if (readingSteeringButton > 900 && readingSteeringButton < 999 && isButtonPressActive == 0) {
-//
-//        //
-//        // Do not enter in here next loop
-//        isButtonPressActive = 1;
-//#if defined(STR_WHL_SEND_B)
-//        digitalWrite(pinOutVoltage, HIGH);
-//#endif
-//    }
-
     //
     // Volume down
     if (readingSteeringButton > 200 && readingSteeringButton < 299) {
@@ -284,41 +271,11 @@ void WhlSens::sendRadioButtons() {
 
     int currentState = getCurrentState();
 
-
+    //
+    // Disable commands to radio
     if (isDisable()) {
         return;
     }
-
-#if defined(STR_WHL_SEND_A)
-    //
-    // Determinate button is pressed
-    if (lastStateButton != currentState) {
-        digitalWrite(pinOutVoltage, LOW);
-        digitalWrite(pinDigitalOut, LOW);
-        if (_amp->isMin() && currentState == getCurrentState()) {
-            lastStateButton = currentState;
-            isButtonPressActive = 0;
-
-            setButtonStateParser(currentState);
-            digitalWrite(pinDigitalOut, HIGH);
-        } else {
-            //
-            digitalWrite(pinOutVoltage, HIGH);
-
-        }
-    } else if (currentState != STR_BTN_NON) {
-        digitalWrite(pinOutVoltage, LOW);
-        digitalWrite(pinDigitalOut, HIGH);
-    }
-
-    if (currentState == STR_BTN_NON) {
-        digitalWrite(pinOutVoltage, HIGH);
-    }
-
-#endif
-
-
-#if defined(STR_WHL_SEND_B)
 // Debugging
 //    if (_amp->isMid()) {
 //        Serial.print("WHL Current State ");
@@ -331,11 +288,11 @@ void WhlSens::sendRadioButtons() {
         //
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
-        digitalWrite(pinDigitalOut, LOW);
+        digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
         delay(1); // Some separation fix
-        digitalWrite(pinDigitalOut, HIGH);
+        digitalWrite(pinDigPotCntr, HIGH);
         lastStateButton = currentState;
         //
         // Returned to none
@@ -345,19 +302,21 @@ void WhlSens::sendRadioButtons() {
         digitalWrite(pinOutVoltage, HIGH);
         if (_amp->isMid()) {
 //            Serial.println("WHL Current State Disable");
-
         }
     }
 
 
-#endif
-
 }
+
 /**
  * Change dig pod to shutdown mode
  */
 void WhlSens::shutdownMode(void) {
+    digitalWrite(pinDigPotCntr, LOW);
+    delay(5);
     _setDigitalPot(0);
+    delay(5);
+    digitalWrite(pinDigPotCntr, HIGH);
 }
 
 #endif
