@@ -8,7 +8,7 @@ void setup() {
     pinMode(dataPin, INPUT);
     pinMode(clockPin, INPUT);
 
-    Serial.begin(115200);
+    Serial.begin(250000);
 }
 
 int lastRead = 0;
@@ -19,27 +19,13 @@ uint8_t temp;
 void loop() {
 
 
-//    int currentState = analogRead(dataPin);
+    int currentState = analogRead(dataPin);
 
     value = 0;
-    /*if (currentState > lastRead) {
-        temp |= 1 << i;
-    } else {
-        temp |= 0 << i;
+    if (currentState > lastRead) {
+        temp |= digitalRead(clockPin) << i;
+        lastRead = currentState;
     }
-/*
-    temp |= digitalRead(clockPin) << i;
-    lastRead = currentState;
-
-
-
-
-
-    if (value) {
-        Serial.println(value, BIN);
-    }*/
-
-    temp |= digitalRead(clockPin) << i;
 
     i++;
     if (i >= 8) {
@@ -53,14 +39,5 @@ void loop() {
     }
 
 }
-
-/*
-
- 11111110
-11111111
-11111111
-
-
- */
 
 

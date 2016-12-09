@@ -30,6 +30,7 @@ protected:
 
     uint8_t i2cReadBit(void);
 
+
 public:
     I2cSimpleListener(void);
 
@@ -37,7 +38,10 @@ public:
 
     void setPins(uint8_t sdaPin, uint8_t sclPin);
 
+    boolean available(void);
+
     uint8_t listen(void);
+
 
 };
 /* ================================================================
@@ -87,14 +91,30 @@ void I2cSimpleListener::setPins(uint8_t sdaPin, uint8_t sclPin) {
  */
 uint8_t I2cSimpleListener::i2cRead(void) {
     uint8_t res = 0;
+    uint8_t i = 0;
 
-    for (uint8_t i = 0; i < 8; i++) {
+    for(i=0; i<8; i++) {
+
+
         res <<= 1;
         res |= i2cReadBit();
+        i++;
+
+        if (i >= 8)
+            return res;
+
     }
 
-
     return res;
+
+}
+
+/**
+ * Returns true when transmitting
+ * @return
+ */
+boolean I2cSimpleListener::available() {
+    return (digitalRead(_sclPin) == LOW);
 }
 
 /**
@@ -102,8 +122,7 @@ uint8_t I2cSimpleListener::i2cRead(void) {
  * @return bits
  */
 uint8_t I2cSimpleListener::listen() {
-    if (!digitalRead(_sclPin))
-        return i2cRead();
+    return i2cRead();
 }
 
 /**
@@ -117,7 +136,6 @@ uint8_t I2cSimpleListener::i2cReadBit(void) {
     return (c & _sdaBitMask) ? 1 : 0;
 }
 
-
 I2cSimpleListener i2c(A5, A4);
 
 void setup() {
@@ -127,13 +145,21 @@ void setup() {
 int indexScl = 0;
 
 void loop() {
-    uint8_t val = i2c.listen();
+    if (i2c.available())
+        Serial.println(i2c.listen());
+
+
+    /*
+
+     uint8_t val = i2c.listen();
     if (val)
         Serial.println(val);
 
 
     if (!digitalRead(A4))
         Serial.println("SCL LOW");
+     */
+
 }
 
 
