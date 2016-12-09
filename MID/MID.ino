@@ -306,7 +306,7 @@ void loop() {
     carStat.listener();
 #ifdef ADT_FUEL_SYSTEM_I2C
     cli();
-    carSens.listenerI2cLpg(&i2cLpg);
+//    carSens.listenerI2cLpg(&i2cLpg);
     sei();
 #endif
     //
