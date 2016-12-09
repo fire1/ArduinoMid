@@ -287,11 +287,6 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
-#ifdef ADT_FUEL_SYSTEM_I2C
-    cli();
-    carSens.listenerI2cLpg(&i2cLpg);
-    sei();
-#endif
 
     //
     // Listen engine
@@ -309,6 +304,11 @@ void loop() {
     //
     // Listen state pins
     carStat.listener();
+#ifdef ADT_FUEL_SYSTEM_I2C
+    cli();
+    carSens.listenerI2cLpg(&i2cLpg);
+    sei();
+#endif
     //
     // Reads buttons from steering
     whlSens.listener();
