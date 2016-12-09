@@ -1,7 +1,5 @@
-
 #include <Arduino.h>
 #include <SoftwareSerial.h>
-
 
 
 const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
@@ -9,8 +7,7 @@ const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switche
 
 SoftwareSerial portOne(LPG_DAT_PIN, LPG_CLC_PIN);
 
-void setup()
-{
+void setup() {
     Serial.begin(250000);
 
     // set the data rate for the ReceiveOnlySoftwareSerial port
@@ -24,7 +21,7 @@ void loop() // run over and over
     // while there is data coming in, read it
     // and send to the hardware serial port:
     while (portOne.available() > 0) {
-        char inByte = portOne.read();
-        Serial.write(inByte);
+        int inByte = portOne.read();
+        Serial.print(inByte);
     }
 }

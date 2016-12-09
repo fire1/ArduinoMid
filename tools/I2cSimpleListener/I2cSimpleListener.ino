@@ -1,9 +1,8 @@
-
-
 #include <Arduino.h>
 
 #ifndef IC2_LISTENER_LENGTH
 #define IC2_LISTENER_LENGTH 8
+#endif
 
 /**
  * Simple I2C listener
@@ -106,6 +105,7 @@ uint8_t I2cSimpleListener::listen() {
     if (!digitalRead(_sclPin))
         return i2cRead();
 }
+
 /**
  * Reads single bit
  * @return uint8_t
@@ -118,17 +118,22 @@ uint8_t I2cSimpleListener::i2cReadBit(void) {
 }
 
 
-
-I2cSimpleListener i2c(A5,A4);
+I2cSimpleListener i2c(A5, A4);
 
 void setup() {
-    Serial.begin(9600);           // start serial for output
+    Serial.begin(250000);           // start serial for output
 }
+
+int indexScl = 0;
 
 void loop() {
     uint8_t val = i2c.listen();
-    if(val)
+    if (val)
         Serial.println(val);
+
+
+    if (!digitalRead(A4))
+        Serial.println("SCL LOW");
 }
 
 
