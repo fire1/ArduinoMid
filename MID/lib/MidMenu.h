@@ -352,12 +352,17 @@ void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
     MidMenu::cursorMenu = MENU_ENTER;
     lcd->clear();
     lcd->setCursor(0, 0);
-    lcd->setCursor(0, 0);
-    lcd->print("~ ");
 
+    lcd->print("~ ");
+    lcd->setCursor(15, 0);
+    lcd->print((char) 246);
+    lcd->setCursor(0, 0);
     tone(pinTones, 2800, 20);
     delay(100);
     lcd->print(MidMenu::where);
+
+    lcd->setCursor(16, 0);
+    lcd->print((char) 246);
 
     delay(300);  //delay to allow message reading
     lcd->setCursor(0, 0);

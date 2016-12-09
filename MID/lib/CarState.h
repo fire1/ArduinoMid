@@ -39,6 +39,8 @@ private:
 
     boolean isBadVoltage();
 
+    int lastVoltageValue = 0;
+
 public:
     /**
      *
@@ -125,7 +127,7 @@ void CarState::listener() {
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
 
-        if (result.oil || result.brk || result.cnt, result.win /*|| result.vol*/) {
+        if (result.oil || result.brk || result.cnt, result.win || result.vol) {
             alertState = true;
         }
     }
@@ -136,7 +138,26 @@ void CarState::listener() {
  * @return
  */
 boolean CarState::isBadVoltage(void) {
-    return !((analogRead(pinVol) < 1020) && boolean(analogRead(pinVol) > 950));
+
+    int readingVoltage = analogRead(pinVol);
+    //
+    // Voltage too high
+    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 955) {
+        return true;
+    }
+    //
+    // Voltage too low
+    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 900) {
+        return true;
+    }
+    //
+    // Save last reading
+    if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
+        lastVoltageValue = readingVoltage;
+    }
+    //
+    // Voltage is good
+    return false;
 }
 
 /**
@@ -192,7 +213,7 @@ boolean CarState::getLiveVol() {
  * @return integer
  */
 int CarState::getVoltage(void) {
-    return isBadVoltage(); // todo replace with detection
+    return analogRead(pinVol) / 67;
 }
 
 /**

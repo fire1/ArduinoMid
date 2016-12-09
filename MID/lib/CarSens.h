@@ -362,18 +362,25 @@ public:
     // Speeding alarm modes
     const int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
 
-    void speedingAlarmsUp();
+    /**
+     * Makes move of alarm cursor to up
+     */
+    void speedingAlarmsUp(void);
 
-    void speedingAlarmsDw();
+    /**
+     * Makes move of alarm cursor to down
+     */
+    void speedingAlarmsDw(void);
 
+    /**
+     *  Makes switch between fuel lines
+     */
     void switchCurrentFuel(void);
 
     /**
      * Clear peak
      */
-    void clearBaseData() {
-        CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
-    }
+    void clearBaseData();
 
     int getGear(int CarSpeed, int Rpm);
 
@@ -384,123 +391,74 @@ public:
       * @param pinEcu
       * @param pinTmp
       */
-    void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
-        setupRpmSens(pinRpm);
-        setupVssSens(pinVss);
-        setupEcuSens(pinEcu);
-        //
-        // Engine temperature
-        pinMode(pinTmp, INPUT);
-        pinTemp = pinTmp;
-    }
-
-    bool isRunEng() {
-        return _isEngineSens;
-    }
-
-    bool isRunDst() {
-        return _isVehicleSens;
-    }
+    void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp);
+    /**
+     * Is the engine was keen
+     * @return bool
+     */
+    bool isRunEng() { return _isEngineSens; }
+    /**
+     * Is vehicle make some move
+     * @return
+     */
+    bool isRunDst() { return _isVehicleSens; }
 
     /**
      * Setup additional fuel line
       * @param pinTank
       * @param pinSwitch
       */
-    void setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
-        pinMode(pinTank, INPUT);
-        pinMode(pinSwitch, INPUT);
-        //
-        //
-        pinLpgClock = pinSwitch;
-        pinLpgData = pinTank;
-    }
-
+    void setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch);
 
     /**
     * Setup screen pins
     */
-    void setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast) {
-
-        pinScreenInput = pinInputInstrumentValue;
-        pinScreenOutput = pinOutputDisplayContrast;
-
-        pinMode(pinScreenInput, INPUT);
-        pinMode(pinScreenOutput, OUTPUT);
-        //
-        // Set default value
-        analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT);
-        //
-        // Sens dim level at start
-        sensDim();
-
-    }
+    void setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast);
 
     /**
      * Setups fuel lines to listen
       * @param defFuel
       * @param adtFuel
       */
-    void setupFuel(Fuel defFuel, Fuel adtFuel = {0, 0}) {
-        FUEL_PARAM_DEF = defFuel;
-        //
-        // Optional
-        if (adtFuel.cns > 0 && adtFuel.ifc > 0) {
-            FUEL_PARAM_ADT = adtFuel;
-        }
-    }
+    void setupFuel(Fuel defFuel, Fuel adtFuel = {0, 0});
 
     /**
      * Setup temperature
       * @param pinOutsideTemperature
       */
-    void setupTemperature(uint8_t pinOutsideTemperature) {
-        pinTmpOut = pinOutsideTemperature;
-        //
-        // Setup outside pin
-        pinMode(pinOutsideTemperature, INPUT);
-        //
-        // Setup inside pin
-#if defined(INSIDE_TEMPERATURE_DS)
-        temperatureSensors.begin();
-#endif
-    }
+    void setupTemperature(uint8_t pinOutsideTemperature);
 
-    float getTmpOut() {
-        return CUR_OUT_TMP;
-    }
+    /**
+     * Gets outside temperature
+     * @return
+     */
+    float getTmpOut() { return CUR_OUT_TMP; }
 
-    float getTmpIns() {
-        return CUR_INS_TMP;
-    }
+    /**
+     * Gets inside temperature [with ext. Dallas Temperature sensor ]
+     * @return
+     */
+    float getTmpIns() { return CUR_INS_TMP; }
 
     /**
      * Gets instant fuel consumption
      */
-    int getIfc() {
-        return FUEL_INST_CONS;
-    }
+    int getIfc() { return FUEL_INST_CONS; }
 
     /**
      * Gets Instant fuel consumption average value
      */
-    float getIfcAvr() {
-        return FUEL_AVRG_INST_CONS;
-    }
+    float getIfcAvr() { return FUEL_AVRG_INST_CONS; }
 
     /**
      * Gets default fuel line consumption
      */
-    float getDefFuelCns() {
-        return float(FL_CNS_DEF * 0.00001);
-    }
+    float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
 
     /**
      * Gets additional fuel line consumption
      */
-    float getAdtFuelCns() {
-        return float(FL_CNS_ADT * 0.00001);
-    }
+    float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
 
     /**
      * Gets fuel state  used
@@ -510,112 +468,59 @@ public:
         if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
     }
 
-    /*
+    /**
      * Gets current fuel state
      */
-    int getFuelState() {
-        return FUEL_STATE;
-    }
+    int getFuelState() { return FUEL_STATE; }
 
     /**
      * Gets engine temperature
+     *  resistor 5.6k  to GND || pull-up resistor 4.2k from MID plug pin 31 with 10mf cap
      */
-    int getEngTmp() {
-        // resistor 5.6k  to GND || pull-up resistor 4.2k from MID plug pin 31
-        return CUR_ENT; // output must be 1:1 so... 95°C gives reading of 195
-    }
+    int getEngTmp() { return CUR_ENT; /* Range from 70 to 120*/}
 
     /**
      * Gets current Vss
      */
-    int getVss() {
-        return CUR_VSS;
-    }
+    int getVss() { return CUR_VSS; }
 
     /**
      * Gets current Rpm
      */
-    int getRpm() {
-        return CUR_RPM;
-    }
+    int getRpm() { return CUR_RPM; }
 
     /**
      * Gets current Ecu
      */
-    int getEcu() {
-        return CUR_ECU;
-    }
+    int getEcu() { return CUR_ECU; }
 
-    int getTnkLpg() {
-        return CUR_LTK;
-    }
+    int getTnkLpg() { return CUR_LTK; }
 
-    int getTnkLpgPer() {
+    int getTnkLpgPer() { return (int) CUR_LTK;/* map(CUR_LTK, 10, 100, 0, 100)*/}
 
-        return (int) CUR_LTK;/* map(CUR_LTK, 10, 100, 0, 100)*/
-    }
+    int getTnkBnz() { return 0; }
 
-    int getTnkBnz() {
-
-        return 0;
-    }
-
-    int getTnkBnzPer() {
-        return 0;
-    }
+    int getTnkBnzPer() { return 0; }
 
     /**
      *  Gets travel time
      */
-    int long getTime() {
-        return CUR_VTT;
-    }
+    int long getTime() { return CUR_VTT; }
 
     /**
      *  Gets Human time
      */
-    char *getHTm() {
-
-        char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
-
-        unsigned long tmSec;
-        int tmMin, tmHrs;
-
-        tmSec = millis() / 1000;
-        tmMin = int(tmSec / 60);
-        tmHrs = tmMin / 60;
-
-//        if (_amp->isMid()) {
-//            Serial.print("Time running: ");
-//            Serial.println(tmSec);
-//        }
-
-//        char dspTime[5];
-        sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
-
-//        strcpy(ch, dspTime);
-
-        return dspTime;
-    }
+    char *getHTm(void);
 
     /**
      *  Gets current Distance
      */
-    float getDst() {
-        /* my tires are smaller then original ... so my number must be lower, original must be / 16093.44 // one mile */
-        return float(CUR_VDS);
-        /*
-        float km = ;
-
-        if (km <= 0) {
-            km = 0;
-        }
-        return km;*/
-    }
-
-    long getTfc() {
-        return TTL_FL_CNS;
-    }
+    float getDst() { return float(CUR_VDS); }
+    /** @deprecated
+     * Gets Total fuel consumption
+     * @return long
+     */
+    long getTfc() {  return TTL_FL_CNS;}
 
     /**
      * Gets Average Vss
@@ -633,11 +538,6 @@ public:
     int getMxmVss();
 
     /**
-     * Fuel pin listener
-     */
-//    static void listenFuelSwitch();
-
-    /**
      *  Listen sensors
      */
     void listener();
@@ -653,8 +553,6 @@ public:
  * ########################################################################################### *
  * ########################################################################################### *
  ***********************************************************************************************/
-
-
 
 /**
  * Construct class
@@ -696,7 +594,7 @@ void EngSens_catchEcuHits() {
 void CarSens::setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
-}
+};
 
 /**
   * Setup VSS
@@ -705,7 +603,7 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
 void CarSens::setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
-}
+};
 
 /**
   * Setup Ecu
@@ -714,7 +612,24 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
-}
+};
+
+/**
+ *  Setup engine pins
+ * @param pinVss
+ * @param pinRpm
+ * @param pinEcu
+ * @param pinTmp
+ */
+void CarSens::setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
+    setupRpmSens(pinRpm);
+    setupVssSens(pinVss);
+    setupEcuSens(pinEcu);
+    //
+    // Engine temperature
+    pinMode(pinTmp, INPUT);
+    pinTemp = pinTmp;
+};
 
 /**
  * Gets calculate constant for instant consumption
@@ -723,7 +638,7 @@ void CarSens::setupEcuSens(uint8_t pinTarget) {
 int CarSens::getIfcFuelVal() {
     if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
     if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
-}
+};
 
 /**
  * Gets calculated constant for consumption
@@ -732,7 +647,72 @@ int CarSens::getIfcFuelVal() {
 long CarSens::getCnsFuelVal() {
     if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
     if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
+};
+
+/**
+ * Setup fuel line data
+ * @param defFuel
+ * @param adtFuel
+ */
+void CarSens::setupFuel(Fuel defFuel, Fuel adtFuel) {
+    FUEL_PARAM_DEF = defFuel;
+    //
+    // Optional
+    if (adtFuel.cns > 0 && adtFuel.ifc > 0) {
+        FUEL_PARAM_ADT = adtFuel;
+    }
+};
+
+/**
+ * Setup screen data
+ * @param pinInputInstrumentValue
+ * @param pinOutputDisplayContrast
+ */
+void CarSens::setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisplayContrast) {
+
+    pinScreenInput = pinInputInstrumentValue;
+    pinScreenOutput = pinOutputDisplayContrast;
+
+    pinMode(pinScreenInput, INPUT);
+    pinMode(pinScreenOutput, OUTPUT);
+    //
+    // Set default value
+    analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT);
+    //
+    // Sens dim level at start
+    sensDim();
+};
+
+/**
+ * Setup temperatures
+ * @param pinOutsideTemperature
+ */
+void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
+    pinTmpOut = pinOutsideTemperature;
+    //
+    // Setup outside pin
+    pinMode(pinOutsideTemperature, INPUT);
+    //
+    // Setup inside pin
+#if defined(INSIDE_TEMPERATURE_DS)
+    temperatureSensors.begin();
+#endif
+};
+
+/**
+ * Setup additional fuel line pins
+ * @param pinTank
+ * @param pinSwitch
+ */
+void CarSens::setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
+    pinMode(pinTank, INPUT);
+    pinMode(pinSwitch, INPUT);
+    //
+    //
+    pinLpgClock = pinSwitch;
+    pinLpgData = pinTank;
 }
+
 
 /*******************************************************************
  *      LISTENER
@@ -934,6 +914,13 @@ void CarSens::speedingAlarms() {
 }
 
 /**
+ * Clears peek data
+ */
+void CarSens::clearBaseData() {
+    CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
+};
+
+/**
  * Alarm cursor changer UP
  */
 void CarSens::speedingAlarmsUp() {
@@ -946,6 +933,24 @@ void CarSens::speedingAlarmsUp() {
 void CarSens::speedingAlarmsDw() {
     speedAlarmCursor--;
 }
+
+/**
+ * Gets human time
+ * @return char*
+ */
+char *CarSens::getHTm() {
+
+    char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
+
+    unsigned long tmSec;
+    int tmMin, tmHrs;
+
+    tmSec = millis() / 1000;
+    tmMin = int(tmSec / 60);
+    tmHrs = tmMin / 60;
+    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
+    return dspTime;
+};
 
 /**
  *  Sensing Screen DIM

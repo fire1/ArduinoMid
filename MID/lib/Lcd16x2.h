@@ -42,8 +42,8 @@ void displayOutTmp() {
     if (value < 3 && ampInt.isMin() && outTempLowController) {
         lcd.setCursor(0, 2);
         lcd.print("  ");
-        lcd.write((char) 176);
-        lcd.print("  * ");
+        lcd.print((char) 26);
+        lcd.print("*   ");
     }
 
     if (value < 3 && ampInt.is5Seconds() && outTempLowController) {
