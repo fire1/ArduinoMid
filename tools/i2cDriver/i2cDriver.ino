@@ -5,7 +5,7 @@
 #define ARDUINO_I2C_FUEL_DETECTION_SWITCH
 
 #include <Arduino.h>
-#include "../../MID/drivers/I2cSimpleListener.h"
+#include "../../MID/lib/drivers/I2cSimpleListener.h"
 
 const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level
 const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher

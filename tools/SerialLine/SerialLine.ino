@@ -1,19 +1,30 @@
-#include <ReceiveOnlySoftwareSerial.h>
 
-ReceiveOnlySoftwareSerial mySerial(0); // RX
+#include <Arduino.h>
+#include <SoftwareSerial.h>
+
+
+
+const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
+
+SoftwareSerial portOne(LPG_DAT_PIN, LPG_CLC_PIN);
 
 void setup()
 {
-    Serial.begin(9600);
-    while (!Serial) { }  // wait for Serial to become available
+    Serial.begin(250000);
 
     // set the data rate for the ReceiveOnlySoftwareSerial port
-    mySerial.begin(9600);
+    portOne.begin(9600);
 }
 
 void loop() // run over and over
 {
-    // echo from software serial to hardware serial
-    if (mySerial.available())
-        Serial.write(mySerial.read());
+    portOne.listen();
+    Serial.println("Data from port one:");
+    // while there is data coming in, read it
+    // and send to the hardware serial port:
+    while (portOne.available() > 0) {
+        char inByte = portOne.read();
+        Serial.write(inByte);
+    }
 }
