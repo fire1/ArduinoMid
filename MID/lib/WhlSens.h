@@ -314,7 +314,7 @@ void WhlSens::sendRadioButtons() {
 void WhlSens::shutdownMode(void) {
     digitalWrite(pinDigPotCntr, LOW);
     delay(5);
-    _setDigitalPot(0);
+    _setDigitalPot(1);
     delay(5);
     digitalWrite(pinDigPotCntr, HIGH);
 }

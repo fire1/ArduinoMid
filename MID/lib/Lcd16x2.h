@@ -361,11 +361,12 @@ void displayTest() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("Lpg Tank: ");
+        lcd.print("Lpg <-          ");
+        lcd.setCursor(7, 0);
 
-        sprintf(display, "%04d", carSens.getTnkLpg());
-
-        lcd.print(display);
+        lcd.print(carSens.getLpgPull());
+        lcd.print(" -> ");
+        lcd.print(carSens.getLpgPush());
 
         lcd.setCursor(0, 2);
         lcd.print("Wheel Btn: ");

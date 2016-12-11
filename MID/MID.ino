@@ -279,15 +279,7 @@ void setup() {
 
 
 }
-#ifdef ADT_FUEL_SYSTEM_I2C
 
-ISR(TIMER1_0VF_vect) {
-    cli();
-    carSens.listenerI2cLpg(&i2cLpg);
-    sei();
-}
-
-#endif
 
 void loop() {
     //
@@ -313,6 +305,12 @@ void loop() {
     //
     // Listen state pins
     carStat.listener();
+
+#ifdef ADT_FUEL_SYSTEM_I2C
+    cli();
+    carSens.listenerI2cLpg(&i2cLpg);
+    sei();
+#endif
 
 
 

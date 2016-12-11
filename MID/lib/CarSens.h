@@ -50,7 +50,8 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15488.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15434.11  //   <sens:200> 15500      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+// 15488.11
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -63,7 +64,7 @@
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
-#define SCREEN_DEF_LIGHT 60 // 22
+#define SCREEN_DEF_LIGHT 75 // 22
 #define SCREEN_GO_TO_DEF 15
 
 
@@ -350,6 +351,11 @@ private:
     void sensDlt();
 
 public:
+
+    int getLpgPull();
+
+    int getLpgPush();
+
 #ifdef ADT_FUEL_SYSTEM_I2C
 
     void listenerI2cLpg(I2cSimpleListener *i2c);
@@ -1059,6 +1065,14 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 }
 
 #endif
+
+int CarSens::getLpgPull() {
+    return pullLpgIndex;
+}
+
+int CarSens::getLpgPush() {
+    return pushLpgIndex;
+}
 
 /**
  *  Engine temperature
