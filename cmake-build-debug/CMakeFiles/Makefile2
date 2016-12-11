@@ -496,16 +496,16 @@ clean: CMakeFiles/mega_LiquidCrystal.dir/clean
 # Target rules for target CMakeFiles/ArduinoMid.dir
 
 # All Build rule for target.
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_CORE.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Firmata.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_DallasTemperature.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SPI.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Wire.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_CORE.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_MenuBackend.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_twi.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SoftwareSerial.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SPI.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_MenuBackend.dir/all
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/depend
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target ArduinoMid"

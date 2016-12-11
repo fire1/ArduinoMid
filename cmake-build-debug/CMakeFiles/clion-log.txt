@@ -1,19 +1,4 @@
 "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug set(CMAKE_RUNTIME_OUTPUT_DIRECTORY build) -G "CodeBlocks - MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid
--- The C compiler identification is GNU 4.9.2
--- The CXX compiler identification is GNU 4.9.2
--- Arduino SDK version 1.6.11: C:/Program Files (x86)/Arduino
--- Check for working C compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe
--- Check for working C compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-g++.exe
--- Check for working CXX compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-g++.exe -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
 -- Generating ArduinoMid
 -- Generating mega_SPI for library SPI
 -- Generating mega_Wire for library Wire
