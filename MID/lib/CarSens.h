@@ -238,9 +238,9 @@ private:
     //
     unsigned long CUR_VTT;// Travel time
 
-    int receivingLpgIndex = 0;
+    int pushLpgIndex = 0;
     unsigned long lastDetectionLpg = 0;
-    uint8_t receivingLpgBuffer = 0;
+    int pullLpgIndex = 0;
 
     float FUEL_AVRG_INST_CONS;
     unsigned long collectionIfc, indexIfc;
@@ -1010,29 +1010,33 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 //    if (!digitalRead(CarSens::pinLpgClock))
 
 /*    if (digitalRead(pinLpgData) == HIGH)
-        receivingLpgBuffer |= digitalRead(pinLpgClock) << receivingLpgIndex;
+        pullLpgIndex |= digitalRead(pinLpgClock) << pushLpgIndex;
 
 
     int value = 0;
-    receivingLpgIndex++;
-    if (receivingLpgIndex >= 8) {
-        receivingLpgIndex = 0;
-        value = receivingLpgBuffer;
+    pushLpgIndex++;
+    if (pushLpgIndex >= 8) {
+        pushLpgIndex = 0;
+        value = pullLpgIndex;
     }*/
 
     // todo move to private timer
     //
     if (_amp->is5Seconds()) {
-        receivingLpgIndex = 0;
+        pushLpgIndex = 0;
     }
 
     if (digitalRead(pinLpgClock) == LOW) {
-        receivingLpgIndex++;
+        pushLpgIndex++;
+    }
+
+    if (digitalRead(pinLpgData) == LOW) {
+        pullLpgIndex++;
     }
 
     unsigned long currentTime = millis();
-
-    if (receivingLpgIndex > 30 && receivingLpgIndex < 100 && lastDetectionLpg + 1000 > /*<*/ currentTime) {
+/** locked for now ... */
+    if (pushLpgIndex > 30 && pushLpgIndex < 100 && lastDetectionLpg + 1000 > /*<*/ currentTime) {
         lastDetectionLpg = currentTime;
         if (FUEL_STATE == 1) {
             FUEL_STATE = 0;
@@ -1045,10 +1049,12 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 
 
     if (_amp->isMid()) {
-
-        Serial.print("Last read LPG Values ");
-        Serial.println(receivingLpgIndex);
-
+        Serial.print("\n\n");
+        Serial.print("Last read LPG values | PUSH: ");
+        Serial.print(pushLpgIndex);
+        Serial.print(" | PULL: ");
+        Serial.print(pullLpgIndex);
+        Serial.print("\n\n");
     }
 }
 
