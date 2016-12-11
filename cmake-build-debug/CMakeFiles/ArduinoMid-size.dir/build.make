@@ -42,10 +42,10 @@ RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
+CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
 
 # Utility rule file for ArduinoMid-size.
 
@@ -53,8 +53,8 @@ CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-
 include CMakeFiles/ArduinoMid-size.dir/progress.make
 
 CMakeFiles/ArduinoMid-size: ArduinoMid.elf
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Calculating ArduinoMid image size"
-	"C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" "-DFIRMWARE_IMAGE=C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf" -DMCU= "-DEEPROM_IMAGE=C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.eep" -P "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/FirmwareSize.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Calculating ArduinoMid image size"
+	"C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -DFIRMWARE_IMAGE=C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf -DMCU= -DEEPROM_IMAGE=C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.eep -P C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/FirmwareSize.cmake
 
 ArduinoMid-size: CMakeFiles/ArduinoMid-size
 ArduinoMid-size: CMakeFiles/ArduinoMid-size.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/ArduinoMid-size.dir/clean:
 .PHONY : CMakeFiles/ArduinoMid-size.dir/clean
 
 CMakeFiles/ArduinoMid-size.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\ArduinoMid-size.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\ArduinoMid-size.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ArduinoMid-size.dir/depend
 

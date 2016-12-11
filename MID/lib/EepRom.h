@@ -498,6 +498,14 @@ void EepRom::injectFromSerial(void) {
             srlOutputs = "Work distance ";
             srlOutputs += saveTemp;
         }
+        if (srlStrName == "save") {
+            // Saves type 
+            saveTemp = Serial.readStringUntil('\n').toInt();
+            if (saveTemp == 1)saveCurrentData();
+            srlOutputs = "Save All data";
+            srlOutputs += saveTemp;
+        }
+
         //
         // Show command information to human
         Serial.print("\n\n==============================================================\n");

@@ -1,43 +1,81 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-uint8_t dataPin = A5;
-uint8_t clockPin = A4;
+uint8_t pullPin = A5;
+uint8_t pushPin = A4;
 
 void setup() {
-    pinMode(dataPin, INPUT);
-    pinMode(clockPin, INPUT);
+    pinMode(pullPin, INPUT);
+    pinMode(pushPin, INPUT);
 
     Serial.begin(250000);
 }
 
-int lastRead = 0;
+int pressRead = 0;
+int autoRead = 0;
 uint8_t i = 0;
 uint8_t value = 0;
 uint8_t temp;
 
+
+ISR(TIMER1_0VF_vect) {
+    int pushState = digitalRead(pushPin);
+    int pullState = digitalRead(pullPin);
+
+    if (pullState == LOW) {
+        pressRead++;
+    }
+
+    if (pushState == LOW) {
+        autoRead++;
+    }
+
+    if (pressRead) {
+        Serial.print("press: ");
+        Serial.println(pressRead);
+    }
+
+
+    if (autoRead) {
+        Serial.print("auto: ");
+        Serial.println(autoRead);
+    }
+}
+
 void loop() {
 
+//
+//    Serial.print(" data: ");
+//    Serial.print(digitalRead(pullPin));
+//
+//    Serial.print(" clock: ");
+//    Serial.print(digitalRead(pushPin));
+//    Serial.print("\n\n\n");
 
-    int currentState = analogRead(dataPin);
+    /*
+    int pushState = digitalRead(pushPin);
+    int pullState = digitalRead(pullPin);
 
-    value = 0;
-    if (currentState > lastRead) {
-        temp |= digitalRead(clockPin) << i;
-        lastRead = currentState;
+    if (pullState == LOW) {
+        pressRead++;
     }
 
-    i++;
-    if (i >= 8) {
-        i = 0;
-        value = temp;
-        temp = 0;
+    if (pushState == LOW) {
+        autoRead++;
     }
 
-    if (value) {
-        Serial.println(value);
+    if (pressRead) {
+        Serial.print("press: ");
+        Serial.println(pressRead);
     }
 
+
+    if (autoRead) {
+        Serial.print("auto: ");
+        Serial.println(autoRead);
+    }
+
+*/
 }
 
 

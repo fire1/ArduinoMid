@@ -8,28 +8,28 @@
 		<Option virtualFolders="CMake Files\;CMake Files\cmake\;CMake Files\cmake\Platform\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ArduinoMid-upload">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid-upload"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid-upload"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_DallasTemperature">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_DallasTemperature.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_DallasTemperature.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -44,38 +44,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_DallasTemperature"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_DallasTemperature"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_DallasTemperature/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_DallasTemperature.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_DallasTemperature.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -90,38 +90,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_DallasTemperature/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_DallasTemperature/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_CORE">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_CORE.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_CORE.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -136,38 +136,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_CORE"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_CORE"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_CORE/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_CORE.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_CORE.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -182,38 +182,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_CORE/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_CORE/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_SPI">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SPI.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SPI.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -228,38 +228,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SPI"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SPI"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_SPI/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SPI.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SPI.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -274,38 +274,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SPI/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SPI/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_MenuBackend">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_MenuBackend.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_MenuBackend.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -320,38 +320,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_MenuBackend"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_MenuBackend"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_MenuBackend/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_MenuBackend.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_MenuBackend.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -366,38 +366,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_MenuBackend/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_MenuBackend/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_Wire">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Wire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Wire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -412,38 +412,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Wire"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Wire"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_Wire/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Wire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Wire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -458,48 +458,48 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Wire/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Wire/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="upload">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 upload"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 upload"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_Firmata">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Firmata.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Firmata.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -514,38 +514,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Firmata"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Firmata"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_Firmata/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Firmata.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_Firmata.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -560,38 +560,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Firmata/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_Firmata/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_twi">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_twi.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_twi.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -606,38 +606,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_twi"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_twi"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_twi/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_twi.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_twi.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -652,38 +652,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_twi/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_twi/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_SoftwareSerial">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftwareSerial.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftwareSerial.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -698,38 +698,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftwareSerial"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftwareSerial"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_SoftwareSerial/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftwareSerial.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_SoftwareSerial.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -744,38 +744,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftwareSerial/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_SoftwareSerial/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_OneWire">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -790,38 +790,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_OneWire/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_OneWire.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -836,38 +836,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_OneWire/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_LiquidCrystal">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_LiquidCrystal.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_LiquidCrystal.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -882,38 +882,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_LiquidCrystal"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_LiquidCrystal"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mega_LiquidCrystal/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_LiquidCrystal.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/libmega_LiquidCrystal.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -928,38 +928,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_LiquidCrystal/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 mega_LiquidCrystal/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ArduinoMid">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -974,38 +974,38 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ArduinoMid/fast">
-				<Option output="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option output="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1020,63 +1020,63 @@
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/twi/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/Firmata/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/utility"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
-					<Add directory="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/src"/>
+					<Add directory="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/utility"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src"/>
 					<Add directory="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/utility"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/include-fixed"/>
-					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.8.1/../../../../avr/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/include-fixed"/>
+					<Add directory="c:\program files (x86)\arduino\hardware\tools\avr\bin\../lib/gcc/avr/4.9.2/../../../../avr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ArduinoMid-size">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid-size"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 ArduinoMid-size"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
@@ -1252,37 +1252,40 @@
 		<Unit filename="C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.h">
 			<Option target="mega_LiquidCrystal"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/MID/MID.ino">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/MID/MID.ino">
 			<Option target="ArduinoMid"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/DallasTemperature.cpp">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/DallasTemperature.cpp">
 			<Option target="mega_DallasTemperature"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/DallasTemperature.h">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/DallasTemperature/DallasTemperature.h">
 			<Option target="mega_DallasTemperature"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/MenuBackend/MenuBackend.h">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/MenuBackend/MenuBackend.h">
 			<Option target="mega_MenuBackend"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/OneWire.cpp">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/OneWire.cpp">
 			<Option target="mega_OneWire"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/libraries/OneWire/OneWire.h">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/libraries/OneWire/OneWire.h">
 			<Option target="mega_OneWire"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/CmakeLists.txt">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/CmakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake/ArduinoToolchain.cmake">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake/ArduinoToolchain.cmake">
 			<Option virtualFolder="CMake Files\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake/ArduinoToolchain.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
 			<Option virtualFolder="CMake Files\cmake\Platform\"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
 			<Option virtualFolder="CMake Files\cmake\Platform\"/>
 		</Unit>
-		<Unit filename="C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
+		<Unit filename="C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake/Platform/Arduino.cmake">
 			<Option virtualFolder="CMake Files\cmake\Platform\"/>
 		</Unit>
 	</Project>

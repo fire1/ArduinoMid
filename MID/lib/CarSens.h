@@ -19,7 +19,7 @@
 //
 //
 
-#define DEBUG_ENG_TEMP
+//#define DEBUG_ENG_TEMP
 // Version of MID plug driver
 #define MID_CAR_SENS_VERSION 0.1
 //
@@ -50,7 +50,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15498.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15488.11  //   <sens:200> 15500/15260.11     || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 //  DST
 // ===============
 // cur test +40 = 15240.11
@@ -63,7 +63,7 @@
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
-#define SCREEN_DEF_LIGHT 22
+#define SCREEN_DEF_LIGHT 60 // 22
 #define SCREEN_GO_TO_DEF 15
 
 
@@ -225,7 +225,7 @@ private:
     //
     // Detect fuel switch
     unsigned long lastFuelStateSwitched; // Record time when is switched
-    int FUEL_STATE;
+    unsigned int FUEL_STATE;
     uint8_t pinLpgClock, pinLpgData;
 
     int FUEL_INST_CONS;
@@ -516,11 +516,12 @@ public:
      *  Gets current Distance
      */
     float getDst() { return float(CUR_VDS); }
+
     /** @deprecated
      * Gets Total fuel consumption
      * @return long
      */
-    long getTfc() {  return TTL_FL_CNS;}
+    long getTfc() { return TTL_FL_CNS; }
 
     /**
      * Gets Average Vss
@@ -560,8 +561,6 @@ public:
   */
 CarSens::CarSens(IntAmp *ampInt) {
     _amp = ampInt;
-    FUEL_STATE = DEFAULT_FUEL_STATE;
-
 }
 
 /**
@@ -677,7 +676,7 @@ void CarSens::setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisp
     pinMode(pinScreenOutput, OUTPUT);
     //
     // Set default value
-    analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT);
+    analogWrite(pinScreenOutput, SCREEN_DEF_LIGHT + 50);
     //
     // Sens dim level at start
     sensDim();
@@ -705,6 +704,9 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
  * @param pinSwitch
  */
 void CarSens::setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
+
+    FUEL_STATE = DEFAULT_FUEL_STATE;
+
     pinMode(pinTank, INPUT);
     pinMode(pinSwitch, INPUT);
     //
@@ -990,7 +992,7 @@ void CarSens::sensDim() {
         if (defaultActive == 0) {
             backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
         }
-        analogWrite(pinScreenOutput, backLightLevel);
+        analogWrite(pinScreenOutput, backLightLevel + 50);
     }
 }
 
@@ -1018,16 +1020,24 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         value = receivingLpgBuffer;
     }*/
 
-    int value = i2c->listen();
+    // todo move to private timer
+    //
+    if (_amp->is5Seconds()) {
+        receivingLpgIndex = 0;
+    }
+
+    if (digitalRead(pinLpgClock) == LOW) {
+        receivingLpgIndex++;
+    }
 
     unsigned long currentTime = millis();
 
-    if (value < 245 && value > 0 && lastDetectionLpg + 1000 > currentTime) {
+    if (receivingLpgIndex > 30 && receivingLpgIndex < 100 && lastDetectionLpg + 1000 > /*<*/ currentTime) {
         lastDetectionLpg = currentTime;
         if (FUEL_STATE == 1) {
-//            FUEL_STATE = 0;
+            FUEL_STATE = 0;
         } else {
-//            FUEL_STATE = 1;
+            FUEL_STATE = 1;
         }
         Serial.print("CHANGED FUEL STATE TO ");
         Serial.println(FUEL_STATE);
@@ -1035,10 +1045,10 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 
 
     if (_amp->isMid()) {
-        if (value < 255 && value > 0) {
-            Serial.print("Last read LPG Values ");
-            Serial.println(value);
-        }
+
+        Serial.print("Last read LPG Values ");
+        Serial.println(receivingLpgIndex);
+
     }
 }
 

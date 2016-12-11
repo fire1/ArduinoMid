@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Program Files (x86)/Arduino/libraries/Firmata/Firmata.cpp" "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir/C_/Program_Files_(x86)/Arduino/libraries/Firmata/Firmata.cpp.obj"
+  "C:/Program Files (x86)/Arduino/libraries/Firmata/Firmata.cpp" "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir/C_/Program_Files_(x86)/Arduino/libraries/Firmata/Firmata.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -46,7 +46,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

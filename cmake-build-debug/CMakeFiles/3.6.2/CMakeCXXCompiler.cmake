@@ -1,7 +1,7 @@
 set(CMAKE_CXX_COMPILER "C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-g++.exe")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
-set(CMAKE_CXX_COMPILER_VERSION "4.8.1")
+set(CMAKE_CXX_COMPILER_VERSION "4.9.2")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "98")
 set(CMAKE_CXX_COMPILE_FEATURES "")
@@ -64,5 +64,5 @@ endif()
 
 
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "m;m;c")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -42,10 +42,10 @@ RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
+CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/mega_Wire.dir/depend.make
@@ -58,7 +58,7 @@ include CMakeFiles/mega_Wire.dir/flags.make
 
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.obj: CMakeFiles/mega_Wire.dir/flags.make
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.obj: C:/Program\ Files\ (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.obj"
 	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\mega_Wire.dir\C_\Program_Files_(x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\Wire.cpp.obj -c "C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\Wire.cpp"
 
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.i: cmake_force
@@ -82,7 +82,7 @@ CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/lib
 
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.obj: CMakeFiles/mega_Wire.dir/flags.make
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.obj: C:/Program\ Files\ (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.obj"
 	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\avr-gcc.exe  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\mega_Wire.dir\C_\Program_Files_(x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility\twi.c.obj   -c "C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility\twi.c"
 
 CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.i: cmake_force
@@ -116,7 +116,7 @@ libmega_Wire.a: CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware
 libmega_Wire.a: CMakeFiles/mega_Wire.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility/twi.c.obj
 libmega_Wire.a: CMakeFiles/mega_Wire.dir/build.make
 libmega_Wire.a: CMakeFiles/mega_Wire.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libmega_Wire.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libmega_Wire.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\mega_Wire.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\mega_Wire.dir\link.txt --verbose=$(VERBOSE)
 
@@ -135,6 +135,6 @@ CMakeFiles/mega_Wire.dir/clean:
 .PHONY : CMakeFiles/mega_Wire.dir/clean
 
 CMakeFiles/mega_Wire.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_Wire.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_Wire.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/mega_Wire.dir/depend
 
