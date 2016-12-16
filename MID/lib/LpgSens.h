@@ -10,6 +10,13 @@
 
 #define LPG_RECEIVE_BUFFER_LENGTH 8
 
+
+volatile uint8_t lpgSens_clockState, lpgSens_dataState;
+
+static void LpgSens_interruptClockChange();
+
+static void LpgSens_interruptDataChange();
+
 /**
  *
  */
@@ -17,23 +24,21 @@ class LpgSens {
 
 //    CarSens *_car;
 protected:
-    uint8_t pinData, pinClock;
+    static uint8_t _pinClock, _pinData;
 
     static boolean transmissionBegin;
     static int receiveBufferIndex;
     static uint8_t receiveBuffer;
-    static uint8_t receiveClockState;
+    static int receiveData;
     static uint8_t receivedValue;
 public:
     LpgSens::LpgSens(void/*CarSens *carSens*/);
 
     void setup(uint8_t dataPin, uint8_t clockPin);
 
-    static void interruptData(void);
+    static void interruptClock(void);
 
-    static void interruptClockFalling(void);
-
-    static void interruptClockRising(void);
+    static void _interruptData(void);
 
     /**
      * Gets data from transmition
@@ -52,7 +57,7 @@ public:
 static boolean LpgSens::transmissionBegin = false;
 static int LpgSens::receiveBufferIndex = 0;
 static int LpgSens::receiveBuffer;
-static uint8_t LpgSens::receiveClockState = 1;
+static uint8_t LpgSens::receiveData = 1;
 static uint8_t LpgSens::receivedValue = 0;
 
 /**
@@ -66,29 +71,32 @@ LpgSens::LpgSens(void /*CarSens *carSens*/) {
 /**
  *
  */
-static void LpgSens::interruptData(void) {
+static void LpgSens::interruptClock(void) {
 
 
     //
     // Just shorting state var.
     boolean trans = LpgSens::transmissionBegin;
 
+    int dataState = digitalRead(_pinClock);
+    int clockState = LpgSens::receiveData;
     if (trans) {
         // get each successive byte on each call
-        if (LpgSens::receiveBufferIndex < LPG_RECEIVE_BUFFER_LENGTH) {
+        if (LpgSens::receiveBufferIndex < LPG_RECEIVE_BUFFER_LENGTH && dataState == HIGH) {
 
-            LpgSens::receiveBuffer |= LpgSens::receiveClockState << LpgSens::receiveBufferIndex;
+            LpgSens::receiveBuffer |= LpgSens::receiveData << LpgSens::receiveBufferIndex;
             ++LpgSens::receiveBufferIndex;
         }
     }
 
     if (trans && LpgSens::receiveBufferIndex >= LPG_RECEIVE_BUFFER_LENGTH) {
+        LpgSens::transmissionBegin = false;
         LpgSens::receivedValue = LpgSens::receiveBuffer;
         LpgSens::receiveBuffer = 0;
     }
 
 
-    if (!trans && LpgSens::receiveBufferIndex < LPG_RECEIVE_BUFFER_LENGTH && LpgSens::receiveClockState == LOW) {
+    if (!trans && LpgSens::receiveBufferIndex < LPG_RECEIVE_BUFFER_LENGTH && clockState == LOW && dataState == LOW) {
         LpgSens::transmissionBegin = true;
     }
 }
@@ -96,16 +104,10 @@ static void LpgSens::interruptData(void) {
 /**
  * Detection HIGH
  */
-static void LpgSens::interruptClockFalling(void) {
-    LpgSens::receiveClockState = LOW;
+static void LpgSens::_interruptData(void) {
+    LpgSens::receiveData = digitalRead(_pinData);
 }
 
-/**
- * Detection LOW
- */
-static void LpgSens::interruptClockRising(void) {
-    LpgSens::receiveClockState = HIGH;
-}
 
 /**
  * Sets pins into class
@@ -115,14 +117,13 @@ static void LpgSens::interruptClockRising(void) {
 void LpgSens::setup(uint8_t dataPin, uint8_t clockPin) {
 
     pinMode(clockPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(clockPin), LpgSens::interruptClockFalling, FALLING);
-    attachInterrupt(digitalPinToInterrupt(clockPin), LpgSens::interruptClockRising, RISING);
+    attachInterrupt(digitalPinToInterrupt(clockPin), LpgSens::_interruptData, CHANGE);
 
     pinMode(dataPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(dataPin), LpgSens::interruptData, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(dataPin), LpgSens::interruptClock, CHANGE);
 
-    pinData = dataPin;
-    pinClock = clockPin;
+    _pinClock = dataPin;
+    _pinData = clockPin;
 }
 
 #endif //ARDUINOMID_LPGSENS_H

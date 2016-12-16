@@ -13,14 +13,13 @@
  MID function menu
 */
 
-
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
 #include <OneWire.h>
 #include <Firmata.h>
 #include <MenuBackend.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <DallasTemperature.h>
 //
 // Serial configuration
@@ -56,10 +55,10 @@ const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInte
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
 //
 // Car state pins
-const uint8_t STT_BRK_PIN = A12;     //  Plug        Critical Brake ware
-const uint8_t STT_CLN_PIN = A13;     //  Plug        Critical Coolant level
-const uint8_t STT_OIL_PIN = A14;     //  Plug        Critical oil level
-const uint8_t STT_WNW_PIN = A15;     //  Plug        Critical window washer
+const uint8_t STT_BRK_PIN = A4;     //  Plug        Critical Brake ware
+const uint8_t STT_CLN_PIN = A2;     //  Plug        Critical Coolant level
+const uint8_t STT_OIL_PIN = A3;     //  Plug        Critical oil level
+const uint8_t STT_WNW_PIN = A5;     //  Plug        Critical window washer
 const uint8_t STT_VLT_PIN = A7;      // Duplicating  SAV_PIN_DTC
 //
 //
@@ -120,8 +119,12 @@ const uint8_t ALP_PIN_VOL = 14;
 //      Two wires are for power supply, other two wires is for displayed information.
 //      * Check wiring diagram in order to determine your wiring
 // 20, 21
-const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
+//
+// bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
+// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be used for RX:
+// 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
+const uint8_t LPG_DAT_PIN = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
 #endif
 //
 /***************************************************************************/
@@ -274,12 +277,26 @@ void setup() {
     //
     // Pass saved data to car state for calculation
     carStat.setWorkState(eepRom.getWorkDistance());
-
-//    pinMode(18, INPUT_PULLUP);
-
-
+    //
+    // Setup LPG pins
+    pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
+    pciSetup(LPG_DAT_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_DAT_PIN), isr, CHANGE);
 }
-
+//
+//
+// The interrupt can be enabled for each pin individually (analog and digital!),
+// but there are only 3 interrupt vectors, so 6-8 pins share one service routine:
+// ISR (PCINT1_vect) pin change interrupt for A0 to A5
+//ISR (PCINT1_vect) { // handle pin change interrupt for A0 to A5 here
+//
+//    // Install Pin change interrupt for a pin, can be called multiple times from pciSetup()
+//    Serial.print("\n\n\n\n");
+//    Serial.print(" LPG dat: ");
+//    Serial.print(digitalRead(LPG_DAT_PIN));
+//    Serial.print(" LPG clc: ");
+//    Serial.print(digitalRead(LPG_CLC_PIN));
+//    Serial.print("\n\n\n\n");
+//}
 
 void loop() {
     //
@@ -408,8 +425,7 @@ static void playWelcomeScreen() {
     tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd.setCursor(0, 1);
-    lcd.print("  ");
-    lcd.write((uint8_t) 2);
+    lcd.print("   ");
     lcd.print(" Bertnone    ");
     delay(1500);
     lcd.clear();

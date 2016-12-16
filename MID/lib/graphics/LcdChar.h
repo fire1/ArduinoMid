@@ -3,6 +3,7 @@
 //
 #ifndef ARDUINOM_MID_LCD_CHAR_H
 #define ARDUINOM_MID_LCD_CHAR_H
+
 //
 // LCD Character handler
 void setLcdBaseChar() {
@@ -98,10 +99,20 @@ void setLcdBaseChar() {
             0b00100,
             0b00000
     };
+    byte kilometers[8] = {
+            0b10100,
+            0b11000,
+            0b10100,
+            0b00000,
+            0b01010,
+            0b10101,
+            0b10101,
+            0b00000
+    };
 
 
+    lcd.createChar(2, kilometers);
     lcd.createChar(1, chrCelsius);
-    lcd.createChar(2, chrBertone);
     lcd.createChar(3, chrAlert);
     lcd.createChar(4, chrGasMark);
     lcd.createChar(5, chrInstCons1);

@@ -1,0 +1,2073 @@
+
+
+Last read LPG values | PUSH: 0 | PULL: 0 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 1 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 2 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 3 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 4 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 5 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 6 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 7 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 8 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 9 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 10 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 11 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 12 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 13 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 14 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 15 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 16 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 17 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 18 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 19 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 20 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 22 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 23 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 24 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 25 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 26 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 27 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 28 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 29 | COMB: 0
+
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 1 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 2 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 3 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 4 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 5 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 6 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 7 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 8 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 9 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 10 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 11 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 12 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 13 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 14 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 15 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 16 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 17 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 18 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 19 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 20 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 21 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 1 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 1 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 2 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 3 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 4 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 5 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 6 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 7 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 8 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 9 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 10 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 11 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 12 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 13 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 14 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 15 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 16 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 17 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 18 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 19 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 20 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 22 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 23 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 24 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 25 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 26 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 27 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 28 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 30 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 31 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 32 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 33 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 34 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 35 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 36 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 37 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 38 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 39 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 40 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 41 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 42 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 43 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 44 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 45 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 46 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 47 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 48 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 49 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 1 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 0 | PULL: 2 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 3 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 4 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 5 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 6 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 7 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 8 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 9 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 10 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 11 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 12 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 13 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 14 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 15 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 16 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 17 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 18 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 19 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 20 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 21 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 22 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 23 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 24 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 25 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 26 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 27 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 28 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 29 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 30 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 31 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 32 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 33 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 34 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 35 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 36 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 37 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 38 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 39 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 40 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 41 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 42 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 43 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 44 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 45 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 46 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 47 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 48 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 49 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 50 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 51 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 52 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 53 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 54 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 55 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 56 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 57 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 58 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 59 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 60 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 61 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 62 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 63 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 64 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 65 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 66 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 67 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 68 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 69 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 70 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 71 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 72 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 73 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 74 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 75 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 76 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 77 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 78 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 79 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 80 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 81 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 82 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 83 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 84 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 0 | PULL: 85 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 3 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 4 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 5 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 1 | PULL: 0 | COMB: 0
+
+
+
+Last read LPG values | PUSH: 2 | PULL: 0 | COMB: 0
+
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+83160
+

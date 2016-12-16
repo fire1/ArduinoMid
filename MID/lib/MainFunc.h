@@ -116,7 +116,6 @@ void pciSetup(byte pin)
     PCICR  |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
 }
 
-
 #endif //ARDUINOMID_UTILS_H
 
 

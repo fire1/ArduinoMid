@@ -50,7 +50,7 @@
 #define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 33.767   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15434.11  //   <sens:200> 15500      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define DST_CORRECTION 15424.11  //   <sens:200> 15500      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 // 15488.11
 //  DST
 // ===============
@@ -241,7 +241,7 @@ private:
 
     int pushLpgIndex = 0;
     unsigned long lastDetectionLpg = 0;
-    int pullLpgIndex = 0;
+    int pullLpgIndex = 0, combLpgIndex = 0;
 
     float FUEL_AVRG_INST_CONS;
     unsigned long collectionIfc, indexIfc;
@@ -1028,17 +1028,54 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 
     // todo move to private timer
     //
-    if (_amp->is5Seconds()) {
+    if (digitalRead(pinLpgClock) == HIGH) {
         pushLpgIndex = 0;
+    }
+
+    if (_amp->is4Seconds()) {
+        pullLpgIndex = 0;
+    }
+
+    if (_amp->is4Seconds()) {
+        combLpgIndex = 0;
     }
 
     if (digitalRead(pinLpgClock) == LOW) {
         pushLpgIndex++;
+//        Serial.print("\n\n");
+//        Serial.print("Last read LPG values | PUSH: ");
+//        Serial.print(pushLpgIndex);
+//        Serial.print(" | PULL: ");
+//        Serial.print(pullLpgIndex);
+//        Serial.print(" | COMB: ");
+//        Serial.print(combLpgIndex);
+//        Serial.print("\n\n");
     }
 
     if (digitalRead(pinLpgData) == LOW) {
         pullLpgIndex++;
+//        Serial.print("\n\n");
+//        Serial.print("Last read LPG values | PUSH: ");
+//        Serial.print(pushLpgIndex);
+//        Serial.print(" | PULL: ");
+//        Serial.print(pullLpgIndex);
+//        Serial.print(" | COMB: ");
+//        Serial.print(combLpgIndex);
+//        Serial.print("\n\n");
     }
+
+    if (!digitalRead(pinLpgData) && !digitalRead(pinLpgClock)) {
+        combLpgIndex++;
+//        Serial.print("\n\n");
+//        Serial.print("Last read LPG values | PUSH: ");
+//        Serial.print(pushLpgIndex);
+//        Serial.print(" | PULL: ");
+//        Serial.print(pullLpgIndex);
+//        Serial.print(" | COMB: ");
+//        Serial.print(combLpgIndex);
+//        Serial.print("\n\n");
+    }
+
 
     unsigned long currentTime = millis();
 /** locked for now ... */
@@ -1053,15 +1090,17 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         Serial.println(FUEL_STATE);
     }
 
-
-    if (_amp->isMid()) {
-        Serial.print("\n\n");
-        Serial.print("Last read LPG values | PUSH: ");
-        Serial.print(pushLpgIndex);
-        Serial.print(" | PULL: ");
-        Serial.print(pullLpgIndex);
-        Serial.print("\n\n");
-    }
+//
+//    if (_amp->isMid()) {
+//        Serial.print("\n\n");
+//        Serial.print("Last read LPG values | PUSH: ");
+//        Serial.print(pushLpgIndex);
+//        Serial.print(" | PULL: ");
+//        Serial.print(pullLpgIndex);
+//        Serial.print(" | COMB: ");
+//        Serial.print(combLpgIndex);
+//        Serial.print("\n\n");
+//    }
 }
 
 #endif

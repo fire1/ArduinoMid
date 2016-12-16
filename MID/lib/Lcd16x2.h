@@ -40,13 +40,13 @@ void displayOutTmp() {
     }
 
     if (value < 3 && ampInt.isMin() && outTempLowController) {
-        lcd.setCursor(0, 2);
-        lcd.print("  ");
-        lcd.print((char) 26);
-        lcd.print("*   ");
+        lcd.setCursor(0, 1);
+        lcd.write((uint8_t) 3);
+        lcd.print("Icing ");
+
     }
 
-    if (value < 3 && ampInt.is5Seconds() && outTempLowController) {
+    if (value < 3 && ampInt.is10Seconds() && outTempLowController) {
         outTempLowController = false;
     }
 
@@ -66,7 +66,7 @@ void displayInsTmp() {
         //
         // Preformat ...
         displayFloat(value, tmpTemp);
-        lcd.setCursor(9, 2);
+        lcd.setCursor(9, 1);
         lcd.write((uint8_t) 5);
         lcd.print(tmpTemp);
         lcd.write((uint8_t) 1);
@@ -121,12 +121,13 @@ void displayTotalDst() {
         //
         // Preformat ...
         displayFloat(value, tmp);
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         if (value < 100) {
             lcd.print(" ");
         }
         lcd.print(tmp);
-        lcd.print("km");
+        lcd.write((uint8_t) 2);
+        lcd.print(" ");
     }
 }
 
@@ -134,7 +135,7 @@ boolean displayAlertActive = false;
 
 void displayAlert() {
     if (!displayAlertActive && carStat.isAlert() && ampInt.is10Seconds() || displayAlertActive && ampInt.isMin()) {
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print("  ");
         lcd.write((uint8_t) 3);
         lcd.print("    ");
@@ -157,7 +158,7 @@ void displayEngRPM() {
         //
         // Gets RPM
 
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print("RPm:");
         //
         // Handle RPM screen print
@@ -193,7 +194,7 @@ void displayEngTmp() {
 
     if (ampInt.isSec()) {
 
-        lcd.setCursor(9, 2);
+        lcd.setCursor(9, 1);
         lcd.print("ENg:");
         //
         // Handle Dst screen print
@@ -234,7 +235,7 @@ void displayTrip() {
         lcd.print(" Current Trip");
         //
         // Display travel time
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print(" ");
         lcd.print(carSens.getHTm());
         lcd.print("h");
@@ -245,9 +246,10 @@ void displayTrip() {
         displayFloat(carSens.getDst(), dspDist);
 
         lcd.print(" ");
-        lcd.setCursor(9, 2);
+        lcd.setCursor(9, 1);
         lcd.print(dspDist);
-        lcd.print("km");
+        lcd.write((uint8_t) 2);
+        lcd.print(" ");
 
     }
 }
@@ -261,13 +263,13 @@ void displayConsumption() {
         lcd.print(" Consumption");
 
 
-        lcd.setCursor(1, 2);
+        lcd.setCursor(1, 1);
 
         lcd.write((uint8_t) 5);
         lcd.write((uint8_t) 6);
         lcd.print("  ");
 
-        lcd.setCursor(9, 2);
+        lcd.setCursor(9, 1);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
         lcd.print("   ");
@@ -291,13 +293,13 @@ void displayConsumption() {
             valueConsFuel = carSens.getAdtFuelCns();
         }
 
-        lcd.setCursor(1, 2);
+        lcd.setCursor(1, 1);
         lcd.print((char) 5);
         lcd.print((char) 6);
         lcd.print(dspInst[0]);
         lcd.print("L ");
 
-        lcd.setCursor(8, 2);
+        lcd.setCursor(8, 1);
         lcd.write((uint8_t) 7);
         lcd.write((uint8_t) 8);
         lcd.print(valueConsFuel);
@@ -320,7 +322,7 @@ void displayFuelTanks() {
         lcd.print(" Fuel Tanks");
 
 
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print("Bnz:");
         lcd.print(dspBnz);
         lcd.print("%");
@@ -340,12 +342,12 @@ void displayAverage() {
         lcd.setCursor(0, 0);
         lcd.print("Average");
 
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print(" ");
         lcd.print(carSens.getAvrRpm());
         lcd.print("rpm");
 
-        lcd.setCursor(8, 2);
+        lcd.setCursor(8, 1);
         lcd.print(" ");
         lcd.print(carSens.getAvrVss());
         lcd.print("kmh");
@@ -361,14 +363,17 @@ void displayTest() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("Lpg <-          ");
-        lcd.setCursor(7, 0);
+        lcd.print("Lpg ");
+        lcd.print((char) 127);
+        lcd.print("           ");
+        lcd.setCursor(6, 0);
 
         lcd.print(carSens.getLpgPull());
-        lcd.print(" -> ");
+        lcd.print((char) 126);
+        lcd.print(" ");
         lcd.print(carSens.getLpgPush());
 
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         lcd.print("Wheel Btn: ");
 
         lcd.print(whlSens.getAnalogReadButtons() / 100);
@@ -394,7 +399,7 @@ void displayCarState() {
     if (MidMenu::cursorMenu == 4) {
         if (ampInt.isSecond() && !ampInt.is4Seconds()) {
 
-            lcd.setCursor(0, 2);
+            lcd.setCursor(0, 1);
             if (!carStat.isAlert()) {
                 lcd.print("no warnings  :) ");
             } else {
@@ -403,7 +408,7 @@ void displayCarState() {
                 lcd.print("  ");
             }
         } else if (ampInt.is4Seconds()) {
-            lcd.setCursor(0, 2);
+            lcd.setCursor(0, 1);
             lcd.print("use >R to switch");
         }
     }
@@ -415,7 +420,7 @@ void displayCarState() {
         lcd.print("Car Inspection  ");
         //
         // Continue with info
-        lcd.setCursor(0, 2);
+        lcd.setCursor(0, 1);
         if (MidMenu::cursorMenu == 41) {
             if (carStat.getLiveBrk()) lcd.print("CHECK brake wear");
             else lcd.print("Brake wear OK   ");
