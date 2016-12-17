@@ -1,3 +1,11 @@
+
+Separation
+
+ 11111110
+ 11000000
+
+
+
 Start LPG listening ....
 11111110
 11111100
