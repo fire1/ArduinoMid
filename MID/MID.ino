@@ -123,7 +123,7 @@ const uint8_t ALP_PIN_VOL = 14;
 // bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
 // Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be used for RX:
 // 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
-const uint8_t LPG_DAT_PIN = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t pinLpgDat = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
 #endif
 //
@@ -199,7 +199,7 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 #include "lib/Lcd16x2.h"
 
 #ifdef ADT_FUEL_SYSTEM_I2C
-I2cSimpleListener i2cLpg(LPG_DAT_PIN, LPG_CLC_PIN);
+I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
 
 //
@@ -215,7 +215,7 @@ void setup() {
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     //
-//    lpgSens.setup(LPG_DAT_PIN, LPG_CLC_PIN);
+//    lpgSens.setup(pinLpgDat, LPG_CLC_PIN);
     //
     // Turn lcdDisplay off
     lcd.noDisplay();
@@ -233,7 +233,7 @@ void setup() {
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
     //
     // Setup fuel gauge two required wires
-    carSens.setupAdtFuel(LPG_DAT_PIN, LPG_CLC_PIN);
+    carSens.setupAdtFuel(pinLpgDat, LPG_CLC_PIN);
     //
     // consumption
     // Engine / Speed sensors
@@ -280,7 +280,7 @@ void setup() {
     //
     // Setup LPG pins
     pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
-    pciSetup(LPG_DAT_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_DAT_PIN), isr, CHANGE);
+    pciSetup(pinLpgDat); //   attachInterrupt (digitalPinToInterrupt (pinLpgDat), isr, CHANGE);
 }
 //
 //
@@ -292,7 +292,7 @@ void setup() {
 //    // Install Pin change interrupt for a pin, can be called multiple times from pciSetup()
 //    Serial.print("\n\n\n\n");
 //    Serial.print(" LPG dat: ");
-//    Serial.print(digitalRead(LPG_DAT_PIN));
+//    Serial.print(digitalRead(pinLpgDat));
 //    Serial.print(" LPG clc: ");
 //    Serial.print(digitalRead(LPG_CLC_PIN));
 //    Serial.print("\n\n\n\n");

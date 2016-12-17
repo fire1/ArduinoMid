@@ -1013,10 +1013,10 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     // LPG tank
     //      Full tank reading        805
     //      Empty tank reading       ---
-//    if (!digitalRead(CarSens::pinLpgClock))
+//    if (!digitalRead(CarSens::pinLpgClc))
 
 /*    if (digitalRead(pinLpgData) == HIGH)
-        pullLpgIndex |= digitalRead(pinLpgClock) << pushLpgIndex;
+        pullLpgIndex |= digitalRead(pinLpgClc) << pushLpgIndex;
 
 
     int value = 0;
@@ -1026,14 +1026,9 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         value = pullLpgIndex;
     }*/
 
-    // todo move to private timer
-    //
-    if (digitalRead(pinLpgClock) == HIGH) {
-        pushLpgIndex = 0;
-    }
-
     if (_amp->is4Seconds()) {
         pullLpgIndex = 0;
+        pushLpgIndex = 0;
     }
 
     if (_amp->is4Seconds()) {
@@ -1090,17 +1085,17 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         Serial.println(FUEL_STATE);
     }
 
-//
-//    if (_amp->isMid()) {
-//        Serial.print("\n\n");
-//        Serial.print("Last read LPG values | PUSH: ");
-//        Serial.print(pushLpgIndex);
-//        Serial.print(" | PULL: ");
-//        Serial.print(pullLpgIndex);
-//        Serial.print(" | COMB: ");
-//        Serial.print(combLpgIndex);
-//        Serial.print("\n\n");
-//    }
+
+    if (_amp->isMid()) {
+        Serial.print("\n\n");
+        Serial.print("Last read LPG values | PUSH: ");
+        Serial.print(pushLpgIndex);
+        Serial.print(" | PULL: ");
+        Serial.print(pullLpgIndex);
+        Serial.print(" | COMB: ");
+        Serial.print(combLpgIndex);
+        Serial.print("\n\n");
+    }
 }
 
 #endif

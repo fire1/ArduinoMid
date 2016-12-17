@@ -135,7 +135,7 @@ const uint8_t ALP_PIN_VOL = 14;
 // 4 Pins 5V LPG fuel switch/gauge
 //      Two wires are for power supply, other two wires is for displayed information.
 //      * Check wiring diagram in order to determine your wiring
-const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t pinLpgDat = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
 #endif
 //
@@ -211,7 +211,7 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 #include "lib/Lcd16x2.h"
 
 #ifdef ADT_FUEL_SYSTEM_I2C
-I2cSimpleListener i2cLpg(LPG_DAT_PIN, LPG_CLC_PIN);
+I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
 
 //
@@ -227,7 +227,7 @@ void setup() {
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     //
-//    lpgSens.setup(LPG_DAT_PIN, LPG_CLC_PIN);
+//    lpgSens.setup(pinLpgDat, LPG_CLC_PIN);
     //
     // Turn lcdDisplay off
     lcd.noDisplay();
@@ -245,7 +245,7 @@ void setup() {
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
     //
     // Setup fuel gauge two required wires
-    carSens.setupAdtFuel(LPG_DAT_PIN, LPG_CLC_PIN);
+    carSens.setupAdtFuel(pinLpgDat, LPG_CLC_PIN);
     //
     // consumption
     // Engine / Speed sensors

@@ -2,10 +2,10 @@
 #include <SoftwareSerial.h>
 
 
-const uint8_t LPG_DAT_PIN = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t pinLpgDat = A5;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t LPG_CLC_PIN = A4;     //  [blue]      Switch button   Fuel switcher       /// A9
 
-SoftwareSerial portOne(LPG_DAT_PIN, LPG_CLC_PIN);
+SoftwareSerial portOne(pinLpgDat, LPG_CLC_PIN);
 
 void setup() {
     Serial.begin(250000);

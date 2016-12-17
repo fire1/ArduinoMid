@@ -366,11 +366,11 @@ void displayTest() {
         lcd.print("Lpg ");
         lcd.print((char) 127);
         lcd.print("           ");
-        lcd.setCursor(6, 0);
+        lcd.setCursor(5, 0);
 
         lcd.print(carSens.getLpgPull());
         lcd.print((char) 126);
-        lcd.print(" ");
+
         lcd.print(carSens.getLpgPush());
 
         lcd.setCursor(0, 1);

@@ -7,13 +7,13 @@
 // 4 Pins LPG fuel switch/gauge
 //      Two wires are for power supply, other two wires is for displayed information.
 //      * Check wiring diagram in order to determine wiring
-const uint8_t LPG_DAT_PIN = A5;     //  None        Data Line   Tank fuel level
+const uint8_t pinLpgDat = A5;     //  None        Data Line   Tank fuel level
 const uint8_t LPG_CLC_PIN = A4;     //  None        Fuel switcher
 
 
 
 int analogInputsToReport = 0; // bitwise array to store pin reporting
-int analogPin = LPG_DAT_PIN; // counter for reading analog pins
+int analogPin = pinLpgDat; // counter for reading analog pins
 /* timer variables */
 unsigned long currentMillis;     // store the current value from millis()
 unsigned long previousMillis;    // for comparison with currentMillis

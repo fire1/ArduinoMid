@@ -1,50 +1,49 @@
 
 
 #include <Arduino.h>
-#include "LpgSens.h"
 
-const uint8_t LPG_DAT_PIN = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
 
+const uint8_t pinLpgDat = A1;     //  [brown]     Switch DATA     Tank fuel level     /// A8
+const uint8_t pinLpgClc = A2;     //  [blue]      Switch button   Fuel switcher       /// A9
+
+#define LPG_SENS_MESSAGE_LENGTH 8
 
 
 void setup() {
     Serial.begin(250000);
 
+    Serial.println("Start LPG listening .... ");
 };
 
 boolean startReceiving = false;
-int indexReceving = 0;
-uint8_t receivedData;
+int indexReceiving = 0;
+uint8_t receivedBuffer, receivingData;
 
 void loop() {
 
 
-    if (digitalRead(LPG_DAT_PIN) == HIGH) {
-        receivedData |= digitalRead(LPG_CLC_PIN) << indexReceving;
-        indexReceving++;
-
-    }
-
-    if (indexReceving >= 8 && receivedData < 255 && receivedData > 0) {
-        Serial.println(receivedData);
-        receivedData = 0;
-        indexReceving = 0;
-    }
-
-};
-
-
-/*
- boolean startReceiving = false;
-int indexReceving = 0;
-
-void loop() {
-
-    if(!digitalRead(LPG_DAT_PIN) && !digitalRead(LPG_CLC_PIN)){
+    if (digitalRead(pinLpgClc) == LOW && !startReceiving) {
         startReceiving = true;
-        indexReceving= 0;
+    }
+
+
+    if (indexReceiving < LPG_SENS_MESSAGE_LENGTH && startReceiving) {
+        receivedBuffer |= digitalRead(pinLpgDat) << indexReceiving;
+    }
+
+    indexReceiving++;
+
+    if (indexReceiving > LPG_SENS_MESSAGE_LENGTH) {
+        receivingData = receivedBuffer;
+        receivedBuffer = 0;
+        indexReceiving = 0;
+        startReceiving = 0;
+    }
+
+
+    if (receivingData && receivingData < 255) {
+        Serial.println(receivingData, BIN);
+        receivingData = 0;
     }
 
 };
- */
