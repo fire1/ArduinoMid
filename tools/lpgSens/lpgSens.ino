@@ -76,8 +76,8 @@ void loop() {
         Serial.print("\t");
         Serial.print(dest_char);
         Serial.print("\t");
-        Serial.write(char((receivingData >> 8) & 0xff));
-//        Serial.println(receivingData, HEX);
+//        Serial.write(((receivingData >> 8) & 0xff));
+        Serial.print(receivingData, HEX);
         receivingData = 0;
         Serial.print("\n");
     }
