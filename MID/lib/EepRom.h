@@ -364,7 +364,13 @@ void EepRom::saveZeroingData() {
     container.fuel_def = 0;
 
     container.distance = 0;
-    container.total_km = container.total_km + (assumedTravel / 1000);
+
+
+    float total_km = container.total_km + (assumedTravel / 1000);
+    if (total_km > 0) {
+        container.total_km = container.total_km + total_km;
+    }
+
 
     saveAdtCons(container.fuel_adt);
     saveDefCons(container.fuel_def);
