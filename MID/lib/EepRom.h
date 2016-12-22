@@ -83,7 +83,7 @@ public:
  * Gets worked distance
  * @return
  */
-    float getWorkDistance(void);
+    int getWorkDistance(void);
 
 /**
  * Gets travel distance
@@ -382,8 +382,8 @@ void EepRom::saveZeroingData() {
  * Gets Car's total distance
  * @return
  */
-float EepRom::getWorkDistance(void) {
-    return container.total_km;
+int EepRom::getWorkDistance(void) {
+    return int(container.total_km * 1000);
 }
 
 /**

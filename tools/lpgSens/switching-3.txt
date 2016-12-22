@@ -14,7 +14,11 @@ Switch
 11111110		FE
 11000000		C0
 
+----- or
 
+11111110		FE
+11111110		FE
+10000000		80
 
 
 Start LPG listening ....

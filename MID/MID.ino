@@ -380,6 +380,9 @@ void loop() {
         case 21:
             displayAverage();
             break;
+        case 22:
+            displayTotalTrip();
+            break;
 
             //
             // Fuel menu

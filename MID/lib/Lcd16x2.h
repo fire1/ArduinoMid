@@ -254,6 +254,22 @@ void displayTrip() {
     }
 }
 
+void displayTotalTrip() {
+    //
+    // Handle Distance screen
+
+    if (ampInt.isSec()) {
+        lcd.setCursor(0, 0);
+        lcd.print("Total Distance");
+        //
+        // Display travel time
+        lcd.setCursor(0, 1);
+        lcd.print(" ");
+        lcd.print(eepRom.getWorkDistance());
+        lcd.write((uint8_t) 2);
+        lcd.print(" ");
+    }
+}
 
 void displayConsumption() {
 

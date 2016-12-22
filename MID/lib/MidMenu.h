@@ -31,6 +31,7 @@
 //
 #define MENU_NAME_2 "Trip"
 #define MENU_NAME_21 "Trip Average"
+#define MENU_NAME_22 "Total Distance"
 //
 //
 #define MENU_NAME_3 "Fuel"
@@ -66,7 +67,8 @@ class MidMenu {
     //
     // Trip menu
             tripMenu,
-            tripAvrage,
+            tripAverage,
+            tripTotalKm,
     //
     // Fuel tank
             fuelMenu,
@@ -196,7 +198,8 @@ MidMenu::MidMenu(IntAmp *amp, CarSens *car, EepRom *eep) :
         //
         // Trip menu initialization
         tripMenu(MenuItem(MENU_NAME_2)),
-        tripAvrage(MenuItem(MENU_NAME_21)),
+        tripAverage(MenuItem(MENU_NAME_21)),
+        tripTotalKm(MenuItem(MENU_NAME_22)),
         fuelMenu(MenuItem(MENU_NAME_3)),
         FuelTankMenu(MenuItem(MENU_NAME_31)),
         //
@@ -232,6 +235,8 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
         MidMenu::cursorMenu = 2;
     } else if (curMenuItem.getName() == MENU_NAME_21) {
         MidMenu::cursorMenu = 21;
+    } else if (curMenuItem.getName() == MENU_NAME_22) {
+        MidMenu::cursorMenu = 22;
         //
         // Fuel Menu
     } else if (curMenuItem.getName() == MENU_NAME_3) {
@@ -281,9 +286,10 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     testingsMenu.add(mainMenu);
     //
     // Trip Menu
-    tripMenu.addRight(tripAvrage);
-    tripAvrage.addRight(tripMenu);
-    tripAvrage.add(tripMenu);
+    tripMenu.addRight(tripAverage).addRight(tripTotalKm);
+    tripTotalKm.addRight(tripMenu);
+    tripAverage.add(tripMenu);
+    tripTotalKm.add(tripMenu);
     //
     // Fuel  layers
     fuelMenu.addRight(FuelTankMenu);

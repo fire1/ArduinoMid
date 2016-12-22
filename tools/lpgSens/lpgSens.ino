@@ -50,9 +50,10 @@ void loop() {
         bit_string[indexReceiving] |= digitalRead(pinLpgDat) << indexReceiving;
 
 //        Serial.print(digitalRead(pinLpgDat), HEX);
+        indexReceiving++;
     }
 
-    indexReceiving++;
+
 
     if (indexReceiving > LPG_SENS_MESSAGE_LENGTH) {
         receivingData = receivedBuffer;
@@ -73,8 +74,6 @@ void loop() {
         }
 
         Serial.print(receivingData, BIN);
-        Serial.print("\t");
-        Serial.print(dest_char);
         Serial.print("\t");
 //        Serial.write(((receivingData >> 8) & 0xff));
         Serial.print(receivingData, HEX);
