@@ -220,6 +220,7 @@ private:
     //
     // Distance container
     double CUR_VDS;
+    unsigned long CUR_VDS_collection;
     //
     // LPG tank
     int CUR_LTK;
@@ -328,6 +329,7 @@ protected:
      * @return
      */
     long getCnsFuelVal();
+
 
 private:
     void sensVss();
@@ -522,6 +524,12 @@ public:
      *  Gets current Distance
      */
     float getDst() { return float(CUR_VDS); }
+
+    /**
+     * Gets all pulses from speed sensor to calculate distance
+     * @return
+     */
+    unsigned long getVdsDump(void) { return CUR_VDS_collection; }
 
     /** @deprecated
      * Gets Total fuel consumption
@@ -804,6 +812,9 @@ void CarSens::sensVss() {
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (DST_CORRECTION + TRS_CORRECTION)) + CUR_VDS;
+
+        CUR_VDS_collection = vssHitsCount + CUR_VDS_collection;
+
 
 //
 // debug info

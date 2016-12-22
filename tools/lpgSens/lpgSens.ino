@@ -6,7 +6,7 @@
 const uint8_t pinLpgDat = A1;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t pinLpgClc = A2;     //  [blue]      Switch button   Fuel switcher       /// A9
 
-#define LPG_SENS_MESSAGE_LENGTH 8
+#define LPG_SENS_MESSAGE_LENGTH 16
 
 
 #define LPG_SENS_MESSAGE_HEADER 111111101100000011111100
@@ -22,10 +22,19 @@ boolean is_lpg_switch(String buffer) {
 
 }
 
+#include <SoftwareSerial.h>
+
+// software serial #1: RX = digital pin 10, TX = digital pin 11
+SoftwareSerial portOne(0, 1);
+//Note:
+//        Not all pins on the Mega and Mega 2560 support change interrupts,
+//so only the following can be used for RX:
+// 10, 11, 12, 13, 50, 51, 52, 53, 62, 63, 64, 65, 66, 67, 68, 69
+
 
 void setup() {
     Serial.begin(250000);
-
+    portOne.begin(9600);
     Serial.println("Start LPG listening .... ");
 };
 
@@ -37,6 +46,21 @@ char bit_string[8];
 
 
 void loop() {
+
+    portOne.listen();
+    while (portOne.available() > 0) {
+        //
+        //
+        Serial.print("Receiving serial ... ");
+        Serial.write(portOne.read());
+        Serial.println("\n");
+    }
+
+    if (digitalRead(pinLpgClc) == LOW) {
+        digitalWrite(13, HIGH);
+    }else{
+        digitalWrite(13, LOW);
+    }
 
 
     if (digitalRead(pinLpgClc) == LOW && !startReceiving) {
@@ -52,7 +76,6 @@ void loop() {
 //        Serial.print(digitalRead(pinLpgDat), HEX);
         indexReceiving++;
     }
-
 
 
     if (indexReceiving > LPG_SENS_MESSAGE_LENGTH) {

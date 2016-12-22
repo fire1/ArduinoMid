@@ -111,8 +111,8 @@ void setLcdBaseChar() {
     };
 
 
-    lcd.createChar(2, kilometers);
     lcd.createChar(1, chrCelsius);
+    lcd.createChar(2, kilometers);
     lcd.createChar(3, chrAlert);
     lcd.createChar(4, chrGasMark);
     lcd.createChar(5, chrInstCons1);

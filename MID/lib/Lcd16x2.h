@@ -42,15 +42,13 @@ void displayOutTmp() {
     if (value < 3 && ampInt.isMin() && outTempLowController) {
         lcd.setCursor(0, 1);
         lcd.write((uint8_t) 3);
-        lcd.print("Icing ");
+        lcd.print("*ICE*");
 
     }
 
     if (value < 3 && ampInt.is10Seconds() && outTempLowController) {
         outTempLowController = false;
     }
-
-
 }
 
 /**
@@ -379,23 +377,20 @@ void displayTest() {
 
     if (ampInt.isMid()) {
         lcd.setCursor(0, 0);
-        lcd.print("Lpg ");
-        lcd.print((char) 127);
-        lcd.print("           ");
-        lcd.setCursor(5, 0);
+        lcd.print("VDS: ");
+//        lcd.print((char) 127);
 
-        lcd.print(carSens.getLpgPull());
-        lcd.print((char) 126);
+        lcd.print(carSens.getVdsDump());
+//        lcd.print((char) 126);
 
-        lcd.print(carSens.getLpgPush());
 
         lcd.setCursor(0, 1);
-        lcd.print("Wheel Btn: ");
+        lcd.print("Whl Btns: ");
 
         lcd.print(whlSens.getAnalogReadButtons() / 100);
 
         if (whlSens.isDisable()) {
-            lcd.print("'");
+            lcd.print((char) 222);
         } else {
             lcd.print(" ");
         }
