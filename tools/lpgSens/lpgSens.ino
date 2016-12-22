@@ -6,7 +6,7 @@
 const uint8_t pinLpgDat = A1;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t pinLpgClc = A2;     //  [blue]      Switch button   Fuel switcher       /// A9
 
-#define LPG_SENS_MESSAGE_LENGTH 16
+#define LPG_SENS_MESSAGE_LENGTH 8
 
 
 #define LPG_SENS_MESSAGE_HEADER 111111101100000011111100
@@ -34,7 +34,7 @@ SoftwareSerial portOne(0, 1);
 
 void setup() {
     Serial.begin(250000);
-    portOne.begin(9600);
+//    portOne.begin(9600);
     Serial.println("Start LPG listening .... ");
 };
 
@@ -47,36 +47,36 @@ char bit_string[8];
 
 void loop() {
 
-    portOne.listen();
-    while (portOne.available() > 0) {
-        //
-        //
-        Serial.print("Receiving serial ... ");
-        Serial.write(portOne.read());
-        Serial.println("\n");
-    }
+//    portOne.listen();
+//    while (portOne.available() > 0) {
+//        //
+//        //
+//        Serial.print("Receiving serial ... ");
+//        Serial.write(portOne.read());
+//        Serial.println("\n");
+//    }
 
     if (digitalRead(pinLpgClc) == LOW) {
         digitalWrite(13, HIGH);
-    }else{
+    } else {
         digitalWrite(13, LOW);
     }
 
 
     if (digitalRead(pinLpgClc) == LOW && !startReceiving) {
-        startReceiving = true;
+
     }
 
-
+    startReceiving = true;
     if (indexReceiving < LPG_SENS_MESSAGE_LENGTH && startReceiving) {
         receivedBuffer |= (digitalRead(pinLpgDat) & 0x01) << indexReceiving;
 //        receivedBuffer |= digitalRead(pinLpgDat) << indexReceiving;
         bit_string[indexReceiving] |= digitalRead(pinLpgDat) << indexReceiving;
 
 //        Serial.print(digitalRead(pinLpgDat), HEX);
-        indexReceiving++;
-    }
 
+    }
+    indexReceiving++;
 
     if (indexReceiving > LPG_SENS_MESSAGE_LENGTH) {
         receivingData = receivedBuffer;
@@ -97,9 +97,9 @@ void loop() {
         }
 
         Serial.print(receivingData, BIN);
-        Serial.print("\t");
+        Serial.print("\t\t\t\t");
 //        Serial.write(((receivingData >> 8) & 0xff));
-        Serial.print(receivingData, HEX);
+//        Serial.print(receivingData, HEX);
         receivingData = 0;
         Serial.print("\n");
     }
