@@ -38,7 +38,7 @@
 #define MENU_NAME_31 "Fuel Level"
 //
 //
-#define MENU_NAME_4 "Car State"
+#define MENU_NAME_4 "Servicing"
 #define MENU_NAME_41 "Brake wear "
 #define MENU_NAME_42 "Coolant level"
 #define MENU_NAME_43 "Window washer "

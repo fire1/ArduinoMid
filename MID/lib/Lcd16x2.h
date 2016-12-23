@@ -428,7 +428,7 @@ void displayCarState() {
         //
         // Shows header menu title
         lcd.setCursor(0, 0);
-        lcd.print("Car Inspection  ");
+        lcd.print("Servicing  ");
         //
         // Continue with info
         lcd.setCursor(0, 1);
@@ -437,7 +437,7 @@ void displayCarState() {
             else lcd.print("Brake wear OK   ");
         }
         if (MidMenu::cursorMenu == 42) {
-            if (carStat.getLiveCnt()) lcd.print("CHECK coolant lv");
+            if (carStat.getLiveCnt()) lcd.print("Low coolant !");
             else lcd.print("Coolant is OK   ");
         }
         if (MidMenu::cursorMenu == 43) {
@@ -445,7 +445,7 @@ void displayCarState() {
             else lcd.print("Window washer OK");
         }
         if (MidMenu::cursorMenu == 44) {
-            if (carStat.getLiveOil()) lcd.print("CHECK oil level ");
+            if (carStat.getLiveOil()) lcd.print("Low oil level !");
             else lcd.print("Oil level is OK ");
         }
     }
