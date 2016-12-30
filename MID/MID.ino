@@ -160,6 +160,9 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 //
 // Add library
 #include "lib/ShutDw.h"
+//
+// Add car games
+#include "lib/CarGames.h"
 
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
@@ -189,7 +192,9 @@ MidMenu midMenu(&ampInt, &carSens, &eepRom);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
-
+//
+// Car games
+CarGames carGames(&ampInt, &carSens, &midMenu);
 
 //
 //
@@ -400,7 +405,22 @@ void loop() {
         case 45:
             displayCarState();
             break;
-
+            //
+            // Games menu
+        case 5:
+            displayCarGames();
+            break;
+        case 51:
+            carGames.listenAStopwatch();
+            displayCarGameWatch();
+            break;
+        case 52:
+            displayCarGameDrag();
+            break;
+        case 53:
+            carGames.listen0to100();
+            displayCarGameT100();
+            break;
 
         case ShutDw::MENU_SHUTDOWN:
             shutDown.lcdDisplay(&lcd);
@@ -429,7 +449,8 @@ static void playWelcomeScreen() {
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("   ");
-    lcd.print(" Bertnone    ");
+    lcd.write((uint8_t)0);
+    lcd.print("Bertnone    ");
     delay(1500);
     lcd.clear();
 }

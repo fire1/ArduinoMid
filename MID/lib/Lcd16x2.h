@@ -13,7 +13,9 @@
 #include "MidMenu.h"
 #include "ShutDw.h"
 #include "CarState.h"
+#include "CarGames.h"
 #include "graphics/LcdChar.h"
+
 //
 //
 /****************************************************************
@@ -40,10 +42,10 @@ void displayOutTmp() {
     }
 
     if (value < 3 && ampInt.isMin() && outTempLowController) {
-        lcd.setCursor(0, 1);
-        lcd.write((uint8_t) 3);
-        lcd.print("*ICE*");
-
+        lcd.setCursor(1, 1);
+        lcd.write((uint8_t) 9);
+        lcd.print("ICE");
+        lcd.write((uint8_t) 9);
     }
 
     if (value < 3 && ampInt.is10Seconds() && outTempLowController) {
@@ -466,5 +468,115 @@ void displayCarState() {
 
 }
 
+/****************************************************************
+ * Games menu
+ */
+void displayCarGames(void) {
+    GamesBest results = carGames.getBestResults();
+
+
+}
+
+void displayCarGameWatch(void) {
+
+    if (ampInt.isSec()) {
+        lcd.setCursor(0, 1);
+        lcd.print("Stopwatch");
+    }
+    //
+    // Gets stopwatchResult result
+    float result = carGames.getStopwatch();
+    //
+    // Show user manual
+    if (midMenu.isNavigationActive()) {
+
+        if (ampInt.isToggle() && ampInt.isMid()) {
+            lcd.setCursor(0, 1);
+            lcd.print("Hold >R to enter");
+
+        }
+
+        if (!ampInt.isToggle() && ampInt.isMid()) {
+            lcd.setCursor(0, 1);
+            lcd.print("Hit >S start/end");
+        }
+    } else {
+        if (ampInt.isMid()) {
+            char tmp[3];
+            float value = carGames.getStopwatchLive();
+
+            //
+            // Clear screen char-s at the row
+            lcd.setCursor(0, 1);
+            lcd.print("       |L       ");
+
+            //
+            // Live timing
+            displayFloat(value, tmp);
+            lcd.setCursor(1, 1);
+            lcd.print(tmp);
+
+            //
+            // Last result
+            value = result;
+            displayFloat(value, tmp);
+            lcd.setCursor(11, 1);
+            lcd.print(tmp);
+
+        }
+    }
+
+}
+
+/**
+ * Display drag race
+ */
+void displayCarGameDrag(void) {
+
+    if (ampInt.isToggle() && ampInt.isMid()) {
+
+    }
+
+    if (!ampInt.isToggle() && ampInt.isMid()) {
+
+    }
+}
+
+/**
+ * Display game 0 to 100
+ */
+void displayCarGameT100() {
+
+    float result = carGames.get0to100();
+
+    bool begin = carGames.isBegin0to100();
+
+    if (ampInt.isMid()) {
+        char tmp[3];
+        float value = carGames.get0to100Live();
+
+        if (!begin) {
+            lcd.setCursor(0, 1);
+            lcd.print("Stop vehicle !  ");
+        } else if (carSens.getVss() == 0) {
+            lcd.setCursor(0, 1);
+            lcd.print("Ready to start..");
+        } else if (carSens.getVss() > 0) {
+            lcd.setCursor(0, 1);
+            lcd.print("       |L       ");
+
+            displayFloat(value, tmp);
+            lcd.setCursor(1, 1);
+            lcd.print(tmp);
+
+            value = result;
+            displayFloat(value, tmp);
+            lcd.setCursor(11, 1);
+            lcd.print(tmp);
+
+        }
+    }
+
+}
 
 #endif //ARDUINOMID_READINNTERTEMP_H

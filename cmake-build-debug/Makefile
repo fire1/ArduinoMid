@@ -47,10 +47,10 @@ RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
+CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -225,19 +225,6 @@ mega_twi: cmake_check_build_system
 mega_twi/fast:
 	$(MAKE) -f CMakeFiles\mega_twi.dir\build.make CMakeFiles/mega_twi.dir/build
 .PHONY : mega_twi/fast
-
-#=============================================================================
-# Target rules for targets named mega_SoftwareSerial
-
-# Build rule for target.
-mega_SoftwareSerial: cmake_check_build_system
-	$(MAKE) -f CMakeFiles\Makefile2 mega_SoftwareSerial
-.PHONY : mega_SoftwareSerial
-
-# fast build rule for target.
-mega_SoftwareSerial/fast:
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/build
-.PHONY : mega_SoftwareSerial/fast
 
 #=============================================================================
 # Target rules for targets named mega_OneWire
@@ -993,33 +980,6 @@ C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.s:
 	$(MAKE) -f CMakeFiles\mega_SPI.dir\build.make CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.s
 .PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.s
 
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.obj: C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.obj
-
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.obj
-
-# target to build an object file
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.obj:
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.obj
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.obj
-
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.i: C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.i
-
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.i
-
-# target to preprocess a source file
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.i:
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.i
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.i
-
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.s: C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.s
-
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.s
-
-# target to generate assembly for a file
-C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.s:
-	$(MAKE) -f CMakeFiles\mega_SoftwareSerial.dir\build.make CMakeFiles/mega_SoftwareSerial.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.s
-.PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.cpp.s
-
 C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.obj: C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.cpp.obj
 
 .PHONY : C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.obj
@@ -1203,7 +1163,6 @@ help:
 	@echo ... upload
 	@echo ... mega_Firmata
 	@echo ... mega_twi
-	@echo ... mega_SoftwareSerial
 	@echo ... mega_OneWire
 	@echo ... mega_LiquidCrystal
 	@echo ... ArduinoMid
@@ -1288,9 +1247,6 @@ help:
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.obj
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.i
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.s
-	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.obj
-	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.i
-	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SoftwareSerial/src/SoftwareSerial.s
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.obj
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.i
 	@echo ... C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/Wire.s

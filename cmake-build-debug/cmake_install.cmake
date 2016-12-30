@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Admin/Documents/Arduino/ArduinoMid
+# Install script for directory: C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -45,8 +45,15 @@
 #define MENU_NAME_44 "Oil level "
 #define MENU_NAME_45 "Voltage "
 
+#define MENU_NAME_5 "Challenges"
+#define MENU_NAME_51 "Stopwatch"
+#define MENU_NAME_52 "Drag Racing 402m"
+#define MENU_NAME_53 "From 0 to 100km"
 
-#define AWAITING 1500
+#ifndef AWAITING
+#define AWAITING 2000
+#endif
+
 
 static void MidMenu_menuUsed(MenuUseEvent used);
 
@@ -80,7 +87,13 @@ class MidMenu {
             stateClnLvl,
             stateWndWsh,
             stateOilLvl,
-            stateBatVlt;
+            stateBatVlt,
+    //
+    // Sprint
+            gamesMenu,
+            gamesStpWatch,
+            gamesDragRace,
+            gamesFr0To100;
 
     IntAmp *_amp;
 
@@ -114,6 +127,13 @@ public:
  */
     void listener(WhlSens *whl, int &cursor);
 
+    /**
+     * Returns true if ">S" button activates "edit Оптион"
+     * @return bool
+     */
+    boolean isEditOption(void) { return _isEditOption; }
+
+
 /**
  *
  * @return int
@@ -129,6 +149,31 @@ public:
     void setCursor(int val) {
         MidMenu::cursorMenu = val;
     }
+
+/**
+ * Enables/Disable navigation of menu
+ * @param active
+ */
+    void setNavigation(boolean active = true) {
+        _isNavigation = active;
+    }
+
+/**
+ *  Enables/Disable edit option
+ * @param active
+ */
+    void setEditOption(boolean active = true) {
+        _isEditOption = active;
+    }
+
+/**
+ * Gets state of menu navigation
+ * @return bool
+ */
+    boolean isNavigationActive(void) {
+        return _isNavigation;
+    }
+
 
     void lcdDisplay(LiquidCrystal *lcd);
 
@@ -157,7 +202,9 @@ private:
     //
     int lastButtonPushed = LOW;
     int isMainNavigationStatus = 0;
-    int isInSubMenu = 0;
+    boolean _isEditOption = false;
+
+    boolean _isNavigation = true;
 
     char lastMainMenuState = 0;
 
@@ -209,7 +256,14 @@ MidMenu::MidMenu(IntAmp *amp, CarSens *car, EepRom *eep) :
         stateClnLvl(MenuItem(MENU_NAME_42)),
         stateWndWsh(MenuItem(MENU_NAME_43)),
         stateOilLvl(MenuItem(MENU_NAME_44)),
-        stateBatVlt(MenuItem(MENU_NAME_45)) {
+        stateBatVlt(MenuItem(MENU_NAME_45)),
+        //
+        // Sprint Menu
+        gamesMenu(MenuItem(MENU_NAME_5)),
+        gamesStpWatch(MenuItem(MENU_NAME_51)),
+        gamesDragRace(MenuItem(MENU_NAME_52)),
+        gamesFr0To100(MenuItem(MENU_NAME_53)) {
+
 
     _amp = amp;
     _car = car;
@@ -223,42 +277,56 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
 
     MenuItem curMenuItem = changed.to; //get the destination menu
 
-    if (curMenuItem.getName() == MENU_NAME_1) {
+    const char *curMenuName = curMenuItem.getName();
+
+    if (curMenuName == MENU_NAME_1) {
         MidMenu::cursorMenu = 1;
-    } else if (curMenuItem.getName() == MENU_NAME_11) {
+    } else if (curMenuName == MENU_NAME_11) {
         MidMenu::cursorMenu = 11;
-    } else if (curMenuItem.getName() == MENU_NAME_12) {
+    } else if (curMenuName == MENU_NAME_12) {
         MidMenu::cursorMenu = 12;
-    } else if (curMenuItem.getName() == MENU_NAME_2) {
+    } else if (curMenuName == MENU_NAME_2) {
         //
         // Trip Menu
         MidMenu::cursorMenu = 2;
-    } else if (curMenuItem.getName() == MENU_NAME_21) {
+    } else if (curMenuName == MENU_NAME_21) {
         MidMenu::cursorMenu = 21;
-    } else if (curMenuItem.getName() == MENU_NAME_22) {
+    } else if (curMenuName == MENU_NAME_22) {
         MidMenu::cursorMenu = 22;
         //
         // Fuel Menu
-    } else if (curMenuItem.getName() == MENU_NAME_3) {
+    } else if (curMenuName == MENU_NAME_3) {
         MidMenu::cursorMenu = 3;
-    } else if (curMenuItem.getName() == MENU_NAME_31) {
+    } else if (curMenuName == MENU_NAME_31) {
         MidMenu::cursorMenu = 32;
 
         //
         // Car State Menu
-    } else if (curMenuItem.getName() == MENU_NAME_4) {
+    } else if (curMenuName == MENU_NAME_4) {
         MidMenu::cursorMenu = 4;
-    } else if (curMenuItem.getName() == MENU_NAME_41) {
+    } else if (curMenuName == MENU_NAME_41) {
         MidMenu::cursorMenu = 41;
-    } else if (curMenuItem.getName() == MENU_NAME_42) {
+    } else if (curMenuName == MENU_NAME_42) {
         MidMenu::cursorMenu = 42;
-    } else if (curMenuItem.getName() == MENU_NAME_43) {
+    } else if (curMenuName == MENU_NAME_43) {
         MidMenu::cursorMenu = 43;
-    } else if (curMenuItem.getName() == MENU_NAME_44) {
+    } else if (curMenuName == MENU_NAME_44) {
         MidMenu::cursorMenu = 44;
-    } else if (curMenuItem.getName() == MENU_NAME_45) {
+    } else if (curMenuName == MENU_NAME_45) {
         MidMenu::cursorMenu = 45;
+        //
+        // Games menu
+    } else if (curMenuName == MENU_NAME_5) {
+        MidMenu::cursorMenu = 5;
+    } else if (curMenuName == MENU_NAME_51) {
+        MidMenu::cursorMenu = 51;
+    } else if (curMenuName == MENU_NAME_52) {
+        MidMenu::cursorMenu = 52;
+    } else if (curMenuName == MENU_NAME_53) {
+        MidMenu::cursorMenu = 53;
     }
+
+
 }
 
 /**
@@ -275,8 +343,8 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     pinMode(btnPinDw, INPUT);
     //
     //
-    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu);
-    statMenu.add(mainMenu); // add last menu to create a Loop menu
+    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
+    gamesMenu.add(mainMenu); // add last menu to create a Loop menu
     //
     // Main menu layers
     mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
@@ -300,11 +368,15 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
     statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
             .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
     stateBatVlt.addRight(stateBrkWre);
-    stateWndWsh.add(statMenu);
-    stateWndWsh.add(statMenu);
+    stateBrkWre.add(statMenu);
+    stateClnLvl.add(statMenu);
     stateWndWsh.add(statMenu);
     stateOilLvl.add(statMenu);
     stateBatVlt.add(statMenu);
+    //
+    // Games menu
+    gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
+    gamesDragRace.addRight(gamesStpWatch);
     //
     // Move cursor to menu
     menu.moveDown();
@@ -393,32 +465,40 @@ void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
 void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     lastButtonPushed = LOW;
-    //
-    // Detect up state button
-    if (!digitalRead(buttonPinUp) == HIGH) {
 
-        if (_amp->isLow() && !digitalRead(buttonPinUp) == HIGH) {
-            lastButtonPushed = buttonPinUp;
+    //
+    // Checks is navigation active (default = true)
+    if (_isNavigation) {
+        //
+        // Detect up state button
+        if (!digitalRead(buttonPinUp) == HIGH) {
+
+            if (_amp->isLow() && !digitalRead(buttonPinUp) == HIGH) {
+                lastButtonPushed = buttonPinUp;
+            }
+        }
+        //
+        // Detect down state button
+        if (entryDownState + AWAITING > millis() && enterSub && !digitalRead(buttonPinDw) == LOW) {
+            //
+            //
+            tone(pinTones, 700, 20);
+            delay(20);
+            tone(pinTones, 700, 20);
+            enterSub = false;
+            //
+            // Perform button is released action
+            lastButtonPushed = buttonPinDw;
+            //
+            // Reset entry down state
+            entryDownState = 0;
         }
     }
 
-    if (entryDownState + AWAITING > millis() && enterSub && !digitalRead(buttonPinDw) == LOW) {
-        //
-        //
-        tone(pinTones, 700, 20);
-        delay(20);
-        tone(pinTones, 700, 20);
-        enterSub = false;
-        //
-        // Perform button is released action
-        lastButtonPushed = buttonPinDw;
-        //
-        // Reset entry down state
-        entryDownState = 0;
-    }
+
 
     //
-    // Detect down state button
+    // Detect EDIT state button
     if (!digitalRead(buttonPinDw) == HIGH) {
         //
         // Controlling start of press state
@@ -444,15 +524,15 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
                 shortcuts(whl);
                 //
                 // Check for subMenu if not got inner level entry
-                if (isInSubMenu == 0) {
+                if (_isEditOption == 0) {
                     //
                     // Enter inner level menu
-                    isInSubMenu = 1;
+                    _isEditOption = 1;
                     tone(pinTones, 400, 100);
                     //
                     // Exit inner level menu
-                } else if (isInSubMenu == 1) {
-                    isInSubMenu = 0;
+                } else if (_isEditOption == 1) {
+                    _isEditOption = 0;
                     tone(pinTones, 400, 50);
                     secondTone = 1;
                 }
@@ -533,27 +613,31 @@ void MidMenu::navigate() {
 
     if (isMainNavigationStatus == 0) {
         if (lastButtonPushed == btnPinUp) {
-            if (isInSubMenu == 0) {
-                menu.moveDown();
-                menu.use();
-            }
+//            if (_isEditMenu == 0) {
+//                menu.moveDown();
+//                menu.use();
+//            }
             /*else {
                 menu.moveRight();
                 menu.use();
             }*/
         }
         if (lastButtonPushed == btnPinDw) {
-            if (lastMainMenuState != 0 && isInSubMenu == 0) {
+
+            menu.moveRight();
+            menu.use();
+            /*
+            if (lastMainMenuState != 0 && _isEditMenu == 0) {
                 menu.moveBack();
                 menu.use();
 
                 menu.moveDown();
                 menu.use();
 
-            } else if (isInSubMenu == 0) {
-                menu.moveRight();
-                menu.use();
+            } else if (_isEditMenu == 0) {
+
             }
+             */
         }
     }
     lastButtonPushed = 0; //reset the lastButtonPushed variable

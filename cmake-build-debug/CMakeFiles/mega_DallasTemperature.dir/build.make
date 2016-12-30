@@ -42,10 +42,10 @@ RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
+CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/mega_DallasTemperature.dir/depend.make
@@ -58,16 +58,16 @@ include CMakeFiles/mega_DallasTemperature.dir/flags.make
 
 CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj: CMakeFiles/mega_DallasTemperature.dir/flags.make
 CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj: ../libraries/DallasTemperature/DallasTemperature.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj"
-	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.obj -c C:\Users\Admin\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj"
+	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.obj -c "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp"
 
 CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.i"
-	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Admin\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp > CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.i
+	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp" > CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.i
 
 CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.s"
-	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Admin\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp -o CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.s
+	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\libraries\DallasTemperature\DallasTemperature.cpp" -o CMakeFiles\mega_DallasTemperature.dir\libraries\DallasTemperature\DallasTemperature.cpp.s
 
 CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj.requires:
 
@@ -90,7 +90,7 @@ mega_DallasTemperature_EXTERNAL_OBJECTS =
 libmega_DallasTemperature.a: CMakeFiles/mega_DallasTemperature.dir/libraries/DallasTemperature/DallasTemperature.cpp.obj
 libmega_DallasTemperature.a: CMakeFiles/mega_DallasTemperature.dir/build.make
 libmega_DallasTemperature.a: CMakeFiles/mega_DallasTemperature.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmega_DallasTemperature.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmega_DallasTemperature.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\mega_DallasTemperature.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\mega_DallasTemperature.dir\link.txt --verbose=$(VERBOSE)
 
@@ -108,6 +108,6 @@ CMakeFiles/mega_DallasTemperature.dir/clean:
 .PHONY : CMakeFiles/mega_DallasTemperature.dir/clean
 
 CMakeFiles/mega_DallasTemperature.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_DallasTemperature.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_DallasTemperature.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/mega_DallasTemperature.dir/depend
 

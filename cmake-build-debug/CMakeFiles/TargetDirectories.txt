@@ -1,16 +1,15 @@
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid-upload.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_DallasTemperature.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_SPI.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_MenuBackend.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Wire.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/upload.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_twi.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_SoftwareSerial.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_OneWire.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_LiquidCrystal.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid-size.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid-upload.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_DallasTemperature.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_SPI.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_MenuBackend.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Wire.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/upload.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_twi.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_OneWire.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_LiquidCrystal.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid-size.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/rebuild_cache.dir

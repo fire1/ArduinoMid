@@ -276,28 +276,27 @@ void WhlSens::sendRadioButtons() {
     if (isDisable()) {
         return;
     }
-// Debugging
-//    if (_amp->isMid()) {
-//        Serial.print("WHL Current State ");
-//        Serial.println(currentState);
-//    }
-
+#if defined(STR_DEBUG)
+    if (_amp->isMid()) {
+        Serial.print("WHL Current State ");
+        Serial.println(currentState);
+    }
+#endif
     //
     // When is not none state
     if (currentState != STR_BTN_NON) {
         //
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
-        digitalWrite(pinDigPotCntr, LOW);
+        if (lastStateButton != currentState) {
+            digitalWrite(pinDigPotCntr, LOW);
 
-        setButtonStateParser(currentState);
-        delay(1); // Some separation fix
-        digitalWrite(pinDigPotCntr, HIGH);
-        lastStateButton = currentState;
-        //
-        // Returned to none
-        currentState = STR_BTN_NON;
-
+            setButtonStateParser(currentState);
+//        delay(1); // Some separation fix
+            delayMicroseconds(60);
+            digitalWrite(pinDigPotCntr, HIGH);
+            lastStateButton = currentState;
+        }
     } else {
         digitalWrite(pinOutVoltage, HIGH);
         if (_amp->isMid()) {

@@ -23,6 +23,7 @@
 #define MILLIS_PER_SC 1000
 #endif
 
+
 /** @description
  *
  */
@@ -31,17 +32,23 @@ class IntAmp {
 private:
     unsigned long timer;
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
-    long int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
-    long int _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
-    long int _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
-    long int curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
+    unsigned int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
+    unsigned long _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
+    unsigned long _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
+    unsigned long curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
+
+    //
+    // Toggle timers
+    unsigned long _isToggleDef = 0;
+
 
     /**
      * MAX 1,193,046 Hour	(h)
      */
     unsigned long loopCounter = 0;
 public:
-    IntAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax);
+    IntAmp(unsigned int intervalMin, unsigned int intervalLow, unsigned int intervalMid, unsigned int intervalSec,
+           unsigned int intervalBig, unsigned int intervalMax);
 
     void listener();
 
@@ -80,6 +87,10 @@ public:
     void setTimer(unsigned long time);
 
 
+    /************** Time Toggle *********************/
+
+    bool isToggle() { return (bool) _isToggleDef; }
+
 };
 
 
@@ -90,7 +101,8 @@ public:
  ***********************************************************************************************/
 
 
-IntAmp::IntAmp(int intervalMin, int intervalLow, int intervalMid, int intervalSec, int intervalBig, int intervalMax) {
+IntAmp::IntAmp(unsigned int intervalMin, unsigned int intervalLow, unsigned int intervalMid, unsigned int intervalSec,
+               unsigned int intervalBig, unsigned int intervalMax) {
 
     ampMin = intervalMin;
     ampLow = intervalLow;
@@ -218,6 +230,14 @@ void IntAmp::listener() {
         _isSens = 0;
     }
 
+/************** Time Toggle *********************/
 
+    if (_is2Seconds && _isToggleDef == 1) {
+        _isToggleDef = 0;
+    }
+
+    if (_is2Seconds && _isToggleDef == 0) {
+        _isToggleDef = 1;
+    }
 };
 #endif //ARDUINOMID_TIMEAMP_H
