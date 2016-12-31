@@ -614,8 +614,8 @@ void MidMenu::navigate() {
     if (isMainNavigationStatus == 0) {
         if (lastButtonPushed == btnPinUp) {
 //            if (_isEditMenu == 0) {
-//                menu.moveDown();
-//                menu.use();
+                menu.moveDown();
+                menu.use();
 //            }
             /*else {
                 menu.moveRight();

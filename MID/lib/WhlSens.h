@@ -288,15 +288,15 @@ void WhlSens::sendRadioButtons() {
         //
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
-        if (lastStateButton != currentState) {
+//        if (lastStateButton != currentState) {
             digitalWrite(pinDigPotCntr, LOW);
 
             setButtonStateParser(currentState);
-//        delay(1); // Some separation fix
-            delayMicroseconds(60);
+            delay(5); // Some separation fix
+//            delayMicroseconds(60);
             digitalWrite(pinDigPotCntr, HIGH);
             lastStateButton = currentState;
-        }
+//        }
     } else {
         digitalWrite(pinOutVoltage, HIGH);
         if (_amp->isMid()) {
@@ -312,10 +312,12 @@ void WhlSens::sendRadioButtons() {
  */
 void WhlSens::shutdownMode(void) {
     digitalWrite(pinDigPotCntr, LOW);
+    digitalWrite(pinOutVoltage, LOW);
     delay(5);
     _setDigitalPot(1);
     delay(5);
     digitalWrite(pinDigPotCntr, HIGH);
+
 }
 
 #endif

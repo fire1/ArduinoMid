@@ -121,7 +121,7 @@ void setLcdBaseChar() {
             0b00000
     };
 
-    lcd.createChar(0, chrBertone);
+//    lcd.createChar(0, chrBertone);
     lcd.createChar(1, chrCelsius);
     lcd.createChar(2, kilometers);
     lcd.createChar(3, chrAlert);
@@ -130,7 +130,7 @@ void setLcdBaseChar() {
     lcd.createChar(6, chrInstCons2);
     lcd.createChar(7, chrAllCons1);
     lcd.createChar(8, chrAllCons2);
-    lcd.createChar(9, snowflake);
+//    lcd.createChar(9, snowflake);
 
 }
 

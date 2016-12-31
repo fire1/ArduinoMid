@@ -43,9 +43,7 @@ void displayOutTmp() {
 
     if (value < 3 && ampInt.isMin() && outTempLowController) {
         lcd.setCursor(1, 1);
-        lcd.write((uint8_t) 9);
-        lcd.print("ICE");
-        lcd.write((uint8_t) 9);
+        lcd.print("*ICE*");
     }
 
     if (value < 3 && ampInt.is10Seconds() && outTempLowController) {

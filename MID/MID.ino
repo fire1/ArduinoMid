@@ -449,8 +449,7 @@ static void playWelcomeScreen() {
     delay(10);
     lcd.setCursor(0, 1);
     lcd.print("   ");
-    lcd.write((uint8_t)0);
-    lcd.print("Bertnone    ");
+    lcd.print(" Bertnone    ");
     delay(1500);
     lcd.clear();
 }
