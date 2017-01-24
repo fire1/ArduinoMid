@@ -210,7 +210,7 @@ MidMenu midMenu(&ampInt, &carSens, &eepRom);
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //
 // Car games
-CarGames carGames(&ampInt, &midMenu);
+CarGames carGames(&ampInt, &carSens, &midMenu);
 
 //
 //
@@ -434,6 +434,7 @@ void loop() {
             displayCarGameDrag();
             break;
         case 53:
+            carGames.listen0to100();
             displayCarGameT100();
             break;
 

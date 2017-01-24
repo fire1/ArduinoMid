@@ -44,10 +44,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -459,14 +459,14 @@ clean: CMakeFiles/mega_LiquidCrystal.dir/clean
 # Target rules for target CMakeFiles/ArduinoMid.dir
 
 # All Build rule for target.
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Wire.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_twi.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SPI.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_MenuBackend.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Firmata.dir/all
-CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_CORE.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Firmata.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_twi.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_Wire.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_SPI.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_OneWire.dir/all
+CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_LiquidCrystal.dir/all
 CMakeFiles/ArduinoMid.dir/all: CMakeFiles/mega_DallasTemperature.dir/all
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/depend
 	$(MAKE) -f CMakeFiles\ArduinoMid.dir\build.make CMakeFiles/ArduinoMid.dir/build

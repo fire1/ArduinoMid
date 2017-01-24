@@ -10,7 +10,7 @@ set(${CMAKE_PROJECT_NAME}_SKETCH MID/MID.ino)
 generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
 set(SOURCE_FILES MID.ino)
-
+set(BOARD_SUB atmega2560)
 #
 # Enable syntax check for Serial class from UsbApi.h
 # To set definitions use "-D"[DefName]
