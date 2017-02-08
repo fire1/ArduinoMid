@@ -29,34 +29,34 @@
 //extern const unsigned char code picturebmp[]; //Keil
 //extern const unsigned char picturebmp[]; //SDCC
 
-extern prog_uchar IMG01bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG02bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG03bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG04bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG05bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG06bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG07bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG08bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG09bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG10bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG11bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG12bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG13bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG14bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG15bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG16bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG17bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG18bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG19bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG20bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG21bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG22bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG23bmp[]; //AVR-GCC, WinAVR
-extern prog_uchar IMG24bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG01bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG02bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG03bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG04bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG05bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG06bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG07bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG08bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG09bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG10bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG11bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG12bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG13bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG14bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG15bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG16bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG17bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG18bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG19bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG20bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG21bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG22bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG23bmp[]; //AVR-GCC, WinAVR
+extern const char * IMG24bmp[]; //AVR-GCC, WinAVR
 
-extern prog_uchar Arduinobmp[]; //AVR-GCC, WinAVR
+extern const char * Arduinobmp[]; //AVR-GCC, WinAVR
 
-extern prog_uchar Arduino1bmp[]; //AVR-GCC, WinAVR
+extern const char * Arduino1bmp[]; //AVR-GCC, WinAVR
 
 #endif //picture_h
 

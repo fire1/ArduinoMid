@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid_MID.ino.cpp" "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid.dir/ArduinoMid_MID.ino.cpp.obj"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid_MID.ino.cpp" "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/ArduinoMid.dir/ArduinoMid_MID.ino.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -43,15 +43,15 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_SPI.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Wire.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_twi.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_OneWire.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_MenuBackend.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_DallasTemperature.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_LiquidCrystal.dir/DependInfo.cmake"
-  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_SPI.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Wire.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_twi.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_OneWire.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_Firmata.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_MenuBackend.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_DallasTemperature.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_LiquidCrystal.dir/DependInfo.cmake"
+  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

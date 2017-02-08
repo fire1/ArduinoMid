@@ -103,7 +103,7 @@ public:
   void writeString(char * str);
   void glcd_print2_P(unsigned char, unsigned char, const char*, const FONT_DEF*, unsigned char);
   void glcd_print1_P(unsigned char, unsigned char, const char*, const FONT_DEF*, unsigned char);
-  void WriteStringPgm(const char * str);
+  void WriteStringPgm(prog_char * str);
   void TextGoTo(byte, byte);
   void GraphicGoTo(byte x, byte y);
   void DefineCharacter(unsigned char, unsigned char *);

@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
+CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
 
 # Utility rule file for ArduinoMid-upload.
 
@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-
 include CMakeFiles/ArduinoMid-upload.dir/progress.make
 
 CMakeFiles/ArduinoMid-upload: ArduinoMid.elf
-	"C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avrdude.exe" "-CC:/Program Files (x86)/Arduino/hardware/tools/avr/etc/avrdude.conf" -p -cstk500v1 -b19200 -P/dev/ttys3 -D -V "-Uflash:w:C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.hex:i" "-Ueeprom:w:C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.eep:i"
+	"C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avrdude.exe" "-CC:/Program Files (x86)/Arduino/hardware/tools/avr/etc/avrdude.conf" -p -cstk500v1 -b19200 -P/dev/ttys3 -D -V -Uflash:w:C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.hex:i -Ueeprom:w:C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/ArduinoMid.eep:i
 
 ArduinoMid-upload: CMakeFiles/ArduinoMid-upload
 ArduinoMid-upload: CMakeFiles/ArduinoMid-upload.dir/build.make
@@ -70,6 +70,6 @@ CMakeFiles/ArduinoMid-upload.dir/clean:
 .PHONY : CMakeFiles/ArduinoMid-upload.dir/clean
 
 CMakeFiles/ArduinoMid-upload.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\ArduinoMid-upload.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\ArduinoMid-upload.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ArduinoMid-upload.dir/depend
 

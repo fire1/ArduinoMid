@@ -368,7 +368,7 @@ void T6963::glcd_print1_P(unsigned char x,unsigned char y, const char *in, const
 //-------------------------------------------------------------------------------------------------
 // Writes null-terminated string from program memory to display RAM memory
 //-------------------------------------------------------------------------------------------------
-void T6963::WriteStringPgm(const char  * string){
+void T6963::WriteStringPgm(prog_char * string){
   char ch;
   while((ch = pgm_read_byte(string++))){
     writeChar(ch);

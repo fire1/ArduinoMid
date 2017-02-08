@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
+CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/mega_MenuBackend.dir/depend.make
@@ -64,7 +64,7 @@ mega_MenuBackend_EXTERNAL_OBJECTS =
 
 libmega_MenuBackend.a: CMakeFiles/mega_MenuBackend.dir/build.make
 libmega_MenuBackend.a: CMakeFiles/mega_MenuBackend.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX static library libmega_MenuBackend.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX static library libmega_MenuBackend.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\mega_MenuBackend.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\mega_MenuBackend.dir\link.txt --verbose=$(VERBOSE)
 
@@ -82,6 +82,6 @@ CMakeFiles/mega_MenuBackend.dir/clean:
 .PHONY : CMakeFiles/mega_MenuBackend.dir/clean
 
 CMakeFiles/mega_MenuBackend.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_MenuBackend.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_MenuBackend.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/mega_MenuBackend.dir/depend
 

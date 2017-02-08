@@ -21,6 +21,7 @@
 #include <MenuBackend.h>
 //#include <SoftwareSerial.h>
 #include <DallasTemperature.h>
+#include <U8g2lib.h>
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -133,6 +134,8 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 // LiquidCrystal library
 // Including from Arduino IDE
 #include <LiquidCrystal.h>
+
+
 //
 // I2C detector driver
 //#include "lib/LpgSens.h"

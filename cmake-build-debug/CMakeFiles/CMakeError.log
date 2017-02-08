@@ -8,3 +8,13 @@ The output was:
 collect2.exe: error: ld returned 5 exit status
 
 
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+collect2.exe: error: ld returned 5 exit status
+
+
