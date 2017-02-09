@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "C:/Users/Admin/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
+  "C:/Users/Angel Zaprianov/Documents/Arduino/ArduinoMid/cmake-build-debug/CMakeFiles/mega_CORE.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

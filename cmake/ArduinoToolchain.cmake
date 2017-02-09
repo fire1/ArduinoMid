@@ -62,6 +62,7 @@ if (NOT ARDUINO_SDK_PATH)
         set(SDK_PATH_HINTS "C:\\Program Files\\Arduino"
                 "C:\\Program Files (x86)\\Arduino"
                 )
+        link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
     endif()
 
 
@@ -84,7 +85,7 @@ find_path(ARDUINO_SDK_PATH
 if (ARDUINO_SDK_PATH)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr/utils)
-
+    list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 else ()
     message(FATAL_ERROR "Could not find Arduino SDK (set ARDUINO_SDK_PATH)!")
 endif ()

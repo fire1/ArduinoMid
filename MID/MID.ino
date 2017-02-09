@@ -23,8 +23,9 @@
 #include <MenuBackend.h>
 //#include <SoftwareSerial.h>
 #include <DallasTemperature.h>
+#include <LiquidCrystal.h>
 //#include <U8g2lib.h>
-//U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
+//U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -134,9 +135,7 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 /***************************************************************************/
 //
 //
-// LiquidCrystal library
-// Including from Arduino IDE
-#include <LiquidCrystal.h>
+
 
 
 //

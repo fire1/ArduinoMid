@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
+CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/mega_SPI.dir/depend.make
@@ -58,7 +58,7 @@ include CMakeFiles/mega_SPI.dir/flags.make
 
 CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj: CMakeFiles/mega_SPI.dir/flags.make
 CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj: C:/Program\ Files\ (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj"
 	C:\PROGRA~2\Arduino\hardware\tools\avr\bin\AVR-G_~1.EXE   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\mega_SPI.dir\C_\Program_Files_(x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\SPI.cpp.obj -c "C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src\SPI.cpp"
 
 CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.i: cmake_force
@@ -90,7 +90,7 @@ mega_SPI_EXTERNAL_OBJECTS =
 libmega_SPI.a: CMakeFiles/mega_SPI.dir/C_/Program_Files_(x86)/Arduino/hardware/arduino/avr/libraries/SPI/src/SPI.cpp.obj
 libmega_SPI.a: CMakeFiles/mega_SPI.dir/build.make
 libmega_SPI.a: CMakeFiles/mega_SPI.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmega_SPI.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmega_SPI.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\mega_SPI.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\mega_SPI.dir\link.txt --verbose=$(VERBOSE)
 
@@ -108,6 +108,6 @@ CMakeFiles/mega_SPI.dir/clean:
 .PHONY : CMakeFiles/mega_SPI.dir/clean
 
 CMakeFiles/mega_SPI.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_SPI.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\mega_SPI.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/mega_SPI.dir/depend
 

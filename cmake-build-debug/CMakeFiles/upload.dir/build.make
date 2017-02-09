@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid
+CMAKE_SOURCE_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug"
 
 # Utility rule file for upload.
 
@@ -66,6 +66,6 @@ CMakeFiles/upload.dir/clean:
 .PHONY : CMakeFiles/upload.dir/clean
 
 CMakeFiles/upload.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug C:\Users\Admin\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\upload.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug" "C:\Users\Angel Zaprianov\Documents\Arduino\ArduinoMid\cmake-build-debug\CMakeFiles\upload.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/upload.dir/depend
 
