@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
 
-#ifndef ARDUINOMID_LCD_DISPLAY_16x2_H
-#define ARDUINOMID_LCD_DISPLAY_16x2_H
+#ifndef ARDUINOMID_LCD_16x2_H
+#define ARDUINOMID_LCD_16x2_H
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
@@ -21,7 +21,22 @@
 /****************************************************************
  * Display temperature sensor
  */
-
+/**
+ * Welcome screen ...
+ */
+static void playWelcomeScreen() {
+    lcd.setCursor(0, 0);
+    lcd.print("    ASTRA       ");
+    //
+    // Test tone
+    tone(TONE_ADT_PIN, 400, 20);
+    delay(10);
+    lcd.setCursor(0, 1);
+    lcd.print("   ");
+    lcd.print(" Bertnone    ");
+    delay(1500);
+    lcd.clear();
+}
 boolean outTempLowController = true;
 
 void displayOutTmp() {

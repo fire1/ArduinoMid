@@ -1,5 +1,3 @@
-
-
 /*
 ---------------------------------------------------
     Arduino MID
@@ -15,6 +13,9 @@
  MID function menu
 */
 
+
+
+
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -24,8 +25,11 @@
 //#include <SoftwareSerial.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal.h>
-//#include <U8g2lib.h>
-//U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
+#include <U8g2lib.h>
+//
+// Sets screen size
+#define SCREEN 24064 // Glcd 240x64
+//#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -169,9 +173,24 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 // Add car games
 #include "lib/CarGames.h"
 
+#if SCREEN == 162
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
+//
+// Adding display's format
+#include "lib/Lcd16x2.h"
+
+#elif SCREEN == 24064
+//
+// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
+U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
+//
+// Adding display's format
+#include "lib/Lcd240x64.h"
+
+#endif
+
 //
 // Menu cursor
 int cursorMenu = 0;
@@ -204,10 +223,6 @@ CarGames carGames(&ampInt, &carSens, &midMenu);
 //
 //
 //LpgSens lpgSens;
-//
-// Display driver
-#include "lib/Lcd16x2.h"
-
 #ifdef ADT_FUEL_SYSTEM_I2C
 I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
@@ -257,6 +272,7 @@ void setup() {
     //
     //  Setup car state pins to detect
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
+#ifdef ARDUINOMID_LCD_16x2_H
     //
     // Initializes the interface to the LCD screen
     lcd.begin(16, 2);
@@ -269,6 +285,7 @@ void setup() {
     //
     // Show welcome from car
     playWelcomeScreen();
+#endif
     //
     // Set MID menu
 //    setupMenu();
@@ -354,8 +371,8 @@ void loop() {
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);
     //
-    // Display menu
-#ifdef ARDUINOMID_LCD_DISPLAY_16x2_H
+    // Display menu 16x2
+#ifdef ARDUINOMID_LCD_16x2_H
     switch (cursorMenu) {
         case MidMenu::MENU_ENTER:
             midMenu.lcdDisplay(&lcd);
@@ -432,6 +449,11 @@ void loop() {
             break;
     }
 #endif
+
+#ifdef ARDUINOMID_LCD240X64_H
+
+#endif
+
     //
     // Commands that changes global value from serial monitor
     //
@@ -442,19 +464,4 @@ void loop() {
 
 }
 
-/**
- * Welcome screen ...
- */
-static void playWelcomeScreen() {
-    lcd.setCursor(0, 0);
-    lcd.print("    ASTRA       ");
-    //
-    // Test tone
-    tone(TONE_ADT_PIN, 400, 20);
-    delay(10);
-    lcd.setCursor(0, 1);
-    lcd.print("   ");
-    lcd.print(" Bertnone    ");
-    delay(1500);
-    lcd.clear();
-}
+
