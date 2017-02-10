@@ -13,7 +13,9 @@
  MID function menu
 */
 
-
+//
+//
+// Maybe Mid ino needs to be separated in two different variants 16x2 && 240x64
 
 
 #include <Arduino.h>
