@@ -26,121 +26,9 @@
 #include <DallasTemperature.h>
 #include <LiquidCrystal.h>
 #include <U8g2lib.h>
-//
-// Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
-//
-// Serial configuration
-#define SERIAL_INJECT_DATA          // Inject data from serial monitor
-#define SERIAL_MONITOR_BAUD 250000  // 115200 - Normal Speed of monitoring messages
-//
-// Uncommented to debug basics
-//#define GLOBAL_SENS_DEBUG
-//
-// Sensing instrument interval time
-#define MILLIS_SENS 200
-//
-// Time information
-#define MILLIS_PER_HR    3600000    // Hour
-#define MILLIS_PER_MN    60000      // Minute
-#define MILLIS_PER_SC    1000       // Second
-//
-// MID plug pins definition over Arduino
-//
-// Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 8;       //  Plug:23     Column switch
-const uint8_t BTN_PIN_DW = 9;       //  Plug:24     Column switch navigation
-//
-// Shutdown protection pin
-const uint8_t SAV_PIN_CTR = A6;     //  Plug:4      Disconnect supply voltage
-const uint8_t SAV_PIN_DTC = A7;     //  Plug:16     Detect ignition key off state
-//
-// Engine pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [may be capacitor is needed]
-const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
-const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
-//
-// Car state pins
-const uint8_t STT_BRK_PIN = A4;     //  Plug        Critical Brake ware
-const uint8_t STT_CLN_PIN = A2;     //  Plug        Critical Coolant level
-const uint8_t STT_OIL_PIN = A3;     //  Plug        Critical oil level
-const uint8_t STT_WNW_PIN = A5;     //  Plug        Critical window washer
-const uint8_t STT_VLT_PIN = A7;      // Duplicating  SAV_PIN_DTC
-//
-//
-// Display dim pins
-const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
-const uint8_t DIM_PIN_OUT = 46;     //              Output dim of lcdDisplay
-//
-// Temperatures
-const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
-
-/* Extras ...   ******/
-//
-// Alarm / Tone pin
-#define TONE_ADT_PIN 11
-//
-// Alpine / Steering Wheel buttons
-const uint8_t ALP_PIN_INP = A8;
-const uint8_t ALP_PIN_OUT = 53;
-const uint8_t ALP_PIN_VOL = 14;
-
-//
-// Change state of shutdown "press to save"
-#define SHUTDOWN_SAVE_STATE LOW
-#define SHUTDOWN_SAVE_BUTTON 9
-//
-//
-/// Additional temperature sensor
-// Inside temperature [very cheep temperature sensor]
-// additional mounted temperature sensor from DallasTemperature
-#define INSIDE_TEMPERATURE_DS
-//
-//
-//
-/***************************************************************************
- * LPG fuel support configuration
- */
-
-//
-// In my case  ... about LPG installation:
-// My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
-//  so ... i made simple driver "I2cSimpleListener" to listen communication without make any connection to devices
-#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
-//
-// Include simple driver
-#ifdef ADT_FUEL_SYSTEM_I2C
-
-#include "lib/drivers/I2cSimpleListener.h"
-
-#endif
-//
-// This definition is for carSens class
-// Additional fuel installation
-#define LPG_INSTALLATION
-#ifdef LPG_INSTALLATION
-//
-// [LPG ECU Avance 32]
-// 4 Pins 5V LPG fuel switch/gauge
-//      Two wires are for power supply, other two wires is for displayed information.
-//      * Check wiring diagram in order to determine your wiring
-// 20, 21
-//
-// bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
-// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be used for RX:
-// 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
-const uint8_t pinLpgDat = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
-#endif
-//
-/***************************************************************************/
-//
-//
 
 
+#include "conf.h"
 
 //
 // I2C detector driver
@@ -173,23 +61,6 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 // Add car games
 #include "lib/CarGames.h"
 
-#if SCREEN == 162
-//
-// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-//
-// Adding display's format
-#include "lib/Lcd16x2.h"
-
-#elif SCREEN == 24064
-//
-// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
-U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
-//
-// Adding display's format
-#include "lib/Lcd240x64.h"
-
-#endif
 
 //
 // Menu cursor
@@ -220,16 +91,32 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 // Car games
 CarGames carGames(&ampInt, &carSens, &midMenu);
 
+
+#if SCREEN == 162 || !defined(SCREEN)
+//
+// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
+LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
+//
+// Adding display's format
+#include "lib/Lcd16x2.h"
+
+Lcd16x2 midLcd(&lcd, &ampInt, &carSens, &eepRom, &carStat, &carGames, &whlSens, &midMenu, &shutDown);
+#elif SCREEN == 24064
+//
+// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
+U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
+//
+// Adding display's format
+#include "lib/Lcd240x64.h"
+
+Lcd240x62 lcd(&u8g2, &ampInt, &carSens, &eepRom, &carStat, &carGames, &whlSens, &midMenu, &shutDown);
+#endif
 //
 //
 //LpgSens lpgSens;
 #ifdef ADT_FUEL_SYSTEM_I2C
 I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
-
-//
-// Define Welcome screen
-static void playWelcomeScreen();
 
 //
 // Setup the code...
@@ -241,9 +128,7 @@ void setup() {
     //
     //
 //    lpgSens.setup(pinLpgDat, LPG_CLC_PIN);
-    //
-    // Turn lcdDisplay off
-    lcd.noDisplay();
+
     //
     // Debug serial
     Serial.begin(SERIAL_MONITOR_BAUD);
@@ -272,23 +157,11 @@ void setup() {
     //
     //  Setup car state pins to detect
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
-#ifdef ARDUINOMID_LCD_16x2_H
     //
-    // Initializes the interface to the LCD screen
-    lcd.begin(16, 2);
-    // and clear it ...
-    lcd.clear();
     //
-    // Adding custom characters to LCD
-    setLcdBaseChar();
-    lcd.display();
-    //
-    // Show welcome from car
-    playWelcomeScreen();
-#endif
+    midLcd.begin();
     //
     // Set MID menu
-//    setupMenu();
     midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
     //
     // Setup SPI lib
@@ -298,6 +171,9 @@ void setup() {
 #if defined(USBCON)
     Serial.println("USB Connected ...");
 #endif
+    //
+    // Shows MID intro
+    midLcd.intro();
     //
     // Restore data
     eepRom.loadCurrentData();
@@ -332,20 +208,9 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
-
     //
     // Listen engine
     carSens.listener();
-    if (ampInt.isBig() && false) {
-        Serial.print("Current fuel state is: ");
-        Serial.print(carSens.getFuelState());
-        Serial.print("        DUMP||  swt: ");
-        Serial.print(dumpFuelSwitchSwt);
-        Serial.print(" ||  tnk: ");
-        Serial.print(dumpFuelSwitchLvl);
-        Serial.print(" || cnt: ");
-        Serial.println(dumpFuelSwitchCnt);
-    }
     //
     // Listen state pins
     carStat.listener();
@@ -355,9 +220,6 @@ void loop() {
     carSens.listenerI2cLpg(&i2cLpg);
     sei();
 #endif
-
-
-
     //
     // Reads buttons from steering
     whlSens.listener();
@@ -372,91 +234,9 @@ void loop() {
     shutDown.cursor(cursorMenu);
     //
     // Display menu 16x2
-#ifdef ARDUINOMID_LCD_16x2_H
-    switch (cursorMenu) {
-        case MidMenu::MENU_ENTER:
-            midMenu.lcdDisplay(&lcd);
-            break;
-            //
-            // Main / first menu
-        case 1:
-            displayTotalCons();
-            displayTotalDst();
-            displayAlert();
-            displayOutTmp();
-            displayInsTmp();
-            break;
-            //
-            // Dashboard
-        case 11:
-            displayEngRPM();
-            displayCarKMH();
-            displayCarECU();
-            displayEngTmp();
-            break;
-
-        case 12:
-            displayTest();
-            break;
-
-            //
-            // Travel menu
-        case 2:
-            displayTrip();
-            break;
-        case 21:
-            displayAverage();
-            break;
-        case 22:
-            displayTotalTrip();
-            break;
-
-            //
-            // Fuel menu
-        case 3:
-            displayConsumption();
-            break;
-        case 32:
-            displayFuelTanks();
-            break;
-        case 4:
-        case 41:
-        case 42:
-        case 43:
-        case 44:
-        case 45:
-            displayCarState();
-            break;
-            //
-            // Games menu
-        case 5:
-            displayCarGames();
-            break;
-        case 51:
-            carGames.listenAStopwatch();
-            displayCarGameWatch();
-            break;
-        case 52:
-            displayCarGameDrag();
-            break;
-        case 53:
-            carGames.listen0to100();
-            displayCarGameT100();
-            break;
-
-        case ShutDw::MENU_SHUTDOWN:
-            shutDown.lcdDisplay(&lcd);
-            break;
-    }
-#endif
-
-#ifdef ARDUINOMID_LCD240X64_H
-
-#endif
-
+    midLcd.draw(cursorMenu);
     //
     // Commands that changes global value from serial monitor
-    //
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption

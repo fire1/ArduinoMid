@@ -1,7 +1,7 @@
 /*
   LiquidCrystal Library - Autoscroll
 
- Demonstrates the use a 16x2 LCD lcdDisplay.  The LiquidCrystal
+ Demonstrates the use a 16x2 LCD lcd16x2.  The LiquidCrystal
  library works with all LCD displays that are compatible with the
  Hitachi HD44780 driver. There are many of them out there, and you
  can usually tell them by the 16-pin interface.
@@ -58,7 +58,7 @@ void loop() {
 
   // set the cursor to (16,1):
   lcd.setCursor(16, 1);
-  // set the lcdDisplay to automatically scroll:
+  // set the lcd16x2 to automatically scroll:
   lcd.autoscroll();
   // print from 0 to 9:
   for (int thisChar = 0; thisChar < 10; thisChar++) {

@@ -1,7 +1,7 @@
 /*
 LiquidCrystal Library - TextDirection
 
-Demonstrates the use a 16x2 LCD lcdDisplay.  The LiquidCrystal
+Demonstrates the use a 16x2 LCD lcd16x2.  The LiquidCrystal
 library works with all LCD displays that are compatible with the
 Hitachi HD44780 driver. There are many of them out there, and you
 can usually tell them by the 16-pin interface.

@@ -4,9 +4,13 @@
 #ifndef ARDUINOM_MID_LCD_CHAR_H
 #define ARDUINOM_MID_LCD_CHAR_H
 
+#include <Arduino.h>
+#include <LiquidCrystal.h>
+
+
 //
 // LCD Character handler
-void setLcdBaseChar() {
+void setLcdBaseChar(LiquidCrystal *lcd) {
 //
 // Temperature celsius
     byte chrCelsius[8] = {
@@ -121,16 +125,16 @@ void setLcdBaseChar() {
             0b00000
     };
 
-//    lcd.createChar(0, chrBertone);
-    lcd.createChar(1, chrCelsius);
-    lcd.createChar(2, kilometers);
-    lcd.createChar(3, chrAlert);
-    lcd.createChar(4, chrGasMark);
-    lcd.createChar(5, chrInstCons1);
-    lcd.createChar(6, chrInstCons2);
-    lcd.createChar(7, chrAllCons1);
-    lcd.createChar(8, chrAllCons2);
-//    lcd.createChar(9, snowflake);
+//    lcd->createChar(0, chrBertone);
+    lcd->createChar(1, chrCelsius);
+    lcd->createChar(2, kilometers);
+    lcd->createChar(3, chrAlert);
+    lcd->createChar(4, chrGasMark);
+    lcd->createChar(5, chrInstCons1);
+    lcd->createChar(6, chrInstCons2);
+    lcd->createChar(7, chrAllCons1);
+    lcd->createChar(8, chrAllCons2);
+//    lcd->createChar(9, snowflake);
 
 }
 

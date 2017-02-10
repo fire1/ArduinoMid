@@ -5,12 +5,12 @@
 #include <inttypes.h>
 #include "Arduino.h"
 
-// When the lcdDisplay powers up, it is configured as follows:
+// When the lcd16x2 powers up, it is configured as follows:
 //
 // 1. Display clear
 // 2. Function set: 
 //    DL = 1; 8-bit interface data 
-//    N = 0; 1-line lcdDisplay
+//    N = 0; 1-line lcd16x2
 //    F = 0; 5x8 dot character font 
 // 3. Display on/off control: 
 //    D = 0; Display off 
@@ -150,7 +150,7 @@ void LiquidCrystal::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
   // finally, set # lines, font size, etc.
   command(LCD_FUNCTIONSET | _displayfunction);  
 
-  // turn the lcdDisplay on with no cursor or blinking default
+  // turn the lcd16x2 on with no cursor or blinking default
   _displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;  
   display();
 
@@ -175,7 +175,7 @@ void LiquidCrystal::setRowOffsets(int row0, int row1, int row2, int row3)
 /********** high level commands, for the user! */
 void LiquidCrystal::clear()
 {
-  command(LCD_CLEARDISPLAY);  // clear lcdDisplay, set cursor position to zero
+  command(LCD_CLEARDISPLAY);  // clear lcd16x2, set cursor position to zero
   delayMicroseconds(2000);  // this command takes a long time!
 }
 
@@ -198,7 +198,7 @@ void LiquidCrystal::setCursor(uint8_t col, uint8_t row)
   command(LCD_SETDDRAMADDR | (col + _row_offsets[row]));
 }
 
-// Turn the lcdDisplay on/off (quickly)
+// Turn the lcd16x2 on/off (quickly)
 void LiquidCrystal::noDisplay() {
   _displaycontrol &= ~LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
@@ -228,7 +228,7 @@ void LiquidCrystal::blink() {
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
-// These commands scroll the lcdDisplay without changing the RAM
+// These commands scroll the lcd16x2 without changing the RAM
 void LiquidCrystal::scrollDisplayLeft(void) {
   command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
 }

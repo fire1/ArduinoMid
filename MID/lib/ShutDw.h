@@ -61,7 +61,7 @@ public:
 
     void listener();
 
-    void lcdDisplay(LiquidCrystal *lcd);
+    void lcd16x2(LiquidCrystal *lcd);
 
     bool isUsbActive();
 
@@ -201,7 +201,7 @@ void ShutDw::listener() {
 /**
  * Display shutdown menu
  */
-void ShutDw::lcdDisplay(LiquidCrystal *lcd) {
+void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
 
     char sec[2];
@@ -256,7 +256,7 @@ void ShutDw::lcdDisplay(LiquidCrystal *lcd) {
         // Save current data and shutdown
         _eep->saveCurrentData();
         //
-        // Show on lcdDisplay
+        // Show on lcd16x2
         displaySaved(lcd);
     }
     //

@@ -91,7 +91,7 @@ void printTemperature(DeviceAddress deviceAddress)
   Serial.println(DallasTemperature::toFahrenheit(tempC)); // Converts tempC to Fahrenheit
 }
 /*
- * Main function. It will request the tempC from the sensors and lcdDisplay on Serial.
+ * Main function. It will request the tempC from the sensors and lcd16x2 on Serial.
  */
 void loop(void)
 { 

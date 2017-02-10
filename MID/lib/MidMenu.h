@@ -175,7 +175,7 @@ public:
     }
 
 
-    void lcdDisplay(LiquidCrystal *lcd);
+    void lcd16x2(LiquidCrystal *lcd);
 
 /**
  * Constructor
@@ -425,7 +425,7 @@ void MidMenu::listener(WhlSens *whl, int &cursor) {
 /**
  * Display menu entry
  */
-void MidMenu::lcdDisplay(LiquidCrystal *lcd) {
+void MidMenu::lcd16x2(LiquidCrystal *lcd) {
 
     MidMenu::cursorMenu = MENU_ENTER;
     lcd->clear();

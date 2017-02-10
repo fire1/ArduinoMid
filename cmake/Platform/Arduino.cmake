@@ -1941,7 +1941,7 @@ endfunction()
 #
 #        OUTPUT_VAR - Output variable that will contain the script path
 #
-# Generates script used to lcdDisplay the firmware size.
+# Generates script used to lcd16x2 the firmware size.
 #=============================================================================#
 function(SETUP_ARDUINO_SIZE_SCRIPT OUTPUT_VAR)
     set(ARDUINO_SIZE_SCRIPT_PATH ${CMAKE_BINARY_DIR}/CMakeFiles/FirmwareSize.cmake)

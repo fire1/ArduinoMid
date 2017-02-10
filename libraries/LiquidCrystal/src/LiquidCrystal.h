@@ -14,13 +14,13 @@
 #define LCD_SETCGRAMADDR 0x40
 #define LCD_SETDDRAMADDR 0x80
 
-// flags for lcdDisplay entry mode
+// flags for lcd16x2 entry mode
 #define LCD_ENTRYRIGHT 0x00
 #define LCD_ENTRYLEFT 0x02
 #define LCD_ENTRYSHIFTINCREMENT 0x01
 #define LCD_ENTRYSHIFTDECREMENT 0x00
 
-// flags for lcdDisplay on/off control
+// flags for lcd16x2 on/off control
 #define LCD_DISPLAYON 0x04
 #define LCD_DISPLAYOFF 0x00
 #define LCD_CURSORON 0x02
@@ -28,7 +28,7 @@
 #define LCD_BLINKON 0x01
 #define LCD_BLINKOFF 0x00
 
-// flags for lcdDisplay/cursor shift
+// flags for lcd16x2/cursor shift
 #define LCD_DISPLAYMOVE 0x08
 #define LCD_CURSORMOVE 0x00
 #define LCD_MOVERIGHT 0x04
