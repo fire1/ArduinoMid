@@ -1,3 +1,6 @@
+#include <U8g2lib.h>
+#include <U8x8lib.h>
+
 /*
 ---------------------------------------------------
     Arduino MID
@@ -24,11 +27,10 @@
 #include <OneWire.h>
 #include <Firmata.h>
 #include <MenuBackend.h>
-//#include <SoftwareSerial.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal.h>
 #include <U8g2lib.h>
-
+//#include <SoftwareSerial.h>
 
 #include "conf.h"
 

@@ -6,13 +6,14 @@
 #define ARDUINOMID_LCD240X64_H
 
 #include <Arduino.h>
-#include <U8g2lib.h>
 #include "../conf.h"
 #include "MainFunc.h"
 #include "MidMenu.h"
 #include "ShutDw.h"
 #include "CarState.h"
 #include "CarGames.h"
+#include <U8g2lib>
+
 
 class Lcd240x62 {
     U8G2_T6963_240X64_2_8080 *lcd;
