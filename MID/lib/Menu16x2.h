@@ -18,6 +18,7 @@
 #include "CarSens.h"
 #include "WhlSens.h"
 #include "EepRom.h"
+#include "MenuBtn.h"
 
 
 #ifndef MENU_ENTRY
@@ -62,8 +63,9 @@ static void MidMenu_menuChanged(MenuChangeEvent changed);
 /**
  *
  */
-class MidMenu {
+class Menu16x2 {
 
+    MenuBtn *btn;
     MenuBackend menu;
     MenuItem
     //
@@ -118,14 +120,14 @@ public:
  * @param pinDw
  * @param pinTn
  */
-    void setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn);
+    void setup(MenuBtn *btn);
 
 /**
  * Listen buttons and navigate
  * @param whl
  * @param cursor
  */
-    void listener(WhlSens *whl, int &cursor);
+    void listener(int &cursor);
 
     /**
      * Returns true if ">S" button activates "edit Оптион"
@@ -139,7 +141,7 @@ public:
  * @return int
  */
     int getCursorMenu() {
-        return MidMenu::cursorMenu;
+        return Menu16x2::cursorMenu;
     }
 
 /**
@@ -147,7 +149,7 @@ public:
  * @param val
  */
     void setCursor(int val) {
-        MidMenu::cursorMenu = val;
+        Menu16x2::cursorMenu = val;
     }
 
 /**
@@ -175,7 +177,7 @@ public:
     }
 
 
-    void lcd16x2(LiquidCrystal *lcd);
+    void playEntry(LiquidCrystal *lcd);
 
 /**
  * Constructor
@@ -183,7 +185,7 @@ public:
  * @param car
  * @param eep
  */
-    MidMenu(IntAmp *amp, CarSens *car, EepRom *eep);
+    Menu16x2(IntAmp *amp, CarSens *car, EepRom *eep);
 
 private:
     boolean enterSub = false;
@@ -210,9 +212,9 @@ private:
 
     bool enterDisplay = 0;
 
-    void buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw);
-
-    void shortcuts(WhlSens *whl);
+//    void buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw);
+//
+//    void shortcuts(WhlSens *whl);
 
     void navigate();
 
@@ -233,7 +235,7 @@ private:
 /**
  * constructor
  */
-MidMenu::MidMenu(IntAmp *amp, CarSens *car, EepRom *eep) :
+Menu16x2::Menu16x2(IntAmp *amp, CarSens *car, EepRom *eep) :
 //
 // Define menus
         menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
@@ -280,50 +282,50 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
     const char *curMenuName = curMenuItem.getName();
 
     if (curMenuName == MENU_NAME_1) {
-        MidMenu::cursorMenu = 1;
+        Menu16x2::cursorMenu = 1;
     } else if (curMenuName == MENU_NAME_11) {
-        MidMenu::cursorMenu = 11;
+        Menu16x2::cursorMenu = 11;
     } else if (curMenuName == MENU_NAME_12) {
-        MidMenu::cursorMenu = 12;
+        Menu16x2::cursorMenu = 12;
     } else if (curMenuName == MENU_NAME_2) {
         //
         // Trip Menu
-        MidMenu::cursorMenu = 2;
+        Menu16x2::cursorMenu = 2;
     } else if (curMenuName == MENU_NAME_21) {
-        MidMenu::cursorMenu = 21;
+        Menu16x2::cursorMenu = 21;
     } else if (curMenuName == MENU_NAME_22) {
-        MidMenu::cursorMenu = 22;
+        Menu16x2::cursorMenu = 22;
         //
         // Fuel Menu
     } else if (curMenuName == MENU_NAME_3) {
-        MidMenu::cursorMenu = 3;
+        Menu16x2::cursorMenu = 3;
     } else if (curMenuName == MENU_NAME_31) {
-        MidMenu::cursorMenu = 32;
+        Menu16x2::cursorMenu = 32;
 
         //
         // Car State Menu
     } else if (curMenuName == MENU_NAME_4) {
-        MidMenu::cursorMenu = 4;
+        Menu16x2::cursorMenu = 4;
     } else if (curMenuName == MENU_NAME_41) {
-        MidMenu::cursorMenu = 41;
+        Menu16x2::cursorMenu = 41;
     } else if (curMenuName == MENU_NAME_42) {
-        MidMenu::cursorMenu = 42;
+        Menu16x2::cursorMenu = 42;
     } else if (curMenuName == MENU_NAME_43) {
-        MidMenu::cursorMenu = 43;
+        Menu16x2::cursorMenu = 43;
     } else if (curMenuName == MENU_NAME_44) {
-        MidMenu::cursorMenu = 44;
+        Menu16x2::cursorMenu = 44;
     } else if (curMenuName == MENU_NAME_45) {
-        MidMenu::cursorMenu = 45;
+        Menu16x2::cursorMenu = 45;
         //
         // Games menu
     } else if (curMenuName == MENU_NAME_5) {
-        MidMenu::cursorMenu = 5;
+        Menu16x2::cursorMenu = 5;
     } else if (curMenuName == MENU_NAME_51) {
-        MidMenu::cursorMenu = 51;
+        Menu16x2::cursorMenu = 51;
     } else if (curMenuName == MENU_NAME_52) {
-        MidMenu::cursorMenu = 52;
+        Menu16x2::cursorMenu = 52;
     } else if (curMenuName == MENU_NAME_53) {
-        MidMenu::cursorMenu = 53;
+        Menu16x2::cursorMenu = 53;
     }
 
 
@@ -332,15 +334,13 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
 /**
  *  Setup menu
  */
-void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
+void Menu16x2::setup(MenuBtn *_btn) {
 
-    btnPinUp = pinUp;
-    btnPinDw = pinDw;
-    pinTones = pinTn;
-    //
-    // Pin button mode
-    pinMode(btnPinUp, INPUT);
-    pinMode(btnPinDw, INPUT);
+    btn = _btn;
+    btnPinUp = btn->getPinUp();
+    btnPinDw = btn->getPinDw();
+    pinTones = btn->getPinTn();
+
     //
     //
     menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
@@ -386,10 +386,10 @@ void MidMenu::setup(uint8_t pinUp, uint8_t pinDw, uint8_t pinTn) {
 /**
  * Define static cursor
  */
-int MidMenu::cursorMenu = 0;
+int Menu16x2::cursorMenu = 0;
 
 
-const char *MidMenu::where = "";
+const char *Menu16x2::where = "";
 
 /**
  * Event use changed
@@ -397,37 +397,37 @@ const char *MidMenu::where = "";
 static void MidMenu_menuUsed(MenuUseEvent used) {
     //
     // Pass argument to class
-    MidMenu::where = used.item.getName();
+    Menu16x2::where = used.item.getName();
 }
 
 
 /**
  * listen menu
  */
-void MidMenu::listener(WhlSens *whl, int &cursor) {
-    buttons(whl, btnPinUp, btnPinDw);
+void Menu16x2::listener(int &cursor) {
+//    buttons(whl, btnPinUp, btnPinDw);
     navigate();
     //
     //
-    if (MidMenu::where != activeMenu && MidMenu::cursorMenu != MENU_ENTER) {
+    if (Menu16x2::where != activeMenu && Menu16x2::cursorMenu != MENU_ENTER) {
         //
         // Keep cursor in save place
-        savedCursor = MidMenu::cursorMenu;
+        savedCursor = Menu16x2::cursorMenu;
         //
         // Change menu to show info
-        MidMenu::cursorMenu = MENU_ENTER;
+        Menu16x2::cursorMenu = MENU_ENTER;
     }
 
-    cursor = MidMenu::cursorMenu;
+    cursor = Menu16x2::cursorMenu;
 
 }
 
 /**
  * Display menu entry
  */
-void MidMenu::lcd16x2(LiquidCrystal *lcd) {
+void Menu16x2::playEntry(LiquidCrystal *lcd) {
 
-    MidMenu::cursorMenu = MENU_ENTER;
+    Menu16x2::cursorMenu = MENU_ENTER;
     lcd->clear();
     lcd->setCursor(0, 0);
 
@@ -437,18 +437,17 @@ void MidMenu::lcd16x2(LiquidCrystal *lcd) {
     lcd->setCursor(0, 0);
     tone(pinTones, 2800, 20);
     delay(100);
-    lcd->print(MidMenu::where);
+    lcd->print(Menu16x2::where);
 
     lcd->setCursor(16, 0);
-    lcd->print((char) 246);
 
     delay(300);  //delay to allow message reading
     lcd->setCursor(0, 0);
 
     _car->clearBaseData();
-    activeMenu = MidMenu::where;
+    activeMenu = Menu16x2::where;
     enterDisplay = 0;
-    MidMenu::cursorMenu = savedCursor;
+    Menu16x2::cursorMenu = savedCursor;
 
     lcd->clear();
     //
@@ -459,10 +458,10 @@ void MidMenu::lcd16x2(LiquidCrystal *lcd) {
 
 }
 
-/**
+/**@deprecated
  * buttons
- */
-void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
+
+void Menu16x2::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
     lastButtonPushed = LOW;
 
@@ -560,10 +559,10 @@ void MidMenu::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
 
 /**
  * Shortcuts
- */
-void MidMenu::shortcuts(WhlSens *whl) {
 
-    /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
+void Menu16x2::shortcuts(WhlSens whl) {
+
+
     // Steering button is pressed
     if (whl->getCurrentState() == whl->STR_BTN_ATT) {
         tone(pinTones, 1000, 10);
@@ -601,43 +600,23 @@ void MidMenu::shortcuts(WhlSens *whl) {
         whl->enable();
         return;
     }
-    /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
 
 }
-
+*/
 
 /**
  * Resolve navigation between button press
  */
-void MidMenu::navigate() {
+void Menu16x2::navigate() {
 
     if (isMainNavigationStatus == 0) {
-        if (lastButtonPushed == btnPinUp) {
-//            if (_isEditMenu == 0) {
-                menu.moveDown();
-                menu.use();
-//            }
-            /*else {
-                menu.moveRight();
-                menu.use();
-            }*/
+        if (btn->getLastBtn() == btnPinUp) {
+            menu.moveDown();
+            menu.use();
         }
-        if (lastButtonPushed == btnPinDw) {
-
+        if (btn->getLastBtn() == btnPinDw) {
             menu.moveRight();
             menu.use();
-            /*
-            if (lastMainMenuState != 0 && _isEditMenu == 0) {
-                menu.moveBack();
-                menu.use();
-
-                menu.moveDown();
-                menu.use();
-
-            } else if (_isEditMenu == 0) {
-
-            }
-             */
         }
     }
     lastButtonPushed = 0; //reset the lastButtonPushed variable

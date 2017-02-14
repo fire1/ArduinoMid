@@ -6,6 +6,7 @@
 #define ARDUINO_MID_CAR_GAME_H
 
 #include "IntAmp.h"
+#include "Menu16x2.h"
 
 struct GamesBest {
     float drag;
@@ -19,7 +20,7 @@ class CarGames {
 
     IntAmp *_amp;
     CarSens *_car;
-    MidMenu *menu;
+    Menu16x2 *menu;
 
 
 private:
@@ -39,7 +40,7 @@ private:
     unsigned long start0To100 = 0;
 
 public:
-    CarGames(IntAmp *intAmp, CarSens *carSens, MidMenu *midMenu);
+    CarGames(IntAmp *intAmp, CarSens *carSens, Menu16x2 *midMenu);
 
     void setup(uint8_t buttonUp, uint8_t buttonDw) {
         btnUp = buttonUp;
@@ -69,7 +70,7 @@ public:
  * Class constructor
  * @param amp
  */
-CarGames::CarGames(IntAmp *intAmp, CarSens *carSens, MidMenu *midMenu) {
+CarGames::CarGames(IntAmp *intAmp, CarSens *carSens, Menu16x2 *midMenu) {
     _amp = intAmp;
     _car = carSens;
     menu = midMenu;

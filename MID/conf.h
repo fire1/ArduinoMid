@@ -55,7 +55,7 @@ const uint8_t STT_VLT_PIN = A7;      // Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
-const uint8_t DIM_PIN_OUT = 46;     //              Output dim of lcd16x2
+const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
 //
 // Temperatures
 const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor

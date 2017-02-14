@@ -53,8 +53,11 @@
 // Car state
 #include "lib/CarState.h"
 //
+// Menu button handler
+#include "lib/MenuBtn.h"
+//
 // Adding menu source
-#include "lib/MidMenu.h"
+#include "lib/Menu16x2.h"
 //
 //
 #include "lib/EepRom.h"
@@ -87,14 +90,15 @@ WhlSens whlSens(&ampInt);
 EepRom eepRom(&carSens);
 //
 // Menu
-MidMenu midMenu(&ampInt, &carSens, &eepRom);
+Menu16x2 midMenu(&ampInt, &carSens, &eepRom);
+
+MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens);
 //
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //
 // Car games
 CarGames carGames(&ampInt, &carSens, &midMenu);
-
 
 #if SCREEN == 162 || !defined(SCREEN)
 //
@@ -166,7 +170,10 @@ void setup() {
     midLcd.begin();
     //
     // Set MID menu
-    midMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
+    midMenu.setup(&btnMenu);
+    //
+    // Setup button listener
+    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -232,7 +239,10 @@ void loop() {
     shutDown.listener();
     //
     //  Read main buttons
-    midMenu.listener(&whlSens, cursorMenu);
+    btnMenu.listener();
+    //
+    // Navigate menu from button listener
+    midMenu.listener(cursorMenu);
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);

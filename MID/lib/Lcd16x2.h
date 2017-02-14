@@ -11,7 +11,7 @@
 //
 // add Calculators
 #include "MainFunc.h"
-#include "MidMenu.h"
+#include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
 #include "CarGames.h"
@@ -30,7 +30,7 @@ class Lcd16x2 {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    MidMenu *mmn;
+    Menu16x2 *mmn;
     ShutDw *sdw;
     GamesBest gameResults;
 
@@ -41,7 +41,7 @@ private:
     boolean displayAlertActive = false;
 public:
     Lcd16x2(LiquidCrystal *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt, CarGames *_gms,
-                 WhlSens *_whl, MidMenu *_mmn, ShutDw *_sdw);
+                 WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw);
     void intro(void);
 
     void begin(void);
@@ -95,7 +95,7 @@ protected:
  */
 Lcd16x2::Lcd16x2
         (LiquidCrystal *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt, CarGames *_gms, WhlSens *_whl,
-         MidMenu *_mmn, ShutDw *_sdw) {
+         Menu16x2 *_mmn, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _amp;
     car = _car;
@@ -507,7 +507,7 @@ void Lcd16x2::displayTest() {
 void Lcd16x2::displayCarState() {
 
 
-    if (MidMenu::cursorMenu == 4) {
+    if (Menu16x2::cursorMenu == 4) {
         if (amp->isSecond() && !amp->is4Seconds()) {
 
             lcd->setCursor(0, 1);
@@ -532,25 +532,25 @@ void Lcd16x2::displayCarState() {
         //
         // Continue with info
         lcd->setCursor(0, 1);
-        if (MidMenu::cursorMenu == 41) {
+        if (Menu16x2::cursorMenu == 41) {
             if (stt->getLiveBrk()) lcd->print("CHECK brake wear");
             else lcd->print("Brake wear OK   ");
         }
-        if (MidMenu::cursorMenu == 42) {
+        if (Menu16x2::cursorMenu == 42) {
             if (stt->getLiveCnt()) lcd->print("Low coolant !");
             else lcd->print("Coolant is OK   ");
         }
-        if (MidMenu::cursorMenu == 43) {
+        if (Menu16x2::cursorMenu == 43) {
             if (stt->getLiveWin()) lcd->print("Low window wash");
             else lcd->print("Window washer OK");
         }
-        if (MidMenu::cursorMenu == 44) {
+        if (Menu16x2::cursorMenu == 44) {
             if (stt->getLiveOil()) lcd->print("Low oil level !");
             else lcd->print("Oil level is OK ");
         }
     }
 
-    if (MidMenu::cursorMenu == 45) {
+    if (Menu16x2::cursorMenu == 45) {
         if (amp->isMid()) {
             if (stt->getLiveVol()) {
                 lcd->print("Voltage ");
@@ -692,8 +692,8 @@ void Lcd16x2::begin(void) {
 
 void Lcd16x2::draw(int cursorMenu) {
     switch (cursorMenu) {
-        case MidMenu::MENU_ENTER:
-            mmn->lcd16x2(lcd);
+        case Menu16x2::MENU_ENTER:
+            mmn->playEntry(lcd);
             break;
             //
             // Main / first menu

@@ -21,12 +21,9 @@ class MenuBtn {
     EepRom *eep;
     WhlSens *whl;
 
-    MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, uint8_t buttonPinUp, uint8_t buttonPinDw,
-            uint8_t pinTones);
-
 private:
     uint8_t btnUp, btnDw, pinTn;
-    int lastButtonPushed = LOW;
+    uint8_t lastButtonPushed = LOW; //TODO @deprecated [changed to MenuBtn::STATE]
     int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
     boolean isEnterSub = false;
@@ -41,33 +38,36 @@ private:
 
     void captureHold(void);
 
-
     boolean shortcut(void);
 
 public:
+    MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl);
+
     void listener(void);
+
+    void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones);
+
 
     uint8_t getPinUp(void);
 
     uint8_t getPinDw(void);
 
+    uint8_t getLastBtn(void);
+
+    uint8_t getPinTn(void);
+
+    static uint8_t STATE;
 
 };
 
-MenuBtn::MenuBtn(
-        IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, uint8_t buttonPinUp, uint8_t buttonPinDw,
-        uint8_t pinTones) {
+static uint8_t MenuBtn::STATE;
+
+MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl) {
     amp = _amp;
     car = _car;
     eep = _eep;
     whl = _whl;
-
-
-    btnUp = buttonPinUp;
-    btnDw = buttonPinDw;
-    pinTn = pinTones;
 }
-
 
 uint8_t MenuBtn::getPinUp(void) {
     return btnUp;
@@ -77,11 +77,34 @@ uint8_t MenuBtn::getPinDw(void) {
     return btnDw;
 }
 
+uint8_t MenuBtn::getPinTn(void) {
+    return pinTn;
+}
+
+uint8_t MenuBtn::getLastBtn() {
+    return lastButtonPushed;
+}
+
+
+void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) {
+    btnUp = buttonPinUp;
+    btnDw = buttonPinDw;
+    pinTn = pinTones;
+    //
+    // Pin button mode
+    pinMode(pinTn, INPUT);
+    pinMode(btnDw, INPUT);
+    //
+    // Default state value
+    this->STATE = LOW;
+}
+
 void MenuBtn::listener() {
 
     //
     // Delete last loop state record
     lastButtonPushed = LOW;
+    MenuBtn::STATE = LOW;
     //
     // Checks is navigation active (default = true)
     if (isNavigationActive) {
@@ -103,6 +126,7 @@ void MenuBtn::captureUp(void) {
 
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
             lastButtonPushed = btnUp;
+            MenuBtn::STATE = btnUp;
         }
     }
 }
@@ -118,6 +142,7 @@ void MenuBtn::captureDw(void) {
         //
         // Perform button is released action
         lastButtonPushed = btnDw;
+        MenuBtn::STATE = btnDw;
         //
         // Reset entry down state
         entryTimeDownState = 0;

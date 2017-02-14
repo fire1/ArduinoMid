@@ -294,7 +294,7 @@ private:
     int vehicleStopped = LOW;
 
 /**
- * Handle lcd16x2 dim
+ * Handle playEntry dim
  */
     int long lastReadValueDim = 0;
 
@@ -787,7 +787,7 @@ void CarSens::listener() {
         vehicleStopped = LOW;
     }
     //
-    // Sens lcd16x2 dim
+    // Sens playEntry dim
     if (_amp->isMin()) {
         sensDim();
     }

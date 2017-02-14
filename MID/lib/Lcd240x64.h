@@ -8,7 +8,7 @@
 #include <Arduino.h>
 #include "../conf.h"
 #include "MainFunc.h"
-#include "MidMenu.h"
+#include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
 #include "CarGames.h"
@@ -23,7 +23,7 @@ class Lcd240x62 {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    MidMenu *mmn;
+    Menu16x2 *mmn;
     ShutDw *sdw;
 
 
@@ -41,7 +41,7 @@ protected:
 public:
     Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt,
               CarGames *_gms,
-              WhlSens *_whl, MidMenu *_mmn, ShutDw *_sdw);
+              WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw);
 
     void intro(void);
 
@@ -52,7 +52,7 @@ public:
 };
 Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt,
                      CarGames *_gms,
-                     WhlSens *_whl, MidMenu *_mmn, ShutDw *_sdw) {
+                     WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _amp;
     car = _car;
@@ -94,7 +94,7 @@ void Lcd240x62::intro(void) {
 
 void Lcd240x62::draw(int cursorMenu) {
     switch (cursorMenu) {
-        case MidMenu::MENU_ENTER:
+        case Menu16x2::MENU_ENTER:
 
             break;
             //

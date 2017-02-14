@@ -11,7 +11,7 @@
 
 
 /**
- * Limits lcd16x2 floats
+ * Limits playEntry floats
  */
 char displayFloat(float value, char *output) {
 
@@ -27,7 +27,7 @@ char displayFloat(float value, char *output) {
 }
 
 /**
- * Limits lcd16x2 floats
+ * Limits playEntry floats
  */
 void separateFloat(float value, int arrOutput[2]) {
 

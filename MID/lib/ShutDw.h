@@ -256,7 +256,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         // Save current data and shutdown
         _eep->saveCurrentData();
         //
-        // Show on lcd16x2
+        // Show on playEntry
         displaySaved(lcd);
     }
     //
