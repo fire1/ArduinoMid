@@ -20,6 +20,7 @@ class MenuBtn {
     CarSens *car;
     EepRom *eep;
     WhlSens *whl;
+    CarState *stt;
 
 private:
     uint8_t btnUp, btnDw, pinTn;
@@ -41,7 +42,7 @@ private:
     boolean shortcut(void);
 
 public:
-    MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl);
+    MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt);
 
     void listener(void);
 
@@ -58,15 +59,27 @@ public:
 
     static uint8_t STATE;
 
+    IntAmp *passAmp(void);
+
+    CarSens *passCar(void);
+
+    EepRom *passEep(void);
+
+    WhlSens *passWhl(void);
+
+    CarState *passStt(void);
+
 };
 
 static uint8_t MenuBtn::STATE;
 
-MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl) {
+
+MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt) {
     amp = _amp;
     car = _car;
     eep = _eep;
     whl = _whl;
+    stt = _stt;
 }
 
 uint8_t MenuBtn::getPinUp(void) {
@@ -85,6 +98,25 @@ uint8_t MenuBtn::getLastBtn() {
     return lastButtonPushed;
 }
 
+IntAmp *MenuBtn::passAmp(void) {
+    return amp;
+}
+
+CarSens *MenuBtn::passCar(void) {
+    return car;
+}
+
+EepRom *MenuBtn::passEep(void) {
+    return eep;
+}
+
+WhlSens *MenuBtn::passWhl(void) {
+    return whl;
+}
+
+CarState *MenuBtn::passStt(void) {
+    return stt;
+}
 
 void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) {
     btnUp = buttonPinUp;

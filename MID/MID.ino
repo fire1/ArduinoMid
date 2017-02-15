@@ -1,3 +1,4 @@
+
 #include <U8g2lib.h>
 #include <U8x8lib.h>
 
@@ -68,7 +69,6 @@
 // Add car games
 #include "lib/CarGames.h"
 
-
 //
 // Menu cursor
 int cursorMenu = 0;
@@ -89,16 +89,16 @@ WhlSens whlSens(&ampInt);
 // Data storage
 EepRom eepRom(&carSens);
 //
-// Menu
-Menu16x2 midMenu(&ampInt, &carSens, &eepRom);
-
-MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens);
 //
+MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens, &carStat);
+//
+// Additional libraries
+// ----
 // Shutdown constructor
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //
 // Car games
-CarGames carGames(&ampInt, &carSens, &midMenu);
+CarGames carGames(&ampInt, &carSens);
 
 #if SCREEN == 162 || !defined(SCREEN)
 //
@@ -108,7 +108,10 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 // Adding display's format
 #include "lib/Lcd16x2.h"
 
-Lcd16x2 midLcd(&lcd, &ampInt, &carSens, &eepRom, &carStat, &carGames, &whlSens, &midMenu, &shutDown);
+Menu16x2 midMenu(&btnMenu);
+
+Lcd16x2 midLcd(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
+
 #elif SCREEN == 24064
 //
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
@@ -117,7 +120,10 @@ U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*
 // Adding display's format
 #include "lib/Lcd240x64.h"
 
-Lcd240x62 lcd(&u8g2, &ampInt, &carSens, &eepRom, &carStat, &carGames, &whlSens, &midMenu, &shutDown);
+Lcd240x62 midMenu(&btnMenu);
+
+Lcd240x62 midLcd(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
+
 #endif
 //
 //
@@ -170,7 +176,7 @@ void setup() {
     midLcd.begin();
     //
     // Set MID menu
-    midMenu.setup(&btnMenu);
+    midMenu.setup();
     //
     // Setup button listener
     btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);

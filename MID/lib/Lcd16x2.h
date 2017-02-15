@@ -35,13 +35,12 @@ class Lcd16x2 {
     GamesBest gameResults;
 
 
-
 private:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
-    Lcd16x2(LiquidCrystal *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt, CarGames *_gms,
-                 WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw);
+    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw);
+
     void intro(void);
 
     void begin(void);
@@ -93,15 +92,13 @@ protected:
 /**
  * Constructor
  */
-Lcd16x2::Lcd16x2
-        (LiquidCrystal *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt, CarGames *_gms, WhlSens *_whl,
-         Menu16x2 *_mmn, ShutDw *_sdw) {
+Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw) {
     lcd = _lcd;
-    amp = _amp;
-    car = _car;
-    eep = _eep;
-    stt = _stt;
-    whl = _whl;
+    amp = _btn->passAmp();
+    car = _btn->passCar();
+    eep = _btn->passEep();
+    stt = _btn->passStt();
+    whl = _btn->passWhl();
     mmn = _mmn;
     sdw = _sdw;
 }

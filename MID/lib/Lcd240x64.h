@@ -12,7 +12,7 @@
 #include "ShutDw.h"
 #include "CarState.h"
 #include "CarGames.h"
-#include <U8g2lib>
+#include <U8g2lib.h>
 
 
 class Lcd240x62 {
@@ -50,15 +50,15 @@ public:
     void draw(int cursorMenu);
 
 };
-Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt,
+Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, CarSens *_car, EepRom *_eep, CarState *_stt,
                      CarGames *_gms,
                      WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw) {
     lcd = _lcd;
-    amp = _amp;
-    car = _car;
-    eep = _eep;
+    amp = _btn->passAmp();
+    car = _btn->passCar();
+    eep = _btn->passEep();
+    whl = _btn->passWhl();
     stt = _stt;
-    whl = _whl;
     mmn = _mmn;
     sdw = _sdw;
 }

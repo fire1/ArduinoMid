@@ -104,6 +104,9 @@ class Menu16x2 {
 
 
 public:
+
+    Menu16x2(MenuBtn *_btn);
+
     const static int MENU_ENTER = MENU_ENTRY;
 
     //
@@ -120,7 +123,7 @@ public:
  * @param pinDw
  * @param pinTn
  */
-    void setup(MenuBtn *btn);
+    void setup(void);
 
 /**
  * Listen buttons and navigate
@@ -179,14 +182,6 @@ public:
 
     void playEntry(LiquidCrystal *lcd);
 
-/**
- * Constructor
- * @param amp
- * @param car
- * @param eep
- */
-    Menu16x2(IntAmp *amp, CarSens *car, EepRom *eep);
-
 private:
     boolean enterSub = false;
     //
@@ -235,7 +230,8 @@ private:
 /**
  * constructor
  */
-Menu16x2::Menu16x2(IntAmp *amp, CarSens *car, EepRom *eep) :
+Menu16x2::Menu16x2(MenuBtn *_btn) :
+
 //
 // Define menus
         menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
@@ -266,10 +262,10 @@ Menu16x2::Menu16x2(IntAmp *amp, CarSens *car, EepRom *eep) :
         gamesDragRace(MenuItem(MENU_NAME_52)),
         gamesFr0To100(MenuItem(MENU_NAME_53)) {
 
-
-    _amp = amp;
-    _car = car;
-    _eep = eep;
+    btn = _btn;
+    _amp = _btn->passAmp();
+    _car = _btn->passCar();
+    _eep = _btn->passEep();
 }
 
 /**
@@ -334,9 +330,9 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
 /**
  *  Setup menu
  */
-void Menu16x2::setup(MenuBtn *_btn) {
+void Menu16x2::setup(void) {
 
-    btn = _btn;
+
     btnPinUp = btn->getPinUp();
     btnPinDw = btn->getPinDw();
     pinTones = btn->getPinTn();
