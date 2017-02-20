@@ -130,7 +130,7 @@ public:
  * @param whl
  * @param cursor
  */
-    void listener(int &cursor);
+    void listener(int &cursor,uint8_t buttonState);
 
     /**
      * Returns true if ">S" button activates "edit Оптион"
@@ -211,7 +211,7 @@ private:
 //
 //    void shortcuts(WhlSens *whl);
 
-    void navigate();
+    void navigate(uint8_t buttonState);
 
 
 };
@@ -400,9 +400,9 @@ static void MidMenu_menuUsed(MenuUseEvent used) {
 /**
  * listen menu
  */
-void Menu16x2::listener(int &cursor) {
+void Menu16x2::listener(int &cursor,uint8_t buttonState) {
 //    buttons(whl, btnPinUp, btnPinDw);
-    navigate();
+    navigate(buttonState);
     //
     //
     if (Menu16x2::where != activeMenu && Menu16x2::cursorMenu != MENU_ENTER) {
@@ -603,14 +603,14 @@ void Menu16x2::shortcuts(WhlSens whl) {
 /**
  * Resolve navigation between button press
  */
-void Menu16x2::navigate() {
+void Menu16x2::navigate(uint8_t buttonState) {
 
     if (isMainNavigationStatus == 0) {
-        if (btn->getLastBtn() == btnPinUp) {
+        if (buttonState == btnPinUp) {
             menu.moveDown();
             menu.use();
         }
-        if (btn->getLastBtn() == btnPinDw) {
+        if (buttonState == btnPinDw) {
             menu.moveRight();
             menu.use();
         }

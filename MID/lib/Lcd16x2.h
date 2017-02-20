@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 27.6.2016 г..
 //
 
-#ifndef ARDUINOMID_LCD_16x2_H
-#define ARDUINOMID_LCD_16x2_H
+#ifndef ARDUINO_MID_LCD_16x2_H
+#define ARDUINO_MID_LCD_16x2_H
 
 #include <Arduino.h>
 #include "../conf.h"
@@ -22,7 +22,7 @@
 /****************************************************************
  * Display temperature sensor
  */
-class Lcd16x2 {
+class Lcd16x2 : virtual public ILcdMenu{
     IntAmp *amp;
     LiquidCrystal *lcd;
     CarSens *car;
@@ -35,7 +35,7 @@ class Lcd16x2 {
     GamesBest gameResults;
 
 
-private:
+protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
@@ -45,7 +45,7 @@ public:
 
     void begin(void);
 
-    void draw(int cursorMenu);
+    void draw(void);
 
 protected:
     void displayOutTmp();
@@ -687,8 +687,9 @@ void Lcd16x2::begin(void) {
     // Show welcome from car
 }
 
-void Lcd16x2::draw(int cursorMenu) {
+void Lcd16x2::draw() {
     switch (cursorMenu) {
+        default:
         case Menu16x2::MENU_ENTER:
             mmn->playEntry(lcd);
             break;

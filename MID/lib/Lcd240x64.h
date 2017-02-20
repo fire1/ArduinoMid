@@ -15,7 +15,7 @@
 #include <U8g2lib.h>
 
 
-class Lcd240x62 {
+class Lcd240x62 : virtual public ILcdMenu {
     U8G2_T6963_240X64_2_8080 *lcd;
     IntAmp *amp;
     CarSens *car;
@@ -39,26 +39,23 @@ protected:
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str);
 
 public:
-    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, IntAmp *_amp, CarSens *_car, EepRom *_eep, CarState *_stt,
-              CarGames *_gms,
-              WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw);
+    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw);
 
     void intro(void);
 
     void begin(void);
 
-    void draw(int cursorMenu);
+    void draw(void);
 
 };
-Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, CarSens *_car, EepRom *_eep, CarState *_stt,
-                     CarGames *_gms,
-                     WhlSens *_whl, Menu16x2 *_mmn, ShutDw *_sdw) {
+
+Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();
     eep = _btn->passEep();
     whl = _btn->passWhl();
-    stt = _stt;
+    stt = _btn->passStt();
     mmn = _mmn;
     sdw = _sdw;
 }
@@ -92,8 +89,9 @@ void Lcd240x62::intro(void) {
 
 }
 
-void Lcd240x62::draw(int cursorMenu) {
+void Lcd240x62::draw(void ) {
     switch (cursorMenu) {
+        default:
         case Menu16x2::MENU_ENTER:
 
             break;

@@ -121,5 +121,17 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 /***************************************************************************/
 //
 //
+//
+// Global Menu cursor
+int cursorMenu = 0;
+
+struct ILcdMenu {
+public:
+    virtual void draw() = 0;
+
+    virtual void intro() = 0;
+
+    virtual void begin() = 0;
+};
 
 #endif //ARDUINOMID_CONF_H

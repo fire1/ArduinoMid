@@ -1,4 +1,3 @@
-
 #include <U8g2lib.h>
 #include <U8x8lib.h>
 
@@ -69,9 +68,7 @@
 // Add car games
 #include "lib/CarGames.h"
 
-//
-// Menu cursor
-int cursorMenu = 0;
+
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
@@ -110,7 +107,7 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
 Menu16x2 midMenu(&btnMenu);
 
-Lcd16x2 midLcd(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
+ILcdMenu  * lcdMenu = new Lcd16x2(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
 
 #elif SCREEN == 24064
 //
@@ -120,7 +117,7 @@ U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*
 // Adding display's format
 #include "lib/Lcd240x64.h"
 
-Lcd240x62 midMenu(&btnMenu);
+ILcdMenu  * lcdMenu = new Lcd240x62(&btnMenu);
 
 Lcd240x62 midLcd(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
 
@@ -173,7 +170,7 @@ void setup() {
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
     //
     //
-    midLcd.begin();
+    lcdMenu->begin();
     //
     // Set MID menu
     midMenu.setup();
@@ -190,7 +187,7 @@ void setup() {
 #endif
     //
     // Shows MID intro
-    midLcd.intro();
+    lcdMenu->intro();
     //
     // Restore data
     eepRom.loadCurrentData();
@@ -248,13 +245,13 @@ void loop() {
     btnMenu.listener();
     //
     // Navigate menu from button listener
-    midMenu.listener(cursorMenu);
+    midMenu.listener(cursorMenu, btnMenu.getLastBtn());
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);
     //
-    // Display menu 16x2
-    midLcd.draw(cursorMenu);
+    // Display UI
+    lcdMenu->draw();
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance
