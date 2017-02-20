@@ -71,7 +71,7 @@ public:
 
 };
 
-static uint8_t MenuBtn::STATE;
+uint8_t MenuBtn::STATE = LOW;
 
 
 MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt) {
@@ -80,6 +80,7 @@ MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarSt
     eep = _eep;
     whl = _whl;
     stt = _stt;
+
 }
 
 uint8_t MenuBtn::getPinUp(void) {
