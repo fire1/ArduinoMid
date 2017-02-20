@@ -28,12 +28,12 @@
 #include <U8g2lib.h>
 //
 // Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+//#define SCREEN 24064 // Glcd 240x64
+#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
-#define SERIAL_MONITOR_BAUD 250000  // 115200 - Normal Speed of monitoring messages
+#define SERIAL_MONITOR_BAUD 115200  // 115200 - Normal Speed of monitoring messages
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -173,23 +173,7 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 // Add car games
 #include "lib/CarGames.h"
 
-#if SCREEN == 162
-//
-// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-//
-// Adding display's format
-#include "lib/Lcd16x2.h"
 
-#elif SCREEN == 24064
-//
-// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
-U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
-//
-// Adding display's format
-#include "lib/Lcd240x64.h"
-
-#endif
 
 //
 // Menu cursor
@@ -227,6 +211,23 @@ CarGames carGames(&ampInt, &carSens, &midMenu);
 I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
 
+#if SCREEN == 162
+//
+// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
+LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
+//
+// Adding display's format
+#include "lib/Lcd16x2.h"
+
+#elif SCREEN == 24064
+//
+// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
+U8G2_T6963_240X64_2_8080 lcd(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
+//
+// Adding display's format
+#include "lib/Lcd240x64.h"
+
+#endif
 //
 // Define Welcome screen
 static void playWelcomeScreen();
