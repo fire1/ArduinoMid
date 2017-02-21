@@ -13,7 +13,7 @@
 // And good example can be found here:
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
-
+#include "../conf.h"
 #include "MainFunc.h"
 #include "CarSens.h"
 #include "WhlSens.h"
@@ -130,7 +130,7 @@ public:
  * @param whl
  * @param cursor
  */
-    void listener(int &cursor,uint8_t buttonState);
+    void listener(int &cursor, uint8_t buttonState);
 
     /**
      * Returns true if ">S" button activates "edit Оптион"
@@ -277,6 +277,7 @@ static void MidMenu_menuChanged(MenuChangeEvent changed) {
 
     const char *curMenuName = curMenuItem.getName();
 
+
     if (curMenuName == MENU_NAME_1) {
         Menu16x2::cursorMenu = 1;
     } else if (curMenuName == MENU_NAME_11) {
@@ -400,9 +401,10 @@ static void MidMenu_menuUsed(MenuUseEvent used) {
 /**
  * listen menu
  */
-void Menu16x2::listener(int &cursor,uint8_t buttonState) {
+void Menu16x2::listener(int &cursor, uint8_t buttonState) {
 //    buttons(whl, btnPinUp, btnPinDw);
-    navigate(buttonState);
+    navigate(btn->getLastBtn());
+
     //
     //
     if (Menu16x2::where != activeMenu && Menu16x2::cursorMenu != MENU_ENTER) {
@@ -424,14 +426,11 @@ void Menu16x2::listener(int &cursor,uint8_t buttonState) {
 void Menu16x2::playEntry(LiquidCrystal *lcd) {
 
     Menu16x2::cursorMenu = MENU_ENTER;
+
     lcd->clear();
     lcd->setCursor(0, 0);
-
     lcd->print("~ ");
-    lcd->setCursor(15, 0);
-    lcd->print((char) 246);
-    lcd->setCursor(0, 0);
-    tone(pinTones, 2800, 20);
+    tone(TONE_ADT_PIN, 2800, 20);
     delay(100);
     lcd->print(Menu16x2::where);
 
@@ -454,167 +453,34 @@ void Menu16x2::playEntry(LiquidCrystal *lcd) {
 
 }
 
-/**@deprecated
- * buttons
-
-void Menu16x2::buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw) {
-
-    lastButtonPushed = LOW;
-
-    //
-    // Checks is navigation active (default = true)
-    if (_isNavigation) {
-        //
-        // Detect up state button
-        if (!digitalRead(buttonPinUp) == HIGH) {
-
-            if (_amp->isLow() && !digitalRead(buttonPinUp) == HIGH) {
-                lastButtonPushed = buttonPinUp;
-            }
-        }
-        //
-        // Detect down state button
-        if (entryDownState + AWAITING > millis() && enterSub && !digitalRead(buttonPinDw) == LOW) {
-            //
-            //
-            tone(pinTones, 700, 20);
-            delay(20);
-            tone(pinTones, 700, 20);
-            enterSub = false;
-            //
-            // Perform button is released action
-            lastButtonPushed = buttonPinDw;
-            //
-            // Reset entry down state
-            entryDownState = 0;
-        }
-    }
-
-
-
-    //
-    // Detect EDIT state button
-    if (!digitalRead(buttonPinDw) == HIGH) {
-        //
-        // Controlling start of press state
-        if (entryDownState == 0) {
-            whl->disable();
-            entryDownState = millis();
-        }
-
-
-        if (_amp->isMin() && !digitalRead(buttonPinDw) == HIGH) {
-            enterSub = true;
-        }
-
-        //
-        // Hold
-        if (entryDownState + AWAITING < millis() && !digitalRead(buttonPinDw) == HIGH) {
-            //
-            // If is still high state [pressed]
-            if (!digitalRead(buttonPinDw) == HIGH) {
-                //
-                // Reset entry down state
-                entryDownState = 0;
-                shortcuts(whl);
-                //
-                // Check for subMenu if not got inner level entry
-                if (_isEditOption == 0) {
-                    //
-                    // Enter inner level menu
-                    _isEditOption = 1;
-                    tone(pinTones, 400, 100);
-                    //
-                    // Exit inner level menu
-                } else if (_isEditOption == 1) {
-                    _isEditOption = 0;
-                    tone(pinTones, 400, 50);
-                    secondTone = 1;
-                }
-            } else {
-                //
-                // Perform button is released action
-                lastButtonPushed = buttonPinDw;
-                //
-                // Reset entry down state
-                entryDownState = 0;
-            }
-        }
-
-    } else { // <- deprecated
-        entryDownState = 0;
-        whl->enable(); // unlock radio
-    }
-
-    if (_amp->isSec() && secondTone) {
-        tone(pinTones, 800, 50);
-        secondTone = 0;
-    }
-
-}
-
-/**
- * Shortcuts
-
-void Menu16x2::shortcuts(WhlSens whl) {
-
-
-    // Steering button is pressed
-    if (whl->getCurrentState() == whl->STR_BTN_ATT) {
-        tone(pinTones, 1000, 10);
-        delay(10);
-        tone(pinTones, 1000, 10);
-        delay(10);
-
-        tone(pinTones, 2500, 10);
-        delay(20);
-        tone(pinTones, 2500, 10);
-        _eep->saveZeroingData();
-        delay(20);
-        whl->enable();
-        return;
-    }
-    //
-    // Change Speed alarm Up
-    if (whl->getCurrentState() == whl->STR_BTN_VLU) {
-        _car->speedingAlarmsUp();
-        tone(pinTones, 800, 50);
-        delay(50);
-        tone(pinTones, 2000, 80);
-        delay(80);
-        whl->enable();
-        return;
-    }
-    //
-    // Change Speed alarm Down
-    if (whl->getCurrentState() == whl->STR_BTN_VLD) {
-        _car->speedingAlarmsDw();
-        tone(pinTones, 2000, 50);
-        delay(50);
-        tone(pinTones, 800, 80);
-        delay(80);
-        whl->enable();
-        return;
-    }
-
-}
-*/
 
 /**
  * Resolve navigation between button press
  */
 void Menu16x2::navigate(uint8_t buttonState) {
 
-    if (isMainNavigationStatus == 0) {
-        if (buttonState == btnPinUp) {
-            menu.moveDown();
-            menu.use();
-        }
-        if (buttonState == btnPinDw) {
-            menu.moveRight();
-            menu.use();
-        }
+
+    if (_amp->isMid()) {
+        Serial.print("cursor Down: ");
+        Serial.println(btn->isDw());
+
+        Serial.print("navigate Up: ");
+        Serial.println(btn->isUp());
+        Serial.print("navigate state: ");
+        Serial.println(btn->getLastBtn());
     }
+//    if (isMainNavigationStatus == 0) {
+
+
+    if (btn->isUp()) {
+        menu.moveDown();
+        menu.use();
+    }
+    if (btn->isDw()) {
+        menu.moveRight();
+        menu.use();
+    }
+//    }
     lastButtonPushed = 0; //reset the lastButtonPushed variable
 }
 

@@ -150,6 +150,9 @@ void setup() {
     //
     eepRom.setup();
     //
+    // Setup button listener
+    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
+    //
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
     //
@@ -168,15 +171,14 @@ void setup() {
     //
     //  Setup car state pins to detect
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
+
     //
     //
     lcdMenu->begin();
     //
     // Set MID menu
     midMenu.setup();
-    //
-    // Setup button listener
-    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
+
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);

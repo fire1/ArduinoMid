@@ -24,7 +24,7 @@ class MenuBtn {
 
 private:
     uint8_t btnUp, btnDw, pinTn;
-    uint8_t lastButtonPushed = LOW; //TODO @deprecated [changed to MenuBtn::STATE]
+    uint8_t lastButtonPushed = 0; //TODO @deprecated [changed to MenuBtn::STATE]
     int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
     boolean isEnterSub = false;
@@ -39,7 +39,7 @@ private:
 
     void captureHold(void);
 
-    boolean shortcut(void);
+    void shortcut(void);
 
 public:
     MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt);
@@ -56,6 +56,16 @@ public:
     uint8_t getLastBtn(void);
 
     uint8_t getPinTn(void);
+
+    boolean isUp() {
+        return lastButtonPushed == btnUp;
+    }
+
+
+    boolean isDw() {
+        return lastButtonPushed == btnDw;
+    }
+
 
     static uint8_t STATE;
 
@@ -136,7 +146,7 @@ void MenuBtn::listener() {
 
     //
     // Delete last loop state record
-    lastButtonPushed = LOW;
+    lastButtonPushed = 0;
     MenuBtn::STATE = LOW;
     //
     // Checks is navigation active (default = true)
@@ -144,13 +154,17 @@ void MenuBtn::listener() {
         //
         // Detect up state button
         captureUp();
+
+
         //
         // Detect down state button
         captureDw();
+
         //
         // Detect Hold button state
         captureHold();
     }
+
 
 }
 
@@ -166,6 +180,13 @@ void MenuBtn::captureUp(void) {
 
 void MenuBtn::captureDw(void) {
     if (entryTimeDownState + AWAITING > millis() && isEnterSub && !digitalRead(btnDw) == LOW) {
+
+        //
+        // Controlling start of press state
+        if (entryTimeDownState == 0) {
+            whl->disable();
+            entryTimeDownState = millis();
+        }
         //
         //
         tone(pinTn, 700, 20);
@@ -176,9 +197,7 @@ void MenuBtn::captureDw(void) {
         // Perform button is released action
         lastButtonPushed = btnDw;
         MenuBtn::STATE = btnDw;
-        //
-        // Reset entry down state
-        entryTimeDownState = 0;
+
     }
 }
 
@@ -186,12 +205,6 @@ void MenuBtn::captureHold(void) {
     //
     // Detect EDIT state button
     if (!digitalRead(btnDw) == HIGH) {
-        //
-        // Controlling start of press state
-        if (entryTimeDownState == 0) {
-            whl->disable();
-            entryTimeDownState = millis();
-        }
 
 
         if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
@@ -204,12 +217,14 @@ void MenuBtn::captureHold(void) {
             //
             // If is still high state [pressed]
             if (!digitalRead(btnDw) == HIGH) {
+
+                //
+                // Cut the method if shortcut is executed
+                shortcut();
                 //
                 // Reset entry down state
                 entryTimeDownState = 0;
-                //
-                // Cut the method if shortcut is executed
-                if (shortcut()) return;
+
                 //
                 // Check for subMenu if not got inner level entry
                 if (_isEditOption == 0) {
@@ -224,8 +239,6 @@ void MenuBtn::captureHold(void) {
                     tone(pinTn, 400, 50);
                     playSecondTone = 1;
                 }
-            } else {
-
             }
         }
 
@@ -241,49 +254,57 @@ void MenuBtn::captureHold(void) {
 }
 
 
-boolean MenuBtn::shortcut(void) {
+void MenuBtn::shortcut(void) {
 
     /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
     // Steering button is pressed
     if (whl->getCurrentState() == whl->STR_BTN_ATT) {
-        tone(pinTn, 1000, 10);
+        tone(TONE_ADT_PIN, 1000, 10);
         delay(10);
-        tone(pinTn, 1000, 10);
+        tone(TONE_ADT_PIN, 1000, 10);
         delay(10);
 
-        tone(pinTn, 2500, 10);
+        tone(TONE_ADT_PIN, 2500, 10);
         delay(20);
-        tone(pinTn, 2500, 10);
+        tone(TONE_ADT_PIN, 2500, 10);
         eep->saveZeroingData();
         delay(20);
 
-        return true;
+        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Up
     if (whl->getCurrentState() == WhlSens::STR_BTN_SKU) {
         car->speedingAlarmsUp();
-        tone(pinTn, 800, 50);
+        tone(TONE_ADT_PIN, 800, 50);
         delay(50);
-        tone(pinTn, 2000, 80);
+        tone(TONE_ADT_PIN, 2000, 80);
         delay(80);
 
-        return true;
+
+        Serial.println("speed UP --------------------------");
+
+
+        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Down
     if (whl->getCurrentState() == WhlSens::STR_BTN_SKD) {
         car->speedingAlarmsDw();
-        tone(pinTn, 2000, 50);
+        tone(TONE_ADT_PIN, 2000, 50);
         delay(50);
-        tone(pinTn, 800, 80);
+        tone(TONE_ADT_PIN, 800, 80);
         delay(80);
 
-        return true;
+
+        Serial.println("speed DW --------------------------");
+
+
+        lastButtonPushed = 0;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
 
-    return false;
+
 }
 
 #endif //ARDUINOMID_BUTTONS_H
