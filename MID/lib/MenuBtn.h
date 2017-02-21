@@ -182,16 +182,10 @@ void MenuBtn::captureDw(void) {
     if (entryTimeDownState + AWAITING > millis() && isEnterSub && !digitalRead(btnDw) == LOW) {
 
         //
-        // Controlling start of press state
-        if (entryTimeDownState == 0) {
-            whl->disable();
-            entryTimeDownState = millis();
-        }
         //
-        //
-        tone(pinTn, 700, 20);
+        tone(TONE_ADT_PIN, 700, 20);
         delay(20);
-        tone(pinTn, 700, 20);
+        tone(TONE_ADT_PIN, 700, 40);
         isEnterSub = false;
         //
         // Perform button is released action
@@ -206,6 +200,12 @@ void MenuBtn::captureHold(void) {
     // Detect EDIT state button
     if (!digitalRead(btnDw) == HIGH) {
 
+        //
+        // Controlling start of press state
+        if (entryTimeDownState == 0) {
+            whl->disable();
+            entryTimeDownState = millis();
+        }
 
         if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
             isEnterSub = true;
@@ -224,19 +224,18 @@ void MenuBtn::captureHold(void) {
                 //
                 // Reset entry down state
                 entryTimeDownState = 0;
-
                 //
                 // Check for subMenu if not got inner level entry
                 if (_isEditOption == 0) {
                     //
                     // Enter inner level menu
                     _isEditOption = 1;
-                    tone(pinTn, 400, 100);
+                    tone(TONE_ADT_PIN, 400, 100);
                     //
                     // Exit inner level menu
                 } else if (_isEditOption == 1) {
                     _isEditOption = 0;
-                    tone(pinTn, 400, 50);
+                    tone(TONE_ADT_PIN, 400, 50);
                     playSecondTone = 1;
                 }
             }
@@ -274,7 +273,7 @@ void MenuBtn::shortcut(void) {
     }
     //
     // Change Speed alarm Up
-    if (whl->getCurrentState() == WhlSens::STR_BTN_SKU) {
+    if (whl->getCurrentState() == whl->STR_BTN_SKU) {
         car->speedingAlarmsUp();
         tone(TONE_ADT_PIN, 800, 50);
         delay(50);
@@ -289,7 +288,7 @@ void MenuBtn::shortcut(void) {
     }
     //
     // Change Speed alarm Down
-    if (whl->getCurrentState() == WhlSens::STR_BTN_SKD) {
+    if (whl->getCurrentState() == whl->STR_BTN_SKD) {
         car->speedingAlarmsDw();
         tone(TONE_ADT_PIN, 2000, 50);
         delay(50);
