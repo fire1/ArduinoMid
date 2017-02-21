@@ -576,7 +576,7 @@ void MidMenu::shortcuts(WhlSens *whl) {
         tone(pinTones, 2500, 10);
         _eep->saveZeroingData();
         delay(20);
-        whl->enable();
+
         return;
     }
     //
@@ -587,7 +587,7 @@ void MidMenu::shortcuts(WhlSens *whl) {
         delay(50);
         tone(pinTones, 2000, 80);
         delay(80);
-        whl->enable();
+
         return;
     }
     //
@@ -598,7 +598,7 @@ void MidMenu::shortcuts(WhlSens *whl) {
         delay(50);
         tone(pinTones, 800, 80);
         delay(80);
-        whl->enable();
+
         return;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
