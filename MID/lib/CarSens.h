@@ -924,28 +924,28 @@ void CarSens::speedingAlarms() {
         speedAlarmCursor = ENABLE_SPEED_HW;
     }
 
-    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && isAlrWtn()) {
+    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 150);
         activeAlarm = true;
-        if (!isAlrWtn()) speedAlarmCounter++;
+        speedAlarmCounter++;
     }
 
-    if (!_amp->is2Seconds() && _amp->is2Seconds() && isAlrCur(ENABLE_SPEED_CT) && isAlrWtn()) {
+    if (!_amp->is2Seconds() && _amp->is2Seconds() && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
         activeAlarm = true;
-        if (!isAlrWtn()) speedAlarmCounter++;
+        speedAlarmCounter++;
     }
 
-    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW) && isAlrWtn()) {
+    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
         activeAlarm = true;
-        if (!isAlrWtn()) speedAlarmCounter++;
+        speedAlarmCounter++;
     }
 
-    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW) && isAlrWtn()) {
+    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
         activeAlarm = true;
-        if (!isAlrWtn()) speedAlarmCounter++;
+        speedAlarmCounter++;
     }
 
     if (speedAlarmCursor > ENABLE_SPEED_HW) {

@@ -567,6 +567,31 @@ void EepRom::injectFromSerial(void) {
         //
         // So ... C++ is static language...
         //      is not good idea to re-set dynamically
+
+        if (srlStrName == "trd") {
+            // Total Liters per hour consumed
+            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            container.dist_trp = saveTemp;
+            srlOutputs = "Trip distance ";
+            srlOutputs += saveTemp;
+        }
+
+        if (srlStrName == "trt") {
+            // Total Liters per hour consumed
+            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            container.time_trp = saveTemp;
+            srlOutputs = "Trip time ";
+            srlOutputs += saveTemp;
+        }
+
+        if (srlStrName == "change") {
+            // Saves type
+            saveTemp = Serial.readStringUntil('\n').toInt();
+            if (saveTemp == 1)saveTripData();
+            srlOutputs = "Change trip data";
+            srlOutputs += saveTemp;
+        }
+
         if (srlStrName == "lpg") {
             // Total Liters per hour consumed
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
