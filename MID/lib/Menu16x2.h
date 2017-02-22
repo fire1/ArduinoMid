@@ -459,16 +459,6 @@ void Menu16x2::playEntry(LiquidCrystal *lcd) {
  */
 void Menu16x2::navigate(uint8_t buttonState) {
 
-
-    if (_amp->isMid()) {
-        Serial.print("cursor Down: ");
-        Serial.println(btn->isDw());
-
-        Serial.print("navigate Up: ");
-        Serial.println(btn->isUp());
-        Serial.print("navigate state: ");
-        Serial.println(btn->getLastBtn());
-    }
 //    if (isMainNavigationStatus == 0) {
 
 
