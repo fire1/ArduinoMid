@@ -28,7 +28,6 @@ private:
     int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
     boolean isEnterSub = false;
-    boolean downState = false;
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     unsigned long entryTimeDownState = 0;
@@ -180,77 +179,74 @@ void MenuBtn::captureUp(void) {
 }
 
 void MenuBtn::captureDw(void) {
-    if (entryTimeDownState + AWAITING > millis() && !digitalRead(btnDw) == HIGH) {
+    if (entryTimeDownState + AWAITING > millis() && isEnterSub && !digitalRead(btnDw) == LOW) {
+
         //
-        // Check down state
-        if (amp->isLow() && !digitalRead(btnUp) == HIGH && lastButtonPushed != btnDw && !downState) {
-            //
-            //
-            tone(TONE_ADT_PIN, 700, 20);
-            delay(20);
-            tone(TONE_ADT_PIN, 700, 40);
-            isEnterSub = false;
-            //
-            // Perform button is released action
-            lastButtonPushed = btnDw;
-            MenuBtn::STATE = btnDw;
+        //
+        tone(TONE_ADT_PIN, 700, 20);
+        delay(20);
+        tone(TONE_ADT_PIN, 700, 40);
+        isEnterSub = false;
+        //
+        // Perform button is released action
+        lastButtonPushed = btnDw;
+        MenuBtn::STATE = btnDw;
 
-            downState = true;
-            //
-            // Controlling start of press state
-            if (entryTimeDownState == 0) {
-                whl->disable();
-                entryTimeDownState = millis();
-            }
-        }
-
-    } else if (!digitalRead(btnDw) == LOW) {
-        downState = false;
-        entryTimeDownState = 0;
     }
 }
 
 void MenuBtn::captureHold(void) {
     //
     // Detect EDIT state button
-    if (!digitalRead(btnDw) == HIGH && downState) {
+    if (!digitalRead(btnDw) == HIGH) {
+
+        //
+        // Controlling start of press state
+        if (entryTimeDownState == 0) {
+            whl->disable();
+            entryTimeDownState = millis();
+        }
 
         if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
             isEnterSub = true;
         }
 
+        Serial.print("waiting =======================================");
+        Serial.println(entryTimeDownState);
         //
         // Hold
         if (entryTimeDownState + AWAITING < millis() && !digitalRead(btnDw) == HIGH) {
             //
             // If is still high state [pressed]
-            if (!digitalRead(btnDw) == HIGH) {
 
+            Serial.print("Whell holl =======================================");
+            Serial.println(whl->getCurrentState());
+
+            //
+            // Cut the method if shortcut is executed
+            shortcut();
+            //
+            // Reset entry down state
+            entryTimeDownState = 0;
+            //
+            // Check for subMenu if not got inner level entry
+            if (_isEditOption == 0) {
                 //
-                // Cut the method if shortcut is executed
-                shortcut();
+                // Enter inner level menu
+                _isEditOption = 1;
+                tone(TONE_ADT_PIN, 400, 100);
                 //
-                // Reset entry down state
-                entryTimeDownState = 0;
-                //
-                // Check for subMenu if not got inner level entry
-                if (_isEditOption == 0) {
-                    //
-                    // Enter inner level menu
-                    _isEditOption = 1;
-                    tone(TONE_ADT_PIN, 400, 100);
-                    //
-                    // Exit inner level menu
-                } else if (_isEditOption == 1) {
-                    _isEditOption = 0;
-                    tone(TONE_ADT_PIN, 400, 50);
-                    playSecondTone = 1;
-                }
+                // Exit inner level menu
+            } else if (_isEditOption == 1) {
+                _isEditOption = 0;
+                tone(TONE_ADT_PIN, 400, 50);
+                playSecondTone = 1;
             }
+            entryTimeDownState = 0;
         }
 
     } else { // <- deprecated
-        entryTimeDownState = 0;
+
         whl->enable(); // unlock radio
     }
 
@@ -265,7 +261,7 @@ void MenuBtn::shortcut(void) {
 
     /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
     // Steering button is pressed
-    if (whl->getCurrentState() == whl->STR_BTN_ATT) {
+    if (whl->getCurrentState() == WhlSens::STR_BTN_ATT) {
         tone(TONE_ADT_PIN, 1000, 10);
         delay(10);
         tone(TONE_ADT_PIN, 1000, 10);
@@ -276,10 +272,12 @@ void MenuBtn::shortcut(void) {
         tone(TONE_ADT_PIN, 2500, 10);
         eep->saveZeroingData();
         delay(20);
+
+        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Up
-    if (whl->getCurrentState() == whl->STR_BTN_SKU) {
+    if (whl->getCurrentState() == WhlSens::STR_BTN_SKU) {
         car->speedingAlarmsUp();
         tone(TONE_ADT_PIN, 800, 50);
         delay(50);
@@ -289,10 +287,12 @@ void MenuBtn::shortcut(void) {
 
         Serial.println("speed UP --------------------------");
 
+
+        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Down
-    if (whl->getCurrentState() == whl->STR_BTN_SKD) {
+    if (whl->getCurrentState() == WhlSens::STR_BTN_SKD) {
         car->speedingAlarmsDw();
         tone(TONE_ADT_PIN, 2000, 50);
         delay(50);
@@ -301,6 +301,9 @@ void MenuBtn::shortcut(void) {
 
 
         Serial.println("speed DW --------------------------");
+
+
+        lastButtonPushed = 0;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
 
