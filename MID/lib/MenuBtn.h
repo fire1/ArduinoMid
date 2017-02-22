@@ -28,6 +28,7 @@ private:
     int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
     boolean isEnterSub = false;
+    boolean downState = false;
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     unsigned long entryTimeDownState = 0;
@@ -179,33 +180,40 @@ void MenuBtn::captureUp(void) {
 }
 
 void MenuBtn::captureDw(void) {
-    if (entryTimeDownState + AWAITING > millis() && isEnterSub && !digitalRead(btnDw) == LOW) {
+    if (entryTimeDownState + AWAITING > millis() && !digitalRead(btnDw) == HIGH) {
+        //
+        // Check down state
+        if (amp->isLow() && !digitalRead(btnUp) == HIGH && lastButtonPushed != btnDw && !downState) {
+            //
+            //
+            tone(TONE_ADT_PIN, 700, 20);
+            delay(20);
+            tone(TONE_ADT_PIN, 700, 40);
+            isEnterSub = false;
+            //
+            // Perform button is released action
+            lastButtonPushed = btnDw;
+            MenuBtn::STATE = btnDw;
 
-        //
-        //
-        tone(TONE_ADT_PIN, 700, 20);
-        delay(20);
-        tone(TONE_ADT_PIN, 700, 40);
-        isEnterSub = false;
-        //
-        // Perform button is released action
-        lastButtonPushed = btnDw;
-        MenuBtn::STATE = btnDw;
+            downState = true;
+            //
+            // Controlling start of press state
+            if (entryTimeDownState == 0) {
+                whl->disable();
+                entryTimeDownState = millis();
+            }
+        }
 
+    } else if (!digitalRead(btnDw) == LOW) {
+        downState = false;
+        entryTimeDownState = 0;
     }
 }
 
 void MenuBtn::captureHold(void) {
     //
     // Detect EDIT state button
-    if (!digitalRead(btnDw) == HIGH) {
-
-        //
-        // Controlling start of press state
-        if (entryTimeDownState == 0) {
-            whl->disable();
-            entryTimeDownState = millis();
-        }
+    if (!digitalRead(btnDw) == HIGH && downState) {
 
         if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
             isEnterSub = true;
@@ -268,8 +276,6 @@ void MenuBtn::shortcut(void) {
         tone(TONE_ADT_PIN, 2500, 10);
         eep->saveZeroingData();
         delay(20);
-
-        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Up
@@ -283,8 +289,6 @@ void MenuBtn::shortcut(void) {
 
         Serial.println("speed UP --------------------------");
 
-
-        lastButtonPushed = 0;
     }
     //
     // Change Speed alarm Down
@@ -297,9 +301,6 @@ void MenuBtn::shortcut(void) {
 
 
         Serial.println("speed DW --------------------------");
-
-
-        lastButtonPushed = 0;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
 

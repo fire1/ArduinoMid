@@ -14,6 +14,7 @@
 #ifdef ADT_FUEL_SYSTEM_I2C
 
 #include "drivers/I2cSimpleListener.h"
+#include "../conf.h"
 
 #endif
 //
@@ -31,6 +32,7 @@
 #define VSS_ALARM_VWAY_SPEED  101 // km
 #define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
+#define VSS_ALARM_AWAITING 15000
 //
 // --------------------------------------------------------------------------------------------------------------------
 // ABOUT ECU signal
@@ -249,7 +251,7 @@ private:
 
     //
     // Speeding alarms
-    int speedAlarmCursor = 1;
+    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
 
     //
     //
@@ -259,6 +261,10 @@ private:
      * Handles speeding alarms
      */
     void speedingAlarms();
+
+    boolean isAlrWtn();
+
+    boolean isAlrCur(unsigned int curSet);
 
     /**
     *
@@ -368,7 +374,7 @@ public:
 
     //
     // Speeding alarm modes
-    const int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
+    const unsigned int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
 
     /**
      * Makes move of alarm cursor to up
@@ -895,6 +901,14 @@ void CarSens::sensEcu() {
 
 }
 
+boolean CarSens::isAlrWtn() {
+    return speedAlarmCounter >= VSS_ALARM_AWAITING;
+}
+
+boolean CarSens::isAlrCur(unsigned int curSet) {
+    return speedAlarmCursor == curSet;
+};
+
 /*******************************************************************
 * Speed Alarms
 */
@@ -903,29 +917,45 @@ void CarSens::speedingAlarms() {
     //
     // Alarm speeding at city
 
+    boolean activeAlarm = false;
+
+
     if (speedAlarmCursor < DISABLE_SPEED_AL) {
         speedAlarmCursor = ENABLE_SPEED_HW;
     }
 
-    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && speedAlarmCursor == ENABLE_SPEED_CT) {
+    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 150);
+        activeAlarm = true;
+        if (!isAlrWtn()) speedAlarmCounter++;
     }
 
-    if (!_amp->is5Seconds() && _amp->is2Seconds() && CUR_VSS > (VSS_ALARM_CITY_SPEED + 10) &&
-        speedAlarmCursor == ENABLE_SPEED_CT) {
+    if (!_amp->is2Seconds() && _amp->is2Seconds() && isAlrCur(ENABLE_SPEED_CT) && isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
+        activeAlarm = true;
+        if (!isAlrWtn()) speedAlarmCounter++;
     }
 
-    if (_amp->is10Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_VW) {
+    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW) && isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
+        activeAlarm = true;
+        if (!isAlrWtn()) speedAlarmCounter++;
     }
 
-    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && speedAlarmCursor == ENABLE_SPEED_HW) {
+    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW) && isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
+        activeAlarm = true;
+        if (!isAlrWtn()) speedAlarmCounter++;
     }
 
     if (speedAlarmCursor > ENABLE_SPEED_HW) {
         speedAlarmCursor = DISABLE_SPEED_AL;
+    }
+
+    //
+    // Reset alarm set if speed is lower
+    if (isAlrWtn() && _amp->is10Seconds() && activeAlarm == 0) {
+        speedAlarmCounter = 0;
     }
 
 
