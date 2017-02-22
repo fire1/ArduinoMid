@@ -28,16 +28,24 @@ private:
     int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
     boolean isEnterSub = false;
+
+    boolean holdDownButton = false;
+
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     unsigned long entryTimeDownState = 0;
 
 
+    //
+    // Down Button
+    bool entryDownState = false;
+    unsigned long holdTimeHandler = 0;
+
     void captureUp(void);
 
     void captureDw(void);
 
-    void captureHold(void);
+    void captureHl(void);
 
     void shortcut(void);
 
@@ -162,11 +170,12 @@ void MenuBtn::listener() {
 
         //
         // Detect Hold button state
-        captureHold();
+        captureHl();
     }
 
 
 }
+
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
@@ -178,43 +187,71 @@ void MenuBtn::captureUp(void) {
     }
 }
 
+
 void MenuBtn::captureDw(void) {
-    if (entryTimeDownState + AWAITING > millis() && isEnterSub && !digitalRead(btnDw) == LOW) {
 
-        //
-        //
-        tone(TONE_ADT_PIN, 700, 20);
-        delay(20);
-        tone(TONE_ADT_PIN, 700, 40);
-        isEnterSub = false;
-        //
-        // Perform button is released action
-        lastButtonPushed = btnDw;
-        MenuBtn::STATE = btnDw;
 
-    }
-}
-
-void MenuBtn::captureHold(void) {
     //
+    // Single press button
+    if (!digitalRead(btnDw) == HIGH && !entryDownState) {
+        //
+        // Clear noise
+        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+            tone(TONE_ADT_PIN, 700, 20);
+            entryDownState = true;
+            playSecondTone = true;
+            holdTimeHandler = millis();
+        }
+
+    } else if (!digitalRead(btnDw) == LOW && entryDownState) {
+        entryDownState = false;
+    }
+
+    if (amp->isSec() && playSecondTone) {
+        tone(pinTn, 800, 50);
+        playSecondTone = 0;
+    }
+
+
+/*    //
     // Detect EDIT state button
     if (!digitalRead(btnDw) == HIGH) {
 
-        //
-        // Controlling start of press state
         if (entryTimeDownState == 0) {
             whl->disable();
             entryTimeDownState = millis();
         }
 
-        if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
-            isEnterSub = true;
-        }
+        if (entryTimeDownState + AWAITING > millis() && !digitalRead(btnDw) == HIGH && !holdDownButton) {
 
-        Serial.print("waiting =======================================");
-        Serial.println(entryTimeDownState);
+            if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+                //
+                //
+                tone(TONE_ADT_PIN, 700, 20);
+                //
+                // Perform button is released action
+                lastButtonPushed = btnDw;
+                MenuBtn::STATE = btnDw;
+
+                holdDownButton = true;
+
+            }
+        }
+    } else if (holdDownButton == 1 && !digitalRead(btnDw) == LOW) {
+        holdDownButton = false;
+        tone(TONE_ADT_PIN, 700, 40);
+    }*/
+}
+
+
+void MenuBtn::captureHl(void) {
+    /*
+    //
+    // Detect EDIT state button
+    if (!digitalRead(btnDw) == HIGH && holdDownButton) {
+
         //
-        // Hold
+        // Detect holding button
         if (entryTimeDownState + AWAITING < millis() && !digitalRead(btnDw) == HIGH) {
             //
             // If is still high state [pressed]
@@ -242,18 +279,25 @@ void MenuBtn::captureHold(void) {
                 tone(TONE_ADT_PIN, 400, 50);
                 playSecondTone = 1;
             }
-            entryTimeDownState = 0;
+
         }
 
-    } else { // <- deprecated
-
+    } else if (entryTimeDownState > 0) {
+        entryTimeDownState = 0;
         whl->enable(); // unlock radio
     }
-
-    if (amp->isSec() && playSecondTone) {
-        tone(pinTn, 800, 50);
-        playSecondTone = 0;
+*/
+    //
+    // Hold button detection
+    if((AWAITING + holdTimeHandler) < millis() && !digitalRead(btnDw) == HIGH && entryDownState){
+        if(amp->isLow() && !digitalRead(btnDw) == HIGH){
+            //
+            // Cut the method if shortcut is executed
+            shortcut();
+            holdTimeHandler = 0;
+        }
     }
+
 }
 
 
@@ -286,8 +330,6 @@ void MenuBtn::shortcut(void) {
 
 
         Serial.println("speed UP --------------------------");
-
-
         lastButtonPushed = 0;
     }
     //
