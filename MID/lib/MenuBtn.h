@@ -159,11 +159,12 @@ void MenuBtn::listener() {
     //
     // Checks is navigation active (default = true)
     if (isNavigationActive) {
+
+        // TODO  test in here
+
         //
         // Detect up state button
         captureUp();
-
-
         //
         // Detect down state button
         captureDw();
