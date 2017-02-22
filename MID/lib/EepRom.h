@@ -30,13 +30,18 @@ const int EEP_ADR_Cl2 = 2; // Consumption Float B LPG
 
 const int EEP_ADR_CB1 = 8; // Consumption Float A BNZ
 const int EEP_ADR_CB2 = 9; // Consumption Float B BNZ
-
-const int EEP_ADR_TT1 = 3; // Total Travel distance
-const int EEP_ADR_TT2 = 4; // Total Travel distance
-
-const int EEP_ADR_WD1 = 5; // Trip distance
-const int EEP_ADR_WD2 = 6; // Trip distance
-const int EEP_ADR_TRD = 7; // Trip distance
+// Fuel distance
+const int EEP_ADR_TD1 = 3; //  Travel distance
+const int EEP_ADR_TD2 = 4; //  Travel distance
+// Global car distance
+const int EEP_ADR_WD1 = 5; // Work distance
+const int EEP_ADR_WD2 = 6; // Work distance
+// Trip distance
+const int EEP_ADR_TR1 = 10; // Trip distance
+const int EEP_ADR_TR2 = 11; // Trip distance
+// Trip time
+const int EEP_ADR_TT1 = 12; // Trip Time
+const int EEP_ADR_TT2 = 13; // Trip Time
 
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size
@@ -49,8 +54,10 @@ const int EEP_ADR_RMS = 6; // Rims Size
 struct SavedData {
     float fuel_adt;
     float fuel_def;
-    float distance;
+    float dist_trv;
     float total_km;
+    float time_trp;
+    float dist_trp;
 };
 
 //
@@ -73,6 +80,10 @@ public:
     void saveCurrentData();
 
     void loadCurrentData();
+
+    void saveTripData();
+
+    void clearTripData();
 
 /**
  * Injection data from USB serial monitor
@@ -192,6 +203,26 @@ private:
     void saveTravelDistance(float value = 0);
 
 /**
+ * Load trip distance
+ */
+    float loadTripDistance();
+
+/**
+ * Save trip distance
+ */
+    void saveTripDistance(float value = 0);
+
+/**
+ * Save trip Time
+ */
+    float loadTripTime();
+
+/**
+ * Save trip Time
+ */
+    void saveTripTime(float value = 0);
+
+/**
  * Write data driver
  * @param theMemoryAddress
  * @param u8Byte
@@ -289,9 +320,47 @@ void EepRom::saveDefCons(float value) {
 /**
  *  LOAD Travel distance
  */
-float EepRom::loadTravelDistance() {
+float EepRom::loadTripDistance() {
+    int va1 = WireEepRomRead(EEP_ADR_TR1);
+    int va2 = WireEepRomRead(EEP_ADR_TR2);
+    return restoreFloat(va1, va2);
+}
+
+/**
+ *  SAVE Travel distance
+ */
+void EepRom::saveTripDistance(float value) {
+    int val[2];
+    separateFloat(value, val);
+    WireEepRomWriteByte(EEP_ADR_TR1, val[0]);
+    WireEepRomWriteByte(EEP_ADR_TR2, val[1]);
+}
+
+/**
+ *  LOAD Travel distance
+ */
+float EepRom::loadTripTime() {
     int va1 = WireEepRomRead(EEP_ADR_TT1);
     int va2 = WireEepRomRead(EEP_ADR_TT2);
+    return restoreFloat(va1, va2);
+}
+
+/**
+ *  SAVE Travel distance
+ */
+void EepRom::saveTripTime(float value = 0) {
+    int val[2];
+    separateFloat(value, val);
+    WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
+    WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
+}
+
+/**
+ *  LOAD Travel distance
+ */
+float EepRom::loadTravelDistance() {
+    int va1 = WireEepRomRead(EEP_ADR_TD1);
+    int va2 = WireEepRomRead(EEP_ADR_TD2);
     return restoreFloat(va1, va2);
 }
 
@@ -301,8 +370,8 @@ float EepRom::loadTravelDistance() {
 void EepRom::saveTravelDistance(float value) {
     int val[2];
     separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
+    WireEepRomWriteByte(EEP_ADR_TD1, val[0]);
+    WireEepRomWriteByte(EEP_ADR_TD2, val[1]);
 }
 
 /**
@@ -340,8 +409,30 @@ void EepRom::saveCurrentData() {
     container.fuel_def = container.fuel_def + _car->getDefFuelCns();
     saveDefCons(container.fuel_def);
 
-    container.distance = container.distance + _car->getDst();
-    saveTravelDistance(container.distance);
+    container.dist_trv = container.dist_trv + _car->getDst();
+    saveTravelDistance(container.dist_trv);
+}
+
+/**
+ * Saves trip data in order to continue the trip
+ */
+void EepRom::saveTripData() {
+
+    float time = millis() / MILLIS_PER_HR;
+
+    container.dist_trp = container.dist_trp + _car->getDst();
+    container.time_trp = container.time_trp + time;
+
+    saveTripTime(container.time_trp);
+    saveTripDistance(container.dist_trp);
+}
+
+/**
+ * Clears trip data
+ */
+void EepRom::clearTripData() {
+    container.time_trp = 0;
+    container.dist_trp = 0;
 }
 
 /**
@@ -350,8 +441,10 @@ void EepRom::saveCurrentData() {
 void EepRom::loadCurrentData() {
     container.fuel_adt = loadAdtCons();
     container.fuel_def = loadDefCons();
-    container.distance = loadTravelDistance();
+    container.time_trp = loadTripTime();
     container.total_km = loadWorkDistance();
+    container.dist_trp = loadTripDistance();
+    container.dist_trv = loadTravelDistance();
     delay(5);
 }
 
@@ -359,22 +452,20 @@ void EepRom::loadCurrentData() {
  * Saves final data
  */
 void EepRom::saveZeroingData() {
-    int assumedTravel = int(container.distance);
+    int assumedTravel = int(container.dist_trv);
+
     container.fuel_adt = 0;
     container.fuel_def = 0;
-
-    container.distance = 0;
-
+    container.dist_trv = 0;
 
     float total_km = container.total_km + (assumedTravel / 1000);
     if (total_km > 0) {
         container.total_km = container.total_km + total_km;
     }
 
-
     saveAdtCons(container.fuel_adt);
     saveDefCons(container.fuel_def);
-    saveTravelDistance(container.distance);
+    saveTravelDistance(container.dist_trv);
     saveWorkingDistance(container.total_km);
 }
 
@@ -391,7 +482,7 @@ int EepRom::getWorkDistance(void) {
  * @return
  */
 float EepRom::getTraveDistance(void) {
-    return container.distance;
+    return container.dist_trv;
 }
 
 /**
@@ -433,7 +524,7 @@ void EepRom::setWorkDistance(float value) {
  * @return
  */
 void EepRom::setTravelDistance(float value) {
-    container.distance = value;
+    container.dist_trv = value;
 }
 
 /**

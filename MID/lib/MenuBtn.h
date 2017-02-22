@@ -159,19 +159,17 @@ void MenuBtn::listener() {
     //
     // Checks is navigation active (default = true)
     if (isNavigationActive) {
-
-        // TODO  test in here
-
         //
         // Detect up state button
         captureUp();
         //
         // Detect down state button
         captureDw();
-
         //
         // Detect Hold button state
         captureHl();
+        // TODO  make this hold as additional option
+        // and other other waiting press after hold to activate shortcuts
     }
 
 
@@ -190,7 +188,6 @@ void MenuBtn::captureUp(void) {
 
 
 void MenuBtn::captureDw(void) {
-
 
     //
     // Single press button

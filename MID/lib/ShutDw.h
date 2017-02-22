@@ -52,6 +52,7 @@ private :
 
     void displayCancel(LiquidCrystal *lcd);
 
+    void melodySave(void);
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
@@ -205,6 +206,25 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
 
     char sec[2];
+    //
+    // Basic information save
+    if (_car->getDst() < SHUTDOWN_SAVE_TRIP) {
+        tone(pinTone, 1000, 50);
+        delay(50);
+        tone(pinTone, 1200, 50);
+        delay(50);
+
+        lcd->clear();
+        lcd->setCursor(0, 0);
+        lcd->print("Goodbye ...     ");
+        lcd->setCursor(0, 1);
+        lcd->print("until next time!");
+        melodySave();
+        _eep->saveCurrentData();
+        delay(2200);
+        digitalWrite(pinCtrl, LOW);
+        return;
+    }
 
     //
     // Show message before straiting procedure
@@ -212,14 +232,18 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         lcd->clear();
         lcd->setCursor(0, 0);
         lcd->print("Hit \"S<\" to ");
-        lcd->setCursor(0, 2);
-        lcd->print("skip saving data");
-        tone(pinTone, 3000, 500);
-        delay(3400);
+        lcd->setCursor(0, 1);
+        lcd->print("skip saving TRIP");
+        tone(pinTone, 800, 200);
+        delay(200);
+        tone(pinTone, 800, 200);
+        delay(200);
+        tone(pinTone, 3000, 1000);
+        delay(3600);
         lcd->clear();
         lcd->setCursor(1, 0);
         lcd->print("Shutting  down");
-        tone(pinTone, 2000, 500);
+        tone(pinTone, 2000, 600);
         delay(1000);
         entryDisplay = 1;
     }
@@ -254,7 +278,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     if (indexWait >= SHUTDOWN_SAVE_LOOPS && alreadyShutdown == 0) {
         //
         // Save current data and shutdown
-        _eep->saveCurrentData();
+        _eep->saveTripData();
         //
         // Show on playEntry
         displaySaved(lcd);
@@ -271,9 +295,13 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 void ShutDw::displayCancel(LiquidCrystal *lcd) {
     lcd->clear();
     lcd->setCursor(1, 0);
-    lcd->print(" Data cancel :(");
+    lcd->print("Trip data cancel");
     lcd->setCursor(1, 2);
-    lcd->print(" Bye bye ...");
+    lcd->print("Erasing trip ...");
+
+    //
+    // Erase trip data
+    _eep->clearTripData();
     //
     // Shutdown the system
     tone(pinTone, 800, 500);
@@ -283,6 +311,20 @@ void ShutDw::displayCancel(LiquidCrystal *lcd) {
     //
     // Mark mid as shutdown
     alreadyShutdown = 1;
+}
+/**
+ * Save melody play
+ */
+void ShutDw::melodySave() {
+    tone(pinTone, 1000, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 2000, 50);
+    delay(50);
+    tone(pinTone, 3000, 50);
 }
 
 /**
@@ -299,15 +341,7 @@ void ShutDw::displaySaved(LiquidCrystal *lcd) {
     lcd->print(" Bye bye ...");
     //
     // Shutdown the system
-    tone(pinTone, 1000, 50);
-    delay(50);
-    tone(pinTone, 1500, 50);
-    delay(50);
-    tone(pinTone, 1500, 50);
-    delay(50);
-    tone(pinTone, 2000, 50);
-    delay(50);
-    tone(pinTone, 3000, 50);
+    melodySave();
     _whl->shutdownMode();
     delay(2000);
     digitalWrite(pinCtrl, LOW);

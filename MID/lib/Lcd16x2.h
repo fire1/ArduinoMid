@@ -22,7 +22,7 @@
 /****************************************************************
  * Display temperature sensor
  */
-class Lcd16x2 : virtual public ILcdMenu{
+class Lcd16x2 : virtual public ILcdMenu {
     IntAmp *amp;
     LiquidCrystal *lcd;
     CarSens *car;
@@ -209,7 +209,7 @@ void Lcd16x2::displayTotalDst() {
 
     SavedData data = eep->getData();
 
-    float value = data.distance + car->getDst();
+    float value = data.dist_trv + car->getDst();
 
 
     if (amp->isSecond()) {
@@ -305,7 +305,7 @@ void Lcd16x2::displayEngTmp() {
 void Lcd16x2::displayCarECU() {
     char ecuDisplay[2];
 
-    if (amp->isMid()) {
+    if (amp->isSec()) {
 
         lcd->setCursor(9, 0);
         lcd->print("ECu:");
@@ -325,6 +325,11 @@ void Lcd16x2::displayTrip() {
     //
     // Handle Distance screen
 
+    SavedData saved = eep->getData();
+
+    float time = saved.time_trp;
+    float dist = saved.dist_trp;
+
     if (amp->isSec()) {
         lcd->setCursor(0, 0);
         lcd->print(" Current Trip");
@@ -332,13 +337,13 @@ void Lcd16x2::displayTrip() {
         // Display travel time
         lcd->setCursor(0, 1);
         lcd->print(" ");
-        lcd->print(car->getHTm());
+        lcd->print(car->getHTm(time));
         lcd->print("h");
         //
         // Display travel distance
 
         char dspDist[4];
-        displayFloat(car->getDst(), dspDist);
+        displayFloat(car->getDst() + dist, dspDist);
 
         lcd->print(" ");
         lcd->setCursor(9, 1);
@@ -390,7 +395,7 @@ void Lcd16x2::displayConsumption() {
 
     int dspInst[2];
 
-    if (amp->isMid()) {
+    if (amp->isSec()) {
 
         separateFloat(car->getIfcAvr(), dspInst);
 

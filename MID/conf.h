@@ -28,6 +28,11 @@
 #define MILLIS_PER_MN    60000      // Minute
 #define MILLIS_PER_SC    1000       // Second
 //
+//
+// From this distance will trigger
+// menu for saving trip
+#define SHUTDOWN_SAVE_TRIP 25 // more than 25km
+//
 // MID plug pins definition over Arduino
 //
 // Define button pins for steering controller

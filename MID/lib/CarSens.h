@@ -524,7 +524,7 @@ public:
     /**
      *  Gets Human time
      */
-    char *getHTm(void);
+    char *getHTm(float saved = 0);
 
     /**
      *  Gets current Distance
@@ -987,7 +987,7 @@ void CarSens::speedingAlarmsDw() {
  * Gets human time
  * @return char*
  */
-char *CarSens::getHTm() {
+char *CarSens::getHTm(float saved = 0) {
 
     char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
 
@@ -997,7 +997,11 @@ char *CarSens::getHTm() {
     tmSec = millis() / 1000;
     tmMin = int(tmSec / 60);
     tmHrs = tmMin / 60;
-    sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
+
+    int old[1];
+    separateFloat(saved, old);
+
+    sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
     return dspTime;
 };
 
