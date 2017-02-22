@@ -441,10 +441,10 @@ void EepRom::clearTripData() {
 void EepRom::loadCurrentData() {
     container.fuel_adt = loadAdtCons();
     container.fuel_def = loadDefCons();
-    container.time_trp = loadTripTime();
-    container.total_km = loadWorkDistance();
-    container.dist_trp = loadTripDistance();
-    container.dist_trv = loadTravelDistance();
+    container.time_trp = loadTripTime();        // Trip
+    container.total_km = loadWorkDistance();    // Work
+    container.dist_trp = loadTripDistance();    // Trip
+    container.dist_trv = loadTravelDistance();  // Travel
     delay(5);
 }
 
