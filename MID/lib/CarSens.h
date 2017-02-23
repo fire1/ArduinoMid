@@ -930,7 +930,7 @@ void CarSens::speedingAlarms() {
         speedAlarmCounter++;
     }
 
-    if (!_amp->is2Seconds() && _amp->is2Seconds() && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
+    if (!_amp->is2Seconds() && _amp->is5Seconds() && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
         activeAlarm = true;
         speedAlarmCounter++;
