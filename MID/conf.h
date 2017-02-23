@@ -15,7 +15,9 @@
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
 #define SERIAL_MONITOR_BAUD 115200  // 115200 - Normal Speed of monitoring messages
 
-
+//
+// Time to wait when holding >R button
+#define AWAITING_HOLD_BTN 2000
 //
 // Uncommented to debug basics
 //#define GLOBAL_SENS_DEBUG
@@ -137,6 +139,16 @@ public:
     virtual void intro() = 0;
 
     virtual void begin() = 0;
+};
+
+struct MidMenu{
+public:
+    virtual void setup() = 0;
+    virtual void listener(int &cursor) = 0;
+    virtual boolean isNavigationActive() = 0;
+
+    virtual void startEntry() = 0;
+    virtual void finishEntry() = 0;
 };
 
 #endif //ARDUINOMID_CONF_H

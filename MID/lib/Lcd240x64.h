@@ -12,6 +12,7 @@
 #include "ShutDw.h"
 #include "CarState.h"
 #include "CarGames.h"
+#include "Menu240x64.h"
 #include <U8g2lib.h>
 
 
@@ -23,7 +24,7 @@ class Lcd240x62 : virtual public ILcdMenu {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    Menu16x2 *mmn;
+    MidMenu *mmn;
     ShutDw *sdw;
 
 
@@ -39,7 +40,7 @@ protected:
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str);
 
 public:
-    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw);
+    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
 
     void intro(void);
 
@@ -49,7 +50,7 @@ public:
 
 };
 
-Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw) {
+Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();

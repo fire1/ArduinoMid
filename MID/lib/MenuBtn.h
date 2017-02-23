@@ -10,8 +10,8 @@
 #include "CarSens.h"
 #include "EepRom.h"
 
-#ifndef AWAITING
-#define AWAITING 2000
+#ifndef AWAITING_HOLD_BTN
+#define AWAITING_HOLD_BTN 2000
 #endif
 
 class MenuBtn {
@@ -218,7 +218,7 @@ void MenuBtn::captureDw(void) {
 void MenuBtn::captureHl(void) {
     //
     // Hold button detection
-    if ((AWAITING + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
+    if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
         if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
             //
             // Cut the method if shortcut is executed

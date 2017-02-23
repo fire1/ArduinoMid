@@ -56,9 +56,6 @@
 // Menu button handler
 #include "lib/MenuBtn.h"
 //
-// Adding menu source
-#include "lib/Menu16x2.h"
-//
 //
 #include "lib/EepRom.h"
 //
@@ -104,10 +101,14 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 //
 // Adding display's format
 #include "lib/Lcd16x2.h"
+//
+// Adding menu source
+#include "lib/Menu16x2.h"
 
-Menu16x2 midMenu(&btnMenu);
 
-ILcdMenu  * lcdMenu = new Lcd16x2(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
+MidMenu *midMenu = new Menu16x2 (&btnMenu);
+
+ILcdMenu  * lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
 
 #elif SCREEN == 24064
 //
@@ -116,10 +117,14 @@ U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*
 //
 // Adding display's format
 #include "lib/Lcd240x64.h"
+//
+// Adding menu source
+#include "lib/Menu240x64.h"
 
-ILcdMenu  * lcdMenu = new Lcd240x62(&btnMenu);
 
-Lcd240x62 midLcd(&lcd, &btnMenu, &midMenu, &carGames, &shutDown);
+MidMenu *midMenu = new Menu240x60(&btnMenu);
+
+ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown);
 
 #endif
 //
@@ -177,7 +182,7 @@ void setup() {
     lcdMenu->begin();
     //
     // Set MID menu
-    midMenu.setup();
+    midMenu->setup();
 
     //
     // Setup SPI lib
@@ -247,7 +252,7 @@ void loop() {
     btnMenu.listener();
     //
     // Navigate menu from button listener
-    midMenu.listener(cursorMenu, btnMenu.getLastBtn());
+    midMenu->listener(cursorMenu);
     //
     //  Switch to shutdown menu
     shutDown.cursor(cursorMenu);

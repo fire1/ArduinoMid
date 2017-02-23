@@ -8,8 +8,6 @@
 #include <Arduino.h>
 #include "../conf.h"
 #include <LiquidCrystal.h>
-//
-// add Calculators
 #include "MainFunc.h"
 #include "Menu16x2.h"
 #include "ShutDw.h"
@@ -20,7 +18,7 @@
 //
 //
 /****************************************************************
- * Display temperature sensor
+ * Display
  */
 class Lcd16x2 : virtual public ILcdMenu {
     IntAmp *amp;
@@ -30,7 +28,7 @@ class Lcd16x2 : virtual public ILcdMenu {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    Menu16x2 *mmn;
+    MidMenu *mmn;
     ShutDw *sdw;
     GamesBest gameResults;
 
@@ -39,7 +37,7 @@ protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
-    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw);
+    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
 
     void intro(void);
 
@@ -92,7 +90,7 @@ protected:
 /**
  * Constructor
  */
-Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, Menu16x2 *_mmn, CarGames *_gms, ShutDw *_sdw) {
+Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();
@@ -696,7 +694,20 @@ void Lcd16x2::draw() {
     switch (cursorMenu) {
         default:
         case Menu16x2::MENU_ENTER:
-            mmn->playEntry(lcd);
+            mmn->startEntry();
+            lcd->clear();
+            lcd->setCursor(0, 0);
+            lcd->print("~ ");
+            tone(TONE_ADT_PIN, 2800, 20);
+            delay(100);
+            lcd->print(Menu16x2::where);
+            lcd->setCursor(16, 0);
+            delay(300);  //delay to allow message reading
+            lcd->setCursor(0, 0);
+            car->clearBaseData();
+            mmn->finishEntry();
+            lcd->clear();
+
             break;
             //
             // Main / first menu

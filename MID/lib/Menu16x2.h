@@ -51,9 +51,6 @@
 #define MENU_NAME_52 "Drag Racing 402m"
 #define MENU_NAME_53 "From 0 to 100km"
 
-#ifndef AWAITING
-#define AWAITING 2000
-#endif
 
 
 static void MidMenu_menuUsed(MenuUseEvent used);
@@ -63,7 +60,7 @@ static void MidMenu_menuChanged(MenuChangeEvent changed);
 /**
  *
  */
-class Menu16x2 {
+class Menu16x2  : virtual public MidMenu {
 
     MenuBtn *btn;
     MenuBackend menu;
@@ -130,7 +127,12 @@ public:
  * @param whl
  * @param cursor
  */
-    void listener(int &cursor, uint8_t buttonState);
+    void listener(int &cursor);
+
+    void startEntry();
+
+    void finishEntry();
+
 
     /**
      * Returns true if ">S" button activates "edit Оптион"
@@ -180,7 +182,6 @@ public:
     }
 
 
-    void playEntry(LiquidCrystal *lcd);
 
 private:
     boolean enterSub = false;
@@ -401,7 +402,7 @@ static void MidMenu_menuUsed(MenuUseEvent used) {
 /**
  * listen menu
  */
-void Menu16x2::listener(int &cursor, uint8_t buttonState) {
+void Menu16x2::listener(int &cursor) {
 //    buttons(whl, btnPinUp, btnPinDw);
     navigate(btn->getLastBtn());
 
@@ -423,36 +424,34 @@ void Menu16x2::listener(int &cursor, uint8_t buttonState) {
 /**
  * Display menu entry
  */
-void Menu16x2::playEntry(LiquidCrystal *lcd) {
+void Menu16x2::startEntry(void) {
 
     Menu16x2::cursorMenu = MENU_ENTER;
 
-    lcd->clear();
-    lcd->setCursor(0, 0);
-    lcd->print("~ ");
-    tone(TONE_ADT_PIN, 2800, 20);
-    delay(100);
-    lcd->print(Menu16x2::where);
+//    lcd->clear();
+//    lcd->setCursor(0, 0);
+//    lcd->print("~ ");
+//    tone(TONE_ADT_PIN, 2800, 20);
+//    delay(100);
+//    lcd->print(Menu16x2::where);
+//    lcd->setCursor(16, 0);
 
-    lcd->setCursor(16, 0);
+//    delay(300);  //delay to allow message reading
+//    lcd->setCursor(0, 0);
 
-    delay(300);  //delay to allow message reading
-    lcd->setCursor(0, 0);
+//    _car->clearBaseData();
 
-    _car->clearBaseData();
-    activeMenu = Menu16x2::where;
-    enterDisplay = 0;
-    Menu16x2::cursorMenu = savedCursor;
-
-    lcd->clear();
+//    lcd->clear();
     //
     // fixes value peek
     // reset base global vars
-
-
-
 }
 
+void Menu16x2::finishEntry(void){
+    activeMenu = Menu16x2::where;
+    enterDisplay = 0;
+    Menu16x2::cursorMenu = savedCursor;
+}
 
 /**
  * Resolve navigation between button press
