@@ -987,7 +987,7 @@ void CarSens::speedingAlarmsDw() {
  * Gets human time
  * @return char*
  */
-char *CarSens::getHTm(float saved = 0) {
+char *CarSens::getHTm(float saved) {
 
     char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
 

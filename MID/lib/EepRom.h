@@ -348,7 +348,7 @@ float EepRom::loadTripTime() {
 /**
  *  SAVE Travel distance
  */
-void EepRom::saveTripTime(float value = 0) {
+void EepRom::saveTripTime(float value) {
     int val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
