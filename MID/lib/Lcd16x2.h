@@ -28,7 +28,7 @@ class Lcd16x2 : virtual public ILcdMenu {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    MidMenu *mmn;
+    IMidMenu *mmn;
     ShutDw *sdw;
     GamesBest gameResults;
 
@@ -37,7 +37,7 @@ protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
-    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
+    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
 
     void intro(void);
 
@@ -90,7 +90,7 @@ protected:
 /**
  * Constructor
  */
-Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
+Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();

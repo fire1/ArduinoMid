@@ -19,12 +19,14 @@
 #include "WhlSens.h"
 #include "EepRom.h"
 #include "MenuBtn.h"
-
-
+#include "MenuBase.h"
+//
+// Define menu tree
 #ifndef MENU_ENTRY
 #define MENU_ENTRY 0
 #endif
-
+//
+// Main menu [Home]
 #define MENU_NAME_1 "Main"
 #define MENU_NAME_11 "Panel"
 #define MENU_NAME_12 "Test"
@@ -52,18 +54,20 @@
 #define MENU_NAME_53 "From 0 to 100km"
 
 
-
-static void MidMenu_menuUsed(MenuUseEvent used);
-
-static void MidMenu_menuChanged(MenuChangeEvent changed);
+//
+//static void MidMenu_menuUsed(MenuUseEvent used);
+//
+//static void MidMenu_menuChanged(MenuChangeEvent changed);
 
 /**
  *
  */
-class Menu16x2  : virtual public MidMenu {
+class Menu16x2 : public MenuBase {
+    IntAmp *_amp;
 
     MenuBtn *btn;
-    MenuBackend menu;
+    //
+    // Defining menu items
     MenuItem
     //
     // Main menu
@@ -94,16 +98,8 @@ class Menu16x2  : virtual public MidMenu {
             gamesDragRace,
             gamesFr0To100;
 
-    IntAmp *_amp;
-
-    CarSens *_car;
-    EepRom *_eep;
-
 
 public:
-
-    Menu16x2(MenuBtn *_btn);
-
     const static int MENU_ENTER = MENU_ENTRY;
 
     //
@@ -114,24 +110,86 @@ public:
     // External changer var
     int static cursorMenu;
 
+    Menu16x2(MenuBtn *_btn, cb_use use) :
+            MenuBase(btn, use),//  base menu initialization
+            //
+            // Main menu initialization
+            mainMenu(MenuItem(MENU_NAME_1)),
+            dshBoardMenu(MenuItem(MENU_NAME_11)),
+            testingsMenu(MenuItem(MENU_NAME_12)),
+            //
+            // Trip menu initialization
+            tripMenu(MenuItem(MENU_NAME_2)),
+            tripAverage(MenuItem(MENU_NAME_21)),
+            tripTotalKm(MenuItem(MENU_NAME_22)),
+            //
+            // Fuels menu
+            fuelMenu(MenuItem(MENU_NAME_3)),
+            FuelTankMenu(MenuItem(MENU_NAME_31)),
+            //
+            // Car State menu
+            statMenu(MenuItem(MENU_NAME_4)),
+            stateBrkWre(MenuItem(MENU_NAME_41)),
+            stateClnLvl(MenuItem(MENU_NAME_42)),
+            stateWndWsh(MenuItem(MENU_NAME_43)),
+            stateOilLvl(MenuItem(MENU_NAME_44)),
+            stateBatVlt(MenuItem(MENU_NAME_45)),
+            //
+            // Challenges Menu
+            gamesMenu(MenuItem(MENU_NAME_5)),
+            gamesStpWatch(MenuItem(MENU_NAME_51)),
+            gamesDragRace(MenuItem(MENU_NAME_52)),
+            gamesFr0To100(MenuItem(MENU_NAME_53)) {
+
+        btn = _btn;
+        _amp = _btn->passAmp();
+    }
+
 /**
  * Sets pins
  * @param pinUp
  * @param pinDw
  * @param pinTn
  */
-    void setup(void);
+    void setup(void) {
+        //
+        // Base tree construction
+        menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
+        gamesMenu.add(mainMenu); // add last menu to create a Loop menu
+        //
+        // Home menu layers construction
+        mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
+        testingsMenu.addRight(mainMenu); // loop
+        // add return menu
+        dshBoardMenu.add(mainMenu);
+        testingsMenu.add(mainMenu);
+        //
+        // Trip layers construction
+        tripMenu.addRight(tripAverage).addRight(tripTotalKm);
+        tripTotalKm.addRight(tripMenu);
+        tripAverage.add(tripMenu);
+        tripTotalKm.add(tripMenu);
+        //
+        // Fuel  layers construction
+        fuelMenu.addRight(FuelTankMenu);
+        FuelTankMenu.addRight(fuelMenu);
+        FuelTankMenu.add(fuelMenu);
+        //
+        // Inspection layers construction
+        statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
+                .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
+        stateBatVlt.addRight(stateBrkWre);
+        stateBrkWre.add(statMenu);
+        stateClnLvl.add(statMenu);
+        stateWndWsh.add(statMenu);
+        stateOilLvl.add(statMenu);
+        stateBatVlt.add(statMenu);
+        //
+        // Games menu layers construction
+        gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
+        gamesDragRace.addRight(gamesStpWatch);
 
-/**
- * Listen buttons and navigate
- * @param whl
- * @param cursor
- */
-    void listener(int &cursor);
-
-    void startEntry();
-
-    void finishEntry();
+    };
 
 
     /**
@@ -142,7 +200,7 @@ public:
 
 
 /**
- *
+ * @deprecated
  * @return int
  */
     int getCursorMenu() {
@@ -182,204 +240,70 @@ public:
     }
 
 
+/**
+ * Event menu changed
+ */
+    void menuUsed(MenuUseEvent used){
+
+        const char *curMenuName = used.item.getName();
+        if (curMenuName == MENU_NAME_1) {
+            MenuBase::cursorMenu = 1;
+        } else if (curMenuName == MENU_NAME_11) {
+            MenuBase::cursorMenu = 11;
+        } else if (curMenuName == MENU_NAME_12) {
+            MenuBase::cursorMenu = 12;
+        } else if (curMenuName == MENU_NAME_2) {
+            //
+            // Trip Menu
+            MenuBase::cursorMenu = 2;
+        } else if (curMenuName == MENU_NAME_21) {
+            MenuBase::cursorMenu = 21;
+        } else if (curMenuName == MENU_NAME_22) {
+            MenuBase::cursorMenu = 22;
+            //
+            // Fuel Menu
+        } else if (curMenuName == MENU_NAME_3) {
+            MenuBase::cursorMenu = 3;
+        } else if (curMenuName == MENU_NAME_31) {
+            MenuBase::cursorMenu = 32;
+            //
+            // Car State Menu
+        } else if (curMenuName == MENU_NAME_4) {
+            MenuBase::cursorMenu = 4;
+        } else if (curMenuName == MENU_NAME_41) {
+            MenuBase::cursorMenu = 41;
+        } else if (curMenuName == MENU_NAME_42) {
+            MenuBase::cursorMenu = 42;
+        } else if (curMenuName == MENU_NAME_43) {
+            MenuBase::cursorMenu = 43;
+        } else if (curMenuName == MENU_NAME_44) {
+            MenuBase::cursorMenu = 44;
+        } else if (curMenuName == MENU_NAME_45) {
+            MenuBase::cursorMenu = 45;
+            //
+            // Games menu
+        } else if (curMenuName == MENU_NAME_5) {
+            MenuBase::cursorMenu = 5;
+        } else if (curMenuName == MENU_NAME_51) {
+            MenuBase::cursorMenu = 51;
+        } else if (curMenuName == MENU_NAME_52) {
+            MenuBase::cursorMenu = 52;
+        } else if (curMenuName == MENU_NAME_53) {
+            MenuBase::cursorMenu = 53;
+        }
+    }
 
 private:
-    boolean enterSub = false;
-    //
-    // Saves cursor between changes
-    int savedCursor;
 
-    const char *activeMenu;
-
-    uint8_t btnPinUp, btnPinDw, pinTones;
-
-
-    unsigned long entryDownState = 0;
-    boolean secondTone = 0;
-    //
-    //
-    int lastButtonPushed = LOW;
-    int isMainNavigationStatus = 0;
     boolean _isEditOption = false;
 
     boolean _isNavigation = true;
 
-    char lastMainMenuState = 0;
-
-    bool enterDisplay = 0;
-
-//    void buttons(WhlSens *whl, uint8_t buttonPinUp, uint8_t buttonPinDw);
-//
-//    void shortcuts(WhlSens *whl);
-
-    void navigate(uint8_t buttonState);
-
 
 };
 
-/***********************************************************************************************
- * ########################################################################################### *
- * ########################################################################################### *
- *                                                                                             *
- *                                   CPP part of file                                          *
- *                                                                                             *
- * ########################################################################################### *
- * ########################################################################################### *
- ***********************************************************************************************/
 
 
-/**
- * constructor
- */
-Menu16x2::Menu16x2(MenuBtn *_btn) :
-
-//
-// Define menus
-        menu(MenuBackend(MidMenu_menuUsed, MidMenu_menuChanged)),
-        //
-        // Main menu initialization
-        mainMenu(MenuItem(MENU_NAME_1)),
-        dshBoardMenu(MenuItem(MENU_NAME_11)),
-        testingsMenu(MenuItem(MENU_NAME_12)),
-        //
-        // Trip menu initialization
-        tripMenu(MenuItem(MENU_NAME_2)),
-        tripAverage(MenuItem(MENU_NAME_21)),
-        tripTotalKm(MenuItem(MENU_NAME_22)),
-        fuelMenu(MenuItem(MENU_NAME_3)),
-        FuelTankMenu(MenuItem(MENU_NAME_31)),
-        //
-        // Car State menu
-        statMenu(MenuItem(MENU_NAME_4)),
-        stateBrkWre(MenuItem(MENU_NAME_41)),
-        stateClnLvl(MenuItem(MENU_NAME_42)),
-        stateWndWsh(MenuItem(MENU_NAME_43)),
-        stateOilLvl(MenuItem(MENU_NAME_44)),
-        stateBatVlt(MenuItem(MENU_NAME_45)),
-        //
-        // Sprint Menu
-        gamesMenu(MenuItem(MENU_NAME_5)),
-        gamesStpWatch(MenuItem(MENU_NAME_51)),
-        gamesDragRace(MenuItem(MENU_NAME_52)),
-        gamesFr0To100(MenuItem(MENU_NAME_53)) {
-
-    btn = _btn;
-    _amp = _btn->passAmp();
-    _car = _btn->passCar();
-    _eep = _btn->passEep();
-}
-
-/**
- * Event menu changed
- */
-static void MidMenu_menuChanged(MenuChangeEvent changed) {
-
-    MenuItem curMenuItem = changed.to; //get the destination menu
-
-    const char *curMenuName = curMenuItem.getName();
-
-
-    if (curMenuName == MENU_NAME_1) {
-        Menu16x2::cursorMenu = 1;
-    } else if (curMenuName == MENU_NAME_11) {
-        Menu16x2::cursorMenu = 11;
-    } else if (curMenuName == MENU_NAME_12) {
-        Menu16x2::cursorMenu = 12;
-    } else if (curMenuName == MENU_NAME_2) {
-        //
-        // Trip Menu
-        Menu16x2::cursorMenu = 2;
-    } else if (curMenuName == MENU_NAME_21) {
-        Menu16x2::cursorMenu = 21;
-    } else if (curMenuName == MENU_NAME_22) {
-        Menu16x2::cursorMenu = 22;
-        //
-        // Fuel Menu
-    } else if (curMenuName == MENU_NAME_3) {
-        Menu16x2::cursorMenu = 3;
-    } else if (curMenuName == MENU_NAME_31) {
-        Menu16x2::cursorMenu = 32;
-
-        //
-        // Car State Menu
-    } else if (curMenuName == MENU_NAME_4) {
-        Menu16x2::cursorMenu = 4;
-    } else if (curMenuName == MENU_NAME_41) {
-        Menu16x2::cursorMenu = 41;
-    } else if (curMenuName == MENU_NAME_42) {
-        Menu16x2::cursorMenu = 42;
-    } else if (curMenuName == MENU_NAME_43) {
-        Menu16x2::cursorMenu = 43;
-    } else if (curMenuName == MENU_NAME_44) {
-        Menu16x2::cursorMenu = 44;
-    } else if (curMenuName == MENU_NAME_45) {
-        Menu16x2::cursorMenu = 45;
-        //
-        // Games menu
-    } else if (curMenuName == MENU_NAME_5) {
-        Menu16x2::cursorMenu = 5;
-    } else if (curMenuName == MENU_NAME_51) {
-        Menu16x2::cursorMenu = 51;
-    } else if (curMenuName == MENU_NAME_52) {
-        Menu16x2::cursorMenu = 52;
-    } else if (curMenuName == MENU_NAME_53) {
-        Menu16x2::cursorMenu = 53;
-    }
-
-
-}
-
-/**
- *  Setup menu
- */
-void Menu16x2::setup(void) {
-
-
-    btnPinUp = btn->getPinUp();
-    btnPinDw = btn->getPinDw();
-    pinTones = btn->getPinTn();
-
-    //
-    //
-    menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
-    gamesMenu.add(mainMenu); // add last menu to create a Loop menu
-    //
-    // Main menu layers
-    mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-    testingsMenu.addRight(mainMenu); // loop
-    // add return menu
-    dshBoardMenu.add(mainMenu);
-    testingsMenu.add(mainMenu);
-    //
-    // Trip Menu
-    tripMenu.addRight(tripAverage).addRight(tripTotalKm);
-    tripTotalKm.addRight(tripMenu);
-    tripAverage.add(tripMenu);
-    tripTotalKm.add(tripMenu);
-    //
-    // Fuel  layers
-    fuelMenu.addRight(FuelTankMenu);
-    FuelTankMenu.addRight(fuelMenu);
-    FuelTankMenu.add(fuelMenu);
-    //
-    // Inspection menu
-    statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
-            .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
-    stateBatVlt.addRight(stateBrkWre);
-    stateBrkWre.add(statMenu);
-    stateClnLvl.add(statMenu);
-    stateWndWsh.add(statMenu);
-    stateOilLvl.add(statMenu);
-    stateBatVlt.add(statMenu);
-    //
-    // Games menu
-    gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
-    gamesDragRace.addRight(gamesStpWatch);
-    //
-    // Move cursor to menu
-    menu.moveDown();
-    menu.use();
-}
 
 /**
  * Define static cursor
@@ -388,90 +312,6 @@ int Menu16x2::cursorMenu = 0;
 
 
 const char *Menu16x2::where = "";
-
-/**
- * Event use changed
- */
-static void MidMenu_menuUsed(MenuUseEvent used) {
-    //
-    // Pass argument to class
-    Menu16x2::where = used.item.getName();
-}
-
-
-/**
- * listen menu
- */
-void Menu16x2::listener(int &cursor) {
-//    buttons(whl, btnPinUp, btnPinDw);
-    navigate(btn->getLastBtn());
-
-    //
-    //
-    if (Menu16x2::where != activeMenu && Menu16x2::cursorMenu != MENU_ENTER) {
-        //
-        // Keep cursor in save place
-        savedCursor = Menu16x2::cursorMenu;
-        //
-        // Change menu to show info
-        Menu16x2::cursorMenu = MENU_ENTER;
-    }
-
-    cursor = Menu16x2::cursorMenu;
-
-}
-
-/**
- * Display menu entry
- */
-void Menu16x2::startEntry(void) {
-
-    Menu16x2::cursorMenu = MENU_ENTER;
-
-//    lcd->clear();
-//    lcd->setCursor(0, 0);
-//    lcd->print("~ ");
-//    tone(TONE_ADT_PIN, 2800, 20);
-//    delay(100);
-//    lcd->print(Menu16x2::where);
-//    lcd->setCursor(16, 0);
-
-//    delay(300);  //delay to allow message reading
-//    lcd->setCursor(0, 0);
-
-//    _car->clearBaseData();
-
-//    lcd->clear();
-    //
-    // fixes value peek
-    // reset base global vars
-}
-
-void Menu16x2::finishEntry(void){
-    activeMenu = Menu16x2::where;
-    enterDisplay = 0;
-    Menu16x2::cursorMenu = savedCursor;
-}
-
-/**
- * Resolve navigation between button press
- */
-void Menu16x2::navigate(uint8_t buttonState) {
-
-//    if (isMainNavigationStatus == 0) {
-
-
-    if (btn->isUp()) {
-        menu.moveDown();
-        menu.use();
-    }
-    if (btn->isDw()) {
-        menu.moveRight();
-        menu.use();
-    }
-//    }
-    lastButtonPushed = 0; //reset the lastButtonPushed variable
-}
 
 
 #endif

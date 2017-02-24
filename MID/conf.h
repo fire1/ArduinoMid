@@ -141,14 +141,23 @@ public:
     virtual void begin() = 0;
 };
 
-struct MidMenu{
+struct IMidMenu {
 public:
     virtual void setup() = 0;
+
     virtual void listener(int &cursor) = 0;
+
     virtual boolean isNavigationActive() = 0;
 
     virtual void startEntry() = 0;
+
     virtual void finishEntry() = 0;
+
+    virtual void menuUsed(MenuUseEvent) = 0;
+
 };
+
+
+static void menuUseEvent(MenuUseEvent used);
 
 #endif //ARDUINOMID_CONF_H

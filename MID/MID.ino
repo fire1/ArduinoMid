@@ -101,12 +101,8 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 //
 // Adding display's format
 #include "lib/Lcd16x2.h"
-//
-// Adding menu source
-#include "lib/Menu16x2.h"
 
-
-MidMenu *midMenu = new Menu16x2 (&btnMenu);
+IMidMenu *midMenu = new Menu16x2 (&btnMenu, menuUseEvent); // TODO move menu to lcd
 
 ILcdMenu  * lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
 
@@ -117,16 +113,18 @@ U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*
 //
 // Adding display's format
 #include "lib/Lcd240x64.h"
-//
-// Adding menu source
-#include "lib/Menu240x64.h"
 
-
-MidMenu *midMenu = new Menu240x60(&btnMenu);
+IMidMenu *midMenu = new Menu240x60(&btnMenu, menuUseEvent);
 
 ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown);
 
 #endif
+//
+// Event method set
+void menuUseEvent(MenuUseEvent used){
+    MenuBase::where = used.item.getName();
+    midMenu->menuUsed(used);
+}
 //
 //
 //LpgSens lpgSens;
@@ -176,14 +174,12 @@ void setup() {
     //
     //  Setup car state pins to detect
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
-
     //
     //
     lcdMenu->begin();
     //
     // Set MID menu
     midMenu->setup();
-
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);

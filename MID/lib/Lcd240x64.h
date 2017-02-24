@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 8.2.2017 г..
 //
 
-#ifndef ARDUINOMID_LCD240X64_H
-#define ARDUINOMID_LCD240X64_H
+#ifndef ARDUINO_MID_LCD240X64_H
+#define ARDUINO_MID_LCD240X64_H
 
 #include <Arduino.h>
 #include "../conf.h"
@@ -24,7 +24,7 @@ class Lcd240x62 : virtual public ILcdMenu {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    MidMenu *mmn;
+    IMidMenu *mmn;
     ShutDw *sdw;
 
 
@@ -40,7 +40,7 @@ protected:
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str);
 
 public:
-    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
+    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
 
     void intro(void);
 
@@ -50,7 +50,8 @@ public:
 
 };
 
-Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
+Lcd240x62::Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
+
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();
