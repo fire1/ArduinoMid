@@ -155,9 +155,12 @@ public:
 
     virtual void menuUsed(MenuUseEvent) = 0;
 
+    virtual void menuChanged(MenuChangeEvent) = 0;
+
 };
 
 
 static void menuUseEvent(MenuUseEvent used);
+static void menuChangeEvent(MenuChangeEvent changed);
 
 #endif //ARDUINOMID_CONF_H

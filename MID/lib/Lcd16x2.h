@@ -507,7 +507,7 @@ void Lcd16x2::displayTest() {
 void Lcd16x2::displayCarState() {
 
 
-    if (Menu16x2::cursorMenu == 4) {
+    if (MenuBase::cursorMenu == 4) {
         if (amp->isSecond() && !amp->is4Seconds()) {
 
             lcd->setCursor(0, 1);
@@ -532,25 +532,25 @@ void Lcd16x2::displayCarState() {
         //
         // Continue with info
         lcd->setCursor(0, 1);
-        if (Menu16x2::cursorMenu == 41) {
+        if (MenuBase::cursorMenu == 41) {
             if (stt->getLiveBrk()) lcd->print("CHECK brake wear");
             else lcd->print("Brake wear OK   ");
         }
-        if (Menu16x2::cursorMenu == 42) {
+        if (MenuBase::cursorMenu == 42) {
             if (stt->getLiveCnt()) lcd->print("Low coolant !");
             else lcd->print("Coolant is OK   ");
         }
-        if (Menu16x2::cursorMenu == 43) {
+        if (MenuBase::cursorMenu == 43) {
             if (stt->getLiveWin()) lcd->print("Low window wash");
             else lcd->print("Window washer OK");
         }
-        if (Menu16x2::cursorMenu == 44) {
+        if (MenuBase::cursorMenu == 44) {
             if (stt->getLiveOil()) lcd->print("Low oil level !");
             else lcd->print("Oil level is OK ");
         }
     }
 
-    if (Menu16x2::cursorMenu == 45) {
+    if (MenuBase::cursorMenu == 45) {
         if (amp->isMid()) {
             if (stt->getLiveVol()) {
                 lcd->print("Voltage ");
@@ -693,14 +693,14 @@ void Lcd16x2::begin(void) {
 void Lcd16x2::draw() {
     switch (cursorMenu) {
         default:
-        case Menu16x2::MENU_ENTER:
+        case MenuBase::MENU_ENTER:
             mmn->startEntry();
             lcd->clear();
             lcd->setCursor(0, 0);
             lcd->print("~ ");
-            tone(TONE_ADT_PIN, 2800, 20);
+            tone(TONE_ADT_PIN, 2800, 16);
             delay(100);
-            lcd->print(Menu16x2::where);
+            lcd->print(MenuBase::where);
             lcd->setCursor(16, 0);
             delay(300);  //delay to allow message reading
             lcd->setCursor(0, 0);

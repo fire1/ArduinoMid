@@ -38,7 +38,7 @@ public:
 
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, cb_use callUse) : menu(callUse) {
+    MenuBase(MenuBtn *_btn, cb_use callUse, cb_change callChange) : menu(callUse, callChange) {
         btn = _btn;
     }
 
@@ -70,7 +70,6 @@ protected:
      */
     void listener(int &cursor) {
 
-//        MenuBtn *btn = getButtons();
 
         //
         // Handle navigation
@@ -84,6 +83,20 @@ protected:
         }
         lastButtonPushed = 0;
 
+        //
+        //
+        if (MenuBase::where != activeMenu && MenuBase::cursorMenu != MENU_ENTER) {
+            //
+            // Keep cursor in save place
+            savedCursor = MenuBase::cursorMenu;
+            //
+            // Change menu to show info
+            MenuBase::cursorMenu = MENU_ENTER;
+        }
+
+        cursor = MenuBase::cursorMenu;
+
+
     }
 
     boolean isNavigationActive() {
@@ -94,11 +107,9 @@ protected:
 public:
 
 
-
-
 };
 
-int MenuBase::cursorMenu;
+int MenuBase::cursorMenu = 0;
 const char *MenuBase::where = "";
 
 

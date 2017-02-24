@@ -102,9 +102,9 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 // Adding display's format
 #include "lib/Lcd16x2.h"
 
-IMidMenu *midMenu = new Menu16x2 (&btnMenu, menuUseEvent); // TODO move menu to lcd
+IMidMenu *midMenu = new Menu16x2(&btnMenu, menuUseEvent, menuChangeEvent); // TODO move menu to lcd
 
-ILcdMenu  * lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
+ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
 
 #elif SCREEN == 24064
 //
@@ -119,11 +119,17 @@ IMidMenu *midMenu = new Menu240x60(&btnMenu, menuUseEvent);
 ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown);
 
 #endif
+
 //
 // Event method set
-void menuUseEvent(MenuUseEvent used){
+void menuUseEvent(MenuUseEvent used) {
     MenuBase::where = used.item.getName();
     midMenu->menuUsed(used);
+}
+//
+// Event method set
+void menuChangeEvent(MenuChangeEvent changed) {
+    midMenu->menuChanged(changed);
 }
 //
 //

@@ -32,7 +32,7 @@
 #define VSS_ALARM_VWAY_SPEED  101 // km
 #define VSS_ALARM_HWAY_SPEED  141 // km
 #define VSS_ALARM_ENABLED // Comment to disable speeding alarms
-#define VSS_ALARM_AWAITING 15000
+#define VSS_ALARM_AWAITING 5
 //
 // --------------------------------------------------------------------------------------------------------------------
 // ABOUT ECU signal
@@ -929,12 +929,12 @@ void CarSens::speedingAlarms() {
         activeAlarm = true;
         speedAlarmCounter++;
     }
-
-    if (!_amp->is2Seconds() && _amp->is5Seconds() && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
-        tone(TONE_ADT_PIN, 4000, 200);
-        activeAlarm = true;
-        speedAlarmCounter++;
-    }
+//
+//    if (!_amp->is2Seconds() && _amp->is5Seconds() && VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
+//        tone(TONE_ADT_PIN, 4000, 200);
+//        activeAlarm = true;
+//        speedAlarmCounter++;
+//    }
 
     if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW) && !isAlrWtn()) {
         tone(TONE_ADT_PIN, 4000, 200);
@@ -954,8 +954,8 @@ void CarSens::speedingAlarms() {
 
     //
     // Reset alarm set if speed is lower
-    if (isAlrWtn() && _amp->is10Seconds() && activeAlarm == 0) {
-        speedAlarmCounter = 0;
+    if (isAlrWtn() && _amp->is5Seconds() && activeAlarm == 0) {
+        speedAlarmCounter = 0;;
     }
 
 

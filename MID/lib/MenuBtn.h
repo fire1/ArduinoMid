@@ -25,15 +25,11 @@ class MenuBtn {
 private:
     uint8_t btnUp, btnDw, pinTn;
     uint8_t lastButtonPushed = 0; //TODO @deprecated [changed to MenuBtn::STATE]
-    int isMainNavigationStatus = 0;
-    boolean _isEditOption = false;
-    boolean isEnterSub = false;
 
-    boolean holdDownButton = false;
 
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
-    unsigned long entryTimeDownState = 0;
+    boolean activateSteering = false;
 
 
     //
@@ -207,9 +203,9 @@ void MenuBtn::captureDw(void) {
         entryDownState = false;
     }
 
-    if (amp->isSec() && playSecondTone) {
-        tone(pinTn, 800, 50);
-        playSecondTone = 0;
+    if (amp->isLow() && playSecondTone) {
+        tone(pinTn, 1000, 50);
+        playSecondTone = false;
     }
 
 }
@@ -225,7 +221,16 @@ void MenuBtn::captureHl(void) {
             shortcut();
             holdTimeHandler = 0;
             entryDownState = false;
+            activateSteering = true;
+            whl->disable();
         }
+    }
+
+    //
+    // Reactivate steering wheel buttons
+    if (amp->isBig() && activateSteering) {
+        activateSteering = false;
+        whl->enable();
     }
 
 }

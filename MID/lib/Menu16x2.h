@@ -102,16 +102,10 @@ class Menu16x2 : public MenuBase {
 public:
     const static int MENU_ENTER = MENU_ENTRY;
 
-    //
-    // External changer var
-    const static char *where;
 
-    //
-    // External changer var
-    int static cursorMenu;
 
-    Menu16x2(MenuBtn *_btn, cb_use use) :
-            MenuBase(btn, use),//  base menu initialization
+    Menu16x2(MenuBtn *_btn, cb_use use, cb_change change) :
+            MenuBase(btn, use, change),//  base menu initialization
             //
             // Main menu initialization
             mainMenu(MenuItem(MENU_NAME_1)),
@@ -200,19 +194,11 @@ public:
 
 
 /**
- * @deprecated
- * @return int
- */
-    int getCursorMenu() {
-        return Menu16x2::cursorMenu;
-    }
-
-/**
  *
  * @param val
  */
     void setCursor(int val) {
-        Menu16x2::cursorMenu = val;
+        MenuBase::cursorMenu = val;
     }
 
 /**
@@ -243,9 +229,15 @@ public:
 /**
  * Event menu changed
  */
-    void menuUsed(MenuUseEvent used){
+    void menuUsed(MenuUseEvent used) {
+        //
+        // Pass argument to class
+        Menu16x2::where = used.item.getName();
+    }
 
-        const char *curMenuName = used.item.getName();
+    void menuChanged(MenuChangeEvent change) {
+        MenuItem curMenuItem = change.to; //get the destination menu
+        const char *curMenuName = curMenuItem.getName();
         if (curMenuName == MENU_NAME_1) {
             MenuBase::cursorMenu = 1;
         } else if (curMenuName == MENU_NAME_11) {
@@ -301,17 +293,6 @@ private:
 
 
 };
-
-
-
-
-/**
- * Define static cursor
- */
-int Menu16x2::cursorMenu = 0;
-
-
-const char *Menu16x2::where = "";
 
 
 #endif
