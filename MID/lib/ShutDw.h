@@ -221,6 +221,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         lcd->print("until next time!");
         melodySave();
         _eep->saveCurrentData();
+        _whl->shutdownMode();
         delay(2200);
         digitalWrite(pinCtrl, LOW);
         return;

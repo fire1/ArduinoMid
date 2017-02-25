@@ -103,7 +103,6 @@ public:
     const static int MENU_ENTER = MENU_ENTRY;
 
 
-
     Menu16x2(MenuBtn *_btn, cb_use use, cb_change change) :
             MenuBase(btn, use, change),//  base menu initialization
             //
@@ -148,7 +147,8 @@ public:
     void setup(void) {
         //
         // Base tree construction
-        menu.getRoot().add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
+        menu.getRoot()
+                .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
         gamesMenu.add(mainMenu); // add last menu to create a Loop menu
         //
         // Home menu layers construction
@@ -186,53 +186,13 @@ public:
     };
 
 
-    /**
-     * Returns true if ">S" button activates "edit Оптион"
-     * @return bool
-     */
-    boolean isEditOption(void) { return _isEditOption; }
-
-
-/**
- *
- * @param val
- */
-    void setCursor(int val) {
-        MenuBase::cursorMenu = val;
-    }
-
-/**
- * Enables/Disable navigation of menu
- * @param active
- */
-    void setNavigation(boolean active = true) {
-        _isNavigation = active;
-    }
-
-/**
- *  Enables/Disable edit option
- * @param active
- */
-    void setEditOption(boolean active = true) {
-        _isEditOption = active;
-    }
-
-/**
- * Gets state of menu navigation
- * @return bool
- */
-    boolean isNavigationActive(void) {
-        return _isNavigation;
-    }
-
-
 /**
  * Event menu changed
  */
     void menuUsed(MenuUseEvent used) {
         //
         // Pass argument to class
-        Menu16x2::where = used.item.getName();
+        MenuBase::where = used.item.getName();
     }
 
     void menuChanged(MenuChangeEvent change) {
@@ -286,10 +246,6 @@ public:
     }
 
 private:
-
-    boolean _isEditOption = false;
-
-    boolean _isNavigation = true;
 
 
 };

@@ -25,7 +25,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <OneWire.h>
-#include <Firmata.h>
+
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal.h>
@@ -123,7 +123,6 @@ ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown
 //
 // Event method set
 void menuUseEvent(MenuUseEvent used) {
-    MenuBase::where = used.item.getName();
     midMenu->menuUsed(used);
 }
 //

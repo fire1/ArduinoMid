@@ -52,6 +52,9 @@ public:
 
     void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones);
 
+    void clearLastButton(){
+        lastButtonPushed = 0;
+    }
 
     uint8_t getPinUp(void);
 
