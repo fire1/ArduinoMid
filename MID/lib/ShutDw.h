@@ -205,7 +205,7 @@ void ShutDw::listener() {
 void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
 
-    char sec[2];
+
     //
     // Basic information save
     if (_car->getDst() < SHUTDOWN_SAVE_TRIP) {
@@ -227,6 +227,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         return;
     }
 
+    char sec[2];
     //
     // Show message before straiting procedure
     if (entryDisplay == 0) {

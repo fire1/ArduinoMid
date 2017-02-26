@@ -183,19 +183,24 @@ public:
         gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
         gamesDragRace.addRight(gamesStpWatch);
 
+        menu.moveDown();
+        menu.use();
+
     };
 
 
 /**
  * Event menu changed
  */
-    void menuUsed(MenuUseEvent used) {
+    static void menuUsed(MenuUseEvent used) {
         //
         // Pass argument to class
-        MenuBase::where = used.item.getName();
+        MenuBase::used = used.item.getName();
+        Serial.print("Menu used");
+        Serial.println(MenuBase::used);
     }
 
-    void menuChanged(MenuChangeEvent change) {
+    static void menuChanged(MenuChangeEvent change) {
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
         if (curMenuName == MENU_NAME_1) {

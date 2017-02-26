@@ -104,6 +104,17 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
 IMidMenu *midMenu = new Menu16x2(&btnMenu, menuUseEvent, menuChangeEvent); // TODO move menu to lcd
 
+//
+// Event method set
+void menuUseEvent(MenuUseEvent used) {
+    Menu16x2::menuUsed(used);
+}
+//
+// Event method set
+void menuChangeEvent(MenuChangeEvent changed) {
+    Menu16x2::menuChanged(changed);
+}
+
 ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
 
 #elif SCREEN == 24064
@@ -120,16 +131,7 @@ ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown
 
 #endif
 
-//
-// Event method set
-void menuUseEvent(MenuUseEvent used) {
-    midMenu->menuUsed(used);
-}
-//
-// Event method set
-void menuChangeEvent(MenuChangeEvent changed) {
-    midMenu->menuChanged(changed);
-}
+
 //
 //
 //LpgSens lpgSens;
@@ -194,9 +196,6 @@ void setup() {
     Serial.println("USB Connected ...");
 #endif
     //
-    // Shows MID intro
-    lcdMenu->intro();
-    //
     // Restore data
     eepRom.loadCurrentData();
     //
@@ -206,6 +205,10 @@ void setup() {
     // Setup LPG pins
     pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
     pciSetup(pinLpgDat); //   attachInterrupt (digitalPinToInterrupt (pinLpgDat), isr, CHANGE);
+
+    //
+    // Shows MID intro
+    lcdMenu->intro();
 }
 //
 //

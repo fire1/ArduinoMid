@@ -1517,7 +1517,7 @@ endfunction()
 #
 # detect_arduino_version(VAR_NAME)
 #
-#       VAR_NAME - Variable name where the detected version will be saved
+#       VAR_NAME - Variable name used the detected version will be saved
 #
 # Detects the Arduino SDK Version based on the lib/versions.txt file. The
 # following variables will be generated:
@@ -1571,7 +1571,7 @@ endfunction()
 #
 #      entry.setting[.subsetting] = value
 #
-# where [.subsetting] is optional
+# used [.subsetting] is optional
 #
 # For example, the following settings:
 #
@@ -1774,7 +1774,7 @@ endfunction()
 #
 #      TARGET_NAME - Target name
 #      SKETCH_PATH - Path to sketch directory
-#      OUTPUT_VAR  - Variable name where to save generated sketch source
+#      OUTPUT_VAR  - Variable name used to save generated sketch source
 #
 # Generates C++ sources from Arduino Sketch.
 #=============================================================================#

@@ -475,7 +475,7 @@ uint8_t OneWire::search(uint8_t *newAddr, bool search_mode /* = true */)
 //
 
 #if ONEWIRE_CRC8_TABLE
-// This table comes from Dallas sample code where it is freely reusable,
+// This table comes from Dallas sample code used it is freely reusable,
 // though Copyright (C) 2000 Dallas Semiconductor Corporation
 static const uint8_t PROGMEM dscrc_table[] = {
       0, 94,188,226, 97, 63,221,131,194,156,126, 32,163,253, 31, 65,

@@ -74,7 +74,7 @@ TOTAL_ANALOG_PINS: The total number of analog input pins implemented.
     must be specified.  16 is the maximum.
 
 VERSION_BLINK_PIN: When Firmata starts up, it will blink the version
-    number.  This constant is the Arduino pin number where a
+    number.  This constant is the Arduino pin number used a
     LED is connected.
 
 

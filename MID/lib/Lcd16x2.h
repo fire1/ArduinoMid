@@ -700,7 +700,7 @@ void Lcd16x2::draw() {
             lcd->print("~ ");
             tone(TONE_ADT_PIN, 2800, 16);
             delay(100);
-            lcd->print(MenuBase::where);
+            lcd->print(MenuBase::used);
             lcd->setCursor(16, 0);
             delay(300);  //delay to allow message reading
             lcd->setCursor(0, 0);

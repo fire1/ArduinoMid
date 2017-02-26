@@ -68,7 +68,7 @@ boolean SerialFirmata::handleSysex(byte command, byte argc, byte *argv)
               if (pins.rx != 0 && pins.tx != 0) {
                 Firmata.setPinMode(pins.rx, PIN_MODE_SERIAL);
                 Firmata.setPinMode(pins.tx, PIN_MODE_SERIAL);
-                // Fixes an issue where some serial devices would not work properly with Arduino Due
+                // Fixes an issue used some serial devices would not work properly with Arduino Due
                 // because all Arduino pins are set to OUTPUT by default in StandardFirmata.
                 pinMode(pins.rx, INPUT);
               }

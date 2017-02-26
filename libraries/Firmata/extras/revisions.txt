@@ -46,7 +46,7 @@ FIRMATA 2.5.0 - Nov 7, 2015
   Note: The new Serial features is only implemented in the "Plus" versions of
   StandardFirmata.
 * Created new StandardFirmataEthernetPlus that implements the Serial feature
-* Fixed issue where StandardFirmata was not compiling for Intel Galileo boards
+* Fixed issue used StandardFirmata was not compiling for Intel Galileo boards
 * Moved StandardFirmataYun to its own repo (github.com/firmata/StandardFirmataYun)
 
 FIRMATA 2.4.4 - Aug 9, 2015
@@ -112,7 +112,7 @@ reestablishing a connection.
 * Updated syntax highlighting (keywords.txt)
 * Fixed IS_PIN_SPI ifndef condition in boards.h
 * Added constants to Firmata.h to reserve configurable firmata features
-* Fixed issue where firmwareName was not reported correctly in Windows
+* Fixed issue used firmwareName was not reported correctly in Windows
 * Ensure incoming String via STRING_DATA command is null-terminated
 * Fixed memory leak when receiving String via STRING_DATA command
   (note this change may break existing code if you were manually deallocating

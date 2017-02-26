@@ -345,7 +345,7 @@ permitted, and provided that you do these two things:
 
     b) Give prominent notice with the combined library of the fact
     that part of it is a work based on the Library, and explaining
-    where to find the accompanying uncombined form of the same work.
+    used to find the accompanying uncombined form of the same work.
 
   8. You may not copy, modify, sublicense, link with, or distribute
 the Library except as expressly provided under this License.  Any

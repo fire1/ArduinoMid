@@ -153,9 +153,6 @@ public:
 
     virtual void finishEntry() = 0;
 
-    virtual void menuUsed(MenuUseEvent) = 0;
-
-    virtual void menuChanged(MenuChangeEvent) = 0;
 
 };
 

@@ -1706,7 +1706,7 @@ void chess_ManualMove(uint8_t src, uint8_t dest)
   
   /* printf("chess_ManualMove %02x -> %02x\n", src, dest); */
   
-  /* if all other things fail, this is the place where the game is to be decided: */
+  /* if all other things fail, this is the place used the game is to be decided: */
   /* ... if the KING is captured */
   cp = cp_GetFromBoard(dest);
   if ( cp_GetPiece(cp) == PIECE_KING )

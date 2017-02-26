@@ -47,7 +47,7 @@
 
 static const uint8_t u8x8_d_sed1330_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
+  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, used 0x030 is a wild guess */
   U8X8_CA(0x059, 0x004),               /* send display on command (hex 0x059, see p37 ) */
 							/* display cmd has one arg: 01010100 should enable all three blocks, but disable the cursor*/
   
@@ -155,7 +155,7 @@ static const uint8_t u8x8_d_sed1330_240x128_init_seq[] = {
   U8X8_DLY(100),
 
   /* system init command, see also u8x8_d_sed1330_powersave0_seq */
-  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
+  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, used 0x030 is a wild guess */
   /* system init has total 8 parameters, so 7 more are here */
   U8X8_A(0x087),				/* no idea here... WF (topmost bit) is set to one because it is suggested in the datasheet, lowest 3 bits refer to text mode only */
   U8X8_A(0x007),				/* FY: height of a char+1, does not matter here (hopefully), because we use graphics mode only */
@@ -194,7 +194,7 @@ static const uint8_t u8x8_d_rh8835_nhd_240128_init_seq[] = {
   U8X8_DLY(100),
 
   /* system init command, see also u8x8_d_sed1330_powersave0_seq */
-  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
+  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, used 0x030 is a wild guess */
   /* system init has total 8 parameters, so 7 more are here */
   U8X8_A(0x087),				/* no idea here... WF (topmost bit) is set to one because it is suggested in the datasheet, lowest 3 bits refer to text mode only */
   U8X8_A(0x007),				/* FY: height of a char+1, does not matter here (hopefully), because we use graphics mode only */

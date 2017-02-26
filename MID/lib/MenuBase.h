@@ -23,14 +23,14 @@
  */
 class MenuBase : virtual public IMidMenu {
 
-    MenuBtn *btn;
+
 public:
 
     const static int MENU_ENTER = MENU_ENTRY;
 
     //
     // External changer var
-    static const char *where;
+    static const char *used;
 
     //
     // External changer var
@@ -45,21 +45,23 @@ public:
 
     void startEntry() {
         MenuBase::cursorMenu = MENU_ENTER;
-        Serial.print(MenuBase::cursorMenu);
+//        Serial.println(MenuBase::cursorMenu);
     }
 
     void finishEntry() {
-        activeMenu = MenuBase::where;
+        MenuBase::used = MenuBase::activeMenu ;
         MenuBase::cursorMenu = savedCursor;
+        Serial.println(MenuBase::cursorMenu);
     }
 
 
 protected:
+    MenuBtn *btn;
     MenuBackend menu;
     //
     // Saves cursor between changes
     int savedCursor;
-    const char *activeMenu;
+    static const char *activeMenu;
 
 
     /**
@@ -74,7 +76,7 @@ protected:
             menu.moveDown();
             menu.use();
 
-            if(btn->passAmp()->isMid()){
+            if (btn->passAmp()->isMid()) {
                 Serial.print("Up hit \n\r");
 
             }
@@ -82,11 +84,15 @@ protected:
         if (btn->isDw()) {
             menu.moveRight();
             menu.use();
+            if (btn->passAmp()->isMid()) {
+                Serial.print("Dw hit \n\r");
+
+            }
         }
         btn->clearLastButton();
         //
         //
-        if (MenuBase::where != activeMenu && MenuBase::cursorMenu != MENU_ENTER) {
+        if (MenuBase::activeMenu != MenuBase::used  && MenuBase::cursorMenu != MENU_ENTER) {
             //
             // Keep cursor in save place
             savedCursor = MenuBase::cursorMenu;
@@ -99,6 +105,8 @@ protected:
 
 
 public:
+
+
 
     boolean isNavigationActive() {
         return true;
@@ -119,8 +127,9 @@ public:
 
 };
 
-int MenuBase::cursorMenu = 1;
-const char *MenuBase::where = "";
+int MenuBase::cursorMenu;
+const char *MenuBase::used;
+const char *MenuBase::activeMenu;
 
 
 #endif //ARDUINOMID_MENUBASE_H
