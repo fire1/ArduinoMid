@@ -61,7 +61,7 @@ protected:
     //
     // Saves cursor between changes
     int savedCursor;
-    static const char *activeMenu;
+     const char *activeMenu;
 
 
     /**

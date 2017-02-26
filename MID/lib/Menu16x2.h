@@ -103,8 +103,7 @@ public:
     const static int MENU_ENTER = MENU_ENTRY;
 
 
-    Menu16x2(MenuBtn *_btn, cb_use use, cb_change change) :
-            MenuBase(btn, use, change),//  base menu initialization
+    Menu16x2(MenuBtn *_btn, cb_use use, cb_change change) : MenuBase(btn, use, change),//  base menu initialization
             //
             // Main menu initialization
             mainMenu(MenuItem(MENU_NAME_1)),
