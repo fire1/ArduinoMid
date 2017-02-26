@@ -901,8 +901,12 @@ void CarSens::sensEcu() {
 
 }
 
+
 boolean CarSens::isAlrWtn() {
-    return speedAlarmCounter >= VSS_ALARM_AWAITING;
+    if (speedAlarmCounter >= VSS_ALARM_AWAITING) {
+        return 1;
+    }
+    return 0;
 }
 
 boolean CarSens::isAlrCur(unsigned int curSet) {
@@ -914,36 +918,39 @@ boolean CarSens::isAlrCur(unsigned int curSet) {
 */
 void CarSens::speedingAlarms() {
 #if defined(VSS_ALARM_ENABLED)
-    //
-    // Alarm speeding at city
 
     boolean activeAlarm = false;
-
 
     if (speedAlarmCursor < DISABLE_SPEED_AL) {
         speedAlarmCursor = ENABLE_SPEED_HW;
     }
 
-    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
-        tone(TONE_ADT_PIN, 4000, 150);
+    //
+    // Alarm city
+    if (_amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT)) {
+        if (!isAlrWtn()) {
+            speedAlarmCounter++;
+            tone(TONE_ADT_PIN, 4000, 150);
+        }
         activeAlarm = true;
-        speedAlarmCounter++;
-    }
-//
-//    if (!_amp->is2Seconds() && _amp->is5Seconds() && VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT) && !isAlrWtn()) {
-//        tone(TONE_ADT_PIN, 4000, 200);
-//        activeAlarm = true;
-//        speedAlarmCounter++;
-//    }
 
-    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW) && !isAlrWtn()) {
-        tone(TONE_ADT_PIN, 4000, 200);
+    }
+    //
+    // Alarm village way
+    if (_amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW)) {
+        if (!isAlrWtn()) {
+            speedAlarmCounter++;
+            tone(TONE_ADT_PIN, 4000, 200);
+        }
         activeAlarm = true;
-        speedAlarmCounter++;
     }
-
-    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW) && !isAlrWtn()) {
-        tone(TONE_ADT_PIN, 4000, 200);
+    //
+    // Alarm high way
+    if (_amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW)) {
+        if (!isAlrWtn()) {
+            speedAlarmCounter++;
+            tone(TONE_ADT_PIN, 4000, 200);
+        }
         activeAlarm = true;
         speedAlarmCounter++;
     }
@@ -954,8 +961,8 @@ void CarSens::speedingAlarms() {
 
     //
     // Reset alarm set if speed is lower
-    if (isAlrWtn() && _amp->is5Seconds() && activeAlarm == 0) {
-        speedAlarmCounter = 0;;
+    if (isAlrWtn() && _amp->is5Seconds() && !activeAlarm) {
+        speedAlarmCounter = 0;
     }
 
 
@@ -1130,17 +1137,17 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         Serial.println(FUEL_STATE);
     }
 
-
-    if (_amp->isMid()) {
-        Serial.print("\n\n");
-        Serial.print("Last read LPG values | PUSH: ");
-        Serial.print(pushLpgIndex);
-        Serial.print(" | PULL: ");
-        Serial.print(pullLpgIndex);
-        Serial.print(" | COMB: ");
-        Serial.print(combLpgIndex);
-        Serial.print("\n\n");
-    }
+//
+//    if (_amp->isMid()) {
+//        Serial.print("\n\n");
+//        Serial.print("Last read LPG values | PUSH: ");
+//        Serial.print(pushLpgIndex);
+//        Serial.print(" | PULL: ");
+//        Serial.print(pullLpgIndex);
+//        Serial.print(" | COMB: ");
+//        Serial.print(combLpgIndex);
+//        Serial.print("\n\n");
+//    }
 }
 
 #endif
@@ -1353,7 +1360,7 @@ void CarSens::sensCns() {
 
     if (_amp->isSens()) {
         long deltaFuel = 0;
-        Serial.println(getCnsFuelVal());
+//        Serial.println(getCnsFuelVal());
         if (CUR_ECU > 0) {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
