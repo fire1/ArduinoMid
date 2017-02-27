@@ -50,11 +50,11 @@ protected:
 
     void displayInsTmp();
 
-    void displayTotalCons();
+    void displayTotalCns();
 
     void displayTotalDst();
 
-    void displayAlert();
+    void displayCarAlert();
 
     void displayEngRPM();
 
@@ -118,6 +118,9 @@ void Lcd16x2::intro(void) {
     lcd->clear();
 }
 
+/****************************************************************
+ * Main screen begin ...
+ */
 
 void Lcd16x2::displayOutTmp(void) {
 
@@ -136,12 +139,13 @@ void Lcd16x2::displayOutTmp(void) {
         lcd->print(" ");
     }
 
-    if (value < 3 && amp->isMin() && outTempLowController) {
+    if (value < 1 && amp->isMin() && outTempLowController) {
         lcd->setCursor(1, 1);
-        lcd->print("*ICE*");
+        tone(TONE_ADT_PIN, 800, 20);
+        lcd->print("[ICE]");
     }
 
-    if (value < 3 && amp->is10Seconds() && outTempLowController) {
+    if (value < 1 && amp->is10Seconds() && outTempLowController) {
         outTempLowController = false;
     }
 }
@@ -170,22 +174,24 @@ void Lcd16x2::displayInsTmp() {
 /**
  * Total consumption
  */
-void Lcd16x2::displayTotalCons() {
+void Lcd16x2::displayTotalCns() {
     char tmp[3];
     float value = 0;
 
     SavedData data = eep->getData();
 
     if (amp->isSec()) {
-
-        if (car->getFuelState() == 0) {
+        //
+        // Switching between LPG / BNZ
+        if (car->getFuelState() == 0) { // BNZ [default]
             value = data.fuel_def + car->getDefFuelCns();
         }
-        if (car->getFuelState() == 1) {
+        if (car->getFuelState() == 1) { // LPG [additional]
             value = data.fuel_adt + car->getAdtFuelCns();
         }
 
-
+        //
+        // Reset screen place
         if (amp->isBig()) {
             lcd->print("    ");
         }
@@ -224,8 +230,10 @@ void Lcd16x2::displayTotalDst() {
     }
 }
 
-
-void Lcd16x2::displayAlert(void) {
+/**
+ * Display warnings if some alert is detected
+ */
+void Lcd16x2::displayCarAlert(void) {
 
     if (!displayAlertActive && stt->isAlert() && amp->is10Seconds() || displayAlertActive && amp->isMin()) {
         lcd->setCursor(0, 1);
@@ -712,9 +720,9 @@ void Lcd16x2::draw() {
             //
             // Main / first menu
         case 1:
-            displayTotalCons();
+            displayTotalCns();
             displayTotalDst();
-            displayAlert();
+            displayCarAlert();
             displayOutTmp();
             displayInsTmp();
             break;
