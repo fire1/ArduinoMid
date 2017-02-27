@@ -569,7 +569,7 @@ void EepRom::injectFromSerial(void) {
         //      is not good idea to re-set dynamically
 
         if (srlStrName == "trd") {
-            // Total Liters per hour consumed
+            // trip distance
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             container.dist_trp = saveTemp;
             srlOutputs = "Trip distance ";
@@ -577,7 +577,7 @@ void EepRom::injectFromSerial(void) {
         }
 
         if (srlStrName == "trt") {
-            // Total Liters per hour consumed
+            // Trip time
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             container.time_trp = saveTemp;
             srlOutputs = "Trip time ";
@@ -588,7 +588,7 @@ void EepRom::injectFromSerial(void) {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveTripData();
-            srlOutputs = "Change trip data";
+            srlOutputs = "Change trip data ";
             srlOutputs += saveTemp;
         }
 
@@ -624,7 +624,7 @@ void EepRom::injectFromSerial(void) {
             // Saves type 
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveCurrentData();
-            srlOutputs = "Save All data";
+            srlOutputs = "Save All data ";
             srlOutputs += saveTemp;
         }
 

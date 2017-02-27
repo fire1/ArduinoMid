@@ -5,6 +5,8 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
+//#define MENU_DEBUG // Uncomment to get info
+
 #include <Arduino.h>
 #include <MenuBackend.h>
 #include "../conf.h"
@@ -31,6 +33,7 @@ public:
     //
     // Where is menu
     static const char *usedMenu;
+
     //
     // Constructor
     MenuBase(MenuBtn *_btn) : menu(menuUseEvent, menuChangeEvent) {
@@ -46,7 +49,17 @@ public:
     void finishEntry() {
         MenuBase::lastMenu = MenuBase::usedMenu;
         MenuBase::cursorMenu = savedCursor;
+
+        if (savedCursor == 0) {
+            menu.moveDown();
+            menu.use();
+        }
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+        Serial.print("Cursor menu: ");
         Serial.println(MenuBase::cursorMenu);
+        Serial.print("Saved Cursor menu: ");
+        Serial.println(savedCursor);
+#endif
     }
 
 protected:
@@ -67,19 +80,23 @@ protected:
         if (btn->isUp()) {
             menu.moveDown();
             menu.use();
-
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (btn->passAmp()->isMid()) {
                 Serial.print("Up hit \n\r");
 
             }
+
+#endif
         }
         if (btn->isDw()) {
             menu.moveRight();
             menu.use();
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (btn->passAmp()->isMid()) {
                 Serial.print("Dw hit \n\r");
 
             }
+#endif
         }
         btn->clearLastButton();
         //
@@ -97,7 +114,7 @@ protected:
 
 public:
 
-    static void setChangeMenu( IMidMenu *iMenu ,MenuChangeEvent change){
+    static void setChangeMenu(IMidMenu *iMenu, MenuChangeEvent change) {
         iMenu->menuChanged(change);
     }
 
@@ -121,7 +138,6 @@ public:
 
 unsigned int MenuBase::cursorMenu;
 const char *MenuBase::usedMenu;
-
 
 
 //
