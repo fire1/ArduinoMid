@@ -84,7 +84,7 @@
 /*
   The following macro enables the HVLine speed optimization.
   It will consume about 40 bytes more in flash memory of the AVR.
-  HVLine procedures are also used by the text drawing functions.
+  HVLine procedures are also usedMenu by the text drawing functions.
 */
 #define U8G2_HVLINE_SPEED_OPTIMIZATION
 
@@ -122,7 +122,7 @@
     U8G2_WITH_UNICODE defined
       - C-Code Strings must be UTF-8 encoded
       - Full support of all 65536 glyphs of the unicode basic multilingual plane
-      - Up to 65536 glyphs of the font file can be used.
+      - Up to 65536 glyphs of the font file can be usedMenu.
     U8G2_WITH_UNICODE not defined
       - C-Code Strings are assumbed to be ISO 8859-1/CP1252 encoded
       - Only character values 0 to 255 are supported in the font file.
@@ -304,13 +304,13 @@ struct u8g2_struct
   u8g2_uint_t buf_y0;
   u8g2_uint_t buf_y1;
   
-  /* display dimensions in pixel for the user, calculated in u8g2_update_dimension_common(), used in u8g2_draw_hv_line_2dir() */
+  /* display dimensions in pixel for the user, calculated in u8g2_update_dimension_common(), usedMenu in u8g2_draw_hv_line_2dir() */
   u8g2_uint_t width;
   u8g2_uint_t height;
   
   /* ths is the clip box for the user to check if a specific box has an intersection */
   /* use u8g2_IsIntersection from u8g2_intersection.c to test against this intersection */
-  /* boundary values are part of the box so that they can be used with u8g2_IsIntersection */
+  /* boundary values are part of the box so that they can be usedMenu with u8g2_IsIntersection */
   u8g2_uint_t user_x0;	/* left corner of the buffer */
   u8g2_uint_t user_x1;	/* right corner of the buffer (excluded) */
   u8g2_uint_t user_y0;	/* upper edge of the buffer */
@@ -333,7 +333,7 @@ struct u8g2_struct
   
 
   uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
-					/* draw_color can be used also directly by the user API */
+					/* draw_color can be usedMenu also directly by the user API */
 					
   uint8_t is_auto_page_clear; 		/* set to 0 to disable automatic page clear in firstPage() and nextPage() */
   
@@ -356,7 +356,7 @@ struct u8g2_struct
 #define u8g2_SetPowerSave(u8g2, is_enable) u8x8_SetPowerSave(u8g2_GetU8x8(u8g2), (is_enable))
 #define u8g2_SetFlipMode(u8g2, mode) u8x8_SetFlipMode(u8g2_GetU8x8(u8g2), (mode))
 #define u8g2_SetContrast(u8g2, value) u8x8_SetContrast(u8g2_GetU8x8(u8g2), (value))
-//#define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))  obsolete, can not be used in all cases
+//#define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))  obsolete, can not be usedMenu in all cases
 void u8g2_ClearDisplay(u8g2_t *u8g2);
 
 #define u8g2_GetDisplayHeight(u8g2) ((u8g2)->height)

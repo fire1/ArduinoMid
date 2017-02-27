@@ -206,12 +206,12 @@ static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
     Bit 0: Column Address Re-map
     Bit 1: Nibble Re-map
     Bit 2: Horizontal/Vertical Address Increment
-    Bit 3: Not used, must be 0
+    Bit 3: Not usedMenu, must be 0
     
     Bit 4: COM Re-map
-    Bit 5: Not used, must be 0
+    Bit 5: Not usedMenu, must be 0
     Bit 6: COM Split Odd Even
-    Bit 7: Not used, must be 0
+    Bit 7: Not usedMenu, must be 0
 */
 
 

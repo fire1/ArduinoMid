@@ -162,7 +162,7 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
 		2: horizontal line (right to left)
 		3: vertical line (bottom to top)
 
-  This function will remove directions 2 and 3. Instead 0 and 1 are used.
+  This function will remove directions 2 and 3. Instead 0 and 1 are usedMenu.
 
 */
 void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)

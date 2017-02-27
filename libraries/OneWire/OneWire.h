@@ -34,7 +34,7 @@
 // by setting this to 1.  The lookup table enlarges code size by
 // about 250 bytes.  It does NOT consume RAM (but did in very
 // old versions of OneWire).  If you disable this, a slower
-// but very compact algorithm is used.
+// but very compact algorithm is usedMenu.
 #ifndef ONEWIRE_CRC8_TABLE
 #define ONEWIRE_CRC8_TABLE 1
 #endif
@@ -296,7 +296,7 @@ class OneWire
     uint8_t read_bit(void);
 
     // Stop forcing power onto the bus. You only need to do this if
-    // you used the 'power' flag to write() or used a write_bit() call
+    // you usedMenu the 'power' flag to write() or usedMenu a write_bit() call
     // and aren't about to do another read or write. You would rather
     // not leave this powered if you don't have to, just in case
     // someone shorts your bus.
@@ -320,7 +320,7 @@ class OneWire
 #endif
 
 #if ONEWIRE_CRC
-    // Compute a Dallas Semiconductor 8 bit CRC, these are used in the
+    // Compute a Dallas Semiconductor 8 bit CRC, these are usedMenu in the
     // ROM and scratchpad registers.
     static uint8_t crc8(const uint8_t *addr, uint8_t len);
 

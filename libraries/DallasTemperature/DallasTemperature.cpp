@@ -194,7 +194,7 @@ void DallasTemperature::setResolution(uint8_t newResolution){
 }
 
 // set resolution of a device to 9, 10, 11, or 12 bits
-// if new resolution is out of range, 9 bits is used.
+// if new resolution is out of range, 9 bits is usedMenu.
 bool DallasTemperature::setResolution(const uint8_t* deviceAddress, uint8_t newResolution, bool skipGlobalBitResolutionCalculation){
 
 	// ensure same behavior as setResolution(uint8_t newResolution)
@@ -510,7 +510,7 @@ bool DallasTemperature::isParasitePowerMode(void){
 }
 
 
-// IF alarm is not used one can store a 16 bit int of userdata in the alarm
+// IF alarm is not usedMenu one can store a 16 bit int of userdata in the alarm
 // registers. E.g. an ID of the sensor.
 // See github issue #29
 
@@ -599,7 +599,7 @@ TH and TL Register Format
 BIT 7 BIT 6 BIT 5 BIT 4 BIT 3 BIT 2 BIT 1 BIT 0
 S    2^6   2^5   2^4   2^3   2^2   2^1   2^0
 
-Only bits 11 through 4 of the temperature register are used
+Only bits 11 through 4 of the temperature register are usedMenu
 in the TH and TL comparison since TH and TL are 8-bit
 registers. If the measured temperature is lower than or equal
 to TL or higher than or equal to TH, an alarm condition exists
@@ -670,7 +670,7 @@ char DallasTemperature::getLowAlarmTemp(const uint8_t* deviceAddress){
 
 }
 
-// resets internal variables used for the alarm search
+// resets internal variables usedMenu for the alarm search
 void DallasTemperature::resetAlarmSearch(){
 
     alarmSearchJunction = -1;
@@ -822,7 +822,7 @@ void* DallasTemperature::operator new(unsigned int size){ // Implicit NSS obj si
     return (DallasTemperature*) p; // Cast blank region to NSS pointer
 }
 
-// MnetCS 2009 -  Free the memory used by this instance
+// MnetCS 2009 -  Free the memory usedMenu by this instance
 void DallasTemperature::operator delete(void* p){
 
     DallasTemperature* pNss =  (DallasTemperature*) p; // Cast to NSS pointer

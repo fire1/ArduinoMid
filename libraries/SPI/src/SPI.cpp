@@ -39,7 +39,7 @@ void SPIClass::begin()
       digitalWrite(SS, HIGH);
     }
 
-    // When the SS pin is set as OUTPUT, it can be used as
+    // When the SS pin is set as OUTPUT, it can be usedMenu as
     // a general purpose output port (it doesn't influence
     // SPI operations).
     pinMode(SS, OUTPUT);

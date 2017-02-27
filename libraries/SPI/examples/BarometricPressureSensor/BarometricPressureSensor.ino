@@ -32,7 +32,7 @@ const int TEMPERATURE = 0x21;   //16 bit temperature reading
 const byte READ = 0b11111100;     // SCP1000's read command
 const byte WRITE = 0b00000010;   // SCP1000's write command
 
-// pins used for the connection with the sensor
+// pins usedMenu for the connection with the sensor
 // the other you need are controlled by the SPI library):
 const int dataReadyPin = 6;
 const int chipSelectPin = 7;

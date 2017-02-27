@@ -55,7 +55,7 @@
 
 
 //
-//static void MidMenu_menuUsed(MenuUseEvent used);
+//static void MidMenu_menuUsed(MenuUseEvent usedMenu);
 //
 //static void MidMenu_menuChanged(MenuChangeEvent changed);
 
@@ -63,9 +63,7 @@
  *
  */
 class Menu16x2 : public MenuBase {
-    IntAmp *_amp;
 
-    MenuBtn *btn;
     //
     // Defining menu items
     MenuItem
@@ -100,10 +98,10 @@ class Menu16x2 : public MenuBase {
 
 
 public:
-    const static int MENU_ENTER = MENU_ENTRY;
-
-
-    Menu16x2(MenuBtn *_btn, cb_use use, cb_change change) : MenuBase(btn, use, change),//  base menu initialization
+    //
+    // Construct Menu Base
+    Menu16x2(MenuBtn *_btn) :
+            MenuBase(_btn),//  base menu initialization
             //
             // Main menu initialization
             mainMenu(MenuItem(MENU_NAME_1)),
@@ -132,9 +130,6 @@ public:
             gamesStpWatch(MenuItem(MENU_NAME_51)),
             gamesDragRace(MenuItem(MENU_NAME_52)),
             gamesFr0To100(MenuItem(MENU_NAME_53)) {
-
-        btn = _btn;
-        _amp = _btn->passAmp();
     }
 
 /**
@@ -181,25 +176,10 @@ public:
         // Games menu layers construction
         gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
         gamesDragRace.addRight(gamesStpWatch);
-
-        menu.moveDown();
-        menu.use();
-
     };
 
 
-/**
- * Event menu changed
- */
-    static void menuUsed(MenuUseEvent used) {
-        //
-        // Pass argument to class
-        MenuBase::used = used.item.getName();
-        Serial.print("Menu used");
-        Serial.println(MenuBase::used);
-    }
-
-    static void menuChanged(MenuChangeEvent change) {
+    void menuChanged(MenuChangeEvent change) {
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
         if (curMenuName == MENU_NAME_1) {
@@ -248,8 +228,6 @@ public:
             MenuBase::cursorMenu = 53;
         }
     }
-
-private:
 
 
 };

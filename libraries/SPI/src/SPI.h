@@ -158,10 +158,10 @@ public:
   // Initialize the SPI library
   static void begin();
 
-  // If SPI is used from within an interrupt, this function registers
+  // If SPI is usedMenu from within an interrupt, this function registers
   // that interrupt with the SPI library, so beginTransaction() can
-  // prevent conflicts.  The input interruptNumber is the number used
-  // with attachInterrupt.  If SPI is used from a different interrupt
+  // prevent conflicts.  The input interruptNumber is the number usedMenu
+  // with attachInterrupt.  If SPI is usedMenu from a different interrupt
   // (eg, a timer), interruptNumber should be 255.
   static void usingInterrupt(uint8_t interruptNumber);
   // And this does the opposite.
@@ -173,7 +173,7 @@ public:
   // https://github.com/arduino/Arduino/pull/2449
 
   // Before using SPI.transfer() or asserting chip select pins,
-  // this function is used to gain exclusive access to the SPI bus
+  // this function is usedMenu to gain exclusive access to the SPI bus
   // and configure the correct settings.
   inline static void beginTransaction(SPISettings settings) {
     if (interruptMode > 0) {
@@ -303,7 +303,7 @@ public:
     SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
     SPSR = (SPSR & ~SPI_2XCLOCK_MASK) | ((clockDiv >> 2) & SPI_2XCLOCK_MASK);
   }
-  // These undocumented functions should not be used.  SPI.transfer()
+  // These undocumented functions should not be usedMenu.  SPI.transfer()
   // polls the hardware flag which is automatically cleared as the
   // AVR responds to SPI's interrupt
   inline static void attachInterrupt() { SPCR |= _BV(SPIE); }

@@ -84,10 +84,10 @@
 //LPG mass/volume is 520-580gr/ltr depending on propane/butane mix
 
 // LPG/air ratio:
-// 15.8:1 if 50/50 propane/butate is used
-// 15:1 if 100 propane is used
-// 15.4 if 60/40 propane/butane is used
-// experiments shows that something in middle should be used eg. 15.4:1 :)
+// 15.8:1 if 50/50 propane/butate is usedMenu
+// 15:1 if 100 propane is usedMenu
+// 15.4 if 60/40 propane/butane is usedMenu
+// experiments shows that something in middle should be usedMenu eg. 15.4:1 :)
 
 // [TEST PROGRESS] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
 #define FUEL_LPG_IFC 4329
@@ -475,7 +475,7 @@ public:
     float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
 
     /**
-     * Gets fuel state  used
+     * Gets fuel state  usedMenu
      */
     float getCurFuelCns() {
         if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
@@ -1345,7 +1345,7 @@ void CarSens::sensDlt() {
 void CarSens::sensCns() {
 
     // add MAF result to trip
-    // we want fuel used in ÂµL
+    // we want fuel usedMenu in ÂµL
     // maf gives grams of air/s
     // divide by 100 because our MAF return is not divided!
     // divide by 14.7 (a/f ratio) to have grams of fuel/s
@@ -1484,7 +1484,7 @@ void CarSens::setConsumedFuel(long value) {
     }
 
     //
-    //  Recording used fuel
+    //  Recording usedMenu fuel
     if (getFuelState() == 0) {
         FL_CNS_DEF = FL_CNS_DEF + value;
     } else {

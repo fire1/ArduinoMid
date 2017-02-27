@@ -249,8 +249,8 @@ struct u8x8_display_info_struct
   uint8_t default_x_offset;		/* default x offset for the display */
   uint8_t flipmode_x_offset;	/* x offset, if flip mode is enabled */
  
- /* pixel width is not used by the u8x8 procedures */
- /* instead it will be used by the u8g2 procedures, because the pixel dimension can */
+ /* pixel width is not usedMenu by the u8x8 procedures */
+ /* instead it will be usedMenu by the u8g2 procedures, because the pixel dimension can */
  /* not always be calculated from the tile_width/_height */
  /* the following conditions must be true: */
  /* pixel_width <= tile_width*8 */
@@ -303,7 +303,7 @@ struct u8x8_display_info_struct
 struct u8x8_struct
 {
   const u8x8_display_info_t *display_info;
-  u8x8_char_cb next_cb; /*  procedure, which will be used to get the next char from the string */
+  u8x8_char_cb next_cb; /*  procedure, which will be usedMenu to get the next char from the string */
   u8x8_msg_cb display_cb;
   u8x8_msg_cb cad_cb;
   u8x8_msg_cb byte_cb;
@@ -615,7 +615,7 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 /* arg_int: milliseconds */
 #define U8X8_MSG_DELAY_MILLI		41
 
-/* 10MICRO and 100NANO are not used at the moment */
+/* 10MICRO and 100NANO are not usedMenu at the moment */
 #define U8X8_MSG_DELAY_10MICRO		42
 #define U8X8_MSG_DELAY_100NANO		43
 
@@ -809,8 +809,8 @@ struct _u8sl_struct
   uint8_t first_pos;		/* position of the first visible line */
   uint8_t current_pos;	/* current cursor position, starts at 0 */  
   
-  uint8_t x;		/* u8x8 only, not used in u8g2 */
-  uint8_t y;		/* u8x8 only, not used in u8g2 */
+  uint8_t x;		/* u8x8 only, not usedMenu in u8g2 */
+  uint8_t y;		/* u8x8 only, not usedMenu in u8g2 */
 };
 typedef struct _u8sl_struct u8sl_t;
 

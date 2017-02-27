@@ -22,7 +22,7 @@
 
 /*
  * This is an old version of StandardFirmata (v2.0).  It is kept here because
- * its the last version that works on an ATMEGA8 chip.  Also, it can be used
+ * its the last version that works on an ATMEGA8 chip.  Also, it can be usedMenu
  * for host software that has not been updated to a newer version of the
  * protocol.  It also uses the old baud rate of 115200 rather than 57600.
  */
@@ -136,7 +136,7 @@ void digitalWriteCallback(byte port, int value)
     case 1: // pins 8-13 (14,15 are disabled for the crystal)
       PORTB = (byte)value;
       break;
-    case 2: // analog pins used as digital
+    case 2: // analog pins usedMenu as digital
       PORTC = (byte)value;
       break;
   }
@@ -161,7 +161,7 @@ void reportAnalogCallback(byte pin, int value)
 void reportDigitalCallback(byte port, int value)
 {
   reportPINs[port] = (byte)value;
-  if (port == 2) // turn off analog reporting when used as digital
+  if (port == 2) // turn off analog reporting when usedMenu as digital
     analogInputsToReport = 0;
 }
 

@@ -66,10 +66,10 @@ static const uint8_t u8x8_d_ssd1325_128x64_nhd_init_seq[] = {
   U8X8_CA(0x0b2, 0x051),		/* frame frequency (row period) */
   U8X8_CA(0x0b1, 0x055),                    /* phase length */
   U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
-  U8X8_CA(0x0b4, 0x002),                    /* set pre-charge compensation level (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
-  U8X8_CA(0x0b0, 0x028),                    /* enable pre-charge compensation (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
+  U8X8_CA(0x0b4, 0x002),                    /* set pre-charge compensation level (not documented in the SDD1325 datasheet, but usedMenu in the NHD init seq.) */
+  U8X8_CA(0x0b0, 0x028),                    /* enable pre-charge compensation (not documented in the SDD1325 datasheet, but usedMenu in the NHD init seq.) */
   U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
-  U8X8_CA(0x0bf, 0x002|0x00d),           /* VSL voltage level (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
+  U8X8_CA(0x0bf, 0x002|0x00d),           /* VSL voltage level (not documented in the SDD1325 datasheet, but usedMenu in the NHD init seq.) */
   U8X8_C(0x0a4),				/* normal display mode */
     
   U8X8_CA(0x023, 0x003),		/* graphics accelleration: fill pixel */
@@ -197,7 +197,7 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
     
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y *= 8;
-      y += u8x8->x_offset;		/* x_offset is used as y offset for the SSD1325 */
+      y += u8x8->x_offset;		/* x_offset is usedMenu as y offset for the SSD1325 */
     
       
       do
@@ -267,8 +267,8 @@ static const u8x8_display_info_t u8x8_nhd_ssd1325_128x64_display_info =
   /* write_pulse_width_ns = */ 60,	/* SSD1325 */
   /* tile_width = */ 16,
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,		/* x_offset is used as y offset for the SSD1325 */
-  /* flipmode_x_offset = */ 8,		/* x_offset is used as y offset for the SSD1325 */
+  /* default_x_offset = */ 0,		/* x_offset is usedMenu as y offset for the SSD1325 */
+  /* flipmode_x_offset = */ 8,		/* x_offset is usedMenu as y offset for the SSD1325 */
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };

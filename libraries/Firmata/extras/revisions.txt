@@ -46,7 +46,7 @@ FIRMATA 2.5.0 - Nov 7, 2015
   Note: The new Serial features is only implemented in the "Plus" versions of
   StandardFirmata.
 * Created new StandardFirmataEthernetPlus that implements the Serial feature
-* Fixed issue used StandardFirmata was not compiling for Intel Galileo boards
+* Fixed issue usedMenu StandardFirmata was not compiling for Intel Galileo boards
 * Moved StandardFirmataYun to its own repo (github.com/firmata/StandardFirmataYun)
 
 FIRMATA 2.4.4 - Aug 9, 2015
@@ -87,7 +87,7 @@ FIRMATA 2.4.0 - Dec 21, 2014
 Changes from 2.3.6 to 2.4 that may impact existing Firmata client implementations:
 
 * When sending a string from the client application to the board (STRING_DATA) a
-static buffer is now used for the incoming string in place of a dynamically allocated
+static buffer is now usedMenu for the incoming string in place of a dynamically allocated
 block of memory (see Firmata.cpp lines 181 - 205). In Firmata 2.3.6 and older,
 the dynamically allocated block was never freed, causing a memory leak. If your
 client library had freed this memory in the string callback method, that code
@@ -112,7 +112,7 @@ reestablishing a connection.
 * Updated syntax highlighting (keywords.txt)
 * Fixed IS_PIN_SPI ifndef condition in boards.h
 * Added constants to Firmata.h to reserve configurable firmata features
-* Fixed issue used firmwareName was not reported correctly in Windows
+* Fixed issue usedMenu firmwareName was not reported correctly in Windows
 * Ensure incoming String via STRING_DATA command is null-terminated
 * Fixed memory leak when receiving String via STRING_DATA command
   (note this change may break existing code if you were manually deallocating
@@ -158,7 +158,7 @@ FIRMATA 2.3.5 - May 21, 2013
 FIRMATA 2.3.4 - Feb 11, 2013
 
 [core library]
-* Fixed Stream implementation so Firmata can be used with Streams other than
+* Fixed Stream implementation so Firmata can be usedMenu with Streams other than
   Serial (Norbert Truchsess)
 
 FIRMATA 2.3.3 - Oct 6, 2012

@@ -48,7 +48,7 @@
 
 /* Changelog:
  * Version 1.3:
- * - added "__attribute__ ((used))" for all functions declared with "__attribute__ ((noinline))"
+ * - added "__attribute__ ((usedMenu))" for all functions declared with "__attribute__ ((noinline))"
  *   Now the module is also usable in Arduino 1.6.11+
  * Version 1.2:
  * - added pragma to avoid "unused parameter warnings" (suggestion by Walter)

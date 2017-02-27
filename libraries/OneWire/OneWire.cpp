@@ -170,7 +170,7 @@ uint8_t OneWire::reset(void)
 }
 
 //
-// Write a bit. Port and bit is used to cut lookup time and provide
+// Write a bit. Port and bit is usedMenu to cut lookup time and provide
 // more certain timing.
 //
 void OneWire::write_bit(uint8_t v)
@@ -198,7 +198,7 @@ void OneWire::write_bit(uint8_t v)
 }
 
 //
-// Read a bit. Port and bit is used to cut lookup time and provide
+// Read a bit. Port and bit is usedMenu to cut lookup time and provide
 // more certain timing.
 //
 uint8_t OneWire::read_bit(void)
@@ -475,7 +475,7 @@ uint8_t OneWire::search(uint8_t *newAddr, bool search_mode /* = true */)
 //
 
 #if ONEWIRE_CRC8_TABLE
-// This table comes from Dallas sample code used it is freely reusable,
+// This table comes from Dallas sample code usedMenu it is freely reusable,
 // though Copyright (C) 2000 Dallas Semiconductor Corporation
 static const uint8_t PROGMEM dscrc_table[] = {
       0, 94,188,226, 97, 63,221,131,194,156,126, 32,163,253, 31, 65,

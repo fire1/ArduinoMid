@@ -309,7 +309,7 @@ void setPinModeCallback(byte pin, int mode)
     return;
 
   if (Firmata.getPinMode(pin) == PIN_MODE_I2C && isI2CEnabled && mode != PIN_MODE_I2C) {
-    // disable i2c so pins can be used for other functions
+    // disable i2c so pins can be usedMenu for other functions
     // the following if statements should reconfigure the pins properly
     disableI2CPins();
   }
@@ -404,8 +404,8 @@ void setPinModeCallback(byte pin, int mode)
 /*
  * Sets the value of an individual pin. Useful if you want to set a pin value but
  * are not tracking the digital port state.
- * Can only be used on pins configured as OUTPUT.
- * Cannot be used to enable pull-ups on Digital INPUT pins.
+ * Can only be usedMenu on pins configured as OUTPUT.
+ * Cannot be usedMenu to enable pull-ups on Digital INPUT pins.
  */
 void setPinValueCallback(byte pin, int value)
 {
@@ -505,7 +505,7 @@ void reportDigitalCallback(byte port, int value)
     if (value) outputPort(port, readPort(port, portConfigInputs[port]), true);
   }
   // do not disable analog reporting on these 8 pins, to allow some
-  // pins used for digital, others analog.  Instead, allow both types
+  // pins usedMenu for digital, others analog.  Instead, allow both types
   // of reporting to be enabled, but check if the pin is configured
   // as analog when sampling the analog inputs.  Likewise, while
   // scanning digital pins, portConfigInputs will mask off values from any
@@ -753,7 +753,7 @@ void enableI2CPins()
   Wire.begin();
 }
 
-/* disable the i2c pins so they can be used for other functions */
+/* disable the i2c pins so they can be usedMenu for other functions */
 void disableI2CPins() {
   isI2CEnabled = false;
   // disable read continuous mode for all devices

@@ -239,7 +239,7 @@ struct _chm_struct
   
   uint8_t other_cp;		/* another piece: the captured one, the ROOK in case of castling or PIECE_NONE */
   uint8_t other_src;		/* the delete position of other_cp. Often identical to main_dest except for e.p. and castling */
-  uint8_t other_dest;		/* only used for castling: ROOK destination pos */
+  uint8_t other_dest;		/* only usedMenu for castling: ROOK destination pos */
   
   /* the position of the last pawn, which did a double move forward */
   /* this is required to check en passant conditions */
@@ -265,7 +265,7 @@ typedef struct _chm_struct *chm_p;
 struct _lrc_struct
 {  
   /* half-move (ply) counter: Counts the number of half-moves so far. Starts with 0 */
-  /* the lowest bit is used to derive the color of the current player */
+  /* the lowest bit is usedMenu to derive the color of the current player */
   /* will be set to zero in chess_SetupBoard() */
   uint8_t ply_count;
   
@@ -292,7 +292,7 @@ struct _lrc_struct
   /* board orientation */
   /* 0: white is below COLOR_WHITE */
   /* 1: black is below COLOR_BLACK */
-  /* bascially, this can be used as a color */
+  /* bascially, this can be usedMenu as a color */
   uint8_t orientation;
   
   /* exchange colors of the pieces */
@@ -312,7 +312,7 @@ struct _lrc_struct
   
   /* checks are executed in ce_LoopRecur */
   /* these checks will put some marks on the board */
-  /* this will be used by the interface to find out */
+  /* this will be usedMenu by the interface to find out */
   /* legal moves */
   uint8_t check_src_pos;
   uint8_t check_mode;		/* CHECK_MODE_NONE, CHECK_MODE_MOVEABLE, CHECK_MODE_TARGET_MOVE */
@@ -334,7 +334,7 @@ struct _lrc_struct
   /* allocated memory for the search stack */
   stack_element_t stack_memory[STACK_MAX_SIZE];
 
-  /* the half move stack, used for move undo and depth search, size is stored in chm_pos */
+  /* the half move stack, usedMenu for move undo and depth search, size is stored in chm_pos */
   chm_t chm_list[CHM_LIST_SIZE];
 };
 typedef struct _lrc_struct lrc_t;
@@ -350,7 +350,7 @@ typedef struct _lrc_struct lrc_t;
 /*==============================================================*/
 
 lrc_t lrc_obj;
-u8g2_t *lrc_u8g;  /* pointer to the C object of u8g2 lib, this is used by the chess engine */
+u8g2_t *lrc_u8g;  /* pointer to the C object of u8g2 lib, this is usedMenu by the chess engine */
 
 
 /*==============================================================*/
@@ -506,7 +506,7 @@ uint8_t cu_PrevPos(uint8_t pos)
 /*
   there are two positions
     1. game position (gpos): BCD encoded x-y values
-    2. board position (bpos): a number between 0 and 63, only used to access the board.
+    2. board position (bpos): a number between 0 and 63, only usedMenu to access the board.
 */
 /*
   gpos:	game position value
@@ -843,7 +843,7 @@ void cu_UndoHalfMove(void)
   
   uint8_t other_cp;		another piece: the captured one, the ROOK in case of castling or PIECE_NONE
   uint8_t other_src;		the delete position of other_cp. Often identical to main_dest except for e.p. and castling
-  uint8_t other_dest;		only used for castling: ROOK destination pos
+  uint8_t other_dest;		only usedMenu for castling: ROOK destination pos
 
 */
 chm_p cu_PushHalfMove(void)
@@ -968,7 +968,7 @@ void cu_Move(uint8_t src, uint8_t dest)
   /* setup results as far as possible with some suitable values */
   
   clr_pos2 = ILLEGAL_POSITION;	/* for en passant and castling, two positions might be cleared */
-  set_pos2 = ILLEGAL_POSITION;	/* only used for castling */
+  set_pos2 = ILLEGAL_POSITION;	/* only usedMenu for castling */
   set_cp2 = PIECE_NONE;			/* ROOK for castling */
   
   /* check for PAWN */
@@ -1191,7 +1191,7 @@ void ce_LoopDirsSingleMultiStep(const uint8_t *d, uint8_t is_multi_step)
       /*
 	go further to ce_LoopRecur()
 	0 will be returned if the target position is illegal or a piece of the own color
-	this is used to stop walking into one direction
+	this is usedMenu to stop walking into one direction
       */
       if ( ce_LoopRecur(loop_pos) == 0 )
 	break;
@@ -1515,11 +1515,11 @@ void ce_FindPawnPiece(uint8_t dest_pos, uint8_t color)
 
 /*
   find out, which pieces do attack a specified field
-  used to
+  usedMenu to
   - check if the KING can do castling
   - check if the KING must move
 
-  may be used in the eval procedure ... once...
+  may be usedMenu in the eval procedure ... once...
 
   the result is stored in the global array
     uint8_t lrc_obj.find_piece_weight[2];
@@ -1597,7 +1597,7 @@ void ce_LoopPieces(void)
       {
 	chess_Thinking();
 	
-	/* find out which piece is used */
+	/* find out which piece is usedMenu */
 	switch(cp_GetPiece(e->current_cp))
 	{
 	  case PIECE_NONE:
@@ -1706,7 +1706,7 @@ void chess_ManualMove(uint8_t src, uint8_t dest)
   
   /* printf("chess_ManualMove %02x -> %02x\n", src, dest); */
   
-  /* if all other things fail, this is the place used the game is to be decided: */
+  /* if all other things fail, this is the place usedMenu the game is to be decided: */
   /* ... if the KING is captured */
   cp = cp_GetFromBoard(dest);
   if ( cp_GetPiece(cp) == PIECE_KING )

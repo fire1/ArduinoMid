@@ -1,7 +1,7 @@
 // -*-c++-*-
 // Scan I2C bus for device responses
 
-// use ports usually used for hardware I2C
+// use ports usually usedMenu for hardware I2C
 #define SDA_PORT PORTC
 #define SDA_PIN 4
 #define SCL_PORT PORTC

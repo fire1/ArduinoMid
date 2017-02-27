@@ -75,7 +75,7 @@ void u8x8_SetupDefaults(u8x8_t *u8x8)
 /*
   Description:
     Setup u8x8 and assign the callback function. The dummy 
-    callback "u8x8_dummy_cb" can be used, if no callback is required.
+    callback "u8x8_dummy_cb" can be usedMenu, if no callback is required.
     This setup will not communicate with the display itself.
     Use u8x8_InitDisplay() to send the startup code to the Display.
   Args:

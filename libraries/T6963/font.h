@@ -6,7 +6,7 @@ struct FONT_DEF {
                                              /*     0 for variable width fonts     */
    const unsigned int glyph_height;                /* glyph height for storage           */
    const unsigned char *glyph_table;         /* font table start address in memory */
-   const unsigned char *mapping_table;       /* used to find the index of a glyph  */
+   const unsigned char *mapping_table;       /* usedMenu to find the index of a glyph  */
    const unsigned char *width_table;         /* width table start adress           */
                                              /*        NULL for fixed width fonts  */
    const unsigned int *offset_table;         /* ks the offsets of the first byte*/

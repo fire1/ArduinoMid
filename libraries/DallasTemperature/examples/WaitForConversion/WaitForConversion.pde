@@ -31,7 +31,7 @@ void loop(void)
 
   unsigned long stop = millis();
   Serial.println("After blocking requestForConversion");
-  Serial.print("Time used: ");
+  Serial.print("Time usedMenu: ");
   Serial.println(stop - start);
   
   // get temperature
@@ -47,7 +47,7 @@ void loop(void)
   sensors.setWaitForConversion(true);
   stop = millis();
   Serial.println("After NON-blocking/async requestForConversion");
-  Serial.print("Time used: ");
+  Serial.print("Time usedMenu: ");
   Serial.println(stop - start); 
   
   

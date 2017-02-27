@@ -105,18 +105,18 @@ static void u8x8_ks0108_out(u8x8_t *u8x8, struct u8x8_ks0108_vars *v, void *arg_
 
 static const u8x8_display_info_t u8x8_ks0108_128x64_display_info =
 {
-  /* chip_enable_level = */ 0,		/* KS0108: Not used */
-  /* chip_disable_level = */ 1,		/* KS0108: Not used */
+  /* chip_enable_level = */ 0,		/* KS0108: Not usedMenu */
+  /* chip_disable_level = */ 1,		/* KS0108: Not usedMenu */
   
   /* post_chip_enable_wait_ns = */ 100,
   /* pre_chip_disable_wait_ns = */ 20,
   /* reset_pulse_width_ms = */ 1, 
   /* post_reset_wait_ms = */ 6, 		/* could be faster for the KS0108 */
   /* sda_setup_time_ns = */ 12,		
-  /* sck_pulse_width_ns = */ 75,	/* KS0108: Not used */
-  /* sck_clock_hz = */ 4000000UL,	/* KS0108: Not used */
+  /* sck_pulse_width_ns = */ 75,	/* KS0108: Not usedMenu */
+  /* sck_clock_hz = */ 4000000UL,	/* KS0108: Not usedMenu */
   /* spi_mode = */ 0,				/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,	/* KS0108: Not used */
+  /* i2c_bus_clock_100kHz = */ 4,	/* KS0108: Not usedMenu */
   /* data_setup_time_ns = */ 200,
   /* write_pulse_width_ns = */ 200,	/* KS0108: actially 450 ns */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */

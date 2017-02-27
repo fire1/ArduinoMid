@@ -24,9 +24,8 @@
 /**
  *
  */
-class Menu240x60 : public MenuBase {
-    MenuBase *base;
-    MenuBtn *btn;
+class Menu240x60 : public MenuBase  {
+
 
     MenuItem
     //
@@ -45,8 +44,10 @@ class Menu240x60 : public MenuBase {
             gamesMenu;
 public:
 
-    Menu240x60(MenuBtn *_btn, cb_use use) :
-            MenuBase(btn, use),//  base menu initialization
+    Menu240x60(MenuBtn *_btn) :
+            MenuBase(_btn),//  base menu initialization
+            //
+            // Main menu
             mainMenu(MenuItem(MENU_NAME_1)),
             dshBoardMenu(MenuItem(MENU_NAME_11)),
             testingsMenu(MenuItem(MENU_NAME_12)),
@@ -59,14 +60,13 @@ public:
             //
             // Challenges Menu
             gamesMenu(MenuItem(MENU_NAME_4)) {
-        btn = _btn;
     }
 
     void setup(void);
 
-    void menuUsed(MenuUseEvent used){
-
-        const char *curMenuName = used.item.getName();
+    void menuChanged(MenuChangeEvent change) {
+        MenuItem curMenuItem = change.to; //get the destination menu
+        const char *curMenuName = curMenuItem.getName();
 
         if (curMenuName == MENU_NAME_1) {
             MenuBase::cursorMenu = 1;

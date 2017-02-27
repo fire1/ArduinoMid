@@ -89,7 +89,7 @@ static void u8g2_send_buffer(u8g2_t *u8g2)
   } while( src_row < src_max && dest_row < dest_max );
 }
 
-/* same as u8g2_send_buffer but also send the DISPLAY_REFRESH message (used by SSD1606) */
+/* same as u8g2_send_buffer but also send the DISPLAY_REFRESH message (usedMenu by SSD1606) */
 void u8g2_SendBuffer(u8g2_t *u8g2)
 {
   u8g2_send_buffer(u8g2);

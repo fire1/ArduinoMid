@@ -8,8 +8,8 @@
 
 //
 // Sets screen size
-//#define SCREEN 24064 // Glcd 240x64
-#define SCREEN 162 // lcd 16x2
+#define SCREEN 24064 // Glcd 240x64
+//#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -119,7 +119,7 @@ const uint8_t ALP_PIN_VOL = 14;
 // 20, 21
 //
 // bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
-// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be used for RX:
+// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be usedMenu for RX:
 // 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
 const uint8_t pinLpgDat = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
 const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
@@ -153,6 +153,7 @@ public:
 
     virtual void finishEntry() = 0;
 
+    virtual void menuChanged(MenuChangeEvent change) = 0;
 
 };
 

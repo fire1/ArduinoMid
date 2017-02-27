@@ -107,7 +107,7 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   u8g2->pixel_curr_row = t;
   
   t = u8g2->tile_buf_height;
-  /* handle the case, used the buffer is larger than the (remaining) part of the display */
+  /* handle the case, usedMenu the buffer is larger than the (remaining) part of the display */
   if ( t + u8g2->tile_curr_row > u8g2_GetU8x8(u8g2)->display_info->tile_height )
     t = u8g2_GetU8x8(u8g2)->display_info->tile_height - u8g2->tile_curr_row;
   t *= 8;

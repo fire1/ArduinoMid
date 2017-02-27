@@ -31,7 +31,7 @@ SerialFirmata::SerialFirmata()
 
 boolean SerialFirmata::handlePinMode(byte pin, int mode)
 {
-  // used for both HW and SW serial
+  // usedMenu for both HW and SW serial
   if (mode == PIN_MODE_SERIAL) {
     Firmata.setPinMode(pin, PIN_MODE_SERIAL);
     return true;
@@ -68,7 +68,7 @@ boolean SerialFirmata::handleSysex(byte command, byte argc, byte *argv)
               if (pins.rx != 0 && pins.tx != 0) {
                 Firmata.setPinMode(pins.rx, PIN_MODE_SERIAL);
                 Firmata.setPinMode(pins.tx, PIN_MODE_SERIAL);
-                // Fixes an issue used some serial devices would not work properly with Arduino Due
+                // Fixes an issue usedMenu some serial devices would not work properly with Arduino Due
                 // because all Arduino pins are set to OUTPUT by default in StandardFirmata.
                 pinMode(pins.rx, INPUT);
               }

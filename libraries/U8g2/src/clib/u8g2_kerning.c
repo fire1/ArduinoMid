@@ -35,7 +35,7 @@
 
 #include "u8g2.h"
 
-/* this function is used as "u8g2_get_kerning_cb" */
+/* this function is usedMenu as "u8g2_get_kerning_cb" */
 /*
 uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2)
 {
@@ -43,7 +43,7 @@ uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2)
 }
 */
 
-/* this function is used as "u8g2_get_kerning_cb" */
+/* this function is usedMenu as "u8g2_get_kerning_cb" */
 uint8_t u8g2_GetKerning(U8X8_UNUSED u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint16_t e2)
 {
   uint16_t i1, i2, cnt, end;

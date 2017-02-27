@@ -109,7 +109,7 @@ void setup(void) {
     u8g2.getU8g2(), 						/* this is a c call, so use the u8g2 struct instead of the class */
     U8G2_R0, 							/* this defines the usual rotation of the bitmap */
     u8x8_byte_arduino_serial, 				/* this is the new procedure from above */
-    u8x8_gpio_and_delay_arduino);			/* standard arduino low level proc, used only for delay */
+    u8x8_gpio_and_delay_arduino);			/* standard arduino low level proc, usedMenu only for delay */
 
   u8g2.beginSimple();				/* Do not clear the display, wake is not required */  
 }

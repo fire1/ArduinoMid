@@ -28,7 +28,7 @@ EthernetClient client;
 /*
  * OPTION B: Configure for Arduin Yun
  *
- * The Ethernet port on the Arduino Yun board can be used with Firmata in this configuration.
+ * The Ethernet port on the Arduino Yun board can be usedMenu with Firmata in this configuration.
  *
  * To execute StandardFirmataEthernet on Yun uncomment the YUN_ETHERNET define below and make
  * sure the WIZ5100_ETHERNET define (above) is commented out.

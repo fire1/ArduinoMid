@@ -94,7 +94,7 @@ void Lcd240x62::intro(void) {
 void Lcd240x62::draw(void ) {
     switch (cursorMenu) {
         default:
-        case Menu16x2::MENU_ENTER:
+        case MENU_ENTRY:
 
             break;
             //

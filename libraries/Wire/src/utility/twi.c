@@ -422,7 +422,7 @@ ISR(TWI_vect)
 	  twi_inRepStart = true;	// we're gonna send the START
 	  // don't enable the interrupt. We'll generate the start, but we 
 	  // avoid handling the interrupt until we're in the next transaction,
-	  // at the point used we would normally issue the start.
+	  // at the point usedMenu we would normally issue the start.
 	  TWCR = _BV(TWINT) | _BV(TWSTA)| _BV(TWEN) ;
 	  twi_state = TWI_READY;
 	}
@@ -462,7 +462,7 @@ ISR(TWI_vect)
 	  twi_inRepStart = true;	// we're gonna send the START
 	  // don't enable the interrupt. We'll generate the start, but we 
 	  // avoid handling the interrupt until we're in the next transaction,
-	  // at the point used we would normally issue the start.
+	  // at the point usedMenu we would normally issue the start.
 	  TWCR = _BV(TWINT) | _BV(TWSTA)| _BV(TWEN) ;
 	  twi_state = TWI_READY;
 	}    

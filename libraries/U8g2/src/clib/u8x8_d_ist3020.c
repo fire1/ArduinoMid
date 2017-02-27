@@ -100,7 +100,7 @@ static const uint8_t u8x8_d_ist3020_erc19264_init_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
   U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_C(0x0ab),            			/* build in osc on, used in ER code, but not mentioned in data sheet */
+  U8X8_C(0x0ab),            			/* build in osc on, usedMenu in ER code, but not mentioned in data sheet */
   U8X8_C(0x0ae),		                /* display off */
   
   U8X8_C(0x040),		                /* set display start line to 0 */

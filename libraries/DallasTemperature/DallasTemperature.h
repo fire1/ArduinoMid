@@ -172,7 +172,7 @@ public:
     // in the range -55C - 125C
     char getLowAlarmTemp(const uint8_t*);
 
-    // resets internal variables used for the alarm search
+    // resets internal variables usedMenu for the alarm search
     void resetAlarmSearch(void);
 
     // search the wire for devices with active alarms
@@ -195,7 +195,7 @@ public:
 
 #endif
 
-    // if no alarm handler is used the two bytes can be used as user data
+    // if no alarm handler is usedMenu the two bytes can be usedMenu as user data
     // example of such usage is an ID.
     // note if device is not connected it will fail writing the data.
     // note if address cannot be found no error will be reported.
@@ -233,14 +233,14 @@ private:
     // parasite power on or off
     bool parasite;
 
-    // used to determine the delay amount needed to allow for the
+    // usedMenu to determine the delay amount needed to allow for the
     // temperature conversion to take place
     uint8_t bitResolution;
 
-    // used to requestTemperature with or without delay
+    // usedMenu to requestTemperature with or without delay
     bool waitForConversion;
 
-    // used to requestTemperature to dynamically check if a conversion is complete
+    // usedMenu to requestTemperature to dynamically check if a conversion is complete
     bool checkForConversion;
 
     // count of devices on the bus

@@ -25,51 +25,43 @@ class MenuBase : virtual public IMidMenu {
 
 
 public:
-
-    const static int MENU_ENTER = MENU_ENTRY;
-
     //
     // External changer var
-    static const char *used;
-
+    static unsigned int cursorMenu;
     //
-    // External changer var
-    static int cursorMenu;
-
+    // Where is menu
+    static const char *usedMenu;
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, cb_use callUse, cb_change callChange) : menu(callUse, callChange) {
+    MenuBase(MenuBtn *_btn) : menu(menuUseEvent, menuChangeEvent) {
         btn = _btn;
     }
 
-
+    /**
+     * @deprecated
+     */
     void startEntry() {
-        MenuBase::cursorMenu = MENU_ENTER;
-//        Serial.println(MenuBase::cursorMenu);
     }
 
     void finishEntry() {
-        MenuBase::used = MenuBase::activeMenu ;
+        MenuBase::lastMenu = MenuBase::usedMenu;
         MenuBase::cursorMenu = savedCursor;
         Serial.println(MenuBase::cursorMenu);
     }
-
 
 protected:
     MenuBtn *btn;
     MenuBackend menu;
     //
     // Saves cursor between changes
-    int savedCursor;
-     const char *activeMenu;
+    unsigned int savedCursor;
+    const char *lastMenu;
 
 
     /**
      * Perform navigation
      */
     void listener(int &cursor) {
-
-
         //
         // Handle navigation
         if (btn->isUp()) {
@@ -92,26 +84,26 @@ protected:
         btn->clearLastButton();
         //
         //
-        if (MenuBase::activeMenu != MenuBase::used  && MenuBase::cursorMenu != MENU_ENTER) {
+        if (MenuBase::lastMenu != MenuBase::usedMenu && MenuBase::cursorMenu != MENU_ENTRY) {
             //
             // Keep cursor in save place
             savedCursor = MenuBase::cursorMenu;
             //
-            // Change menu to show info
-            MenuBase::cursorMenu = MENU_ENTER;
+            // Change menu to show screen
+            MenuBase::cursorMenu = MENU_ENTRY;
         }
         cursor = MenuBase::cursorMenu;
     }
 
-
 public:
 
-
+    static void setChangeMenu( IMidMenu *iMenu ,MenuChangeEvent change){
+        iMenu->menuChanged(change);
+    }
 
     boolean isNavigationActive() {
         return true;
     }
-
 
     void setNavigation(boolean nav) {
 
@@ -127,9 +119,18 @@ public:
 
 };
 
-int MenuBase::cursorMenu;
-const char *MenuBase::used;
-const char *MenuBase::activeMenu;
+unsigned int MenuBase::cursorMenu;
+const char *MenuBase::usedMenu;
+
+
+
+//
+// Event method set
+void menuUseEvent(MenuUseEvent used) {
+    //
+    // Pass argument to class
+    MenuBase::usedMenu = used.item.getName();
+}
 
 
 #endif //ARDUINOMID_MENUBASE_H

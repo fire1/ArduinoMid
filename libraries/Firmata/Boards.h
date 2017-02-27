@@ -57,7 +57,7 @@ TOTAL_PINS: The total number of pins Firmata implemented by Firmata.
     Usually this will match the number of pins the Arduino functions
     implement, including any pins pins capable of analog or digital.
     However, Firmata may implement any number of pins.  For example,
-    on Arduino Mini with 8 analog inputs, 6 of these may be used
+    on Arduino Mini with 8 analog inputs, 6 of these may be usedMenu
     for digital functions, and 2 are analog only.  On such boards,
     Firmata can implement more pins than Arduino's pinMode()
     function, in order to accommodate those special pins.  The
@@ -74,21 +74,21 @@ TOTAL_ANALOG_PINS: The total number of analog input pins implemented.
     must be specified.  16 is the maximum.
 
 VERSION_BLINK_PIN: When Firmata starts up, it will blink the version
-    number.  This constant is the Arduino pin number used a
+    number.  This constant is the Arduino pin number usedMenu a
     LED is connected.
 
 
 Pin Mapping Macros:
 
 These macros provide the mapping between pins as implemented by
-Firmata protocol and the actual pin numbers used by the Arduino
+Firmata protocol and the actual pin numbers usedMenu by the Arduino
 functions.  Even though such mappings are often simple, pin
-numbers received by Firmata protocol should always be used as
+numbers received by Firmata protocol should always be usedMenu as
 input to these macros, and the result of the macro should be
-used with with any Arduino function.
+usedMenu with with any Arduino function.
 
 When Firmata is extended to support a new pin mode or feature,
-a pair of macros should be added and used for all hardware
+a pair of macros should be added and usedMenu for all hardware
 access.  For simple 1:1 mapping, these macros add no actual
 overhead, yet their consistent use allows source code which
 uses them consistently to be easily adapted to all other boards
@@ -113,7 +113,7 @@ input and output pins grouped by 8 bit ports.  When these
 groups of 8 correspond to actual 8 bit ports as implemented
 by the hardware, these inline functions can provide high
 speed direct port access.  Otherwise, a default implementation
-using 8 calls to digitalWrite or digitalRead is used.
+using 8 calls to digitalWrite or digitalRead is usedMenu.
 
 When porting Firmata to a new board, it is recommended to
 use the default functions first and focus only on the constants
@@ -121,7 +121,7 @@ and macros above.  When those are working, if optimized port
 access is desired, these inline functions may be extended.
 The recommended approach defines a symbol indicating which
 optimization to use, and then conditional complication is
-used within these functions.
+usedMenu within these functions.
 
 readPort(port, bitmask):  Read an 8 bit port, returning the value.
    port:    The port number, Firmata pins port*8 to port*8+7

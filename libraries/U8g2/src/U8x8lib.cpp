@@ -103,11 +103,11 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 #endif
     
     case U8X8_MSG_DELAY_10MICRO:
-      /* not used at the moment */
+      /* not usedMenu at the moment */
       break;
     
     case U8X8_MSG_DELAY_100NANO:
-      /* not used at the moment */
+      /* not usedMenu at the moment */
       break;
    
     case U8X8_MSG_DELAY_MILLI:
@@ -195,7 +195,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   //uint8_t not_takeover_edge = 1 - takeover_edge;
 
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
-  /* so, it should be possible to used multiple displays with different pins */
+  /* so, it should be possible to usedMenu multiple displays with different pins */
   
   static volatile uint8_t *arduino_clock_port;
   
@@ -350,7 +350,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       
       // 1.6.5 offers a block transfer, but the problem is, that the
       // buffer is overwritten with the incoming data
-      // so it can not be used...
+      // so it can not be usedMenu...
       // SPI.transfer((uint8_t *)arg_ptr, arg_int);
       
       data = (uint8_t *)arg_ptr;

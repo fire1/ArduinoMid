@@ -35,7 +35,7 @@
 #include "u8g2.h"
 
 /* clear screen buffer & display reliable for all u8g2 displays */
-/* this is, becasue we can not used the u8x8 function in all cases */
+/* this is, becasue we can not usedMenu the u8x8 function in all cases */
 void u8g2_ClearDisplay(u8g2_t *u8g2)
 {
   u8g2_FirstPage(u8g2);

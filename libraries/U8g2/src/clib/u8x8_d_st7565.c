@@ -493,7 +493,7 @@ uint8_t u8x8_d_st7565_lm6059(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 /*================================================*/
 /* NT7534, TG12864R */
-/* The NT7534 has an extended command set for the ST7565, however this is not used. */
+/* The NT7534 has an extended command set for the ST7565, however this is not usedMenu. */
 /* The TG12864R display is also shifted in lines, like the LM6059/Adafruit display */
 /* However contrast seems to be different */
 

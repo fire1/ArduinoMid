@@ -64,7 +64,7 @@ void menuSetup()
 	This is an important function
 	Here all use events are handled
 	
-	This is used you define a behaviour for a menu item
+	This is usedMenu you define a behaviour for a menu item
 */
 void menuUseEvent(MenuUseEvent used)
 {

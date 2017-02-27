@@ -441,7 +441,7 @@ void FirmataClass::sendDigitalPort(byte portNumber, int portData)
 
 /**
  * Send a sysex message where all values after the command byte are packet as 2 7-bit bytes
- * (this is not always the case so this function is not always used to send sysex messages).
+ * (this is not always the case so this function is not always usedMenu to send sysex messages).
  * @param command The sysex command byte.
  * @param bytec The number of data bytes in the message (excludes start, command and end bytes).
  * @param bytev A pointer to the array of data bytes to send in the message.

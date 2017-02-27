@@ -1,6 +1,6 @@
 //
 // This sketch does not use the ALARM registers and uses those 2 bytes as a counter
-// these 2 bytes can be used for other purposes as well e.g. last temperature or
+// these 2 bytes can be usedMenu for other purposes as well e.g. last temperature or
 // a specific ID.
 // 
 
