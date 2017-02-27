@@ -50,10 +50,7 @@ public:
         MenuBase::lastMenu = MenuBase::usedMenu;
         MenuBase::cursorMenu = savedCursor;
 
-        if (savedCursor == 0) {
-            menu.moveDown();
-            menu.use();
-        }
+
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
         Serial.print("Cursor menu: ");
         Serial.println(MenuBase::cursorMenu);
@@ -75,6 +72,12 @@ protected:
      * Perform navigation
      */
     void listener(int &cursor) {
+
+        if (MenuBase::cursorMenu == 0) {
+            menu.moveDown();
+            menu.use();
+        }
+
         //
         // Handle navigation
         if (btn->isUp()) {
@@ -98,6 +101,8 @@ protected:
             }
 #endif
         }
+
+
         btn->clearLastButton();
         //
         //

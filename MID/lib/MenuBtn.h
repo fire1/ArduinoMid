@@ -27,6 +27,7 @@ private:
     uint8_t lastButtonPushed = 0; //TODO @deprecated [changed to MenuBtn::STATE]
 
 
+
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     boolean activateSteering = false;
@@ -52,7 +53,7 @@ public:
 
     void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones);
 
-    void clearLastButton(){
+    void clearLastButton() {
         lastButtonPushed = 0;
     }
 
@@ -72,6 +73,7 @@ public:
     boolean isDw() {
         return lastButtonPushed == btnDw;
     }
+
 
 
     static uint8_t STATE;
@@ -200,14 +202,18 @@ void MenuBtn::captureDw(void) {
             holdTimeHandler = millis();
             lastButtonPushed = btnDw;
             MenuBtn::STATE = btnDw;
+            whl->disable();
         }
 
     } else if (!digitalRead(btnDw) == LOW && entryDownState) {
         entryDownState = false;
+        whl->enable();
+        lastButtonPushed = btnUp;
+        MenuBtn::STATE = btnUp;
     }
 
-    if (amp->isLow() && playSecondTone) {
-        tone(pinTn, 1000, 50);
+    if (amp->isBig() && playSecondTone) {
+        tone(pinTn, 1100, 50);
         playSecondTone = false;
     }
 
@@ -231,9 +237,10 @@ void MenuBtn::captureHl(void) {
 
     //
     // Reactivate steering wheel buttons
-    if (amp->isBig() && activateSteering) {
+    if (amp->isSecond() && activateSteering) {
         activateSteering = false;
         whl->enable();
+        tone(pinTn, 1300, 100);
     }
 
 }
