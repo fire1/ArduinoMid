@@ -24,6 +24,7 @@
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
+#include <MemoryFree.h>
 //
 //
 #include "conf.h"
@@ -257,8 +258,10 @@ void loop() {
     //
     // Calls StackCount() to report the unused RAM
     if(ampInt.isSecond()){
-        Serial.print("Free RAM in device: ");
-        Serial.println(StackCount(), DEC);
+//        Serial.print("Free RAM in device: ");
+//        Serial.println(StackCount(), DEC);
+        Serial.print("freeMemory()=");
+        Serial.println(freeMemory());
     }// or use https://github.com/McNeight/MemoryFree/blob/master/MemoryFree.cpp
 }
 

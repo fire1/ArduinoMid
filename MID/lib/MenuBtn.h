@@ -208,8 +208,6 @@ void MenuBtn::captureDw(void) {
     } else if (!digitalRead(btnDw) == LOW && entryDownState) {
         entryDownState = false;
         whl->enable();
-        lastButtonPushed = btnUp;
-        MenuBtn::STATE = btnUp;
     }
 
     if (amp->isBig() && playSecondTone) {
@@ -240,6 +238,8 @@ void MenuBtn::captureHl(void) {
     if (amp->isSecond() && activateSteering) {
         activateSteering = false;
         whl->enable();
+        lastButtonPushed = btnUp;
+        MenuBtn::STATE = btnUp;
         tone(pinTn, 1300, 100);
     }
 

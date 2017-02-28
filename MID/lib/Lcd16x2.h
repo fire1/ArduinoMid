@@ -7,13 +7,16 @@
 
 #include <Arduino.h>
 #include "../conf.h"
+#include <MemoryFree.h>
 #include <LiquidCrystal.h>
 #include "MainFunc.h"
 #include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
+
 //#include "CarGames.h"
 #include "graphics/LcdChar.h"
+
 
 //
 //
@@ -143,6 +146,15 @@ void Lcd16x2::displayOutTmp(void) {
         lcd->setCursor(1, 1);
         tone(TONE_ADT_PIN, 800, 20);
         lcd->print("[ICE]");
+    }
+    //
+    // Check memory usage every 10 seconds
+    if (amp->is10Seconds()) {
+        if (freeMemory() < 3000) {
+            lcd->setCursor(1, 1);
+            tone(TONE_ADT_PIN, 800, 20);
+            lcd->print("sRAM!");
+        }
     }
 
     if (value < 1 && amp->is10Seconds() && outTempLowController) {
