@@ -259,7 +259,7 @@ void loop() {
     if(ampInt.isSecond()){
         Serial.print("Free RAM in device: ");
         Serial.println(StackCount(), DEC);
-    }
+    }// or use https://github.com/McNeight/MemoryFree/blob/master/MemoryFree.cpp
 }
 
 
