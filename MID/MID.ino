@@ -254,7 +254,12 @@ void loop() {
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
     eepRom.injectFromSerial();
-
+    //
+    // Calls StackCount() to report the unused RAM
+    if(ampInt.isSecond()){
+        Serial.print("Free RAM in device: ");
+        Serial.println(StackCount(), DEC);
+    }
 }
 
 
