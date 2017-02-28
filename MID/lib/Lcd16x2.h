@@ -253,6 +253,7 @@ void Lcd16x2::displayCarAlert(void) {
         lcd->write((uint8_t) 3);
         lcd->print("    ");
         displayAlertActive = true;
+        tone(TONE_ADT_PIN, 1200, 60);
     }
 
     if (displayAlertActive && amp->is5Seconds()) {
