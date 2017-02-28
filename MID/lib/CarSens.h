@@ -275,7 +275,7 @@ private:
 
     //
     // Screen back light vars
-    static const int numReadingsDim = 5;
+    static const int numReadingsDim = 4;
     int indexReadValDim = 0;
     int lastReadingsDim[numReadingsDim];
     int totalReadingDim = 0;
