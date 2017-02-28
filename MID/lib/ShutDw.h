@@ -22,27 +22,34 @@
 #ifndef ARDUINOMID_SHUTDOWN_H
 #define ARDUINOMID_SHUTDOWN_H
 
-char * const ShutDw_messages[12] PROGMEM = {
-        //
-        // Normal shutdown
-        "Goodbye ...     ",     // 0
-        "until next time!",     // 1
-        //
-        // Trip saving shutdown
-        "Hit \"S<\" to   ",     // 2
-        "skip saving TRIP",     // 3
+const char ShutDw__msgString_01[] PROGMEM = "Goodbye ...     ";
+const char ShutDw__msgString_02[] PROGMEM = "until next time!";
+const char ShutDw__msgString_03[] PROGMEM = "Hit \"S<\" to   ";
+const char ShutDw__msgString_04[] PROGMEM = "skip saving TRIP";
+const char ShutDw__msgString_05[] PROGMEM = "Shutting  down  ";
+const char ShutDw__msgString_06[] PROGMEM = "Waiting ";
+const char ShutDw__msgString_07[] PROGMEM = " sec.  ";
+const char ShutDw__msgString_08[] PROGMEM = " for ESC saving ";
+const char ShutDw__msgString_09[] PROGMEM = "Trip data cancel";
+const char ShutDw__msgString_10[] PROGMEM = "Erasing trip ...";
+const char ShutDw__msgString_11[] PROGMEM = " Trip saved :)  ";
+const char ShutDw__msgString_12[] PROGMEM = " Bye bye ...    ";
 
-        "Shutting  down  ",     // 4
-        //
-        // Awaiting
-        "Waiting ",             // 5
-        " sec.  ",              // 6
-        " for ESC saving ",     // 7
-        "Trip data cancel",     // 8
-        "Erasing trip ...",     // 9
-        " Trip saved :)  ",     // 10
-        " Bye bye ...    "      // 11
-};
+const char* const  ShutDw_table[] PROGMEM =
+        {
+                ShutDw__msgString_01,
+                ShutDw__msgString_02,
+                ShutDw__msgString_03,
+                ShutDw__msgString_04,
+                ShutDw__msgString_05,
+                ShutDw__msgString_06,
+                ShutDw__msgString_07,
+                ShutDw__msgString_08,
+                ShutDw__msgString_09,
+                ShutDw__msgString_10,
+                ShutDw__msgString_11,
+                ShutDw__msgString_12,
+        };
 
 class ShutDw {
 
@@ -76,8 +83,10 @@ private :
 
     void melodySave(void);
 
+    char buffer[74];
     char *getMsg(int index) {
-        return (char *) pgm_read_word (&ShutDw_messages[index]);
+        strcpy_P(buffer, (char *)pgm_read_word(&(ShutDw_table[index])));
+        return  buffer;
     }
 
 
