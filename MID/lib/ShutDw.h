@@ -2,6 +2,7 @@
 // Created by Angel Zaprianov on 11.10.2016 г..
 //
 #include <Arduino.h>
+#include <avr/pgmspace.h>
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -21,6 +22,27 @@
 #ifndef ARDUINOMID_SHUTDOWN_H
 #define ARDUINOMID_SHUTDOWN_H
 
+char * const ShutDw_messages[12] PROGMEM = {
+        //
+        // Normal shutdown
+        "Goodbye ...     ",     // 0
+        "until next time!",     // 1
+        //
+        // Trip saving shutdown
+        "Hit \"S<\" to   ",     // 2
+        "skip saving TRIP",     // 3
+
+        "Shutting  down  ",     // 4
+        //
+        // Awaiting
+        "Waiting ",             // 5
+        " sec.  ",              // 6
+        " for ESC saving ",     // 7
+        "Trip data cancel",     // 8
+        "Erasing trip ...",     // 9
+        " Trip saved :)  ",     // 10
+        " Bye bye ...    "      // 11
+};
 
 class ShutDw {
 
@@ -34,6 +56,7 @@ class ShutDw {
     WhlSens *_whl;
 
 private :
+
     uint8_t pinCtrl, pinDtct, pinTone;
 
     int indexWait = 0;
@@ -42,7 +65,6 @@ private :
     int alreadyShutdown = 0;
     bool entryUsbDetected = false;
     bool isShutdownActive = false;
-    bool isShutdownInactive = false;
     int detectorValue = 1000;
     int handlerCursorMenu;
 
@@ -53,6 +75,12 @@ private :
     void displayCancel(LiquidCrystal *lcd);
 
     void melodySave(void);
+
+    char *getMsg(int index) {
+        return (char *) pgm_read_word (&ShutDw_messages[index]);
+    }
+
+
 public:
     static constexpr int MENU_SHUTDOWN = 99;
 
@@ -216,9 +244,9 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
         lcd->clear();
         lcd->setCursor(0, 0);
-        lcd->print("Goodbye ...     ");
+        lcd->print(getMsg(0));
         lcd->setCursor(0, 1);
-        lcd->print("until next time!");
+        lcd->print(getMsg(1));
         melodySave();
         _eep->saveCurrentData();
         _whl->shutdownMode();
@@ -233,9 +261,9 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     if (entryDisplay == 0) {
         lcd->clear();
         lcd->setCursor(0, 0);
-        lcd->print("Hit \"S<\" to ");
+        lcd->print(getMsg(2));
         lcd->setCursor(0, 1);
-        lcd->print("skip saving TRIP");
+        lcd->print(getMsg(3));
         tone(pinTone, 800, 200);
         delay(200);
         tone(pinTone, 800, 200);
@@ -244,7 +272,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         delay(3600);
         lcd->clear();
         lcd->setCursor(1, 0);
-        lcd->print("Shutting  down");
+        lcd->print(getMsg(4));
         tone(pinTone, 2000, 600);
         delay(1000);
         entryDisplay = 1;
@@ -256,15 +284,15 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     if (_amp->isSec()) {
 
         lcd->setCursor(0, 0);
-        lcd->print("Waiting ");
+        lcd->print(getMsg(5));
         //
         // Convert data to human format
         sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 200) * -1);
 
         lcd->print(sec);
-        lcd->print(" sec.  ");
+        lcd->print(getMsg(6));
         lcd->setCursor(1, 2);
-        lcd->print(" for ESC saving");
+        lcd->print(getMsg(7));
     }
 
     //
@@ -297,9 +325,9 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 void ShutDw::displayCancel(LiquidCrystal *lcd) {
     lcd->clear();
     lcd->setCursor(1, 0);
-    lcd->print("Trip data cancel");
+    lcd->print(getMsg(8));
     lcd->setCursor(1, 2);
-    lcd->print("Erasing trip ...");
+    lcd->print(getMsg(9));
 
     //
     // Erase trip data
@@ -314,6 +342,7 @@ void ShutDw::displayCancel(LiquidCrystal *lcd) {
     // Mark mid as shutdown
     alreadyShutdown = 1;
 }
+
 /**
  * Save melody play
  */
@@ -338,9 +367,9 @@ void ShutDw::displaySaved(LiquidCrystal *lcd) {
     alreadySaved = 1;
     lcd->clear();
     lcd->setCursor(1, 0);
-    lcd->print(" Data saved :)");
+    lcd->print(getMsg(10));
     lcd->setCursor(1, 2);
-    lcd->print(" Bye bye ...");
+    lcd->print(getMsg(11));
     //
     // Shutdown the system
     melodySave();
