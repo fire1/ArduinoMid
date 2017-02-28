@@ -12,7 +12,7 @@
 #include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
-#include "CarGames.h"
+//#include "CarGames.h"
 #include "graphics/LcdChar.h"
 
 //
@@ -26,18 +26,18 @@ class Lcd16x2 : virtual public ILcdMenu {
     CarSens *car;
     EepRom *eep;
     CarState *stt;
-    CarGames *gms;
+//    CarGames *gms;
     WhlSens *whl;
     IMidMenu *mmn;
     ShutDw *sdw;
-    GamesBest gameResults;
+//    GamesBest gameResults;
 
 
 protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
-    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw);
+    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, /*CarGames *_gms,*/ ShutDw *_sdw);
 
     void intro(void);
 
@@ -77,20 +77,20 @@ protected:
     void displayFuelTanks();
 
     void displayCarState();
-
-    void displayCarGames();
-
-    void displayCarGameWatch();
-
-    void displayCarGameDrag();
-
-    void displayCarGameT100();
+// TODO Lowering code for sRAM exhausting
+//    void displayCarGames();
+//
+//    void displayCarGameWatch();
+//
+//    void displayCarGameDrag();
+//
+//    void displayCarGameT100();
 };
 
 /**
  * Constructor
  */
-Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
+Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, /*CarGames *_gms,*/ ShutDw *_sdw) {
     lcd = _lcd;
     amp = _btn->passAmp();
     car = _btn->passCar();
@@ -573,12 +573,13 @@ void Lcd16x2::displayCarState() {
 
 
 }
-
+//
+// TODO Lowering code for sRAM exhausting
 /****************************************************************
  * Games menu
- */
+ *
 void Lcd16x2::displayCarGames(void) {
-    gameResults = gms->getBestResults();
+//    gameResults = gms->getBestResults();
 }
 
 void Lcd16x2::displayCarGameWatch(void) {
@@ -632,9 +633,9 @@ void Lcd16x2::displayCarGameWatch(void) {
 
 }
 
-/**
+/*
  * Display drag race
- */
+ *
 void Lcd16x2::displayCarGameDrag(void) {
 
     if (amp->isToggle() && amp->isMid()) {
@@ -648,7 +649,7 @@ void Lcd16x2::displayCarGameDrag(void) {
 
 /**
  * Display game 0 to 100
- */
+ *
 void Lcd16x2::displayCarGameT100() {
 
     float result = gms->get0to100();
@@ -682,7 +683,7 @@ void Lcd16x2::displayCarGameT100() {
     }
 
 }
-
+*/
 void Lcd16x2::begin(void) {
     lcd->noDisplay();
     //
@@ -767,6 +768,7 @@ void Lcd16x2::draw() {
         case 45:
             displayCarState();
             break;
+/*
             //
             // Games menu
         case 5:
@@ -782,7 +784,7 @@ void Lcd16x2::draw() {
         case 53:
             gms->listen0to100();
             displayCarGameT100();
-            break;
+            break;*/
 
         case ShutDw::MENU_SHUTDOWN:
             sdw->lcd16x2(lcd);

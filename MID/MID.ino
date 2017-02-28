@@ -56,7 +56,7 @@
 #include "lib/ShutDw.h"
 //
 // Add car games
-#include "lib/CarGames.h"
+//#include "lib/CarGames.h"
 
 
 //
@@ -85,7 +85,7 @@ MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens, &carStat);
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //
 // Car games
-CarGames carGames(&ampInt, &carSens);
+//CarGames carGames(&ampInt, &carSens);
 
 #if SCREEN == 162 || !defined(SCREEN)
 #include <LiquidCrystal.h>
@@ -96,7 +96,7 @@ IMidMenu *midMenu = new Menu16x2(&btnMenu);
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
-ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu, &carGames, &shutDown);
+ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu,/* &carGames, */&shutDown);
 
 #elif SCREEN == 24064
 #include <U8g2lib.h>

@@ -48,10 +48,10 @@
 #define MENU_NAME_44 "Oil level "
 #define MENU_NAME_45 "Voltage "
 
-#define MENU_NAME_5 "Challenges"
-#define MENU_NAME_51 "Stopwatch"
-#define MENU_NAME_52 "Drag Racing 402m"
-#define MENU_NAME_53 "From 0 to 100km"
+//#define MENU_NAME_5 "Challenges"
+//#define MENU_NAME_51 "Stopwatch"
+//#define MENU_NAME_52 "Drag Racing 402m"
+//#define MENU_NAME_53 "From 0 to 100km"
 
 
 //
@@ -88,7 +88,11 @@ class Menu16x2 : public MenuBase {
             stateClnLvl,
             stateWndWsh,
             stateOilLvl,
-            stateBatVlt,
+            stateBatVlt;
+
+
+// TODO Lowering code for sRAM exhausting
+/*
     //
     // Sprint
             gamesMenu,
@@ -96,7 +100,7 @@ class Menu16x2 : public MenuBase {
             gamesDragRace,
             gamesFr0To100;
 
-
+*/
 public:
     //
     // Construct Menu Base
@@ -123,13 +127,14 @@ public:
             stateClnLvl(MenuItem(MENU_NAME_42)),
             stateWndWsh(MenuItem(MENU_NAME_43)),
             stateOilLvl(MenuItem(MENU_NAME_44)),
-            stateBatVlt(MenuItem(MENU_NAME_45)),
-            //
+            stateBatVlt(MenuItem(MENU_NAME_45))
+/*            //
             // Challenges Menu
             gamesMenu(MenuItem(MENU_NAME_5)),
             gamesStpWatch(MenuItem(MENU_NAME_51)),
             gamesDragRace(MenuItem(MENU_NAME_52)),
-            gamesFr0To100(MenuItem(MENU_NAME_53)) {
+            gamesFr0To100(MenuItem(MENU_NAME_53)) */
+    {
     }
 
 /**
@@ -142,8 +147,9 @@ public:
         //
         // Base tree construction
         menu.getRoot()
-                .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu).add(gamesMenu);
-        gamesMenu.add(mainMenu); // add last menu to create a Loop menu
+                .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu)/*.add(gamesMenu)*/;
+        /*gamesMenu.add(mainMenu); // add last menu to create a Loop menu*/
+        statMenu.add(mainMenu); // add last menu to create a Loop menu
         //
         // Home menu layers construction
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
@@ -172,10 +178,12 @@ public:
         stateWndWsh.add(statMenu);
         stateOilLvl.add(statMenu);
         stateBatVlt.add(statMenu);
+        /*
         //
         // Games menu layers construction
         gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
         gamesDragRace.addRight(gamesStpWatch);
+         */
     };
 
 
@@ -216,6 +224,8 @@ public:
             MenuBase::cursorMenu = 44;
         } else if (curMenuName == MENU_NAME_45) {
             MenuBase::cursorMenu = 45;
+
+            /*
             //
             // Games menu
         } else if (curMenuName == MENU_NAME_5) {
@@ -225,7 +235,7 @@ public:
         } else if (curMenuName == MENU_NAME_52) {
             MenuBase::cursorMenu = 52;
         } else if (curMenuName == MENU_NAME_53) {
-            MenuBase::cursorMenu = 53;
+            MenuBase::cursorMenu = 53;*/
         }
     }
 

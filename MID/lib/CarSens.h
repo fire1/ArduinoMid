@@ -2,7 +2,9 @@
 // Created by Angel Zaprianov on 19.10.2016 г..
 //
 #include <Arduino.h>
+#include "../conf.h"
 #include "IntAmp.h"
+#include "MainFunc.h"
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
@@ -14,7 +16,6 @@
 #ifdef ADT_FUEL_SYSTEM_I2C
 
 #include "drivers/I2cSimpleListener.h"
-#include "../conf.h"
 
 #endif
 //
@@ -274,7 +275,7 @@ private:
 
     //
     // Screen back light vars
-    static const int numReadingsDim = 10;
+    static const int numReadingsDim = 5;
     int indexReadValDim = 0;
     int lastReadingsDim[numReadingsDim];
     int totalReadingDim = 0;
@@ -1017,15 +1018,20 @@ char *CarSens::getHTm(float saved) {
  */
 void CarSens::sensDim() {
 
-    int defaultActive = 0;
+    //
+    // Skip some loop index
+    if (!_amp->isMin()) {
+        return;
+    }
 
+    int defaultActive = 0;
     totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
     // read from the sensor:
     lastReadingsDim[indexReadValDim] = (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
     // add the reading to the total:
     totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
     // advance to the next position in the array:
-    indexReadValDim = indexReadValDim + 1;
+    indexReadValDim++;
 
 
     backLightLevel = totalReadingDim / numReadingsDim;
