@@ -114,7 +114,7 @@ public:
             cursor = MENU_ENTRY;
         }
 
-        cursor = savedCursor;
+        cursor = savedCursor; // TODO this is unusable... for delete
 
     }
 
@@ -137,6 +137,6 @@ public:
 };
 
 
-
+const char *MenuBase::usedMenu;
 
 #endif //ARDUINOMID_MENUBASE_H
