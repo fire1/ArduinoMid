@@ -106,14 +106,14 @@ protected:
  */
 void Lcd16x2::intro(void) {
     lcd->setCursor(0, 0);
-    lcd->print("    ASTRA       ");
+    lcd->print(F("    ASTRA       "));
     //
     // Test tone
     tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd->setCursor(0, 1);
-    lcd->print("   ");
-    lcd->print(" Bertnone    ");
+    lcd->print(F("   "));
+    lcd->print(F(" Bertnone    "));
     delay(1500);
     lcd->clear();
 }
@@ -348,7 +348,7 @@ void Lcd16x2::displayTrip() {
 
     if (amp->isSec()) {
         lcd->setCursor(0, 0);
-        lcd->print(" Current Trip");
+        lcd->print(F(" Current Trip"));
         //
         // Display travel time
         lcd->setCursor(0, 1);
@@ -376,7 +376,7 @@ void Lcd16x2::displayTotalTrip() {
 
     if (amp->isSec()) {
         lcd->setCursor(0, 0);
-        lcd->print("Total Distance");
+        lcd->print(F("Total Distance  "));
         //
         // Display travel time
         lcd->setCursor(0, 1);
@@ -392,19 +392,19 @@ void Lcd16x2::displayConsumption() {
     if (amp->isMax()) {
 
         lcd->setCursor(0, 0);
-        lcd->print(" Consumption");
+        lcd->print(F(" Consumption"));
 
 
         lcd->setCursor(1, 1);
 
         lcd->write((uint8_t) 5);
         lcd->write((uint8_t) 6);
-        lcd->print("  ");
+        lcd->print(F("  "));
 
         lcd->setCursor(9, 1);
         lcd->write((uint8_t) 7);
         lcd->write((uint8_t) 8);
-        lcd->print("   ");
+        lcd->print(F("   "));
 
 
     }
@@ -425,17 +425,19 @@ void Lcd16x2::displayConsumption() {
             valueConsFuel = car->getAdtFuelCns();
         }
 
+        const char*   liters = "L ";
+
         lcd->setCursor(1, 1);
         lcd->print((char) 5);
         lcd->print((char) 6);
         lcd->print(dspInst[0]);
-        lcd->print("L ");
+        lcd->print(liters);
 
         lcd->setCursor(8, 1);
         lcd->write((uint8_t) 7);
         lcd->write((uint8_t) 8);
         lcd->print(valueConsFuel);
-        lcd->print("L ");
+        lcd->print(liters);
     }
 }
 
@@ -451,7 +453,7 @@ void Lcd16x2::displayFuelTanks() {
 
 
         lcd->setCursor(0, 0);
-        lcd->print(" Fuel Tanks");
+        lcd->print(F(" Fuel Tanks"));
 
 
         lcd->setCursor(0, 1);
@@ -495,7 +497,7 @@ void Lcd16x2::displayTest() {
 
     if (amp->isMid()) {
         lcd->setCursor(0, 0);
-        lcd->print("VDS: ");
+        lcd->print(F("VDS: "));
 //        lcd->print((char) 127);
 
         lcd->print(car->getVdsDump());
@@ -503,7 +505,7 @@ void Lcd16x2::displayTest() {
 
 
         lcd->setCursor(0, 1);
-        lcd->print("Whl Btns: ");
+        lcd->print(F("Whl Btns: "));
 
         lcd->print(whl->getAnalogReadButtons() / 100);
 
@@ -530,15 +532,15 @@ void Lcd16x2::displayCarState() {
 
             lcd->setCursor(0, 1);
             if (!stt->isAlert()) {
-                lcd->print("no warnings  :) ");
+                lcd->print(F("no warnings  :) "));
             } else {
-                lcd->print("finds warning ");
+                lcd->print(F("finds warning "));
                 lcd->write((uint8_t) 3);
                 lcd->print("  ");
             }
         } else if (amp->is4Seconds()) {
             lcd->setCursor(0, 1);
-            lcd->print("use >R to switch");
+            lcd->print(F("use >R to switch"));
         }
     }
 
@@ -551,33 +553,33 @@ void Lcd16x2::displayCarState() {
         // Continue with info
         lcd->setCursor(0, 1);
         if (MidCursorMenu == 41) {
-            if (stt->getLiveBrk()) lcd->print("CHECK brake wear");
-            else lcd->print("Brake wear OK   ");
+            if (stt->getLiveBrk()) lcd->print(F("CHECK brake wear"));
+            else lcd->print(F("Brake wear OK   "));
         }
         if (MidCursorMenu == 42) {
-            if (stt->getLiveCnt()) lcd->print("Low coolant !");
-            else lcd->print("Coolant is OK   ");
+            if (stt->getLiveCnt()) lcd->print(F("Low coolant !"));
+            else lcd->print(F("Coolant is OK   "));
         }
         if (MidCursorMenu == 43) {
             if (stt->getLiveWin()) lcd->print("Low window wash");
-            else lcd->print("Window washer OK");
+            else lcd->print(F("Window washer OK"));
         }
         if (MidCursorMenu == 44) {
-            if (stt->getLiveOil()) lcd->print("Low oil level !");
-            else lcd->print("Oil level is OK ");
+            if (stt->getLiveOil()) lcd->print(F("Low oil level !"));
+            else lcd->print(F("Oil level is OK "));
         }
     }
 
     if (MidCursorMenu == 45) {
         if (amp->isMid()) {
             if (stt->getLiveVol()) {
-                lcd->print("Voltage ");
+                lcd->print(F("Voltage "));
                 lcd->write((uint8_t) 3);
                 lcd->print(" ");
                 lcd->print(stt->getVoltage());
                 lcd->print("V    ");
                 lcd->setCursor(11, 13);
-            } else lcd->print("Voltage is OK   ");
+            } else lcd->print(F("Voltage is OK   "));
         }
     }
 
