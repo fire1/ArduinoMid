@@ -56,8 +56,8 @@
 // Add library
 #include "lib/ShutDw.h"
 //
-// Add car games
-//#include "lib/CarGames.h"
+//
+#include "lib/MenuBase.h"
 
 
 //
@@ -89,15 +89,18 @@ ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //CarGames carGames(&ampInt, &carSens);
 
 #if SCREEN == 162 || !defined(SCREEN)
-#include <LiquidCrystal.h>
+
 #include "lib/Lcd16x2.h"
 
-IMidMenu *midMenu = new Menu16x2(&btnMenu);
+IMidMenu *midMenu = new Menu16x2;
+
+MenuBase menuBase(&btnMenu, midMenu);
+
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
-ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, midMenu,/* &carGames, */&shutDown);
+ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, */&shutDown);
 
 #elif SCREEN == 24064
 #include <U8g2lib.h>
@@ -109,15 +112,17 @@ IMidMenu *midMenu = new Menu240x60(&btnMenu);
 U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
 
 ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown);
-
 #endif
 
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-    MenuBase::setChangeMenu(midMenu,changed);
+    midMenu->menuChanged(changed);
 }
-
+void menuUseEvent(MenuUseEvent used)
+{
+    MenuBase::usedMenu = used.item.getName();
+}
 //
 //
 //LpgSens lpgSens;
@@ -242,10 +247,10 @@ void loop() {
     btnMenu.listener();
     //
     // Navigate menu from button listener
-    midMenu->listener(cursorMenu);
+    menuBase.listener(MidCursorMenu);
     //
     //  Switch to shutdown menu
-    shutDown.cursor(cursorMenu);
+    shutDown.cursor(MidCursorMenu);
     //
     // Display UI
     lcdMenu->draw();
@@ -257,7 +262,7 @@ void loop() {
     eepRom.injectFromSerial();
     //
     // Calls StackCount() to report the unused RAM
-    if(ampInt.isSecond()){
+    if (ampInt.isSecond()) {
 //        Serial.print("Free RAM in device: ");
 //        Serial.println(StackCount(), DEC);
         Serial.print("freeMemory()=");

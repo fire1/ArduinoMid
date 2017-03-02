@@ -69,20 +69,20 @@ public:
         const char *curMenuName = curMenuItem.getName();
 
         if (curMenuName == MENU_NAME_1) {
-            MenuBase::cursorMenu = 1;
+            MidCursorMenu = 1;
         } else if (curMenuName == MENU_NAME_11) {
-            MenuBase::cursorMenu = 11;
+            MidCursorMenu = 11;
         } else if (curMenuName == MENU_NAME_12) {
-            MenuBase::cursorMenu = 12;
+            MidCursorMenu = 12;
         } else if (curMenuName == MENU_NAME_2) {
             //
             // Fuel Menu
         } else if (curMenuName == MENU_NAME_3) {
-            MenuBase::cursorMenu = 3;
+            MidCursorMenu = 3;
             //
             // Car State Menu
         } else if (curMenuName == MENU_NAME_4) {
-            MenuBase::cursorMenu = 4;
+            MidCursorMenu = 4;
         }
     }
 

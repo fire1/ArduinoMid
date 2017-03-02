@@ -19,7 +19,7 @@
 #include "WhlSens.h"
 #include "EepRom.h"
 #include "MenuBtn.h"
-#include "MenuBase.h"
+
 //
 // Define menu tree
 #ifndef MENU_ENTRY
@@ -54,16 +54,15 @@
 //#define MENU_NAME_53 "From 0 to 100km"
 
 
-//
-//static void MidMenu_menuUsed(MenuUseEvent usedMenu);
-//
-//static void MidMenu_menuChanged(MenuChangeEvent changed);
+
+
 
 /**
  *
  */
-class Menu16x2 : public MenuBase {
-
+class Menu16x2 : virtual public IMidMenu  {
+    MenuBackend menu;
+    
     //
     // Defining menu items
     MenuItem
@@ -104,8 +103,7 @@ class Menu16x2 : public MenuBase {
 public:
     //
     // Construct Menu Base
-    Menu16x2(MenuBtn *_btn) :
-            MenuBase(_btn),//  base menu initialization
+    Menu16x2()  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
             //
             // Main menu initialization
             mainMenu(MenuItem(MENU_NAME_1)),
@@ -135,6 +133,10 @@ public:
             gamesDragRace(MenuItem(MENU_NAME_52)),
             gamesFr0To100(MenuItem(MENU_NAME_53)) */
     {
+    }
+
+    MenuBackend getMB(){
+        return  menu;
     }
 
 /**
@@ -191,54 +193,65 @@ public:
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
         if (curMenuName == MENU_NAME_1) {
-            MenuBase::cursorMenu = 1;
+            MidCursorMenu = 1;
         } else if (curMenuName == MENU_NAME_11) {
-            MenuBase::cursorMenu = 11;
+            MidCursorMenu = 11;
         } else if (curMenuName == MENU_NAME_12) {
-            MenuBase::cursorMenu = 12;
+            MidCursorMenu = 12;
         } else if (curMenuName == MENU_NAME_2) {
             //
             // Trip Menu
-            MenuBase::cursorMenu = 2;
+            MidCursorMenu = 2;
         } else if (curMenuName == MENU_NAME_21) {
-            MenuBase::cursorMenu = 21;
+            MidCursorMenu = 21;
         } else if (curMenuName == MENU_NAME_22) {
-            MenuBase::cursorMenu = 22;
+            MidCursorMenu = 22;
             //
             // Fuel Menu
         } else if (curMenuName == MENU_NAME_3) {
-            MenuBase::cursorMenu = 3;
+            MidCursorMenu = 3;
         } else if (curMenuName == MENU_NAME_31) {
-            MenuBase::cursorMenu = 32;
+            MidCursorMenu = 32;
             //
             // Car State Menu
         } else if (curMenuName == MENU_NAME_4) {
-            MenuBase::cursorMenu = 4;
+            MidCursorMenu = 4;
         } else if (curMenuName == MENU_NAME_41) {
-            MenuBase::cursorMenu = 41;
+            MidCursorMenu = 41;
         } else if (curMenuName == MENU_NAME_42) {
-            MenuBase::cursorMenu = 42;
+            MidCursorMenu = 42;
         } else if (curMenuName == MENU_NAME_43) {
-            MenuBase::cursorMenu = 43;
+            MidCursorMenu = 43;
         } else if (curMenuName == MENU_NAME_44) {
-            MenuBase::cursorMenu = 44;
+            MidCursorMenu = 44;
         } else if (curMenuName == MENU_NAME_45) {
-            MenuBase::cursorMenu = 45;
+            MidCursorMenu = 45;
 
             /*
             //
             // Games menu
         } else if (curMenuName == MENU_NAME_5) {
-            MenuBase::cursorMenu = 5;
+            MidCursorMenu = 5;
         } else if (curMenuName == MENU_NAME_51) {
-            MenuBase::cursorMenu = 51;
+            MidCursorMenu = 51;
         } else if (curMenuName == MENU_NAME_52) {
-            MenuBase::cursorMenu = 52;
+            MidCursorMenu = 52;
         } else if (curMenuName == MENU_NAME_53) {
-            MenuBase::cursorMenu = 53;*/
+            MidCursorMenu = 53;*/
         }
     }
 
+//
+// Sets construction movements
+
+    void moveUp(){
+        menu.moveDown();
+        menu.use();
+    }
+    void moveDw(){
+        menu.moveDown();
+        menu.use();
+    }
 
 };
 

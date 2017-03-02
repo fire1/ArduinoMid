@@ -16,6 +16,7 @@
 
 //#include "CarGames.h"
 #include "graphics/LcdChar.h"
+#include "MenuBase.h"
 
 
 //
@@ -29,18 +30,26 @@ class Lcd16x2 : virtual public ILcdMenu {
     CarSens *car;
     EepRom *eep;
     CarState *stt;
-//    CarGames *gms;
     WhlSens *whl;
-    IMidMenu *mmn;
+    MenuBase *mbs;
     ShutDw *sdw;
-//    GamesBest gameResults;
 
 
 protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
 public:
-    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, /*CarGames *_gms,*/ ShutDw *_sdw);
+
+    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
+        lcd = _lcd;
+        amp = _btn->passAmp();
+        car = _btn->passCar();
+        eep = _btn->passEep();
+        stt = _btn->passStt();
+        whl = _btn->passWhl();
+        mbs = _mbs;
+        sdw = _sdw;
+    }
 
     void intro(void);
 
@@ -90,19 +99,6 @@ protected:
 //    void displayCarGameT100();
 };
 
-/**
- * Constructor
- */
-Lcd16x2::Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, IMidMenu *_mmn, /*CarGames *_gms,*/ ShutDw *_sdw) {
-    lcd = _lcd;
-    amp = _btn->passAmp();
-    car = _btn->passCar();
-    eep = _btn->passEep();
-    stt = _btn->passStt();
-    whl = _btn->passWhl();
-    mmn = _mmn;
-    sdw = _sdw;
-}
 
 /**
  * Welcome screen ...
@@ -528,7 +524,7 @@ void Lcd16x2::displayTest() {
 void Lcd16x2::displayCarState() {
 
 
-    if (MenuBase::cursorMenu == 4) {
+    if (MidCursorMenu == 4) {
         if (amp->isSecond() && !amp->is4Seconds()) {
 
             lcd->setCursor(0, 1);
@@ -553,25 +549,25 @@ void Lcd16x2::displayCarState() {
         //
         // Continue with info
         lcd->setCursor(0, 1);
-        if (MenuBase::cursorMenu == 41) {
+        if (MidCursorMenu == 41) {
             if (stt->getLiveBrk()) lcd->print("CHECK brake wear");
             else lcd->print("Brake wear OK   ");
         }
-        if (MenuBase::cursorMenu == 42) {
+        if (MidCursorMenu == 42) {
             if (stt->getLiveCnt()) lcd->print("Low coolant !");
             else lcd->print("Coolant is OK   ");
         }
-        if (MenuBase::cursorMenu == 43) {
+        if (MidCursorMenu == 43) {
             if (stt->getLiveWin()) lcd->print("Low window wash");
             else lcd->print("Window washer OK");
         }
-        if (MenuBase::cursorMenu == 44) {
+        if (MidCursorMenu == 44) {
             if (stt->getLiveOil()) lcd->print("Low oil level !");
             else lcd->print("Oil level is OK ");
         }
     }
 
-    if (MenuBase::cursorMenu == 45) {
+    if (MidCursorMenu == 45) {
         if (amp->isMid()) {
             if (stt->getLiveVol()) {
                 lcd->print("Voltage ");
@@ -713,10 +709,10 @@ void Lcd16x2::begin(void) {
 }
 
 void Lcd16x2::draw() {
-    switch (cursorMenu) {
+    switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            mmn->startEntry();
+            mbs->startEntry();
             lcd->clear();
             lcd->setCursor(0, 0);
             lcd->print("~ ");
@@ -727,7 +723,7 @@ void Lcd16x2::draw() {
             delay(300);  //delay to allow message reading
             lcd->setCursor(0, 0);
             car->clearBaseData();
-            mmn->finishEntry();
+            mbs->finishEntry();
             lcd->clear();
 
             break;

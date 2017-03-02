@@ -84,7 +84,7 @@ void Lcd240x62::intro(void) {
 }
 
 void Lcd240x62::draw(void ) {
-    switch (cursorMenu) {
+    switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
 

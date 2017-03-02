@@ -103,7 +103,7 @@ public:
 
     bool isUsbActive();
 
-    void cursor(int &cursorMenu);
+    void cursor(unsigned int &cursorMenu);
 
 };
 
@@ -175,7 +175,7 @@ bool ShutDw::isUsbActive() {
 /**
  * Handler the cursor menu
  */
-void ShutDw::cursor(int &cursorMenu) {
+void ShutDw::cursor(unsigned int &cursorMenu) {
 
     //
     // Switch menu if cannot shutdown ...

@@ -130,10 +130,11 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 //
 //
 // Global Menu cursor
-int cursorMenu = 0;
+static unsigned int MidCursorMenu = 0;
 
 struct ILcdMenu {
 public:
+
     virtual void draw() = 0;
 
     virtual void intro() = 0;
@@ -143,22 +144,21 @@ public:
 
 struct IMidMenu {
 public:
+
     virtual void setup() = 0;
-
-    virtual void listener(int &cursor) = 0;
-
-    virtual boolean isNavigationActive() = 0;
-
-    virtual void startEntry() = 0;
-
-    virtual void finishEntry() = 0;
 
     virtual void menuChanged(MenuChangeEvent change) = 0;
 
+    virtual MenuBackend getMB() = 0;
+
+    virtual void moveUp() = 0;
+
+    virtual void moveDw() = 0;
 };
 
 
 static void menuUseEvent(MenuUseEvent used);
+
 static void menuChangeEvent(MenuChangeEvent changed);
 
 #endif //ARDUINOMID_CONF_H

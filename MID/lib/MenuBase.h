@@ -23,21 +23,23 @@
 /**
  *
  */
-class MenuBase : virtual public IMidMenu {
-
+class MenuBase {
 
 public:
-    //
-    // External changer var
-    static unsigned int cursorMenu;
-    //
-    // Where is menu
-    static const char *usedMenu;
+   static const char *usedMenu;
+
+    IMidMenu *mci;
 
     //
     // Constructor
-    MenuBase(MenuBtn *_btn) : menu(menuUseEvent, menuChangeEvent) {
+    MenuBase(MenuBtn *_btn, IMidMenu *_mci)  {
         btn = _btn;
+        mci = _mci;
+
+    }
+
+    IMidMenu *passMci() {
+        return mci;
     }
 
     /**
@@ -47,13 +49,12 @@ public:
     }
 
     void finishEntry() {
-        MenuBase::lastMenu = MenuBase::usedMenu;
-        MenuBase::cursorMenu = savedCursor;
+        MidCursorMenu = savedCursor;
 
 
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
         Serial.print("Cursor menu: ");
-        Serial.println(MenuBase::cursorMenu);
+        Serial.println(MidCursorMenu);
         Serial.print("Saved Cursor menu: ");
         Serial.println(savedCursor);
 #endif
@@ -61,66 +62,60 @@ public:
 
 protected:
     MenuBtn *btn;
-    MenuBackend menu;
+
     //
     // Saves cursor between changes
     unsigned int savedCursor;
-    const char *lastMenu;
 
 
+
+
+
+public:
     /**
      * Perform navigation
      */
-    void listener(int &cursor) {
+    void listener(unsigned int &cursor) {
 
-        if (MenuBase::cursorMenu == 0) {
-            menu.moveDown();
-            menu.use();
+        //
+        // Handles initialization
+        if (cursor == 0) {
+            mci->moveUp();
         }
 
         //
         // Handle navigation
         if (btn->isUp()) {
-            menu.moveDown();
-            menu.use();
+            mci->moveUp();
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (btn->passAmp()->isMid()) {
                 Serial.print("Up hit \n\r");
-
             }
-
 #endif
         }
         if (btn->isDw()) {
-            menu.moveRight();
-            menu.use();
+            mci->moveDw();
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (btn->passAmp()->isMid()) {
                 Serial.print("Dw hit \n\r");
-
             }
 #endif
         }
-
 
         btn->clearLastButton();
         //
         //
-        if (MenuBase::lastMenu != MenuBase::usedMenu && MenuBase::cursorMenu != MENU_ENTRY) {
+        if (cursor != savedCursor && cursor != MENU_ENTRY) {
             //
             // Keep cursor in save place
-            savedCursor = MenuBase::cursorMenu;
+            savedCursor = cursor;
             //
             // Change menu to show screen
-            MenuBase::cursorMenu = MENU_ENTRY;
+            cursor = MENU_ENTRY;
         }
-        cursor = MenuBase::cursorMenu;
-    }
 
-public:
+        cursor = savedCursor;
 
-    static void setChangeMenu(IMidMenu *iMenu, MenuChangeEvent change) {
-        iMenu->menuChanged(change);
     }
 
     boolean isNavigationActive() {
@@ -141,17 +136,7 @@ public:
 
 };
 
-unsigned int MenuBase::cursorMenu;
-const char *MenuBase::usedMenu;
 
-
-//
-// Event method set
-void menuUseEvent(MenuUseEvent used) {
-    //
-    // Pass argument to class
-    MenuBase::usedMenu = used.item.getName();
-}
 
 
 #endif //ARDUINOMID_MENUBASE_H
