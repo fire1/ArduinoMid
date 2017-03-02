@@ -70,12 +70,9 @@ private :
     int entryDisplay = 0;
     int alreadySaved = 0;
     int alreadyShutdown = 0;
-    bool entryUsbDetected = false;
     bool isShutdownActive = false;
     int detectorValue = 1000;
-    int handlerCursorMenu;
 
-    void resolveUsbActive(int _detectorValue, int _detectUsbAct);
 
     void displaySaved(LiquidCrystal *lcd);
 
@@ -101,9 +98,7 @@ public:
 
     void lcd16x2(LiquidCrystal *lcd);
 
-    bool isUsbActive();
-
-    void cursor(unsigned int &cursorMenu);
+    void cursor(uint8_t &cursorMenu);
 
 };
 
@@ -149,33 +144,13 @@ void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
 
 }
 
-/**
- * When mid is started and loop si lower number resolve as USB active
- */
-void ShutDw::resolveUsbActive(int _detectorValue, int _detectUsbAct) {
-    if (_detectorValue < 500 && _detectUsbAct < 50) {
-        entryUsbDetected = true;
-    }
-}
-/**
- *  Is mid started from USB power supply
- */
-bool ShutDw::isUsbActive() {
 
-    if (entryUsbDetected) {
-        return true;
-    }
 
-    if (detectorValue < 500 && _amp->getLoopIndex() < 50) {
-        entryUsbDetected = true;
-        return true;
-    }
-}
 
 /**
  * Handler the cursor menu
  */
-void ShutDw::cursor(unsigned int &cursorMenu) {
+void ShutDw::cursor(uint8_t &cursorMenu) {
 
     //
     // Switch menu if cannot shutdown ...

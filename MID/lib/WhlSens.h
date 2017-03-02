@@ -43,11 +43,10 @@ private:
 
     IntAmp *_amp;
 
-    bool isButtonPressActive = 0;
     uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
     int currentStateButton;
     int lastStateButton = 0;
-    int closeCurrentState = 0;
+
 
     //
     // Used for shortcuts ...
@@ -288,20 +287,16 @@ void WhlSens::sendRadioButtons() {
         //
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
-//        if (lastStateButton != currentState) {
+
             digitalWrite(pinDigPotCntr, LOW);
 
             setButtonStateParser(currentState);
             delay(5); // Some separation fix
-//            delayMicroseconds(60);
+
             digitalWrite(pinDigPotCntr, HIGH);
             lastStateButton = currentState;
-//        }
     } else {
         digitalWrite(pinOutVoltage, HIGH);
-        if (_amp->isMid()) {
-//            Serial.println("WHL Current State Disable");
-        }
     }
 
 

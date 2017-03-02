@@ -161,6 +161,31 @@ uint16_t StackCount(void)
 
     return c;
 }
+/**
+ * What getFreeRam() is actually reporting is the space between the heap and the stack.
+ * it does not report any de-allocated memory that is buried in the heap.
+ * Buried heap space is not usable by the stack,
+ * and may be fragmented enough that it is not usable for many heap allocations either.
+ * The space between the heap and the stack is what you really need to monitor
+ * if you are trying to avoid stack crashes.
+ */
+int getFreeRam ()
+{
+    extern int __heap_start, *__brkval;
+    int v;
+    return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+}
+
+
+
+float floatPrecision(float val)
+{
+    return ((int)(val*100.0)) / 100.0F;
+}
+
+
+
+
 
 #endif //ARDUINOMID_UTILS_H
 

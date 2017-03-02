@@ -125,51 +125,51 @@ void IntAmp::setTimer(unsigned long time) {
  */
 void IntAmp::listener() {
 
-    unsigned long curIndex = loopCounter;
 
-    if (curIndex >= curMin + ampMin && !_isMin) {
-        curMin = curIndex;
+
+    if (loopCounter >= curMin + ampMin && !_isMin) {
+        curMin = loopCounter;
         _isMin = 1;
     } else {
         _isMin = 0;
     }
 
-    if (curIndex >= curLow + ampLow && !_isLow) {
-        curLow = curIndex;
+    if (loopCounter >= curLow + ampLow && !_isLow) {
+        curLow = loopCounter;
         _isLow = 1;
     } else {
         _isLow = 0;
     }
 
-
-    if (curIndex >= curSec + ampSec && !_isSec) {
-        curSec = curIndex;
+    if (loopCounter >= curSec + ampSec && !_isSec) {
+        curSec = loopCounter;
         _isSec = 1;
     } else {
         _isSec = 0;
     }
 
-    if (curIndex >= curMid + ampMid && !_isMid) {
-        curMid = curIndex;
+    if (loopCounter >= curMid + ampMid && !_isMid) {
+        curMid = loopCounter;
         _isMid = 1;
     } else {
         _isMid = 0;
     }
 
-    if (curIndex >= curBig + ampBig && !_isBig) {
-        curBig = curIndex;
+    if (loopCounter >= curBig + ampBig && !_isBig) {
+        curBig = loopCounter;
         _isBig = 1;
     } else {
         _isBig = 0;
     }
 
-    if (curIndex >= curMax + ampMax && !_isMax) {
-        curMax = curIndex;
+    if (loopCounter >= curMax + ampMax && !_isMax) {
+        curMax = loopCounter;
         _isMax = 1;
     } else {
         _isMax = 0;
     }
 
+    loopCounter = 0;
     loopCounter++;
 
     /************** Real Time *********************/

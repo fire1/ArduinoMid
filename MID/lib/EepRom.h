@@ -25,23 +25,23 @@
 // Saves Addresses in EEP Rom
 const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
 
-const int EEP_ADR_CL1 = 1; // Consumption Float A LPG
-const int EEP_ADR_Cl2 = 2; // Consumption Float B LPG
+const uint8_t EEP_ADR_CL1 = 1; // Consumption Float A LPG
+const uint8_t EEP_ADR_Cl2 = 2; // Consumption Float B LPG
 
-const int EEP_ADR_CB1 = 8; // Consumption Float A BNZ
-const int EEP_ADR_CB2 = 9; // Consumption Float B BNZ
+const uint8_t EEP_ADR_CB1 = 8; // Consumption Float A BNZ
+const uint8_t EEP_ADR_CB2 = 9; // Consumption Float B BNZ
 // Fuel distance
-const int EEP_ADR_TD1 = 3; //  Travel distance
-const int EEP_ADR_TD2 = 4; //  Travel distance
+const uint8_t EEP_ADR_TD1 = 3; //  Travel distance
+const uint8_t EEP_ADR_TD2 = 4; //  Travel distance
 // Global car distance
-const int EEP_ADR_WD1 = 5; // Work distance
-const int EEP_ADR_WD2 = 6; // Work distance
+const uint8_t EEP_ADR_WD1 = 5; // Work distance
+const uint8_t EEP_ADR_WD2 = 6; // Work distance
 // Trip distance
-const int EEP_ADR_TR1 = 10; // Trip distance
-const int EEP_ADR_TR2 = 11; // Trip distance
+const uint8_t EEP_ADR_TR1 = 10; // Trip distance
+const uint8_t EEP_ADR_TR2 = 11; // Trip distance
 // Trip time
-const int EEP_ADR_TT1 = 12; // Trip Time
-const int EEP_ADR_TT2 = 13; // Trip Time
+const uint8_t EEP_ADR_TT1 = 12; // Trip Time
+const uint8_t EEP_ADR_TT2 = 13; // Trip Time
 
 const int EEP_ADR_TRS = 5; // Tires size
 const int EEP_ADR_RMS = 6; // Rims Size

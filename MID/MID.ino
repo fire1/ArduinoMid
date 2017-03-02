@@ -119,8 +119,8 @@ ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown
 void menuChangeEvent(MenuChangeEvent changed) {
     midMenu->menuChanged(changed);
 }
-void menuUseEvent(MenuUseEvent used)
-{
+
+void menuUseEvent(MenuUseEvent used) {
     MenuBase::usedMenu = used.item.getName();
 }
 //
@@ -217,19 +217,40 @@ void setup() {
 //    Serial.print("\n\n\n\n");
 //}
 
+#define HEAP_DEBUG
+
 void loop() {
+#if defined(HEAP_DEBUG)
+    if (ampInt.isSecond()) {
+        Serial.print(" Stage 0 heap RAM: ");
+        Serial.println(getFreeRam());
+    }
+#endif
     //
     // Set new time every begin
     ampInt.setTimer(millis());
     //
     // Amplitude loop init
     ampInt.listener();
+#if defined(HEAP_DEBUG)
+    if (ampInt.isSecond()) {
+        Serial.print(" Stage 1 heap RAM: ");
+        Serial.println(getFreeRam());
+    }
+#endif
     //
     // Listen engine
     carSens.listener();
     //
     // Listen state pins
     carStat.listener();
+
+#if defined(HEAP_DEBUG)
+    if (ampInt.isSecond()) {
+        Serial.print(" Stage 2 heap RAM: ");
+        Serial.println(getFreeRam());
+    }
+#endif
 
 #ifdef ADT_FUEL_SYSTEM_I2C
     cli();
@@ -245,6 +266,12 @@ void loop() {
     //
     //  Read main buttons
     btnMenu.listener();
+#if defined(HEAP_DEBUG)
+    if (ampInt.isSecond()) {
+        Serial.print(" Stage 3 heap RAM: ");
+        Serial.println(getFreeRam());
+    }
+#endif
     //
     // Navigate menu from button listener
     menuBase.listener(MidCursorMenu);
@@ -254,6 +281,12 @@ void loop() {
     //
     // Display UI
     lcdMenu->draw();
+#if defined(HEAP_DEBUG)
+    if (ampInt.isSecond()) {
+        Serial.print(" Stage 4 heap RAM: ");
+        Serial.println(getFreeRam());
+    }
+#endif
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance
@@ -263,11 +296,9 @@ void loop() {
     //
     // Calls StackCount() to report the unused RAM
     if (ampInt.isSecond()) {
-//        Serial.print("Free RAM in device: ");
-//        Serial.println(StackCount(), DEC);
         Serial.print("freeMemory()=");
         Serial.println(freeMemory());
-    }// or use https://github.com/McNeight/MemoryFree/blob/master/MemoryFree.cpp
+    }
 }
 
 

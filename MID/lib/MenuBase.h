@@ -26,13 +26,13 @@
 class MenuBase {
 
 public:
-   static const char *usedMenu;
+    static const char *usedMenu;
 
     IMidMenu *mci;
 
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, IMidMenu *_mci)  {
+    MenuBase(MenuBtn *_btn, IMidMenu *_mci) {
         btn = _btn;
         mci = _mci;
 
@@ -65,17 +65,14 @@ protected:
 
     //
     // Saves cursor between changes
-    unsigned int savedCursor;
-
-
-
+    uint8_t savedCursor;
 
 
 public:
     /**
      * Perform navigation
      */
-    void listener(unsigned int &cursor) {
+    void listener(uint8_t &cursor) {
 
         //
         // Handles initialization
@@ -137,6 +134,6 @@ public:
 };
 
 
-const char *MenuBase::usedMenu;
+const char *MenuBase::usedMenu = "                ";
 
 #endif //ARDUINOMID_MENUBASE_H

@@ -275,7 +275,7 @@ private:
 
     //
     // Screen back light vars
-    static const int numReadingsDim = 4;
+    static const int numReadingsDim = 3;
     int indexReadValDim = 0;
     int lastReadingsDim[numReadingsDim];
     int totalReadingDim = 0;
@@ -292,12 +292,8 @@ private:
     //
     // Car's reached ...
     int maxReachedSpeed = 0;
-
-
     //
-    // Car's Travel time
-    unsigned long timeTravelTrip = 0;
-    int long lastRecordTravelTimeTrip = 0;
+    //
     int vehicleStopped = LOW;
 
 /**
@@ -966,7 +962,6 @@ void CarSens::speedingAlarms() {
         speedAlarmCounter = 0;
     }
 
-
 #endif
 }
 
@@ -1139,7 +1134,7 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         } else {
             FUEL_STATE = 1;
         }
-        Serial.print("CHANGED FUEL STATE TO ");
+        Serial.print(F("CHANGED FUEL STATE TO "));
         Serial.println(FUEL_STATE);
     }
 
@@ -1519,7 +1514,7 @@ void CarSens::switchCurrentFuel() {
         } else {
             FUEL_STATE = 1;
         }
-        Serial.print("CHANGED FUEL STATE TO ");
+        Serial.print(F("CHANGED FUEL STATE TO "));
         Serial.println(FUEL_STATE);
     }
 }
