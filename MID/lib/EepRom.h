@@ -557,7 +557,7 @@ void EepRom::injectFromSerial(void) {
     String srlOutputs;
     //
     // Default message
-    srlOutputs = " None ... Sorry! ";
+    srlOutputs = F(" None ... Sorry! ");
     //
     // Execute command from serial
     if (Serial.available() > 0) {
@@ -572,7 +572,7 @@ void EepRom::injectFromSerial(void) {
             // trip distance
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             container.dist_trp = saveTemp;
-            srlOutputs = "Trip distance ";
+            srlOutputs = F("Trip distance ");
             srlOutputs += saveTemp;
         }
 
@@ -580,7 +580,7 @@ void EepRom::injectFromSerial(void) {
             // Trip time
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             container.time_trp = saveTemp;
-            srlOutputs = "Trip time ";
+            srlOutputs = F("Trip time ");
             srlOutputs += saveTemp;
         }
 
@@ -588,7 +588,7 @@ void EepRom::injectFromSerial(void) {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveTripData();
-            srlOutputs = "Change trip data ";
+            srlOutputs = F("Change trip data ");
             srlOutputs += saveTemp;
         }
 
@@ -596,43 +596,44 @@ void EepRom::injectFromSerial(void) {
             // Total Liters per hour consumed
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             setAdtFuel(saveTemp);
-            srlOutputs = "LPG fuel ";
+            srlOutputs = F("LPG fuel ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "bnz") {
             // Total Liters per hour consumed
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             setDefFuel(saveTemp);
-            srlOutputs = "BNZ fuel ";
+            srlOutputs = F("BNZ fuel ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "ttd") {
             // Total Travel distance
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             setTravelDistance(saveTemp);
-            srlOutputs = "Travel distance ";
+            srlOutputs = F("Travel distance ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "wrd" || srlStrName == "wrk") {
             // Total Liters per hour consumed
             saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
             setWorkDistance(saveTemp);
-            srlOutputs = "Work distance ";
+            srlOutputs = F("Work distance ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "save") {
             // Saves type 
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveCurrentData();
-            srlOutputs = "Save All data ";
+            srlOutputs = F("Save All data ");
             srlOutputs += saveTemp;
         }
 
         //
         // Show command information to human
-        Serial.print("\n\n==============================================================\n");
-        Serial.print("\n \t\t  [MID $]> Affected value of " + srlOutputs + "\n\n");
-        Serial.print("\n==============================================================\n\n");
+        Serial.print(F("\n\n==============================================================\n"));
+        Serial.print(F("\n \t\t  [MID $]> Affected value of "));
+        Serial.print(srlOutputs);
+        Serial.print(F("\n\n\n==============================================================\n\n"));
         //
         // Remove containers
         srlStrName = "";
