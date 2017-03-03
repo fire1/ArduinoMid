@@ -60,9 +60,9 @@
 /**
  *
  */
-class Menu16x2 : virtual public IMidMenu  {
+class Menu16x2 : virtual public IMidMenu {
     MenuBackend menu;
-    
+
     //
     // Defining menu items
     MenuItem
@@ -103,29 +103,29 @@ class Menu16x2 : virtual public IMidMenu  {
 public:
     //
     // Construct Menu Base
-    Menu16x2()  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+    Menu16x2() : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
             //
             // Main menu initialization
-            mainMenu(MenuItem(MENU_NAME_1)),
-            dshBoardMenu(MenuItem(MENU_NAME_11)),
-            testingsMenu(MenuItem(MENU_NAME_12)),
+                 mainMenu(MenuItem(MENU_NAME_1)),
+                 dshBoardMenu(MenuItem(MENU_NAME_11)),
+                 testingsMenu(MenuItem(MENU_NAME_12)),
             //
             // Trip menu initialization
-            tripMenu(MenuItem(MENU_NAME_2)),
-            tripAverage(MenuItem(MENU_NAME_21)),
-            tripTotalKm(MenuItem(MENU_NAME_22)),
+                 tripMenu(MenuItem(MENU_NAME_2)),
+                 tripAverage(MenuItem(MENU_NAME_21)),
+                 tripTotalKm(MenuItem(MENU_NAME_22)),
             //
             // Fuels menu
-            fuelMenu(MenuItem(MENU_NAME_3)),
-            FuelTankMenu(MenuItem(MENU_NAME_31)),
+                 fuelMenu(MenuItem(MENU_NAME_3)),
+                 FuelTankMenu(MenuItem(MENU_NAME_31)),
             //
             // Car State menu
-            statMenu(MenuItem(MENU_NAME_4)),
-            stateBrkWre(MenuItem(MENU_NAME_41)),
-            stateClnLvl(MenuItem(MENU_NAME_42)),
-            stateWndWsh(MenuItem(MENU_NAME_43)),
-            stateOilLvl(MenuItem(MENU_NAME_44)),
-            stateBatVlt(MenuItem(MENU_NAME_45))
+                 statMenu(MenuItem(MENU_NAME_4)),
+                 stateBrkWre(MenuItem(MENU_NAME_41)),
+                 stateClnLvl(MenuItem(MENU_NAME_42)),
+                 stateWndWsh(MenuItem(MENU_NAME_43)),
+                 stateOilLvl(MenuItem(MENU_NAME_44)),
+                 stateBatVlt(MenuItem(MENU_NAME_45))
 /*            //
             // Challenges Menu
             gamesMenu(MenuItem(MENU_NAME_5)),
@@ -135,8 +135,8 @@ public:
     {
     }
 
-    MenuBackend getMB(){
-        return  menu;
+    MenuBackend getMB() {
+        return menu;
     }
 
 /**
@@ -248,20 +248,19 @@ public:
 //
 // Sets construction movements
 
-    void moveUp(){
-        Serial.println("Up trigger");
+    void moveUp() {
+//        Serial.println("Up trigger");
         menu.moveDown();
         menu.use();
     }
-    void moveDw(){
-        Serial.println("Dw trigger");
-        menu.moveDown();
+
+    void moveDw() {
+//        Serial.println("Dw trigger");
+        menu.moveRight();
         menu.use();
     }
 
 };
-
-
 
 
 #endif

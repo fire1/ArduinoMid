@@ -119,7 +119,7 @@ ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-    Menu16x2->menuChanged(changed);
+    midMenu->menuChanged(changed);
 }
 
 void menuUseEvent(MenuUseEvent used) {

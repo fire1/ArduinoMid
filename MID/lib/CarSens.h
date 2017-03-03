@@ -1013,12 +1013,6 @@ char *CarSens::getHTm(float saved) {
  */
 void CarSens::sensDim() {
 
-    //
-    // Skip some loop index
-    if (!_amp->isMin()) {
-        return;
-    }
-
     boolean defaultActive = 0;
   /*
     totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];

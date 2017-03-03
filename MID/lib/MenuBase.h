@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
-#define MENU_DEBUG // Uncomment to get info
+//#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
@@ -57,7 +57,7 @@ public:
         // Handles initialization
         if (!savedCursor) {
             mci->moveUp();
-            savedCursor= 1;
+            savedCursor = 1;
         }
         MenuBase::lastMenu = MenuBase::usedMenu;
         MidCursorMenu = savedCursor;
@@ -98,11 +98,16 @@ public:
         }
 
 
-
         btn->clearLastButton();
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+        if (btn->passAmp()->isSecond()) {
+            Serial.print("Cursor saved: ");
+            Serial.println(savedCursor);
+        }
+#endif
         //
         //
-        if (savedCursor != MidCursorMenu && MidCursorMenu != MENU_ENTRY ) {
+        if (savedCursor != MidCursorMenu && MidCursorMenu != MENU_ENTRY) {
             //
             // Keep cursor in save place
             savedCursor = MidCursorMenu;
@@ -110,11 +115,12 @@ public:
             // Change menu to show screen
             MidCursorMenu = MENU_ENTRY;
         }
-
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
         if (btn->passAmp()->isSecond()) {
             Serial.print("Cursor MID: ");
             Serial.println(MidCursorMenu);
         }
+#endif
     }
 
     boolean isNavigationActive() {

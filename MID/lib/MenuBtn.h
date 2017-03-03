@@ -169,11 +169,11 @@ void MenuBtn::listener() {
         // TODO  make this hold as additional option
         // and other other waiting press after hold to activate shortcuts
     }
-
-    if(amp->isSecond()){
-        Serial.print("last button is :");
-                Serial.println(lastButtonPushed);
-    }
+//
+//    if(amp->isSecond()){
+//        Serial.print("last button is :");
+//                Serial.println(lastButtonPushed);
+//    }
 
 }
 

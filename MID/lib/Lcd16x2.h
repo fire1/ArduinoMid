@@ -106,14 +106,14 @@ protected:
  */
 void Lcd16x2::intro(void) {
     lcd->setCursor(0, 0);
-    lcd->print("    ASTRA       ");
+    lcd->print(F("    ASTRA       "));
     //
     // Test tone
     tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd->setCursor(0, 1);
-    lcd->print("   ");
-    lcd->print(" Bertnone    ");
+    lcd->print(F("   "));
+    lcd->print(F(" Bertnone    "));
     delay(1500);
     lcd->clear();
 }
@@ -142,7 +142,7 @@ void Lcd16x2::displayOutTmp(void) {
     if (value < 1 && amp->isMin() && outTempLowController) {
         lcd->setCursor(1, 1);
         tone(TONE_ADT_PIN, 800, 20);
-        lcd->print("[ICE]");
+        lcd->print(F("[ICE]"));
     }
     //
     // Check memory usage every 10 seconds
@@ -150,7 +150,7 @@ void Lcd16x2::displayOutTmp(void) {
         if (getFreeRam() < 2000) {
             lcd->setCursor(1, 1);
             tone(TONE_ADT_PIN, 800, 20);
-            lcd->print("sRAM!");
+            lcd->print(F("sRAM!"));
         }
     }
 
@@ -202,7 +202,7 @@ void Lcd16x2::displayTotalCns() {
         //
         // Reset screen place
         if (amp->isBig()) {
-            lcd->print("    ");
+            lcd->print(F("    "));
         }
         //
         // Preformat ...
@@ -246,9 +246,9 @@ void Lcd16x2::displayCarAlert(void) {
 
     if (!displayAlertActive && stt->isAlert() && amp->is10Seconds() || displayAlertActive && amp->isMin()) {
         lcd->setCursor(0, 1);
-        lcd->print("  ");
+        lcd->print(F("  "));
         lcd->write((uint8_t) 3);
-        lcd->print("    ");
+        lcd->print(F("    "));
         displayAlertActive = true;
 //        tone(TONE_ADT_PIN, 1200, 60);
     }
@@ -270,7 +270,7 @@ void Lcd16x2::displayEngRPM() {
         // Gets RPM
 
         lcd->setCursor(0, 1);
-        lcd->print("RPm:");
+        lcd->print(F("RPm:"));
         //
         // Handle RPM screen print
         sprintf(rpmDisplay, "%04d", car->getRpm());
@@ -288,7 +288,7 @@ void Lcd16x2::displayCarKMH() {
 
     if (amp->isMid()) {
         lcd->setCursor(0, 0);
-        lcd->print("KMh:");
+        lcd->print(F("KMh:"));
         //
         // Handle VSS screen print
         sprintf(vssDisplay, "%03d", car->getVss());
@@ -306,7 +306,7 @@ void Lcd16x2::displayEngTmp() {
     if (amp->isSec()) {
 
         lcd->setCursor(9, 1);
-        lcd->print("ENg:");
+        lcd->print(F("ENg:"));
         //
         // Handle Dst screen print
         sprintf(tmpDisplay, "%02d", car->getEngTmp());
