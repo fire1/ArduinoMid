@@ -192,6 +192,10 @@ public:
     void menuChanged(MenuChangeEvent change) {
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
+
+        Serial.print("Change menu: ");
+        Serial.println(curMenuName);
+
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;
         } else if (curMenuName == MENU_NAME_11) {
@@ -245,15 +249,19 @@ public:
 // Sets construction movements
 
     void moveUp(){
+        Serial.println("Up trigger");
         menu.moveDown();
         menu.use();
     }
     void moveDw(){
+        Serial.println("Dw trigger");
         menu.moveDown();
         menu.use();
     }
 
 };
+
+
 
 
 #endif

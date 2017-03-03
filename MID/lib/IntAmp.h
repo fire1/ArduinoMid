@@ -169,7 +169,6 @@ void IntAmp::listener() {
         _isMax = 0;
     }
 
-    loopCounter = 0;
     loopCounter++;
 
     /************** Real Time *********************/

@@ -24,7 +24,7 @@ class MenuBtn {
 
 private:
     uint8_t btnUp, btnDw, pinTn;
-    uint8_t lastButtonPushed = 0; //TODO @deprecated [changed to MenuBtn::STATE]
+    uint8_t lastButtonPushed = 0;
 
 
 
@@ -76,7 +76,7 @@ public:
 
 
 
-    static uint8_t STATE;
+
 
     IntAmp *passAmp(void);
 
@@ -90,7 +90,7 @@ public:
 
 };
 
-uint8_t MenuBtn::STATE = LOW;
+
 
 
 MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt) {
@@ -146,9 +146,7 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) 
     // Pin button mode
     pinMode(pinTn, INPUT);
     pinMode(btnDw, INPUT);
-    //
-    // Default state value
-    this->STATE = LOW;
+
 }
 
 void MenuBtn::listener() {
@@ -156,7 +154,6 @@ void MenuBtn::listener() {
     //
     // Delete last loop state record
     lastButtonPushed = 0;
-    MenuBtn::STATE = LOW;
     //
     // Checks is navigation active (default = true)
     if (isNavigationActive) {
@@ -173,16 +170,18 @@ void MenuBtn::listener() {
         // and other other waiting press after hold to activate shortcuts
     }
 
+    if(amp->isSecond()){
+        Serial.print("last button is :");
+                Serial.println(lastButtonPushed);
+    }
 
 }
 
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
-
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
             lastButtonPushed = btnUp;
-            MenuBtn::STATE = btnUp;
         }
     }
 }
@@ -201,7 +200,7 @@ void MenuBtn::captureDw(void) {
             playSecondTone = true;
             holdTimeHandler = millis();
             lastButtonPushed = btnDw;
-            MenuBtn::STATE = btnDw;
+
             whl->disable();
         }
 
@@ -239,7 +238,7 @@ void MenuBtn::captureHl(void) {
         activateSteering = false;
         whl->enable();
         lastButtonPushed = btnUp;
-        MenuBtn::STATE = btnUp;
+
         tone(pinTn, 1300, 100);
     }
 

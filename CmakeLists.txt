@@ -17,3 +17,4 @@ list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 # Enable syntax check for Serial class from UsbApi.h
 # To set definitions use "-D"[DefName]
 add_definitions( -DUSBCON=1 )
+link_directories("../libraries/")

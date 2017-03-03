@@ -3,6 +3,7 @@
 //
 #include <Arduino.h>
 #include <avr/pgmspace.h>
+#import <LiquidCrystal.h>
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -98,7 +99,7 @@ public:
 
     void lcd16x2(LiquidCrystal *lcd);
 
-    void cursor(uint8_t &cursorMenu);
+    void cursor();
 
 };
 
@@ -150,18 +151,18 @@ void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
 /**
  * Handler the cursor menu
  */
-void ShutDw::cursor(uint8_t &cursorMenu) {
+void ShutDw::cursor() {
 
     //
     // Switch menu if cannot shutdown ...
     if (alreadyShutdown == 1) {
-        cursorMenu = 1;
+        MidCursorMenu = 1;
         alreadyShutdown = 2;
 
     }
 
     if (isShutdownActive && alreadyShutdown != 2) {
-        cursorMenu = MENU_SHUTDOWN;
+        MidCursorMenu = MENU_SHUTDOWN;
     }
 
 }

@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
-//#define MENU_DEBUG // Uncomment to get info
+#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
@@ -24,11 +24,15 @@
  *
  */
 class MenuBase {
-
-public:
-    static const char *usedMenu;
-
     IMidMenu *mci;
+    MenuBtn *btn;
+public:
+
+    //
+    // Saves cursor between changes
+    uint8_t savedCursor;
+    static const char *usedMenu;
+    static const char *lastMenu;
 
     //
     // Constructor
@@ -49,36 +53,30 @@ public:
     }
 
     void finishEntry() {
+        //
+        // Handles initialization
+        if (!savedCursor) {
+            mci->moveUp();
+            savedCursor= 1;
+        }
+        MenuBase::lastMenu = MenuBase::usedMenu;
         MidCursorMenu = savedCursor;
-
 
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
         Serial.print("Cursor menu: ");
         Serial.println(MidCursorMenu);
         Serial.print("Saved Cursor menu: ");
         Serial.println(savedCursor);
+        Serial.print("Used menu: ");
+        Serial.println(MenuBase::usedMenu);
 #endif
     }
 
-protected:
-    MenuBtn *btn;
 
-    //
-    // Saves cursor between changes
-    uint8_t savedCursor;
-
-
-public:
     /**
      * Perform navigation
      */
-    void listener(uint8_t &cursor) {
-
-        //
-        // Handles initialization
-        if (cursor == 0) {
-            mci->moveUp();
-        }
+    void listener() {
 
         //
         // Handle navigation
@@ -99,20 +97,24 @@ public:
 #endif
         }
 
+
+
         btn->clearLastButton();
         //
         //
-        if (cursor != savedCursor && cursor != MENU_ENTRY) {
+        if (savedCursor != MidCursorMenu && MidCursorMenu != MENU_ENTRY ) {
             //
             // Keep cursor in save place
-            savedCursor = cursor;
+            savedCursor = MidCursorMenu;
             //
             // Change menu to show screen
-            cursor = MENU_ENTRY;
+            MidCursorMenu = MENU_ENTRY;
         }
 
-        cursor = savedCursor; // TODO this is unusable... for delete
-
+        if (btn->passAmp()->isSecond()) {
+            Serial.print("Cursor MID: ");
+            Serial.println(MidCursorMenu);
+        }
     }
 
     boolean isNavigationActive() {
@@ -134,6 +136,7 @@ public:
 };
 
 
-const char *MenuBase::usedMenu = "                ";
+const char *MenuBase::usedMenu = "";
+const char *MenuBase::lastMenu = "";
 
 #endif //ARDUINOMID_MENUBASE_H

@@ -131,12 +131,12 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 //
 // Global Menu cursor
 
-static uint8_t MidCursorMenu = 0;
+volatile uint8_t MidCursorMenu = 0;
 
 struct ILcdMenu {
 public:
 
-    virtual void draw() = 0;
+    virtual void draw(uint8_t cursor) = 0;
 
     virtual void intro() = 0;
 

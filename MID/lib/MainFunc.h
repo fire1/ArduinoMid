@@ -7,7 +7,7 @@
 #define MID_FUNCTION_H
 
 #include <wiring.c>
-#include <LiquidCrystal.h>
+
 
 
 /**

@@ -275,10 +275,10 @@ private:
 
     //
     // Screen back light vars
-    static const int numReadingsDim = 3;
-    int indexReadValDim = 0;
-    int lastReadingsDim[numReadingsDim];
-    int totalReadingDim = 0;
+//    static const int numReadingsDim = 3;
+//    int indexReadValDim = 0;
+//    int lastReadingsDim[numReadingsDim];
+//    int totalReadingDim = 0;
     int backLightLevel = 0; // Container of current level
     uint8_t pinScreenInput, pinScreenOutput;
 
@@ -1019,9 +1019,11 @@ void CarSens::sensDim() {
         return;
     }
 
-    int defaultActive = 0;
+    boolean defaultActive = 0;
+  /*
     totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
     // read from the sensor:
+
     lastReadingsDim[indexReadValDim] = (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
     // add the reading to the total:
     totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
@@ -1032,11 +1034,14 @@ void CarSens::sensDim() {
     backLightLevel = totalReadingDim / numReadingsDim;
 
 
+
+
     if (indexReadValDim >= numReadingsDim) {
         // ...wrap around to the beginning:
         indexReadValDim = 0;
     }
-
+*/
+    backLightLevel= (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
 
     if (backLightLevel < SCREEN_GO_TO_DEF) {
         backLightLevel = SCREEN_DEF_LIGHT;

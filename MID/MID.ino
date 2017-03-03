@@ -86,13 +86,13 @@ MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens, &carStat);
 ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
 //
 // Car games
-//CarGames carGames(&ampInt, &carSens);
 
 #if SCREEN == 162 || !defined(SCREEN)
 
 #include "lib/Lcd16x2.h"
 
-IMidMenu *midMenu = new Menu16x2;
+IMidMenu *midMenu = new Menu16x2();
+
 
 MenuBase menuBase(&btnMenu, midMenu);
 
@@ -100,7 +100,9 @@ MenuBase menuBase(&btnMenu, midMenu);
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 
+
 ILcdMenu *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, */&shutDown);
+
 
 #elif SCREEN == 24064
 #include <U8g2lib.h>
@@ -117,12 +119,13 @@ ILcdMenu *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, midMenu, &carGames, &shutDown
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-    midMenu->menuChanged(changed);
+    Menu16x2->menuChanged(changed);
 }
 
 void menuUseEvent(MenuUseEvent used) {
     MenuBase::usedMenu = used.item.getName();
 }
+
 //
 //
 //LpgSens lpgSens;
@@ -217,27 +220,16 @@ void setup() {
 //    Serial.print("\n\n\n\n");
 //}
 
-#define HEAP_DEBUG
+//#define HEAP_DEBUG
 
 void loop() {
-#if defined(HEAP_DEBUG)
-    if (ampInt.isSecond()) {
-        Serial.print(" Stage 0 heap RAM: ");
-        Serial.println(getFreeRam());
-    }
-#endif
     //
     // Set new time every begin
     ampInt.setTimer(millis());
     //
     // Amplitude loop init
     ampInt.listener();
-#if defined(HEAP_DEBUG)
-    if (ampInt.isSecond()) {
-        Serial.print(" Stage 1 heap RAM: ");
-        Serial.println(getFreeRam());
-    }
-#endif
+
     //
     // Listen engine
     carSens.listener();
@@ -245,12 +237,6 @@ void loop() {
     // Listen state pins
     carStat.listener();
 
-#if defined(HEAP_DEBUG)
-    if (ampInt.isSecond()) {
-        Serial.print(" Stage 2 heap RAM: ");
-        Serial.println(getFreeRam());
-    }
-#endif
 
 #ifdef ADT_FUEL_SYSTEM_I2C
     cli();
@@ -266,27 +252,15 @@ void loop() {
     //
     //  Read main buttons
     btnMenu.listener();
-#if defined(HEAP_DEBUG)
-    if (ampInt.isSecond()) {
-        Serial.print(" Stage 3 heap RAM: ");
-        Serial.println(getFreeRam());
-    }
-#endif
     //
     // Navigate menu from button listener
-    menuBase.listener(MidCursorMenu);
+    menuBase.listener();
     //
     //  Switch to shutdown menu
-    shutDown.cursor(MidCursorMenu);
+    shutDown.cursor();
     //
     // Display UI
-    lcdMenu->draw();
-#if defined(HEAP_DEBUG)
-    if (ampInt.isSecond()) {
-        Serial.print(" Stage 4 heap RAM: ");
-        Serial.println(getFreeRam());
-    }
-#endif
+    lcdMenu->draw(MidCursorMenu);
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance
@@ -296,8 +270,8 @@ void loop() {
     //
     // Calls StackCount() to report the unused RAM
     if (ampInt.isSecond()) {
-        Serial.print("freeMemory()=");
-        Serial.println(freeMemory());
+        Serial.print(" Stage free heap (RAM): ");
+        Serial.println(getFreeRam());
     }
 }
 

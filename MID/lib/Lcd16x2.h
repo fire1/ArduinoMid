@@ -56,7 +56,7 @@ public:
 
     void begin(void);
 
-    void draw(void);
+    void draw(uint8_t cursor);
 
 protected:
     void displayOutTmp();
@@ -106,14 +106,14 @@ protected:
  */
 void Lcd16x2::intro(void) {
     lcd->setCursor(0, 0);
-    lcd->print(F("    ASTRA       "));
+    lcd->print("    ASTRA       ");
     //
     // Test tone
     tone(TONE_ADT_PIN, 400, 20);
     delay(10);
     lcd->setCursor(0, 1);
-    lcd->print(F("   "));
-    lcd->print(F(" Bertnone    "));
+    lcd->print("   ");
+    lcd->print(" Bertnone    ");
     delay(1500);
     lcd->clear();
 }
@@ -147,7 +147,7 @@ void Lcd16x2::displayOutTmp(void) {
     //
     // Check memory usage every 10 seconds
     if (amp->is10Seconds()) {
-        if (freeMemory() < 3000) {
+        if (getFreeRam() < 2000) {
             lcd->setCursor(1, 1);
             tone(TONE_ADT_PIN, 800, 20);
             lcd->print("sRAM!");
@@ -425,7 +425,7 @@ void Lcd16x2::displayConsumption() {
             valueConsFuel = car->getAdtFuelCns();
         }
 
-        const char*   liters = "L ";
+        const char *liters = "L ";
 
         lcd->setCursor(1, 1);
         lcd->print((char) 5);
@@ -711,7 +711,14 @@ void Lcd16x2::begin(void) {
     // Show welcome from car
 }
 
-void Lcd16x2::draw() {
+void Lcd16x2::draw(uint8_t cursor) {
+
+    if(amp->isSecond()){
+        Serial.print("Drawing: ");
+        Serial.println(MidCursorMenu);
+    }
+
+
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
@@ -728,6 +735,11 @@ void Lcd16x2::draw() {
             car->clearBaseData();
             mbs->finishEntry();
             lcd->clear();
+
+            if(amp->isSecond()){
+                Serial.print("Drawing entry: ");
+                Serial.println(cursor);
+            }
 
             break;
             //
