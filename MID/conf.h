@@ -4,8 +4,6 @@
 
 #ifndef ARDUINOMID_CONF_H
 #define ARDUINOMID_CONF_H
-
-
 //
 // Sets screen size
 //#define SCREEN 24064 // Glcd 240x64
