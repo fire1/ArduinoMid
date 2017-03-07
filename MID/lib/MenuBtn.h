@@ -10,6 +10,9 @@
 #include "CarSens.h"
 #include "EepRom.h"
 
+
+#define BUTTONS_DEBUG
+
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000
 #endif
@@ -25,7 +28,6 @@ class MenuBtn {
 private:
     uint8_t btnUp, btnDw, pinTn;
     uint8_t lastButtonPushed = 0;
-
 
 
     boolean isNavigationActive = true;
@@ -75,9 +77,6 @@ public:
     }
 
 
-
-
-
     IntAmp *passAmp(void);
 
     CarSens *passCar(void);
@@ -89,8 +88,6 @@ public:
     CarState *passStt(void);
 
 };
-
-
 
 
 MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarState *_stt) {
@@ -170,10 +167,12 @@ void MenuBtn::listener() {
         // and other other waiting press after hold to activate shortcuts
     }
 //
-//    if(amp->isSecond()){
-//        Serial.print("last button is :");
-//                Serial.println(lastButtonPushed);
-//    }
+#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+    if (amp->isMid()) {
+        Serial.print("last button is :");
+        Serial.println(lastButtonPushed);
+    }
+#endif
 
 }
 

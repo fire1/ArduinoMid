@@ -131,7 +131,7 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 
 volatile uint8_t MidCursorMenu = 0;
 
-struct ILcdMenu {
+class LcdMenuInterface {
 public:
 
     virtual void draw(uint8_t cursor) = 0;
@@ -141,7 +141,7 @@ public:
     virtual void begin() = 0;
 };
 
-struct IMidMenu {
+class MidMenuInterface {
 public:
 
     virtual void setup() = 0;

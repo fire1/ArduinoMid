@@ -279,7 +279,7 @@ private:
 //    int indexReadValDim = 0;
 //    int lastReadingsDim[numReadingsDim];
 //    int totalReadingDim = 0;
-    int backLightLevel = 0; // Container of current level
+    uint16_t backLightLevel = 0; // Container of current level
     uint8_t pinScreenInput, pinScreenOutput;
 
 
@@ -1014,28 +1014,9 @@ char *CarSens::getHTm(float saved) {
 void CarSens::sensDim() {
 
     boolean defaultActive = 0;
-  /*
-    totalReadingDim = totalReadingDim - lastReadingsDim[indexReadValDim];
-    // read from the sensor:
+    analogRead(pinScreenInput);
 
-    lastReadingsDim[indexReadValDim] = (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
-    // add the reading to the total:
-    totalReadingDim = totalReadingDim + lastReadingsDim[indexReadValDim];
-    // advance to the next position in the array:
-    indexReadValDim++;
-
-
-    backLightLevel = totalReadingDim / numReadingsDim;
-
-
-
-
-    if (indexReadValDim >= numReadingsDim) {
-        // ...wrap around to the beginning:
-        indexReadValDim = 0;
-    }
-*/
-    backLightLevel= (int) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
+    backLightLevel= (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
 
     if (backLightLevel < SCREEN_GO_TO_DEF) {
         backLightLevel = SCREEN_DEF_LIGHT;

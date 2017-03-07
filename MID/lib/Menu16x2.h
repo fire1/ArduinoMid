@@ -60,7 +60,7 @@
 /**
  *
  */
-class Menu16x2 : virtual public IMidMenu {
+class Menu16x2 :  public MidMenuInterface {
     MenuBackend menu;
 
     //

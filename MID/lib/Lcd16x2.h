@@ -7,7 +7,7 @@
 
 #include <Arduino.h>
 #include "../conf.h"
-#include <MemoryFree.h>
+
 #include <LiquidCrystal.h>
 #include "MainFunc.h"
 #include "Menu16x2.h"
@@ -25,7 +25,7 @@
 /****************************************************************
  * Display
  */
-class Lcd16x2 : virtual public ILcdMenu {
+class Lcd16x2 : virtual public LcdMenuInterface {
     IntAmp *amp;
     LiquidCrystal *lcd;
     CarSens *car;
@@ -39,6 +39,11 @@ class Lcd16x2 : virtual public ILcdMenu {
 protected:
     boolean outTempLowController = true;
     boolean displayAlertActive = false;
+
+    char displayChar_2[2];
+    char displayChar_3[3];
+    char displayChar_4[4];
+
 public:
 
     Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
@@ -124,22 +129,18 @@ void Lcd16x2::intro(void) {
 
 void Lcd16x2::displayOutTmp(void) {
 
-    char tmpTemp[3];
-
-    float value = car->getTmpOut();
-
     if (amp->isSec()) {
         //
         // Preformat ...
-        displayFloat(value, tmpTemp);
+        displayFloat(car->getTmpOut(), displayChar_3);
         lcd->setCursor(9, 0);
         lcd->print("^");
-        lcd->print(tmpTemp);
+        lcd->print(displayChar_3);
         lcd->write((uint8_t) 1);
         lcd->print(" ");
     }
 
-    if (value < 1 && amp->isMin() && outTempLowController) {
+    if (car->getTmpOut() < 1 && amp->isMin() && outTempLowController) {
         lcd->setCursor(1, 1);
         tone(TONE_ADT_PIN, 800, 20);
         lcd->print(F("[ICE]"));
@@ -147,14 +148,14 @@ void Lcd16x2::displayOutTmp(void) {
     //
     // Check memory usage every 10 seconds
     if (amp->is10Seconds()) {
-        if (getFreeRam() < 2000) {
+        if (getFreeRam() < 1000) {
             lcd->setCursor(1, 1);
             tone(TONE_ADT_PIN, 800, 20);
             lcd->print(F("sRAM!"));
         }
     }
 
-    if (value < 1 && amp->is10Seconds() && outTempLowController) {
+    if (car->getTmpOut() < 1 && amp->is10Seconds() && outTempLowController) {
         outTempLowController = false;
     }
 }
@@ -164,17 +165,13 @@ void Lcd16x2::displayOutTmp(void) {
  */
 void Lcd16x2::displayInsTmp() {
 
-    char tmpTemp[3];
-
-    float value = car->getTmpIns();
-
     if (amp->isSec()) {
         //
         // Preformat ...
-        displayFloat(value, tmpTemp);
+        displayFloat(car->getTmpIns(), displayChar_3);
         lcd->setCursor(9, 1);
         lcd->write((uint8_t) 5);
-        lcd->print(tmpTemp);
+        lcd->print(displayChar_3);
         lcd->write((uint8_t) 1);
         lcd->print(" ");
     }
@@ -184,7 +181,7 @@ void Lcd16x2::displayInsTmp() {
  * Total consumption
  */
 void Lcd16x2::displayTotalCns() {
-    char tmp[3];
+
     float value = 0;
 
     SavedData data = eep->getData();
@@ -206,10 +203,10 @@ void Lcd16x2::displayTotalCns() {
         }
         //
         // Preformat ...
-        displayFloat(value, tmp);
+        displayFloat(value, displayChar_3);
         lcd->setCursor(0, 0);
         lcd->print(" ");
-        lcd->print(tmp);
+        lcd->print(displayChar_3);
         lcd->write((uint8_t) 4);
     }
 }
@@ -218,7 +215,7 @@ void Lcd16x2::displayTotalCns() {
  * Total distance
  */
 void Lcd16x2::displayTotalDst() {
-    char tmp[3];
+
 
     SavedData data = eep->getData();
 
@@ -228,12 +225,12 @@ void Lcd16x2::displayTotalDst() {
     if (amp->isSecond()) {
         //
         // Preformat ...
-        displayFloat(value, tmp);
+        displayFloat(value, displayChar_3);
         lcd->setCursor(0, 1);
         if (value < 100) {
             lcd->print(" ");
         }
-        lcd->print(tmp);
+        lcd->print(displayChar_3);
         lcd->write((uint8_t) 2);
         lcd->print(" ");
     }
@@ -263,7 +260,7 @@ void Lcd16x2::displayCarAlert(void) {
  * Display engine RPMs
  */
 void Lcd16x2::displayEngRPM() {
-    char rpmDisplay[4];
+
 
     if (amp->isMid()) {
         //
@@ -273,8 +270,8 @@ void Lcd16x2::displayEngRPM() {
         lcd->print(F("RPm:"));
         //
         // Handle RPM screen print
-        sprintf(rpmDisplay, "%04d", car->getRpm());
-        lcd->print(rpmDisplay);
+        sprintf(displayChar_4, "%04d", car->getRpm());
+        lcd->print(displayChar_4);
     }
 
 
@@ -284,15 +281,14 @@ void Lcd16x2::displayEngRPM() {
  * Display  KMh
  */
 void Lcd16x2::displayCarKMH() {
-    char vssDisplay[3];
 
     if (amp->isMid()) {
         lcd->setCursor(0, 0);
         lcd->print(F("KMh:"));
         //
         // Handle VSS screen print
-        sprintf(vssDisplay, "%03d", car->getVss());
-        lcd->print(vssDisplay);
+        sprintf(displayChar_3, "%03d", car->getVss());
+        lcd->print(displayChar_3);
     }
 }
 
@@ -301,7 +297,6 @@ void Lcd16x2::displayCarKMH() {
  */
 void Lcd16x2::displayEngTmp() {
 
-    char tmpDisplay[3];
 
     if (amp->isSec()) {
 
@@ -309,8 +304,8 @@ void Lcd16x2::displayEngTmp() {
         lcd->print(F("ENg:"));
         //
         // Handle Dst screen print
-        sprintf(tmpDisplay, "%02d", car->getEngTmp());
-        lcd->print(tmpDisplay);
+        sprintf(displayChar_3, "%02d", car->getEngTmp());
+        lcd->print(displayChar_3);
         lcd->write((uint8_t) 1);
     }
 }
@@ -319,7 +314,6 @@ void Lcd16x2::displayEngTmp() {
  * Display  ECU
  */
 void Lcd16x2::displayCarECU() {
-    char ecuDisplay[2];
 
     if (amp->isSec()) {
 
@@ -327,8 +321,8 @@ void Lcd16x2::displayCarECU() {
         lcd->print("ECu:");
         //
         // Handle ECU screen print
-        sprintf(ecuDisplay, "%02d", car->getEcu());
-        lcd->print(ecuDisplay);
+        sprintf(displayChar_2, "%02d", car->getEcu());
+        lcd->print(displayChar_2);
         lcd->print(" ");
     }
 
@@ -340,11 +334,7 @@ void Lcd16x2::displayCarECU() {
 void Lcd16x2::displayTrip() {
     //
     // Handle Distance screen
-
     SavedData saved = eep->getData();
-
-    float time = saved.time_trp;
-    float dist = saved.dist_trp;
 
     if (amp->isSec()) {
         lcd->setCursor(0, 0);
@@ -353,21 +343,21 @@ void Lcd16x2::displayTrip() {
         // Display travel time
         lcd->setCursor(0, 1);
         lcd->print(" ");
-        lcd->print(car->getHTm(time));
+        lcd->print(car->getHTm(saved.time_trp));
         lcd->print("h");
         //
         // Display travel distance
 
-        char dspDist[4];
-        displayFloat(car->getDst() + dist, dspDist);
+        displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
 
         lcd->print(" ");
         lcd->setCursor(9, 1);
-        lcd->print(dspDist);
+        lcd->print(displayChar_4);
         lcd->write((uint8_t) 2);
         lcd->print(" ");
 
     }
+
 }
 
 void Lcd16x2::displayTotalTrip() {
@@ -443,25 +433,19 @@ void Lcd16x2::displayConsumption() {
 
 
 void Lcd16x2::displayFuelTanks() {
-    char dspLpg[2];
-    char dspBnz[2];
 
     if (amp->isSec()) {
 
-        sprintf(dspLpg, "%02d", car->getTnkLpgPer());
-        sprintf(dspBnz, "%02d", car->getTnkBnzPer());
-
-
         lcd->setCursor(0, 0);
         lcd->print(F(" Fuel Tanks"));
-
-
         lcd->setCursor(0, 1);
         lcd->print("Bnz:");
-        lcd->print(dspBnz);
+        sprintf(displayChar_2, "%02d", car->getTnkBnzPer());
+        lcd->print(displayChar_2);
         lcd->print("%");
         lcd->print(" Lpg:");
-        lcd->print(dspLpg);
+        sprintf(displayChar_2, "%02d", car->getTnkLpgPer());
+        lcd->print(displayChar_2);
         lcd->print("% ");
     }
 }
@@ -713,7 +697,7 @@ void Lcd16x2::begin(void) {
 
 void Lcd16x2::draw(uint8_t cursor) {
 
-    if(amp->isSecond()){
+    if (amp->isSecond()) {
         Serial.print("Drawing: ");
         Serial.println(MidCursorMenu);
     }
@@ -736,7 +720,7 @@ void Lcd16x2::draw(uint8_t cursor) {
             mbs->finishEntry();
             lcd->clear();
 
-            if(amp->isSecond()){
+            if (amp->isSecond()) {
                 Serial.print("Drawing entry: ");
                 Serial.println(cursor);
             }

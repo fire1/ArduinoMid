@@ -16,7 +16,7 @@
 #include <U8g2lib.h>
 
 
-class Lcd240x62 : virtual public ILcdMenu {
+class Lcd240x62 : virtual public LcdMenuInterface {
     U8G2_T6963_240X64_2_8080 *lcd;
     IntAmp *amp;
     CarSens *car;
@@ -24,7 +24,7 @@ class Lcd240x62 : virtual public ILcdMenu {
     CarState *stt;
     CarGames *gms;
     WhlSens *whl;
-    IMidMenu *mmn;
+    MidMenuInterface *mmn;
     ShutDw *sdw;
 protected:
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
@@ -34,7 +34,7 @@ protected:
 public:
     //
     // Class constructor ...
-    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, IMidMenu *_mmn, CarGames *_gms, ShutDw *_sdw) {
+    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenuInterface *_mmn, CarGames *_gms, ShutDw *_sdw) {
         lcd = _lcd;
         amp = _btn->passAmp();
         car = _btn->passCar();

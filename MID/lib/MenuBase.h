@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
-//#define MENU_DEBUG // Uncomment to get info
+#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
@@ -24,25 +24,25 @@
  *
  */
 class MenuBase {
-    IMidMenu *mci;
+    MidMenuInterface *mci;
     MenuBtn *btn;
 public:
 
     //
     // Saves cursor between changes
     uint8_t savedCursor;
-    static const char *usedMenu;
-    static const char *lastMenu;
+    static char usedMenu[74];
+
 
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, IMidMenu *_mci) {
+    MenuBase(MenuBtn *_btn, MidMenuInterface *_mci) {
         btn = _btn;
         mci = _mci;
 
     }
 
-    IMidMenu *passMci() {
+    MidMenuInterface *passMci() {
         return mci;
     }
 
@@ -56,10 +56,17 @@ public:
         //
         // Handles initialization
         if (!savedCursor) {
+#if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+            if (btn->passAmp()->isMid()) {
+                Serial.println("Makes initialization move ... \n\r");
+            }
+#endif
+            //
+            // Move menu to first index
             mci->moveUp();
             savedCursor = 1;
         }
-        MenuBase::lastMenu = MenuBase::usedMenu;
+
         MidCursorMenu = savedCursor;
 
 #if defined(MENU_DEBUG) || defined(GLOBAL_SENS_DEBUG)
@@ -141,8 +148,6 @@ public:
 
 };
 
-
-const char *MenuBase::usedMenu = "";
-const char *MenuBase::lastMenu = "";
+char MenuBase::usedMenu[74] = "";
 
 #endif //ARDUINOMID_MENUBASE_H
