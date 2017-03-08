@@ -1,4 +1,4 @@
-#include <LiquidCrystal.h>
+
 
 /*
 ---------------------------------------------------
@@ -27,6 +27,7 @@
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
 #include <MemoryFree.h>
+#include <LiquidCrystal.h>
 //
 //
 #include "conf.h"
