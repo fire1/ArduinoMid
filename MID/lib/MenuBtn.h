@@ -11,7 +11,7 @@
 #include "EepRom.h"
 
 
-#define BUTTONS_DEBUG
+//#define BUTTONS_DEBUG
 
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000

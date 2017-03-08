@@ -696,11 +696,13 @@ void Lcd16x2::begin(void) {
 }
 
 void Lcd16x2::draw(uint8_t cursor) {
+/*
 
     if (amp->isSecond()) {
         Serial.print("Drawing: ");
         Serial.println(MidCursorMenu);
     }
+*/
 
 
     switch (MidCursorMenu) {
@@ -719,12 +721,12 @@ void Lcd16x2::draw(uint8_t cursor) {
             car->clearBaseData();
             mbs->finishEntry();
             lcd->clear();
-
+/*
             if (amp->isSecond()) {
                 Serial.print("Drawing entry: ");
                 Serial.println(cursor);
             }
-
+*/
             break;
             //
             // Main / first menu
