@@ -37,9 +37,12 @@ class Lcd16x2 : virtual public LcdMenuInterface {
 
 
 protected:
-    boolean outTempLowController = true;
-    boolean displayAlertActive = false;
-
+    //
+    // Additional messaging controlled vars
+    boolean displayTemperatureLowActive = true;
+    boolean displayAlertMessagingActive = false;
+    //
+    // Defining content generate container variables
     char displayChar_2[2];
     char displayChar_3[3];
     char displayChar_4[4];
@@ -140,7 +143,7 @@ void Lcd16x2::displayOutTmp(void) {
         lcd->print(" ");
     }
 
-    if (car->getTmpOut() < 1 && amp->isMin() && outTempLowController) {
+    if (car->getTmpOut() < 1 && amp->isMin() && displayTemperatureLowActive) {
         lcd->setCursor(1, 1);
         tone(TONE_ADT_PIN, 800, 20);
         lcd->print(F("[ICE]"));
@@ -155,8 +158,8 @@ void Lcd16x2::displayOutTmp(void) {
         }
     }
 
-    if (car->getTmpOut() < 1 && amp->is10Seconds() && outTempLowController) {
-        outTempLowController = false;
+    if (car->getTmpOut() < 1 && amp->is10Seconds() && displayTemperatureLowActive) {
+        displayTemperatureLowActive = false;
     }
 }
 
@@ -241,17 +244,17 @@ void Lcd16x2::displayTotalDst() {
  */
 void Lcd16x2::displayCarAlert(void) {
 
-    if (!displayAlertActive && stt->isAlert() && amp->is10Seconds() || displayAlertActive && amp->isMin()) {
+    if (!displayAlertMessagingActive && stt->isAlert() && amp->is10Seconds() || displayAlertMessagingActive && amp->isMin()) {
         lcd->setCursor(0, 1);
         lcd->print(F("  "));
         lcd->write((uint8_t) 3);
         lcd->print(F("    "));
-        displayAlertActive = true;
+        displayAlertMessagingActive = true;
 //        tone(TONE_ADT_PIN, 1200, 60);
     }
 
-    if (displayAlertActive && amp->is5Seconds()) {
-        displayAlertActive = false;
+    if (displayAlertMessagingActive && amp->is5Seconds()) {
+        displayAlertMessagingActive = false;
     }
 }
 

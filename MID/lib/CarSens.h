@@ -154,7 +154,12 @@ struct Fuel {
 #include <OneWire.h>
 #include <DallasTemperature.h>
 // Data wire is plugged into pin A7 on the Arduino
+
+#if !defined(ONE_WIRE_BUS)
 #define ONE_WIRE_BUS 7
+#endif
+//
+// Initialization of buss
 OneWire oneWire(ONE_WIRE_BUS);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature temperatureSensors(&oneWire);

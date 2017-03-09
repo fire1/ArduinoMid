@@ -80,11 +80,18 @@ const uint8_t ALP_PIN_VOL = 14;
 #define SHUTDOWN_SAVE_STATE LOW
 #define SHUTDOWN_SAVE_BUTTON 9
 //
+//  DallasTemperature
+// Additional temperature sensor for
+// inside temperature [very cheep and ease to use]
 //
-/// Additional temperature sensor
-// Inside temperature [very cheep temperature sensor]
-// additional mounted temperature sensor from DallasTemperature
-#define INSIDE_TEMPERATURE_DS
+#define INSIDE_TEMPERATURE_DS // Comment to disable it
+//
+// Configuration of oneWire protocol
+#if defined(INSIDE_TEMPERATURE_DS)
+//
+// Defining one wire BUS used for temperature sensor
+#define ONE_WIRE_BUS 7 // Pin define
+#endif
 //
 //
 //

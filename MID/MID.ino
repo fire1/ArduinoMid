@@ -29,6 +29,10 @@
 #include <MemoryFree.h>
 #include <LiquidCrystal.h>
 //
+// This class somehow fixes unexpected
+// reboot from Mid plug dim value. (in my case)
+#include <Firmata.h>
+//
 //
 #include "conf.h"
 //
