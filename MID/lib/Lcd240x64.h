@@ -49,7 +49,7 @@ public:
 
     void begin(void);
 
-    void draw(void);
+    void draw();
 
 private:
     unsigned int aniIndex;
@@ -83,7 +83,7 @@ void Lcd240x62::intro(void) {
 
 }
 
-void Lcd240x62::draw(void ) {
+void Lcd240x62::draw() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:

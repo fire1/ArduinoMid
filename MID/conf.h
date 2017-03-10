@@ -141,7 +141,7 @@ volatile uint8_t MidCursorMenu = 0;
 class LcdMenuInterface {
 public:
 
-    virtual void draw(uint8_t cursor) = 0;
+    virtual void draw() = 0;
 
     virtual void intro() = 0;
 

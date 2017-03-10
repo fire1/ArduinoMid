@@ -64,7 +64,7 @@ public:
 
     void begin(void);
 
-    void draw(uint8_t cursor);
+    void draw(void);
 
 protected:
     void displayOutTmp();
@@ -244,7 +244,8 @@ void Lcd16x2::displayTotalDst() {
  */
 void Lcd16x2::displayCarAlert(void) {
 
-    if (!displayAlertMessagingActive && stt->isAlert() && amp->is10Seconds() || displayAlertMessagingActive && amp->isMin()) {
+    if (!displayAlertMessagingActive && stt->isAlert() && amp->is10Seconds() ||
+        displayAlertMessagingActive && amp->isMin()) {
         lcd->setCursor(0, 1);
         lcd->print(F("  "));
         lcd->write((uint8_t) 3);
@@ -698,7 +699,7 @@ void Lcd16x2::begin(void) {
     // Show welcome from car
 }
 
-void Lcd16x2::draw(uint8_t cursor) {
+void Lcd16x2::draw(void) {
 /*
 
     if (amp->isSecond()) {

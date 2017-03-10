@@ -24,8 +24,9 @@
 /**
  *
  */
-class Menu240x60 : public MenuBase  {
+class Menu240x60 :  public MidMenuInterface  {
 
+    MenuBackend menu;
 
     MenuItem
     //
@@ -41,11 +42,12 @@ class Menu240x60 : public MenuBase  {
             statMenu,
     //
     // Sprint
-            gamesMenu;
+//            gamesMenu
+    ;
 public:
 
-    Menu240x60(MenuBtn *_btn) :
-            MenuBase(_btn),//  base menu initialization
+    Menu240x60(MenuBtn *_btn)  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+
             //
             // Main menu
             mainMenu(MenuItem(MENU_NAME_1)),
@@ -56,13 +58,24 @@ public:
             fuelMenu(MenuItem(MENU_NAME_3)),
             //
             // Servicing menu
-            statMenu(MenuItem(MENU_NAME_3)),
+            statMenu(MenuItem(MENU_NAME_3))
             //
             // Challenges Menu
-            gamesMenu(MenuItem(MENU_NAME_4)) {
+//            gamesMenu(MenuItem(MENU_NAME_4))
+    {
     }
 
-    void setup(void);
+    void setup(void){
+        menu.getRoot()
+                .add(mainMenu).add(fuelMenu).add(statMenu);
+        statMenu.add(mainMenu);
+
+        mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
+    }
+
+    MenuBackend getMB() {
+        return menu;
+    }
 
     void menuChanged(MenuChangeEvent change) {
         MenuItem curMenuItem = change.to; //get the destination menu
@@ -86,11 +99,20 @@ public:
         }
     }
 
+    void moveUp() {
+//        Serial.println("Up trigger");
+        menu.moveDown();
+        menu.use();
+    }
+
+    void moveDw() {
+//        Serial.println("Dw trigger");
+        menu.moveRight();
+        menu.use();
+    }
 };
 
 
-void Menu240x60::setup() {
 
-}
 
 #endif //ARDUINOMID_MENU240X64_H

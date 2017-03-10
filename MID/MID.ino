@@ -114,7 +114,7 @@ LcdMenuInterface *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, 
 #include <U8g2lib.h>
 #include "lib/Lcd240x64.h"
 
-MidMenuInterface *midMenu = new Menu240x60(&btnMenu);
+MidMenuInterface *midMenu = new Menu240x60;
 //
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
 U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18);
