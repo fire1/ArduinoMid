@@ -28,7 +28,6 @@
 #define MILLIS_PER_MN    60000      // Minute
 #define MILLIS_PER_SC    1000       // Second
 //
-//
 // From this distance will trigger
 // menu for saving trip
 #define SHUTDOWN_SAVE_TRIP 25 // more than 25km
@@ -55,8 +54,7 @@ const uint8_t STT_BRK_PIN = A4;     //  Plug        Critical Brake ware
 const uint8_t STT_CLN_PIN = A2;     //  Plug        Critical Coolant level
 const uint8_t STT_OIL_PIN = A3;     //  Plug        Critical oil level
 const uint8_t STT_WNW_PIN = A5;     //  Plug        Critical window washer
-const uint8_t STT_VLT_PIN = A7;      // Duplicating  SAV_PIN_DTC
-//
+const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
@@ -73,7 +71,7 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
 // Alpine / Steering Wheel buttons
 const uint8_t ALP_PIN_INP = A8;
 const uint8_t ALP_PIN_OUT = 53;
-const uint8_t ALP_PIN_VOL = 14;
+const uint8_t ALP_PIN_VOL = 14; // deprecated
 
 //
 // Change state of shutdown "press to save"
