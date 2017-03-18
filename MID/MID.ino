@@ -267,7 +267,7 @@ void loop() {
     shutDown.cursor();
     //
     // Display UI
-    lcdMenu->draw(MidCursorMenu);
+    lcdMenu->draw();
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance

@@ -121,7 +121,7 @@ void Lcd16x2::intro(void) {
     delay(10);
     lcd->setCursor(0, 1);
     lcd->print(F("   "));
-    lcd->print(F(" Bertnone    "));
+    lcd->print(F(" Bertone    "));
     delay(1500);
     lcd->clear();
 }
