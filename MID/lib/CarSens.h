@@ -1021,7 +1021,7 @@ void CarSens::sensDim() {
     boolean defaultActive = 0;
     analogRead(pinScreenInput);
 
-    backLightLevel= (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
+    backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
 
     if (backLightLevel < SCREEN_GO_TO_DEF) {
         backLightLevel = SCREEN_DEF_LIGHT;
@@ -1157,8 +1157,13 @@ void CarSens::sensEnt() {
         // 82 = 420
         // 90 = 630
         int val = analogRead(pinTemp);
-        CUR_ENT = (int) map(val, 385, 620, 80, 90);
-
+        if (val < 385) {
+            //
+            // Mapping below 80deg C temperature
+            CUR_ENT = (int) map(val, 0, 385, 0, 80);
+        } else {
+            CUR_ENT = (int) map(val, 385, 620, 80, 90);
+        }
         //
         // Over heating ALARM
         if (_amp->isSecond() && CUR_ENT > 95) {
