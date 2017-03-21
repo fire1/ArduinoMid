@@ -1150,19 +1150,23 @@ int CarSens::getLpgPush() {
  *  Engine temperature
  */
 void CarSens::sensEnt() {
-    if (_amp->isSec()) {
+    if (_amp->isBig()) {
 
         //
         // 80 = 390
         // 82 = 420
         // 90 = 630
         int val = analogRead(pinTemp);
-        if (val < 385) {
+        Serial.print("Temp value");
+        Serial.println(val);
+        //
+        //
+        if (val < 386) {
             //
             // Mapping below 80deg C temperature
-            CUR_ENT = (int) map(val, 0, 385, 0, 80);
-        } else {
-            CUR_ENT = (int) map(val, 385, 620, 80, 90);
+            CUR_ENT = (int) map(val, 0, 386, -4, 80);
+        } else { // old 385
+            CUR_ENT = (int) map(val, 386, 620, 80, 90);
         }
         //
         // Over heating ALARM
