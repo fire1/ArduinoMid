@@ -219,6 +219,8 @@ private:
     //
     // Engine temperature pin
     uint8_t pinTemp;
+    uint8_t indexEngineTemp;
+    uint16_t smoothEngineTemp;
 
 
     int
@@ -1150,13 +1152,24 @@ int CarSens::getLpgPush() {
  *  Engine temperature
  */
 void CarSens::sensEnt() {
-    if (_amp->isBig()) {
 
+    if (_amp->isBig()) {
+        //
+        // Make more measurements to calculate average
+        smoothEngineTemp = analogRead(pinTemp) + smoothEngineTemp;
+        indexEngineTemp++;
+    }
+
+
+    if (_amp->isMax()) {
         //
         // 80 = 390
         // 82 = 420
         // 90 = 630
-        int val = analogRead(pinTemp);
+        int val = (int) (smoothEngineTemp / indexEngineTemp);
+        indexEngineTemp = 0;
+        smoothEngineTemp = 0;
+
         Serial.print("Temp value");
         Serial.println(val);
         //
@@ -1171,7 +1184,7 @@ void CarSens::sensEnt() {
         //
         // Over heating ALARM
         if (_amp->isSecond() && CUR_ENT > 95) {
-            tone(TONE_ADT_PIN, 4000, 400);
+            tone(TONE_ADT_PIN, 2000, 350);
         }
 
 #ifdef DEBUG_ENG_TEMP
