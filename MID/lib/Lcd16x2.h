@@ -47,6 +47,8 @@ protected:
     char displayChar_3[3];
     char displayChar_4[4];
 
+    float getConsumedFuel();
+
 public:
 
     Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
@@ -180,25 +182,26 @@ void Lcd16x2::displayInsTmp() {
     }
 }
 
+float Lcd16x2::getConsumedFuel() {
+    //
+    // Load saved data
+    SavedData data = eep->getData();
+    //
+    // Switching between LPG / BNZ
+    if (car->getFuelState() == 0) { // BNZ [default]
+        return data.fuel_def + car->getDefFuelCns();
+    }
+    if (car->getFuelState() == 1) { // LPG [additional]
+        return data.fuel_adt + car->getAdtFuelCns();
+    }
+}
+
 /**
  * Total consumption
  */
 void Lcd16x2::displayTotalCns() {
 
-    float value = 0;
-
-    SavedData data = eep->getData();
-
-    if (amp->isSec()) {
-        //
-        // Switching between LPG / BNZ
-        if (car->getFuelState() == 0) { // BNZ [default]
-            value = data.fuel_def + car->getDefFuelCns();
-        }
-        if (car->getFuelState() == 1) { // LPG [additional]
-            value = data.fuel_adt + car->getAdtFuelCns();
-        }
-
+    if (amp->isMax()) {
         //
         // Reset screen place
         if (amp->isBig()) {
@@ -206,7 +209,7 @@ void Lcd16x2::displayTotalCns() {
         }
         //
         // Preformat ...
-        displayFloat(value, displayChar_3);
+        displayFloat(getConsumedFuel(), displayChar_3);
         lcd->setCursor(0, 0);
         lcd->print(" ");
         lcd->print(displayChar_3);
@@ -216,26 +219,39 @@ void Lcd16x2::displayTotalCns() {
 
 /**
  * Total distance
+ *  + every 5 seconds to display average consumption per 100km
  */
 void Lcd16x2::displayTotalDst() {
 
-
-    SavedData data = eep->getData();
-
-    float value = data.dist_trv + car->getDst();
-
-
     if (amp->isSecond()) {
+
+        SavedData data = eep->getData();
+
+        float value = data.dist_trv + car->getDst();
+        //
+        // Calculate average consumption per 100km
+        if (amp->is5Seconds()) {
+            value = (value * getConsumedFuel()) / 100;
+        }
         //
         // Preformat ...
-        displayFloat(value, displayChar_3);
-        lcd->setCursor(0, 1);
         if (value < 100) {
             lcd->print(" ");
         }
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 2);
-        lcd->print(" ");
+        lcd->setCursor(0, 1);
+
+        if (amp->is5Seconds()) {
+            lcd->print((int) value);
+            lcd->write((uint8_t) 2);
+            lcd->write((uint8_t) 7);
+            lcd->write((uint8_t) 8);
+        } else {
+            displayFloat(value, displayChar_3);
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
+
     }
 }
 

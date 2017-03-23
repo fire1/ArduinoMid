@@ -25,7 +25,7 @@
 
 
 /** @description
- *
+ * Initialization Amplitudes
  */
 class IntAmp {
 
