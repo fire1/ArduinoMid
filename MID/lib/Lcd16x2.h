@@ -216,7 +216,7 @@ void Lcd16x2::displayTotalCns() {
             // 4 seconds to display average consumption per 100km
             lcd->write((uint8_t) 7);
             lcd->write((uint8_t) 8);
-            lcd->print((int) (eep->getData().dist_trv + car->getDst() * getConsumedFuel()) / 100);
+            lcd->print((int) ((eep->getData().dist_trv + car->getDst()) * getConsumedFuel()) / 100);
             lcd->write((uint8_t) 4);
         } else {
             //
