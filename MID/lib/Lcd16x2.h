@@ -201,57 +201,52 @@ float Lcd16x2::getConsumedFuel() {
  */
 void Lcd16x2::displayTotalCns() {
 
-    if (amp->isMax()) {
+    if (amp->isSecond()) {
         //
         // Reset screen place
-        if (amp->isBig()) {
+        if (amp->isSec()) {
             lcd->print(F("    "));
         }
-        //
-        // Preformat ...
-        displayFloat(getConsumedFuel(), displayChar_3);
+
         lcd->setCursor(0, 0);
         lcd->print(" ");
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 4);
+
+        if (amp->is4Seconds()) {
+            //
+            // 4 seconds to display average consumption per 100km
+            lcd->write((uint8_t) 7);
+            lcd->write((uint8_t) 8);
+            lcd->print((int) (eep->getData().dist_trv + car->getDst() * getConsumedFuel()) / 100);
+            lcd->write((uint8_t) 4);
+        } else {
+            //
+            // Consumed fuel
+            displayFloat(getConsumedFuel(), displayChar_3);
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 4);
+        }
     }
 }
 
 /**
  * Total distance
- *  + every 5 seconds to display average consumption per 100km
  */
 void Lcd16x2::displayTotalDst() {
-
+    //
+    //
     if (amp->isSecond()) {
-
         SavedData data = eep->getData();
-
         float value = data.dist_trv + car->getDst();
         //
-        // Calculate average consumption per 100km
-        if (amp->is5Seconds()) {
-            value = (value * getConsumedFuel()) / 100;
-        }
-        //
         // Preformat ...
+        lcd->setCursor(0, 1);
         if (value < 100) {
             lcd->print(" ");
         }
-        lcd->setCursor(0, 1);
-
-        if (amp->is5Seconds()) {
-            lcd->print((int) value);
-            lcd->write((uint8_t) 2);
-            lcd->write((uint8_t) 7);
-            lcd->write((uint8_t) 8);
-        } else {
-            displayFloat(value, displayChar_3);
-            lcd->print(displayChar_3);
-            lcd->write((uint8_t) 2);
-            lcd->print(" ");
-        }
-
+        displayFloat(value, displayChar_3);
+        lcd->print(displayChar_3);
+        lcd->write((uint8_t) 2);
+        lcd->print(" ");
     }
 }
 
