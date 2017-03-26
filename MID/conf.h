@@ -43,7 +43,7 @@ const uint8_t SAV_PIN_CTR = A6;     //  Plug:4      Disconnect supply voltage
 const uint8_t SAV_PIN_DTC = A7;     //  Plug:16     Detect ignition key off state
 //
 // Engine pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [may be capacitor is needed]
+const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [may be 50uf capacitor]
 const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]

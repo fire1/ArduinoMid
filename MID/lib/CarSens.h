@@ -1173,13 +1173,14 @@ void CarSens::sensEnt() {
         Serial.print("Temp value");
         Serial.println(val);
         //
-        //
-        if (val < 386) {
+        // Seems this values do not comes from coolant temperature sensor
+        // So this is best wey to determinate them...
+        if (val < 390) {
             //
             // Mapping below 80deg C temperature
-            CUR_ENT = (int) map(val, 0, 386, -4, 80);
+            CUR_ENT = (int) map(val, 0, 390, -4, 80);
         } else { // old 385
-            CUR_ENT = (int) map(val, 386, 620, 80, 90);
+            CUR_ENT = (int) map(val, 390, 620, 80, 90);
         }
         //
         // Over heating ALARM

@@ -201,7 +201,7 @@ float Lcd16x2::getConsumedFuel() {
  */
 void Lcd16x2::displayTotalCns() {
 
-    if (amp->isSecond()) {
+    if (amp->is2Seconds()) {
         //
         // Reset screen place
         if (amp->isSec()) {
@@ -209,21 +209,30 @@ void Lcd16x2::displayTotalCns() {
         }
 
         lcd->setCursor(0, 0);
-        lcd->print(" ");
+
 
         if (amp->is4Seconds()) {
             //
             // 4 seconds to display average consumption per 100km
-            lcd->write((uint8_t) 7);
-            lcd->write((uint8_t) 8);
-            lcd->print((int) ((eep->getData().dist_trv + car->getDst()) * getConsumedFuel()) / 100);
+
+            int value = (int) ((eep->getData().dist_trv + car->getDst()) / getConsumedFuel());
+            if (value < 10) {
+                lcd->print(" ");
+            }
             lcd->write((uint8_t) 4);
+            lcd->print(value);
+            lcd->print("/");
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
         } else {
             //
             // Consumed fuel
+            lcd->print("      ");
+            lcd->setCursor(1, 0);
             displayFloat(getConsumedFuel(), displayChar_3);
             lcd->print(displayChar_3);
             lcd->write((uint8_t) 4);
+            lcd->print(" ");
         }
     }
 }
