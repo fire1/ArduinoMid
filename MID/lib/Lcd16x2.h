@@ -91,6 +91,10 @@ protected:
 
     void displayTotalTrip();
 
+    void displayResetFuel();
+
+    void displayAboutInfo();
+
     void displayTest();
 
     void displayAverage();
@@ -439,11 +443,11 @@ void Lcd16x2::displayConsumption() {
             valueConsFuel = car->getAdtFuelCns();
         }
 
-        const char *liters = "L ";
+        const __FlashStringHelper *liters = F("L ");
 
         lcd->setCursor(1, 1);
-        lcd->print((char) 5);
-        lcd->print((char) 6);
+        lcd->write((uint8_t) 5);
+        lcd->write((uint8_t) 6);
         lcd->print(dspInst[0]);
         lcd->print(liters);
 
@@ -528,6 +532,24 @@ void Lcd16x2::displayTest() {
     }
 }
 
+void Lcd16x2::displayResetFuel() {
+    lcd->setCursor(0, 0);
+    if (amp->is2Seconds()) {
+        lcd->print(F("Use R< + Whl 0  "));
+    } else if (amp->isSecond()) {
+        lcd->print(F("Reset fuel/s    "));
+    }
+
+}
+
+void Lcd16x2::displayAboutInfo() {
+    lcd->setCursor(0, 0);
+    if (amp->isSecond()) {
+        lcd->print(F("ArduinoMid      "));
+        lcd->setCursor(0, 1);
+        lcd->print(MID_VERSION);
+    }
+}
 
 /****************************************************************
  * State menu
@@ -552,7 +574,7 @@ void Lcd16x2::displayCarState() {
         }
     }
 
-    if (amp->isMid()) {
+    if (amp->isBig()) {
         //
         // Shows header menu title
         lcd->setCursor(0, 0);
@@ -591,6 +613,21 @@ void Lcd16x2::displayCarState() {
         }
     }
 
+    if (MidCursorMenu == 46) {
+        lcd->print(F("Total: "));
+
+//        if(amp->is2Seconds()){
+//            lcd->print(eep->??());
+//            lcd->write((uint8_t) 2);
+//            lcd->print(" ");
+//        }else
+          if(amp->isSecond()){
+            lcd->print(eep->getWorkDistance());
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
+
+    }
 
 }
 //
@@ -769,9 +806,20 @@ void Lcd16x2::draw(void) {
             displayCarECU();
             displayEngTmp();
             break;
-
+            //
+            // Reset fuel menu
         case 12:
+            displayResetFuel();
+            break;
+            //
+            // Test
+        case 14:
             displayTest();
+            break;
+            //
+            // About
+        case 15:
+            displayAboutInfo();
             break;
 
             //
@@ -800,6 +848,7 @@ void Lcd16x2::draw(void) {
         case 43:
         case 44:
         case 45:
+        case 46:
             displayCarState();
             break;
 /*

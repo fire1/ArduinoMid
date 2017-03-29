@@ -199,7 +199,6 @@ void MenuBtn::captureDw(void) {
             playSecondTone = true;
             holdTimeHandler = millis();
             lastButtonPushed = btnDw;
-
             whl->disable();
         }
 

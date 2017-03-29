@@ -467,6 +467,9 @@ void EepRom::saveZeroingData() {
     saveDefCons(container.fuel_def);
     saveTravelDistance(container.dist_trv);
     saveWorkingDistance(container.total_km);
+    //
+    // In order to fix and clear assumed data
+    _car->clearBaseData();
 }
 
 /**
