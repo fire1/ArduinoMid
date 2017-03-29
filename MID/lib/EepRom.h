@@ -458,7 +458,7 @@ void EepRom::saveZeroingData() {
     container.fuel_def = 0;
     container.dist_trv = 0;
 
-    float total_km = container.total_km + (assumedTravel / 1000);
+    float total_km = container.total_km + (assumedTravel * 0.001);
     if (total_km > 0) {
         container.total_km = container.total_km + total_km;
     }
@@ -616,18 +616,26 @@ void EepRom::injectFromSerial(void) {
             srlOutputs = F("Travel distance ");
             srlOutputs += saveTemp;
         }
-        if (srlStrName == "wrd" || srlStrName == "wrk") {
-            // Total Liters per hour consumed
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+        if (srlStrName == "wrk") {
+            // Total work distance
+            saveTemp = Serial.readStringUntil('\n').toInt() * 0.001;
             setWorkDistance(saveTemp);
             srlOutputs = F("Work distance ");
             srlOutputs += saveTemp;
         }
-        if (srlStrName == "save") {
+
+        if (srlStrName == "save_wrk") {
             // Saves type 
             saveTemp = Serial.readStringUntil('\n').toInt();
+            if (saveTemp == 1)saveWorkingDistance(container.total_km);
+            srlOutputs = F("Saved Work distance ");
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "save") {
+            // Saves type
+            saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveCurrentData();
-            srlOutputs = F("Save All data ");
+            srlOutputs = F("Saved All data ");
             srlOutputs += saveTemp;
         }
 

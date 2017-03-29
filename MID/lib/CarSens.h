@@ -1187,7 +1187,6 @@ void CarSens::sensEnt() {
         if (_amp->isSecond() && CUR_ENT > 95) {
             tone(TONE_ADT_PIN, 2000, 350);
         }
-shiftIn()
 #ifdef DEBUG_ENG_TEMP
 
         Serial.print("Engine temperature: ");

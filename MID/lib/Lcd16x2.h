@@ -534,12 +534,13 @@ void Lcd16x2::displayTest() {
 
 void Lcd16x2::displayResetFuel() {
     lcd->setCursor(0, 0);
-    if (amp->is2Seconds()) {
-        lcd->print(F("Use R< + Whl 0  "));
-    } else if (amp->isSecond()) {
-        lcd->print(F("Reset fuel/s    "));
+    if (amp->isSecond()) {
+        if (amp->is2Seconds()) {
+            lcd->print(F("Hold R< + Whl \"0\""));
+        } else {
+            lcd->print(F("Reset fuel/s    "));
+        }
     }
-
 }
 
 void Lcd16x2::displayAboutInfo() {
@@ -598,10 +599,16 @@ void Lcd16x2::displayCarState() {
             if (stt->getLiveOil()) lcd->print(F("Low oil level !"));
             else lcd->print(F("Oil level is OK "));
         }
+        if (MidCursorMenu == 46) {
+            lcd->print(F("Range: "));
+            lcd->print(eep->getWorkDistance());
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
     }
 
     if (MidCursorMenu == 45) {
-        if (amp->isMid()) {
+        if (amp->isBig()) {
             if (stt->getLiveVol()) {
                 lcd->print(F("Voltage "));
                 lcd->write((uint8_t) 3);
@@ -613,21 +620,6 @@ void Lcd16x2::displayCarState() {
         }
     }
 
-    if (MidCursorMenu == 46) {
-        lcd->print(F("Total: "));
-
-//        if(amp->is2Seconds()){
-//            lcd->print(eep->??());
-//            lcd->write((uint8_t) 2);
-//            lcd->print(" ");
-//        }else
-          if(amp->isSecond()){
-            lcd->print(eep->getWorkDistance());
-            lcd->write((uint8_t) 2);
-            lcd->print(" ");
-        }
-
-    }
 
 }
 //
@@ -813,12 +805,12 @@ void Lcd16x2::draw(void) {
             break;
             //
             // Test
-        case 14:
+        case 13:
             displayTest();
             break;
             //
             // About
-        case 15:
+        case 14:
             displayAboutInfo();
             break;
 

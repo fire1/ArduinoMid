@@ -215,6 +215,10 @@ public:
             MidCursorMenu = 11;
         } else if (curMenuName == MENU_NAME_12) {
             MidCursorMenu = 12;
+        } else if (curMenuName == MENU_NAME_13) {
+            MidCursorMenu = 13;
+        } else if (curMenuName == MENU_NAME_14) {
+            MidCursorMenu = 14;
         } else if (curMenuName == MENU_NAME_2) {
             //
             // Trip Menu
@@ -243,6 +247,8 @@ public:
             MidCursorMenu = 44;
         } else if (curMenuName == MENU_NAME_45) {
             MidCursorMenu = 45;
+        } else if (curMenuName == MENU_NAME_46) {
+            MidCursorMenu = 46;
 
             /*
             //
