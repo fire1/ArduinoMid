@@ -29,7 +29,9 @@
 // Main menu [Home]
 #define MENU_NAME_1 "Main"
 #define MENU_NAME_11 "Panel"
-#define MENU_NAME_12 "Test"
+#define MENU_NAME_12 "Reset"
+#define MENU_NAME_13 "Tests"
+#define MENU_NAME_14 "About"
 //
 //
 #define MENU_NAME_2 "Trip"
@@ -47,6 +49,8 @@
 #define MENU_NAME_43 "Window washer "
 #define MENU_NAME_44 "Oil level "
 #define MENU_NAME_45 "Voltage "
+#define MENU_NAME_46 "Wear "
+
 
 //#define MENU_NAME_5 "Challenges"
 //#define MENU_NAME_51 "Stopwatch"
@@ -60,7 +64,7 @@
 /**
  *
  */
-class Menu16x2 :  public MidMenuInterface {
+class Menu16x2 : public MidMenuInterface {
     MenuBackend menu;
 
     //
@@ -70,7 +74,9 @@ class Menu16x2 :  public MidMenuInterface {
     // Main menu
             mainMenu,
             dshBoardMenu,
+            resetCurMenu,
             testingsMenu,
+            aboutInfMenu,
     //
     // Trip menu
             tripMenu,
@@ -87,7 +93,8 @@ class Menu16x2 :  public MidMenuInterface {
             stateClnLvl,
             stateWndWsh,
             stateOilLvl,
-            stateBatVlt;
+            stateBatVlt,
+            stateWearDt;
 
 
 // TODO Lowering code for sRAM exhausting
@@ -108,7 +115,9 @@ public:
             // Main menu initialization
                  mainMenu(MenuItem(MENU_NAME_1)),
                  dshBoardMenu(MenuItem(MENU_NAME_11)),
-                 testingsMenu(MenuItem(MENU_NAME_12)),
+                 resetCurMenu(MenuItem(MENU_NAME_12)),
+                 testingsMenu(MenuItem(MENU_NAME_13)),
+                 aboutInfMenu(MenuItem(MENU_NAME_14)),
             //
             // Trip menu initialization
                  tripMenu(MenuItem(MENU_NAME_2)),
@@ -125,7 +134,8 @@ public:
                  stateClnLvl(MenuItem(MENU_NAME_42)),
                  stateWndWsh(MenuItem(MENU_NAME_43)),
                  stateOilLvl(MenuItem(MENU_NAME_44)),
-                 stateBatVlt(MenuItem(MENU_NAME_45))
+                 stateBatVlt(MenuItem(MENU_NAME_45)),
+                 stateWearDt(MenuItem(MENU_NAME_46))
 /*            //
             // Challenges Menu
             gamesMenu(MenuItem(MENU_NAME_5)),
@@ -154,11 +164,13 @@ public:
         statMenu.add(mainMenu); // add last menu to create a Loop menu
         //
         // Home menu layers construction
-        mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-        testingsMenu.addRight(mainMenu); // loop
+        mainMenu.addRight(dshBoardMenu).addRight(resetCurMenu).addRight(testingsMenu).addRight(aboutInfMenu);
+        aboutInfMenu.addRight(mainMenu); // loop
         // add return menu
         dshBoardMenu.add(mainMenu);
+        resetCurMenu.add(mainMenu);
         testingsMenu.add(mainMenu);
+        aboutInfMenu.add(mainMenu);
         //
         // Trip layers construction
         tripMenu.addRight(tripAverage).addRight(tripTotalKm);
@@ -173,13 +185,14 @@ public:
         //
         // Inspection layers construction
         statMenu.addRight(stateBrkWre).addRight(stateClnLvl)
-                .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt);
-        stateBatVlt.addRight(stateBrkWre);
+                .addRight(stateWndWsh).addRight(stateOilLvl).addRight(stateBatVlt).addRight(stateWearDt);
+        stateWearDt.addRight(stateBrkWre);
         stateBrkWre.add(statMenu);
         stateClnLvl.add(statMenu);
         stateWndWsh.add(statMenu);
         stateOilLvl.add(statMenu);
         stateBatVlt.add(statMenu);
+        stateWearDt.add(statMenu);
         /*
         //
         // Games menu layers construction

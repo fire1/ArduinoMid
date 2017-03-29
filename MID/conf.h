@@ -165,4 +165,6 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
+#define MID_VERSION 1.3
+
 #endif //ARDUINOMID_CONF_H
