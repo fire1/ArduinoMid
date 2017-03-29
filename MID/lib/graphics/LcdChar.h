@@ -125,10 +125,22 @@ void setLcdBaseChar(LiquidCrystal *lcd) {
             0b00000
     };
 
-//    lcd->createChar(0, chrBertone);
+    byte number100[8] = {
+            0b00100,
+            0b01010,
+            0b00100,
+            0b00000,
+            0b00100,
+            0b01010,
+            0b00100,
+            0b01110
+    };
+
+    lcd->createChar(0, number100);
     lcd->createChar(1, chrCelsius);
     lcd->createChar(2, kilometers);
-    lcd->createChar(3, chrAlert);
+//    lcd->createChar(3, chrAlert);
+    lcd->createChar(3, number100);
     lcd->createChar(4, chrGasMark);
     lcd->createChar(5, chrInstCons1);
     lcd->createChar(6, chrInstCons2);

@@ -219,24 +219,23 @@ void Lcd16x2::displayTotalCns() {
             //
             // 4 seconds to display average consumption per 100km
 
-            int value = (int) ((eep->getData().dist_trv + car->getDst()) / getConsumedFuel());
-            if (value < 10) {
-                lcd->print(" ");
-            }
-            lcd->write((uint8_t) 4);
-            lcd->print(value);
-            lcd->print("/");
+            float value = ((eep->getData().dist_trv + car->getDst()) / getConsumedFuel());
+            displayFloat(value, displayChar_3);
+
+            lcd->print(displayChar_3);
+            lcd->print("L/");
+            lcd->write((uint8_t) 3);
             lcd->write((uint8_t) 2);
-            lcd->print(" ");
+//            lcd->print(" ");
         } else {
             //
             // Consumed fuel
-            lcd->print("      ");
+            lcd->print("        ");
             lcd->setCursor(1, 0);
             displayFloat(getConsumedFuel(), displayChar_3);
             lcd->print(displayChar_3);
             lcd->write((uint8_t) 4);
-            lcd->print(" ");
+            lcd->print("  ");
         }
     }
 }
@@ -272,7 +271,8 @@ void Lcd16x2::displayCarAlert(void) {
         displayAlertMessagingActive && amp->isMin()) {
         lcd->setCursor(0, 1);
         lcd->print(F("  "));
-        lcd->write((uint8_t) 3);
+//        lcd->write((uint8_t) 3);
+        lcd->write("!");
         lcd->print(F("    "));
         displayAlertMessagingActive = true;
 //        tone(TONE_ADT_PIN, 1200, 60);
@@ -566,7 +566,8 @@ void Lcd16x2::displayCarState() {
                 lcd->print(F("no warnings  :) "));
             } else {
                 lcd->print(F("finds warning "));
-                lcd->write((uint8_t) 3);
+//                lcd->write((uint8_t) 3);
+                lcd->print("!");
                 lcd->print("  ");
             }
         } else if (amp->is4Seconds()) {
@@ -611,7 +612,8 @@ void Lcd16x2::displayCarState() {
         if (amp->isBig()) {
             if (stt->getLiveVol()) {
                 lcd->print(F("Voltage "));
-                lcd->write((uint8_t) 3);
+//                lcd->write((uint8_t) 3);
+                lcd->print("!");
                 lcd->print(" ");
                 lcd->print(stt->getVoltage());
                 lcd->print("V    ");
