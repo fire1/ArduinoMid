@@ -452,16 +452,13 @@ void EepRom::loadCurrentData() {
  * Saves final data
  */
 void EepRom::saveZeroingData() {
-    int assumedTravel = int(container.dist_trv);
 
     container.fuel_adt = 0;
     container.fuel_def = 0;
     container.dist_trv = 0;
-
-    float total_km = container.total_km + (assumedTravel * 0.001);
-    if (total_km > 0) {
-        container.total_km = container.total_km + total_km;
-    }
+    //
+    // Calculate total work distance
+    container.total_km = container.total_km + (int(container.dist_trv) * 0.001);
 
     saveAdtCons(container.fuel_adt);
     saveDefCons(container.fuel_def);
