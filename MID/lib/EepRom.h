@@ -1,5 +1,3 @@
-//#include <USBAPI.h>
-
 //
 // Created by Angel Zaprianov on 28.6.2016 г..
 //
@@ -7,14 +5,24 @@
 // http://www.hobbytronics.co.uk/arduino-external-eeprom
 
 // http://playground.arduino.cc/Main/LibraryForI2CEEPROM
+#ifdef EEP_ROM_ADDRESS
+
 #include <Wire.h>
+
+#else
+
+#include <EEPROM.h>
+
+#endif
+
+
 #include "CarSens.h"
 #include "MainFunc.h"
 
 #ifndef ARDUINOMID_EepRom_H
 #define ARDUINOMID_EepRom_H
 
-#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
+//#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
 #define DEBUG_EEP_ROM
 //#define EEP__INJ_SER true
 
@@ -70,7 +78,10 @@ public:
     EepRom(CarSens *carSens);
 
     void setup() {
+#ifdef EEP_ROM_ADDRESS
         Wire.begin();
+#endif
+
     };
 
     //
@@ -253,11 +264,16 @@ EepRom::EepRom(CarSens *carSens) {
  */
 void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
 
+#ifdef  EEP_ROM_ADDRESS
     Wire.beginTransmission(EEP_ROM_ADDRESS);
     Wire.write((theMemoryAddress >> 8) & 0xFF);
     Wire.write((theMemoryAddress >> 0) & 0xFF);
     Wire.write((uint8_t) u8Byte);
     Wire.endTransmission();
+#else
+    EEPROM.write(theMemoryAddress, u8Byte);
+#endif
+
     delay(10);
 }
 
@@ -267,8 +283,9 @@ void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
  * @return
  */
 int EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
-
     int u8retVal = 0;
+#ifdef  EEP_ROM_ADDRESS
+
     Wire.beginTransmission(EEP_ROM_ADDRESS);
     Wire.write((theMemoryAddress >> 8) & 0xFF);
     Wire.write((theMemoryAddress >> 0) & 0xFF);
@@ -276,6 +293,9 @@ int EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
     delay(10);
     Wire.requestFrom(EEP_ROM_ADDRESS, 1);
     if (Wire.available()) u8retVal = Wire.read();
+#else
+    u8retVal = EEPROM.read(theMemoryAddress);
+#endif
     return u8retVal;
 }
 
@@ -466,7 +486,7 @@ void EepRom::saveZeroingData() {
     saveWorkingDistance(container.total_km);
     //
     // In order to fix and clear assumed data
-    _car->clearBaseData();
+    _car->clearBuffer();
 }
 
 /**

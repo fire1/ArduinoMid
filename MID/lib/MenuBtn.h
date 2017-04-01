@@ -144,6 +144,11 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) 
     pinMode(pinTn, INPUT);
     pinMode(btnDw, INPUT);
 
+    //
+    // Turn on  Internal pull up resistor
+//    digitalWrite(btnUp, HIGH);
+//    digitalWrite(btnDw, HIGH);
+
 }
 
 void MenuBtn::listener() {

@@ -89,7 +89,7 @@ private :
 
 
 public:
-    static constexpr int MENU_SHUTDOWN = 99;
+    static constexpr uint8_t MENU_SHUTDOWN = 99;
 
     ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens, WhlSens *whlSens);
 

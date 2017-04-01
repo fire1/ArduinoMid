@@ -773,7 +773,7 @@ void Lcd16x2::draw(void) {
             lcd->setCursor(16, 0);
             delay(300);  //delay to allow message reading
             lcd->setCursor(0, 0);
-            car->clearBaseData();
+            car->clearBuffer();
             mbs->finishEntry();
             lcd->clear();
 /*

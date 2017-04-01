@@ -6,8 +6,8 @@
 #define ARDUINOMID_CONF_H
 //
 // Sets screen size
-//#define SCREEN 24064 // Glcd 240x64
-#define SCREEN 162 // lcd 16x2
+#define SCREEN 24064 // Glcd 240x64
+//#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -58,7 +58,11 @@ const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
+#if SCREEN == 162 || !defined(SCREEN)
 const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
+#elif SCREEN == 24064
+const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
+#endif;
 //
 // Temperatures
 const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
@@ -77,6 +81,9 @@ const uint8_t ALP_PIN_VOL = 14; // deprecated
 // Change state of shutdown "press to save"
 #define SHUTDOWN_SAVE_STATE LOW
 #define SHUTDOWN_SAVE_BUTTON 9
+//
+// External chip from eep rom
+#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
 //
 //  DallasTemperature
 // Additional temperature sensor for

@@ -39,14 +39,14 @@ class Menu240x60 :  public MidMenuInterface  {
             fuelMenu,
     //
     // States
-            statMenu,
+            statMenu
     //
     // Sprint
 //            gamesMenu
     ;
 public:
 
-    Menu240x60(MenuBtn *_btn)  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+    Menu240x60()  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
 
             //
             // Main menu
@@ -88,6 +88,7 @@ public:
         } else if (curMenuName == MENU_NAME_12) {
             MidCursorMenu = 12;
         } else if (curMenuName == MENU_NAME_2) {
+            MidCursorMenu = 2;
             //
             // Fuel Menu
         } else if (curMenuName == MENU_NAME_3) {

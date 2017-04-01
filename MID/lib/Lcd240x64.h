@@ -11,37 +11,48 @@
 #include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
-#include "CarGames.h"
+//#include "CarGames.h"
 #include "Menu240x64.h"
 #include <U8g2lib.h>
 
 
 class Lcd240x62 : virtual public LcdMenuInterface {
-    U8G2_T6963_240X64_2_8080 *lcd;
+    U8G2_T6963_240X64_F_8080 *lcd;
+
     IntAmp *amp;
     CarSens *car;
     EepRom *eep;
     CarState *stt;
-    CarGames *gms;
     WhlSens *whl;
-    MidMenuInterface *mmn;
+    MenuBase *mbs;
     ShutDw *sdw;
+
+
 protected:
+    void menus();
+
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
         lcd->drawUTF8(aniIndex * 3, 36, str);
+    }
+
+    void prepareScreen() {
+        lcd->setFont(u8g2_font_6x10_tf);
+        lcd->setFontRefHeightExtendedText();
+        lcd->setDrawColor(1);
+        lcd->setFontPosTop();
+        lcd->setFontDirection(0);
     }
 
 public:
     //
     // Class constructor ...
-    Lcd240x62(U8G2_T6963_240X64_2_8080 *_lcd, MenuBtn *_btn, MidMenuInterface *_mmn, CarGames *_gms, ShutDw *_sdw) {
+    Lcd240x62(U8G2_T6963_240X64_F_8080 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
         lcd = _lcd;
         amp = _btn->passAmp();
         car = _btn->passCar();
         eep = _btn->passEep();
         whl = _btn->passWhl();
         stt = _btn->passStt();
-        mmn = _mmn;
         sdw = _sdw;
     }
 
@@ -77,22 +88,52 @@ private:
 
 void Lcd240x62::begin(void) {
     lcd->begin();
+    prepareScreen();
 }
 
 void Lcd240x62::intro(void) {
 
+    //
+    // Test tone
+    tone(TONE_ADT_PIN, 400, 20);
+    delay(10);
+    lcd->firstPage();
+    do {
+        lcd->drawCircle(10, 18, 9);
+        lcd->drawStr(0, 0, " ASTRA ");
+        lcd->drawStr(0, 20, " Bertone ");
+    } while (lcd->nextPage());
+    lcd->sendBuffer();
+    delay(1500);
+    lcd->clear();
+    prepareScreen();
 }
 
 void Lcd240x62::draw() {
+    menus();
+}
+
+void Lcd240x62::menus() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
+            mbs->startEntry();
+            lcd->firstPage();
+            do {
+            lcd->drawStr(0, 0, "MENU CHANGE ");
+//                lcd->drawStr(0, 20, MenuBase::usedMenu);
+            } while (lcd->nextPage());
+            tone(TONE_ADT_PIN, 2800, 16);
+            delay(200);
+            lcd->clear();
+            mbs->finishEntry();
 
             break;
             //
             // Main / first menu
         case 1:
-
+            lcd->drawStr(0, 0, "Main menu");
+            lcd->sendBuffer();
             break;
             //
             // Dashboard
@@ -132,7 +173,7 @@ void Lcd240x62::draw() {
         case 45:
 
             break;
-            //
+/*            //
             // Games menu
         case 5:
 
@@ -147,10 +188,10 @@ void Lcd240x62::draw() {
         case 53:
             gms->listen0to100();
 
-            break;
+            break;*/
 
         case ShutDw::MENU_SHUTDOWN:
-
+            lcd->drawStr(0, 0, "Shut down");
             break;
     }
 

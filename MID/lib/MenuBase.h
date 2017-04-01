@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
-//#define MENU_DEBUG // Uncomment to get info
+#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
@@ -57,14 +57,15 @@ public:
         // Handles initialization
         if (!savedCursor) {
 #if defined(MENU_DEBUG) 
-            if (btn->passAmp()->isMid()) {
+//            if (btn->passAmp()->isMid()) {
                 Serial.println("Makes initialization move ... \n\r");
-            }
+//            }
 #endif
             //
             // Move menu to first index
             mci->moveUp();
             savedCursor = 1;
+
         }
 
         MidCursorMenu = savedCursor;

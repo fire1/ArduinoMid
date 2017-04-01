@@ -87,6 +87,7 @@ public:
     void setTimer(unsigned long time);
 
 
+
     /************** Time Toggle *********************/
 
     bool isToggle() { return (bool) _isToggleDef; }

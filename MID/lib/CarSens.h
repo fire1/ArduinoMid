@@ -398,7 +398,7 @@ public:
     /**
      * Clear peak
      */
-    void clearBaseData();
+    void clearBuffer();
 
     int getGear(int CarSpeed, int Rpm);
 
@@ -975,7 +975,7 @@ void CarSens::speedingAlarms() {
 /**
  * Clears peek data
  */
-void CarSens::clearBaseData() {
+void CarSens::clearBuffer() {
     CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
 };
 
