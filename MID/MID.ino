@@ -1,5 +1,3 @@
-
-
 /*
 ---------------------------------------------------
     Arduino MID
@@ -33,123 +31,8 @@
 //
 //
 #include "conf.h"
-//
-// I2C detector driver
-//#include "lib/LpgSens.h"
-//
-// Interval / Amplitude
-#include "lib/IntAmp.h"
-//
-// Adding Alphine emulator
-#include "lib/WhlSens.h"
-//
-// Main Sensor handler
-#include "lib/MainFunc.h"
-//
-// Engine sensors
-#include "lib/CarSens.h"
-//
-// Car state
-#include "lib/CarState.h"
-//
-// Menu button handler
-#include "lib/MenuBtn.h"
-//
-//
-#include "lib/EepRom.h"
-//
-// Add library
-#include "lib/ShutDw.h"
-//
-//
-#include "lib/MenuBase.h"
-
-
-//
-// Amplitude interval
-//    ampInt(min,low,mid,sec, big, max);
-IntAmp ampInt(5, 10, 50, 100, 200, 1000);
-//
-// Constructing the class
-CarSens carSens(&ampInt);
-//
-// Constructing car state
-CarState carStat(&ampInt);
-//
-// Constructing the class
-WhlSens whlSens(&ampInt);
-//
-// Data storage
-EepRom eepRom(&carSens);
-//
-//
-MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens, &carStat);
-//
-// Additional libraries
-// ----
-// Shutdown constructor
-ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
-//
-// Car games
-
-#if SCREEN == 162 || !defined(SCREEN)
-
-#include "lib/Lcd16x2.h"
-
-MidMenuInterface *midMenu = new Menu16x2;
-//
-//
-MenuBase menuBase(&btnMenu, midMenu);
-//
-// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
-//
-//
-LcdMenuInterface *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, */&shutDown);
-
-
-#elif SCREEN == 24064
-
-#include <U8g2lib.h>
-#include "lib/Lcd240x64.h"
-//#include "../libraries/U8g2/src/U8g2lib.h"
-
-MidMenuInterface *midMenu = new Menu240x60;
-/*
-1   |   GND   |   power GND
-2   |   GND   |   Power GND
-3   |   VCC   |   Power positive
-4   |   V0    |   Negative Voltage (LCD contrast)
-5   |   WR    |   Write Signal                          |
-6   |   RD    |   Read Signal
-7   |   CE    |   Chip Enable Signal
-8   |   CD    |   H: Data L:  Instruction Code          |       DC
-9   |   NC    |   No connection
-10  |   RST   |   Reset Signal Input
-11  /   18    |   DB0..DB7 Data Bus Line
-19  |   FS    |   Font selection
-20  |   VEE   |   Negative Voltage Supply
-21  |   LED_A |   Blacklight Anode (+5V)
-22  |   LED_K |   Blacklight cathode (0v)
- */
-MenuBase menuBase(&btnMenu, midMenu);
-//
-// Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
-U8G2_T6963_240X64_F_8080 u8g2(U8G2_R0, 37, 36, 39, 38, 41, 40, 43, 42,/*WR*/ 31, /*CE*/ 33, /*dc8*/32, /*RST*/ 34);
-//U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18); // Connect RD with +5V, FS0 and FS1 with GND
-LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown);
-#endif
-
-//
-// Event method set
-void menuChangeEvent(MenuChangeEvent changed) {
-    midMenu->menuChanged(changed);
-}
-
-void menuUseEvent(MenuUseEvent used) {
-    strncpy(MenuBase::usedMenu, used.item.getName(), 74);
-
-}
+#include "lib/InitObj.h"
+#include "lib/InitLcd.h"
 
 //
 //
@@ -161,13 +44,9 @@ I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 //
 // Setup the code...
 void setup() {
-    analogWrite(26, 0); // GND
-    analogWrite(27, 0); // GND
-    analogWrite(29, 255); // 5V
-    analogWrite(45, 0); // fs
-    digitalWrite(30, HIGH); // RD
-    analogWrite(46, 0); // back light
-    analogWrite(47, 255); // back light
+
+    lcdPwr.begin();
+
     //
     // Shutdown setupEngine
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);

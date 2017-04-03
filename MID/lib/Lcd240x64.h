@@ -17,8 +17,9 @@
 
 
 class Lcd240x62 : virtual public LcdMenuInterface {
-    U8G2_T6963_240X64_F_8080 *lcd;
 
+
+    U8G2 *lcd;
     IntAmp *amp;
     CarSens *car;
     EepRom *eep;
@@ -29,7 +30,9 @@ class Lcd240x62 : virtual public LcdMenuInterface {
 
 
 protected:
-    void menus();
+    uint8_t drawState = 0;
+
+    void menus(uint8_t);
 
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
         lcd->drawUTF8(aniIndex * 3, 36, str);
@@ -46,7 +49,7 @@ protected:
 public:
     //
     // Class constructor ...
-    Lcd240x62(U8G2_T6963_240X64_F_8080 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
+    Lcd240x62(U8G2 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
         lcd = _lcd;
         amp = _btn->passAmp();
         car = _btn->passCar();
@@ -110,24 +113,48 @@ void Lcd240x62::intro(void) {
 }
 
 void Lcd240x62::draw() {
-    menus();
+    lcd->firstPage();
+    do {
+        menus(drawState & 10);
+    } while (lcd->nextPage());
+
+
+    if (amp->isLow()) {
+        drawState++;
+    }
+
+    if (drawState >= 200)
+        drawState = 0;
 }
 
-void Lcd240x62::menus() {
+void Lcd240x62::menus(uint8_t index) {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            mbs->startEntry();
-            lcd->firstPage();
-            do {
-            lcd->drawStr(0, 0, "MENU CHANGE ");
-//                lcd->drawStr(0, 20, MenuBase::usedMenu);
-            } while (lcd->nextPage());
-            tone(TONE_ADT_PIN, 2800, 16);
-            delay(200);
-            lcd->clear();
-            mbs->finishEntry();
-
+            switch (index) {
+                case 0:
+                    mbs->startEntry();
+                case 1:
+                case 2:
+                case 3:
+                    lcd->drawStr(0, 0, "MENU CHANGE ");
+                    tone(TONE_ADT_PIN, 2800, 16);
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    lcd->drawStr(0, 20, MenuBase::usedMenu);
+                    tone(TONE_ADT_PIN, 3200, 10);
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    lcd->clear();
+                    mbs->finishEntry();
+                    drawState = 0;
+                    break;
+            }
             break;
             //
             // Main / first menu
