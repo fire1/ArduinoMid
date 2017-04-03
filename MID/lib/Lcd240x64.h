@@ -115,7 +115,7 @@ void Lcd240x62::intro(void) {
 void Lcd240x62::draw() {
     lcd->firstPage();
     do {
-        menus(drawState & 10);
+        menus(drawState);
     } while (lcd->nextPage());
 
 
@@ -132,28 +132,28 @@ void Lcd240x62::menus(uint8_t index) {
         default:
         case MENU_ENTRY:
             switch (index) {
+                default:
+                    lcd->drawStr(0, 0, "MENU CHANGE ");
                 case 0:
                     mbs->startEntry();
                 case 1:
                 case 2:
                 case 3:
-                    lcd->drawStr(0, 0, "MENU CHANGE ");
-                    tone(TONE_ADT_PIN, 2800, 16);
-                    break;
+//                    tone(TONE_ADT_PIN, 2800, 16);
                 case 4:
                 case 5:
                 case 6:
                 case 7:
+
                     lcd->drawStr(0, 20, MenuBase::usedMenu);
-                    tone(TONE_ADT_PIN, 3200, 10);
+//                    tone(TONE_ADT_PIN, 3200, 10);
                     break;
                 case 8:
-                case 9:
-                case 10:
                     lcd->clear();
                     mbs->finishEntry();
                     drawState = 0;
                     break;
+
             }
             break;
             //
