@@ -55,9 +55,39 @@ const uint8_t STT_CLN_PIN = A2;     //  Plug        Critical Coolant level
 const uint8_t STT_OIL_PIN = A3;     //  Plug        Critical oil level
 const uint8_t STT_WNW_PIN = A5;     //  Plug        Critical window washer
 const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
+
+
+//
+// Display pins map
+//  NOTE: pins are inverted due to sockets
+//
+//  General pins
+const uint8_t DSP_PIN_GD1 = 26; // Power GND
+const uint8_t DSP_PIN_GD2 = 27; // Power GND
+const uint8_t DSP_PIN_VCC = 29; // Power positive
+const uint8_t DSP_PIN_WR = 31;  // Write Signal
+const uint8_t DSP_PIN_RD = 30;  // Read Signal
+const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
+const uint8_t DSP_PIN_CD = 32;  // Instruction Code
+const uint8_t DSP_PIN_FS = 45;  // Font selection
+const uint8_t DSP_PIN_RST = 34; // Reset signal
+const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
+const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
+//
+// Data pins
+const uint8_t DSP_PIN_DT1 = 37;
+const uint8_t DSP_PIN_DT2 = 36;
+const uint8_t DSP_PIN_DT3 = 39;
+const uint8_t DSP_PIN_DT4 = 38;
+const uint8_t DSP_PIN_DT5 = 41;
+const uint8_t DSP_PIN_DT6 = 40;
+const uint8_t DSP_PIN_DT7 = 43;
+const uint8_t DSP_PIN_DT8 = 42;
+
 //
 // Display dim pins
-const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
+const uint8_t
+        DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
 #if SCREEN == 162 || !defined(SCREEN)
 const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
 #elif SCREEN == 24064

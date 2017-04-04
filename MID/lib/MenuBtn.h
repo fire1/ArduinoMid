@@ -59,6 +59,14 @@ public:
         lastButtonPushed = 0;
     }
 
+
+    /**
+     * Activate or disable navigation
+     */
+    void setNavigationState(boolean state) {
+        isNavigationActive = state;
+    }
+
     uint8_t getPinUp(void);
 
     uint8_t getPinDw(void);
@@ -146,8 +154,8 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) 
 
     //
     // Turn on  Internal pull up resistor
-//    digitalWrite(btnUp, HIGH);
-//    digitalWrite(btnDw, HIGH);
+    digitalWrite(btnUp, HIGH);
+    digitalWrite(btnDw, HIGH);
 
 }
 

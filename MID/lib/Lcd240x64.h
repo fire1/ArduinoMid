@@ -13,6 +13,7 @@
 #include "CarState.h"
 //#include "CarGames.h"
 #include "Menu240x64.h"
+#include "graphics/240x64-logo.h"
 #include <U8g2lib.h>
 
 
@@ -46,6 +47,31 @@ protected:
         lcd->setFontDirection(0);
     }
 
+    void displayEntry(uint8_t index) {
+        switch (index) {
+            default:
+                lcd->drawStr(0, 0, "MENU CHANGE ");
+            case 0:
+                mbs->startEntry();
+            case 1:
+            case 2:
+            case 3:
+//                    tone(TONE_ADT_PIN, 2800, 16);
+            case 4:
+            case 5:
+                lcd->drawStr(0, 20, MenuBase::usedMenu);
+//                    tone(TONE_ADT_PIN, 3200, 10);
+            case 6:
+            case 7:
+                break;
+            case 8:
+                lcd->clear();
+                mbs->finishEntry();
+                drawState = 0;
+                break;
+        }
+    }
+
 public:
     //
     // Class constructor ...
@@ -59,11 +85,47 @@ public:
         sdw = _sdw;
     }
 
-    void intro(void);
+    void intro(void) {
 
-    void begin(void);
+        //
+        // Test tone
+        tone(TONE_ADT_PIN, 400, 20);
+        delay(10);
+        lcd->firstPage();
+        do {
+            //
+            // https://github.com/olikraus/u8g2/wiki/u8g2reference#drawxbm
+            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
+//            lcd->drawCircle(10, 18, 9);
+//            lcd->drawStr(0, 0, " ASTRA ");
+//            lcd->drawStr(0, 20, " Bertone ");
+        } while (lcd->nextPage());
+        lcd->sendBuffer();
+        delay(2500);
+        lcd->clear();
+        prepareScreen();
+    }
 
-    void draw();
+    void begin(void) {
+        lcd->begin();
+        prepareScreen();
+    }
+
+
+    void draw() {
+        lcd->firstPage();
+        do {
+            menus(drawState);
+        } while (lcd->nextPage());
+
+
+        if (amp->isLow()) {
+            drawState++;
+        }
+
+        if (drawState >= 200)
+            drawState = 0;
+    }
 
 private:
     unsigned int aniIndex;
@@ -89,78 +151,16 @@ private:
 };
 
 
-void Lcd240x62::begin(void) {
-    lcd->begin();
-    prepareScreen();
-}
-
-void Lcd240x62::intro(void) {
-
-    //
-    // Test tone
-    tone(TONE_ADT_PIN, 400, 20);
-    delay(10);
-    lcd->firstPage();
-    do {
-        lcd->drawCircle(10, 18, 9);
-        lcd->drawStr(0, 0, " ASTRA ");
-        lcd->drawStr(0, 20, " Bertone ");
-    } while (lcd->nextPage());
-    lcd->sendBuffer();
-    delay(1500);
-    lcd->clear();
-    prepareScreen();
-}
-
-void Lcd240x62::draw() {
-    lcd->firstPage();
-    do {
-        menus(drawState);
-    } while (lcd->nextPage());
-
-
-    if (amp->isLow()) {
-        drawState++;
-    }
-
-    if (drawState >= 200)
-        drawState = 0;
-}
-
 void Lcd240x62::menus(uint8_t index) {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            switch (index) {
-                default:
-                    lcd->drawStr(0, 0, "MENU CHANGE ");
-                case 0:
-                    mbs->startEntry();
-                case 1:
-                case 2:
-                case 3:
-//                    tone(TONE_ADT_PIN, 2800, 16);
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-
-                    lcd->drawStr(0, 20, MenuBase::usedMenu);
-//                    tone(TONE_ADT_PIN, 3200, 10);
-                    break;
-                case 8:
-                    lcd->clear();
-                    mbs->finishEntry();
-                    drawState = 0;
-                    break;
-
-            }
+            displayEntry(index);
             break;
             //
             // Main / first menu
         case 1:
             lcd->drawStr(0, 0, "Main menu");
-            lcd->sendBuffer();
             break;
             //
             // Dashboard
