@@ -32,6 +32,9 @@ public:
     // Saves cursor between changes
     uint8_t savedCursor;
     static char usedMenu[74];
+    static char usedBack[74];
+    static char usedNext[74];
+    static char usedDown[74];
 
 
     //

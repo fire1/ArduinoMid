@@ -149,6 +149,9 @@ void menuChangeEvent(MenuChangeEvent changed) {
 }
 
 void menuUseEvent(MenuUseEvent used) {
+    strncpy(MenuBase::usedNext, used.item.getAfter()->getName(), 74);
+    strncpy(MenuBase::usedBack, used.item.getBack()->getName(), 74);
+    strncpy(MenuBase::usedDown, used.item.getRight()->getName(), 74);
     strncpy(MenuBase::usedMenu, used.item.getName(), 74);
 }
 

@@ -4,17 +4,22 @@
 
 #ifndef ARDUINO_MID_LCD240X64_H
 #define ARDUINO_MID_LCD240X64_H
-
+//#include "CarGames.h"
 #include <Arduino.h>
 #include "../conf.h"
 #include "MainFunc.h"
 #include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
-//#include "CarGames.h"
+#include <U8g2lib.h>
 #include "Menu240x64.h"
 #include "graphics/240x64-logo.h"
-#include <U8g2lib.h>
+
+#ifndef _U8G2LIB_HH
+
+#include "../../libraries/U8g2/src/U8g2lib.h"
+
+#endif
 
 
 class Lcd240x62 : virtual public LcdMenuInterface {
@@ -40,28 +45,39 @@ protected:
     }
 
     void prepareScreen() {
-        lcd->setFont(u8g2_font_6x10_tf);
+        // default u8g2_font_6x10_tf
+        lcd->setFont(u8g2_font_6x13B_tf);
         lcd->setFontRefHeightExtendedText();
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
         lcd->setFontDirection(0);
     }
 
+/**
+ *
+ * @param index of loop
+ */
     void displayEntry(uint8_t index) {
         switch (index) {
             default:
+
                 lcd->drawStr(0, 0, "MENU CHANGE ");
             case 0:
                 mbs->startEntry();
             case 1:
             case 2:
+                lcd->drawStr(0, 15, MenuBase::usedBack);
             case 3:
+                lcd->drawStr(0, 30, MenuBase::usedMenu);
 //                    tone(TONE_ADT_PIN, 2800, 16);
             case 4:
+                lcd->drawStr(0, 45, MenuBase::usedNext);
             case 5:
-                lcd->drawStr(0, 20, MenuBase::usedMenu);
+                lcd->drawUTF8(76, 30, "➞");
+                lcd->drawStr(78, 30, MenuBase::usedNext);
 //                    tone(TONE_ADT_PIN, 3200, 10);
             case 6:
+
             case 7:
                 break;
             case 8:
@@ -73,8 +89,13 @@ protected:
     }
 
 public:
-    //
-    // Class constructor ...
+/**
+ *
+ * @param _lcd
+ * @param _btn
+ * @param _mbs
+ * @param _sdw
+ */
     Lcd240x62(U8G2 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
         lcd = _lcd;
         amp = _btn->passAmp();
@@ -83,6 +104,7 @@ public:
         whl = _btn->passWhl();
         stt = _btn->passStt();
         sdw = _sdw;
+
     }
 
     void intro(void) {
@@ -150,7 +172,10 @@ private:
 
 };
 
-
+/**
+ *
+ * @param index
+ */
 void Lcd240x62::menus(uint8_t index) {
     switch (MidCursorMenu) {
         default:
@@ -160,7 +185,7 @@ void Lcd240x62::menus(uint8_t index) {
             //
             // Main / first menu
         case 1:
-            lcd->drawStr(0, 0, "Main menu");
+            lcd->drawStr(0, 0, "HOME MENU");
             break;
             //
             // Dashboard
