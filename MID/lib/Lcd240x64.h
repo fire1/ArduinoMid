@@ -46,7 +46,7 @@ protected:
 
     void prepareScreen() {
         // default u8g2_font_6x10_tf
-        lcd->setFont(u8g2_font_6x13B_tf);
+        lcd->setFont(u8g2_font_6x10_tf);
         lcd->setFontRefHeightExtendedText();
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
@@ -58,32 +58,33 @@ protected:
  * @param index of loop
  */
     void displayEntry(uint8_t index) {
+        lcd->drawStr(0, 0, "MENU CHANGE ");
+        Serial.println(index);
         switch (index) {
-            default:
 
-                lcd->drawStr(0, 0, "MENU CHANGE ");
             case 0:
+                lcd->clear();
                 mbs->startEntry();
+                break;
             case 1:
             case 2:
                 lcd->drawStr(0, 15, MenuBase::usedBack);
             case 3:
                 lcd->drawStr(0, 30, MenuBase::usedMenu);
-//                    tone(TONE_ADT_PIN, 2800, 16);
             case 4:
                 lcd->drawStr(0, 45, MenuBase::usedNext);
             case 5:
                 lcd->drawUTF8(76, 30, "➞");
                 lcd->drawStr(78, 30, MenuBase::usedNext);
-//                    tone(TONE_ADT_PIN, 3200, 10);
             case 6:
 
             case 7:
-                break;
-            case 8:
                 lcd->clear();
                 mbs->finishEntry();
                 drawState = 0;
+                break;
+            case 8:
+
                 break;
         }
     }
@@ -126,6 +127,7 @@ public:
         delay(2500);
         lcd->clear();
         prepareScreen();
+        mbs->savedCursor = 0;
     }
 
     void begin(void) {
@@ -135,17 +137,17 @@ public:
 
 
     void draw() {
-        lcd->firstPage();
-        do {
-            menus(drawState);
-        } while (lcd->nextPage());
 
 
         if (amp->isLow()) {
+            lcd->firstPage();
+            do {
+                menus(drawState);
+            } while (lcd->nextPage());
             drawState++;
         }
 
-        if (drawState >= 200)
+        if (drawState >= 9)
             drawState = 0;
     }
 
@@ -190,32 +192,32 @@ void Lcd240x62::menus(uint8_t index) {
             //
             // Dashboard
         case 11:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
 
         case 12:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
 
             //
             // Travel menu
         case 2:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
         case 21:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
         case 22:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
 
             //
             // Fuel menu
         case 3:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
         case 32:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
         case 4:
         case 41:
@@ -223,7 +225,7 @@ void Lcd240x62::menus(uint8_t index) {
         case 43:
         case 44:
         case 45:
-
+            lcd->drawStr(0, 0, "Menu");
             break;
 /*            //
             // Games menu

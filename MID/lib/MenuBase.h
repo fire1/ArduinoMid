@@ -30,7 +30,7 @@ public:
 
     //
     // Saves cursor between changes
-    uint8_t savedCursor;
+    uint8_t savedCursor = 0;
     static char usedMenu[74];
     static char usedBack[74];
     static char usedNext[74];
@@ -62,7 +62,7 @@ public:
     void finishEntry() {
         //
         // Handles initialization
-        if (!savedCursor) {
+        if (savedCursor == 0) {
 #if defined(MENU_DEBUG)
 //            if (btn->passAmp()->isMid()) {
             Serial.println("Makes initialization move ... \n\r");
@@ -72,7 +72,7 @@ public:
             // Move menu to first index
             mci->moveUp();
             savedCursor = 1;
-
+            delay(1);
         }
 
         MidCursorMenu = savedCursor;
@@ -163,8 +163,6 @@ char MenuBase::usedMenu[74] = "";
 char MenuBase::usedBack[74];
 char MenuBase::usedNext[74];
 char MenuBase::usedDown[74];
-
-
 
 
 #endif //ARDUINOMID_MENUBASE_H
