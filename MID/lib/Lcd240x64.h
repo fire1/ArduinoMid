@@ -16,7 +16,7 @@
 #include "graphics/240x64-logo.h"
 
 #ifndef _U8G2LIB_HH
-
+// Some IDE syntax mishmash fixer
 #include "../../libraries/U8g2/src/U8g2lib.h"
 
 #endif

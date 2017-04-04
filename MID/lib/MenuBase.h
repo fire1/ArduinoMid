@@ -160,5 +160,11 @@ public:
 };
 
 char MenuBase::usedMenu[74] = "";
+char MenuBase::usedBack[74];
+char MenuBase::usedNext[74];
+char MenuBase::usedDown[74];
+
+
+
 
 #endif //ARDUINOMID_MENUBASE_H
