@@ -27,7 +27,10 @@ class MenuBase {
     MidMenuInterface *mci;
     MenuBtn *btn;
 public:
-
+    //
+    //
+    // NOTE: Static variable doesn't work + Array corrupted
+    // http://forum.arduino.cc/index.php/topic,46462.0.html
     //
     // Saves cursor between changes
     uint8_t savedCursor = 0;
