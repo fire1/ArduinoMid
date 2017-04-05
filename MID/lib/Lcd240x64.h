@@ -67,24 +67,25 @@ protected:
                 mbs->startEntry();
                 break;
             case 1:
+                tone(TONE_ADT_PIN, 2800, 16);
             case 2:
-                lcd->drawStr(0, 15, MenuBase::usedBack);
             case 3:
-                lcd->drawStr(0, 30, MenuBase::usedMenu);
             case 4:
-                lcd->drawStr(0, 45, MenuBase::usedNext);
-            case 5:
-                lcd->drawUTF8(76, 30, "➞");
-                lcd->drawStr(78, 30, MenuBase::usedNext);
             case 6:
-
             case 7:
+            case 8:
+            case 9:
+                lcd->drawStr(0, 15, MenuBase::usedBack);
+                lcd->drawStr(0, 30, MenuBase::usedMenu);
+                lcd->drawStr(0, 45, MenuBase::usedNext);
+                lcd->drawStr(78, 30, MenuBase::usedNext);
+                lcd->drawUTF8(76, 30, "➞");
+                break;
+            default:
+            case 10:
                 lcd->clear();
                 mbs->finishEntry();
                 drawState = 0;
-                break;
-            case 8:
-
                 break;
         }
     }
@@ -109,22 +110,38 @@ public:
     }
 
     void intro(void) {
-
         //
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
         delay(10);
         lcd->firstPage();
         do {
-            //
-            // https://github.com/olikraus/u8g2/wiki/u8g2reference#drawxbm
-            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
-//            lcd->drawCircle(10, 18, 9);
-//            lcd->drawStr(0, 0, " ASTRA ");
-//            lcd->drawStr(0, 20, " Bertone ");
+            lcd->drawXBMP(49, 16, 142, 33, OpelLogoBits);
         } while (lcd->nextPage());
         lcd->sendBuffer();
-        delay(2500);
+        delay(1500);
+        lcd->clear();
+        tone(TONE_ADT_PIN, 800, 10);
+        delay(10);
+        lcd->firstPage();
+        do {
+            lcd->drawXBMP(51, 20, 137, 25, ArduinoLogoBits);
+        } while (lcd->nextPage());
+        lcd->sendBuffer();
+        tone(TONE_ADT_PIN, 800, 10);
+        delay(1500);
+        lcd->clear();
+        tone(TONE_ADT_PIN, 800, 10);
+        delay(10);
+        lcd->firstPage();
+        do {
+            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);
+        } while (lcd->nextPage());
+        lcd->sendBuffer();
+        tone(TONE_ADT_PIN, 800, 10);
+        delay(1500);
+        delay(10);
+        tone(TONE_ADT_PIN, 800, 10);
         lcd->clear();
         prepareScreen();
         mbs->savedCursor = 0;
@@ -135,10 +152,10 @@ public:
         prepareScreen();
     }
 
-
+/**
+ * Draw graphic
+ */
     void draw() {
-
-
         if (amp->isLow()) {
             lcd->firstPage();
             do {
@@ -146,9 +163,9 @@ public:
             } while (lcd->nextPage());
             drawState++;
         }
-
-        if (drawState >= 9)
-            drawState = 0;
+// default state must reset it  ...
+//        if (drawState >= 11)
+//            drawState = 0;
     }
 
 private:
@@ -192,7 +209,7 @@ void Lcd240x62::menus(uint8_t index) {
             //
             // Dashboard
         case 11:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Dashboard");
             break;
 
         case 12:
@@ -202,22 +219,22 @@ void Lcd240x62::menus(uint8_t index) {
             //
             // Travel menu
         case 2:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Travel menu");
             break;
         case 21:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Travel");
             break;
         case 22:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Travel");
             break;
 
             //
             // Fuel menu
         case 3:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, " Fuel menu");
             break;
         case 32:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, " Fuel menu");
             break;
         case 4:
         case 41:

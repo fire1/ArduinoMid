@@ -128,15 +128,16 @@ MenuBase menuBase(&btnMenu, midMenu);
 LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_RD, DSP_PIN_FS, DSP_PIN_GD2);
 //
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
-U8G2_T6963_240X64_1_8080 u8g2(U8G2_R0,
-                              DSP_PIN_DT1,
-                              DSP_PIN_DT2,
-                              DSP_PIN_DT3,
-                              DSP_PIN_DT4,
-                              DSP_PIN_DT5,
-                              DSP_PIN_DT6,
-                              DSP_PIN_DT7,
-                              DSP_PIN_DT8,
+U8G2_T6963_240X64_1_8080 // Screen constructor
+        u8g2(U8G2_R0,
+             DSP_PIN_DT1,
+             DSP_PIN_DT2,
+             DSP_PIN_DT3,
+             DSP_PIN_DT4,
+             DSP_PIN_DT5,
+             DSP_PIN_DT6,
+             DSP_PIN_DT7,
+             DSP_PIN_DT8,
         /*WR*/ DSP_PIN_WR, /*CE*/ DSP_PIN_CE, /*dc8*/DSP_PIN_CD, /*RST*/ DSP_PIN_RST);
 //U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18); // Connect RD with +5V, FS0 and FS1 with GND
 LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown);
