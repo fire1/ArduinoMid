@@ -74,7 +74,7 @@ public:
 
 
 #if SCREEN == 162 || !defined(SCREEN)
-
+#include <LiquidCrystal.h>
 #include "Lcd16x2.h"
 //
 // This class somehow fixes unexpected
