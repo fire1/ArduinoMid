@@ -8,6 +8,8 @@
 #include "InitObj.h"
 
 
+char *foo = new char[1024];
+
 /**
  *
  */
@@ -65,7 +67,7 @@ public:
             analogWrite(adt[1], 0); // fs
             if (adt[2] > 0) analogWrite(adt[2], 0); // GND
         }
-
+        delete foo;
         delete this;
     }
 
@@ -157,6 +159,7 @@ void menuChangeEvent(MenuChangeEvent changed) {
 void menuUseEvent(MenuUseEvent used) {
     Serial.print(" Stage free heap (RAM): ");
     Serial.println(getFreeRam());
+
     strncpy(MenuBase::usedNext, used.item.getAfter()->getName(), 74);
     strncpy(MenuBase::usedBack, used.item.getBack()->getName(), 74);
     strncpy(MenuBase::usedDown, used.item.getRight()->getName(), 74);

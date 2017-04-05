@@ -18,13 +18,13 @@
 
 #define MENU_NAME_2 "Fuel"
 #define MENU_NAME_3 "Servicing"
-#define MENU_NAME_4 "Challenges"
+//#define MENU_NAME_4 "Challenges"
 
 
 /**
  *
  */
-class Menu240x60 :  public MidMenuInterface  {
+class Menu240x60 : public MidMenuInterface {
 
     MenuBackend menu;
 
@@ -46,33 +46,35 @@ class Menu240x60 :  public MidMenuInterface  {
     ;
 public:
 
-    Menu240x60()  : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+    Menu240x60() : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
 
             //
             // Main menu
-            mainMenu(MenuItem(MENU_NAME_1)),
-            dshBoardMenu(MenuItem(MENU_NAME_11)),
-            testingsMenu(MenuItem(MENU_NAME_12)),
+                   mainMenu(MenuItem(MENU_NAME_1)),
+                   dshBoardMenu(MenuItem(MENU_NAME_11)),
+                   testingsMenu(MenuItem(MENU_NAME_12)),
             //
             // Fuels menu
-            fuelMenu(MenuItem(MENU_NAME_3)),
+                   fuelMenu(MenuItem(MENU_NAME_3)),
             //
             // Servicing menu
-            statMenu(MenuItem(MENU_NAME_3))
-            //
-            // Challenges Menu
+                   statMenu(MenuItem(MENU_NAME_3))
+    //
+    // Challenges Menu
 //            gamesMenu(MenuItem(MENU_NAME_4))
     {
     }
 
-    void setup(void){
+    void setup(void) {
         menu.getRoot()
                 .add(mainMenu).add(fuelMenu).add(statMenu);
         statMenu.add(mainMenu);
 
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-//        menu.moveDown();
         menu.toRoot();
+        menu.moveDown();
+        MidCursorMenu = 1;
+
     }
 
     MenuBackend getMB() {
@@ -120,8 +122,6 @@ public:
         menu.use();
     }
 };
-
-
 
 
 #endif //ARDUINOMID_MENU240X64_H

@@ -19,7 +19,6 @@
 #define MENU_ENTRY 0
 #endif
 
-
 /**
  *
  */
@@ -34,10 +33,10 @@ public:
     //
     // Saves cursor between changes
     uint8_t savedCursor = 0;
-    static char usedMenu[74];
-    static char usedBack[74];
-    static char usedNext[74];
-    static char usedDown[74];
+    static const char *usedMenu;
+    static const char *usedBack;
+    static const char *usedNext;
+    static const char *usedDown;
 
 //
     //
@@ -48,7 +47,8 @@ public:
     {
         btn = _btn;
         mci = _mci;
-//        MenuBase::usedMenu = new char[74];
+        savedCursor = 1;
+//        MenuBase::usedMenu = new char[74] ;
     }
 
     MidMenuInterface *passMci() {
@@ -67,14 +67,15 @@ public:
      * Restore position of menu
      */
     void finishEntry() {
+
         //
         // Handles initialization
         if (savedCursor == 0) {
 #if defined(MENU_DEBUG)
 //            if (btn->passAmp()->isMid()) {
-            Serial.println(F("Makes initialization move ... \n\r"));
+            Serial.println(F(" Makes init move ..."));
 //            }
-            Serial.print(" Stage free heap (RAM): ");
+            Serial.print(F(" Stage free heap (RAM): "));
             Serial.println(getFreeRam());
 #endif
 
@@ -169,10 +170,10 @@ public:
 
 };
 
-char MenuBase::usedMenu[74];
-char MenuBase::usedBack[74];
-char MenuBase::usedNext[74];
-char MenuBase::usedDown[74];
+const char *MenuBase::usedMenu = new char[174];
+const char *MenuBase::usedBack = new char[174];
+const char *MenuBase::usedNext = new char[174];
+const char *MenuBase::usedDown = new char[174];
 
 
 #endif //ARDUINOMID_MENUBASE_H

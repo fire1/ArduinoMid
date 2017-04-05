@@ -69,7 +69,8 @@ protected:
                 tone(TONE_ADT_PIN, 2800, 16);
             case 2:
             case 3:
-            case 4:                lcd->drawStr(0, 15, MenuBase::usedBack);
+            case 4:
+                lcd->drawStr(0, 15, MenuBase::usedBack);
                 lcd->drawStr(0, 30, MenuBase::usedMenu);
                 lcd->drawStr(0, 45, MenuBase::usedNext);
                 lcd->drawStr(78, 30, MenuBase::usedNext);
@@ -151,14 +152,13 @@ public:
  * Draw graphic
  */
     void draw() {
-//        if (amp->isLow()) {
+        if (amp->isMid()) {
             lcd->firstPage();
             do {
                 menus(drawState);
             } while (lcd->nextPage());
             drawState++;
-
-//        }
+        }
 // default state must reset it  ...
 //        if (drawState >= 11)
 //            drawState = 0;
@@ -238,7 +238,7 @@ void Lcd240x62::menus(uint8_t index) {
         case 43:
         case 44:
         case 45:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Servicing Menu");
             break;
 /*            //
             // Games menu
