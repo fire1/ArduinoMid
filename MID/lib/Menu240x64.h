@@ -71,6 +71,8 @@ public:
         statMenu.add(mainMenu);
 
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
+//        menu.moveDown();
+        menu.toRoot();
     }
 
     MenuBackend getMB() {

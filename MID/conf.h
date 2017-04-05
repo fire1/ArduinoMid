@@ -30,31 +30,31 @@
 //
 // From this distance will trigger
 // menu for saving trip
-#define SHUTDOWN_SAVE_TRIP 25 // more than 25km
+const uint8_t SHUTDOWN_SAVE_TRIP PROGMEM = 25; // more than 25km
 //
 // MID plug pins definition over Arduino
 //
 // Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 8;       //  Plug:23     Column switch
-const uint8_t BTN_PIN_DW = 9;       //  Plug:24     Column switch navigation
+const uint8_t BTN_PIN_UP PROGMEM = 8;       //  Plug:23     Column switch
+const uint8_t BTN_PIN_DW PROGMEM = 9;       //  Plug:24     Column switch navigation
 //
 // Shutdown protection pin
-const uint8_t SAV_PIN_CTR = A6;     //  Plug:4      Disconnect supply voltage
-const uint8_t SAV_PIN_DTC = A7;     //  Plug:16     Detect ignition key off state
+const uint8_t SAV_PIN_CTR PROGMEM = A6;     //  Plug:4      Disconnect supply voltage
+const uint8_t SAV_PIN_DTC PROGMEM = A7;     //  Plug:16     Detect ignition key off state
 //
 // Engine pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     Engine Temp.  [may be 50uf capacitor]
-const uint8_t BRK_LGH_PIN = 11;     //  Plug:       Brake light detection
-const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     ECU  signal
+const uint8_t ENG_CLT_PIN PROGMEM = A0;     //  Plug:31     Engine Temp.  [may be 50uf capacitor]
+const uint8_t BRK_LGH_PIN PROGMEM = 11;     //  Plug:       Brake light detection
+const uint8_t RPM_SNS_PIN PROGMEM = 2;      //  Plug:6      RPM [attachInterrupt]
+const uint8_t SPD_SNS_PIN PROGMEM = 3;      //  Plug:12     Speed sensor hub [attachInterrupt]
+const uint8_t ECU_SGN_PIN PROGMEM = 19;     //  Plug:27     ECU  signal
 //
 // Car state pins
-const uint8_t STT_BRK_PIN = A4;     //  Plug        Critical Brake ware
-const uint8_t STT_CLN_PIN = A2;     //  Plug        Critical Coolant level
-const uint8_t STT_OIL_PIN = A3;     //  Plug        Critical oil level
-const uint8_t STT_WNW_PIN = A5;     //  Plug        Critical window washer
-const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
+const uint8_t STT_BRK_PIN PROGMEM = A4;     //  Plug        Critical Brake ware
+const uint8_t STT_CLN_PIN PROGMEM = A2;     //  Plug        Critical Coolant level
+const uint8_t STT_OIL_PIN PROGMEM = A3;     //  Plug        Critical oil level
+const uint8_t STT_WNW_PIN PROGMEM = A5;     //  Plug        Critical window washer
+const uint8_t STT_VLT_PIN PROGMEM = A7;     // Duplicating  SAV_PIN_DTC
 
 
 //
@@ -62,40 +62,40 @@ const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 //  NOTE: pins are inverted due to sockets
 //
 //  General pins
-const uint8_t DSP_PIN_GD1 = 26; // Power GND
-const uint8_t DSP_PIN_GD2 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 29; // Power positive
-const uint8_t DSP_PIN_WR = 31;  // Write Signal
-const uint8_t DSP_PIN_RD = 30;  // Read Signal
-const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
-const uint8_t DSP_PIN_CD = 32;  // Instruction Code
-const uint8_t DSP_PIN_FS = 45;  // Font selection
-const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
-const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
+const uint8_t DSP_PIN_GD1 PROGMEM = 26; // Power GND
+const uint8_t DSP_PIN_GD2 PROGMEM = 27; // Power GND
+const uint8_t DSP_PIN_VCC PROGMEM = 29; // Power positive
+const uint8_t DSP_PIN_WR PROGMEM = 31;  // Write Signal
+const uint8_t DSP_PIN_RD PROGMEM = 30;  // Read Signal
+const uint8_t DSP_PIN_CE PROGMEM = 33;  // Chip Enable Signal
+const uint8_t DSP_PIN_CD PROGMEM = 32;  // Instruction Code
+const uint8_t DSP_PIN_FS PROGMEM = 45;  // Font selection
+const uint8_t DSP_PIN_RST PROGMEM = 34; // Reset signal
+const uint8_t DSP_PIN_LDA PROGMEM = 46; // Blacklight Anode (+5V)
+const uint8_t DSP_PIN_LDK PROGMEM = 47; // Blacklight cathode (0v)
 //
 // Data pins
-const uint8_t DSP_PIN_DT1 = 37;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 39;
-const uint8_t DSP_PIN_DT4 = 38;
-const uint8_t DSP_PIN_DT5 = 41;
-const uint8_t DSP_PIN_DT6 = 40;
-const uint8_t DSP_PIN_DT7 = 43;
-const uint8_t DSP_PIN_DT8 = 42;
+const uint8_t DSP_PIN_DT1 PROGMEM = 37;
+const uint8_t DSP_PIN_DT2 PROGMEM = 36;
+const uint8_t DSP_PIN_DT3 PROGMEM = 39;
+const uint8_t DSP_PIN_DT4 PROGMEM = 38;
+const uint8_t DSP_PIN_DT5 PROGMEM = 41;
+const uint8_t DSP_PIN_DT6 PROGMEM = 40;
+const uint8_t DSP_PIN_DT7 PROGMEM = 43;
+const uint8_t DSP_PIN_DT8 PROGMEM = 42;
 
 //
 // Display dim pins
 const uint8_t
-        DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
+        DIM_PIN_VAL PROGMEM = A10;    //  Plug:7      Display back-light
 #if SCREEN == 162 || !defined(SCREEN)
 const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
 #elif SCREEN == 24064
-const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
+const uint8_t DIM_PIN_OUT PROGMEM = 49;     //              Output dim of playEntry
 #endif;
 //
 // Temperatures
-const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
+const uint8_t TMP_PIN_OUT PROGMEM = A9;     // Plug:3       External temperature sensor
 
 /* Extras ...   ******/
 //
@@ -103,14 +103,14 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3       External temperature sensor
 #define TONE_ADT_PIN 11
 //
 // Alpine / Steering Wheel buttons
-const uint8_t ALP_PIN_INP = A8;
-const uint8_t ALP_PIN_OUT = 53;
-const uint8_t ALP_PIN_VOL = 14; // deprecated
+const uint8_t ALP_PIN_INP PROGMEM = A8;
+const uint8_t ALP_PIN_OUT PROGMEM = 53;
+const uint8_t ALP_PIN_VOL PROGMEM = 14; // deprecated
 
 //
 // Change state of shutdown "press to save"
-#define SHUTDOWN_SAVE_STATE LOW
-#define SHUTDOWN_SAVE_BUTTON 9
+const uint8_t SHUTDOWN_SAVE_STATE PROGMEM = LOW;
+const uint8_t SHUTDOWN_SAVE_BUTTON PROGMEM = 9;
 //
 // External chip from eep rom
 #define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip

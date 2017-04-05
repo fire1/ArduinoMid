@@ -3,7 +3,12 @@
 //
 #include <Arduino.h>
 #include <avr/pgmspace.h>
+
+#if SCREEN == 162 || !defined(SCREEN)
 #import <LiquidCrystal.h>
+#else
+
+#endif
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -74,11 +79,13 @@ private :
     bool isShutdownActive = false;
     int detectorValue = 1000;
 
-
+#if SCREEN == 162 || !defined(SCREEN)
     void displaySaved(LiquidCrystal *lcd);
 
     void displayCancel(LiquidCrystal *lcd);
+#else
 
+#endif
     void melodySave(void);
 
     char buffer[74];
@@ -96,9 +103,11 @@ public:
     void setup(int pinControl, int pinDetect, int pinToAlarm);
 
     void listener();
-
+#if SCREEN == 162 || !defined(SCREEN)
     void lcd16x2(LiquidCrystal *lcd);
+#else
 
+#endif
     void cursor();
 
 };
@@ -211,7 +220,22 @@ void ShutDw::listener() {
 
 
 }
+/**
+ * Save melody play
+ */
+void ShutDw::melodySave() {
+    tone(pinTone, 1000, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 1500, 50);
+    delay(50);
+    tone(pinTone, 2000, 50);
+    delay(50);
+    tone(pinTone, 3000, 50);
+}
 
+#if SCREEN == 162 || !defined(SCREEN)
 /**
  * Display shutdown menu
  */
@@ -328,20 +352,7 @@ void ShutDw::displayCancel(LiquidCrystal *lcd) {
     alreadyShutdown = 1;
 }
 
-/**
- * Save melody play
- */
-void ShutDw::melodySave() {
-    tone(pinTone, 1000, 50);
-    delay(50);
-    tone(pinTone, 1500, 50);
-    delay(50);
-    tone(pinTone, 1500, 50);
-    delay(50);
-    tone(pinTone, 2000, 50);
-    delay(50);
-    tone(pinTone, 3000, 50);
-}
+
 
 /**
  * Save state
@@ -365,5 +376,7 @@ void ShutDw::displaySaved(LiquidCrystal *lcd) {
     // Mark mid as shutdown
     alreadyShutdown = 1;
 }
+
+#endif
 
 #endif //ARDUINOMID_SHUTDOWN_H

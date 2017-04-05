@@ -36,13 +36,16 @@ public:
     static char usedNext[74];
     static char usedDown[74];
 
-
+//
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, MidMenuInterface *_mci) {
+    MenuBase(MenuBtn *_btn, MidMenuInterface *_mci)
+    //
+    // http://arduino.stackexchange.com/questions/682/is-using-malloc-and-free-a-really-bad-idea-on-arduino
+    {
         btn = _btn;
         mci = _mci;
-
+//        MenuBase::usedMenu = new char[74];
     }
 
     MidMenuInterface *passMci() {
@@ -54,6 +57,7 @@ public:
      */
     void startEntry() {
         btn->setNavigationState(false);
+//        delete [] MenuBase::usedMenu;
     }
 
     /**
@@ -65,7 +69,7 @@ public:
         if (savedCursor == 0) {
 #if defined(MENU_DEBUG)
 //            if (btn->passAmp()->isMid()) {
-            Serial.println("Makes initialization move ... \n\r");
+            Serial.println(F("Makes initialization move ... \n\r"));
 //            }
 #endif
             //
@@ -79,11 +83,11 @@ public:
         btn->setNavigationState(true);
 
 #if defined(MENU_DEBUG)
-        Serial.print("Cursor menu: ");
+        Serial.print(F("Cursor menu: "));
         Serial.println(MidCursorMenu);
-        Serial.print("Saved Cursor menu: ");
+        Serial.print(F("Saved Cursor menu: "));
         Serial.println(savedCursor);
-        Serial.print("Used menu: ");
+        Serial.print(F("Used menu: "));
         Serial.println(MenuBase::usedMenu);
 #endif
     }
@@ -135,7 +139,7 @@ public:
         }
 #if defined(MENU_DEBUG)
         if (btn->passAmp()->isSecond()) {
-            Serial.print("Cursor MID: ");
+            Serial.print(F("Cursor MID: "));
             Serial.println(MidCursorMenu);
         }
 #endif
@@ -159,7 +163,7 @@ public:
 
 };
 
-char MenuBase::usedMenu[74] = "";
+char MenuBase::usedMenu[74];
 char MenuBase::usedBack[74];
 char MenuBase::usedNext[74];
 char MenuBase::usedDown[74];
