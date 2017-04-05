@@ -8,7 +8,7 @@
 #include "InitObj.h"
 
 
-char *foo = new char[1024];
+char *____ArduinoLocateMoreSpaceForSram_Fixer = new char[1024];
 
 /**
  *
@@ -67,7 +67,7 @@ public:
             analogWrite(adt[1], 0); // fs
             if (adt[2] > 0) analogWrite(adt[2], 0); // GND
         }
-        delete foo;
+        delete ____ArduinoLocateMoreSpaceForSram_Fixer;
         delete this;
     }
 

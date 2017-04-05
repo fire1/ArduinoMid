@@ -112,7 +112,8 @@ public:
         delay(10);
         lcd->firstPage();
         do {
-            lcd->drawXBMP(49, 16, 142, 33, OpelLogoBits);
+//            lcd->drawXBM(49, 16, 142, 33, OpelLogoBits);
+            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);;
         } while (lcd->nextPage());
         lcd->sendBuffer();
         delay(1500);
