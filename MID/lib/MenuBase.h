@@ -67,7 +67,10 @@ public:
 //            if (btn->passAmp()->isMid()) {
             Serial.println("Makes initialization move ... \n\r");
 //            }
+            Serial.print(" Stage free heap (RAM): ");
+            Serial.println(getFreeRam());
 #endif
+
             //
             // Move menu to first index
             mci->moveUp();
@@ -159,10 +162,10 @@ public:
 
 };
 
-char MenuBase::usedMenu[74] = "";
-char MenuBase::usedBack[74];
-char MenuBase::usedNext[74];
-char MenuBase::usedDown[74];
+char MenuBase::usedMenu[74] = "MenuRoot";
+char MenuBase::usedBack[74] = "MenuRoot";
+char MenuBase::usedNext[74] = "MenuRoot";
+char MenuBase::usedDown[74] = "MenuRoot";
 
 
 #endif //ARDUINOMID_MENUBASE_H

@@ -76,7 +76,10 @@ public:
 #if SCREEN == 162 || !defined(SCREEN)
 
 #include "Lcd16x2.h"
-
+//
+// This class somehow fixes unexpected
+// reboot from Mid plug dim value. (in my case)
+#include <Firmata.h>
 MidMenuInterface *midMenu = new Menu16x2;
 //
 //
@@ -147,13 +150,19 @@ LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown)
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
     midMenu->menuChanged(changed);
+    Serial.print(" Stage free heap (RAM): ");
+    Serial.println(getFreeRam());
 }
 
 void menuUseEvent(MenuUseEvent used) {
+    Serial.print(" Stage free heap (RAM): ");
+    Serial.println(getFreeRam());
     strncpy(MenuBase::usedNext, used.item.getAfter()->getName(), 74);
     strncpy(MenuBase::usedBack, used.item.getBack()->getName(), 74);
     strncpy(MenuBase::usedDown, used.item.getRight()->getName(), 74);
     strncpy(MenuBase::usedMenu, used.item.getName(), 74);
+    Serial.print(" Stage free heap (RAM): ");
+    Serial.println(getFreeRam());
 }
 
 

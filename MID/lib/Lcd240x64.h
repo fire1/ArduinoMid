@@ -59,7 +59,6 @@ protected:
  */
     void displayEntry(uint8_t index) {
         lcd->drawStr(0, 0, "MENU CHANGE ");
-        Serial.println(index);
         switch (index) {
 
             case 0:
@@ -70,19 +69,15 @@ protected:
                 tone(TONE_ADT_PIN, 2800, 16);
             case 2:
             case 3:
-            case 4:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-                lcd->drawStr(0, 15, MenuBase::usedBack);
+            case 4:                lcd->drawStr(0, 15, MenuBase::usedBack);
                 lcd->drawStr(0, 30, MenuBase::usedMenu);
                 lcd->drawStr(0, 45, MenuBase::usedNext);
                 lcd->drawStr(78, 30, MenuBase::usedNext);
                 lcd->drawUTF8(76, 30, "➞");
                 break;
             default:
-            case 10:
+            case 5:
+                lcd->clearBuffer();
                 lcd->clear();
                 mbs->finishEntry();
                 drawState = 0;
@@ -121,26 +116,26 @@ public:
         lcd->sendBuffer();
         delay(1500);
         lcd->clear();
-        tone(TONE_ADT_PIN, 800, 10);
-        delay(10);
-        lcd->firstPage();
-        do {
-            lcd->drawXBMP(51, 20, 137, 25, ArduinoLogoBits);
-        } while (lcd->nextPage());
-        lcd->sendBuffer();
-        tone(TONE_ADT_PIN, 800, 10);
-        delay(1500);
-        lcd->clear();
-        tone(TONE_ADT_PIN, 800, 10);
-        delay(10);
-        lcd->firstPage();
-        do {
-            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);
-        } while (lcd->nextPage());
-        lcd->sendBuffer();
-        tone(TONE_ADT_PIN, 800, 10);
-        delay(1500);
-        delay(10);
+//        tone(TONE_ADT_PIN, 800, 10);
+//        delay(10);
+//        lcd->firstPage();
+//        do {
+//            lcd->drawXBMP(51, 20, 137, 25, ArduinoLogoBits);
+//        } while (lcd->nextPage());
+//        lcd->sendBuffer();
+//        tone(TONE_ADT_PIN, 800, 10);
+//        delay(1500);
+//        lcd->clear();
+//        tone(TONE_ADT_PIN, 800, 10);
+//        delay(10);
+//        lcd->firstPage();
+//        do {
+//            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);
+//        } while (lcd->nextPage());
+//        lcd->sendBuffer();
+//        tone(TONE_ADT_PIN, 800, 10);
+//        delay(1500);
+//        delay(10);
         tone(TONE_ADT_PIN, 800, 10);
         lcd->clear();
         prepareScreen();
@@ -156,13 +151,14 @@ public:
  * Draw graphic
  */
     void draw() {
-        if (amp->isLow()) {
+//        if (amp->isLow()) {
             lcd->firstPage();
             do {
                 menus(drawState);
             } while (lcd->nextPage());
             drawState++;
-        }
+
+//        }
 // default state must reset it  ...
 //        if (drawState >= 11)
 //            drawState = 0;

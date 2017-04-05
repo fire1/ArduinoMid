@@ -101,9 +101,15 @@ public:
     }
 
     void moveUp() {
+        Serial.print(" Stage free heap (RAM): ");
+        Serial.println(getFreeRam());
 //        Serial.println("Up trigger");
         menu.moveDown();
+        Serial.print(" Stage free heap (RAM): ");
+        Serial.println(getFreeRam());
         menu.use();
+        Serial.print(" Stage free heap (RAM): ");
+        Serial.println(getFreeRam());
     }
 
     void moveDw() {
