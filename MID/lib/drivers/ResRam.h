@@ -55,6 +55,7 @@ public:
         Serial.print(ram);
         Serial.print(F("Reserve: "));
         Serial.print(currentSize);
+        Serial.println();
 #endif
         lastRead = ram;
     }

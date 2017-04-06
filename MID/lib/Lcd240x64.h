@@ -123,7 +123,7 @@ public:
         lcd->firstPage();
         do {
 //            lcd->drawXBM(49, 16, 142, 33, OpelLogoBits);
-            lcd->drawXBMP(68, 2, 104, 60, OpelLogoBits);
+            lcd->drawXBMP(68, 2, 142, 33, OpelLogoBits);
         } while (lcd->nextPage());
         lcd->sendBuffer();
         delay(1500);
@@ -216,7 +216,7 @@ private:
     void displayTotalConsumption() {
         lcd->drawStr(2, 15, "Consumption: ");
         displayFloat(getConsumedFuel(), displayChar_3);
-        lcd->drawStr(15, 20, displayChar_3);
+        lcd->drawStr(150, 20, displayChar_3);
     }
 
 /**
@@ -226,14 +226,14 @@ private:
         lcd->drawStr(2, 30, "Average: ");
         displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
         lcd->drawStr(11, 30, displayChar_3);
-        lcd->drawStr(14, 30, "L/100km");
+        lcd->drawStr(140, 30, "L/100km");
     }
 
     void displayInsideTemperature() {
         lcd->drawStr(2, 45, "Temperatures: ");
         displayFloat(car->getTmpIns(), displayChar_3);
         lcd->drawStr(16, 30, displayChar_3);
-        lcd->drawUTF8(19, 30, "℃");
+        lcd->drawUTF8(190, 30, "℃");
     }
 
 };

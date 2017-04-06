@@ -181,10 +181,10 @@ public:
  * Reserve space in used menu container
  */
 UsedMenu MenuBase::usedMenu = {
-        used:new char[256],
-        back:new char[256],
-        next:new char[256],
-        down:new char[256]
+        used:new char[128],
+        back:new char[128],
+        next:new char[128],
+        down:new char[128]
 };
 
 
