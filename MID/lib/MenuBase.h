@@ -18,6 +18,15 @@
 #ifndef MENU_ENTRY
 #define MENU_ENTRY 0
 #endif
+/**
+ * Structure of menu container
+ */
+struct UsedMenu {
+    const char *used;
+    const char *back;
+    const char *next;
+    const char *down;
+};
 
 /**
  *
@@ -33,12 +42,8 @@ public:
     //
     // Saves cursor between changes
     uint8_t savedCursor = 0;
-    static const char *usedMenu;
-    static const char *usedBack;
-    static const char *usedNext;
-    static const char *usedDown;
+    static UsedMenu usedMenu;
 
-//
     //
     // Constructor
     MenuBase(MenuBtn *_btn, MidMenuInterface *_mci)
@@ -59,6 +64,7 @@ public:
      * Used to activate / deactivate navigation
      */
     void startEntry() {
+        resRam.listen();
         btn->setNavigationState(false);
 //        delete [] MenuBase::usedMenu;
     }
@@ -75,14 +81,13 @@ public:
 //            if (btn->passAmp()->isMid()) {
             Serial.println(F(" Makes init move ..."));
 //            }
-            Serial.print(F(" Stage free heap (RAM): "));
-            Serial.println(getFreeRam());
 #endif
-
+            resRam.listen();
             //
             // Move menu to first index
             mci->moveUp();
             savedCursor = 1;
+            resRam.listen();
             delay(1);
         }
 
@@ -95,7 +100,7 @@ public:
         Serial.print(F("Saved Cursor menu: "));
         Serial.println(savedCursor);
         Serial.print(F("Used menu: "));
-        Serial.println(MenuBase::usedMenu);
+        Serial.println(MenuBase::usedMenu.used);
 #endif
     }
 
@@ -104,7 +109,9 @@ public:
      * Perform navigation
      */
     void listener() {
-
+        //
+        //
+        resRam.listen();
         //
         // Handle navigation
         if (btn->isUp()) {
@@ -170,10 +177,15 @@ public:
 
 };
 
-const char *MenuBase::usedMenu = new char[174];
-const char *MenuBase::usedBack = new char[174];
-const char *MenuBase::usedNext = new char[174];
-const char *MenuBase::usedDown = new char[174];
+/**
+ * Reserve space in used menu container
+ */
+UsedMenu MenuBase::usedMenu = {
+        used:new char[256],
+        back:new char[256],
+        next:new char[256],
+        down:new char[256]
+};
 
 
 #endif //ARDUINOMID_MENUBASE_H

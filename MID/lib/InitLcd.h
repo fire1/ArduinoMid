@@ -8,7 +8,6 @@
 #include "InitObj.h"
 
 
-char *____ArduinoLocateMoreSpaceForSram_Fixer = new char[1024];
 
 /**
  *
@@ -67,7 +66,7 @@ public:
             analogWrite(adt[1], 0); // fs
             if (adt[2] > 0) analogWrite(adt[2], 0); // GND
         }
-        delete ____ArduinoLocateMoreSpaceForSram_Fixer;
+
         delete this;
     }
 
@@ -152,19 +151,19 @@ LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown)
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
     midMenu->menuChanged(changed);
-    Serial.print(" Stage free heap (RAM): ");
+    Serial.print(F(" Stage free RAM (menuChangeEvent): "));
     Serial.println(getFreeRam());
 }
 
 void menuUseEvent(MenuUseEvent used) {
-    Serial.print(" Stage free heap (RAM): ");
+    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
     Serial.println(getFreeRam());
+    MenuBase::usedMenu.next = used.item.getAfter()->getName();
+    MenuBase::usedMenu.back = used.item.getBack()->getName();
+    MenuBase::usedMenu.down = used.item.getRight()->getName();
+    MenuBase::usedMenu.used = used.item.getName();
 
-    strncpy(MenuBase::usedNext, used.item.getAfter()->getName(), 74);
-    strncpy(MenuBase::usedBack, used.item.getBack()->getName(), 74);
-    strncpy(MenuBase::usedDown, used.item.getRight()->getName(), 74);
-    strncpy(MenuBase::usedMenu, used.item.getName(), 74);
-    Serial.print(" Stage free heap (RAM): ");
+    Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
     Serial.println(getFreeRam());
 }
 

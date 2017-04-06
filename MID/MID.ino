@@ -25,10 +25,6 @@
 #include <DallasTemperature.h>
 
 //
-// This class somehow fixes unexpected
-// reboot from Mid plug dim value. (in my case)
-
-//
 //
 #include "conf.h"
 #include "lib/InitObj.h"
@@ -44,9 +40,12 @@ I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 //
 // Setup the code...
 void setup() {
-
+    //
+    // Begins RAM reserve
+    resRam.begin();
+    //
+    // Sets display pins to socket
     lcdPwr.begin();
-
     //
     // Shutdown setupEngine
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);

@@ -202,6 +202,12 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
-#define MID_VERSION "0.3.4"
+#define MID_VERSION "0.3.5"
+//
+// Reserving RAM
+#include "lib/drivers/ResRam.h"
+//
+// Init reserving RAM
+ResRam resRam;
 
 #endif //ARDUINOMID_CONF_H

@@ -36,6 +36,14 @@ class Lcd240x62 : virtual public LcdMenuInterface {
 
 
 protected:
+
+    //
+    // Defining content generate container variables
+    char displayChar_2[2];
+    char displayChar_3[3];
+    char displayChar_4[4];
+    //
+    // Drowing counter
     uint8_t drawState = 0;
 
     void menus(uint8_t);
@@ -70,16 +78,18 @@ protected:
             case 2:
             case 3:
             case 4:
-                lcd->drawStr(0, 15, MenuBase::usedBack);
-                lcd->drawStr(0, 30, MenuBase::usedMenu);
-                lcd->drawStr(0, 45, MenuBase::usedNext);
-                lcd->drawStr(78, 30, MenuBase::usedNext);
+                lcd->enableUTF8Print();
+                lcd->drawStr(0, 15, MenuBase::usedMenu.back);
+                lcd->drawStr(0, 30, MenuBase::usedMenu.used);
+                lcd->drawStr(0, 45, MenuBase::usedMenu.next);
+                lcd->drawStr(78, 30, MenuBase::usedMenu.down);
                 lcd->drawUTF8(76, 30, "➞");
                 break;
-            default:
             case 5:
                 lcd->clearBuffer();
                 lcd->clear();
+                break;
+            default:
                 mbs->finishEntry();
                 drawState = 0;
                 break;
@@ -113,7 +123,7 @@ public:
         lcd->firstPage();
         do {
 //            lcd->drawXBM(49, 16, 142, 33, OpelLogoBits);
-            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);;
+            lcd->drawXBMP(68, 2, 104, 60, OpelLogoBits);
         } while (lcd->nextPage());
         lcd->sendBuffer();
         delay(1500);
@@ -166,6 +176,21 @@ public:
     }
 
 private:
+
+    float getConsumedFuel() {
+        //
+        // Load saved data
+        SavedData data = eep->getData();
+        //
+        // Switching between LPG / BNZ
+        if (car->getFuelState() == 0) { // BNZ [default]
+            return data.fuel_def + car->getDefFuelCns();
+        }
+        if (car->getFuelState() == 1) { // LPG [additional]
+            return data.fuel_adt + car->getAdtFuelCns();
+        }
+    }
+
     unsigned int aniIndex;
 
     void setTextMode(void) {
@@ -185,6 +210,31 @@ private:
         lcd->setFontPosTop();
     }
 
+/**
+ * Displays consumed fuel
+ */
+    void displayTotalConsumption() {
+        lcd->drawStr(2, 15, "Consumption: ");
+        displayFloat(getConsumedFuel(), displayChar_3);
+        lcd->drawStr(15, 20, displayChar_3);
+    }
+
+/**
+ * Displays average consumption
+ */
+    void displayAverageConsumption() {
+        lcd->drawStr(2, 30, "Average: ");
+        displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
+        lcd->drawStr(11, 30, displayChar_3);
+        lcd->drawStr(14, 30, "L/100km");
+    }
+
+    void displayInsideTemperature() {
+        lcd->drawStr(2, 45, "Temperatures: ");
+        displayFloat(car->getTmpIns(), displayChar_3);
+        lcd->drawStr(16, 30, displayChar_3);
+        lcd->drawUTF8(19, 30, "℃");
+    }
 
 };
 
@@ -202,6 +252,9 @@ void Lcd240x62::menus(uint8_t index) {
             // Main / first menu
         case 1:
             lcd->drawStr(0, 0, "HOME MENU");
+            displayInsideTemperature();
+            displayTotalConsumption();
+            displayAverageConsumption();
             break;
             //
             // Dashboard
