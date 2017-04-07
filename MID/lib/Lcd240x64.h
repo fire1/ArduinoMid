@@ -79,17 +79,20 @@ protected:
             case 3:
             case 4:
                 lcd->enableUTF8Print();
-                lcd->drawStr(0, 15, MenuBase::usedMenu.back);
-                lcd->drawStr(0, 30, MenuBase::usedMenu.used);
-                lcd->drawStr(0, 45, MenuBase::usedMenu.next);
-                lcd->drawStr(78, 30, MenuBase::usedMenu.down);
+                lcd->drawStr(0, 15, usedMenu.back);
+                lcd->drawStr(0, 30, usedMenu.used);
+                lcd->drawStr(0, 45, usedMenu.next);
+                lcd->drawStr(78, 30, usedMenu.down);
                 lcd->drawUTF8(76, 30, "➞");
                 break;
             case 5:
                 lcd->clearBuffer();
                 lcd->clear();
                 break;
+            case 6:
             default:
+                usedMenu = {};
+//                free(usedMenu);
                 mbs->finishEntry();
                 drawState = 0;
                 break;
@@ -151,7 +154,6 @@ public:
         tone(TONE_ADT_PIN, 800, 10);
         lcd->clear();
         prepareScreen();
-        mbs->savedCursor = 0;
     }
 
     void begin(void) {
@@ -163,16 +165,13 @@ public:
  * Draw graphic
  */
     void draw() {
-        if (amp->isMid()) {
+        if (amp->isLow()) {
             lcd->firstPage();
             do {
                 menus(drawState);
             } while (lcd->nextPage());
             drawState++;
         }
-// default state must reset it  ...
-//        if (drawState >= 11)
-//            drawState = 0;
     }
 
 private:

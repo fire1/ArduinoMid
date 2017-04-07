@@ -6,14 +6,16 @@
 #define ARDUINOMID_RESRAM_H
 
 #ifndef RESERVE_RAM_SIZE
-#define RESERVE_RAM_SIZE  2048
+#define RESERVE_RAM_SIZE   2706 // 2048
 #endif
 
 #define DEBUG_RESERVE_RAM
 
 //
 // Allocating more RAM from Arduino compile
-static char *____Arduino____RAM_reservoir = new char[RESERVE_RAM_SIZE];
+byte *____Arduino____RAM_reservoir = new byte ("I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. ");
+//byte *____Arduino____RAM_reservoir = (byte *) malloc(RESERVE_RAM_SIZE * sizeof(byte));
+
 /**
  *
  */
@@ -25,6 +27,7 @@ public:
 
     ResRam() {
         currentSize = RESERVE_RAM_SIZE;
+//        ____Arduino____RAM_reservoir[] = new char[RESERVE_RAM_SIZE];
     }
 
     /**
@@ -32,6 +35,8 @@ public:
      */
     void begin() {
         lastRead = getFreeRam();
+//        free(____Arduino____RAM_reservoir);
+        delete ____Arduino____RAM_reservoir;
     }
 
     /**
@@ -41,13 +46,13 @@ public:
         int ram = getFreeRam();
         if (lastRead > ram) {
             currentSize = currentSize - (lastRead - ram);
-            ____Arduino____RAM_reservoir = new char[currentSize];
+
+//            ____Arduino____RAM_reservoir = new char[currentSize];
         }
 
         if (lastRead < ram) {
             currentSize = currentSize + (ram - lastRead);
-            ____Arduino____RAM_reservoir = new char[currentSize];
-
+//            ____Arduino____RAM_reservoir = new char[currentSize];
         }
 
 #ifdef DEBUG_RESERVE_RAM

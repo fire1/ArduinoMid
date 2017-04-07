@@ -158,10 +158,10 @@ void menuChangeEvent(MenuChangeEvent changed) {
 void menuUseEvent(MenuUseEvent used) {
     Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
     Serial.println(getFreeRam());
-    MenuBase::usedMenu.next = used.item.getAfter()->getName();
-    MenuBase::usedMenu.back = used.item.getBack()->getName();
-    MenuBase::usedMenu.down = used.item.getRight()->getName();
-    MenuBase::usedMenu.used = used.item.getName();
+    usedMenu.next = used.item.getAfter()->getName();
+    usedMenu.back = used.item.getBack()->getName();
+    usedMenu.down = used.item.getRight()->getName();
+    usedMenu.used = used.item.getName();
 
     Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
     Serial.println(getFreeRam());

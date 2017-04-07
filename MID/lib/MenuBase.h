@@ -27,6 +27,22 @@ struct UsedMenu {
     const char *next;
     const char *down;
 };
+/**
+* Reserve space in used menu container
+*/
+static UsedMenu usedMenu = {
+        used:new char(
+                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
+        back:new char(
+                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
+        next:new char(
+                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
+        down:new char(
+                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7")
+};
+//
+// Saves cursor between changes
+uint8_t MenuBase_savedCursor = 0;
 
 /**
  *
@@ -36,15 +52,6 @@ class MenuBase {
     MenuBtn *btn;
 public:
     //
-    //
-    // NOTE: Static variable doesn't work + Array corrupted
-    // http://forum.arduino.cc/index.php/topic,46462.0.html
-    //
-    // Saves cursor between changes
-    uint8_t savedCursor = 0;
-    static UsedMenu usedMenu;
-
-    //
     // Constructor
     MenuBase(MenuBtn *_btn, MidMenuInterface *_mci)
     //
@@ -52,8 +59,7 @@ public:
     {
         btn = _btn;
         mci = _mci;
-        savedCursor = 1;
-//        MenuBase::usedMenu = new char[74] ;
+        MenuBase_savedCursor = 1;
     }
 
     MidMenuInterface *passMci() {
@@ -66,7 +72,6 @@ public:
     void startEntry() {
         resRam.listen();
         btn->setNavigationState(false);
-//        delete [] MenuBase::usedMenu;
     }
 
     /**
@@ -76,7 +81,7 @@ public:
 
         //
         // Handles initialization
-        if (savedCursor == 0) {
+        if (MenuBase_savedCursor == 0) {
 #if defined(MENU_DEBUG)
 //            if (btn->passAmp()->isMid()) {
             Serial.println(F(" Makes init move ..."));
@@ -86,21 +91,21 @@ public:
             //
             // Move menu to first index
             mci->moveUp();
-            savedCursor = 1;
+            MenuBase_savedCursor = 1;
             resRam.listen();
             delay(1);
         }
 
-        MidCursorMenu = savedCursor;
+        MidCursorMenu = MenuBase_savedCursor;
         btn->setNavigationState(true);
 
 #if defined(MENU_DEBUG)
         Serial.print(F("Cursor menu: "));
         Serial.println(MidCursorMenu);
         Serial.print(F("Saved Cursor menu: "));
-        Serial.println(savedCursor);
+        Serial.println(MenuBase_savedCursor);
         Serial.print(F("Used menu: "));
-        Serial.println(MenuBase::usedMenu.used);
+        Serial.println(usedMenu.used);
 #endif
     }
 
@@ -138,15 +143,15 @@ public:
 #if defined(MENU_DEBUG)
         if (btn->passAmp()->isSecond()) {
             Serial.print("Cursor saved: ");
-            Serial.println(savedCursor);
+            Serial.println(MenuBase_savedCursor);
         }
 #endif
         //
         //
-        if (savedCursor != MidCursorMenu && MidCursorMenu != MENU_ENTRY) {
+        if (MenuBase_savedCursor != MidCursorMenu && MidCursorMenu != MENU_ENTRY) {
             //
             // Keep cursor in save place
-            savedCursor = MidCursorMenu;
+            MenuBase_savedCursor = MidCursorMenu;
             //
             // Change menu to show screen
             MidCursorMenu = MENU_ENTRY;
@@ -175,16 +180,6 @@ public:
 
     }
 
-};
-
-/**
- * Reserve space in used menu container
- */
-UsedMenu MenuBase::usedMenu = {
-        used:new char[128],
-        back:new char[128],
-        next:new char[128],
-        down:new char[128]
 };
 
 
