@@ -107,6 +107,9 @@ void setup() {
     //
     // Shows MID intro
     lcdMenu->intro();
+    //
+    // Begins RAM reserve
+    resRam.begin();
 }
 //
 //

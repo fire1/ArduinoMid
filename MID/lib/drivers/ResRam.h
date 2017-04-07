@@ -47,6 +47,7 @@ public:
         if (lastRead > ram) {
             currentSize = currentSize - (lastRead - ram);
 
+
 //            ____Arduino____RAM_reservoir = new char[currentSize];
         }
 
