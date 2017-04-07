@@ -55,7 +55,7 @@ public:
 
     void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones);
 
-    void clearLastButton() {
+    inline void clearLastButton() {
         lastButtonPushed = 0;
     }
 
@@ -63,7 +63,7 @@ public:
     /**
      * Activate or disable navigation
      */
-    void setNavigationState(boolean state) {
+    inline void setNavigationState(boolean state) {
         isNavigationActive = state;
     }
 
@@ -75,12 +75,12 @@ public:
 
     uint8_t getPinTn(void);
 
-    boolean isUp() {
+    inline boolean isUp() {
         return lastButtonPushed == btnUp;
     }
 
 
-    boolean isDw() {
+    inline boolean isDw() {
         return lastButtonPushed == btnDw;
     }
 

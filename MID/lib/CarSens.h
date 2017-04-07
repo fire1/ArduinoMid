@@ -450,38 +450,38 @@ public:
      * Gets outside temperature
      * @return
      */
-    float getTmpOut() { return CUR_OUT_TMP; }
+    inline float getTmpOut() { return CUR_OUT_TMP; }
 
     /**
      * Gets inside temperature [with ext. Dallas Temperature sensor ]
      * @return
      */
-    float getTmpIns() { return CUR_INS_TMP; }
+    inline float getTmpIns() { return CUR_INS_TMP; }
 
     /**
      * Gets instant fuel consumption
      */
-    int getIfc() { return FUEL_INST_CONS; }
+    inline int getIfc() { return FUEL_INST_CONS; }
 
     /**
      * Gets Instant fuel consumption average value
      */
-    float getIfcAvr() { return FUEL_AVRG_INST_CONS; }
+    inline float getIfcAvr() { return FUEL_AVRG_INST_CONS; }
 
     /**
      * Gets default fuel line consumption
      */
-    float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
+    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
 
     /**
      * Gets additional fuel line consumption
      */
-    float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
+    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
 
     /**
      * Gets fuel state  usedMenu
      */
-    float getCurFuelCns() {
+    inline float getCurFuelCns() {
         if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
         if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
     }
@@ -489,36 +489,36 @@ public:
     /**
      * Gets current fuel state
      */
-    int getFuelState() { return FUEL_STATE; }
+    inline int getFuelState() { return FUEL_STATE; }
 
     /**
      * Gets engine temperature
      *  resistor 5.6k  to GND || pull-up resistor 4.2k from MID plug pin 31 with 10mf cap
      */
-    int getEngTmp() { return CUR_ENT; /* Range from 70 to 120*/}
+    inline int getEngTmp() { return CUR_ENT; /* Range from 70 to 120*/}
 
     /**
      * Gets current Vss
      */
-    int getVss() { return CUR_VSS; }
+    inline int getVss() { return CUR_VSS; }
 
     /**
      * Gets current Rpm
      */
-    int getRpm() { return CUR_RPM; }
+    inline int getRpm() { return CUR_RPM; }
 
     /**
      * Gets current Ecu
      */
-    int getEcu() { return CUR_ECU; }
+    inline int getEcu() { return CUR_ECU; }
 
-    int getTnkLpg() { return CUR_LTK; }
+    inline int getTnkLpg() { return CUR_LTK; }
 
-    int getTnkLpgPer() { return (int) CUR_LTK;/* map(CUR_LTK, 10, 100, 0, 100)*/}
+    inline int getTnkLpgPer() { return (int) CUR_LTK;/* map(CUR_LTK, 10, 100, 0, 100)*/}
 
-    int getTnkBnz() { return 0; }
+    inline int getTnkBnz() { return 0; }
 
-    int getTnkBnzPer() { return 0; }
+    inline int getTnkBnzPer() { return 0; }
 
     /**
      *  Gets travel time
@@ -533,19 +533,19 @@ public:
     /**
      *  Gets current Distance
      */
-    float getDst() { return float(CUR_VDS); }
+    inline float getDst() { return float(CUR_VDS); }
 
     /**
      * Gets all pulses from speed sensor to calculate distance
      * @return
      */
-    unsigned long getVdsDump(void) { return CUR_VDS_collection; }
+    inline unsigned long getVdsDump(void) { return CUR_VDS_collection; }
 
     /** @deprecated
      * Gets Total fuel consumption
      * @return long
      */
-    long getTfc() { return TTL_FL_CNS; }
+    inline long getTfc() { return TTL_FL_CNS; }
 
     /**
      * Gets Average Vss

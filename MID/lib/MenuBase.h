@@ -164,7 +164,7 @@ public:
 #endif
     }
 
-    boolean isNavigationActive() {
+    inline  boolean isNavigationActive() {
         return true;
     }
 
@@ -172,7 +172,7 @@ public:
 
     }
 
-    boolean isEditOption() {
+    inline boolean isEditOption() {
         return false;
     }
 
