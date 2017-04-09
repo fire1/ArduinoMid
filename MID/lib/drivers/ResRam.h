@@ -13,7 +13,8 @@
 
 //
 // Allocating more RAM from Arduino compile
-byte *____Arduino____RAM_reservoir = new byte ("Reserve space. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. ");
+//byte *____Arduino____RAM_reservoir = new byte ("Reserve space. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. I support the Cape Wind project. ");
+//byte *____Arduino____RAM_reservoir;
 //byte *____Arduino____RAM_reservoir = (byte *) malloc(RESERVE_RAM_SIZE * sizeof(byte));
 
 /**
@@ -36,7 +37,7 @@ public:
     void begin() {
         lastRead = getFreeRam();
 //        free(____Arduino____RAM_reservoir);
-        delete ____Arduino____RAM_reservoir;
+//        delete ____Arduino____RAM_reservoir;
     }
 
     /**
@@ -57,11 +58,11 @@ public:
         }
 
 #ifdef DEBUG_RESERVE_RAM
-        Serial.print(F(" Free heap RAM: "));
-        Serial.print(ram);
-        Serial.print(F("Reserve: "));
-        Serial.print(currentSize);
-        Serial.println();
+//        Serial.print(F(" Free heap RAM: "));
+//        Serial.print(ram);
+//        Serial.print(F("Reserve: "));
+//        Serial.print(currentSize);
+//        Serial.println();
 #endif
         lastRead = ram;
     }

@@ -17,8 +17,7 @@
 #define MENU_NAME_12 "Test"
 
 #define MENU_NAME_2 "Fuel"
-#define MENU_NAME_3 "Servicing"
-//#define MENU_NAME_4 "Challenges"
+#define MENU_NAME_4 "Servicing"
 
 
 /**
@@ -55,13 +54,10 @@ public:
                    testingsMenu(MenuItem(MENU_NAME_12)),
             //
             // Fuels menu
-                   fuelMenu(MenuItem(MENU_NAME_3)),
+                   fuelMenu(MenuItem(MENU_NAME_2)),
             //
             // Servicing menu
-                   statMenu(MenuItem(MENU_NAME_3))
-    //
-    // Challenges Menu
-//            gamesMenu(MenuItem(MENU_NAME_4))
+                   statMenu(MenuItem(MENU_NAME_4))
     {
     }
 
@@ -71,7 +67,7 @@ public:
         statMenu.add(mainMenu);
 
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-        menu.toRoot();
+//        menu.toRoot();
         menu.moveDown();
         MidCursorMenu = 1;
 
@@ -91,12 +87,10 @@ public:
             MidCursorMenu = 11;
         } else if (curMenuName == MENU_NAME_12) {
             MidCursorMenu = 12;
-        } else if (curMenuName == MENU_NAME_2) {
-            MidCursorMenu = 2;
             //
             // Fuel Menu
-        } else if (curMenuName == MENU_NAME_3) {
-            MidCursorMenu = 3;
+        } else if (curMenuName == MENU_NAME_2) {
+            MidCursorMenu = 2;
             //
             // Car State Menu
         } else if (curMenuName == MENU_NAME_4) {

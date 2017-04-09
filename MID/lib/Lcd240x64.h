@@ -21,6 +21,9 @@
 
 #endif
 
+//
+// Drowing counter
+uint8_t drawEntry = 0;
 
 class Lcd240x62 : virtual public LcdMenuInterface {
 
@@ -42,9 +45,6 @@ protected:
     char displayChar_2[2];
     char displayChar_3[3];
     char displayChar_4[4];
-    //
-    // Drowing counter
-    uint8_t drawState = 0;
 
     void menus(uint8_t);
 
@@ -66,37 +66,59 @@ protected:
  * @param index of loop
  */
     void displayEntry(uint8_t index) {
-        lcd->drawStr(0, 0, "MENU CHANGE ");
+        if (drawEntry > 10) {
+            drawEntry = 0;
+        }
+
+        lcd->drawStr(0, 1, "MENU CHANGE ");
+//        lcd->drawBox(0, 0, 240, 14);
+
         switch (index) {
 
             case 0:
                 lcd->clear();
                 mbs->startEntry();
+                drawEntry = 0;
+                btnMenu.setNavigationState(false);
+                tone(TONE_ADT_PIN, 2800, 16);
                 break;
             case 1:
-                tone(TONE_ADT_PIN, 2800, 16);
             case 2:
             case 3:
             case 4:
-                lcd->enableUTF8Print();
-                lcd->drawStr(0, 15, usedMenu.back);
-                lcd->drawStr(0, 30, usedMenu.used);
-                lcd->drawStr(0, 45, usedMenu.next);
-                lcd->drawStr(78, 30, usedMenu.down);
-                lcd->drawUTF8(76, 30, "➞");
-                break;
             case 5:
+            case 6:
+            case 7:
+            case 8:
+
+                lcd->drawFrame(0, 27, 78, 15);
+
+                lcd->drawStr(10, 15 - (index * 2), usedMenu.back);
+                lcd->drawStr(10, 30 - (index * 2), usedMenu.used);
+                lcd->drawStr(10, 45 - (index * 2), usedMenu.next);
+                lcd->drawStr(10, 45 - (index * 2), usedMenu.last);
+
+                lcd->drawStr(78, 30, usedMenu.down);
+//                lcd->drawStr(0, 15 + (index * 2), ">");
+                lcd->drawStr(4, 30, ">");
+
+
+                break;
+            case 9:
                 lcd->clearBuffer();
                 lcd->clear();
                 break;
-            case 6:
-            default:
+            case 10:
+
+                btnMenu.setNavigationState(true);
                 usedMenu = {};
 //                free(usedMenu);
                 mbs->finishEntry();
-                drawState = 0;
+                lcd->clear();
                 break;
         }
+
+
     }
 
 public:
@@ -126,12 +148,12 @@ public:
         lcd->firstPage();
         do {
 //            lcd->drawXBM(49, 16, 142, 33, OpelLogoBits);
-            lcd->drawXBMP(68, 2, 142, 33, OpelLogoBits);
+            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
         } while (lcd->nextPage());
-        lcd->sendBuffer();
+
         delay(1500);
         lcd->clear();
-//        tone(TONE_ADT_PIN, 800, 10);
+/*//        tone(TONE_ADT_PIN, 800, 10);
 //        delay(10);
 //        lcd->firstPage();
 //        do {
@@ -150,27 +172,27 @@ public:
 //        lcd->sendBuffer();
 //        tone(TONE_ADT_PIN, 800, 10);
 //        delay(1500);
-//        delay(10);
+//        delay(10);*/
         tone(TONE_ADT_PIN, 800, 10);
-        lcd->clear();
-        prepareScreen();
     }
 
     void begin(void) {
         lcd->begin();
         prepareScreen();
+        lcd->enableUTF8Print();
+
     }
 
 /**
  * Draw graphic
  */
     void draw() {
-        if (amp->isLow()) {
+        if (amp->isMid()) {
             lcd->firstPage();
             do {
-                menus(drawState);
+                menus(drawEntry);
             } while (lcd->nextPage());
-            drawState++;
+            drawEntry++;
         }
     }
 
@@ -271,10 +293,10 @@ void Lcd240x62::menus(uint8_t index) {
             lcd->drawStr(0, 0, "Travel menu");
             break;
         case 21:
-            lcd->drawStr(0, 0, "Travel");
+            lcd->drawStr(0, 0, "Sub Travel");
             break;
         case 22:
-            lcd->drawStr(0, 0, "Travel");
+            lcd->drawStr(0, 0, "Sub Travel");
             break;
 
             //
@@ -283,7 +305,7 @@ void Lcd240x62::menus(uint8_t index) {
             lcd->drawStr(0, 0, " Fuel menu");
             break;
         case 32:
-            lcd->drawStr(0, 0, " Fuel menu");
+            lcd->drawStr(0, 0, " Sub Fuel");
             break;
         case 4:
         case 41:
@@ -291,7 +313,7 @@ void Lcd240x62::menus(uint8_t index) {
         case 43:
         case 44:
         case 45:
-            lcd->drawStr(0, 0, "Servicing Menu");
+            lcd->drawStr(0, 0, "Servicing ");
             break;
 /*            //
             // Games menu

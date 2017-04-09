@@ -41,9 +41,6 @@ I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 // Setup the code...
 void setup() {
     //
-    // Begins RAM reserve
-    resRam.begin();
-    //
     // Sets display pins to socket
     lcdPwr.begin();
     //
@@ -107,9 +104,7 @@ void setup() {
     //
     // Shows MID intro
     lcdMenu->intro();
-    //
-    // Begins RAM reserve
-    resRam.begin();
+
 }
 //
 //

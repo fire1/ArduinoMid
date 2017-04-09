@@ -8,7 +8,6 @@
 #include "InitObj.h"
 
 
-
 /**
  *
  */
@@ -70,7 +69,7 @@ public:
         delete this;
     }
 
-    ~LcdPwr() { };
+    ~LcdPwr() {};
 };
 
 
@@ -151,20 +150,21 @@ LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown)
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
     midMenu->menuChanged(changed);
-    Serial.print(F(" Stage free RAM (menuChangeEvent): "));
-    Serial.println(getFreeRam());
+//    Serial.print(F(" Stage free RAM (menuChangeEvent): "));
+//    Serial.println(getFreeRam());
 }
 
 void menuUseEvent(MenuUseEvent used) {
-    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
-    Serial.println(getFreeRam());
+//    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
+//    Serial.println(getFreeRam());
     usedMenu.next = used.item.getAfter()->getName();
+    usedMenu.last = used.item.getAfter()->getAfter()->getName();
     usedMenu.back = used.item.getBack()->getName();
     usedMenu.down = used.item.getRight()->getName();
     usedMenu.used = used.item.getName();
-
-    Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
-    Serial.println(getFreeRam());
+//
+//    Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
+//    Serial.println(getFreeRam());
 }
 
 
