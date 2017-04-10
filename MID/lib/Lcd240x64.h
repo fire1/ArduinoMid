@@ -21,9 +21,6 @@
 
 #endif
 
-//
-// Drowing counter
-uint8_t drawEntry = 0;
 
 class Lcd240x62 : virtual public LcdMenuInterface {
 
@@ -36,7 +33,9 @@ class Lcd240x62 : virtual public LcdMenuInterface {
     WhlSens *whl;
     MenuBase *mbs;
     ShutDw *sdw;
-
+//
+// Drowing counter
+    uint8_t drawEntry = 0;
 
 protected:
 
@@ -61,6 +60,12 @@ protected:
         lcd->setFontDirection(0);
     }
 
+    void useUtf8() {
+        lcd->setFont(u8g2_font_unifont_t_symbols);
+        lcd->setFontPosTop();
+    }
+
+
 /**
  *
  * @param index of loop
@@ -70,8 +75,6 @@ protected:
             drawEntry = 0;
         }
 
-        lcd->drawStr(0, 1, "MENU CHANGE ");
-//        lcd->drawBox(0, 0, 240, 14);
 
         switch (index) {
 
@@ -82,37 +85,34 @@ protected:
                 btnMenu.setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
+            default:
+                lcd->drawStr(0, 1, "MENU CHANGE ");
+                lcd->drawBox(0, 0, 240, 14);
+
             case 1:
             case 2:
             case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
 
                 lcd->drawFrame(0, 27, 78, 15);
 
-                lcd->drawStr(10, 15 - (index * 2), usedMenu.back);
-                lcd->drawStr(10, 30 - (index * 2), usedMenu.used);
-                lcd->drawStr(10, 45 - (index * 2), usedMenu.next);
-                lcd->drawStr(10, 45 - (index * 2), usedMenu.last);
+                lcd->drawStr(10, 15 - (index * 3), usedMenu.back);
+                lcd->drawStr(10, 30 - (index * 3), usedMenu.used);
+                lcd->drawStr(10, 45 - (index * 3), usedMenu.next);
+                lcd->drawStr(10, 45 - (index * 3), usedMenu.last);
 
                 lcd->drawStr(78, 30, usedMenu.down);
 //                lcd->drawStr(0, 15 + (index * 2), ">");
                 lcd->drawStr(4, 30, ">");
 
-
                 break;
-            case 9:
+            case 4:
                 lcd->clearBuffer();
                 lcd->clear();
                 break;
-            case 10:
+            case 5:
 
                 btnMenu.setNavigationState(true);
                 usedMenu = {};
-//                free(usedMenu);
                 mbs->finishEntry();
                 lcd->clear();
                 break;
@@ -140,6 +140,9 @@ public:
 
     }
 
+/**
+ * Mid's intro
+ */
     void intro(void) {
         //
         // Test tone
@@ -147,32 +150,10 @@ public:
         delay(10);
         lcd->firstPage();
         do {
-//            lcd->drawXBM(49, 16, 142, 33, OpelLogoBits);
             lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
         } while (lcd->nextPage());
-
         delay(1500);
         lcd->clear();
-/*//        tone(TONE_ADT_PIN, 800, 10);
-//        delay(10);
-//        lcd->firstPage();
-//        do {
-//            lcd->drawXBMP(51, 20, 137, 25, ArduinoLogoBits);
-//        } while (lcd->nextPage());
-//        lcd->sendBuffer();
-//        tone(TONE_ADT_PIN, 800, 10);
-//        delay(1500);
-//        lcd->clear();
-//        tone(TONE_ADT_PIN, 800, 10);
-//        delay(10);
-//        lcd->firstPage();
-//        do {
-//            lcd->drawXBMP(68, 2, 104, 60, Fire1LogoBits);
-//        } while (lcd->nextPage());
-//        lcd->sendBuffer();
-//        tone(TONE_ADT_PIN, 800, 10);
-//        delay(1500);
-//        delay(10);*/
         tone(TONE_ADT_PIN, 800, 10);
     }
 
@@ -187,7 +168,7 @@ public:
  * Draw graphic
  */
     void draw() {
-        if (amp->isMid()) {
+        if (amp->isSec()) {
             lcd->firstPage();
             do {
                 menus(drawEntry);
@@ -235,20 +216,20 @@ private:
  * Displays consumed fuel
  */
     void displayTotalConsumption() {
-        lcd->drawStr(2, 15, "Consumption: ");
+
+        useUtf8();
+        lcd->drawUTF8(0, 24, "⛽");//\\u26FD
+        lcd->drawStr(2, 30, "Φ");
+        prepareScreen();
+        lcd->drawStr(2, 15, "Cons.: ");
         displayFloat(getConsumedFuel(), displayChar_3);
         lcd->drawStr(150, 20, displayChar_3);
-    }
 
-/**
- * Displays average consumption
- */
-    void displayAverageConsumption() {
-        lcd->drawStr(2, 30, "Average: ");
         displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
         lcd->drawStr(11, 30, displayChar_3);
         lcd->drawStr(140, 30, "L/100km");
     }
+
 
     void displayInsideTemperature() {
         lcd->drawStr(2, 45, "Temperatures: ");
@@ -275,7 +256,7 @@ void Lcd240x62::menus(uint8_t index) {
             lcd->drawStr(0, 0, "HOME MENU");
             displayInsideTemperature();
             displayTotalConsumption();
-            displayAverageConsumption();
+
             break;
             //
             // Dashboard
