@@ -66,7 +66,7 @@ public:
             if (adt[2] > 0) analogWrite(adt[2], 0); // GND
         }
 
-        delete this;
+//        delete this;
     }
 
     ~LcdPwr() {};

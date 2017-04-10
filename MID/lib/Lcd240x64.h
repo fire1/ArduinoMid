@@ -53,6 +53,7 @@ protected:
 
     void prepareScreen() {
         // default u8g2_font_6x10_tf
+//        lcd->setFont(u8g2_font_crox1t_tf   );
         lcd->setFont(u8g2_font_6x10_tf);
         lcd->setFontRefHeightExtendedText();
         lcd->setDrawColor(1);
@@ -77,6 +78,9 @@ protected:
 
 
         switch (index) {
+            default:
+                drawEntry = 0;
+                break;
 
             case 0:
                 lcd->clear();
@@ -85,25 +89,16 @@ protected:
                 btnMenu.setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
-            default:
-                lcd->drawStr(0, 1, "MENU CHANGE ");
-                lcd->drawBox(0, 0, 240, 14);
-
             case 1:
             case 2:
             case 3:
+                lcd->drawStr(12, 5 - (index * 5), usedMenu.back);
+                lcd->drawStr(12, 35 - (index * 5), usedMenu.used);
+                lcd->drawStr(72, 35 - (index * 5), usedMenu.down);
+                lcd->drawStr(12, 20 - (index * 5), usedMenu.next);
+                lcd->drawStr(12, 50 - (index * 5), usedMenu.last);
 
-                lcd->drawFrame(0, 27, 78, 15);
-
-                lcd->drawStr(10, 15 - (index * 3), usedMenu.back);
-                lcd->drawStr(10, 30 - (index * 3), usedMenu.used);
-                lcd->drawStr(10, 45 - (index * 3), usedMenu.next);
-                lcd->drawStr(10, 45 - (index * 3), usedMenu.last);
-
-                lcd->drawStr(78, 30, usedMenu.down);
-//                lcd->drawStr(0, 15 + (index * 2), ">");
-                lcd->drawStr(4, 30, ">");
-
+                lcd->drawFrame(10, 18, 212, 15);
                 break;
             case 4:
                 lcd->clearBuffer();
@@ -217,25 +212,28 @@ private:
  */
     void displayTotalConsumption() {
 
-        useUtf8();
-        lcd->drawUTF8(0, 24, "⛽");//\\u26FD
-        lcd->drawStr(2, 30, "Φ");
-        prepareScreen();
-        lcd->drawStr(2, 15, "Cons.: ");
+//        useUtf8();
+//        lcd->drawUTF8(2, 10, "⛽ ");//\\u26FD
+//        lcd->drawStr(2, 20, "Φ ");
+//        prepareScreen();
+//        lcd->drawStr(2, 15, "Cons.: ");
+        //        lcd->drawUTF8(190, 45, "℃");
+
         displayFloat(getConsumedFuel(), displayChar_3);
-        lcd->drawStr(150, 20, displayChar_3);
+        lcd->drawStr(20, 20, displayChar_3);
+        lcd->drawStr(58, 20, "L");
 
         displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
-        lcd->drawStr(11, 30, displayChar_3);
-        lcd->drawStr(140, 30, "L/100km");
+        lcd->drawStr(20, 30, displayChar_3);
+        lcd->drawStr(58, 30, "L/100km");
     }
 
 
     void displayInsideTemperature() {
-        lcd->drawStr(2, 45, "Temperatures: ");
         displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->drawStr(16, 30, displayChar_3);
-        lcd->drawUTF8(190, 30, "℃");
+        lcd->drawStr(56, 45, displayChar_3);
+        displayFloat(car->getTmpOut(), displayChar_3);
+        lcd->drawStr(20, 45, displayChar_3);
     }
 
 };
