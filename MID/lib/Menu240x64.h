@@ -16,8 +16,9 @@
 #define MENU_NAME_11 "Panel"
 #define MENU_NAME_12 "Test"
 
-#define MENU_NAME_2 "Fuel"
-#define MENU_NAME_4 "Servicing"
+#define MENU_NAME_2 "Trip"
+#define MENU_NAME_3 "Fuel"
+#define MENU_NAME_4 "State"
 
 
 /**
@@ -33,6 +34,9 @@ class Menu240x60 : public MidMenuInterface {
             mainMenu,
             dshBoardMenu,
             testingsMenu,
+    //
+    // Trip
+            tripMenu,
     //
     // Fuel tank
             fuelMenu,
@@ -53,8 +57,11 @@ public:
                    dshBoardMenu(MenuItem(MENU_NAME_11)),
                    testingsMenu(MenuItem(MENU_NAME_12)),
             //
+            // Trip menu
+                   tripMenu(MenuItem(MENU_NAME_2)),
+            //
             // Fuels menu
-                   fuelMenu(MenuItem(MENU_NAME_2)),
+                   fuelMenu(MenuItem(MENU_NAME_3)),
             //
             // Servicing menu
                    statMenu(MenuItem(MENU_NAME_4))
@@ -63,11 +70,11 @@ public:
 
     void setup(void) {
         menu.getRoot()
-                .add(mainMenu).add(fuelMenu).add(statMenu);
+                .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu);
         statMenu.add(mainMenu);
 
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-//        menu.toRoot();
+
         menu.moveDown();
         MidCursorMenu = 1;
 
@@ -83,16 +90,22 @@ public:
 
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;
+            //
+            // Sub menu / Dashboard
         } else if (curMenuName == MENU_NAME_11) {
             MidCursorMenu = 11;
         } else if (curMenuName == MENU_NAME_12) {
             MidCursorMenu = 12;
             //
-            // Fuel Menu
+            // Trip
         } else if (curMenuName == MENU_NAME_2) {
             MidCursorMenu = 2;
             //
-            // Car State Menu
+            // Fuel
+        } else if (curMenuName == MENU_NAME_3) {
+            MidCursorMenu = 3;
+            //
+            // State
         } else if (curMenuName == MENU_NAME_4) {
             MidCursorMenu = 4;
         }

@@ -8,12 +8,12 @@
 #include <Arduino.h>
 #include "../conf.h"
 #include "MainFunc.h"
-#include "Menu16x2.h"
 #include "ShutDw.h"
 #include "CarState.h"
 #include <U8g2lib.h>
 #include "Menu240x64.h"
 #include "graphics/240x64-logo.h"
+#include "graphics/gLcd-icons.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -51,14 +51,12 @@ protected:
         lcd->drawUTF8(aniIndex * 3, 36, str);
     }
 
-    void prepareScreen() {
-        // default u8g2_font_6x10_tf
-//        lcd->setFont(u8g2_font_crox1t_tf   );
+    void useTextMode() {
         lcd->setFont(u8g2_font_6x10_tf);
         lcd->setFontRefHeightExtendedText();
+        lcd->setFontDirection(0);
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
-        lcd->setFontDirection(0);
     }
 
     void useUtf8() {
@@ -154,7 +152,7 @@ public:
 
     void begin(void) {
         lcd->begin();
-        prepareScreen();
+        useTextMode();
         lcd->enableUTF8Print();
 
     }
@@ -190,51 +188,76 @@ private:
 
     unsigned int aniIndex;
 
-    void setTextMode(void) {
-        //
-        // u8g2_font_4x6_tf, u8g2_font_5x7_tf
-        lcd->setFont(u8g2_font_6x10_tf);
-        lcd->setFontRefHeightExtendedText();
-        lcd->setDrawColor(1);
-        lcd->setFontPosTop();
-        lcd->setFontDirection(0);
-    }
-
-    void setCharMode(void) {
-        lcd->drawStr(0, 0, "Unicode");
-        // u8g_font_04b_03b
-        lcd->setFont(u8g2_font_unifont_t_symbols);
-        lcd->setFontPosTop();
-    }
 
 /**
  * Displays consumed fuel
  */
     void displayTotalConsumption() {
 
-//        useUtf8();
-//        lcd->drawUTF8(2, 10, "⛽ ");//\\u26FD
-//        lcd->drawStr(2, 20, "Φ ");
-//        prepareScreen();
-//        lcd->drawStr(2, 15, "Cons.: ");
-        //        lcd->drawUTF8(190, 45, "℃");
-
+        lcd->drawXBMP(0, 15, 18, 18, fuel_18x18_bits);
         displayFloat(getConsumedFuel(), displayChar_3);
         lcd->drawStr(20, 20, displayChar_3);
-        lcd->drawStr(58, 20, "L");
+//        lcd->drawStr(60, 20, "L");
+        lcd->drawXBMP(60, 22, 4, 8, mark_liter_4x8_bits);
 
         displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
         lcd->drawStr(20, 30, displayChar_3);
-        lcd->drawStr(58, 30, "L/100km");
+//        lcd->drawStr(58, 30, "L/100km");
+        lcd->drawXBMP(60, 32, 8, 8, mark_liter_per_8x8_bits);
+        lcd->drawXBMP(68, 32, 10, 8, mark_100_10x8_bits);
+        lcd->drawXBMP(78, 32, 9, 8, mark_km_9x8_bits);
     }
 
 
-    void displayInsideTemperature() {
-        displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->drawStr(56, 45, displayChar_3);
+    void displayWeatherTemperatures() {
+        lcd->drawXBMP(0, 15, 18, 18, temp_18x18_bits);
         displayFloat(car->getTmpOut(), displayChar_3);
         lcd->drawStr(20, 45, displayChar_3);
+        lcd->drawXBMP(52, 47, 4, 8, mark_cels_4x8_bits);
+
+        displayFloat(car->getTmpIns(), displayChar_3);
+        lcd->drawStr(60, 45, displayChar_3);
+        lcd->drawXBMP(92, 47, 4, 8, mark_cels_4x8_bits);
+
     }
+
+/**
+ * Displays trip
+ */
+    void displayTrip() {
+        SavedData saved = eep->getData();
+
+        //// TODO use road_18x18_bits icon
+
+        //
+        // Travel distance
+        lcd->drawStr(2, 15, "Dist:");
+        displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
+        lcd->drawStr(70, 15, displayChar_4);
+        lcd->drawStr(105, 15, "km");
+
+        //
+        // Travel distance
+        lcd->drawStr(150, 15, "Trip:");
+        displayFloat(eep->getWorkDistance(), displayChar_4);
+        lcd->drawStr(205, 15, displayChar_4);
+        lcd->drawStr(105, 15, "km");
+
+        //
+        // Travel time
+        lcd->drawStr(2, 30, "Time:");
+        lcd->drawStr(70, 30, car->getHTm(saved.time_trp));
+        lcd->drawStr(105, 15, "h");
+
+        //
+        // Travel time
+        lcd->drawStr(2, 30, "Time:");
+        lcd->drawStr(70, 30, car->getHTm(saved.time_trp));
+        lcd->drawStr(105, 15, "km");
+
+
+    }
+
 
 };
 
@@ -252,47 +275,30 @@ void Lcd240x62::menus(uint8_t index) {
             // Main / first menu
         case 1:
             lcd->drawStr(0, 0, "HOME MENU");
-            displayInsideTemperature();
+            displayWeatherTemperatures();
             displayTotalConsumption();
-
             break;
             //
             // Dashboard
         case 11:
             lcd->drawStr(0, 0, "Dashboard");
             break;
-
         case 12:
             lcd->drawStr(0, 0, "Menu");
             break;
-
             //
             // Travel menu
         case 2:
-            lcd->drawStr(0, 0, "Travel menu");
+//            lcd->drawStr(0, 0, "Trip");
+            displayTrip();
             break;
-        case 21:
-            lcd->drawStr(0, 0, "Sub Travel");
-            break;
-        case 22:
-            lcd->drawStr(0, 0, "Sub Travel");
-            break;
-
             //
             // Fuel menu
         case 3:
-            lcd->drawStr(0, 0, " Fuel menu");
-            break;
-        case 32:
-            lcd->drawStr(0, 0, " Sub Fuel");
+            lcd->drawStr(0, 0, "Fuel menu");
             break;
         case 4:
-        case 41:
-        case 42:
-        case 43:
-        case 44:
-        case 45:
-            lcd->drawStr(0, 0, "Servicing ");
+            lcd->drawStr(0, 0, "Car State ");
             break;
 /*            //
             // Games menu

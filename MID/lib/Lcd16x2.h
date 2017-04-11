@@ -375,7 +375,6 @@ void Lcd16x2::displayTrip() {
         lcd->print("h");
         //
         // Display travel distance
-
         displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
 
         lcd->print(" ");
