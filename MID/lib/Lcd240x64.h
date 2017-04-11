@@ -194,30 +194,30 @@ private:
  */
     void displayTotalConsumption() {
 
-        lcd->drawXBMP(0, 15, 18, 18, fuel_18x18_bits);
+        lcd->drawXBMP(4, 15, 18, 18, fuel_18x18_bits);
         displayFloat(getConsumedFuel(), displayChar_3);
-        lcd->drawStr(20, 20, displayChar_3);
+        lcd->drawStr(25, 14, displayChar_3);
 //        lcd->drawStr(60, 20, "L");
-        lcd->drawXBMP(60, 22, 4, 8, mark_liter_4x8_bits);
+        lcd->drawXBMP(50, 14, 4, 8, mark_liter_4x8_bits);
 
         displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
-        lcd->drawStr(20, 30, displayChar_3);
+        lcd->drawStr(25, 24, displayChar_3);
 //        lcd->drawStr(58, 30, "L/100km");
-        lcd->drawXBMP(60, 32, 8, 8, mark_liter_per_8x8_bits);
-        lcd->drawXBMP(68, 32, 10, 8, mark_100_10x8_bits);
-        lcd->drawXBMP(78, 32, 9, 8, mark_km_9x8_bits);
+        lcd->drawXBMP(50, 24, 8, 8, mark_liter_per_8x8_bits);
+        lcd->drawXBMP(58, 24, 10, 8, mark_100_10x8_bits);
+        lcd->drawXBMP(69, 24, 9, 8, mark_km_9x8_bits);
     }
 
 
     void displayWeatherTemperatures() {
-        lcd->drawXBMP(0, 15, 18, 18, temp_18x18_bits);
+        lcd->drawXBMP(0, 36, 18, 18, temp_18x18_bits);
         displayFloat(car->getTmpOut(), displayChar_3);
-        lcd->drawStr(20, 45, displayChar_3);
-        lcd->drawXBMP(52, 47, 4, 8, mark_cels_4x8_bits);
+        lcd->drawStr(25, 36, displayChar_3);
+        lcd->drawXBMP(50, 36, 4, 8, mark_cels_4x8_bits);
 
         displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->drawStr(60, 45, displayChar_3);
-        lcd->drawXBMP(92, 47, 4, 8, mark_cels_4x8_bits);
+        lcd->drawStr(25, 46, displayChar_3);
+        lcd->drawXBMP(50, 47, 4, 8, mark_cels_4x8_bits);
 
     }
 

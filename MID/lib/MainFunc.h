@@ -9,11 +9,14 @@
 #include <wiring.c>
 
 
-
 /**
  * Limits playEntry floats
  */
 char displayFloat(float value, char *output) {
+
+    if (value < -99) {
+        value = -99;
+    }
 
     int dig1 = int(value) * 10; // 210
     int dig2 = int((value * 10) - dig1);
@@ -109,11 +112,10 @@ void setupTimer3() {
     sei();//allow interrupts
 }
 
-void pciSetup(byte pin)
-{
+void pciSetup(byte pin) {
     *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
-    PCIFR  |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt
-    PCICR  |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
+    PCIFR |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt
+    PCICR |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
 }
 
 extern uint8_t _end;
@@ -121,8 +123,7 @@ extern uint8_t __stack;
 
 void StackPaint(void) __attribute__ ((naked)) __attribute__ ((section (".init1")));
 
-void StackPaint(void)
-{
+void StackPaint(void) {
 #if 0
     uint8_t *p = &_end;
 
@@ -148,19 +149,18 @@ void StackPaint(void)
 }
 
 
-uint16_t StackCount(void)
-{
+uint16_t StackCount(void) {
     const uint8_t *p = &_end;
-    uint16_t       c = 0;
+    uint16_t c = 0;
 
-    while(*p == 0xc5 && p <= &__stack)
-    {
+    while (*p == 0xc5 && p <= &__stack) {
         p++;
         c++;
     }
 
     return c;
 }
+
 /**
  * What getFreeRam() is actually reporting is the space between the heap and the stack.
  * it does not report any de-allocated memory that is buried in the heap.
@@ -169,22 +169,16 @@ uint16_t StackCount(void)
  * The space between the heap and the stack is what you really need to monitor
  * if you are trying to avoid stack crashes.
  */
-int getFreeRam ()
-{
+int getFreeRam() {
     extern int __heap_start, *__brkval;
     int v;
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
 
-
-float floatPrecision(float val)
-{
-    return ((int)(val*100.0)) / 100.0F;
+float floatPrecision(float val) {
+    return ((int) (val * 100.0)) / 100.0F;
 }
-
-
-
 
 
 #endif //ARDUINOMID_UTILS_H
