@@ -67,13 +67,21 @@ public:
         isNavigationActive = state;
     }
 
-    uint8_t getPinUp(void);
+    inline uint8_t MenuBtn::getPinUp(void) {
+        return btnUp;
+    }
 
-    uint8_t getPinDw(void);
+    inline uint8_t MenuBtn::getPinDw(void) {
+        return btnDw;
+    }
 
-    uint8_t getLastBtn(void);
+    inline uint8_t MenuBtn::getPinTn(void) {
+        return pinTn;
+    }
 
-    uint8_t getPinTn(void);
+    inline uint8_t MenuBtn::getLastBtn() {
+        return lastButtonPushed;
+    }
 
     inline boolean isUp() {
         return lastButtonPushed == btnUp;
@@ -85,15 +93,25 @@ public:
     }
 
 
-    IntAmp *passAmp(void);
+    inline IntAmp *MenuBtn::passAmp(void) {
+        return amp;
+    }
 
-    CarSens *passCar(void);
+    inline CarSens *MenuBtn::passCar(void) {
+        return car;
+    }
 
-    EepRom *passEep(void);
+    inline EepRom *MenuBtn::passEep(void) {
+        return eep;
+    }
 
-    WhlSens *passWhl(void);
+    inline WhlSens *MenuBtn::passWhl(void) {
+        return whl;
+    }
 
-    CarState *passStt(void);
+    inline CarState *MenuBtn::passStt(void) {
+        return stt;
+    }
 
 };
 
@@ -107,41 +125,6 @@ MenuBtn::MenuBtn(IntAmp *_amp, CarSens *_car, EepRom *_eep, WhlSens *_whl, CarSt
 
 }
 
-uint8_t MenuBtn::getPinUp(void) {
-    return btnUp;
-}
-
-uint8_t MenuBtn::getPinDw(void) {
-    return btnDw;
-}
-
-uint8_t MenuBtn::getPinTn(void) {
-    return pinTn;
-}
-
-uint8_t MenuBtn::getLastBtn() {
-    return lastButtonPushed;
-}
-
-IntAmp *MenuBtn::passAmp(void) {
-    return amp;
-}
-
-CarSens *MenuBtn::passCar(void) {
-    return car;
-}
-
-EepRom *MenuBtn::passEep(void) {
-    return eep;
-}
-
-WhlSens *MenuBtn::passWhl(void) {
-    return whl;
-}
-
-CarState *MenuBtn::passStt(void) {
-    return stt;
-}
 
 void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) {
     btnUp = buttonPinUp;

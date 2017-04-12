@@ -42,15 +42,13 @@ class WhlSens {
 private:
 
     IntAmp *_amp;
-
-    uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
     int currentStateButton;
     int lastStateButton = 0;
-
-
+    uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
     //
     // Used for shortcuts ...
     boolean isDisabled = 0;
+
 
     void _setDigitalPot(uint8_t resistance);
 
@@ -63,14 +61,14 @@ public:
 
     //
     // Define buttons values
-    static constexpr int STR_BTN_NON = 0;
-    static constexpr int STR_BTN_VLD = 1;
-    static constexpr int STR_BTN_VLU = 2;
-    static constexpr int STR_BTN_SKU = 3;
-    static constexpr int STR_BTN_SKD = 4;
-    static constexpr int STR_BTN_BCK = 5;
-    static constexpr int STR_BTN_ATT = 6;
-    static constexpr int STR_BTN_MNT = 7;
+    static constexpr uint8_t STR_BTN_NON = 0;
+    static constexpr uint8_t STR_BTN_VLD = 1;
+    static constexpr uint8_t STR_BTN_VLU = 2;
+    static constexpr uint8_t STR_BTN_SKU = 3;
+    static constexpr uint8_t STR_BTN_SKD = 4;
+    static constexpr uint8_t STR_BTN_BCK = 5;
+    static constexpr uint8_t STR_BTN_ATT = 6;
+    static constexpr uint8_t STR_BTN_MNT = 7;
 
 
     int getAnalogReadButtons();

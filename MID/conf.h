@@ -202,7 +202,7 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
-#define MID_VERSION "0.3.5"
+#define MID_VERSION "1.4.0"
 //
 // Reserving RAM
 //#include "lib/drivers/ResRam.h"

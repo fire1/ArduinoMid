@@ -22,7 +22,7 @@ static void LpgSens_interruptDataChange();
  */
 class LpgSens {
 
-//    CarSens *_car;
+//    CarSens *car;
 protected:
     static uint8_t _pinClock, _pinData;
 
@@ -65,7 +65,7 @@ static uint8_t LpgSens::receivedValue = 0;
  * @param carSens
  */
 LpgSens::LpgSens(void /*CarSens *carSens*/) {
-//    _car = carSens;
+//    car = carSens;
 }
 
 /**

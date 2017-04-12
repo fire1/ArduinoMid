@@ -36,7 +36,6 @@
 #ifdef ADT_FUEL_SYSTEM_I2C
 I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
-
 //
 // Setup the code...
 void setup() {
@@ -83,10 +82,10 @@ void setup() {
     carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
     //
     //
-    lcdMenu->begin();
+    lcdMenu.begin();
     //
     // Set MID menu
-    midMenu->setup();
+    midMenu.setup();
     //
     // Setup SPI lib
     whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
@@ -103,7 +102,7 @@ void setup() {
 
     //
     // Shows MID intro
-    lcdMenu->intro();
+    lcdMenu.intro();
 
 }
 //
@@ -162,7 +161,7 @@ void loop() {
     shutDown.cursor();
     //
     // Display UI
-    lcdMenu->draw();
+    lcdMenu.draw();
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance

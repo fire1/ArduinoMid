@@ -69,16 +69,13 @@ class ShutDw {
     WhlSens *_whl;
 
 private :
-
-    uint8_t pinCtrl, pinDtct, pinTone;
-
-    int indexWait = 0;
-    int entryDisplay = 0;
-    int alreadySaved = 0;
-    int alreadyShutdown = 0;
-    bool isShutdownActive = false;
+    unsigned int indexWait = 0;
     int detectorValue = 1000;
-
+    uint8_t pinCtrl, pinDtct, pinTone;
+    uint8_t alreadyShutdown = 0;
+    uint8_t entryDisplay = 0;
+    boolean isShutdownActive = 0;
+    boolean alreadySaved = 0;
 #if SCREEN == 162 || !defined(SCREEN)
     void displaySaved(LiquidCrystal *lcd);
 
@@ -245,7 +242,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
     //
     // Basic information save
-    if (_car->getDst() < SHUTDOWN_SAVE_TRIP) {
+    if (car->getDst() < SHUTDOWN_SAVE_TRIP) {
         tone(pinTone, 1000, 50);
         delay(50);
         tone(pinTone, 1200, 50);

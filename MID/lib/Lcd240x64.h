@@ -127,14 +127,16 @@ public:
  * @param _mbs
  * @param _sdw
  */
-    Lcd240x62(U8G2 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
-        lcd = _lcd;
-        amp = _btn->passAmp();
-        car = _btn->passCar();
-        eep = _btn->passEep();
-        whl = _btn->passWhl();
-        stt = _btn->passStt();
-        sdw = _sdw;
+    Lcd240x62(U8G2 *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) :
+            lcd(_lcd), amp(_btn->passAmp()), car(_btn->passCar()), eep(_btn->passEep()), whl(_btn->passWhl()),
+            stt(_btn->passStt()), sdw(_sdw) {
+//        lcd = _lcd;
+//        amp = _btn->passAmp();
+//        car = _btn->passCar();
+//        eep = _btn->passEep();
+//        whl = _btn->passWhl();
+//        stt = _btn->passStt();
+//        sdw = _sdw;
 
     }
 

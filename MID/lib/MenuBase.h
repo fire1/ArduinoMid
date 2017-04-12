@@ -31,16 +31,10 @@ struct UsedMenu {
 /**
 * Reserve space in used menu container
 */
-static UsedMenu usedMenu ={};/* {
-        used:new char(
-                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
-        back:new char(
-                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
-        next:new char(
-                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7"),
-        down:new char(
-                "Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. Empty Space. 1 2 3 5 6 7")
-};*/
+
+static UsedMenu usedMenu = {};
+
+
 //
 // Saves cursor between changes
 uint8_t MenuBase_savedCursor = 0;
@@ -50,16 +44,11 @@ uint8_t MenuBase_savedCursor = 0;
  */
 class MenuBase {
     MidMenuInterface *mci;
-    MenuBtn *btn;
+    MenuBtn btn;
 public:
     //
     // Constructor
-    MenuBase(MenuBtn *_btn, MidMenuInterface *_mci)
-    //
-    // http://arduino.stackexchange.com/questions/682/is-using-malloc-and-free-a-really-bad-idea-on-arduino
-    {
-        btn = _btn;
-        mci = _mci;
+    MenuBase(MenuBtn _btn, MidMenuInterface *_mci) : btn(_btn), mci(_mci) {
         MenuBase_savedCursor = 1;
     }
 
@@ -72,7 +61,7 @@ public:
      */
     void startEntry() {
 //        resRam.listen();
-        btn->setNavigationState(false);
+        btn.setNavigationState(false);
     }
 
     /**
@@ -97,7 +86,7 @@ public:
         }
 
         MidCursorMenu = MenuBase_savedCursor;
-        btn->setNavigationState(true);
+        btn.setNavigationState(true);
 
 #if defined(MENU_DEBUG)
         Serial.print(F("Cursor menu: "));
@@ -116,29 +105,29 @@ public:
     void listener() {
         //
         // Handle navigation
-        if (btn->isUp()) {
+        if (btn.isUp()) {
             mci->moveUp();
 #if defined(MENU_DEBUG)
-            if (btn->passAmp()->isMid()) {
+            if (btn.passAmp()->isMid()) {
                 Serial.print(F("Up hit \n\r"));
             }
 #endif
         }
-        if (btn->isDw()) {
+        if (btn.isDw()) {
             mci->moveDw();
 #if defined(MENU_DEBUG)
-            if (btn->passAmp()->isMid()) {
+            if (btn.passAmp()->isMid()) {
                 Serial.print(F("Dw hit \n\r"));
             }
 #endif
         }
 
 
-        btn->clearLastButton();
+        btn.clearLastButton();
 
 
 #if defined(MENU_DEBUG)
-        if (btn->passAmp()->isSecond()) {
+        if (btn.passAmp()->isSecond()) {
             Serial.print(F("Cursor saved: "));
             Serial.println(MenuBase_savedCursor);
         }
@@ -154,14 +143,14 @@ public:
             MidCursorMenu = MENU_ENTRY;
         }
 #if defined(MENU_DEBUG)
-        if (btn->passAmp()->isSecond()) {
+        if (btn.passAmp()->isSecond()) {
             Serial.print(F("Cursor MID: "));
             Serial.println(MidCursorMenu);
         }
 #endif
     }
 
-    inline  boolean isNavigationActive() {
+    inline boolean isNavigationActive() {
         return true;
     }
 

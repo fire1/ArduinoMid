@@ -48,7 +48,9 @@ class Menu240x60 : public MidMenuInterface {
 //            gamesMenu
     ;
 public:
-
+/**
+ * Menu constructor
+ */
     Menu240x60() : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
 
             //

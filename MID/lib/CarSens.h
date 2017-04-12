@@ -117,10 +117,14 @@ X18XE1  - 1796 cm3 = 17.96 dl
 #define SWITCH_FUEL_ON_STATE LOW
 #endif
 struct Fuel {
-    int ifc;
-    long cns;
+    unsigned int ifc;
+    unsigned long cns;
 };
 
+//
+// Gears resolver constants
+#define CAR_GEAR_Dia  616
+#define CAR_GEAR_Pi  3.14
 //
 // Car's gears ratio
 #define CAR_GEAR_G1  3.308
@@ -187,83 +191,96 @@ class CarSens {
     IntAmp *_amp;
 
 private:
-
-    //
-    // bool for read sensor at first loop
-    bool isInitTemperature = 1;
-    //
-    // temperature pin container
-    uint8_t pinTmpOut;
+    double CUR_VDS;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
 #if defined(INSIDE_TEMPERATURE_DS)
     float CUR_INS_TMP = 0; // Inside temperature /Dallas Temperature Sensors/
 #endif
-    //
-    // Gears resolver constants
-    const float CAR_GEAR_Dia = 616;
-    const float CAR_GEAR_Pi = 3.14;
+    float FUEL_AVRG_INST_CONS;
 
+    //
+    // Fuel consumption variables
+    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
+    //
+    unsigned long CUR_VTT;// Travel time
+
+    unsigned long collectionIfc, indexIfc;
+    unsigned long lastDetectionLpg = 0;
+    //
+    // Car's average
+    unsigned long averageAllVssValues = 0;
+    unsigned long averageAllRpmValues = 0;
+    /**
+     * Handle playEntry dim
+     */
+    unsigned long lastReadValueDim = 0;
+    unsigned long averageDivider = 0;
     unsigned long sensDeltaCnsOldTime,
             CONS_DELTA_TIME,
             TTL_FL_CNS,  // Consumed fuel
             TTL_FL_WST;  // Waste fuel
-
-    bool _isEngineSens = false;
-    bool _isVehicleSens = false;
     //
     // Divider for averages
     unsigned long LOOP_SENS_INDEX = 0;
+    //
+    // Distance container
+    unsigned long CUR_VDS_collection;
+
 
     //
-    // Engine temperature pin
-    uint8_t pinTemp;
-    uint8_t indexEngineTemp;
-    uint16_t smoothEngineTemp;
+    // Speeding alarms
+    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
+    //
+    // Fuel detection
+    unsigned int pullLpgIndex = 0, combLpgIndex = 0;
 
+    //
+    // Car's reached ...
+    int maxReachedSpeed = 0;
+    //
+    int pushLpgIndex = 0;
 
     int
     //
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
     //
-    // Distance container
-    double CUR_VDS;
-    unsigned long CUR_VDS_collection;
-    //
     // LPG tank
     int CUR_LTK;
-    //
-    // Detect fuel switch
-    unsigned long lastFuelStateSwitched; // Record time when is switched
-    unsigned int FUEL_STATE;
-    uint8_t pinLpgClock, pinLpgData;
-
     int FUEL_INST_CONS;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
+    uint16_t smoothEngineTemp;
     //
-    // Fuel consumption variables
-    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
-
-
+    // Screen back light vars
+    uint16_t backLightLevel = 0; // Container of current level
+    uint8_t pinScreenInput, pinScreenOutput;
     //
-    unsigned long CUR_VTT;// Travel time
-
-    int pushLpgIndex = 0;
-    unsigned long lastDetectionLpg = 0;
-    int pullLpgIndex = 0, combLpgIndex = 0;
-
-    float FUEL_AVRG_INST_CONS;
-    unsigned long collectionIfc, indexIfc;
-
-    //
-    // Speeding alarms
-    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
-
+    // Detect fuel switch
+    uint8_t FUEL_STATE;
+    uint8_t pinLpgClock, pinLpgData;
     //
     //
-    int carGearNum = 0;
+    uint8_t carGearNum = 0;
+    //
+    //
+    boolean initializeAverage = 0;
+    //
+    // bool for read sensor at first loop
+    boolean isInitTemperature = 1;
+    //
+    // temperature pin container
+    uint8_t pinTmpOut;
+    //
+    // Engine temperature pin
+    uint8_t pinTemp;
+    uint8_t indexEngineTemp;
+    //
+    boolean vehicleStopped = false;
+    boolean _isEngineSens = false;
+    boolean _isVehicleSens = false;
+
 
     /**
      * Handles speeding alarms
@@ -279,35 +296,6 @@ private:
     * @param value
     */
     void setConsumedFuel(long value);
-
-    //
-    // Screen back light vars
-//    static const int numReadingsDim = 3;
-//    int indexReadValDim = 0;
-//    int lastReadingsDim[numReadingsDim];
-//    int totalReadingDim = 0;
-    uint16_t backLightLevel = 0; // Container of current level
-    uint8_t pinScreenInput, pinScreenOutput;
-
-
-    //
-    // Car's average
-    unsigned long averageAllVssValues = 0;
-    unsigned long averageAllRpmValues;
-    int long averageDivider = 0;
-    bool initializeAverage = 0;
-    //
-    // Car's reached ...
-    int maxReachedSpeed = 0;
-    //
-    //
-    int vehicleStopped = LOW;
-
-/**
- * Handle playEntry dim
- */
-    int long lastReadValueDim = 0;
-
 
 protected:
     /**
@@ -445,6 +433,13 @@ public:
       * @param pinOutsideTemperature
       */
     void setupTemperature(uint8_t pinOutsideTemperature);
+
+    /**
+     * Returns true if car standing on one position (no miving)
+     */
+    inline boolean isStopped() {
+        return vehicleStopped;
+    }
 
     /**
      * Gets outside temperature
@@ -792,9 +787,9 @@ void CarSens::listener() {
     //
     // Detect time
     if (vss < 1) {
-        vehicleStopped = HIGH;
+        vehicleStopped = 1;
     } else {
-        vehicleStopped = LOW;
+        vehicleStopped = 0;
     }
     //
     // Sens playEntry dim

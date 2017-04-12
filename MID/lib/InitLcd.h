@@ -69,7 +69,7 @@ public:
 //        delete this;
     }
 
-    ~LcdPwr() {};
+    ~LcdPwr() { };
 };
 
 
@@ -108,7 +108,8 @@ LcdMenuInterface *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, 
 #include <U8g2lib.h>
 #include "Lcd240x64.h"
 
-MidMenuInterface *midMenu = new Menu240x60;
+Menu240x60 midMenu;
+
 /*
 1   |   GND   |   power GND
 2   |   GND   |   Power GND
@@ -126,7 +127,7 @@ MidMenuInterface *midMenu = new Menu240x60;
 21  |   LED_A |   Blacklight Anode (+5V)
 22  |   LED_K |   Blacklight cathode (0v)
  */
-MenuBase menuBase(&btnMenu, midMenu);
+MenuBase menuBase(btnMenu, &midMenu);
 
 LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_RD, DSP_PIN_FS, DSP_PIN_GD2);
 //
@@ -143,15 +144,14 @@ U8G2_T6963_240X64_1_8080 // Screen constructor
              DSP_PIN_DT8,
         /*WR*/ DSP_PIN_WR, /*CE*/ DSP_PIN_CE, /*dc8*/DSP_PIN_CD, /*RST*/ DSP_PIN_RST);
 //U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18); // Connect RD with +5V, FS0 and FS1 with GND
-LcdMenuInterface *lcdMenu = new Lcd240x62(&u8g2, &btnMenu, &menuBase, &shutDown);
+Lcd240x62 lcdMenu(&u8g2, &btnMenu, &menuBase, &shutDown);
 #endif
 
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-    midMenu->menuChanged(changed);
-//    Serial.print(F(" Stage free RAM (menuChangeEvent): "));
-//    Serial.println(getFreeRam());
+    midMenu.menuChanged(changed);
+
 }
 
 void menuUseEvent(MenuUseEvent used) {

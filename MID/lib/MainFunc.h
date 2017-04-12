@@ -6,6 +6,7 @@
 #ifndef MID_FUNCTION_H
 #define MID_FUNCTION_H
 
+#include <Arduino.h>
 #include <wiring.c>
 
 
