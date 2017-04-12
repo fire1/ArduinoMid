@@ -72,7 +72,7 @@ struct SavedData {
 //
 class EepRom {
 
-    CarSens *_car;
+    CarSens *car;
 
 public:
     EepRom(CarSens *carSens);
@@ -95,6 +95,25 @@ public:
     void saveTripData();
 
     void clearTripData();
+
+
+    float getAvrageLitersPer100km() {
+        return (container.dist_trv + car->getDst()) / getConsumedFuel();
+    }
+/**
+ *
+ */
+    float getConsumedFuel() {
+
+        //
+        // Switching between LPG / BNZ
+        if (car->getFuelState() == 0) { // BNZ [default]
+            return container.fuel_def + car->getDefFuelCns();
+        }
+        if (car->getFuelState() == 1) { // LPG [additional]
+            return container.fuel_adt + car->getAdtFuelCns();
+        }
+    }
 
 /**
  * Injection data from USB serial monitor
@@ -254,7 +273,7 @@ private:
  * @param carSens
  */
 EepRom::EepRom(CarSens *carSens) {
-    _car = carSens;
+    car = carSens;
 }
 
 /**
@@ -423,13 +442,13 @@ void EepRom::saveWorkingDistance(float value) {
  */
 void EepRom::saveCurrentData() {
 
-    container.fuel_adt = container.fuel_adt + _car->getAdtFuelCns();
+    container.fuel_adt = container.fuel_adt + car->getAdtFuelCns();
     saveAdtCons(container.fuel_adt);
 
-    container.fuel_def = container.fuel_def + _car->getDefFuelCns();
+    container.fuel_def = container.fuel_def + car->getDefFuelCns();
     saveDefCons(container.fuel_def);
 
-    container.dist_trv = container.dist_trv + _car->getDst();
+    container.dist_trv = container.dist_trv + car->getDst();
     saveTravelDistance(container.dist_trv);
 }
 
@@ -440,7 +459,7 @@ void EepRom::saveTripData() {
 
     float time = millis() / MILLIS_PER_HR;
 
-    container.dist_trp = container.dist_trp + _car->getDst();
+    container.dist_trp = container.dist_trp + car->getDst();
     container.time_trp = container.time_trp + time;
 
     saveTripTime(container.time_trp);
@@ -486,7 +505,7 @@ void EepRom::saveZeroingData() {
     saveWorkingDistance(container.total_km);
     //
     // In order to fix and clear assumed data
-    _car->clearBuffer();
+    car->clearBuffer();
 }
 
 /**
@@ -520,6 +539,7 @@ float EepRom::getDefFuel(void) {
 float EepRom::getAdtFuel(void) {
     return container.fuel_adt;
 }
+
 
 /**
  * Gets SavedData data

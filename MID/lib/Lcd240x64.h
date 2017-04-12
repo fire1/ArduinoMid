@@ -21,6 +21,11 @@
 
 #endif
 
+#define LCD_ROW_1 14
+#define LCD_ROW_2 24
+#define LCD_ROW_3 36
+#define LCD_ROW_4 46
+
 
 class Lcd240x62 : virtual public LcdMenuInterface {
 
@@ -171,20 +176,23 @@ public:
     }
 
 private:
-
-    float getConsumedFuel() {
-        //
-        // Load saved data
-        SavedData data = eep->getData();
-        //
-        // Switching between LPG / BNZ
-        if (car->getFuelState() == 0) { // BNZ [default]
-            return data.fuel_def + car->getDefFuelCns();
-        }
-        if (car->getFuelState() == 1) { // LPG [additional]
-            return data.fuel_adt + car->getAdtFuelCns();
-        }
+    /**
+     *
+     */
+    inline void drawKm(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(x, y, 9, 8, mark_km_9x8_bits);
     }
+
+    inline void drawAverage(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(x, y, 4, 8, mark_phi_5x8_bits);
+    }
+
+    inline void drawL100km(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(/*50*/x, y, 8, 8, mark_liter_per_8x8_bits);
+        lcd->drawXBMP(/*58*/x + 8, y, 10, 8, mark_100_10x8_bits);
+        lcd->drawXBMP(/*69*/x + 18, y, 9, 8, mark_km_9x8_bits);
+    }
+
 
     unsigned int aniIndex;
 
@@ -192,70 +200,68 @@ private:
 /**
  * Displays consumed fuel
  */
-    void displayTotalConsumption() {
+    void displayHomeConsumption() {
 
         lcd->drawXBMP(4, 15, 18, 18, fuel_18x18_bits);
-        displayFloat(getConsumedFuel(), displayChar_3);
-        lcd->drawStr(25, 14, displayChar_3);
-//        lcd->drawStr(60, 20, "L");
-        lcd->drawXBMP(50, 14, 4, 8, mark_liter_4x8_bits);
+        displayFloat(eep->getConsumedFuel(), displayChar_3);
+        lcd->drawStr(25, LCD_ROW_1, displayChar_3);
+        lcd->drawXBMP(50, LCD_ROW_1, 4, 8, mark_liter_4x8_bits);
 
-        displayFloat(((eep->getData().dist_trv + car->getDst()) / getConsumedFuel()), displayChar_3);
-        lcd->drawStr(25, 24, displayChar_3);
-//        lcd->drawStr(58, 30, "L/100km");
-        lcd->drawXBMP(50, 24, 8, 8, mark_liter_per_8x8_bits);
-        lcd->drawXBMP(58, 24, 10, 8, mark_100_10x8_bits);
-        lcd->drawXBMP(69, 24, 9, 8, mark_km_9x8_bits);
+        displayFloat(eep->getAvrageLitersPer100km(), displayChar_3);
+        lcd->drawStr(25, LCD_ROW_2, displayChar_3);
+        drawL100km(50, LCD_ROW_2);
+
+//        lcd->drawXBMP(50, LCD_ROW_2, 8, 8, mark_liter_per_8x8_bits);
+//        lcd->drawXBMP(58, LCD_ROW_2, 10, 8, mark_100_10x8_bits);
+//        lcd->drawXBMP(69, LCD_ROW_2, 9, 8, mark_km_9x8_bits);
     }
 
+/**
+ * Display temperatures
+ */
+    void displayHomeTemperatures() {
 
-    void displayWeatherTemperatures() {
-        lcd->drawXBMP(0, 36, 18, 18, temp_18x18_bits);
+        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
         displayFloat(car->getTmpOut(), displayChar_3);
-        lcd->drawStr(25, 36, displayChar_3);
-        lcd->drawXBMP(50, 36, 4, 8, mark_cels_4x8_bits);
+        lcd->drawStr(25, LCD_ROW_3, displayChar_3);
+        lcd->drawXBMP(50, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
 
         displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->drawStr(25, 46, displayChar_3);
-        lcd->drawXBMP(50, 47, 4, 8, mark_cels_4x8_bits);
+        lcd->drawStr(25, LCD_ROW_4, displayChar_3);
+        lcd->drawXBMP(50, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
 
     }
 
 /**
  * Displays trip
  */
-    void displayTrip() {
+    void displayCurrentTrip() {
         SavedData saved = eep->getData();
-
-        //// TODO use road_18x18_bits icon
-
+        lcd->drawXBMP(120, 15, 18, 18, road_18x18_bits);
         //
         // Travel distance
-        lcd->drawStr(2, 15, "Dist:");
+        lcd->drawStr(/*25*/ 145, LCD_ROW_1, "Range:");
         displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
-        lcd->drawStr(70, 15, displayChar_4);
-        lcd->drawStr(105, 15, "km");
-
-        //
-        // Travel distance
-        lcd->drawStr(150, 15, "Trip:");
-        displayFloat(eep->getWorkDistance(), displayChar_4);
-        lcd->drawStr(205, 15, displayChar_4);
-        lcd->drawStr(105, 15, "km");
-
+        lcd->drawStr(/*50*/170, LCD_ROW_1, displayChar_4);
+        drawKm(/*82*/202, 15);
         //
         // Travel time
-        lcd->drawStr(2, 30, "Time:");
-        lcd->drawStr(70, 30, car->getHTm(saved.time_trp));
-        lcd->drawStr(105, 15, "h");
-
+        lcd->drawStr(145, LCD_ROW_2, "Time:");
+        lcd->drawStr(170, LCD_ROW_2, car->getHTm(saved.time_trp));
+        lcd->drawStr(202, LCD_ROW_2, "h");
         //
-        // Travel time
-        lcd->drawStr(2, 30, "Time:");
-        lcd->drawStr(70, 30, car->getHTm(saved.time_trp));
-        lcd->drawStr(105, 15, "km");
-
-
+        // Average speed
+        drawAverage(130, LCD_ROW_3);
+        sprintf(displayChar_2, "%02d", car->getAvrVss());
+        lcd->drawStr(170, LCD_ROW_3, displayChar_2);
+        drawKm(202, LCD_ROW_3);
+        //
+        // Average liters per 100km
+        drawAverage(130, LCD_ROW_4);
+        displayFloat(car->getDst() / car->getCurFuelCns(), displayChar_3);
+        lcd->drawStr(170, LCD_ROW_4, displayChar_3);
+        drawL100km(202, LCD_ROW_4);
+        // Todo wasted fuel
     }
 
 
@@ -275,8 +281,9 @@ void Lcd240x62::menus(uint8_t index) {
             // Main / first menu
         case 1:
             lcd->drawStr(0, 0, "HOME MENU");
-            displayWeatherTemperatures();
-            displayTotalConsumption();
+            displayHomeTemperatures();
+            displayHomeConsumption();
+            displayCurrentTrip();
             break;
             //
             // Dashboard
@@ -289,8 +296,8 @@ void Lcd240x62::menus(uint8_t index) {
             //
             // Travel menu
         case 2:
-//            lcd->drawStr(0, 0, "Trip");
-            displayTrip();
+            lcd->drawStr(0, 0, "CURRENT TRIP");
+
             break;
             //
             // Fuel menu
