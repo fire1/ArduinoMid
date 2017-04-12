@@ -223,14 +223,20 @@ private:
  */
     void displayHomeTemperatures() {
 
+        //
+        // Outside
         lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
         displayFloat(car->getTmpOut(), displayChar_3);
-        lcd->drawStr(25, LCD_ROW_3, displayChar_3);
-        lcd->drawXBMP(50, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
+        lcd->drawStr(45, LCD_ROW_3, displayChar_3);
+        lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
 
+        //
+        // Inside
         displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->drawStr(25, LCD_ROW_4, displayChar_3);
-        lcd->drawXBMP(50, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
+        lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
+        lcd->drawStr(45, LCD_ROW_4, displayChar_3);
+        lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
 
     }
 

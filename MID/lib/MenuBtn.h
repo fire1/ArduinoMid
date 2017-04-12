@@ -93,23 +93,23 @@ public:
     }
 
 
-    inline IntAmp *MenuBtn::passAmp(void) {
+    inline IntAmp *passAmp(void) {
         return amp;
     }
 
-    inline CarSens *MenuBtn::passCar(void) {
+    inline CarSens *passCar(void) {
         return car;
     }
 
-    inline EepRom *MenuBtn::passEep(void) {
+    inline EepRom *passEep(void) {
         return eep;
     }
 
-    inline WhlSens *MenuBtn::passWhl(void) {
+    inline WhlSens *passWhl(void) {
         return whl;
     }
 
-    inline CarState *MenuBtn::passStt(void) {
+    inline CarState *passStt(void) {
         return stt;
     }
 
