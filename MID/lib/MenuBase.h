@@ -44,11 +44,11 @@ uint8_t MenuBase_savedCursor = 0;
  */
 class MenuBase {
     MidMenuInterface *mci;
-    MenuBtn btn;
+    MenuBtn *btn;
 public:
     //
     // Constructor
-    MenuBase(MenuBtn _btn, MidMenuInterface *_mci) : btn(_btn), mci(_mci) {
+    MenuBase(MenuBtn *_btn, MidMenuInterface *_mci) : btn(_btn), mci(_mci) {
         MenuBase_savedCursor = 1;
     }
 
@@ -61,7 +61,7 @@ public:
      */
     void startEntry() {
 //        resRam.listen();
-        btn.setNavigationState(false);
+         btn->setNavigationState(false);
     }
 
     /**
@@ -86,7 +86,7 @@ public:
         }
 
         MidCursorMenu = MenuBase_savedCursor;
-        btn.setNavigationState(true);
+         btn->setNavigationState(true);
 
 #if defined(MENU_DEBUG)
         Serial.print(F("Cursor menu: "));
@@ -103,31 +103,32 @@ public:
      * Perform navigation
      */
     void listener() {
+
         //
         // Handle navigation
-        if (btn.isUp()) {
+        if ( btn->isUp()) {
             mci->moveUp();
 #if defined(MENU_DEBUG)
-            if (btn.passAmp()->isMid()) {
+            if ( btn->passAmp()->isMid()) {
                 Serial.print(F("Up hit \n\r"));
             }
 #endif
         }
-        if (btn.isDw()) {
+        if ( btn->isDw()) {
             mci->moveDw();
 #if defined(MENU_DEBUG)
-            if (btn.passAmp()->isMid()) {
+            if ( btn->passAmp()->isMid()) {
                 Serial.print(F("Dw hit \n\r"));
             }
 #endif
         }
 
 
-        btn.clearLastButton();
+         btn->clearLastButton();
 
 
 #if defined(MENU_DEBUG)
-        if (btn.passAmp()->isSecond()) {
+        if ( btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor saved: "));
             Serial.println(MenuBase_savedCursor);
         }
@@ -143,7 +144,7 @@ public:
             MidCursorMenu = MENU_ENTRY;
         }
 #if defined(MENU_DEBUG)
-        if (btn.passAmp()->isSecond()) {
+        if ( btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor MID: "));
             Serial.println(MidCursorMenu);
         }

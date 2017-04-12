@@ -31,15 +31,14 @@ class IntAmp {
 
 private:
     unsigned long timer;
-    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
-    unsigned int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
-    unsigned long _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
-    unsigned long _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
-    unsigned long curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
-
     //
     // Toggle timers
-    unsigned long _isToggleDef = 0;
+    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
+    unsigned long curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
+    unsigned int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
+    boolean _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
+    boolean _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
+    boolean _isToggleDef = 0;
 
 
     /**
@@ -125,8 +124,6 @@ void IntAmp::setTimer(unsigned long time) {
  * Listen cases
  */
 void IntAmp::listener() {
-
-
 
     if (loopCounter >= curMin + ampMin && !_isMin) {
         curMin = loopCounter;

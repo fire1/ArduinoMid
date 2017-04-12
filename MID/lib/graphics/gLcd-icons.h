@@ -61,7 +61,7 @@ static const uint8_t mark_liter_per_8x8_bits[] U8X8_PROGMEM = {
 static const uint8_t mark_cel_4x8_bits[] U8X8_PROGMEM = {
         0x02, 0x05, 0x02, 0x08, 0x04, 0x04, 0x04, 0x08
 };
-static const uint8_t mark_phi_5x8_bits[] U8X8_PROGMEM = {
+static const uint8_t mark_phi_8x8_bits[] U8X8_PROGMEM = {
         0x00, 0x2c, 0x12, 0x29, 0x25, 0x12, 0x0d, 0x00
 };
 static const uint8_t car_ins_18x10_bits[] U8X8_PROGMEM = {

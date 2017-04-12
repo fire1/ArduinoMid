@@ -113,65 +113,126 @@ void setup() {
 //ISR (PCINT1_vect) { // handle pin change interrupt for A0 to A5 here
 //
 //    // Install Pin change interrupt for a pin, can be called multiple times from pciSetup()
-//    Serial.print("\n\n\n\n");
-//    Serial.print(" LPG dat: ");
+//     Serial.print(F("\n\n\n\n");
+//     Serial.print(F(" LPG dat: ");
 //    Serial.print(digitalRead(pinLpgDat));
-//    Serial.print(" LPG clc: ");
+//     Serial.print(F(" LPG clc: ");
 //    Serial.print(digitalRead(LPG_CLC_PIN));
-//    Serial.print("\n\n\n\n");
+//     Serial.print(F("\n\n\n\n");
 //}
 
 //#define HEAP_DEBUG
 
 void loop() {
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Start (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Set new time every begin
     ampInt.setTimer(millis());
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Timer (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Amplitude loop init
     ampInt.listener();
-
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Timer Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Listen engine
     carSens.listener();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Car Sens (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Listen state pins
     carStat.listener();
 
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Car State Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
 
 #ifdef ADT_FUEL_SYSTEM_I2C
     cli();
     carSens.listenerI2cLpg(&i2cLpg);
     sei();
 #endif
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" LPG Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
+
     //
     // Reads buttons from steering
     whlSens.listener();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Wheel Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Listener shutdown
     shutDown.listener();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Shutdown Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     //  Read main buttons
     btnMenu.listener();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Button Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Navigate menu from button listener
     menuBase.listener();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" MenuBase Listen (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     //  Switch to shutdown menu
     shutDown.cursor();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Shutdown cursor (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Display UI
     lcdMenu.draw();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Lcd Draw (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
     eepRom.injectFromSerial();
+
+    if (ampInt.isSecond()) {
+         Serial.print(F(" Serial inject (RAM): "));
+        Serial.println(getFreeRam());
+    }
     //
     // Calls StackCount() to report the unused RAM
     if (ampInt.isSecond()) {
-        Serial.print(" Stage free heap (RAM): ");
+         Serial.print(F(" End free heap (RAM): "));
         Serial.println(getFreeRam());
     }
 }

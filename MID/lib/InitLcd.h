@@ -127,7 +127,7 @@ Menu240x60 midMenu;
 21  |   LED_A |   Blacklight Anode (+5V)
 22  |   LED_K |   Blacklight cathode (0v)
  */
-MenuBase menuBase(btnMenu, &midMenu);
+MenuBase menuBase(&btnMenu, &midMenu);
 
 LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_RD, DSP_PIN_FS, DSP_PIN_GD2);
 //

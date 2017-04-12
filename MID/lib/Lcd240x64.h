@@ -186,7 +186,7 @@ private:
     }
 
     inline void drawAverage(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 4, 8, mark_phi_5x8_bits);
+        lcd->drawXBMP(x, y, 8, 8, mark_phi_8x8_bits);
     }
 
     inline void drawL100km(u8g2_uint_t x, u8g2_uint_t y) {
@@ -250,13 +250,13 @@ private:
         // Travel distance
         lcd->drawStr(/*25*/ 145, LCD_ROW_1, "Range:");
         displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
-        lcd->drawStr(/*50*/170, LCD_ROW_1, displayChar_4);
-        drawKm(/*82*/202, 15);
+        lcd->drawStr(/*50*/175, LCD_ROW_1, displayChar_4);
+        drawKm(/*82*/205, 15);
         //
         // Travel time
         lcd->drawStr(145, LCD_ROW_2, "Time:");
-        lcd->drawStr(170, LCD_ROW_2, car->getHTm(saved.time_trp));
-        lcd->drawStr(202, LCD_ROW_2, "h");
+        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
+        lcd->drawStr(205, LCD_ROW_2, "h");
         //
         // Average speed
         drawAverage(130, LCD_ROW_3);
