@@ -29,7 +29,7 @@ class CarState {
 private:
     Diagnostic result;
 
-    IntAmp *_amp;
+    IntAmp &amp;
 
     float workDistance;
 
@@ -42,11 +42,14 @@ private:
     int lastVoltageValue = 0;
 
 public:
+
     /**
-     *
-     * @param amp
-     */
-    CarState(IntAmp *amp);
+ * Construction Car State class
+ * @param amp
+ */
+    CarState(IntAmp &_amp) : amp(_amp) {
+        
+    }
 
     void setWorkState(float distance);
 
@@ -83,13 +86,6 @@ public:
     Diagnostic getResult();
 };
 
-/**
- * Construction Car State class
- * @param amp
- */
-CarState::CarState(IntAmp *amp) {
-    _amp = amp;
-}
 
 /**
  *
@@ -120,7 +116,7 @@ void CarState::setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
  * Readings states
  */
 void CarState::listener() {
-    if (_amp->is2Seconds()) {
+    if (amp.is2Seconds()) {
         result.oil = (boolean) digitalRead(pinOil);
         result.brk = (boolean) digitalRead(pinBrk);
         result.cnt = (boolean) digitalRead(pinCnt);

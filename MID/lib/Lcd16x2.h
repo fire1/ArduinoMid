@@ -26,14 +26,14 @@
  * Display
  */
 class Lcd16x2 : virtual public LcdMenuInterface {
-    IntAmp *amp;
-    LiquidCrystal *lcd;
-    CarSens *car;
-    EepRom *eep;
-    CarState *stt;
-    WhlSens *whl;
-    MenuBase *mbs;
-    ShutDw *sdw;
+    IntAmp amp;
+    LiquidCrystal lcd;
+    CarSens car;
+    EepRom eep;
+    CarState stt;
+    WhlSens whl;
+    MenuBase mbs;
+    ShutDw sdw;
 
 
 protected:
@@ -51,15 +51,9 @@ protected:
 
 public:
 
-    Lcd16x2(LiquidCrystal *_lcd, MenuBtn *_btn, MenuBase *_mbs, ShutDw *_sdw) {
-        lcd = _lcd;
-        amp = _btn->passAmp();
-        car = _btn->passCar();
-        eep = _btn->passEep();
-        stt = _btn->passStt();
-        whl = _btn->passWhl();
-        mbs = _mbs;
-        sdw = _sdw;
+    Lcd16x2(LiquidCrystal &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+            lcd(_lcd), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()), stt(_btn.passStt()),
+            whl(_btn.passWhl()), mbs(_mbs), sdw(_sdw) {
     }
 
     void intro(void);

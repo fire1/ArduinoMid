@@ -41,7 +41,7 @@ class WhlSens {
 
 private:
 
-    IntAmp *_amp;
+    IntAmp &_amp;
     int currentStateButton;
     int lastStateButton = 0;
     uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
@@ -57,7 +57,9 @@ private:
     void setButtonStateParser(int currentState);
 
 public:
-    WhlSens(IntAmp *timeAmp);
+    WhlSens(IntAmp &timeAmp) : _amp(timeAmp) {
+
+    }
 
     //
     // Define buttons values
@@ -104,9 +106,7 @@ public:
  ***********************************************************************************************/
 
 
-WhlSens::WhlSens(IntAmp *timeAmp) {
-    _amp = timeAmp;
-}
+
 
 /**
  * Sets current button press
@@ -286,13 +286,13 @@ void WhlSens::sendRadioButtons() {
         // Open resistance to pot
         digitalWrite(pinOutVoltage, LOW);
 
-            digitalWrite(pinDigPotCntr, LOW);
+        digitalWrite(pinDigPotCntr, LOW);
 
-            setButtonStateParser(currentState);
-            delay(5); // Some separation fix
+        setButtonStateParser(currentState);
+        delay(5); // Some separation fix
 
-            digitalWrite(pinDigPotCntr, HIGH);
-            lastStateButton = currentState;
+        digitalWrite(pinDigPotCntr, HIGH);
+        lastStateButton = currentState;
     } else {
         digitalWrite(pinOutVoltage, HIGH);
     }

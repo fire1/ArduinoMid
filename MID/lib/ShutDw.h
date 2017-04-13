@@ -41,7 +41,7 @@ const char ShutDw__msgString_10[] PROGMEM = "Erasing trip ...";
 const char ShutDw__msgString_11[] PROGMEM = " Trip saved :)  ";
 const char ShutDw__msgString_12[] PROGMEM = " Bye bye ...    ";
 
-const char* const  ShutDw_table[] PROGMEM =
+const char *const ShutDw_table[] PROGMEM =
         {
                 ShutDw__msgString_01,
                 ShutDw__msgString_02,
@@ -60,13 +60,13 @@ const char* const  ShutDw_table[] PROGMEM =
 class ShutDw {
 
 
-    IntAmp *_amp;
+    IntAmp &_amp;
 
-    EepRom *_eep;
+    EepRom &_eep;
 
-    CarSens *_car;
+    CarSens &_car;
 
-    WhlSens *_whl;
+    WhlSens &_whl;
 
 private :
     unsigned int indexWait = 0;
@@ -83,28 +83,42 @@ private :
 #else
 
 #endif
+
     void melodySave(void);
 
     char buffer[74];
+
     char *getMsg(int index) {
-        strcpy_P(buffer, (char *)pgm_read_word(&(ShutDw_table[index])));
-        return  buffer;
+        strcpy_P(buffer, (char *) pgm_read_word(&(ShutDw_table[index])));
+        return buffer;
     }
 
 
 public:
     static constexpr uint8_t MENU_SHUTDOWN = 99;
 
-    ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens, WhlSens *whlSens);
+/**
+ * Constructor of shutdown
+  * @param eepRom
+  * @param ampInt
+  * @param carSens
+  * @param whlSens
+  */
+    ShutDw::ShutDw(EepRom &eepRom, IntAmp &ampInt, CarSens &carSens, WhlSens &whlSens) :
+            _eep(eepRom), _amp(ampInt), _car(carSens), _whl(whlSens) {
+    }
+
 
     void setup(int pinControl, int pinDetect, int pinToAlarm);
 
     void listener();
+
 #if SCREEN == 162 || !defined(SCREEN)
     void lcd16x2(LiquidCrystal *lcd);
 #else
 
 #endif
+
     void cursor();
 
 };
@@ -117,19 +131,7 @@ public:
  ***********************************************************************************************/
 
 
-/**
- * Constructor of shutdown
-  * @param eepRom
-  * @param ampInt
-  * @param carSens
-  * @param whlSens
-  */
-ShutDw::ShutDw(EepRom *eepRom, IntAmp *ampInt, CarSens *carSens, WhlSens *whlSens) {
-    _eep = eepRom;
-    _amp = ampInt;
-    _car = carSens;
-    _whl = whlSens;
-}
+
 
 /**
  * Setup shutdown class
@@ -150,8 +152,6 @@ void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
     pinMode(pinDtct, INPUT);
 
 }
-
-
 
 
 /**
@@ -194,15 +194,15 @@ void ShutDw::listener() {
 
         //
         // Is shutdown mode .... not noise
-        if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE) {
+        if (_amp.isMax() && detectorValue < SHUTDOWN_LOW_VALUE) {
             isShutdownActive = true;
         }
         //
         // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
-        if (_amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car->isRunEng()) {
+        if (_amp.isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car.isRunEng()) {
             //
             // Fixes digital pot
-            _whl->shutdownMode();
+            _whl.shutdownMode();
             //
             // Wait dig pot
             delay(100);
@@ -217,6 +217,7 @@ void ShutDw::listener() {
 
 
 }
+
 /**
  * Save melody play
  */

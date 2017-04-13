@@ -38,28 +38,27 @@
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
-IntAmp ampInt(5, 10, 50, 100, 200, 1000);
+IntAmp ampInt(5, 10, 50, 100, 250, 1000);
 //
 // Constructing the class
-CarSens carSens(&ampInt);
+CarSens carSens(ampInt);
 //
 // Constructing car state
-CarState carStat(&ampInt);
+CarState carStat(ampInt);
 //
 // Constructing the class
-WhlSens whlSens(&ampInt);
+WhlSens whlSens(ampInt);
 //
 // Data storage
-EepRom eepRom(&carSens);
+EepRom eepRom(carSens);
 //
 // Buttons driver
-MenuBtn btnMenu(&ampInt, &carSens, &eepRom, &whlSens, &carStat);
+MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
 //
 // Additional libraries
 // ----
 // Shutdown constructor
-ShutDw shutDown(&eepRom, &ampInt, &carSens, &whlSens);
-
+ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 
 
 #endif //ARDUINOMID_INITIALIZATIONS_H
