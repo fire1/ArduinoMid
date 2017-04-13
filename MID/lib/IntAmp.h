@@ -1,11 +1,12 @@
 //
 // Created by Angel Zaprianov on 29.9.2016 г..
 //
-#include <Arduino.h>
+
 
 #ifndef ARDUINOMID_TIMEAMP_H
 #define ARDUINOMID_TIMEAMP_H
 
+#include <Arduino.h>
 
 #ifndef MILLIS_SENS
 #define MILLIS_SENS 200
@@ -33,9 +34,9 @@ private:
     unsigned long timer;
     //
     // Toggle timers
-    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0;
-    unsigned long curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
-    unsigned int ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0, ampMax = 0;
+    unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
+    uint16_t ampMax = 0;
+    uint8_t ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0;
     boolean _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
     boolean _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
     boolean _isToggleDef = 0;
@@ -44,52 +45,54 @@ private:
     /**
      * MAX 1,193,046 Hour	(h)
      */
-    unsigned long loopCounter = 0;
 public:
-    IntAmp(unsigned int intervalMin, unsigned int intervalLow, unsigned int intervalMid, unsigned int intervalSec,
-           unsigned int intervalBig, unsigned int intervalMax);
+    IntAmp(uint8_t intMin, uint8_t intLow, uint8_t intMid, uint8_t intSec, uint8_t intBig, uint16_t intMax) {
+        ampMin = intMin;
+        ampLow = intLow;
+        ampSec = intSec;
+        ampMid = intMid;
+        ampBig = intBig;
+        ampMax = intMax;
+    }
 
     void listener();
 
-    unsigned long getLoopIndex() { return loopCounter; }
+    inline unsigned long getLoopIndex() { return timer; }
 
-    bool isLow() { return (bool) _isLow; }
+    inline boolean isLow() { return (boolean) _isLow; }
 
-    bool isMin() { return (bool) _isMin; }
+    inline boolean isMin() { return (boolean) _isMin; }
 
-    bool isSec() { return (bool) _isSec; }
+    inline boolean isSec() { return (boolean) _isSec; }
 
-    bool isMid() { return (bool) _isMid; }
+    inline boolean isMid() { return (boolean) _isMid; }
 
-    bool isBig() { return (bool) _isBig; }
+    inline boolean isBig() { return (boolean) _isBig; }
 
-    bool isMax() { return (bool) _isMax; }
+    inline boolean isMax() { return (boolean) _isMax; }
 
     /************** Real Time *********************/
 
-    bool isSecond() { return (bool) _isSecond; }
+    inline boolean isSecond() { return (boolean) _isSecond; }
 
-    bool is10Seconds() { return (bool) _is10Seconds; }
+    inline boolean is10Seconds() { return (boolean) _is10Seconds; }
 
-    bool is5Seconds() { return (bool) _is5Seconds; }
+    inline boolean is5Seconds() { return (boolean) _is5Seconds; }
 
-    bool is2Seconds() { return (bool) _is2Seconds; }
+    inline boolean is2Seconds() { return (boolean) _is2Seconds; }
 
-    bool is4Seconds() { return (bool) _is4Seconds; }
+    inline boolean is4Seconds() { return (boolean) _is4Seconds; }
 
-    bool isMinute() { return (bool) _isMinute; }
+    inline boolean isMinute() { return (boolean) _isMinute; }
 
-    bool isHour() { return (bool) _isHour; }
+    inline boolean isHour() { return (boolean) _isHour; }
 
-    bool isSens() { return (bool) _isSens; }
-
-    void setTimer(unsigned long time);
-
+    inline boolean isSens() { return (boolean) _isSens; }
 
 
     /************** Time Toggle *********************/
 
-    bool isToggle() { return (bool) _isToggleDef; }
+    boolean isToggle() { return (boolean) _isToggleDef; }
 
 };
 
@@ -101,73 +104,55 @@ public:
  ***********************************************************************************************/
 
 
-IntAmp::IntAmp(unsigned int intervalMin, unsigned int intervalLow, unsigned int intervalMid, unsigned int intervalSec,
-               unsigned int intervalBig, unsigned int intervalMax) {
-
-    ampMin = intervalMin;
-    ampLow = intervalLow;
-    ampSec = intervalSec;
-    ampMid = intervalMid;
-    ampBig = intervalBig;
-    ampMax = intervalMax;
-
-}
-
-/**
- * Sets external timer
- */
-void IntAmp::setTimer(unsigned long time) {
-    timer = time;
-}
-
 /**
  * Listen cases
  */
 void IntAmp::listener() {
 
-    if (loopCounter >= curMin + ampMin && !_isMin) {
-        curMin = loopCounter;
+    timer = millis();
+
+    if (timer >= curMin + ampMin && !_isMin) {
+        curMin = timer;
         _isMin = 1;
     } else {
         _isMin = 0;
     }
 
-    if (loopCounter >= curLow + ampLow && !_isLow) {
-        curLow = loopCounter;
+    if (timer >= curLow + ampLow && !_isLow) {
+        curLow = timer;
         _isLow = 1;
     } else {
         _isLow = 0;
     }
 
-    if (loopCounter >= curSec + ampSec && !_isSec) {
-        curSec = loopCounter;
+    if (timer >= curSec + ampSec && !_isSec) {
+        curSec = timer;
         _isSec = 1;
     } else {
         _isSec = 0;
     }
 
-    if (loopCounter >= curMid + ampMid && !_isMid) {
-        curMid = loopCounter;
+    if (timer >= curMid + ampMid && !_isMid) {
+        curMid = timer;
         _isMid = 1;
     } else {
         _isMid = 0;
     }
 
-    if (loopCounter >= curBig + ampBig && !_isBig) {
-        curBig = loopCounter;
+    if (timer >= curBig + ampBig && !_isBig) {
+        curBig = timer;
         _isBig = 1;
     } else {
         _isBig = 0;
     }
 
-    if (loopCounter >= curMax + ampMax && !_isMax) {
-        curMax = loopCounter;
+    if (timer >= curMax + ampMax && !_isMax) {
+        curMax = timer;
         _isMax = 1;
     } else {
         _isMax = 0;
     }
 
-    loopCounter++;
 
     /************** Real Time *********************/
 

@@ -130,9 +130,8 @@ void loop() {
     }
     //
     // Set new time every begin
-    ampInt.setTimer(millis());
     if (ampInt.isSecond()) {
-         Serial.print(F(" Timer (RAM): "));
+         Serial.print(F(" Timer before (RAM): "));
         Serial.println(getFreeRam());
     }
     //
