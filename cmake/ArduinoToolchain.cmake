@@ -52,19 +52,17 @@ if (NOT ARDUINO_SDK_PATH)
         list(APPEND ARDUINO_PATHS arduino-00${VERSION})
     endforeach ()
 
-    if(UNIX)
+    if (UNIX)
         file(GLOB SDK_PATH_HINTS /usr/share/arduino*
                 /opt/local/arduino*
                 /opt/arduino*
                 /usr/local/share/arduino*
                 /cygdrive/c/Program\ Files\ \(x86\)/Arduino)
-    elseif(WIN32)
-        set(SDK_PATH_HINTS "C:\\Program Files\\Arduino"
-                "C:\\Program Files (x86)\\Arduino"
-                )
+    elseif (WIN32)
+        set(SDK_PATH_HINTS "C:\\Program Files\\Arduino" "C:\\Program Files (x86)\\Arduino")
         link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
         link_directories("../libraries/")
-    endif()
+    endif ()
 
 
     list(SORT SDK_PATH_HINTS)
@@ -87,7 +85,7 @@ if (ARDUINO_SDK_PATH)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr/utils)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
-#    list(APPEND CMAKE_SYSTEM_PREFIX_PATH "../libraries/")
+    #    list(APPEND CMAKE_SYSTEM_PREFIX_PATH "../libraries/")
 else ()
     message(FATAL_ERROR "Could not find Arduino SDK (set ARDUINO_SDK_PATH)!")
 endif ()

@@ -109,7 +109,7 @@ public:
     }
 
 
-    void setup(int pinControl, int pinDetect, int pinToAlarm);
+    void setup(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm);
 
     void listener();
 
@@ -136,7 +136,7 @@ public:
 /**
  * Setup shutdown class
  */
-void ShutDw::setup(int pinControl, int pinDetect, int pinToAlarm) {
+void ShutDw::setup(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm) {
 
     pinCtrl = uint8_t(pinControl);
     pinDtct = uint8_t(pinDetect);
