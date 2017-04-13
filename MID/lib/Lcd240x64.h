@@ -40,7 +40,7 @@ class Lcd240x62 : virtual public LcdMenuInterface {
     ShutDw *sdw;
 //
 // Drowing counter
-    uint8_t drawEntry = 0;
+    uint8_t drawIndex = 0;
 
 protected:
 
@@ -50,7 +50,7 @@ protected:
     char displayChar_3[3];
     char displayChar_4[4];
 
-    void menus(uint8_t);
+    void menus();
 
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
         lcd->drawUTF8(aniIndex * 3, 36, str);
@@ -74,32 +74,32 @@ protected:
  *
  * @param index of loop
  */
-    void displayEntry(uint8_t index) {
-        if (drawEntry > 10) {
-            drawEntry = 0;
+    void displayEntry() {
+        if (drawIndex > 10) {
+            drawIndex = 0;
         }
 
 
-        switch (index) {
+        switch (drawIndex) {
             default:
-                drawEntry = 0;
+                drawIndex = 0;
                 break;
 
             case 0:
                 lcd->clear();
                 mbs->startEntry();
-                drawEntry = 0;
+                drawIndex = 0;
                 btnMenu.setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
             case 1:
             case 2:
             case 3:
-                lcd->drawStr(12, 5 - (index * 5), usedMenu.back);
-                lcd->drawStr(12, 35 - (index * 5), usedMenu.used);
-                lcd->drawStr(72, 35 - (index * 5), usedMenu.down);
-                lcd->drawStr(12, 20 - (index * 5), usedMenu.next);
-                lcd->drawStr(12, 50 - (index * 5), usedMenu.last);
+                lcd->drawStr(12, 5 - (drawIndex * 5), usedMenu.back);
+                lcd->drawStr(12, 35 - (drawIndex * 5), usedMenu.used);
+                lcd->drawStr(72, 35 - (drawIndex * 5), usedMenu.down);
+                lcd->drawStr(12, 20 - (drawIndex * 5), usedMenu.next);
+                lcd->drawStr(12, 50 - (drawIndex * 5), usedMenu.last);
 
                 lcd->drawFrame(10, 18, 212, 15);
                 break;
@@ -171,9 +171,9 @@ public:
         if (amp->isSec()) {
             lcd->firstPage();
             do {
-                menus(drawEntry);
+                menus();
             } while (lcd->nextPage());
-            drawEntry++;
+            drawIndex++;
         }
     }
 
@@ -279,11 +279,11 @@ private:
  *
  * @param index
  */
-void Lcd240x62::menus(uint8_t index) {
+void Lcd240x62::menus() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            displayEntry(index);
+            displayEntry();
             break;
             //
             // Main / first menu
