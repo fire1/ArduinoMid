@@ -94,23 +94,23 @@ public:
         return lastButtonPushed == btnDw;
     }
 
-    inline IntAmp passAmp(void) {
+    inline IntAmp &passAmp(void) {
         return amp;
     }
 
-    inline CarSens passCar(void) {
+    inline CarSens &passCar(void) {
         return car;
     }
 
-    inline EepRom passEep(void) {
+    inline EepRom &passEep(void) {
         return eep;
     }
 
-    inline WhlSens passWhl(void) {
+    inline WhlSens &passWhl(void) {
         return whl;
     }
 
-    inline CarState passStt(void) {
+    inline CarState &passStt(void) {
         return stt;
     }
 

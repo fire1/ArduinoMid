@@ -30,14 +30,14 @@
 class Lcd240x62 : virtual public LcdMenuInterface {
 
 
-    U8G2 lcd;
-    IntAmp amp;
-    CarSens car;
-    EepRom eep;
-    CarState stt;
-    WhlSens whl;
-    MenuBase mbs;
-    ShutDw sdw;
+    U8G2 &lcd;
+    IntAmp &amp;
+    CarSens &car;
+    EepRom &eep;
+    CarState &stt;
+    WhlSens &whl;
+    MenuBase &mbs;
+    ShutDw &sdw;
 //
 // Drowing counter
     uint8_t drawIndex = 0;
