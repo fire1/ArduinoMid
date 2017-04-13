@@ -24,6 +24,17 @@
 #define MILLIS_PER_SC 1000
 #endif
 
+//    ampInt(min,low,mid,sec, big, max);
+//IntAmp ampInt(5, 10, 50, 100, 250, 1000);
+
+#ifndef AMP_CUSTOM
+#define AMP_MIN 5 // MIN
+#define AMP_LOW 10 // LOW
+#define AMP_MID 50 // MID
+#define AMP_SEC 100 // SEC
+#define AMP_BIG 250 // BIG
+#define AMP_MAX 500 // MAX
+#endif
 
 /** @description
  * Initialization Amplitudes
@@ -35,8 +46,6 @@ private:
     //
     // Toggle timers
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
-    uint16_t ampMax = 0;
-    uint8_t ampLow = 0, ampSec = 0, ampMid = 0, ampMin = 0, ampBig = 0;
     boolean _isLow = 0, _isSec = 0, _isMid = 0, _isMin = 0, _isBig = 0, _isMax = 0;
     boolean _isSecond = 0, _isMinute = 0, _isHour = 0, _isSens = 0, _is10Seconds = 0, _is5Seconds = 0, _is2Seconds, _is4Seconds;
     boolean _isToggleDef = 0;
@@ -46,13 +55,7 @@ private:
      * MAX 1,193,046 Hour	(h)
      */
 public:
-    IntAmp(uint8_t intMin, uint8_t intLow, uint8_t intMid, uint8_t intSec, uint8_t intBig, uint16_t intMax) {
-        ampMin = intMin;
-        ampLow = intLow;
-        ampSec = intSec;
-        ampMid = intMid;
-        ampBig = intBig;
-        ampMax = intMax;
+    IntAmp() {
     }
 
     void listener();
@@ -111,42 +114,42 @@ void IntAmp::listener() {
 
     timer = millis();
 
-    if (timer >= curMin + ampMin && !_isMin) {
+    if (timer >= curMin + AMP_MIN && !_isMin) {
         curMin = timer;
         _isMin = 1;
     } else {
         _isMin = 0;
     }
 
-    if (timer >= curLow + ampLow && !_isLow) {
+    if (timer >= curLow + AMP_LOW && !_isLow) {
         curLow = timer;
         _isLow = 1;
     } else {
         _isLow = 0;
     }
 
-    if (timer >= curSec + ampSec && !_isSec) {
+    if (timer >= curSec + AMP_SEC && !_isSec) {
         curSec = timer;
         _isSec = 1;
     } else {
         _isSec = 0;
     }
 
-    if (timer >= curMid + ampMid && !_isMid) {
+    if (timer >= curMid + AMP_MID && !_isMid) {
         curMid = timer;
         _isMid = 1;
     } else {
         _isMid = 0;
     }
 
-    if (timer >= curBig + ampBig && !_isBig) {
+    if (timer >= curBig + AMP_BIG && !_isBig) {
         curBig = timer;
         _isBig = 1;
     } else {
         _isBig = 0;
     }
 
-    if (timer >= curMax + ampMax && !_isMax) {
+    if (timer >= curMax + AMP_MAX && !_isMax) {
         curMax = timer;
         _isMax = 1;
     } else {

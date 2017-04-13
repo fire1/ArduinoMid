@@ -75,7 +75,7 @@ protected:
  * @param index of loop
  */
     void displayEntry() {
-        if (drawIndex > 10) {
+        if (drawIndex > 5) {
             drawIndex = 0;
         }
 
@@ -110,7 +110,7 @@ protected:
             case 5:
 
                 btnMenu.setNavigationState(true);
-                usedMenu = {};
+//                usedMenu = {};
                 mbs.finishEntry();
                 lcd.clear();
                 break;
@@ -168,7 +168,7 @@ public:
  * Draw graphic
  */
     void draw() {
-        if (amp.isSec()) {
+        if (amp.isSens()) {
             lcd.firstPage();
             do {
                 menus();

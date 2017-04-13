@@ -21,12 +21,7 @@
 //#define GLOBAL_SENS_DEBUG
 //
 // Sensing instrument interval time
-#define MILLIS_SENS 200
-//
-// Time information
-#define MILLIS_PER_HR    3600000    // Hour
-#define MILLIS_PER_MN    60000      // Minute
-#define MILLIS_PER_SC    1000       // Second
+
 //
 // From this distance will trigger
 // menu for saving trip

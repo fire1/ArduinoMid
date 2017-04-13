@@ -38,7 +38,7 @@
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
-IntAmp ampInt(5, 10, 50, 100, 250, 1000);
+IntAmp ampInt;
 //
 // Constructing the class
 CarSens carSens(ampInt);

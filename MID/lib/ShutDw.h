@@ -104,7 +104,7 @@ public:
   * @param carSens
   * @param whlSens
   */
-    ShutDw::ShutDw(EepRom &eepRom, IntAmp &ampInt, CarSens &carSens, WhlSens &whlSens) :
+    ShutDw(EepRom &eepRom, IntAmp &ampInt, CarSens &carSens, WhlSens &whlSens) :
             _eep(eepRom), _amp(ampInt), _car(carSens), _whl(whlSens) {
     }
 
