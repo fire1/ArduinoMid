@@ -25,7 +25,7 @@
 #endif
 
 //    ampInt(min,low,mid,sec, big, max);
-//IntAmp ampInt(5, 10, 50, 100, 250, 1000);
+//AmpTime ampInt(5, 10, 50, 100, 250, 1000);
 
 #ifndef AMP_CUSTOM
 #define AMP_MIN 5 // MIN
@@ -39,10 +39,8 @@
 /** @description
  * Initialization Amplitudes
  */
-class IntAmp {
+class AmpTime {
 
-private:
-    unsigned long timer;
     //
     // Toggle timers
     unsigned long curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0, curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
@@ -55,12 +53,10 @@ private:
      * MAX 1,193,046 Hour	(h)
      */
 public:
-    IntAmp() {
-    }
+    AmpTime() {}
 
     void listener();
 
-    inline unsigned long getLoopIndex() { return timer; }
 
     inline boolean isLow() { return (boolean) _isLow; }
 
@@ -110,9 +106,9 @@ public:
 /**
  * Listen cases
  */
-void IntAmp::listener() {
+void AmpTime::listener() {
 
-    timer = millis();
+    unsigned long timer = millis();
 
     if (timer >= curMin + AMP_MIN && !_isMin) {
         curMin = timer;
@@ -215,14 +211,15 @@ void IntAmp::listener() {
         _isSens = 0;
     }
 
+    timer = 0;
 /************** Time Toggle *********************/
 
-    if (_is2Seconds && _isToggleDef == 1) {
-        _isToggleDef = 0;
-    }
-
-    if (_is2Seconds && _isToggleDef == 0) {
-        _isToggleDef = 1;
-    }
+//    if (_is2Seconds && _isToggleDef == 1) {
+//        _isToggleDef = 0;
+//    }
+//
+//    if (_is2Seconds && _isToggleDef == 0) {
+//        _isToggleDef = 1;
+//    }
 };
 #endif //ARDUINOMID_TIMEAMP_H

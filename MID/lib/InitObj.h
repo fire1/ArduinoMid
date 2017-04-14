@@ -9,7 +9,7 @@
 //#include "LpgSens.h"
 //
 // Interval / Amplitude
-#include "IntAmp.h"
+#include "AmpTime.h"
 //
 // Adding Alphine emulator
 #include "WhlSens.h"
@@ -38,7 +38,7 @@
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
-IntAmp ampInt;
+AmpTime ampInt;
 //
 // Constructing the class
 CarSens carSens(ampInt);

@@ -60,13 +60,13 @@ const char *const ShutDw_table[] PROGMEM =
 class ShutDw {
 
 
-    IntAmp &_amp;
+    AmpTime *amp;
 
-    EepRom &_eep;
+    EepRom *eep;
 
-    CarSens &_car;
+    CarSens *car;
 
-    WhlSens &_whl;
+    WhlSens *whl;
 
 private :
     unsigned int indexWait = 0;
@@ -104,8 +104,8 @@ public:
   * @param carSens
   * @param whlSens
   */
-    ShutDw(EepRom &eepRom, IntAmp &ampInt, CarSens &carSens, WhlSens &whlSens) :
-            _eep(eepRom), _amp(ampInt), _car(carSens), _whl(whlSens) {
+    ShutDw(EepRom &eepRom, AmpTime &ampInt, CarSens &carSens, WhlSens &whlSens) :
+            eep(&eepRom), amp(&ampInt), car(&carSens), whl(&whlSens) {
     }
 
 
@@ -182,7 +182,7 @@ void ShutDw::listener() {
     detectorValue = analogRead(pinDtct);
 
 
-//    if (_amp->isMid()) {
+//    if (amp->isMid()) {
 //        Serial.print("Detected car voltage is: ");
 //        Serial.println(detectorValue);
 //    }
@@ -194,15 +194,15 @@ void ShutDw::listener() {
 
         //
         // Is shutdown mode .... not noise
-        if (_amp.isMax() && detectorValue < SHUTDOWN_LOW_VALUE) {
+        if (amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE) {
             isShutdownActive = true;
         }
         //
         // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
-        if (_amp.isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !_car.isRunEng()) {
+        if (amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !car->isRunEng()) {
             //
             // Fixes digital pot
-            _whl.shutdownMode();
+            whl->shutdownMode();
             //
             // Wait dig pot
             delay(100);
@@ -255,8 +255,8 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         lcd->setCursor(0, 1);
         lcd->print(getMsg(1));
         melodySave();
-        _eep->saveCurrentData();
-        _whl->shutdownMode();
+        eep->saveCurrentData();
+        whl->shutdownMode();
         delay(2200);
         digitalWrite(pinCtrl, LOW);
         return;
@@ -288,7 +288,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
     //
     // Catch seconds from loop
-    if (_amp->isSec()) {
+    if (amp->isSec()) {
 
         lcd->setCursor(0, 0);
         lcd->print(getMsg(5));
@@ -315,7 +315,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     if (indexWait >= SHUTDOWN_SAVE_LOOPS && alreadyShutdown == 0) {
         //
         // Save current data and shutdown
-        _eep->saveTripData();
+        eep->saveTripData();
         //
         // Show on playEntry
         displaySaved(lcd);
@@ -338,11 +338,11 @@ void ShutDw::displayCancel(LiquidCrystal *lcd) {
 
     //
     // Erase trip data
-    _eep->clearTripData();
+    eep->clearTripData();
     //
     // Shutdown the system
     tone(pinTone, 800, 500);
-    _whl->shutdownMode();
+    whl->shutdownMode();
     delay(2000);
     analogWrite(pinCtrl, LOW);
     //
@@ -367,7 +367,7 @@ void ShutDw::displaySaved(LiquidCrystal *lcd) {
     //
     // Shutdown the system
     melodySave();
-    _whl->shutdownMode();
+    whl->shutdownMode();
     delay(2000);
     digitalWrite(pinCtrl, LOW);
     //

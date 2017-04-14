@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_CAR_STATE_H
 #define ARDUINO_MID_CAR_STATE_H
 
-#include "IntAmp.h"
+#include "AmpTime.h"
 
 struct Diagnostic {
     boolean all;    // All combined
@@ -29,7 +29,7 @@ class CarState {
 private:
     Diagnostic result;
 
-    IntAmp &amp;
+    AmpTime *amp;
 
     float workDistance;
 
@@ -47,7 +47,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(IntAmp &_amp) : amp(_amp) {
+    CarState(AmpTime &_amp) : amp(&_amp) {
         
     }
 
@@ -116,7 +116,7 @@ void CarState::setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
  * Readings states
  */
 void CarState::listener() {
-    if (amp.is2Seconds()) {
+    if (amp->is2Seconds()) {
         result.oil = (boolean) digitalRead(pinOil);
         result.brk = (boolean) digitalRead(pinBrk);
         result.cnt = (boolean) digitalRead(pinCnt);

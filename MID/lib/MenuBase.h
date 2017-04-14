@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENUBASE_H
 #define ARDUINO_MID_MENUBASE_H
 
-#define MENU_DEBUG // Uncomment to get info
+//#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
@@ -43,12 +43,13 @@ uint8_t MenuBase_savedCursor = 0;
  *
  */
 class MenuBase {
-    MidMenuInterface &mci;
-    MenuBtn &btn;
+    MidMenuInterface *mci;
+    MenuBtn *btn;
+
 public:
     //
     // Constructor
-    MenuBase(MenuBtn &_btn, MidMenuInterface &_mci) : btn(_btn), mci(_mci) {
+    MenuBase(MenuBtn &_btn, MidMenuInterface &_mci) : btn(&_btn), mci(&_mci) {
         MenuBase_savedCursor = 1;
     }
 
@@ -58,7 +59,7 @@ public:
      */
     void startEntry() {
 //        resRam.listen();
-        btn.setNavigationState(false);
+        btn->setNavigationState(false);
     }
 
     /**
@@ -70,20 +71,20 @@ public:
         // Handles initialization
         if (MenuBase_savedCursor == 0) {
 #if defined(MENU_DEBUG)
-//            if (btn.passAmp()->isMid()) {
+
             Serial.println(F(" Makes init move ..."));
-//            }
+
 #endif
 //            resRam.listen();
             //
             // Move menu to first index
-            mci.moveUp();
+            mci->moveUp();
             MenuBase_savedCursor = 1;
 //            resRam.listen();
         }
 
         MidCursorMenu = MenuBase_savedCursor;
-        btn.setNavigationState(true);
+        btn->setNavigationState(true);
 
 #if defined(MENU_DEBUG)
         Serial.print(F("Cursor menu: "));
@@ -103,29 +104,29 @@ public:
 
         //
         // Handle navigation
-        if (btn.isUp()) {
-            mci.moveUp();
+        if (btn->isUp()) {
+            mci->moveUp();
 #if defined(MENU_DEBUG)
-            if (btn.passAmp().isMid()) {
+            if (btn->passAmp()->isMid()) {
                 Serial.print(F("Up hit \n\r"));
             }
 #endif
         }
-        if (btn.isDw()) {
-            mci.moveDw();
+        if (btn->isDw()) {
+            mci->moveDw();
 #if defined(MENU_DEBUG)
-            if (btn.passAmp().isMid()) {
+            if (btn->passAmp()->isMid()) {
                 Serial.print(F("Dw hit \n\r"));
             }
 #endif
         }
 
 
-        btn.clearLastButton();
+        btn->clearLastButton();
 
 
 #if defined(MENU_DEBUG)
-        if (btn.passAmp().isSecond()) {
+        if (btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor saved: "));
             Serial.println(MenuBase_savedCursor);
         }
@@ -141,7 +142,7 @@ public:
             MidCursorMenu = MENU_ENTRY;
         }
 #if defined(MENU_DEBUG)
-        if (btn.passAmp().isSecond()) {
+        if (btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor MID: "));
             Serial.println(MidCursorMenu);
         }

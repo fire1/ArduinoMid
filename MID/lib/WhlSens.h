@@ -18,7 +18,7 @@
 
 
 #include <SPI.h>
-#include "IntAmp.h"
+#include "AmpTime.h"
 
 //#define STR_DEBUG
 //#define STR_WHL_SEND_A
@@ -39,9 +39,10 @@
 class WhlSens {
 
 
+    AmpTime *amp;
+
 private:
 
-    IntAmp &_amp;
     int currentStateButton;
     int lastStateButton = 0;
     uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
@@ -57,7 +58,7 @@ private:
     void setButtonStateParser(int currentState);
 
 public:
-    WhlSens(IntAmp &timeAmp) : _amp(timeAmp) {
+    WhlSens(AmpTime &timeAmp) : amp(&timeAmp) {
 
     }
 
@@ -229,7 +230,7 @@ void WhlSens::listener() {
     // Zero button
     if (readingSteeringButton > 500 && readingSteeringButton < 599) {
         _setCurrentState(STR_BTN_ATT);
-//        if (_amp->isMin()) {
+//        if (amp->isMin()) {
 //            _setCurrentState(STR_BTN_MNT);
 //        }
         // TODO long press 155 volume press button
@@ -274,7 +275,7 @@ void WhlSens::sendRadioButtons() {
         return;
     }
 #if defined(STR_DEBUG)
-    if (_amp->isMid()) {
+    if (amp->isMid()) {
         Serial.print("WHL Current State ");
         Serial.println(currentState);
     }

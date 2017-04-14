@@ -3,7 +3,7 @@
 //
 #include <Arduino.h>
 #include "../conf.h"
-#include "IntAmp.h"
+#include "AmpTime.h"
 #include "MainFunc.h"
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
@@ -188,7 +188,7 @@ class CarSens {
 
     //
     // Take a pointer to time amplitude instance
-    IntAmp &_amp;
+    AmpTime *amp;
 
 private:
     double CUR_VDS;
@@ -366,7 +366,7 @@ public:
  * Construct class
   * @param ampInt
   */
-    CarSens(IntAmp &ampInt) : _amp(ampInt) {
+    CarSens(AmpTime &ampInt) : amp(&ampInt) {
 
     }
 
@@ -739,7 +739,7 @@ void CarSens::setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
  *      LISTENER
  */
 void CarSens::listener() {
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         //
         // Counting sens loops
         LOOP_SENS_INDEX += 1;
@@ -774,7 +774,7 @@ void CarSens::listener() {
     // I don't know way but this is a fix ... ?
     // Only like this way base vars are initialized every single loop
     //
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         int foo;
         foo = getEcu();
         foo = getRpm();
@@ -793,7 +793,7 @@ void CarSens::listener() {
     }
     //
     // Sens playEntry dim
-    if (_amp.isMin()) {
+    if (amp->isMin()) {
         sensDim();
     }
     //
@@ -809,7 +809,7 @@ void CarSens::listener() {
  */
 void CarSens::sensVss() {
 
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
 
         //
         // Pass vss to global
@@ -841,7 +841,7 @@ void CarSens::sensVss() {
     //
     // Distance
 #if defined(VSD_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    if (_amp.isBig()) {
+    if (amp->isBig()) {
         Serial.print("Counted VSD is: ");
         Serial.println(CUR_VDS);
     }
@@ -854,7 +854,7 @@ void CarSens::sensVss() {
  */
 void CarSens::sensRpm() {
 
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         //
         // Pass rpm to global
         CUR_RPM = int(rpmHitsCount * RPM_CORRECTION);
@@ -880,7 +880,7 @@ void CarSens::sensRpm() {
 */
 void CarSens::sensEcu() {
 
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         //
         // Pass ecu to global
         CUR_ECU = int(ecuHitsCount * ECU_CORRECTION);
@@ -926,7 +926,7 @@ void CarSens::speedingAlarms() {
 
     //
     // Alarm city
-    if (_amp.is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT)) {
+    if (amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT)) {
         if (!isAlrWtn()) {
             speedAlarmCounter++;
             tone(TONE_ADT_PIN, 4000, 150);
@@ -936,7 +936,7 @@ void CarSens::speedingAlarms() {
     }
     //
     // Alarm village way
-    if (_amp.is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW)) {
+    if (amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW)) {
         if (!isAlrWtn()) {
             speedAlarmCounter++;
             tone(TONE_ADT_PIN, 4000, 200);
@@ -945,7 +945,7 @@ void CarSens::speedingAlarms() {
     }
     //
     // Alarm high way
-    if (_amp.isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW)) {
+    if (amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW)) {
         if (!isAlrWtn()) {
             speedAlarmCounter++;
             tone(TONE_ADT_PIN, 4000, 200);
@@ -960,7 +960,7 @@ void CarSens::speedingAlarms() {
 
     //
     // Reset alarm set if speed is lower
-    if (isAlrWtn() && _amp.is5Seconds() && !activeAlarm) {
+    if (isAlrWtn() && amp->is5Seconds() && !activeAlarm) {
         speedAlarmCounter = 0;
     }
 
@@ -1061,12 +1061,12 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
         value = pullLpgIndex;
     }*/
 
-    if (_amp.is4Seconds()) {
+    if (amp->is4Seconds()) {
         pullLpgIndex = 0;
         pushLpgIndex = 0;
     }
 
-    if (_amp.is4Seconds()) {
+    if (amp->is4Seconds()) {
         combLpgIndex = 0;
     }
 
@@ -1121,7 +1121,7 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     }
 
 //
-//    if (_amp.isMid()) {
+//    if (amp->isMid()) {
 //        Serial.print("\n\n");
 //        Serial.print("Last read LPG values | PUSH: ");
 //        Serial.print(pushLpgIndex);
@@ -1148,7 +1148,7 @@ int CarSens::getLpgPush() {
  */
 void CarSens::sensEnt() {
 
-    if (_amp.isBig()) {
+    if (amp->isBig()) {
         //
         // Make more measurements to calculate average
         smoothEngineTemp = analogRead(pinTemp) + smoothEngineTemp;
@@ -1156,7 +1156,7 @@ void CarSens::sensEnt() {
     }
 
 
-    if (_amp.isMax()) {
+    if (amp->isMax()) {
         //
         // 80 = 390
         // 82 = 420
@@ -1179,7 +1179,7 @@ void CarSens::sensEnt() {
         }
         //
         // Over heating ALARM
-        if (_amp.isSecond() && CUR_ENT > 95) {
+        if (amp->isSecond() && CUR_ENT > 95) {
             tone(TONE_ADT_PIN, 2000, 350);
         }
 #ifdef DEBUG_ENG_TEMP
@@ -1209,7 +1209,7 @@ void CarSens::sensAvr() {
 
     //
     // Check is initialize Average
-    if (_amp.isSens() && initializeAverage) {
+    if (amp->isSens() && initializeAverage) {
         averageAllVssValues += vss;
         if (rpm > 0) {
             averageAllRpmValues += rpm;
@@ -1263,7 +1263,7 @@ void CarSens::sensTmp() {
     }
 #endif
 
-    if (_amp.isBig()) {
+    if (amp->isBig()) {
         temperatureSensors.requestTemperatures();
         CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
     }
@@ -1280,7 +1280,7 @@ void CarSens::sensTmp() {
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
-    if (isInitTemperature || _amp.isBig()) {
+    if (isInitTemperature || amp->isBig()) {
         float Vin = 5.0;     // [V]
         float Rt = 10000;    // Resistor t [ohm]
         float R0 = 10000;    // value of rct in T0 [ohm]
@@ -1310,7 +1310,7 @@ void CarSens::sensTmp() {
         temperatureC = TempK - 284.75;
 
 #if defined(DEBUG_TEMPERATURE_OU)
-        if (_amp.isMid()) {
+        if (amp->isMid()) {
             Serial.print("Read Temp  value: ");
             Serial.print(reading);
             Serial.print("  | volts: ");
@@ -1334,7 +1334,7 @@ void CarSens::sensTmp() {
  */
 void CarSens::sensDlt() {
     // time elapsed
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         unsigned long time_now;
         time_now = millis();
         CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
@@ -1361,7 +1361,7 @@ void CarSens::sensCns() {
     //      LKM =  MAF * time /  <fuel sum>
     // Since we want only consumption VSS is skipped
 
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
         long deltaFuel = 0;
 //        Serial.println(getCnsFuelVal());
         if (CUR_ECU > 0) {
@@ -1396,7 +1396,7 @@ void CarSens::sensIfc() {
 
     float maf = CUR_ECU;
 
-    if (_amp.isSens()) {
+    if (amp->isSens()) {
 
         delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); //
 
@@ -1426,13 +1426,13 @@ void CarSens::sensIfc() {
 
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
-    if (_amp.isMinute()) {
+    if (amp->isMinute()) {
         indexIfc = 3;
         collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS * 3;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
-    if (_amp.isMax()) {
+    if (amp->isMax()) {
 
         Serial.print("\n\n Fuel Cons  | INS: ");
         Serial.print(FUEL_INST_CONS * 0.001);

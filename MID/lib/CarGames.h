@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_CAR_GAME_H
 #define ARDUINO_MID_CAR_GAME_H
 
-#include "IntAmp.h"
+#include "AmpTime.h"
 #include "Menu16x2.h"
 
 struct GamesBest {
@@ -18,7 +18,7 @@ struct GamesBest {
  */
 class CarGames {
 
-    IntAmp *_amp;
+    AmpTime *_amp;
     CarSens *_car;
     Menu16x2 *menu;
 
@@ -40,7 +40,7 @@ private:
     unsigned long start0To100 = 0;
 
 public:
-    CarGames(IntAmp *intAmp, CarSens *carSens/*, Menu16x2 *midMenu*/);
+    CarGames(AmpTime *intAmp, CarSens *carSens/*, Menu16x2 *midMenu*/);
 
     void setup(uint8_t buttonUp, uint8_t buttonDw) {
         btnUp = buttonUp;
@@ -70,7 +70,7 @@ public:
  * Class constructor
  * @param amp
  */
-CarGames::CarGames(IntAmp *intAmp, CarSens *carSens) {
+CarGames::CarGames(AmpTime *intAmp, CarSens *carSens) {
     _amp = intAmp;
     _car = carSens;
 }

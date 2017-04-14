@@ -26,7 +26,7 @@
  * Display
  */
 class Lcd16x2 : virtual public LcdMenuInterface {
-    IntAmp amp;
+    AmpTime amp;
     LiquidCrystal lcd;
     CarSens car;
     EepRom eep;
