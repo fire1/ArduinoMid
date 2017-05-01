@@ -1164,9 +1164,6 @@ void CarSens::sensEnt() {
         int val = (int) (smoothEngineTemp / indexEngineTemp);
         indexEngineTemp = 0;
         smoothEngineTemp = 0;
-
-        Serial.print("Temp value");
-        Serial.println(val);
         //
         // Seems this values do not comes from coolant temperature sensor
         // So this is best wey to determinate them...

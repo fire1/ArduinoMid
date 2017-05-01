@@ -29,7 +29,7 @@
 
 class Lcd240x62 : virtual public LcdMenuInterface {
 
-
+    String interfaceBuffer;
     U8G2 *lcd;
     AmpTime *amp;
     CarSens *car;
@@ -41,6 +41,7 @@ class Lcd240x62 : virtual public LcdMenuInterface {
 //
 // Drowing counter
     uint8_t drawIndex = 0;
+    char drawEntry = 0;
 
 protected:
 
@@ -74,12 +75,12 @@ protected:
  *
  * @param index of loop
  */
-    void displayEntry() {
+    void displayEntryO() {
 
 
-        switch (drawIndex) {
+        switch (drawEntry) {
             default:
-                drawIndex = 0;
+                drawEntry = 0;
                 break;
 
             case 0:
@@ -110,11 +111,53 @@ protected:
 //                usedMenu = {};
                 mbs->finishEntry();
                 lcd->clear();
+                drawEntry = -1;
                 break;
         }
-
-
+        drawEntry++;
     }
+
+    void displayEntry() {
+
+
+        switch (drawIndex) {
+            default:
+                drawIndex = 0;
+                break;
+
+            case 0:
+                lcd->clear();
+                lcd->clearBuffer();
+                mbs->startEntry();
+                drawIndex = 0;
+                btnMenu.setNavigationState(false);
+                tone(TONE_ADT_PIN, 2800, 16);
+
+                interfaceBuffer = usedMenu.back + '\n';
+
+                interfaceBuffer.concat(usedMenu.used + '\n');
+                interfaceBuffer.concat(usedMenu.used + '\n');
+                break;
+            case 1:
+            case 2:
+            case 3:
+                lcd->userInterfaceSelectionList("Entry", drawIndex, interfaceBuffer.c_str());
+                break;
+            case 4:
+                interfaceBuffer = "";
+                lcd->clearBuffer();
+                lcd->clear();
+                break;
+            case 5:
+
+                btnMenu.setNavigationState(true);
+                mbs->finishEntry();
+                lcd->clear();
+
+                break;
+        }
+    }
+
 
 public:
 /**
@@ -134,7 +177,7 @@ public:
 //        whl = _btn->passWhl();
 //        stt = _btn->passStt();
 //        sdw = _sdw;
-
+//        interfaceBuffer.reserve(1024);
     }
 
 /**
@@ -158,7 +201,7 @@ public:
         lcd->begin();
         useTextMode();
         lcd->enableUTF8Print();
-
+        lcd->setAutoPageClear(1);
     }
 
 /**
@@ -166,40 +209,45 @@ public:
  */
     void draw() {
 
-        if (amp->isSecond())
-            lcd->clearBuffer();
-
-        if (amp->isBig()) {
+        if (amp->isMax()) {
             lcd->firstPage();
             do {
                 menus();
+//                lcd->drawStr(0, 0, "CURRENT TRIP");
             } while (lcd->nextPage());
-
-
             drawIndex++;
             if (drawIndex > 5) {
                 drawIndex = 0;
-
             }
         }
     }
 
 private:
-    /**
-     *
-     */
+/**
+ * Draws km as string
+ * @param x
+ * @param y
+ */
     inline void drawKm(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 9, 8, mark_km_9x8_bits);
     }
-
+/**
+ * Draws average char
+ * @param x
+ * @param y
+ */
     inline void drawAverage(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 8, 8, mark_phi_8x8_bits);
     }
-
+/**
+ * Draws  L/100km
+ * @param x
+ * @param y
+ */
     inline void drawL100km(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(/*50*/x, y, 8, 8, mark_liter_per_8x8_bits);
         lcd->drawXBMP(/*58*/x + 8, y, 10, 8, mark_100_10x8_bits);
-        lcd->drawXBMP(/*69*/x + 18, y, 9, 8, mark_km_9x8_bits);
+        lcd->drawXBMP(/*69*/x + 19, y, 9, 8, mark_km_9x8_bits);
     }
 
 
@@ -262,7 +310,8 @@ private:
         //
         // Travel time
         lcd->drawStr(145, LCD_ROW_2, "Time:");
-        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
+        // TODO FIX IT!!!!
+//        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
         lcd->drawStr(205, LCD_ROW_2, "h");
         //
         // Average speed
@@ -290,7 +339,8 @@ void Lcd240x62::menus() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            displayEntry();
+            displayEntryO();
+//            displayEntry();
             break;
             //
             // Main / first menu

@@ -129,19 +129,13 @@ void loop() {
         Serial.print(F(" Start (RAM): "));
         Serial.println(getFreeRam());
     }
-    Serial.print(F(" Start (RAM): "));
-    Serial.println(getFreeRam());
+    u8g2.clearBuffer();
     //
     // Amplitude loop init
     ampInt.listener();
-    if (ampInt.isSecond()) {
-        Serial.print(F(" Timer (RAM): "));
-        Serial.println(getFreeRam());
-    }
     //
     // Listen engine
     carSens.listener();
-
     //
     // Listen state pins
     carStat.listener();
@@ -163,10 +157,6 @@ void loop() {
     //
     // Navigate menu from button listener
     menuBase.listener();
-    if (ampInt.isSecond()) {
-        Serial.print(F(" Menu base (RAM): "));
-        Serial.println(getFreeRam());
-    }
     //
     //  Switch to shutdown menu
     shutDown.cursor();
