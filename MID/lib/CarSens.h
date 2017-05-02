@@ -994,7 +994,6 @@ void CarSens::speedingAlarmsDw() {
  */
 char *CarSens::getHTm(float saved) {
 
-    char *dspTime = new char[6] /* 11 = len of clock time + 1 char for \0*/;
 
     unsigned long tmSec;
     int tmMin, tmHrs;
@@ -1005,7 +1004,8 @@ char *CarSens::getHTm(float saved) {
 
     int old[1];
     separateFloat(saved, old);
-
+    /* 11 = len of clock time + 1 char for \0*/
+    char dspTime[6];
     sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
     return dspTime;
 };

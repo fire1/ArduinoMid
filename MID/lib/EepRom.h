@@ -456,14 +456,12 @@ void EepRom::saveCurrentData() {
  * Saves trip data in order to continue the trip
  */
 void EepRom::saveTripData() {
-
     float time = millis() / MILLIS_PER_HR;
-
     container.dist_trp = container.dist_trp + car->getDst();
     container.time_trp = container.time_trp + time;
-
     saveTripTime(container.time_trp);
     saveTripDistance(container.dist_trp);
+    saveCurrentData(); // Ordinary save of data
 }
 
 /**

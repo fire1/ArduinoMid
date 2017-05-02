@@ -153,7 +153,6 @@ protected:
                 btnMenu.setNavigationState(true);
                 mbs->finishEntry();
                 lcd->clear();
-
                 break;
         }
     }
@@ -231,6 +230,7 @@ private:
     inline void drawKm(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 9, 8, mark_km_9x8_bits);
     }
+
 /**
  * Draws average char
  * @param x
@@ -239,6 +239,7 @@ private:
     inline void drawAverage(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 8, 8, mark_phi_8x8_bits);
     }
+
 /**
  * Draws  L/100km
  * @param x
@@ -310,8 +311,8 @@ private:
         //
         // Travel time
         lcd->drawStr(145, LCD_ROW_2, "Time:");
-        // TODO FIX IT!!!!
-//        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
+        // TODO Check for FIX !
+        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
         lcd->drawStr(205, LCD_ROW_2, "h");
         //
         // Average speed
