@@ -129,7 +129,6 @@ void loop() {
         Serial.print(F(" Start (RAM): "));
         Serial.println(getFreeRam());
     }
-    u8g2.clearBuffer();
     //
     // Amplitude loop init
     ampInt.listener();

@@ -5,7 +5,9 @@
 #include <avr/pgmspace.h>
 
 #if SCREEN == 162 || !defined(SCREEN)
+
 #import <LiquidCrystal.h>
+
 #else
 
 #endif
@@ -28,35 +30,6 @@
 #ifndef ARDUINOMID_SHUTDOWN_H
 #define ARDUINOMID_SHUTDOWN_H
 
-const char ShutDw__msgString_01[] PROGMEM = "Goodbye ...     ";
-const char ShutDw__msgString_02[] PROGMEM = "until next time!";
-const char ShutDw__msgString_03[] PROGMEM = "Hit \"S<\" to   ";
-const char ShutDw__msgString_04[] PROGMEM = "skip saving TRIP";
-const char ShutDw__msgString_05[] PROGMEM = "Shutting  down  ";
-const char ShutDw__msgString_06[] PROGMEM = "Waiting ";
-const char ShutDw__msgString_07[] PROGMEM = " sec.  ";
-const char ShutDw__msgString_08[] PROGMEM = " for ESC saving ";
-const char ShutDw__msgString_09[] PROGMEM = "Trip data cancel";
-const char ShutDw__msgString_10[] PROGMEM = "Erasing trip ...";
-const char ShutDw__msgString_11[] PROGMEM = " Trip saved :)  ";
-const char ShutDw__msgString_12[] PROGMEM = " Bye bye ...    ";
-
-const char *const ShutDw_table[] PROGMEM =
-        {
-                ShutDw__msgString_01,
-                ShutDw__msgString_02,
-                ShutDw__msgString_03,
-                ShutDw__msgString_04,
-                ShutDw__msgString_05,
-                ShutDw__msgString_06,
-                ShutDw__msgString_07,
-                ShutDw__msgString_08,
-                ShutDw__msgString_09,
-                ShutDw__msgString_10,
-                ShutDw__msgString_11,
-                ShutDw__msgString_12,
-        };
-
 class ShutDw {
 
 
@@ -77,9 +50,45 @@ private :
     boolean isShutdownActive = 0;
     boolean alreadySaved = 0;
 #if SCREEN == 162 || !defined(SCREEN)
-    void displaySaved(LiquidCrystal *lcd);
 
-    void displayCancel(LiquidCrystal *lcd);
+/**
+ * Cancel state
+ */
+    void doTripSkip() {
+        //
+        // Erase trip data
+        eep->clearTripData();
+        //
+        // Shutdown the system
+        tone(pinTone, 800, 500);
+        whl->shutdownMode();
+        delay(2000);
+        analogWrite(pinCtrl, LOW);
+        //
+        // Mark mid as shutdown
+        alreadyShutdown = 1;
+    }
+
+
+/**
+ * Save state
+ */
+    void doTripSaved() {
+        //
+        // Mark saved
+        alreadySaved = 1;
+
+        //
+        // Shutdown the system
+        melodySave();
+        whl->shutdownMode();
+        delay(2000);
+        digitalWrite(pinCtrl, LOW);
+        //
+        // Mark mid as shutdown
+        alreadyShutdown = 1;
+    }
+
 #else
 
 #endif
@@ -88,15 +97,13 @@ private :
 
     char buffer[74];
 
-    char *getMsg(int index) {
-        strcpy_P(buffer, (char *) pgm_read_word(&(ShutDw_table[index])));
-        return buffer;
-    }
+
 
 
 public:
     static constexpr uint8_t MENU_SHUTDOWN = 99;
 
+    void menu(LcdMenuInterface *lcd);
 /**
  * Constructor of shutdown
   * @param eepRom
@@ -108,16 +115,9 @@ public:
             eep(&eepRom), amp(&ampInt), car(&carSens), whl(&whlSens) {
     }
 
-
     void setup(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm);
 
     void listener();
-
-#if SCREEN == 162 || !defined(SCREEN)
-    void lcd16x2(LiquidCrystal *lcd);
-#else
-
-#endif
 
     void cursor();
 
@@ -234,12 +234,11 @@ void ShutDw::melodySave() {
 }
 
 #if SCREEN == 162 || !defined(SCREEN)
+
 /**
  * Display shutdown menu
  */
-void ShutDw::lcd16x2(LiquidCrystal *lcd) {
-
-
+void ShutDw::menu(LcdMenuInterface *lcd) {
 
     //
     // Basic information save
@@ -249,11 +248,8 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         tone(pinTone, 1200, 50);
         delay(50);
 
-        lcd->clear();
-        lcd->setCursor(0, 0);
-        lcd->print(getMsg(0));
-        lcd->setCursor(0, 1);
-        lcd->print(getMsg(1));
+        lcd->drawShutdownShort();
+
         melodySave();
         eep->saveCurrentData();
         whl->shutdownMode();
@@ -264,22 +260,19 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
     char sec[2];
     //
-    // Show message before straiting procedure
+    // Show message before straiting procedure of shouting down
     if (entryDisplay == 0) {
-        lcd->clear();
-        lcd->setCursor(0, 0);
-        lcd->print(getMsg(2));
-        lcd->setCursor(0, 1);
-        lcd->print(getMsg(3));
+
+        //
+        // Let LCD driver do this draw
+        lcd->drawShutdownBegin();
+
         tone(pinTone, 800, 200);
         delay(200);
         tone(pinTone, 800, 200);
         delay(200);
         tone(pinTone, 3000, 1000);
         delay(3600);
-        lcd->clear();
-        lcd->setCursor(1, 0);
-        lcd->print(getMsg(4));
         tone(pinTone, 2000, 600);
         delay(1000);
         entryDisplay = 1;
@@ -289,17 +282,10 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     //
     // Catch seconds from loop
     if (amp->isSec()) {
-
-        lcd->setCursor(0, 0);
-        lcd->print(getMsg(5));
         //
         // Convert data to human format
         sprintf(sec, "%02d", ((indexWait - SHUTDOWN_SAVE_LOOPS) / 200) * -1);
-
-        lcd->print(sec);
-        lcd->print(getMsg(6));
-        lcd->setCursor(1, 2);
-        lcd->print(getMsg(7));
+        lcd->drawShutdownCount(sec);
     }
 
     //
@@ -307,7 +293,8 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
     if (digitalRead(SHUTDOWN_SAVE_BUTTON) == SHUTDOWN_SAVE_STATE) {
         delay(5);
         if (digitalRead(SHUTDOWN_SAVE_BUTTON) == SHUTDOWN_SAVE_STATE && alreadySaved == 0) {
-            displayCancel(lcd);
+            lcd->draWShutdownTripSkip();
+            doTripSkip();
         }
     }
     //
@@ -318,7 +305,8 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
         eep->saveTripData();
         //
         // Show on playEntry
-        displaySaved(lcd);
+        lcd->draWShutdownTripSave();
+        doTripSaved();
     }
     //
     // Count loops
@@ -326,54 +314,7 @@ void ShutDw::lcd16x2(LiquidCrystal *lcd) {
 
 }
 
-/**
- * Cancel state
- */
-void ShutDw::displayCancel(LiquidCrystal *lcd) {
-    lcd->clear();
-    lcd->setCursor(1, 0);
-    lcd->print(getMsg(8));
-    lcd->setCursor(1, 2);
-    lcd->print(getMsg(9));
 
-    //
-    // Erase trip data
-    eep->clearTripData();
-    //
-    // Shutdown the system
-    tone(pinTone, 800, 500);
-    whl->shutdownMode();
-    delay(2000);
-    analogWrite(pinCtrl, LOW);
-    //
-    // Mark mid as shutdown
-    alreadyShutdown = 1;
-}
-
-
-
-/**
- * Save state
- */
-void ShutDw::displaySaved(LiquidCrystal *lcd) {
-    //
-    // Mark saved
-    alreadySaved = 1;
-    lcd->clear();
-    lcd->setCursor(1, 0);
-    lcd->print(getMsg(10));
-    lcd->setCursor(1, 2);
-    lcd->print(getMsg(11));
-    //
-    // Shutdown the system
-    melodySave();
-    whl->shutdownMode();
-    delay(2000);
-    digitalWrite(pinCtrl, LOW);
-    //
-    // Mark mid as shutdown
-    alreadyShutdown = 1;
-}
 
 #endif
 

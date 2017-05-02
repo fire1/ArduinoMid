@@ -21,7 +21,7 @@ cursor	KEYWORD2
 noCursor	KEYWORD2
 blink	KEYWORD2
 noBlink	KEYWORD2
-lcd16x2	KEYWORD2
+menu	KEYWORD2
 noDisplay	KEYWORD2
 autoscroll	KEYWORD2
 noAutoscroll	KEYWORD2

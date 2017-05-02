@@ -26,14 +26,16 @@
  * Display
  */
 class Lcd16x2 : virtual public LcdMenuInterface {
-    AmpTime amp;
-    LiquidCrystal lcd;
-    CarSens car;
-    EepRom eep;
-    CarState stt;
-    WhlSens whl;
-    MenuBase mbs;
-    ShutDw sdw;
+
+    LiquidCrystal *lcd;
+    AmpTime *amp;
+    CarSens *car;
+    EepRom *eep;
+    CarState *stt;
+    WhlSens *whl;
+    MenuBase *mbs;
+    ShutDw *sdw;
+    MenuBtn *btn;
 
 
 protected:
@@ -47,57 +49,601 @@ protected:
     char displayChar_3[3];
     char displayChar_4[4];
 
-    float getConsumedFuel();
+
 
 public:
 
-    Lcd16x2(LiquidCrystal &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
-            lcd(_lcd), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()), stt(_btn.passStt()),
-            whl(_btn.passWhl()), mbs(_mbs), sdw(_sdw) {
+    Lcd16x2(LiquidCrystal &_lcd, AmpTime _amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+            lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
+            whl(_btn.passWhl()),
+            stt(_btn.passStt()), sdw(&_sdw) {
     }
 
-    void intro(void);
+/**
+ * Welcome screen ...
+ */
+    void intro(void) {
+        lcd->setCursor(0, 0);
+        lcd->print(F("    ASTRA       "));
+        //
+        // Test tone
+        tone(TONE_ADT_PIN, 400, 20);
+        delay(10);
+        lcd->setCursor(0, 1);
+        lcd->print(F("   "));
+        lcd->print(F(" Bertone    "));
+        delay(1500);
+        lcd->clear();
+    }
 
-    void begin(void);
+    void begin(void) {
+        lcd->noDisplay();
+        //
+        // Initializes the interface to the LCD screen
+        lcd->begin(16, 2);
+        // and clear it ...
+        lcd->clear();
+        //
+        // Adding custom characters to LCD
+        setLcdBaseChar(lcd);
+        lcd->display();
+        //
+        // Show welcome from car
+    }
 
     void draw(void);
 
+
+/****************************************************************
+ * SHUTDOWN METHODS
+ */
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownBegin() {
+        lcd->clear();
+        lcd->setCursor(0, 0);
+        lcd->print(F("Hit \"S<\" to   "));
+        lcd->setCursor(0, 1);
+        lcd->print(F("skip saving TRIP"));
+    }
+
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownShort() {
+        lcd->clear();
+        lcd->setCursor(0, 0);
+        lcd->print(F("Goodbye ...     "));
+        lcd->setCursor(0, 1);
+        lcd->print(F("until next time!"));
+    }
+
+/**
+ * Draws countdown time for saving trip
+ */
+    void drawShutdownCount(char sec[2]) {
+        lcd->setCursor(0, 0);
+        lcd->print(F("Waiting "));
+        lcd->print(sec);
+        lcd->print(F(" sec.  "));
+        lcd->setCursor(1, 2);
+        lcd->print(F(" for ESC saving "));
+    }
+/**
+ *
+ */
+    void draWShutdownTripSave() {
+        lcd->clear();
+        lcd->setCursor(1, 0);
+        lcd->print(F(" Trip saved :)  "));
+        lcd->setCursor(1, 2);
+        lcd->print(F(" Bye bye ...    "));
+    }
+/**
+ *
+ */
+    void draWShutdownTripSkip() {
+        lcd->clear();
+        lcd->setCursor(1, 0);
+        lcd->print(F("Trip data cancel"));
+        lcd->setCursor(1, 1);
+        lcd->print(F("Erasing trip ..."));
+    }
+
+
 protected:
-    void displayOutTmp();
+/****************************************************************
+ * Main screen begin ...
+ */
 
-    void displayInsTmp();
+    void displayOutTmp(void) {
 
-    void displayTotalCns();
+        if (amp->isSec()) {
+            //
+            // Preformat ...
+            displayFloat(car->getTmpOut(), displayChar_3);
+            lcd->setCursor(9, 0);
+            lcd->print("^");
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 1);
+            lcd->print(" ");
+        }
 
-    void displayTotalDst();
+        if (car->getTmpOut() < 1 && amp->isMin() && displayTemperatureLowActive) {
+            lcd->setCursor(1, 1);
+            tone(TONE_ADT_PIN, 800, 20);
+            lcd->print(F("[ICE]"));
+        }
+        //
+        // Check memory usage every 10 seconds
+        if (amp->is10Seconds()) {
+            if (getFreeRam() < 1000) {
+                lcd->setCursor(1, 1);
+                tone(TONE_ADT_PIN, 800, 20);
+                lcd->print(F("sRAM!"));
+            }
+        }
 
-    void displayCarAlert();
+        if (car->getTmpOut() < 1 && amp->is10Seconds() && displayTemperatureLowActive) {
+            displayTemperatureLowActive = false;
+        }
+    }
 
-    void displayEngRPM();
+/**
+ * Inside temperature
+ */
+    void displayInsTmp() {
 
-    void displayCarKMH();
+        if (amp->isSec()) {
+            //
+            // Preformat ...
+            displayFloat(car->getTmpIns(), displayChar_3);
+            lcd->setCursor(9, 1);
+            lcd->write((uint8_t) 5);
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 1);
+            lcd->print(" ");
+        }
+    }
 
-    void displayEngTmp();
+/*    float getConsumedFuel() {
+        //
+        // Load saved data
+        SavedData data = eep->getData();
+        //
+        // Switching between LPG / BNZ
+        if (car->getFuelState() == 0) { // BNZ [default]
+            return data.fuel_def + car->getDefFuelCns();
+        }
+        if (car->getFuelState() == 1) { // LPG [additional]
+            return data.fuel_adt + car->getAdtFuelCns();
+        }
+    }*/
 
-    void displayCarECU();
+/**
+ * Total consumption
+ */
+    void displayTotalCns() {
 
-    void displayTrip();
+        if (amp->is2Seconds()) {
+            //
+            // Reset screen place
+            if (amp->isSec()) {
+                lcd->print(F("    "));
+            }
 
-    void displayTotalTrip();
+            lcd->setCursor(0, 0);
 
-    void displayResetFuel();
 
-    void displayAboutInfo();
+            if (amp->is4Seconds()) {
+                //
+                // 4 seconds to display average consumption per 100km
 
-    void displayTest();
+                float value = ((eep->getData().dist_trv + car->getDst()) / eep->getConsumedFuel());
+                displayFloat(value, displayChar_3);
 
-    void displayAverage();
+                lcd->print(displayChar_3);
+                lcd->print("L/");
+                lcd->write((uint8_t) 3);
+                lcd->write((uint8_t) 2);
+//            lcd->print(" ");
+            } else {
+                //
+                // Consumed fuel
+                lcd->print("        ");
+                lcd->setCursor(1, 0);
+                displayFloat(eep->getConsumedFuel(), displayChar_3);
+                lcd->print(displayChar_3);
+                lcd->write((uint8_t) 4);
+                lcd->print("  ");
+            }
+        }
+    }
 
-    void displayConsumption();
+/**
+ * Total distance
+ */
+    void displayTotalDst() {
+        //
+        //
+        if (amp->isSecond()) {
+            SavedData data = eep->getData();
+            float value = data.dist_trv + car->getDst();
+            //
+            // Preformat ...
+            lcd->setCursor(0, 1);
+            if (value < 100) {
+                lcd->print(" ");
+            }
+            displayFloat(value, displayChar_3);
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
+    }
 
-    void displayFuelTanks();
+/**
+ * Display warnings if some alert is detected
+ */
+    void displayCarAlert(void) {
 
-    void displayCarState();
+        if (!displayAlertMessagingActive && stt->isAlert() && amp->is10Seconds() ||
+            displayAlertMessagingActive && amp->isMin()) {
+            lcd->setCursor(0, 1);
+            lcd->print(F("  "));
+//        lcd->write((uint8_t) 3);
+            lcd->write("!");
+            lcd->print(F("    "));
+            displayAlertMessagingActive = true;
+//        tone(TONE_ADT_PIN, 1200, 60);
+        }
+
+        if (displayAlertMessagingActive && amp->is5Seconds()) {
+            displayAlertMessagingActive = false;
+        }
+    }
+
+
+/****************************************************************
+ * Display engine RPMs
+ */
+    void displayEngRPM() {
+
+
+        if (amp->isMid()) {
+            //
+            // Gets RPM
+
+            lcd->setCursor(0, 1);
+            lcd->print(F("RPm:"));
+            //
+            // Handle RPM screen print
+            sprintf(displayChar_4, "%04d", car->getRpm());
+            lcd->print(displayChar_4);
+        }
+
+
+    }
+
+/****************************************************************
+ * Display  KMh
+ */
+    void displayCarKMH() {
+
+        if (amp->isMid()) {
+            lcd->setCursor(0, 0);
+            lcd->print(F("KMh:"));
+            //
+            // Handle VSS screen print
+            sprintf(displayChar_3, "%03d", car->getVss());
+            lcd->print(displayChar_3);
+        }
+    }
+
+/****************************************************************
+ * Display  ENG Temp
+ */
+    void displayEngTmp() {
+
+
+        if (amp->isSec()) {
+
+            lcd->setCursor(9, 1);
+            lcd->print(F("ENg:"));
+            //
+            // Handle Dst screen print
+            sprintf(displayChar_3, "%02d", car->getEngTmp());
+            lcd->print(displayChar_3);
+            lcd->write((uint8_t) 1);
+        }
+    }
+
+/****************************************************************
+ * Display  ECU
+ */
+    void displayCarECU() {
+
+        if (amp->isSec()) {
+
+            lcd->setCursor(9, 0);
+            lcd->print("ECu:");
+            //
+            // Handle ECU screen print
+            sprintf(displayChar_2, "%02d", car->getEcu());
+            lcd->print(displayChar_2);
+            lcd->print(" ");
+        }
+
+    }
+
+/****************************************************************
+ *  Travel distance
+ */
+    void displayTrip() {
+        //
+        // Handle Distance screen
+        SavedData saved = eep->getData();
+
+        if (amp->isSec()) {
+            lcd->setCursor(0, 0);
+            lcd->print(F(" Current Trip"));
+            //
+            // Display travel time
+            lcd->setCursor(0, 1);
+            lcd->print(" ");
+            lcd->print(car->getHTm(saved.time_trp));
+            lcd->print("h");
+            //
+            // Display travel distance
+            displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
+
+            lcd->print(" ");
+            lcd->setCursor(9, 1);
+            lcd->print(displayChar_4);
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+
+        }
+
+    }
+
+    void displayTotalTrip() {
+        //
+        // Handle Distance screen
+
+        if (amp->isSec()) {
+            lcd->setCursor(0, 0);
+            lcd->print(F("Total Distance  "));
+            //
+            // Display travel time
+            lcd->setCursor(0, 1);
+            lcd->print(" ");
+            lcd->print(eep->getWorkDistance());
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
+    }
+
+    void displayConsumption() {
+
+        if (amp->isMax()) {
+
+            lcd->setCursor(0, 0);
+            lcd->print(F(" Consumption"));
+
+
+            lcd->setCursor(1, 1);
+
+            lcd->write((uint8_t) 5);
+            lcd->write((uint8_t) 6);
+            lcd->print(F("  "));
+
+            lcd->setCursor(9, 1);
+            lcd->write((uint8_t) 7);
+            lcd->write((uint8_t) 8);
+            lcd->print(F("   "));
+
+
+        }
+
+        int dspInst[2];
+
+        if (amp->isSec()) {
+
+            separateFloat(car->getIfcAvr(), dspInst);
+
+            float valueConsFuel = 0;
+
+
+            if (car->getFuelState() == 0) {
+                valueConsFuel = car->getDefFuelCns();
+            }
+            if (car->getFuelState() == 1) {
+                valueConsFuel = car->getAdtFuelCns();
+            }
+
+            const __FlashStringHelper *liters = F("L ");
+
+            lcd->setCursor(1, 1);
+            lcd->write((uint8_t) 5);
+            lcd->write((uint8_t) 6);
+            lcd->print(dspInst[0]);
+            lcd->print(liters);
+
+            lcd->setCursor(8, 1);
+            lcd->write((uint8_t) 7);
+            lcd->write((uint8_t) 8);
+            lcd->print(valueConsFuel);
+            lcd->print(liters);
+        }
+    }
+
+
+    void displayFuelTanks() {
+
+        if (amp->isSec()) {
+
+            lcd->setCursor(0, 0);
+            lcd->print(F(" Fuel Tanks"));
+            lcd->setCursor(0, 1);
+            lcd->print("Bnz:");
+            sprintf(displayChar_2, "%02d", car->getTnkBnzPer());
+            lcd->print(displayChar_2);
+            lcd->print("%");
+            lcd->print(" Lpg:");
+            sprintf(displayChar_2, "%02d", car->getTnkLpgPer());
+            lcd->print(displayChar_2);
+            lcd->print("% ");
+        }
+    }
+
+
+/****************************************************************
+ * Average
+ */
+    void displayAverage() {
+
+        if (amp->isMid()) {
+            lcd->setCursor(0, 0);
+            lcd->print("Average");
+
+            lcd->setCursor(0, 1);
+            lcd->print(" ");
+            lcd->print(car->getAvrRpm());
+            lcd->print("rpm");
+
+            lcd->setCursor(8, 1);
+            lcd->print(" ");
+            lcd->print(car->getAvrVss());
+            lcd->print("kmh");
+        }
+    }
+
+/****************************************************************
+ * Testing menu
+ */
+    void displayTest() {
+
+        char display[4];
+
+        if (amp->isMid()) {
+            lcd->setCursor(0, 0);
+            lcd->print(F("VDS: "));
+//        lcd->print((char) 127);
+
+            lcd->print(car->getVdsDump());
+//        lcd->print((char) 126);
+
+
+            lcd->setCursor(0, 1);
+            lcd->print(F("Whl Btns: "));
+
+            lcd->print(whl->getAnalogReadButtons() / 100);
+
+            if (whl->isDisable()) {
+                lcd->print((char) 222);
+            } else {
+                lcd->print(" ");
+            }
+            lcd->print(whl->getCurrentState());
+//
+
+        }
+    }
+
+    void displayResetFuel() {
+        lcd->setCursor(0, 0);
+        if (amp->isSecond()) {
+            if (amp->is2Seconds()) {
+                lcd->print(F("Hold R< + Whl \"0\""));
+            } else {
+                lcd->print(F("Reset fuel/s    "));
+            }
+        }
+    }
+
+    void displayAboutInfo() {
+        lcd->setCursor(0, 0);
+        if (amp->isSecond()) {
+            lcd->print(F("ArduinoMid      "));
+            lcd->setCursor(0, 1);
+            lcd->print(MID_VERSION);
+        }
+    }
+
+/****************************************************************
+ * State menu
+ */
+    void displayCarState() {
+
+
+        if (MidCursorMenu == 4) {
+            if (amp->isSecond() && !amp->is4Seconds()) {
+
+                lcd->setCursor(0, 1);
+                if (!stt->isAlert()) {
+                    lcd->print(F("no warnings  :) "));
+                } else {
+                    lcd->print(F("finds warning "));
+//                lcd->write((uint8_t) 3);
+                    lcd->print("!");
+                    lcd->print("  ");
+                }
+            } else if (amp->is4Seconds()) {
+                lcd->setCursor(0, 1);
+                lcd->print(F("use >R to switch"));
+            }
+        }
+
+        if (amp->isBig()) {
+            //
+            // Shows header menu title
+            lcd->setCursor(0, 0);
+            lcd->print("Servicing  ");
+            //
+            // Continue with info
+            lcd->setCursor(0, 1);
+            if (MidCursorMenu == 41) {
+                if (stt->getLiveBrk()) lcd->print(F("CHECK brake wear"));
+                else lcd->print(F("Brake wear OK   "));
+            }
+            if (MidCursorMenu == 42) {
+                if (stt->getLiveCnt()) lcd->print(F("Low coolant !"));
+                else lcd->print(F("Coolant is OK   "));
+            }
+            if (MidCursorMenu == 43) {
+                if (stt->getLiveWin()) lcd->print("Low window wash");
+                else lcd->print(F("Window washer OK"));
+            }
+            if (MidCursorMenu == 44) {
+                if (stt->getLiveOil()) lcd->print(F("Low oil level !"));
+                else lcd->print(F("Oil level is OK "));
+            }
+            if (MidCursorMenu == 46) {
+                lcd->print(F("Range: "));
+                lcd->print(eep->getWorkDistance());
+                lcd->write((uint8_t) 2);
+                lcd->print(" ");
+            }
+        }
+
+        if (MidCursorMenu == 45) {
+            if (amp->isBig()) {
+                if (stt->getLiveVol()) {
+                    lcd->print(F("Voltage "));
+//                lcd->write((uint8_t) 3);
+                    lcd->print("!");
+                    lcd->print(" ");
+                    lcd->print(stt->getVoltage());
+                    lcd->print("V    ");
+                    lcd->setCursor(11, 13);
+                } else lcd->print(F("Voltage is OK   "));
+            }
+        }
+
+
+    }
 // TODO Lowering code for sRAM exhausting
 //    void displayCarGames();
 //
@@ -109,524 +655,19 @@ protected:
 };
 
 
-/**
- * Welcome screen ...
- */
-void Lcd16x2::intro(void) {
-    lcd->setCursor(0, 0);
-    lcd->print(F("    ASTRA       "));
-    //
-    // Test tone
-    tone(TONE_ADT_PIN, 400, 20);
-    delay(10);
-    lcd->setCursor(0, 1);
-    lcd->print(F("   "));
-    lcd->print(F(" Bertone    "));
-    delay(1500);
-    lcd->clear();
-}
 
-/****************************************************************
- * Main screen begin ...
- */
 
-void Lcd16x2::displayOutTmp(void) {
 
-    if (amp->isSec()) {
-        //
-        // Preformat ...
-        displayFloat(car->getTmpOut(), displayChar_3);
-        lcd->setCursor(9, 0);
-        lcd->print("^");
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 1);
-        lcd->print(" ");
-    }
-
-    if (car->getTmpOut() < 1 && amp->isMin() && displayTemperatureLowActive) {
-        lcd->setCursor(1, 1);
-        tone(TONE_ADT_PIN, 800, 20);
-        lcd->print(F("[ICE]"));
-    }
-    //
-    // Check memory usage every 10 seconds
-    if (amp->is10Seconds()) {
-        if (getFreeRam() < 1000) {
-            lcd->setCursor(1, 1);
-            tone(TONE_ADT_PIN, 800, 20);
-            lcd->print(F("sRAM!"));
-        }
-    }
-
-    if (car->getTmpOut() < 1 && amp->is10Seconds() && displayTemperatureLowActive) {
-        displayTemperatureLowActive = false;
-    }
-}
-
-/**
- * Inside temperature
- */
-void Lcd16x2::displayInsTmp() {
-
-    if (amp->isSec()) {
-        //
-        // Preformat ...
-        displayFloat(car->getTmpIns(), displayChar_3);
-        lcd->setCursor(9, 1);
-        lcd->write((uint8_t) 5);
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 1);
-        lcd->print(" ");
-    }
-}
-
-float Lcd16x2::getConsumedFuel() {
-    //
-    // Load saved data
-    SavedData data = eep->getData();
-    //
-    // Switching between LPG / BNZ
-    if (car->getFuelState() == 0) { // BNZ [default]
-        return data.fuel_def + car->getDefFuelCns();
-    }
-    if (car->getFuelState() == 1) { // LPG [additional]
-        return data.fuel_adt + car->getAdtFuelCns();
-    }
-}
-
-/**
- * Total consumption
- */
-void Lcd16x2::displayTotalCns() {
-
-    if (amp->is2Seconds()) {
-        //
-        // Reset screen place
-        if (amp->isSec()) {
-            lcd->print(F("    "));
-        }
-
-        lcd->setCursor(0, 0);
-
-
-        if (amp->is4Seconds()) {
-            //
-            // 4 seconds to display average consumption per 100km
-
-            float value = ((eep->getData().dist_trv + car->getDst()) / getConsumedFuel());
-            displayFloat(value, displayChar_3);
-
-            lcd->print(displayChar_3);
-            lcd->print("L/");
-            lcd->write((uint8_t) 3);
-            lcd->write((uint8_t) 2);
-//            lcd->print(" ");
-        } else {
-            //
-            // Consumed fuel
-            lcd->print("        ");
-            lcd->setCursor(1, 0);
-            displayFloat(getConsumedFuel(), displayChar_3);
-            lcd->print(displayChar_3);
-            lcd->write((uint8_t) 4);
-            lcd->print("  ");
-        }
-    }
-}
-
-/**
- * Total distance
- */
-void Lcd16x2::displayTotalDst() {
-    //
-    //
-    if (amp->isSecond()) {
-        SavedData data = eep->getData();
-        float value = data.dist_trv + car->getDst();
-        //
-        // Preformat ...
-        lcd->setCursor(0, 1);
-        if (value < 100) {
-            lcd->print(" ");
-        }
-        displayFloat(value, displayChar_3);
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 2);
-        lcd->print(" ");
-    }
-}
-
-/**
- * Display warnings if some alert is detected
- */
-void Lcd16x2::displayCarAlert(void) {
-
-    if (!displayAlertMessagingActive && stt->isAlert() && amp->is10Seconds() ||
-        displayAlertMessagingActive && amp->isMin()) {
-        lcd->setCursor(0, 1);
-        lcd->print(F("  "));
-//        lcd->write((uint8_t) 3);
-        lcd->write("!");
-        lcd->print(F("    "));
-        displayAlertMessagingActive = true;
-//        tone(TONE_ADT_PIN, 1200, 60);
-    }
-
-    if (displayAlertMessagingActive && amp->is5Seconds()) {
-        displayAlertMessagingActive = false;
-    }
-}
-
-
-/****************************************************************
- * Display engine RPMs
- */
-void Lcd16x2::displayEngRPM() {
-
-
-    if (amp->isMid()) {
-        //
-        // Gets RPM
-
-        lcd->setCursor(0, 1);
-        lcd->print(F("RPm:"));
-        //
-        // Handle RPM screen print
-        sprintf(displayChar_4, "%04d", car->getRpm());
-        lcd->print(displayChar_4);
-    }
-
-
-}
-
-/****************************************************************
- * Display  KMh
- */
-void Lcd16x2::displayCarKMH() {
-
-    if (amp->isMid()) {
-        lcd->setCursor(0, 0);
-        lcd->print(F("KMh:"));
-        //
-        // Handle VSS screen print
-        sprintf(displayChar_3, "%03d", car->getVss());
-        lcd->print(displayChar_3);
-    }
-}
-
-/****************************************************************
- * Display  ENG Temp
- */
-void Lcd16x2::displayEngTmp() {
-
-
-    if (amp->isSec()) {
-
-        lcd->setCursor(9, 1);
-        lcd->print(F("ENg:"));
-        //
-        // Handle Dst screen print
-        sprintf(displayChar_3, "%02d", car->getEngTmp());
-        lcd->print(displayChar_3);
-        lcd->write((uint8_t) 1);
-    }
-}
-
-/****************************************************************
- * Display  ECU
- */
-void Lcd16x2::displayCarECU() {
-
-    if (amp->isSec()) {
-
-        lcd->setCursor(9, 0);
-        lcd->print("ECu:");
-        //
-        // Handle ECU screen print
-        sprintf(displayChar_2, "%02d", car->getEcu());
-        lcd->print(displayChar_2);
-        lcd->print(" ");
-    }
-
-}
-
-/****************************************************************
- *  Travel distance
- */
-void Lcd16x2::displayTrip() {
-    //
-    // Handle Distance screen
-    SavedData saved = eep->getData();
-
-    if (amp->isSec()) {
-        lcd->setCursor(0, 0);
-        lcd->print(F(" Current Trip"));
-        //
-        // Display travel time
-        lcd->setCursor(0, 1);
-        lcd->print(" ");
-        lcd->print(car->getHTm(saved.time_trp));
-        lcd->print("h");
-        //
-        // Display travel distance
-        displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
-
-        lcd->print(" ");
-        lcd->setCursor(9, 1);
-        lcd->print(displayChar_4);
-        lcd->write((uint8_t) 2);
-        lcd->print(" ");
-
-    }
-
-}
-
-void Lcd16x2::displayTotalTrip() {
-    //
-    // Handle Distance screen
-
-    if (amp->isSec()) {
-        lcd->setCursor(0, 0);
-        lcd->print(F("Total Distance  "));
-        //
-        // Display travel time
-        lcd->setCursor(0, 1);
-        lcd->print(" ");
-        lcd->print(eep->getWorkDistance());
-        lcd->write((uint8_t) 2);
-        lcd->print(" ");
-    }
-}
-
-void Lcd16x2::displayConsumption() {
-
-    if (amp->isMax()) {
-
-        lcd->setCursor(0, 0);
-        lcd->print(F(" Consumption"));
-
-
-        lcd->setCursor(1, 1);
-
-        lcd->write((uint8_t) 5);
-        lcd->write((uint8_t) 6);
-        lcd->print(F("  "));
-
-        lcd->setCursor(9, 1);
-        lcd->write((uint8_t) 7);
-        lcd->write((uint8_t) 8);
-        lcd->print(F("   "));
-
-
-    }
-
-    int dspInst[2];
-
-    if (amp->isSec()) {
-
-        separateFloat(car->getIfcAvr(), dspInst);
-
-        float valueConsFuel = 0;
-
-
-        if (car->getFuelState() == 0) {
-            valueConsFuel = car->getDefFuelCns();
-        }
-        if (car->getFuelState() == 1) {
-            valueConsFuel = car->getAdtFuelCns();
-        }
-
-        const __FlashStringHelper *liters = F("L ");
-
-        lcd->setCursor(1, 1);
-        lcd->write((uint8_t) 5);
-        lcd->write((uint8_t) 6);
-        lcd->print(dspInst[0]);
-        lcd->print(liters);
-
-        lcd->setCursor(8, 1);
-        lcd->write((uint8_t) 7);
-        lcd->write((uint8_t) 8);
-        lcd->print(valueConsFuel);
-        lcd->print(liters);
-    }
-}
-
-
-void Lcd16x2::displayFuelTanks() {
-
-    if (amp->isSec()) {
-
-        lcd->setCursor(0, 0);
-        lcd->print(F(" Fuel Tanks"));
-        lcd->setCursor(0, 1);
-        lcd->print("Bnz:");
-        sprintf(displayChar_2, "%02d", car->getTnkBnzPer());
-        lcd->print(displayChar_2);
-        lcd->print("%");
-        lcd->print(" Lpg:");
-        sprintf(displayChar_2, "%02d", car->getTnkLpgPer());
-        lcd->print(displayChar_2);
-        lcd->print("% ");
-    }
-}
-
-
-/****************************************************************
- * Average
- */
-void Lcd16x2::displayAverage() {
-
-    if (amp->isMid()) {
-        lcd->setCursor(0, 0);
-        lcd->print("Average");
-
-        lcd->setCursor(0, 1);
-        lcd->print(" ");
-        lcd->print(car->getAvrRpm());
-        lcd->print("rpm");
-
-        lcd->setCursor(8, 1);
-        lcd->print(" ");
-        lcd->print(car->getAvrVss());
-        lcd->print("kmh");
-    }
-}
-
-/****************************************************************
- * Testing menu
- */
-void Lcd16x2::displayTest() {
-
-    char display[4];
-
-    if (amp->isMid()) {
-        lcd->setCursor(0, 0);
-        lcd->print(F("VDS: "));
-//        lcd->print((char) 127);
-
-        lcd->print(car->getVdsDump());
-//        lcd->print((char) 126);
-
-
-        lcd->setCursor(0, 1);
-        lcd->print(F("Whl Btns: "));
-
-        lcd->print(whl->getAnalogReadButtons() / 100);
-
-        if (whl->isDisable()) {
-            lcd->print((char) 222);
-        } else {
-            lcd->print(" ");
-        }
-        lcd->print(whl->getCurrentState());
-//
-
-    }
-}
-
-void Lcd16x2::displayResetFuel() {
-    lcd->setCursor(0, 0);
-    if (amp->isSecond()) {
-        if (amp->is2Seconds()) {
-            lcd->print(F("Hold R< + Whl \"0\""));
-        } else {
-            lcd->print(F("Reset fuel/s    "));
-        }
-    }
-}
-
-void Lcd16x2::displayAboutInfo() {
-    lcd->setCursor(0, 0);
-    if (amp->isSecond()) {
-        lcd->print(F("ArduinoMid      "));
-        lcd->setCursor(0, 1);
-        lcd->print(MID_VERSION);
-    }
-}
-
-/****************************************************************
- * State menu
- */
-void Lcd16x2::displayCarState() {
-
-
-    if (MidCursorMenu == 4) {
-        if (amp->isSecond() && !amp->is4Seconds()) {
-
-            lcd->setCursor(0, 1);
-            if (!stt->isAlert()) {
-                lcd->print(F("no warnings  :) "));
-            } else {
-                lcd->print(F("finds warning "));
-//                lcd->write((uint8_t) 3);
-                lcd->print("!");
-                lcd->print("  ");
-            }
-        } else if (amp->is4Seconds()) {
-            lcd->setCursor(0, 1);
-            lcd->print(F("use >R to switch"));
-        }
-    }
-
-    if (amp->isBig()) {
-        //
-        // Shows header menu title
-        lcd->setCursor(0, 0);
-        lcd->print("Servicing  ");
-        //
-        // Continue with info
-        lcd->setCursor(0, 1);
-        if (MidCursorMenu == 41) {
-            if (stt->getLiveBrk()) lcd->print(F("CHECK brake wear"));
-            else lcd->print(F("Brake wear OK   "));
-        }
-        if (MidCursorMenu == 42) {
-            if (stt->getLiveCnt()) lcd->print(F("Low coolant !"));
-            else lcd->print(F("Coolant is OK   "));
-        }
-        if (MidCursorMenu == 43) {
-            if (stt->getLiveWin()) lcd->print("Low window wash");
-            else lcd->print(F("Window washer OK"));
-        }
-        if (MidCursorMenu == 44) {
-            if (stt->getLiveOil()) lcd->print(F("Low oil level !"));
-            else lcd->print(F("Oil level is OK "));
-        }
-        if (MidCursorMenu == 46) {
-            lcd->print(F("Range: "));
-            lcd->print(eep->getWorkDistance());
-            lcd->write((uint8_t) 2);
-            lcd->print(" ");
-        }
-    }
-
-    if (MidCursorMenu == 45) {
-        if (amp->isBig()) {
-            if (stt->getLiveVol()) {
-                lcd->print(F("Voltage "));
-//                lcd->write((uint8_t) 3);
-                lcd->print("!");
-                lcd->print(" ");
-                lcd->print(stt->getVoltage());
-                lcd->print("V    ");
-                lcd->setCursor(11, 13);
-            } else lcd->print(F("Voltage is OK   "));
-        }
-    }
-
-
-}
 //
 // TODO Lowering code for sRAM exhausting
 /****************************************************************
  * Games menu
  *
-void Lcd16x2::displayCarGames(void) {
+void displayCarGames(void) {
 //    gameResults = gms->getBestResults();
 }
 
-void Lcd16x2::displayCarGameWatch(void) {
+void displayCarGameWatch(void) {
 
     if (amp->isSec()) {
         lcd->setCursor(0, 1);
@@ -680,7 +721,7 @@ void Lcd16x2::displayCarGameWatch(void) {
 /*
  * Display drag race
  *
-void Lcd16x2::displayCarGameDrag(void) {
+void displayCarGameDrag(void) {
 
     if (amp->isToggle() && amp->isMid()) {
 
@@ -694,7 +735,7 @@ void Lcd16x2::displayCarGameDrag(void) {
 /**
  * Display game 0 to 100
  *
-void Lcd16x2::displayCarGameT100() {
+void displayCarGameT100() {
 
     float result = gms->get0to100();
 
@@ -728,20 +769,7 @@ void Lcd16x2::displayCarGameT100() {
 
 }
 */
-void Lcd16x2::begin(void) {
-    lcd->noDisplay();
-    //
-    // Initializes the interface to the LCD screen
-    lcd->begin(16, 2);
-    // and clear it ...
-    lcd->clear();
-    //
-    // Adding custom characters to LCD
-    setLcdBaseChar(lcd);
-    lcd->display();
-    //
-    // Show welcome from car
-}
+
 
 void Lcd16x2::draw(void) {
 /*
@@ -762,19 +790,13 @@ void Lcd16x2::draw(void) {
             lcd->print("~ ");
             tone(TONE_ADT_PIN, 2800, 16);
             delay(100);
-            lcd->print(MenuBase::usedMenu);
+            lcd->print(usedMenu.used);
             lcd->setCursor(16, 0);
             delay(300);  //delay to allow message reading
             lcd->setCursor(0, 0);
             car->clearBuffer();
             mbs->finishEntry();
             lcd->clear();
-/*
-            if (amp->isSecond()) {
-                Serial.print("Drawing entry: ");
-                Serial.println(cursor);
-            }
-*/
             break;
             //
             // Main / first menu
@@ -857,7 +879,10 @@ void Lcd16x2::draw(void) {
             break;*/
 
         case ShutDw::MENU_SHUTDOWN:
-            sdw->lcd16x2(lcd);
+            sdw->menu(this);
+
+
+
             break;
     }
 }

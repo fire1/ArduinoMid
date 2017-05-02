@@ -38,6 +38,7 @@ class Lcd240x62 : virtual public LcdMenuInterface {
     WhlSens *whl;
     MenuBase *mbs;
     ShutDw *sdw;
+    MenuBtn * btn;
 //
 // Drowing counter
     uint8_t drawIndex = 0;
@@ -87,7 +88,7 @@ protected:
                 lcd->clear();
                 mbs->startEntry();
                 drawIndex = 0;
-                btnMenu.setNavigationState(false);
+                btn->setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
             case 1:
@@ -107,8 +108,7 @@ protected:
                 break;
             case 5:
 
-                btnMenu.setNavigationState(true);
-//                usedMenu = {};
+                btn->setNavigationState(true);
                 mbs->finishEntry();
                 lcd->clear();
                 drawEntry = -1;
@@ -130,7 +130,7 @@ protected:
                 lcd->clearBuffer();
                 mbs->startEntry();
                 drawIndex = 0;
-                btnMenu.setNavigationState(false);
+                btn->setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
 
                 interfaceBuffer = usedMenu.back + '\n';
@@ -150,7 +150,7 @@ protected:
                 break;
             case 5:
 
-                btnMenu.setNavigationState(true);
+                btn->setNavigationState(true);
                 mbs->finishEntry();
                 lcd->clear();
                 break;
@@ -167,15 +167,8 @@ public:
  * @param _sdw
  */
     Lcd240x62(U8G2 &_lcd, AmpTime _amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
-            lcd(&_lcd), amp(&_amp), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()), whl(_btn.passWhl()),
+            lcd(&_lcd), amp(&_amp),btn(&_btn),  mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()), whl(_btn.passWhl()),
             stt(_btn.passStt()), sdw(&_sdw) {
-//        lcd = _lcd;
-//        amp = _btn->passAmp();
-//        car = _btn->passCar();
-//        eep = _btn->passEep();
-//        whl = _btn->passWhl();
-//        stt = _btn->passStt();
-//        sdw = _sdw;
 //        interfaceBuffer.reserve(1024);
     }
 
@@ -202,17 +195,51 @@ public:
         lcd->enableUTF8Print();
         lcd->setAutoPageClear(1);
     }
+// TODO..
+    /****************************************************************
+     * SHUTDOWN METHODS
+     */
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownBegin() {
+
+    }
+
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownShort() {
+
+    }
+
+/**
+ * Draws countdown time for saving trip
+ */
+    void drawShutdownCount(char sec[2]) {
+
+    }
+/**
+ *
+ */
+    void draWShutdownTripSave() {
+
+    }
+/**
+ *
+ */
+    void draWShutdownTripSkip() {
+
+    }
 
 /**
  * Draw graphic
  */
     void draw() {
-
         if (amp->isMax()) {
             lcd->firstPage();
             do {
                 menus();
-//                lcd->drawStr(0, 0, "CURRENT TRIP");
             } while (lcd->nextPage());
             drawIndex++;
             if (drawIndex > 5) {
@@ -280,20 +307,23 @@ private:
     void displayHomeTemperatures() {
 
         //
-        // Outside
+        // Outside graph
         lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-        displayFloat(car->getTmpOut(), displayChar_3);
         lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
-        lcd->drawStr(45, LCD_ROW_3, displayChar_3);
         lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+        //
+        //
+        displayFloat(car->getTmpOut(), displayChar_3);
+        lcd->drawStr(45, LCD_ROW_3, displayChar_3);
 
         //
-        // Inside
-        displayFloat(car->getTmpIns(), displayChar_3);
+        // Inside Graph
         lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
-        lcd->drawStr(45, LCD_ROW_4, displayChar_3);
         lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
-
+        //
+        // Data
+        displayFloat(car->getTmpIns(), displayChar_3);
+        lcd->drawStr(45, LCD_ROW_4, displayChar_3);
     }
 
 /**

@@ -13,8 +13,8 @@
  */
 class LcdPwr {
 private:
-    uint8_t pwr[5];
-    uint8_t adt[4];
+    uint8_t pwr[6];
+    uint8_t adt[3];
     bool additional = false;
 public:
 /**
@@ -24,11 +24,12 @@ public:
  * @param pinBlA
  * @param pinBlB
  */
-    LcdPwr(uint8_t pinGnd, uint8_t pinVcc, uint8_t pinBlA, uint8_t pinBlB) {
+    LcdPwr(uint8_t pinGnd, uint8_t pinVcc, uint8_t pinBlA, uint8_t pinBlB, uint8_t pinRD) {
         pwr[0] = pinGnd;
         pwr[1] = pinVcc;
         pwr[2] = pinBlA;
         pwr[3] = pinBlB;
+        pwr[4] = pinRD;
     }
 
 /**
@@ -47,10 +48,10 @@ public:
         pwr[1] = pinVcc;
         pwr[2] = pinBLn;
         pwr[3] = pinBLp;
+        pwr[4] = pinRD;
         additional = true;
-        adt[0] = pinRD;
-        adt[1] = pinFS;
-        adt[2] = pinGnd2;
+        adt[0] = pinFS;
+        adt[1] = pinGnd2;
     }
 
 
@@ -59,11 +60,12 @@ public:
         analogWrite(pwr[1], 255); // 5V
         analogWrite(pwr[3], 0); // back light
         analogWrite(pwr[2], 255); // back light
+        analogWrite(pwr[4], 0); // back light
 
         if (additional) {
             digitalWrite(adt[0], HIGH); // RD
             analogWrite(adt[1], 0); // fs
-            if (adt[2] > 0) analogWrite(adt[2], 0); // GND
+            if (adt[1] > 0) analogWrite(adt[2], 0); // GND
         }
 
 //        delete this;
@@ -75,21 +77,25 @@ public:
 
 #if SCREEN == 162 || !defined(SCREEN)
 #include <LiquidCrystal.h>
+#include "Menu16x2.h"
 #include "Lcd16x2.h"
 //
 // This class somehow fixes unexpected
 // reboot from Mid plug dim value. (in my case)
-#include <Firmata.h>
-MidMenuInterface *midMenu = new Menu16x2;
+//#include <Firmata.h>
+Menu16x2 midMenu;
 //
 //
-MenuBase menuBase(&btnMenu, midMenu);
+MenuBase menuBase(btnMenu, midMenu);
+//
+// Resolving power pins from Mega2560's socket
+LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_WR);
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 //
 //
-LcdMenuInterface *lcdMenu = new Lcd16x2(&lcd, &btnMenu, &menuBase,/* &carGames, */&shutDown);
+Lcd16x2 lcdMenu(lcd, ampInt, btnMenu, menuBase,/* &carGames, */shutDown);
 
 
 

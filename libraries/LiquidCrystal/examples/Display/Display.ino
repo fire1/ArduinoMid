@@ -8,7 +8,7 @@
 
  This sketch prints "Hello World!" to the LCD and uses the
  lcd16x2() and noDisplay() functions to turn on and off
- the lcd16x2.
+ the menu.
 
  The circuit:
  * LCD RS pin to digital pin 12
@@ -51,10 +51,10 @@ void setup() {
 }
 
 void loop() {
-  // Turn off the lcd16x2:
+  // Turn off the menu:
   lcd.noDisplay();
   delay(500);
-  // Turn on the lcd16x2:
+  // Turn on the menu:
   lcd.display();
   delay(500);
 }

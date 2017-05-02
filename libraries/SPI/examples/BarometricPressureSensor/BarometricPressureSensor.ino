@@ -64,7 +64,7 @@ void loop() {
     //Read the temperature data
     int tempData = readRegister(0x21, 2);
 
-    // convert the temperature to celsius and lcd16x2 it:
+    // convert the temperature to celsius and menu it:
     float realTemp = (float)tempData / 20.0;
     Serial.print("Temp[C]=");
     Serial.print(realTemp);
@@ -79,7 +79,7 @@ void loop() {
     //combine the two parts into one 19-bit number:
     long pressure = ((pressure_data_high << 16) | pressure_data_low) / 4;
 
-    // lcd16x2 the temperature:
+    // menu the temperature:
     Serial.println("\tPressure [Pa]=" + String(pressure));
   }
 }
