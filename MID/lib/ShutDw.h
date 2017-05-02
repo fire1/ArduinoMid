@@ -242,7 +242,7 @@ void ShutDw::menu(LcdMenuInterface *lcd) {
 
     //
     // Basic information save
-    if (car->getDst() < SHUTDOWN_SAVE_TRIP) {
+    if (car->getDst() < SHUTDOWN_SAVE_TRIP|| true) { // TODO disabled for now
         tone(pinTone, 1000, 50);
         delay(50);
         tone(pinTone, 1200, 50);

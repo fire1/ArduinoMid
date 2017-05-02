@@ -199,6 +199,8 @@ public:
         gamesMenu.addRight(gamesStpWatch).addRight(gamesDragRace);
         gamesDragRace.addRight(gamesStpWatch);
          */
+        menu.moveDown();
+        MidCursorMenu = 1;
     };
 
 
@@ -206,8 +208,8 @@ public:
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
 
-        Serial.print("Change menu: ");
-        Serial.println(curMenuName);
+/*        Serial.print("Change menu: ");
+        Serial.println(curMenuName);*/
 
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;

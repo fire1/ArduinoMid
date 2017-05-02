@@ -72,6 +72,7 @@ struct SavedData {
 //
 class EepRom {
 
+    SavedData container;
     CarSens *car;
 
 public:
@@ -186,10 +187,7 @@ public:
     SavedData getData(void);
 
 private:
-/**
- * Container of saved data
- */
-    SavedData container;
+
 
 /**
  *

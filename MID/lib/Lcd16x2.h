@@ -50,10 +50,9 @@ protected:
     char displayChar_4[4];
 
 
-
 public:
 
-    Lcd16x2(LiquidCrystal &_lcd, AmpTime _amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+    Lcd16x2(LiquidCrystal &_lcd, AmpTime &_amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
             whl(_btn.passWhl()),
             stt(_btn.passStt()), sdw(&_sdw) {
@@ -130,6 +129,7 @@ public:
         lcd->setCursor(1, 2);
         lcd->print(F(" for ESC saving "));
     }
+
 /**
  *
  */
@@ -140,6 +140,7 @@ public:
         lcd->setCursor(1, 2);
         lcd->print(F(" Bye bye ...    "));
     }
+
 /**
  *
  */
@@ -159,7 +160,7 @@ protected:
 
     void displayOutTmp(void) {
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
             //
             // Preformat ...
             displayFloat(car->getTmpOut(), displayChar_3);
@@ -195,7 +196,7 @@ protected:
  */
     void displayInsTmp() {
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
             //
             // Preformat ...
             displayFloat(car->getTmpIns(), displayChar_3);
@@ -229,7 +230,7 @@ protected:
         if (amp->is2Seconds()) {
             //
             // Reset screen place
-            if (amp->isSec()) {
+            if (amp->isBig()) {
                 lcd->print(F("    "));
             }
 
@@ -331,7 +332,7 @@ protected:
  */
     void displayCarKMH() {
 
-        if (amp->isMid()) {
+        if (amp->isBig()) {
             lcd->setCursor(0, 0);
             lcd->print(F("KMh:"));
             //
@@ -347,7 +348,7 @@ protected:
     void displayEngTmp() {
 
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
 
             lcd->setCursor(9, 1);
             lcd->print(F("ENg:"));
@@ -364,7 +365,7 @@ protected:
  */
     void displayCarECU() {
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
 
             lcd->setCursor(9, 0);
             lcd->print("ECu:");
@@ -383,26 +384,36 @@ protected:
     void displayTrip() {
         //
         // Handle Distance screen
-        SavedData saved = eep->getData();
-
-        if (amp->isSec()) {
+        if (amp->isBig()) {
+            SavedData saved = eep->getData();
             lcd->setCursor(0, 0);
             lcd->print(F(" Current Trip"));
             //
             // Display travel time
             lcd->setCursor(0, 1);
-            lcd->print(" ");
-            lcd->print(car->getHTm(saved.time_trp));
-            lcd->print("h");
+            lcd->print(F(" "));
+            /* 11 = len of clock time + 1 char for \0*/
+            char dspTime[6] = "00:00";
+            unsigned long tmSec;
+            int tmMin, tmHrs;
+
+            tmSec = millis() / 1000;
+            tmMin = int(tmSec / 60);
+            tmHrs = tmMin / 60;
+
+
+            sprintf(dspTime, "%02d:%02d", tmHrs, tmMin);
+            lcd->print(dspTime /*car->getHTm(*//*saved.time_trp*//*)*/);
+            lcd->print(F("h"));
             //
             // Display travel distance
-            displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
+            displayFloat(car->getDst()/* + saved.dist_trp*/, displayChar_4);
 
-            lcd->print(" ");
+            lcd->print(F(" "));
             lcd->setCursor(9, 1);
             lcd->print(displayChar_4);
-            lcd->write((uint8_t) 2);
-            lcd->print(" ");
+//            lcd->write((uint8_t) 2);
+            lcd->print(F(" "));
 
         }
 
@@ -412,16 +423,16 @@ protected:
         //
         // Handle Distance screen
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
             lcd->setCursor(0, 0);
             lcd->print(F("Total Distance  "));
             //
             // Display travel time
             lcd->setCursor(0, 1);
-            lcd->print(" ");
+            lcd->print(F(" "));
             lcd->print(eep->getWorkDistance());
             lcd->write((uint8_t) 2);
-            lcd->print(" ");
+            lcd->print(F(" "));
         }
     }
 
@@ -449,7 +460,7 @@ protected:
 
         int dspInst[2];
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
 
             separateFloat(car->getIfcAvr(), dspInst);
 
@@ -482,19 +493,19 @@ protected:
 
     void displayFuelTanks() {
 
-        if (amp->isSec()) {
+        if (amp->isBig()) {
 
             lcd->setCursor(0, 0);
             lcd->print(F(" Fuel Tanks"));
             lcd->setCursor(0, 1);
-            lcd->print("Bnz:");
+            lcd->print(F("Bnz:"));
             sprintf(displayChar_2, "%02d", car->getTnkBnzPer());
             lcd->print(displayChar_2);
-            lcd->print("%");
-            lcd->print(" Lpg:");
+            lcd->print(F("%"));
+            lcd->print(F(" Lpg:"));
             sprintf(displayChar_2, "%02d", car->getTnkLpgPer());
             lcd->print(displayChar_2);
-            lcd->print("% ");
+            lcd->print(F("% "));
         }
     }
 
@@ -504,19 +515,19 @@ protected:
  */
     void displayAverage() {
 
-        if (amp->isMid()) {
+        if (amp->isBig()) {
             lcd->setCursor(0, 0);
-            lcd->print("Average");
+            lcd->print(F("Average"));
 
             lcd->setCursor(0, 1);
-            lcd->print(" ");
+            lcd->print(F(" "));
             lcd->print(car->getAvrRpm());
-            lcd->print("rpm");
+            lcd->print(F("rpm"));
 
             lcd->setCursor(8, 1);
-            lcd->print(" ");
+            lcd->print(F(" "));
             lcd->print(car->getAvrVss());
-            lcd->print("kmh");
+            lcd->print(F("kmh"));
         }
     }
 
@@ -527,7 +538,7 @@ protected:
 
         char display[4];
 
-        if (amp->isMid()) {
+        if (amp->isBig()) {
             lcd->setCursor(0, 0);
             lcd->print(F("VDS: "));
 //        lcd->print((char) 127);
@@ -544,7 +555,7 @@ protected:
             if (whl->isDisable()) {
                 lcd->print((char) 222);
             } else {
-                lcd->print(" ");
+                lcd->print(F(" "));
             }
             lcd->print(whl->getCurrentState());
 //
@@ -600,7 +611,7 @@ protected:
             //
             // Shows header menu title
             lcd->setCursor(0, 0);
-            lcd->print("Servicing  ");
+            lcd->print(F("Servicing  "));
             //
             // Continue with info
             lcd->setCursor(0, 1);
@@ -633,10 +644,10 @@ protected:
                 if (stt->getLiveVol()) {
                     lcd->print(F("Voltage "));
 //                lcd->write((uint8_t) 3);
-                    lcd->print("!");
-                    lcd->print(" ");
+                    lcd->print(F("!"));
+                    lcd->print(F(" "));
                     lcd->print(stt->getVoltage());
-                    lcd->print("V    ");
+                    lcd->print(F("V    "));
                     lcd->setCursor(11, 13);
                 } else lcd->print(F("Voltage is OK   "));
             }
@@ -669,7 +680,7 @@ void displayCarGames(void) {
 
 void displayCarGameWatch(void) {
 
-    if (amp->isSec()) {
+    if (amp->isBig()) {
         lcd->setCursor(0, 1);
         lcd->print("Stopwatch");
     }
@@ -880,7 +891,6 @@ void Lcd16x2::draw(void) {
 
         case ShutDw::MENU_SHUTDOWN:
             sdw->menu(this);
-
 
 
             break;

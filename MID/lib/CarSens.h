@@ -32,7 +32,7 @@
 #define VSS_ALARM_CITY_SPEED  60 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
+//#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 #define VSS_ALARM_AWAITING 5
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -529,7 +529,7 @@ public:
     /**
      *  Gets Human time
      */
-    char *getHTm(float saved = 0);
+    char* getHTm(float saved = 0);
 
     /**
      *  Gets current Distance
@@ -992,9 +992,9 @@ void CarSens::speedingAlarmsDw() {
  * Gets human time
  * @return char*
  */
-char *CarSens::getHTm(float saved) {
+char* CarSens::getHTm(float saved) {
 
-
+    char dspTime[6] = "00:00";
     unsigned long tmSec;
     int tmMin, tmHrs;
 
@@ -1005,7 +1005,7 @@ char *CarSens::getHTm(float saved) {
     int old[1];
     separateFloat(saved, old);
     /* 11 = len of clock time + 1 char for \0*/
-    char dspTime[6];
+
     sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
     return dspTime;
 };

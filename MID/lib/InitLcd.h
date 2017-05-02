@@ -77,7 +77,6 @@ public:
 
 #if SCREEN == 162 || !defined(SCREEN)
 #include <LiquidCrystal.h>
-#include "Menu16x2.h"
 #include "Lcd16x2.h"
 //
 // This class somehow fixes unexpected
@@ -89,7 +88,7 @@ Menu16x2 midMenu;
 MenuBase menuBase(btnMenu, midMenu);
 //
 // Resolving power pins from Mega2560's socket
-LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_WR);
+LcdPwr lcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_WR);
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
 LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
@@ -161,13 +160,17 @@ void menuChangeEvent(MenuChangeEvent changed) {
 }
 
 void menuUseEvent(MenuUseEvent used) {
-//    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
-//    Serial.println(getFreeRam());
-    usedMenu.next = used.item.getAfter()->getName();
-    usedMenu.last = used.item.getAfter()->getAfter()->getName();
+    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
+    Serial.println(getFreeRam());
+    usedMenu.used = used.item.getName();
+
+#if SCREEN != 162
     usedMenu.back = used.item.getBack()->getName();
+    usedMenu.last = used.item.getAfter()->getAfter()->getName();
     usedMenu.down = used.item.getRight()->getName();
     usedMenu.used = used.item.getName();
+    usedMenu.next = used.item.getAfter()->getName();
+#endif
 //
 //    Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
 //    Serial.println(getFreeRam());
