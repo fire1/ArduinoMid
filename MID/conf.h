@@ -6,8 +6,8 @@
 #define ARDUINOMID_CONF_H
 //
 // Sets screen size
-//#define SCREEN 24064 // Glcd 240x64
-#define SCREEN 162 // lcd 16x2
+#define SCREEN 24064 // Glcd 240x64
+//#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -56,8 +56,7 @@ const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 
 //
 // Display dim pins
-const uint8_t
-        DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
+const uint8_t DIM_PIN_VAL = A10;    //  Plug:7      Display back-light
 
 
 #if SCREEN == 162 || !defined(SCREEN)
@@ -223,6 +222,14 @@ public:
     virtual void draWShutdownTripSave() = 0;
 
     virtual void draWShutdownTripSkip() = 0;
+
+protected:
+
+    //
+    // Defining content generate container variables
+    char displayChar_2[3];
+    char displayChar_3[4];
+    char displayChar_4[5];
 };
 
 /**

@@ -6,9 +6,9 @@
 #define ARDUINO_MID_MENU240X64_H
 
 #include <Arduino.h>
-#include "conf.h"
-#include "lib/MenuBtn.h"
-#include "lib/MenuBase.h"
+#include "../../conf.h"
+#include "../MenuBtn.h"
+#include "../MenuBase.h"
 #include <MenuBackend.h>
 
 

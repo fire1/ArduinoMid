@@ -45,16 +45,16 @@ protected:
     boolean displayAlertMessagingActive = false;
     //
     // Defining content generate container variables
-    char displayChar_2[2];
-    char displayChar_3[3];
-    char displayChar_4[4];
+//    char displayChar_2[3];
+//    char displayChar_3[4];
+//    char displayChar_4[5];
 
 
 public:
 
-    Lcd16x2(LiquidCrystal &_lcd, AmpTime &_amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
-            lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+    Lcd16x2(LiquidCrystal &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+            lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Welcome screen ...
@@ -310,7 +310,7 @@ protected:
     void displayEngRPM() {
 
 
-        if (amp->isMid()) {
+        if (amp->isBig()) {
             //
             // Gets RPM
 
@@ -347,7 +347,6 @@ protected:
 
 
         if (amp->isBig()) {
-
             lcd->setCursor(9, 1);
             lcd->print(F("ENg:"));
             //
@@ -565,11 +564,31 @@ protected:
         lcd->setCursor(0, 0);
         if (amp->isSecond()) {
             if (amp->is2Seconds()) {
-                lcd->print(F("Hold R< + Whl \"0\""));
+                lcd->print(F("Press S< here to"));
             } else {
-                lcd->print(F("Reset fuel/s    "));
+                lcd->print(F("Reset fuel & km "));
             }
         }
+
+        if (amp->isSecond()) {
+            lcd->setCursor(0, 1);
+            if (amp->is2Seconds()) {
+                lcd->print(F("WAIT ...."));
+//                btn->setNavigationState(1);
+            } else {
+//                btn->setNavigationState(0);
+                lcd->print(F("Now!  "));
+                tone(TONE_ADT_PIN, 1500, 10);
+                if (btn->isUp()) {
+//            eep->saveZeroingData();
+                    Serial.println(F("Zero saved"));
+                    tone(TONE_ADT_PIN, 2500, 50);
+                }
+            }
+
+        }
+
+
     }
 
     void displayAboutInfo() {
@@ -819,8 +838,8 @@ void Lcd16x2::draw(void) {
             //
             // Dashboard
         case 11:
-            displayEngRPM();
             displayCarKMH();
+            displayEngRPM();
             displayCarECU();
             displayEngTmp();
             break;

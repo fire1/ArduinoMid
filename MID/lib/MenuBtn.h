@@ -36,7 +36,7 @@ private:
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     boolean activateSteering = false;
-
+    boolean holdActivated = false;
 
     //
     // Down Button
@@ -97,6 +97,10 @@ public:
         return lastButtonPushed == btnDw;
     }
 
+    inline boolean isHl() {
+        return holdActivated;
+    }
+
     inline AmpTime *passAmp(void) {
         return amp;
     }
@@ -138,6 +142,9 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) 
 
 void MenuBtn::listener() {
     //
+    // Delete hold state
+    holdActivated = false;
+    //
     // Delete last loop state record
     lastButtonPushed = 0;
     //
@@ -168,7 +175,7 @@ void MenuBtn::listener() {
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
-        if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
+        if (amp->isMin() && !digitalRead(btnUp) == HIGH) {
             lastButtonPushed = btnUp;
         }
     }
@@ -182,7 +189,7 @@ void MenuBtn::captureDw(void) {
     if (!digitalRead(btnDw) == HIGH && !entryDownState) {
         //
         // Clear noise
-        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+        if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
             tone(TONE_ADT_PIN, 700, 20);
             entryDownState = true;
             playSecondTone = true;
@@ -208,10 +215,11 @@ void MenuBtn::captureHl(void) {
     //
     // Hold button detection
     if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
-        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+        if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
             //
             // Cut the method if shortcut is executed
             shortcut();
+            holdActivated = true;
             holdTimeHandler = 0;
             entryDownState = false;
             activateSteering = true;

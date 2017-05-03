@@ -6,14 +6,15 @@
 #define ARDUINO_MID_LCD240X64_H
 //#include "CarGames.h"
 #include <Arduino.h>
-#include "conf.h"
-#include "lib/MainFunc.h"
-#include "lib/ShutDw.h"
-#include "lib/CarState.h"
 #include <U8g2lib.h>
+#include "../../conf.h"
+#include "../MainFunc.h"
+#include "../ShutDw.h"
+#include "../CarState.h"
+
 #include "Menu240x64.h"
-#include "lib/graphics/240x64-logo.h"
-#include "lib/graphics/gLcd-icons.h"
+#include "../graphics/240x64-logo.h"
+#include "../graphics/gLcd-icons.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -52,9 +53,9 @@ public:
  * @param _mbs
  * @param _sdw
  */
-    Lcd240x62(U8G2 &_lcd, AmpTime &_amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
-            lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+    Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+            lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -64,6 +65,7 @@ public:
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
         delay(10);
+        lcd->clearBuffer();
         lcd->firstPage();
         do {
             lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
@@ -76,8 +78,8 @@ public:
     void begin(void) {
         lcd->begin();
         useTextMode();
-        lcd->enableUTF8Print();
-        lcd->setAutoPageClear(1);
+//        lcd->enableUTF8Print();
+//        lcd->setAutoPageClear(1);
     }
 // TODO..
     /****************************************************************
@@ -137,9 +139,9 @@ protected:
 
     //
     // Defining content generate container variables
-    char displayChar_2[2];
-    char displayChar_3[3];
-    char displayChar_4[4];
+//    char displayChar_2[3];
+//    char displayChar_3[4];
+//    char displayChar_4[5];
 
     void menus();
 
@@ -327,30 +329,31 @@ private:
     void displayCurrentTrip() {
         SavedData saved = eep->getData();
         lcd->drawXBMP(120, 15, 18, 18, road_18x18_bits);
+        lcd->drawXBMP(120, LCD_ROW_3, 18, 18, gage_18x18_bits);
         //
         // Travel distance
-        lcd->drawStr(/*25*/ 145, LCD_ROW_1, "Range:");
+        lcd->drawStr(/*25*/ 155, LCD_ROW_1, "Range:");
         displayFloat(car->getDst() + saved.dist_trp, displayChar_4);
-        lcd->drawStr(/*50*/175, LCD_ROW_1, displayChar_4);
-        drawKm(/*82*/205, 15);
+        lcd->drawStr(/*50*/195, LCD_ROW_1, displayChar_4);
+        drawKm(/*82*/230, 15);
         //
         // Travel time
-        lcd->drawStr(145, LCD_ROW_2, "Time:");
+        lcd->drawStr(155, LCD_ROW_2, "Time:");
         // TODO Check for FIX !
-        lcd->drawStr(175, LCD_ROW_2, car->getHTm(saved.time_trp));
-        lcd->drawStr(205, LCD_ROW_2, "h");
+        lcd->drawStr(195, LCD_ROW_2, car->getHTm(saved.time_trp));
+        lcd->drawStr(230, LCD_ROW_2, "h");
         //
         // Average speed
-        drawAverage(130, LCD_ROW_3);
+        drawAverage(155, LCD_ROW_3);
         sprintf(displayChar_2, "%02d", car->getAvrVss());
-        lcd->drawStr(170, LCD_ROW_3, displayChar_2);
-        drawKm(202, LCD_ROW_3);
+        lcd->drawStr(175, LCD_ROW_3, displayChar_2);
+        drawKm(205, LCD_ROW_3);
         //
         // Average liters per 100km
-        drawAverage(130, LCD_ROW_4);
+        drawAverage(155, LCD_ROW_4);
         displayFloat(car->getDst() / car->getCurFuelCns(), displayChar_3);
-        lcd->drawStr(170, LCD_ROW_4, displayChar_3);
-        drawL100km(202, LCD_ROW_4);
+        lcd->drawStr(175, LCD_ROW_4, displayChar_3);
+        drawL100km(205, LCD_ROW_4);
         // Todo wasted fuel
     }
 
