@@ -6,17 +6,17 @@
 #define ARDUINO_MID_LCD_16x2_H
 
 #include <Arduino.h>
-#include "../conf.h"
+#include "../../conf.h"
 
 #include <LiquidCrystal.h>
-#include "MainFunc.h"
+#include "../MainFunc.h"
 #include "Menu16x2.h"
-#include "MenuBase.h"
-#include "ShutDw.h"
-#include "CarState.h"
+#include "../MenuBase.h"
+#include "../ShutDw.h"
+#include "../CarState.h"
 
 //#include "CarGames.h"
-#include "graphics/LcdChar.h"
+#include "../graphics/LcdChar.h"
 
 
 
@@ -54,9 +54,7 @@ public:
 
     Lcd16x2(LiquidCrystal &_lcd, AmpTime &_amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()),
-            stt(_btn.passStt()), sdw(&_sdw) {
-    }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Welcome screen ...

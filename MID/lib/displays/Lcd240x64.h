@@ -6,14 +6,14 @@
 #define ARDUINO_MID_LCD240X64_H
 //#include "CarGames.h"
 #include <Arduino.h>
-#include "../conf.h"
-#include "MainFunc.h"
-#include "ShutDw.h"
-#include "CarState.h"
+#include "conf.h"
+#include "lib/MainFunc.h"
+#include "lib/ShutDw.h"
+#include "lib/CarState.h"
 #include <U8g2lib.h>
 #include "Menu240x64.h"
-#include "graphics/240x64-logo.h"
-#include "graphics/gLcd-icons.h"
+#include "lib/graphics/240x64-logo.h"
+#include "lib/graphics/gLcd-icons.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -38,11 +38,100 @@ class Lcd240x62 : virtual public LcdMenuInterface {
     WhlSens *whl;
     MenuBase *mbs;
     ShutDw *sdw;
-    MenuBtn * btn;
+    MenuBtn *btn;
 //
 // Drowing counter
     uint8_t drawIndex = 0;
     char drawEntry = 0;
+
+public:
+/**
+ *
+ * @param _lcd
+ * @param _btn
+ * @param _mbs
+ * @param _sdw
+ */
+    Lcd240x62(U8G2 &_lcd, AmpTime &_amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+            lcd(&_lcd), amp(&_amp), btn(&_btn), mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()),
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+
+/**
+ * Mid's intro
+ */
+    void intro(void) {
+        //
+        // Test tone
+        tone(TONE_ADT_PIN, 400, 20);
+        delay(10);
+        lcd->firstPage();
+        do {
+            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
+        } while (lcd->nextPage());
+        delay(1500);
+        lcd->clear();
+        tone(TONE_ADT_PIN, 800, 10);
+    }
+
+    void begin(void) {
+        lcd->begin();
+        useTextMode();
+        lcd->enableUTF8Print();
+        lcd->setAutoPageClear(1);
+    }
+// TODO..
+    /****************************************************************
+
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownBegin() {
+
+    }
+
+/**
+ * Draws shutdown begin for trip save
+ */
+    void drawShutdownShort() {
+
+    }
+
+/**
+ * Draws countdown time for saving trip
+ */
+    void drawShutdownCount(char sec[2]) {
+
+    }
+
+/**
+ *
+ */
+    void draWShutdownTripSave() {
+
+    }
+
+/**
+ *
+ */
+    void draWShutdownTripSkip() {
+
+    }
+
+/**
+ * Draw graphic
+ */
+    void draw() {
+        if (amp->isMax()) {
+            lcd->firstPage();
+            do {
+                menus();
+            } while (lcd->nextPage());
+            drawIndex++;
+            if (drawIndex > 5) {
+                drawIndex = 0;
+            }
+        }
+    }
 
 protected:
 
@@ -94,13 +183,12 @@ protected:
             case 1:
             case 2:
             case 3:
-                lcd->drawStr(12, 5 - (drawIndex * 5), usedMenu.back);
-                lcd->drawStr(12, 35 - (drawIndex * 5), usedMenu.used);
-                lcd->drawStr(72, 35 - (drawIndex * 5), usedMenu.down);
-                lcd->drawStr(12, 20 - (drawIndex * 5), usedMenu.next);
-                lcd->drawStr(12, 50 - (drawIndex * 5), usedMenu.last);
-
-                lcd->drawFrame(10, 18, 212, 15);
+                lcd->drawStr(12, 5, usedMenu.back);
+                lcd->drawStr(12, 35, usedMenu.used);
+                lcd->drawStr(72, 35, usedMenu.down);
+                lcd->drawStr(12, 20, usedMenu.next);
+                lcd->drawStr(12, 50, usedMenu.last);
+                lcd->drawFrame(10 + (drawIndex * 5), 18, 212, 15);
                 break;
             case 4:
                 lcd->clearBuffer();
@@ -132,11 +220,9 @@ protected:
                 drawIndex = 0;
                 btn->setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
-
-                interfaceBuffer = usedMenu.back + '\n';
-
-                interfaceBuffer.concat(usedMenu.used + '\n');
-                interfaceBuffer.concat(usedMenu.used + '\n');
+                //
+                // Generate menu fo U8g2
+                interfaceBuffer = String(usedMenu.back) + '\n' + usedMenu.used + '\n' + usedMenu.used;
                 break;
             case 1:
             case 2:
@@ -154,97 +240,6 @@ protected:
                 mbs->finishEntry();
                 lcd->clear();
                 break;
-        }
-    }
-
-
-public:
-/**
- *
- * @param _lcd
- * @param _btn
- * @param _mbs
- * @param _sdw
- */
-    Lcd240x62(U8G2 &_lcd, AmpTime _amp, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
-            lcd(&_lcd), amp(&_amp),btn(&_btn),  mbs(&_mbs), car(_btn.passCar()), eep(_btn.passEep()), whl(_btn.passWhl()),
-            stt(_btn.passStt()), sdw(&_sdw) {
-//        interfaceBuffer.reserve(1024);
-    }
-
-/**
- * Mid's intro
- */
-    void intro(void) {
-        //
-        // Test tone
-        tone(TONE_ADT_PIN, 400, 20);
-        delay(10);
-        lcd->firstPage();
-        do {
-            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
-        } while (lcd->nextPage());
-        delay(1500);
-        lcd->clear();
-        tone(TONE_ADT_PIN, 800, 10);
-    }
-
-    void begin(void) {
-        lcd->begin();
-        useTextMode();
-        lcd->enableUTF8Print();
-        lcd->setAutoPageClear(1);
-    }
-// TODO..
-    /****************************************************************
-     * SHUTDOWN METHODS
-     */
-/**
- * Draws shutdown begin for trip save
- */
-    void drawShutdownBegin() {
-
-    }
-
-/**
- * Draws shutdown begin for trip save
- */
-    void drawShutdownShort() {
-
-    }
-
-/**
- * Draws countdown time for saving trip
- */
-    void drawShutdownCount(char sec[2]) {
-
-    }
-/**
- *
- */
-    void draWShutdownTripSave() {
-
-    }
-/**
- *
- */
-    void draWShutdownTripSkip() {
-
-    }
-
-/**
- * Draw graphic
- */
-    void draw() {
-        if (amp->isMax()) {
-            lcd->firstPage();
-            do {
-                menus();
-            } while (lcd->nextPage());
-            drawIndex++;
-            if (drawIndex > 5) {
-                drawIndex = 0;
-            }
         }
     }
 
@@ -292,7 +287,7 @@ private:
         lcd->drawStr(25, LCD_ROW_1, displayChar_3);
         lcd->drawXBMP(50, LCD_ROW_1, 4, 8, mark_liter_4x8_bits);
 
-        displayFloat(eep->getAvrageLitersPer100km(), displayChar_3);
+        displayFloat(eep->getAverageLitersPer100km(), displayChar_3);
         lcd->drawStr(25, LCD_ROW_2, displayChar_3);
         drawL100km(50, LCD_ROW_2);
 

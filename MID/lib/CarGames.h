@@ -6,7 +6,7 @@
 #define ARDUINO_MID_CAR_GAME_H
 
 #include "AmpTime.h"
-#include "Menu16x2.h"
+#include "lib/displays/Menu16x2.h"
 
 struct GamesBest {
     float drag;

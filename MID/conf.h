@@ -171,6 +171,7 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
 // Include simple driver
 #ifdef ADT_FUEL_SYSTEM_I2C
 
+#include <MenuBackend.h>
 #include "lib/drivers/I2cSimpleListener.h"
 
 #endif
@@ -201,6 +202,9 @@ const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switch
 
 volatile uint8_t MidCursorMenu = 0;
 
+/**
+ * LCD  interface
+ */
 class LcdMenuInterface {
 public:
 
@@ -221,6 +225,9 @@ public:
     virtual void draWShutdownTripSkip() = 0;
 };
 
+/**
+ *  Menu interface
+ */
 class MidMenuInterface {
 public:
 
@@ -240,7 +247,7 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
-#define MID_VERSION "1.5.0"
+#define MID_VERSION "1.5.5"
 //
 // Reserving RAM
 //#include "lib/drivers/ResRam.h"

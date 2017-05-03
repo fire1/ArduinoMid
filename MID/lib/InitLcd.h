@@ -6,78 +6,14 @@
 #define ARDUINOMID_SCREENS_H
 
 #include "InitObj.h"
-
-
-/**
- *
- */
-class LcdPwr {
-private:
-    uint8_t pwr[6];
-    uint8_t adt[3];
-    bool additional = false;
-public:
-/**
- *
- * @param pinGnd
- * @param pinVcc
- * @param pinBlA
- * @param pinBlB
- */
-    LcdPwr(uint8_t pinGnd, uint8_t pinVcc, uint8_t pinBlA, uint8_t pinBlB, uint8_t pinRD) {
-        pwr[0] = pinGnd;
-        pwr[1] = pinVcc;
-        pwr[2] = pinBlA;
-        pwr[3] = pinBlB;
-        pwr[4] = pinRD;
-    }
-
-/**
- *
- * @param pinGnd    Ground
- * @param pinVcc    5V+
- * @param pinBLn    BackLight Ground
- * @param pinBLp    BackLight 5v+
- * @param pinRD     Display's chip read
- * @param pinFS     Display's Font Select
- * @param pinGnd2   Second ground
- */
-    LcdPwr(uint8_t pinGnd, uint8_t pinVcc, uint8_t pinBLn, uint8_t pinBLp, uint8_t pinRD, uint8_t pinFS,
-           uint8_t pinGnd2 = 0) {
-        pwr[0] = pinGnd;
-        pwr[1] = pinVcc;
-        pwr[2] = pinBLn;
-        pwr[3] = pinBLp;
-        pwr[4] = pinRD;
-        additional = true;
-        adt[0] = pinFS;
-        adt[1] = pinGnd2;
-    }
-
-
-    void begin() {
-        analogWrite(pwr[0], 0); // GND
-        analogWrite(pwr[1], 255); // 5V
-        analogWrite(pwr[3], 0); // back light
-        analogWrite(pwr[2], 255); // back light
-        analogWrite(pwr[4], 0); // back light
-
-        if (additional) {
-            digitalWrite(adt[0], HIGH); // RD
-            analogWrite(adt[1], 0); // fs
-            if (adt[1] > 0) analogWrite(adt[2], 0); // GND
-        }
-
-//        delete this;
-    }
-
-    ~LcdPwr() {};
-};
+#include "LcdPwr.h"
 
 
 #if SCREEN == 162 || !defined(SCREEN)
+
 #include <LiquidCrystal.h>
-#include "Lcd16x2.h"
+#include "displays/Lcd16x2.h"
+
 //
 // This class somehow fixes unexpected
 // reboot from Mid plug dim value. (in my case)
@@ -96,8 +32,6 @@ LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
 //
 Lcd16x2 lcdMenu(lcd, ampInt, btnMenu, menuBase,/* &carGames, */shutDown);
 
-
-
 #elif SCREEN == 24064
 
 /*
@@ -115,6 +49,7 @@ Lcd16x2 lcdMenu(lcd, ampInt, btnMenu, menuBase,/* &carGames, */shutDown);
 
 Menu240x60 midMenu;
 
+MenuBase menuBase(btnMenu, midMenu);
 /*
 1   |   GND   |   power GND
 2   |   GND   |   Power GND
@@ -132,8 +67,6 @@ Menu240x60 midMenu;
 21  |   LED_A |   Blacklight Anode (+5V)
 22  |   LED_K |   Blacklight cathode (0v)
  */
-MenuBase menuBase(btnMenu, midMenu);
-
 LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_RD, DSP_PIN_FS, DSP_PIN_GD2);
 //
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display setup
@@ -156,7 +89,6 @@ Lcd240x62 lcdMenu(u8g2, ampInt, btnMenu, menuBase, shutDown);
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
     midMenu.menuChanged(changed);
-
 }
 
 void menuUseEvent(MenuUseEvent used) {

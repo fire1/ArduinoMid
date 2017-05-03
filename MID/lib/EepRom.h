@@ -104,7 +104,7 @@ public:
     void clearTripData();
 
 
-    float getAvrageLitersPer100km() {
+    float getAverageLitersPer100km() {
         return (container.dist_trv + car->getDst()) / getConsumedFuel();
     }
 

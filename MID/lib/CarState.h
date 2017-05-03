@@ -47,9 +47,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp) : amp(&_amp) {
-        
-    }
+    CarState(AmpTime &_amp) : amp(&_amp) {}
 
     void setWorkState(float distance);
 

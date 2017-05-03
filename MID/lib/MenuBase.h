@@ -31,11 +31,9 @@ struct UsedMenu {
 /**
 * Reserve space in used menu container
 */
-
 static UsedMenu usedMenu = {
-        used: " asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadadaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadadaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadadaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadadaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadadaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdaadada"
+        used: new char(512)
 };
-
 
 //
 // Saves cursor between changes

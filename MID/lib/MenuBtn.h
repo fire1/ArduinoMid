@@ -9,6 +9,7 @@
 #include "WhlSens.h"
 #include "CarSens.h"
 #include "EepRom.h"
+#include "CarState.h"
 
 
 //#define BUTTONS_DEBUG
@@ -16,6 +17,8 @@
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000
 #endif
+
+
 
 class MenuBtn {
 
@@ -49,7 +52,7 @@ private:
     void shortcut(void);
 
 public:
-    MenuBtn(AmpTime & _amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt) :
+    MenuBtn(AmpTime &_amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt) :
             amp(&_amp), car(&_car), eep(&_eep), whl(&_whl), stt(&_stt) {
     }
 

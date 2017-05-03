@@ -6,7 +6,9 @@
 
 #if SCREEN == 162 || !defined(SCREEN)
 
-#import <LiquidCrystal.h>
+
+#include "EepRom.h"
+#include "WhlSens.h"
 
 #else
 
