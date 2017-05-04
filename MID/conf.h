@@ -6,8 +6,8 @@
 #define ARDUINOMID_CONF_H
 //
 // Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+//#define SCREEN 24064 // Glcd 240x64
+#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor

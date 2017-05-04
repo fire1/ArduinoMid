@@ -7,7 +7,6 @@
 
 #include <Arduino.h>
 #include "../../conf.h"
-#include "LcdBase.h"
 #include <LiquidCrystal.h>
 #include "../MainFunc.h"
 #include "Menu16x2.h"

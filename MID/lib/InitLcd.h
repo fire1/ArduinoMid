@@ -17,7 +17,7 @@
 //
 // This class somehow fixes unexpected
 // reboot from Mid plug dim value. (in my case)
-//#include <Firmata.h>
+
 Menu16x2 midMenu;
 //
 //
