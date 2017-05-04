@@ -92,8 +92,8 @@ void menuChangeEvent(MenuChangeEvent changed) {
 }
 
 void menuUseEvent(MenuUseEvent used) {
-    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
-    Serial.println(getFreeRam());
+//    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
+//    Serial.println(getFreeRam());
     usedMenu.used = used.item.getName();
 
 #if SCREEN != 162

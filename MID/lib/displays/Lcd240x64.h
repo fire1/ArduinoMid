@@ -7,7 +7,6 @@
 //#include "CarGames.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include "LcdBase.h"
 #include "Menu240x64.h"
 #include "../../conf.h"
 #include "../MainFunc.h"
@@ -61,7 +60,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -135,11 +134,17 @@ public:
                 menus();
             } while (lcd->nextPage());
             drawIndex++;
+
             if (drawIndex > 5) {
                 drawIndex = 0;
                 initializeDraw = false;
             }
 
+            if (MidCursorMenu == MENU_ENTRY) {
+                drawEntry++;
+            } else {
+                drawEntry = 0;
+            }
         }
 
     }
@@ -176,29 +181,32 @@ protected:
  *
  * @param index of loop
  */
-    void displayEntryO() {
-        drawEntry++;
-        switch (drawEntry - 1) {
+    void displayEntry() {
+        u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
+        u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
+        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
+        switch (drawEntry) {
             default:
                 drawEntry = 0;
                 break;
-
             case 0:
                 lcd->clear();
                 mbs->startEntry();
-                drawIndex = 0;
                 btn->setNavigationState(false);
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
             case 1:
             case 2:
             case 3:
-                lcd->drawStr(12, 5, usedMenu.back);
-                lcd->drawStr(12, 35, usedMenu.used);
-                lcd->drawStr(72, 35, usedMenu.down);
-                lcd->drawStr(12, 20, usedMenu.next);
-                lcd->drawStr(12, 50, usedMenu.last);
-                lcd->drawFrame(10 + (drawIndex * 5), 18, 212, 15);
+                lcd->drawStr(108, 1, "ENTRY");
+                lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
+                lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
+//                lcd->drawBox(10,12+  (drawEntry * 5),212,15);
+                lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
+                lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
+                lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
+
+
                 break;
             case 4:
                 lcd->clearBuffer();
@@ -212,47 +220,8 @@ protected:
                 initializeDraw = true;
                 break;
         }
-
-        if (drawEntry > 5) drawEntry = 0;
     }
 
-    void displayEntry() {
-
-
-        switch (drawIndex) {
-            default:
-                drawIndex = 0;
-                break;
-
-            case 0:
-                lcd->clear();
-                lcd->clearBuffer();
-                mbs->startEntry();
-                drawIndex = 0;
-                btn->setNavigationState(false);
-                tone(TONE_ADT_PIN, 2800, 16);
-                //
-                // Generate menu fo U8g2
-                interfaceBuffer = String(usedMenu.back) + '\n' + usedMenu.used + '\n' + usedMenu.used;
-                break;
-            case 1:
-            case 2:
-            case 3:
-                lcd->userInterfaceSelectionList("Entry", drawIndex, interfaceBuffer.c_str());
-                break;
-            case 4:
-                interfaceBuffer = "";
-                lcd->clearBuffer();
-                lcd->clear();
-                break;
-            case 5:
-
-                btn->setNavigationState(true);
-                mbs->finishEntry();
-                lcd->clear();
-                break;
-        }
-    }
 
 private:
 /**
@@ -312,17 +281,17 @@ private:
  */
     void displayHomeTemperatures() {
 
-        if (initializeDraw) {
-            //
-            // Outside graph
-            lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-            lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
-            lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
-            //
-            // Inside Graph
-            lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
-            lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
-        }
+//        if (initializeDraw) {
+        //
+        // Outside graph
+        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
+        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
+        lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+        //
+        // Inside Graph
+        lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
+        lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
+//        }
         //
         //
         displayFloat(car->getTmpOut(), displayChar_3);
@@ -379,8 +348,8 @@ void Lcd240x62::menus() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
-            displayEntryO();
-//            displayEntry();
+            displayEntry();
+
             break;
             //
             // Main / first menu
@@ -396,7 +365,7 @@ void Lcd240x62::menus() {
             lcd->drawStr(0, 0, "CURRENT TRIP");
             break;
         case 12:
-            lcd->drawStr(0, 0, "Menu");
+            lcd->drawStr(0, 0, "Menu ");
             break;
             //
             // Travel menu

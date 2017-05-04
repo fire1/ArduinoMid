@@ -92,11 +92,11 @@ public:
     }
 
     inline boolean isUp() {
-        return (!isNavigationActive) ?: lastButtonPushed == btnUp;
+        return (!isNavigationActive) ? false : lastButtonPushed == btnUp;
     }
 
     inline boolean isDw() {
-        return (!isNavigationActive) ?: lastButtonPushed == btnDw;
+        return (!isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
     inline boolean isHl() {
@@ -104,12 +104,12 @@ public:
     }
 
     inline boolean isOk() {
-        return (isNavigationActive) ?: lastButtonPushed == btnUp;
+        return (isNavigationActive) ? false : lastButtonPushed == btnUp;
     }
 
 
     inline boolean isNo() {
-        return (isNavigationActive) ?: lastButtonPushed == btnDw;
+        return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
 
@@ -172,9 +172,12 @@ void MenuBtn::listener() {
     // and other other waiting press after hold to activate shortcuts
 //
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    if (amp->isMid()) {
-        Serial.print("last button is :");
+    if (amp->isSecond()) {
+        Serial.print(F("Last button is :"));
         Serial.println(lastButtonPushed);
+        Serial.print(F("Navigation state :"));
+        Serial.println(isNavigationActive);
+
     }
 #endif
 
@@ -183,7 +186,7 @@ void MenuBtn::listener() {
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
-        if (amp->isMin() && !digitalRead(btnUp) == HIGH) {
+        if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
             lastButtonPushed = btnUp;
         }
     }
@@ -197,7 +200,7 @@ void MenuBtn::captureDw(void) {
     if (!digitalRead(btnDw) == HIGH && !entryDownState) {
         //
         // Clear noise
-        if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
+        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
             tone(TONE_ADT_PIN, 700, 20);
             entryDownState = true;
             playSecondTone = true;
@@ -223,7 +226,7 @@ void MenuBtn::captureHl(void) {
     //
     // Hold button detection
     if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
-        if (amp->isMin() && !digitalRead(btnDw) == HIGH) {
+        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
             //
             // Cut the method if shortcut is executed
             shortcut();

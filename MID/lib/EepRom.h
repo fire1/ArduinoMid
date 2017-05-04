@@ -59,14 +59,14 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
-typedef struct {
+struct SavedData {
     float fuel_adt;
     float fuel_def;
     float dist_trv;
     float total_km;
     float time_trp;
     float dist_trp;
-} SavedData;
+};
 
 #define EEP_ROM_INDEXES 6
 
@@ -74,9 +74,9 @@ typedef struct {
 //
 class EepRom {
 
-    SavedData container = {};
+    SavedData container;
     CarSens *car;
-    float data[EEP_ROM_INDEXES];
+    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0};
 
 public:
 /**
@@ -462,7 +462,7 @@ void EepRom::saveCurrentData() {
 void EepRom::saveResetData() {
     //
     // Calculate total work distance
-    container.total_km = container.total_km + (int(container.dist_trv) * 0.001);
+    container.total_km = container.total_km + (int(container.dist_trv) * 0.01);
     //
     // Resenting ...
     data[1] = container.fuel_adt = 0;
@@ -494,7 +494,7 @@ void EepRom::loadCurrentData() {
     float eGetValue;
     int eLocation = 0;
 
-    for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
+    for (int i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
 
         Serial.println(F("Restore Value:"));
         EEPROM.get(eLocation, eGetValue);
@@ -512,8 +512,11 @@ void EepRom::loadCurrentData() {
     // Trip
     container.dist_trp = data[5];
     container.time_trp = data[6];
-
-
+    Serial.println(data[1], 2);
+    Serial.println(data[2], 2);
+    Serial.println(data[3], 2);
+    Serial.println(data[4], 2);
+    delay(10);
 }
 
 /** TODO needs to be changed

@@ -14,7 +14,7 @@
 
 #define MENU_NAME_1 "Home"
 #define MENU_NAME_11 "Panel"
-#define MENU_NAME_12 "Test"
+#define MENU_NAME_12 "Tests"
 
 #define MENU_NAME_2 "Trip"
 #define MENU_NAME_3 "Fuel"
@@ -47,27 +47,28 @@ class Menu240x60 : public MidMenuInterface {
     // Sprint
 //            gamesMenu
     ;
+
+    unsigned long lastChange = 0;
 public:
 /**
  * Menu constructor
  */
-    Menu240x60() : menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+    Menu240x60() :  menu(menuUseEvent, menuChangeEvent),//  base menu initialization
 
             //
             // Main menu
-                   mainMenu(MenuItem(MENU_NAME_1)),
-                   dshBoardMenu(MenuItem(MENU_NAME_11)),
-                   testingsMenu(MenuItem(MENU_NAME_12)),
+                               mainMenu(MenuItem(MENU_NAME_1)),
+                               dshBoardMenu(MenuItem(MENU_NAME_11)),
+                               testingsMenu(MenuItem(MENU_NAME_12)),
             //
             // Trip menu
-                   tripMenu(MenuItem(MENU_NAME_2)),
+                               tripMenu(MenuItem(MENU_NAME_2)),
             //
             // Fuels menu
-                   fuelMenu(MenuItem(MENU_NAME_3)),
+                               fuelMenu(MenuItem(MENU_NAME_3)),
             //
             // Servicing menu
-                   statMenu(MenuItem(MENU_NAME_4))
-    {
+                               statMenu(MenuItem(MENU_NAME_4)) {
     }
 
     void setup(void) {
@@ -76,6 +77,8 @@ public:
         statMenu.add(mainMenu);
 
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
+        dshBoardMenu.add(mainMenu);
+        testingsMenu.add(mainMenu);
 
         menu.moveDown();
         MidCursorMenu = 1;
@@ -89,6 +92,13 @@ public:
     void menuChanged(MenuChangeEvent change) {
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
+
+        Serial.println(curMenuName);
+        unsigned long currentTime = millis();
+        if (lastChange + AMP_BIG > currentTime) {
+            return;
+        }
+        lastChange = currentTime;
 
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;
