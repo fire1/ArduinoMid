@@ -580,7 +580,7 @@ protected:
                 lcd->print(F("Now!  "));
                 tone(TONE_ADT_PIN, 1500, 10);
                 if (btn->isUp()) {
-//            eep->saveZeroingData();
+//            eep->saveResetData();
                     Serial.println(F("Zero saved"));
                     tone(TONE_ADT_PIN, 2500, 50);
                 }

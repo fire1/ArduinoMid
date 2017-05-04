@@ -254,7 +254,7 @@ void MenuBtn::shortcut(void) {
         tone(TONE_ADT_PIN, 2500, 10);
         delay(20);
         tone(TONE_ADT_PIN, 2500, 10);
-        eep->saveZeroingData();
+        eep->saveResetData();
         delay(20);
         lastButtonPushed = 0;
     }

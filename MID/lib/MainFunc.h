@@ -33,7 +33,7 @@ char displayFloat(float value, char *output) {
 /**
  * Limits playEntry floats
  */
-void separateFloat(float value, uint8_t arrOutput[2]) {
+void separateFloat(float value, int arrOutput[2]) {
 
 //    out1 = 0;
 //    out2 = 0;
