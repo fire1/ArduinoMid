@@ -224,7 +224,6 @@ public:
     virtual void draWShutdownTripSkip() = 0;
 
 protected:
-
     //
     // Defining content generate container variables
     char displayChar_2[3];
@@ -254,7 +253,7 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
-#define MID_VERSION "1.5.5"
+#define MID_VERSION "1.5+"
 //
 // Reserving RAM
 //#include "lib/drivers/ResRam.h"

@@ -19,7 +19,6 @@
 #endif
 
 
-
 class MenuBtn {
 
     AmpTime *amp;
@@ -36,7 +35,7 @@ private:
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
     boolean activateSteering = false;
-    boolean holdActivated = false;
+    boolean isHoldState = false;
 
     //
     // Down Button
@@ -72,6 +71,10 @@ public:
         isNavigationActive = state;
     }
 
+    inline boolean getNavigationState() {
+        return isNavigationActive;
+    }
+
     inline uint8_t MenuBtn::getPinUp(void) {
         return btnUp;
     }
@@ -89,17 +92,26 @@ public:
     }
 
     inline boolean isUp() {
-        return lastButtonPushed == btnUp;
+        return (!isNavigationActive) ?: lastButtonPushed == btnUp;
     }
 
-
     inline boolean isDw() {
-        return lastButtonPushed == btnDw;
+        return (!isNavigationActive) ?: lastButtonPushed == btnDw;
     }
 
     inline boolean isHl() {
-        return holdActivated;
+        return isHoldState;
     }
+
+    inline boolean isOk() {
+        return (isNavigationActive) ?: lastButtonPushed == btnUp;
+    }
+
+
+    inline boolean isNo() {
+        return (isNavigationActive) ?: lastButtonPushed == btnDw;
+    }
+
 
     inline AmpTime *passAmp(void) {
         return amp;
@@ -143,25 +155,21 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) 
 void MenuBtn::listener() {
     //
     // Delete hold state
-    holdActivated = false;
+    isHoldState = false;
     //
     // Delete last loop state record
     lastButtonPushed = 0;
     //
-    // Checks is navigation active (default = true)
-    if (isNavigationActive) {
-        //
-        // Detect up state button
-        captureUp();
-        //
-        // Detect down state button
-        captureDw();
-        //
-        // Detect Hold button state
-        captureHl();
-        // TODO  make this hold as additional option
-        // and other other waiting press after hold to activate shortcuts
-    }
+    // Detect up state button
+    captureUp();
+    //
+    // Detect down state button
+    captureDw();
+    //
+    // Detect Hold button state
+    captureHl();
+    // TODO  make this hold as additional option
+    // and other other waiting press after hold to activate shortcuts
 //
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isMid()) {
@@ -219,8 +227,8 @@ void MenuBtn::captureHl(void) {
             //
             // Cut the method if shortcut is executed
             shortcut();
-            holdActivated = true;
             holdTimeHandler = 0;
+            isHoldState = true;
             entryDownState = false;
             activateSteering = true;
             whl->disable();

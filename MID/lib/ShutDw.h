@@ -1,18 +1,14 @@
 //
 // Created by Angel Zaprianov on 11.10.2016 г..
 //
-#include <Arduino.h>
-#include <avr/pgmspace.h>
 
-#if SCREEN == 162 || !defined(SCREEN)
-
+#ifndef ARDUINOMID_SHUTDOWN_H
+#define ARDUINOMID_SHUTDOWN_H
 
 #include "EepRom.h"
 #include "WhlSens.h"
 
-#else
 
-#endif
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -29,8 +25,6 @@
 #define SHUTDOWN_LOW_VALUE 500
 #endif
 
-#ifndef ARDUINOMID_SHUTDOWN_H
-#define ARDUINOMID_SHUTDOWN_H
 
 class ShutDw {
 
@@ -51,61 +45,58 @@ private :
     uint8_t entryDisplay = 0;
     boolean isShutdownActive = 0;
     boolean alreadySaved = 0;
-#if SCREEN == 162 || !defined(SCREEN)
-
-/**
- * Cancel state
- */
-    void doTripSkip() {
-        //
-        // Erase trip data
-        eep->clearTripData();
-        //
-        // Shutdown the system
-        tone(pinTone, 800, 500);
-        whl->shutdownMode();
-        delay(2000);
-        analogWrite(pinCtrl, LOW);
-        //
-        // Mark mid as shutdown
-        alreadyShutdown = 1;
-    }
 
 
-/**
- * Save state
- */
-    void doTripSaved() {
-        //
-        // Mark saved
-        alreadySaved = 1;
+    /**
+     * Cancel state
+     */
+        void doTripSkip() {
+            //
+            // Erase trip data
+            eep->clearTripData();
+            //
+            // Shutdown the system
+            tone(pinTone, 800, 500);
+            whl->shutdownMode();
+            delay(2000);
+            analogWrite(pinCtrl, LOW);
+            //
+            // Mark mid as shutdown
+            alreadyShutdown = 1;
+        }
 
-        //
-        // Shutdown the system
-        melodySave();
-        whl->shutdownMode();
-        delay(2000);
-        digitalWrite(pinCtrl, LOW);
-        //
-        // Mark mid as shutdown
-        alreadyShutdown = 1;
-    }
 
-#else
+    /**
+     * Save state
+     */
+        void doTripSaved() {
+            //
+            // Mark saved
+            alreadySaved = 1;
 
-#endif
+            //
+            // Shutdown the system
+            melodySave();
+            whl->shutdownMode();
+            delay(2000);
+            digitalWrite(pinCtrl, LOW);
+            //
+            // Mark mid as shutdown
+            alreadyShutdown = 1;
+        }
+
+
 
     void melodySave(void);
 
     char buffer[74];
 
 
-
-
 public:
     static constexpr uint8_t MENU_SHUTDOWN = 99;
 
     void menu(LcdMenuInterface *lcd);
+
 /**
  * Constructor of shutdown
   * @param eepRom
@@ -235,8 +226,6 @@ void ShutDw::melodySave() {
     tone(pinTone, 3000, 50);
 }
 
-#if SCREEN == 162 || !defined(SCREEN)
-
 /**
  * Display shutdown menu
  */
@@ -315,9 +304,5 @@ void ShutDw::menu(LcdMenuInterface *lcd) {
     indexWait++;
 
 }
-
-
-
-#endif
 
 #endif //ARDUINOMID_SHUTDOWN_H

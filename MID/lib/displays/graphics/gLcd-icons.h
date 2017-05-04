@@ -9,7 +9,7 @@
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
-#include "../../libraries/U8g2/src/U8g2lib.h"
+#include "../../../../../libraries/U8g2/src/U8g2lib.h"
 
 #endif
 

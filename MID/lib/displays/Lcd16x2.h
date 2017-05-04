@@ -7,16 +7,15 @@
 
 #include <Arduino.h>
 #include "../../conf.h"
-
+#include "LcdBase.h"
 #include <LiquidCrystal.h>
 #include "../MainFunc.h"
 #include "Menu16x2.h"
 #include "../MenuBase.h"
 #include "../ShutDw.h"
 #include "../CarState.h"
-
 //#include "CarGames.h"
-#include "../graphics/LcdChar.h"
+#include "graphics/LcdChar.h"
 
 
 
@@ -28,6 +27,10 @@
 class Lcd16x2 : virtual public LcdMenuInterface {
 
     LiquidCrystal *lcd;
+
+
+    //
+    // Define base objects
     AmpTime *amp;
     CarSens *car;
     EepRom *eep;
@@ -54,7 +57,7 @@ public:
 
     Lcd16x2(LiquidCrystal &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Welcome screen ...
@@ -564,26 +567,39 @@ protected:
         lcd->setCursor(0, 0);
         if (amp->isSecond()) {
             if (amp->is2Seconds()) {
-                lcd->print(F("Press S< here to"));
+                lcd->print(F("fuels & distance"));
             } else {
-                lcd->print(F("Reset fuel & km "));
+                if (!btn->getNavigationState()) {
+                    lcd->print(F("Are u sure this"));
+                } else {
+                    lcd->print(F("Hold R< to reset"));
+                }
             }
         }
 
         if (amp->isSecond()) {
-            lcd->setCursor(0, 1);
-            if (amp->is2Seconds()) {
-                lcd->print(F("WAIT ...."));
-//                btn->setNavigationState(1);
-            } else {
-//                btn->setNavigationState(0);
-                lcd->print(F("Now!  "));
-                tone(TONE_ADT_PIN, 1500, 10);
-                if (btn->isUp()) {
-//            eep->saveResetData();
-                    Serial.println(F("Zero saved"));
-                    tone(TONE_ADT_PIN, 2500, 50);
+            if (btn->isHl()) {
+                //
+                // Disable navigation
+                btn->setNavigationState(0);
+                tone(TONE_ADT_PIN, 1500, 50);
+            }
+
+            if (!btn->getNavigationState()) {
+                lcd->setCursor(0, 1);
+                lcd->print(F("S< Yes  /  R< No"));
+                if (btn->isOk()) {
+                    eep->saveResetData();
+                    btn->setNavigationState(1);
+                    tone(TONE_ADT_PIN, 2500, 15);
                 }
+
+                if (btn->isNo()) {
+                    btn->setNavigationState(1);
+                    tone(TONE_ADT_PIN, 800, 15);
+                }
+
+
             }
 
         }

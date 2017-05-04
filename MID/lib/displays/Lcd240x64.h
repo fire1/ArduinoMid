@@ -7,14 +7,14 @@
 //#include "CarGames.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include "LcdBase.h"
+#include "Menu240x64.h"
 #include "../../conf.h"
 #include "../MainFunc.h"
 #include "../ShutDw.h"
 #include "../CarState.h"
-
-#include "Menu240x64.h"
-#include "../graphics/240x64-logo.h"
-#include "../graphics/gLcd-icons.h"
+#include "graphics/240x64-logo.h"
+#include "graphics/gLcd-icons.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -32,6 +32,9 @@ class Lcd240x62 : virtual public LcdMenuInterface {
 
     String interfaceBuffer;
     U8G2 *lcd;
+
+    //
+    // Define base objects
     AmpTime *amp;
     CarSens *car;
     EepRom *eep;
@@ -40,10 +43,13 @@ class Lcd240x62 : virtual public LcdMenuInterface {
     MenuBase *mbs;
     ShutDw *sdw;
     MenuBtn *btn;
+
 //
 // Drowing counter
     uint8_t drawIndex = 0;
-    char drawEntry = 0;
+    uint8_t drawEntry = 0;
+
+    boolean initializeDraw = false;
 
 public:
 /**
@@ -55,7 +61,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Mid's intro
@@ -131,8 +137,11 @@ public:
             drawIndex++;
             if (drawIndex > 5) {
                 drawIndex = 0;
+                initializeDraw = false;
             }
+
         }
+
     }
 
 protected:
@@ -168,9 +177,8 @@ protected:
  * @param index of loop
  */
     void displayEntryO() {
-
-
-        switch (drawEntry) {
+        drawEntry++;
+        switch (drawEntry - 1) {
             default:
                 drawEntry = 0;
                 break;
@@ -197,14 +205,15 @@ protected:
                 lcd->clear();
                 break;
             case 5:
-
                 btn->setNavigationState(true);
                 mbs->finishEntry();
                 lcd->clear();
-                drawEntry = -1;
+                drawEntry = 0;
+                initializeDraw = true;
                 break;
         }
-        drawEntry++;
+
+        if (drawEntry > 5) drawEntry = 0;
     }
 
     void displayEntry() {
@@ -303,20 +312,23 @@ private:
  */
     void displayHomeTemperatures() {
 
-        //
-        // Outside graph
-        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
-        lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+        if (initializeDraw) {
+            //
+            // Outside graph
+            lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
+            lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
+            lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+            //
+            // Inside Graph
+            lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
+            lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
+        }
         //
         //
         displayFloat(car->getTmpOut(), displayChar_3);
         lcd->drawStr(45, LCD_ROW_3, displayChar_3);
 
-        //
-        // Inside Graph
-        lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
-        lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
+
         //
         // Data
         displayFloat(car->getTmpIns(), displayChar_3);
@@ -357,7 +369,6 @@ private:
         // Todo wasted fuel
     }
 
-
 };
 
 /**
@@ -382,7 +393,7 @@ void Lcd240x62::menus() {
             //
             // Dashboard
         case 11:
-            lcd->drawStr(0, 0, "Dashboard");
+            lcd->drawStr(0, 0, "CURRENT TRIP");
             break;
         case 12:
             lcd->drawStr(0, 0, "Menu");
