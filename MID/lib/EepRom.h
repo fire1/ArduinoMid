@@ -59,21 +59,24 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
-struct SavedData {
+typedef struct {
     float fuel_adt;
     float fuel_def;
     float dist_trv;
     float total_km;
     float time_trp;
     float dist_trp;
-};
+} SavedData;
+
+#define EEP_ROM_INDEXES 6
 
 //
 //
 class EepRom {
 
-    SavedData container;
+    SavedData container = {};
     CarSens *car;
+    float data[EEP_ROM_INDEXES];
 
 public:
 /**
@@ -320,8 +323,8 @@ uint8_t EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
  *  Loads travel consumption
  */
 float EepRom::loadAdtCons() {
-    int va1 = WireEepRomRead(EEP_ADR_CL1);
-    int va2 = WireEepRomRead(EEP_ADR_Cl2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_CL1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_Cl2);
     return restoreFloat(va1, va2);
 }
 
@@ -331,8 +334,8 @@ float EepRom::loadAdtCons() {
 void EepRom::saveAdtCons(float value) {
     uint8_t val[2];
     separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_CL1, (uint8_t)val[0]);
-    WireEepRomWriteByte(EEP_ADR_Cl2, (uint8_t)val[1]);
+    WireEepRomWriteByte(EEP_ADR_CL1, (uint8_t) val[0]);
+    WireEepRomWriteByte(EEP_ADR_Cl2, (uint8_t) val[1]);
 }
 
 /**
@@ -440,17 +443,80 @@ void EepRom::saveWorkingDistance(float value) {
  */
 void EepRom::saveCurrentData() {
 
-    container.fuel_adt = container.fuel_adt + car->getAdtFuelCns();
-    saveAdtCons(container.fuel_adt);
+    data[1] = container.fuel_adt + car->getAdtFuelCns();
+    data[2] = container.fuel_def + car->getDefFuelCns();
+    data[3] = container.dist_trv + car->getDst();
+    data[4] = container.total_km;
+    // trip
+    data[5] = container.dist_trp;
+    data[6] = container.time_trp;
 
-    container.fuel_def = container.fuel_def + car->getDefFuelCns();
-    saveDefCons(container.fuel_def);
-
-    container.dist_trv = container.dist_trv + car->getDst();
-    saveTravelDistance(container.dist_trv);
+    for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
+        EEPROM.put(i * sizeof(data[i]), data[i]);
+    }
 }
 
 /**
+ * Saves final data
+ */
+void EepRom::saveZeroingData() {
+    //
+    // Calculate total work distance
+    container.total_km = container.total_km + (int(container.dist_trv) * 0.001);
+    //
+    // Resenting ...
+    data[1] = container.fuel_adt = 0;
+    data[2] = container.fuel_def = 0;
+    data[3] = container.dist_trv = 0;
+    //
+    // Pass work distance for save
+    data[4] = container.total_km;
+    // trip
+    data[5] = container.dist_trp;
+    data[6] = container.time_trp;
+
+
+    for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
+        EEPROM.put(i * sizeof(data[i]), data[i]);
+        delay(5);
+    }
+    //
+    // In order to fix and clear assumed data
+    car->clearBuffer();
+
+}
+
+/**
+ * Load data from chip
+ */
+void EepRom::loadCurrentData() {
+
+    float eGetValue;
+    int eLocation = 0;
+
+    for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
+
+        Serial.println("Restore Value:");
+        EEPROM.get(eLocation, eGetValue);
+        Serial.println(eGetValue, 2);
+        eLocation = eLocation + sizeof(eGetValue);
+        Serial.println("");
+        data[i] = eGetValue;
+        delay(5);
+    }
+
+    container.fuel_adt = data[1];
+    container.fuel_def = data[2];
+    container.dist_trv = data[3];
+    container.total_km = data[4];
+    // Trip
+    container.dist_trp = data[5];
+    container.time_trp = data[6];
+
+
+}
+
+/** TODO needs to be changed
  * Saves trip data in order to continue the trip
  */
 void EepRom::saveTripData() {
@@ -468,40 +534,6 @@ void EepRom::saveTripData() {
 void EepRom::clearTripData() {
     container.time_trp = 0;
     container.dist_trp = 0;
-}
-
-/**
- * Load data from chip
- */
-void EepRom::loadCurrentData() {
-    container.fuel_adt = loadAdtCons();
-    container.fuel_def = loadDefCons();
-    container.time_trp = loadTripTime();        // Trip
-    container.total_km = loadWorkDistance();    // Work
-    container.dist_trp = loadTripDistance();    // Trip
-    container.dist_trv = loadTravelDistance();  // Travel
-    delay(5);
-}
-
-/**
- * Saves final data
- */
-void EepRom::saveZeroingData() {
-
-    container.fuel_adt = 0;
-    container.fuel_def = 0;
-    container.dist_trv = 0;
-    //
-    // Calculate total work distance
-    container.total_km = container.total_km + (int(container.dist_trv) * 0.001);
-
-    saveAdtCons(container.fuel_adt);
-    saveDefCons(container.fuel_def);
-    saveTravelDistance(container.dist_trv);
-    saveWorkingDistance(container.total_km);
-    //
-    // In order to fix and clear assumed data
-    car->clearBuffer();
 }
 
 /**
@@ -658,7 +690,7 @@ void EepRom::injectFromSerial(void) {
         }
 
         if (srlStrName == "save_wrk") {
-            // Saves type 
+            // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveWorkingDistance(container.total_km);
             srlOutputs = F("Saved Work distance ");
