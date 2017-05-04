@@ -23,12 +23,21 @@
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
-
 //
+#ifdef EEP_ROM_ADDRESS
+
+#include <Wire.h>
+
+#else
+
+#include <EEPROM.h>
+
+#endif
 //
 #include "conf.h"
 #include "lib/InitObj.h"
 #include "lib/InitLcd.h"
+
 
 //
 //

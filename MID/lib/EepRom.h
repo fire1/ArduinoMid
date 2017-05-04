@@ -262,14 +262,14 @@ private:
  * @param theMemoryAddress
  * @param u8Byte
  */
-    void WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte);
+    void WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte);
 
 /**
  * Read data driver
  * @param theMemoryAddress
  * @return
  */
-    int WireEepRomRead(uint16_t theMemoryAddress);
+    uint8_t WireEepRomRead(uint16_t theMemoryAddress);
 
 };
 
@@ -279,7 +279,7 @@ private:
  * @param theMemoryAddress
  * @param u8Byte
  */
-void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
+void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
 
 #ifdef  EEP_ROM_ADDRESS
     Wire.beginTransmission(EEP_ROM_ADDRESS);
@@ -299,8 +299,8 @@ void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, int u8Byte) {
  * @param theMemoryAddress
  * @return
  */
-int EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
-    int u8retVal = 0;
+uint8_t EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
+    uint8_t u8retVal = 0;
 #ifdef  EEP_ROM_ADDRESS
 
     Wire.beginTransmission(EEP_ROM_ADDRESS);
@@ -329,18 +329,18 @@ float EepRom::loadAdtCons() {
  *  Saves travel consumption
  */
 void EepRom::saveAdtCons(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_CL1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_Cl2, val[1]);
+    WireEepRomWriteByte(EEP_ADR_CL1, (uint8_t)val[0]);
+    WireEepRomWriteByte(EEP_ADR_Cl2, (uint8_t)val[1]);
 }
 
 /**
  *  Loads travel consumption
  */
 float EepRom::loadDefCons() {
-    int va1 = WireEepRomRead(EEP_ADR_CB1);
-    int va2 = WireEepRomRead(EEP_ADR_CB2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_CB1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_CB2);
     return restoreFloat(va1, va2);
 }
 
@@ -348,7 +348,7 @@ float EepRom::loadDefCons() {
  *  Saves travel consumption
  */
 void EepRom::saveDefCons(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_CB1, val[0]);
     WireEepRomWriteByte(EEP_ADR_CB2, val[1]);
@@ -358,8 +358,8 @@ void EepRom::saveDefCons(float value) {
  *  LOAD Travel distance
  */
 float EepRom::loadTripDistance() {
-    int va1 = WireEepRomRead(EEP_ADR_TR1);
-    int va2 = WireEepRomRead(EEP_ADR_TR2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_TR1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_TR2);
     return restoreFloat(va1, va2);
 }
 
@@ -367,7 +367,7 @@ float EepRom::loadTripDistance() {
  *  SAVE Travel distance
  */
 void EepRom::saveTripDistance(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_TR1, val[0]);
     WireEepRomWriteByte(EEP_ADR_TR2, val[1]);
@@ -377,8 +377,8 @@ void EepRom::saveTripDistance(float value) {
  *  LOAD Travel distance
  */
 float EepRom::loadTripTime() {
-    int va1 = WireEepRomRead(EEP_ADR_TT1);
-    int va2 = WireEepRomRead(EEP_ADR_TT2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_TT1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_TT2);
     return restoreFloat(va1, va2);
 }
 
@@ -386,7 +386,7 @@ float EepRom::loadTripTime() {
  *  SAVE Travel distance
  */
 void EepRom::saveTripTime(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
     WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
@@ -396,8 +396,8 @@ void EepRom::saveTripTime(float value) {
  *  LOAD Travel distance
  */
 float EepRom::loadTravelDistance() {
-    int va1 = WireEepRomRead(EEP_ADR_TD1);
-    int va2 = WireEepRomRead(EEP_ADR_TD2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_TD1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_TD2);
     return restoreFloat(va1, va2);
 }
 
@@ -405,7 +405,7 @@ float EepRom::loadTravelDistance() {
  *  SAVE Travel distance
  */
 void EepRom::saveTravelDistance(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_TD1, val[0]);
     WireEepRomWriteByte(EEP_ADR_TD2, val[1]);
@@ -415,8 +415,8 @@ void EepRom::saveTravelDistance(float value) {
  *  LOAD Work distance
  */
 float EepRom::loadWorkDistance() {
-    int va1 = WireEepRomRead(EEP_ADR_WD1);
-    int va2 = WireEepRomRead(EEP_ADR_WD2);
+    uint8_t va1 = WireEepRomRead(EEP_ADR_WD1);
+    uint8_t va2 = WireEepRomRead(EEP_ADR_WD2);
     return restoreFloat(va1, va2);
 }
 
@@ -424,7 +424,7 @@ float EepRom::loadWorkDistance() {
  *  Saves Work distance
  */
 void EepRom::saveWorkingDistance(float value) {
-    int val[2];
+    uint8_t val[2];
     separateFloat(value, val);
     WireEepRomWriteByte(EEP_ADR_WD1, val[0]);
     WireEepRomWriteByte(EEP_ADR_WD2, val[1]);

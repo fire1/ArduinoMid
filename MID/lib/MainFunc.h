@@ -33,12 +33,12 @@ char displayFloat(float value, char *output) {
 /**
  * Limits playEntry floats
  */
-void separateFloat(float value, int arrOutput[2]) {
+void separateFloat(float value, uint8_t arrOutput[2]) {
 
 //    out1 = 0;
 //    out2 = 0;
-    int dig1 = int(value) * 100; // 210
-    int dig2 = int((value * 100) - dig1);
+    uint8_t dig1 = uint8_t(value) * 100; // 210
+    uint8_t dig2 = uint8_t((value * 100) - dig1);
 
     dig1 = dig1 / 100;
     if (dig2 < 0) {
@@ -52,7 +52,7 @@ void separateFloat(float value, int arrOutput[2]) {
 /**
  * Create float from two integers
  */
-float restoreFloat(int a, int b) {
+float restoreFloat(uint8_t a, uint8_t b) {
 
     float bf = b * 0.01;
 

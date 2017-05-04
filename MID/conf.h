@@ -140,7 +140,7 @@ const uint8_t SHUTDOWN_SAVE_STATE = LOW;
 const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
 //
 // External chip from eep rom
-#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
+//#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
 //
 //  DallasTemperature
 // Additional temperature sensor for
