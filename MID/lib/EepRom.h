@@ -496,7 +496,7 @@ void EepRom::loadCurrentData() {
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
 
-        Serial.println("Restore Value:");
+        Serial.println(F("Restore Value:"));
         EEPROM.get(eLocation, eGetValue);
         Serial.println(eGetValue, 2);
         eLocation = eLocation + sizeof(eGetValue);
