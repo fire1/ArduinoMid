@@ -9,7 +9,6 @@
 #include "WhlSens.h"
 
 
-
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
 #endif
@@ -50,41 +49,40 @@ private :
     /**
      * Cancel state
      */
-        void doTripSkip() {
-            //
-            // Erase trip data
-            eep->clearTripData();
-            //
-            // Shutdown the system
-            tone(pinTone, 800, 500);
-            whl->shutdownMode();
-            delay(2000);
-            analogWrite(pinCtrl, LOW);
-            //
-            // Mark mid as shutdown
-            alreadyShutdown = 1;
-        }
+    void doTripSkip() {
+        //
+        // Erase trip data
+        eep->clearTripData();
+        //
+        // Shutdown the system
+        tone(pinTone, 800, 500);
+        whl->shutdownMode();
+        delay(2000);
+        analogWrite(pinCtrl, LOW);
+        //
+        // Mark mid as shutdown
+        alreadyShutdown = 1;
+    }
 
 
     /**
      * Save state
      */
-        void doTripSaved() {
-            //
-            // Mark saved
-            alreadySaved = 1;
+    void doTripSaved() {
+        //
+        // Mark saved
+        alreadySaved = 1;
 
-            //
-            // Shutdown the system
-            melodySave();
-            whl->shutdownMode();
-            delay(2000);
-            digitalWrite(pinCtrl, LOW);
-            //
-            // Mark mid as shutdown
-            alreadyShutdown = 1;
-        }
-
+        //
+        // Shutdown the system
+        melodySave();
+        whl->shutdownMode();
+        delay(2000);
+        digitalWrite(pinCtrl, LOW);
+        //
+        // Mark mid as shutdown
+        alreadyShutdown = 1;
+    }
 
 
     void melodySave(void);
@@ -181,9 +179,21 @@ void ShutDw::listener() {
 //    }
 
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
+
+
         //
         // get data again
         detectorValue = analogRead(pinDtct);
+
+
+        if (millis() < 10000 && detectorValue < SHUTDOWN_LOW_VALUE) {
+            //
+            // Skip save and shutdown
+            digitalWrite(pinCtrl, LOW);
+            alreadyShutdown = 2;
+            return;
+        }
+
 
         //
         // Is shutdown mode .... not noise
@@ -233,7 +243,7 @@ void ShutDw::menu(LcdMenuInterface *lcd) {
 
     //
     // Basic information save
-    if (car->getDst() < SHUTDOWN_SAVE_TRIP|| true) { // TODO disabled for now
+    if (car->getDst() < SHUTDOWN_SAVE_TRIP || true) { // TODO disabled for now
         tone(pinTone, 1000, 50);
         delay(50);
         tone(pinTone, 1200, 50);

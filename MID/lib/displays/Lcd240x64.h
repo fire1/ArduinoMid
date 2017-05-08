@@ -338,6 +338,28 @@ private:
         // Todo wasted fuel
     }
 
+    /****************************************************************
+ * Display Dashboard
+ */
+
+    void displayCarVss() {
+        lcd->drawStr(5, LCD_ROW_1, "KMH:");
+        sprintf(displayChar_3, "%03d", car->getVss());
+        lcd->drawStr(35, LCD_ROW_1, displayChar_3);
+    }
+
+    void displayEngRpm() {
+        lcd->drawStr(5, LCD_ROW_2, "RPM:");
+        sprintf(displayChar_4, "%04d", car->getRpm());
+        lcd->drawStr(35, LCD_ROW_2, displayChar_4);
+    }
+
+    void displayCarEcu() {
+        lcd->drawStr(5, LCD_ROW_3, "ECU:");
+        sprintf(displayChar_2, "%02d", car->getEcu());
+        lcd->drawStr(35, LCD_ROW_3, displayChar_2);
+    }
+
 };
 
 /**
@@ -349,7 +371,6 @@ void Lcd240x62::menus() {
         default:
         case MENU_ENTRY:
             displayEntry();
-
             break;
             //
             // Main / first menu
@@ -362,7 +383,9 @@ void Lcd240x62::menus() {
             //
             // Dashboard
         case 11:
-            lcd->drawStr(0, 0, "CURRENT TRIP");
+            displayCarVss();
+            displayEngRpm();
+            displayCarEcu();
             break;
         case 12:
             lcd->drawStr(0, 0, "Menu ");

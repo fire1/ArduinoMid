@@ -85,10 +85,15 @@ U8G2_T6963_240X64_2_8080 // Screen constructor
 Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown);
 #endif
 
+
+//unsigned long lastMenuChangeEvent = 0;
+
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-    midMenu.menuChanged(changed);
+        midMenu.menuChanged(changed);
+        delay(100);
+
 }
 
 void menuUseEvent(MenuUseEvent used) {
