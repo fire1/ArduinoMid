@@ -45,6 +45,7 @@ protected:
     // Additional messaging controlled vars
     boolean displayTemperatureLowActive = true;
     boolean displayAlertMessagingActive = false;
+    boolean resetingFuelAndDistanceMenu = false;
     //
     // Defining content generate container variables
 //    char displayChar_2[3];
@@ -347,7 +348,6 @@ protected:
  */
     void displayEngTmp() {
 
-
         if (amp->isBig()) {
             lcd->setCursor(9, 1);
             lcd->print(F("ENg:"));
@@ -561,8 +561,12 @@ protected:
 
         }
     }
-
+/**
+ * Resenting state
+ */
     void displayResetFuel() {
+        //
+        // Information row
         lcd->setCursor(0, 0);
         if (amp->isSecond()) {
             if (amp->is2Seconds()) {
@@ -571,31 +575,52 @@ protected:
                 if (!btn->getNavigationState()) {
                     lcd->print(F("Are u sure this"));
                 } else {
-                    lcd->print(F("Hold R< to reset"));
+                    lcd->print(F("Use R< to reset "));
                 }
             }
         }
 
-        if (amp->isSecond()) {
+        //
+        // Reset future capture
+        if (amp->is2Seconds()) {
+            lcd->setCursor(0, 1);
+            if (amp->is4Seconds() && !resetingFuelAndDistanceMenu) {
+                btn->setNavigationState(0);
+                lcd->print(F("Hold button now!"));
+            } else {
+                btn->setNavigationState(1);
+                lcd->print(F("Wait to lock Nav"));
+                lcd->scrollDisplayLeft();
+            }
             if (btn->isHl()) {
+                resetingFuelAndDistanceMenu = true;
+                tone(TONE_ADT_PIN, 1500, 20);
+                delay(20);
+                tone(TONE_ADT_PIN, 2500, 20);
+            }
+
+            if (resetingFuelAndDistanceMenu) {
                 //
                 // Disable navigation
                 btn->setNavigationState(0);
-                tone(TONE_ADT_PIN, 1500, 50);
+                tone(TONE_ADT_PIN, 2000, 10);
             }
 
-            if (!btn->getNavigationState()) {
-                lcd->setCursor(0, 1);
+            if (!btn->getNavigationState() && resetingFuelAndDistanceMenu) {
                 lcd->print(F("S< Yes  /  R< No"));
                 if (btn->isOk()) {
                     eep->saveResetData();
                     btn->setNavigationState(1);
-                    tone(TONE_ADT_PIN, 2500, 15);
+                    tone(TONE_ADT_PIN, 2500, 100);
+                    resetingFuelAndDistanceMenu = false;
+                    mbs->triggerMuveUp();
                 }
 
                 if (btn->isNo()) {
                     btn->setNavigationState(1);
-                    tone(TONE_ADT_PIN, 800, 15);
+                    tone(TONE_ADT_PIN, 800, 100);
+                    resetingFuelAndDistanceMenu = false;
+                    mbs->triggerMuveUp();
                 }
 
 

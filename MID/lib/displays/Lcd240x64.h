@@ -185,6 +185,8 @@ protected:
         u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
+
+
         switch (drawEntry) {
             default:
                 drawEntry = 0;
@@ -349,7 +351,6 @@ void Lcd240x62::menus() {
         default:
         case MENU_ENTRY:
             displayEntry();
-
             break;
             //
             // Main / first menu

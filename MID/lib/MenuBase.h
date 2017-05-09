@@ -96,6 +96,13 @@ public:
 #endif
     }
 
+    void triggerMuveUp() {
+        mci->moveUp();
+    }
+
+    void triggerMuveDw() {
+        mci->moveDw();
+    }
 
     /**
      * Perform navigation

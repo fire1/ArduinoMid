@@ -48,7 +48,6 @@ class Menu240x60 : public MidMenuInterface {
 //            gamesMenu
     ;
 
-    unsigned long lastChange = 0;
 public:
 /**
  * Menu constructor
@@ -94,11 +93,7 @@ public:
         const char *curMenuName = curMenuItem.getName();
 
         Serial.println(curMenuName);
-        unsigned long currentTime = millis();
-        if (lastChange + AMP_BIG > currentTime) {
-            return;
-        }
-        lastChange = currentTime;
+
 
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;

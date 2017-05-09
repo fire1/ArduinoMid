@@ -107,7 +107,6 @@ public:
         return (isNavigationActive) ? false : lastButtonPushed == btnUp;
     }
 
-
     inline boolean isNo() {
         return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
@@ -243,8 +242,11 @@ void MenuBtn::captureHl(void) {
     if (amp->isSecond() && activateSteering) {
         activateSteering = false;
         whl->enable();
-        lastButtonPushed = btnUp;
-
+        //
+        // Preventing navigation when is deactivated
+        if (isNavigationActive) {
+            lastButtonPushed = btnUp;
+        }
         tone(pinTn, 1300, 100);
     }
 
