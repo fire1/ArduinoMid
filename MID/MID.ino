@@ -64,7 +64,7 @@ void setup() {
     Serial.begin(SERIAL_MONITOR_BAUD);
     //
     // Change timer 3
-    setupTimer3();
+//    setupTimer3();
     //
     //
     eepRom.setup();

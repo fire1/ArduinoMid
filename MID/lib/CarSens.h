@@ -610,8 +610,9 @@ void EngSens_catchEcuHits() {
   * @param pinTarget
   */
 void CarSens::setupRpmSens(uint8_t pinTarget) {
-    analogWrite(pinTarget, 0);
-    pinMode(pinTarget, INPUT/*_PULLUP*/);
+    pinMode(pinTarget, INPUT_PULLUP);
+    analogWrite(pinTarget, 255);
+//    analogWrite(pinTarget, 0);// Drop down pin voltage TODO test mode!
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
 };
 
@@ -620,8 +621,9 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupVssSens(uint8_t pinTarget) {
-    pinMode(pinTarget, INPUT/*_PULLUP*/);
-    analogWrite(pinTarget, 0);// Drop down pin voltage TODO test mode!
+    pinMode(pinTarget, INPUT_PULLUP);
+    analogWrite(pinTarget, 255);
+//    analogWrite(pinTarget, 0);// Drop down pin voltage TODO test mode!
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
 };
 
@@ -630,8 +632,9 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
-    analogWrite(pinTarget, 0);
-    pinMode(pinTarget, INPUT/*_PULLUP*/);
+    pinMode(pinTarget, INPUT_PULLUP);
+
+    analogWrite(pinTarget, 255);// Drop down pin voltage TODO test mode!
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 };
 
