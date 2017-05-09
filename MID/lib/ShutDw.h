@@ -93,7 +93,7 @@ private :
 public:
     static constexpr uint8_t MENU_SHUTDOWN = 99;
 
-    void menu(LcdMenuInterface *lcd);
+    void menu(LcdUiInterface *lcd);
 
 /**
  * Constructor of shutdown
@@ -239,7 +239,7 @@ void ShutDw::melodySave() {
 /**
  * Display shutdown menu
  */
-void ShutDw::menu(LcdMenuInterface *lcd) {
+void ShutDw::menu(LcdUiInterface *lcd) {
 
     //
     // Basic information save

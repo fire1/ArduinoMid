@@ -376,7 +376,7 @@ uint8_t u8x8_byte_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 
 /*
   software i2c,
-  ignores ACK response (which is anyway not provided by some displays)
+  ignores ACK response (which is anyway not provided by some ui)
   also does not allow reading from the device
 */
 static void i2c_delay(u8x8_t *u8x8) U8X8_NOINLINE;

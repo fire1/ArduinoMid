@@ -228,7 +228,7 @@ struct u8x8_display_info_struct
   /*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
   /*   2: clock active low, data out on rising edge */
   /*   3: clock active low, data out on falling edge */
-  /* most displays have clock mode 1 */
+  /* most ui have clock mode 1 */
   uint8_t spi_mode;
   
   /* == I2C == */

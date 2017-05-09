@@ -23,7 +23,7 @@
 /****************************************************************
  * Display
  */
-class Lcd16x2 : virtual public LcdMenuInterface {
+class Lcd16x2 : virtual public LcdUiInterface {
 
     LiquidCrystal *lcd;
 
@@ -48,9 +48,9 @@ protected:
     boolean resetingFuelAndDistanceMenu = false;
     //
     // Defining content generate container variables
-//    char displayChar_2[3];
-//    char displayChar_3[4];
-//    char displayChar_4[5];
+//    char char_2[3];
+//    char char_3[4];
+//    char char_4[5];
 
 
 public:
@@ -164,10 +164,10 @@ protected:
         if (amp->isBig()) {
             //
             // Preformat ...
-            displayFloat(car->getTmpOut(), displayChar_3);
+            displayFloat(car->getTmpOut(), char_3);
             lcd->setCursor(9, 0);
             lcd->print("^");
-            lcd->print(displayChar_3);
+            lcd->print(char_3);
             lcd->write((uint8_t) 1);
             lcd->print(" ");
         }
@@ -200,10 +200,10 @@ protected:
         if (amp->isBig()) {
             //
             // Preformat ...
-            displayFloat(car->getTmpIns(), displayChar_3);
+            displayFloat(car->getTmpIns(), char_3);
             lcd->setCursor(9, 1);
             lcd->write((uint8_t) 5);
-            lcd->print(displayChar_3);
+            lcd->print(char_3);
             lcd->write((uint8_t) 1);
             lcd->print(" ");
         }
@@ -243,9 +243,9 @@ protected:
                 // 4 seconds to display average consumption per 100km
 
                 float value = ((eep->getData().dist_trv + car->getDst()) / eep->getConsumedFuel());
-                displayFloat(value, displayChar_3);
+                displayFloat(value, char_3);
 
-                lcd->print(displayChar_3);
+                lcd->print(char_3);
                 lcd->print("L/");
                 lcd->write((uint8_t) 3);
                 lcd->write((uint8_t) 2);
@@ -255,8 +255,8 @@ protected:
                 // Consumed fuel
                 lcd->print("        ");
                 lcd->setCursor(1, 0);
-                displayFloat(eep->getConsumedFuel(), displayChar_3);
-                lcd->print(displayChar_3);
+                displayFloat(eep->getConsumedFuel(), char_3);
+                lcd->print(char_3);
                 lcd->write((uint8_t) 4);
                 lcd->print("  ");
             }
@@ -278,8 +278,8 @@ protected:
             if (value < 100) {
                 lcd->print(" ");
             }
-            displayFloat(value, displayChar_3);
-            lcd->print(displayChar_3);
+            displayFloat(value, char_3);
+            lcd->print(char_3);
             lcd->write((uint8_t) 2);
             lcd->print(" ");
         }
@@ -321,8 +321,8 @@ protected:
             lcd->print(F("RPm:"));
             //
             // Handle RPM screen print
-            sprintf(displayChar_4, "%04d", car->getRpm());
-            lcd->print(displayChar_4);
+            sprintf(char_4, "%04d", car->getRpm());
+            lcd->print(char_4);
         }
 
 
@@ -338,8 +338,8 @@ protected:
             lcd->print(F("KMh:"));
             //
             // Handle VSS screen print
-            sprintf(displayChar_3, "%03d", car->getVss());
-            lcd->print(displayChar_3);
+            sprintf(char_3, "%03d", car->getVss());
+            lcd->print(char_3);
         }
     }
 
@@ -353,8 +353,8 @@ protected:
             lcd->print(F("ENg:"));
             //
             // Handle Dst screen print
-            sprintf(displayChar_3, "%02d", car->getEngTmp());
-            lcd->print(displayChar_3);
+            sprintf(char_3, "%02d", car->getEngTmp());
+            lcd->print(char_3);
             lcd->write((uint8_t) 1);
         }
     }
@@ -370,8 +370,8 @@ protected:
             lcd->print("ECu:");
             //
             // Handle ECU screen print
-            sprintf(displayChar_2, "%02d", car->getEcu());
-            lcd->print(displayChar_2);
+            sprintf(char_2, "%02d", car->getEcu());
+            lcd->print(char_2);
             lcd->print(" ");
         }
 
@@ -406,11 +406,11 @@ protected:
             lcd->print(F("h"));
             //
             // Display travel distance
-            displayFloat(car->getDst()/* + saved.dist_trp*/, displayChar_4);
+            displayFloat(car->getDst()/* + saved.dist_trp*/, char_4);
 
             lcd->print(F(" "));
             lcd->setCursor(9, 1);
-            lcd->print(displayChar_4);
+            lcd->print(char_4);
 //            lcd->write((uint8_t) 2);
             lcd->print(F(" "));
 
@@ -498,12 +498,12 @@ protected:
             lcd->print(F(" Fuel Tanks"));
             lcd->setCursor(0, 1);
             lcd->print(F("Bnz:"));
-            sprintf(displayChar_2, "%02d", car->getTnkBnzPer());
-            lcd->print(displayChar_2);
+            sprintf(char_2, "%02d", car->getTnkBnzPer());
+            lcd->print(char_2);
             lcd->print(F("%"));
             lcd->print(F(" Lpg:"));
-            sprintf(displayChar_2, "%02d", car->getTnkLpgPer());
-            lcd->print(displayChar_2);
+            sprintf(char_2, "%02d", car->getTnkLpgPer());
+            lcd->print(char_2);
             lcd->print(F("% "));
         }
     }
@@ -590,7 +590,6 @@ protected:
             } else {
                 btn->setNavigationState(1);
                 lcd->print(F("Wait to lock Nav"));
-                lcd->scrollDisplayLeft();
             }
             if (btn->isHl()) {
                 resetingFuelAndDistanceMenu = true;
@@ -928,23 +927,6 @@ void Lcd16x2::draw(void) {
         case 46:
             displayCarState();
             break;
-/*
-            //
-            // Games menu
-        case 5:
-            displayCarGames();
-            break;
-        case 51:
-            gms->listenAStopwatch();
-            displayCarGameWatch();
-            break;
-        case 52:
-            displayCarGameDrag();
-            break;
-        case 53:
-            gms->listen0to100();
-            displayCarGameT100();
-            break;*/
 
         case ShutDw::MENU_SHUTDOWN:
             sdw->menu(this);

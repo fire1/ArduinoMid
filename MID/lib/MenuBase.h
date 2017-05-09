@@ -43,13 +43,13 @@ uint8_t MenuBase_savedCursor = 0;
  *
  */
 class MenuBase {
-    MidMenuInterface *mci;
+    MenuUiInterface *mci;
     MenuBtn *btn;
 
 public:
     //
     // Constructor
-    MenuBase(MenuBtn &_btn, MidMenuInterface &_mci) : btn(&_btn), mci(&_mci) {
+    MenuBase(MenuBtn &_btn, MenuUiInterface &_mci) : btn(&_btn), mci(&_mci) {
         MenuBase_savedCursor = 1;
     }
 

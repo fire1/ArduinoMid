@@ -13,11 +13,11 @@
 #ifndef ADT_FUEL_SYSTEM_I2C
 #define ADT_FUEL_SYSTEM_I2C
 #endif
-#ifdef ADT_FUEL_SYSTEM_I2C
-
-#include "drivers/I2cSimpleListener.h"
-
-#endif
+//#ifdef ADT_FUEL_SYSTEM_I2C
+//
+//#include "drivers/I2cSimpleListener.h"
+//
+//#endif
 //
 //
 
@@ -358,7 +358,7 @@ public:
 
 #ifdef ADT_FUEL_SYSTEM_I2C
 
-    void listenerI2cLpg(I2cSimpleListener *i2c);
+//    void listenerI2cLpg(I2cSimpleListener *i2c);
 
 #endif
 
@@ -621,7 +621,7 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
   */
 void CarSens::setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT/*_PULLUP*/);
-    analogWrite(pinTarget, 0);// Drop down pin voltage
+    analogWrite(pinTarget, 0);// Drop down pin voltage TODO test mode!
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
 };
 
@@ -1045,7 +1045,7 @@ void CarSens::sensDim() {
 
 /**
  * Car tank/s sens
- */
+ *
 void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
     //
     // LPG tank
@@ -1059,10 +1059,7 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 
     int value = 0;
     pushLpgIndex++;
-    if (pushLpgIndex >= 8) {
-        pushLpgIndex = 0;
-        value = pullLpgIndex;
-    }*/
+
 
     if (amp->is4Seconds()) {
         pullLpgIndex = 0;
@@ -1111,8 +1108,8 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 
 
     unsigned long currentTime = millis();
-/** locked for now ... */
-    if (pushLpgIndex > 30 && pushLpgIndex < 100 && lastDetectionLpg + 1000 > /*<*/ currentTime) {
+
+    if (pushLpgIndex > 30 && pushLpgIndex < 100 && lastDetectionLpg + 1000 >) {
         lastDetectionLpg = currentTime;
         if (FUEL_STATE == 1) {
             FUEL_STATE = 0;
@@ -1135,7 +1132,7 @@ void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
 //        Serial.print("\n\n");
 //    }
 }
-
+/**/
 #endif
 
 int CarSens::getLpgPull() {

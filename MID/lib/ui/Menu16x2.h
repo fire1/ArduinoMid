@@ -64,7 +64,7 @@
 /**
  *
  */
-class Menu16x2 : public MidMenuInterface {
+class Menu16x2 : public MenuUiInterface {
     MenuBackend menu;
 
     //

@@ -4,6 +4,8 @@
 
 #ifndef ARDUINOMID_CONF_H
 #define ARDUINOMID_CONF_H
+
+#include <Arduino.h>
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64
@@ -92,6 +94,9 @@ const uint8_t DSP_PIN_DT8 = 42;
 const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
 
 #elif SCREEN == 24064
+//
+// Add language
+#include "lib/ui/language/en.h"
 
 //
 // Display pins map
@@ -165,13 +170,13 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
 // In my case  ... about LPG installation:
 // My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
 //  so ... i made simple driver "I2cSimpleListener" to listen communication without make any connection to devices
-#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
+//#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
 //
 // Include simple driver
 #ifdef ADT_FUEL_SYSTEM_I2C
 
 #include <MenuBackend.h>
-#include "lib/drivers/I2cSimpleListener.h"
+//#include "lib/drivers/I2cSimpleListener.h"
 
 #endif
 //
@@ -204,7 +209,7 @@ volatile uint8_t MidCursorMenu = 0;
 /**
  * LCD  interface
  */
-class LcdMenuInterface {
+class LcdUiInterface {
 public:
 
     virtual void draw() = 0;
@@ -224,17 +229,34 @@ public:
     virtual void draWShutdownTripSkip() = 0;
 
 protected:
+
+#ifdef ARDUINO_MID_LAN
+
+
+    char messageBuffer[128];
+#endif
     //
     // Defining content generate container variables
-    char displayChar_2[3];
-    char displayChar_3[4];
-    char displayChar_4[5];
+    char char_2[3];
+    char char_3[4];
+    char char_4[5];
+
+
+#ifdef ARDUINO_MID_LAN
+    /**
+ * Gets string message
+ */
+    const char* getMsg(uint8_t i){
+        strcpy_P(messageBuffer, (char*)pgm_read_word(&(LcdMsgTable[i])));
+        return  messageBuffer;
+    }
+#endif
 };
 
 /**
  *  Menu interface
  */
-class MidMenuInterface {
+class MenuUiInterface {
 public:
 
     virtual void setup() = 0;

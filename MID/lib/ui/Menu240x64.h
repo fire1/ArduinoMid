@@ -24,7 +24,7 @@
 /**
  *
  */
-class Menu240x60 : public MidMenuInterface {
+class Menu240x60 : public MenuUiInterface {
 
     MenuBackend menu;
 

@@ -65,8 +65,8 @@ static void u8g2_send_tile_row(u8g2_t *u8g2, uint8_t src_tile_row, uint8_t dest_
 
 /* 
   write the buffer to the display RAM. 
-  For most displays, this will make the content visible to the user.
-  Some displays (like the SSD1606) require a u8x8_RefreshDisplay()
+  For most ui, this will make the content visible to the user.
+  Some ui (like the SSD1606) require a u8x8_RefreshDisplay()
 */
 static void u8g2_send_buffer(u8g2_t *u8g2) U8X8_NOINLINE;
 static void u8g2_send_buffer(u8g2_t *u8g2)

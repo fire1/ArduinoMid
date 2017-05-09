@@ -103,7 +103,7 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x /= 2;		/* not sure whether this is a clever idea, problem is, the ST7920 can address only every second tile */
     
-      if ( y >= 32 )	/* this is the adjustment for 128x64 displays */
+      if ( y >= 32 )	/* this is the adjustment for 128x64 ui */
       {
 	y-=32;
 	x+=8;

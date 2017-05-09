@@ -43,7 +43,7 @@
 //
 //LpgSens lpgSens;
 #ifdef ADT_FUEL_SYSTEM_I2C
-I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
+//I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
 
 //
