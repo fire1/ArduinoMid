@@ -529,7 +529,7 @@ public:
     /**
      *  Gets Human time
      */
-    char* getHTm(float saved = 0);
+    char *getHTm(float saved = 0);
 
     /**
      *  Gets current Distance
@@ -610,7 +610,8 @@ void EngSens_catchEcuHits() {
   * @param pinTarget
   */
 void CarSens::setupRpmSens(uint8_t pinTarget) {
-    pinMode(pinTarget, INPUT_PULLUP);
+    analogWrite(pinTarget, 0);
+    pinMode(pinTarget, INPUT/*_PULLUP*/);
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
 };
 
@@ -619,7 +620,8 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupVssSens(uint8_t pinTarget) {
-    pinMode(pinTarget, INPUT_PULLUP);
+    pinMode(pinTarget, INPUT/*_PULLUP*/);
+    analogWrite(pinTarget, 0);// Drop down pin voltage
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, FALLING);
 };
 
@@ -628,7 +630,8 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
-    pinMode(pinTarget, INPUT_PULLUP);
+    analogWrite(pinTarget, 0);
+    pinMode(pinTarget, INPUT/*_PULLUP*/);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 };
 
@@ -992,7 +995,7 @@ void CarSens::speedingAlarmsDw() {
  * Gets human time
  * @return char*
  */
-char* CarSens::getHTm(float saved) {
+char *CarSens::getHTm(float saved) {
 
     char dspTime[6] = "00:00";
     unsigned long tmSec;

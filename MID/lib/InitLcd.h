@@ -86,19 +86,11 @@ Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown);
 #endif
 
 //
-// Debounce menu change event [Since is bather without delay]
-unsigned long menuChangeEventLastChange = 0;
-
-//
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
+        midMenu.menuChanged(changed);
+        delay(100);
 
-    unsigned long currentTime = millis();
-    if (menuChangeEventLastChange + MILLIS_PER_SC > currentTime) {
-        return;
-    }
-    menuChangeEventLastChange = currentTime;
-    midMenu.menuChanged(changed);
 }
 
 void menuUseEvent(MenuUseEvent used) {
