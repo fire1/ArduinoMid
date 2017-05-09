@@ -6,6 +6,7 @@
 #define ARDUINOMID_CONF_H
 
 #include <Arduino.h>
+#include <MenuBackend.h>
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64
@@ -231,8 +232,6 @@ public:
 protected:
 
 #ifdef ARDUINO_MID_LAN
-
-
     char messageBuffer[128];
 #endif
     //
