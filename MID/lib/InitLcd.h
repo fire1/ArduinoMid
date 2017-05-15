@@ -12,7 +12,7 @@
 #if SCREEN == 162 || !defined(SCREEN)
 
 #include <LiquidCrystal.h>
-#include "displays/Lcd16x2.h"
+#include "ui/Lcd16x2.h"
 
 //
 // This class somehow fixes unexpected

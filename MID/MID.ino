@@ -64,7 +64,7 @@ void setup() {
     Serial.begin(SERIAL_MONITOR_BAUD);
     //
     // Change timer 3
-//    setupTimer3();
+    setupTimer3();
     //
     //
     eepRom.setup();
@@ -184,9 +184,15 @@ void loop() {
     eepRom.injectFromSerial();
     //
     // Calls StackCount() to report the unused RAM
-    if (ampInt.isSecond()) {
+    if (ampInt.isBig()) {
         Serial.print(F(" End free heap (RAM): "));
         Serial.println(getFreeRam());
+        Serial.print(F(" VSS "));
+        Serial.println(carSens.getVss());
+        Serial.print(F(" RPM " ));
+        Serial.println(carSens.getRpm());
+        Serial.print(F(" ECU " ));
+        Serial.println(carSens.getEcu());
     }
 }
 

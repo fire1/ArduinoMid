@@ -67,9 +67,29 @@ float restoreFloat(uint8_t a, uint8_t b) {
  * Setup timer for ECU,RPM,VSS input pins
  * Timer 3
  */
+void setupTimer32() {
+    // TIMER 1 for interrupt frequency 10000 Hz:
+    cli(); // stop interrupts
+    TCCR3A = 0; // set entire TCCR3A register to 0
+    TCCR3B = 0; // same for TCCR3B
+    TCNT3  = 0; // initialize counter value to 0
+// set compare match register for 10000 Hz increments
+    OCR3A = 1; // = 12000000 / (1 * 10000) - 1 (must be <65536)
+// turn on CTC mode
+    TCCR3B |= (1 << WGM32);
+// Set CS12, CS11 and CS10 bits for 1 prescaler
+    TCCR3B |= (0 << CS32) | (0 << CS31) | (1 << CS30);
+// enable timer compare interrupt
+    TIMSK3 |= (1 << OCIE3A);
+    sei(); // allow interrupts
+}
 void setupTimer3() {
     cli();//stop interrupts
-    //
+    TCCR3A = 0; // set entire TCCR3A register to 0
+    TCCR3B = 0; // same for TCCR3B
+    TCNT3  = 0; // initialize counter value to 0
+// set compare match register for 10000 Hz increments
+    OCR3A = 15; // = 12000000 / (1 * 10000) - 1 (must be <65536)
     // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
     // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
     TIMSK3 &= ~(1 << TOIE3);

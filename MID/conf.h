@@ -9,8 +9,8 @@
 #include <MenuBackend.h>
 //
 // Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+//#define SCREEN 24064 // Glcd 240x64
+#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -31,6 +31,10 @@
 const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
 //
 // MID plug pins definition over Arduino
+//
+// 14.6V+   ---- [10K] --- [4.7K] --- GND
+//                      |
+//                     MCU
 //
 //      [meg] -> Connection to mega
 //      [znr] - Zenner diod 5.1v to GND
