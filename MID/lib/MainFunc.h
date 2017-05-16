@@ -8,6 +8,7 @@
 
 #include <Arduino.h>
 #include <wiring.c>
+#include <avr/interrupt.h>
 
 
 /**
@@ -72,7 +73,7 @@ void setupTimer3N() {
     cli(); // stop interrupts
     TCCR3A = 0; // set entire TCCR2A register to 0
     TCCR3B = 0; // same for TCCR2B
-    TCNT3  = 0; // initialize counter value to 0
+    TCNT3 = 0; // initialize counter value to 0
 // set compare match register for 100000 Hz increments
     OCR3A = 249; /*249*/ // = 16000000 / (8 * 10000) - 1 (must be <256)
 // turn on CTC mode
@@ -87,27 +88,56 @@ void setupTimer3N() {
 }
 
 
+void setupTimer31() {
+
+    // ICNC3 - noise filter
+
+    // set up timer with prescaler = 64 and CTC mode
+    TCCR3B |= (1 << WGM32) | (1 << CS31) | (1 << CS30);
+    //
+    // With filtering on
+    // TCCR3B |= (0 << ICNC3) | (1 << WGM32) | (1 << CS31) | (1 << CS30) | (0 << ICES3);
+
+
+
+    //Clear ICF1 (this is done by writing a logical 1 to it apparently in the manual).
+    // This clears pending interrupts.  Clear OVERFLOW interrupt flag as well.
+    //  I found that for some reason Timer 5 initialized with an OVERFLOW interrupt which was resulting in a different value from Timer 1 and 4.
+    //  Clearing this interrupt with the timers stopped solved that problem.
+    // TIFR5 = (1 << ICF5) | (1 << TOV5);
+
+
+    // If I change the line in my timer setup "TIMSK3 =" to:
+    // TIMSK3 = (0<<ICIE3)|(0<<TCIE3);
+    // Everything works fine.
+    // For some reason when the TIMER4 Input Capture Interrupt Service Routine
+    //
+
+
+
+    // initialize counter
+    TCNT3 = 0;
+    // initialize compare value
+    OCR3A = 24999; // OCR3B
+    // enable compare interrupt
+    TIMSK3 |= (1 << OCIE1A); // TIMSK3 |= (1 << OCIE3A);
+
+}
+
+// https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
+// http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
 void setupTimer3() {
     cli();//stop interrupts
-    TCCR3A = 0; // set entire TCCR3A register to 0
-    TCCR3B = 0; // same for TCCR3B
-    TCNT3  = 0; // initialize counter value to 0
-// set compare match register for 10000 Hz increments
-    OCR3A = 15; // = 12000000 / (1 * 10000) - 1 (must be <65536)
-    // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
-    // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
+
+    // ICNC3 - noise filter
+    // OCR3B = 24999;
+    // PORTD
     TIMSK3 &= ~(1 << TOIE3);
     /* Configure timer3 in normal mode (pure counting, no PWM etc.) */
-    //
-    //   TCCR3A = 1 << WGM30 | 1 << WGM31;
-    //      set timer 3 prescale factor to 64
-    //    TCCR3B = 1 << CS32;
     TCCR3A &= ~((1 << WGM31) | (1 << WGM30));
     TCCR3B &= ~(1 << WGM32);
 
     TCCR3A = TCCR3A | (1 << COM3A1) | (1 << COM3B1) | (1 << COM3C1);
-    /* Select clock source: internal I/O clock */
-//    ASSR &= ~(1 << AS3);
 
     /* Disable Compare Match A interrupt enable (only want overflow) */
     TIMSK3 &= ~(1 << OCIE3A);
@@ -115,26 +145,10 @@ void setupTimer3() {
     /* Now configure the prescaler to CPU clock divided by 128 */
     TCCR3B |= (1 << CS32) | (1 << CS30);    // Set bits
     TCCR3B &= ~(1 << CS31);                 // Clear bit
-    //
-    // Setting the PWM frequency should be similarly simple..
-    // by setting CS32, CS31, CS30, CS42, CS41, CS40, etc.  I'll play with this as well.
-    //
-    // TEST need to change
-    //
-    //      set timer 3 prescale factor to 64
-    //      TCCR3B = 1 << CS32;
-    //
-    //      enable timer 3 overflow interrupt
-    //      TIMSK3 |= 1 << TOIE3;
-    //
-    //      disable timer 0 overflow interrupt
-    //      TIMSK0 &= !(1 << TOIE0);
-    //
-//    sbi(TCCR3B, CS31);      // set timer 3 prescale factor to 64
+
     sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
     sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
 
-    // 740 /200
     sei();//allow interrupts
 }
 
