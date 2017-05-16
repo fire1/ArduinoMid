@@ -67,22 +67,26 @@ float restoreFloat(uint8_t a, uint8_t b) {
  * Setup timer for ECU,RPM,VSS input pins
  * Timer 3
  */
-void setupTimer32() {
-    // TIMER 1 for interrupt frequency 10000 Hz:
+
+void setupTimer3N() {
     cli(); // stop interrupts
-    TCCR3A = 0; // set entire TCCR3A register to 0
-    TCCR3B = 0; // same for TCCR3B
+    TCCR3A = 0; // set entire TCCR2A register to 0
+    TCCR3B = 0; // same for TCCR2B
     TCNT3  = 0; // initialize counter value to 0
-// set compare match register for 10000 Hz increments
-    OCR3A = 1; // = 12000000 / (1 * 10000) - 1 (must be <65536)
+// set compare match register for 100000 Hz increments
+    OCR3A = 249; /*249*/ // = 16000000 / (8 * 10000) - 1 (must be <256)
 // turn on CTC mode
-    TCCR3B |= (1 << WGM32);
-// Set CS12, CS11 and CS10 bits for 1 prescaler
-    TCCR3B |= (0 << CS32) | (0 << CS31) | (1 << CS30);
+    TCCR3B |= (1 << WGM31);
+// Set CS22, CS21 and CS20 bits for 8 prescaler
+    TCCR3B |= (0 << CS32) | (1 << CS31) | (0 << CS30);
 // enable timer compare interrupt
-    TIMSK3 |= (1 << OCIE3A);
+//TIMSK3 |= (1 << OCIE3A);
+    sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
+    sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
     sei(); // allow interrupts
 }
+
+
 void setupTimer3() {
     cli();//stop interrupts
     TCCR3A = 0; // set entire TCCR3A register to 0
@@ -130,6 +134,7 @@ void setupTimer3() {
     sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
     sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
 
+    // 740 /200
     sei();//allow interrupts
 }
 

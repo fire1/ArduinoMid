@@ -193,6 +193,9 @@ void loop() {
         Serial.println(carSens.getRpm());
         Serial.print(F(" ECU " ));
         Serial.println(carSens.getEcu());
+//        Serial.print(F(" TM3 " ));
+//        Serial.println(testTimer);
+
     }
 }
 
