@@ -87,6 +87,24 @@ void setupTimer3N() {
     sei(); // allow interrupts
 }
 
+/*
+ TCCRx - Timer/Counter Control Register. The pre-scaler can be configured here.
+TCNTx - Timer/Counter Register. The actual timer value is stored here.
+ OCRx - Output Compare Register
+ ICRx - Input Capture Register (only for 16bit timer)
+TIMSKx - Timer/Counter Interrupt Mask Register. To enable/disable timer interrupts.
+TIFRx - Timer/Counter Interrupt Flag Register. Indicates a pending timer interrupt.
+
+CSn2    CSn1    CSn0    Description
+0       0       0       No clock source.    (Timer/Counter stopped)
+0       0       1       clkI/O/1            (No prescaling
+0       1       0       clkI/O/8            (From prescaler)
+0       1       1       clkI/O/64           (From prescaler)
+1       0       0       clkI/O/256          (From prescaler)
+1       0       1       clkI/O/1024         (From prescaler)
+
+ */
+
 
 void setupTimer31() {
 
