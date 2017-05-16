@@ -28,6 +28,21 @@
 #define LCD_ROW_3 36
 #define LCD_ROW_4 46
 
+#define LCD_COL_L11 5
+#define LCD_COL_L12 25
+#define LCD_COL_L21 35
+#define LCD_COL_L22 45
+#define LCD_COL_L23 70
+
+#define LCD_CNR 120 // Center of the screen
+#define LCD_CNR_1 125 // Center of the screen
+#define LCD_CNR_2 145 // Center of the screen
+
+#define LCD_COL_R11 155
+#define LCD_COL_R12 175
+#define LCD_COL_R21 195
+#define LCD_COL_R22 205
+#define LCD_COL_R23 230
 
 class Lcd240x62 : virtual public LcdUiInterface {
 

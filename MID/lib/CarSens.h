@@ -612,7 +612,6 @@ void EngSens_catchEcuHits() {
 void CarSens::setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, FALLING);
-//    digitalWrite(pinTarget, HIGH);
 };
 
 /**
