@@ -96,11 +96,11 @@ public:
 #endif
     }
 
-    void triggerMuveUp() {
+    void triggerMoveUp() {
         mci->moveUp();
     }
 
-    void triggerMuveDw() {
+    void triggerMoveDw() {
         mci->moveDw();
     }
 
@@ -111,7 +111,7 @@ public:
 
         //
         // Handle navigation
-        if (btn->isUp()) {
+        if (btn->isUp() && !btn->isHl()) {
             mci->moveUp();
 #if defined(MENU_DEBUG)
             if (btn->passAmp()->isMid()) {

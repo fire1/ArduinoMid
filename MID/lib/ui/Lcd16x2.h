@@ -612,14 +612,14 @@ protected:
                     btn->setNavigationState(1);
                     tone(TONE_ADT_PIN, 2500, 100);
                     resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMuveUp();
+                    mbs->triggerMoveUp();
                 }
 
                 if (btn->isNo()) {
                     btn->setNavigationState(1);
                     tone(TONE_ADT_PIN, 800, 100);
                     resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMuveUp();
+                    mbs->triggerMoveUp();
                 }
 
 

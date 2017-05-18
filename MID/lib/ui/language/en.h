@@ -10,9 +10,9 @@
 // Maximum size of message is 128 symbols
 //
 //
-const char msg0[] PROGMEM = "String 0";
-const char msg1[] PROGMEM = "String 1";
-const char msg2[] PROGMEM = "String 2";
+const char msg0[] PROGMEM = "Goodbye ...     ";
+const char msg1[] PROGMEM = "until next time!";
+const char msg2[] PROGMEM = "ENTRY";
 const char msg3[] PROGMEM = "String 3";
 const char msg4[] PROGMEM = "String 4";
 const char msg5[] PROGMEM = "String 5";

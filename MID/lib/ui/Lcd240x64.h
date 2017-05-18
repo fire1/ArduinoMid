@@ -16,7 +16,6 @@
 #include "graphics/gLcd-icons.h"
 
 
-
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
 #include "../../libraries/U8g2/src/U8g2lib.h"
@@ -118,8 +117,8 @@ public:
  * Draws shutdown begin for trip save
  */
     void drawShutdownShort() {
-        lcd->drawStr(15, 15, "Goodbye ...     ");
-        lcd->drawStr(15, 35, "until next time!");
+        lcd->drawStr(15, 15, this->getMsg(0));
+        lcd->drawStr(15, 35, this->getMsg(1));
     }
 
 /**
@@ -171,8 +170,8 @@ public:
 protected:
 
 
-    //
-    // Defining content generate container variables
+//
+// Defining content generate container variables
 //    char char_2[3];
 //    char char_3[4];
 //    char char_4[5];
@@ -220,7 +219,7 @@ protected:
             case 1:
             case 2:
             case 3:
-                lcd->drawStr(108, 1, "ENTRY");
+                lcd->drawStr(108, 1, this->getMsg(2));
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
 //                lcd->drawBox(10,12+  (drawEntry * 5),212,15);
@@ -434,14 +433,14 @@ private:
                     btn->setNavigationState(1);
                     tone(TONE_ADT_PIN, 2500, 100);
                     resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMuveUp();
+                    mbs->triggerMoveUp();
                 }
 
                 if (btn->isNo()) {
                     btn->setNavigationState(1);
                     tone(TONE_ADT_PIN, 800, 100);
                     resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMuveUp();
+                    mbs->triggerMoveUp();
                 }
 
 
