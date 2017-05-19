@@ -64,11 +64,38 @@ float restoreFloat(uint8_t a, uint8_t b) {
 
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 
+
+void setupTimer1024() {
+    TCCR3A = 0x00; // DISABLE OUTPUTS AND PWM ON DIGITAL PINS 2 & 3
+    TCCR3C = 0x00; // DON'T FORCE COMPARE
+    OCR3A = 195;
+    TIMSK3 = (1 << OCIE3A);
+    TCCR3B = (1 << CS31) | (1 << CS30);
+}
+/*
+ *
+ // Initializes Timer1 to throw an interrupt every 2mS.
+TCCR1A = 0x00; // DISABLE OUTPUTS AND PWM ON DIGITAL PINS 9 & 10
+TCCR1B = 0x11; // GO INTO 'PHASE AND FREQUENCY CORRECT' MODE, NO PRESCALER
+TCCR1C = 0x00; // DON'T FORCE COMPARE
+TIMSK1 = 0x01; // ENABLE OVERFLOW INTERRUPT (TOIE1)
+ICR1 = 16000; // TRIGGER TIMER INTERRUPT EVERY 2mS
+sei(); // MAKE SURE GLOBAL INTERRUPTS ARE ENABLED
+
+
+
+
+
+
+ **********************************************************
+ * TCNT3 = 0;                       // reset timer 3 counter
+ * TCCR3B ^= _BV(ICES3);           // toggle bit to trigger on the other edge
+
+ */
 /**
  * Setup timer for ECU,RPM,VSS input pins
  * Timer 3
  */
-
 void setupTimer3N() {
     cli(); // stop interrupts
     TCCR3A = 0; // set entire TCCR2A register to 0
@@ -141,6 +168,7 @@ void setupTimer31() {
     TIMSK3 |= (1 << OCIE1A); // TIMSK3 |= (1 << OCIE3A);
 
 }
+
 
 // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
 // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
