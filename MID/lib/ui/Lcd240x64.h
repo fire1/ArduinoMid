@@ -381,6 +381,21 @@ private:
         lcd->drawStr(35, LCD_ROW_3, char_2);
     }
 
+    void displayCarDsp(){
+        /*
+         const int n = snprintf(NULL, 0, "%lu", ulong_value);
+        assert(n > 0);
+        char buf[n+1];
+        int c = snprintf(buf, n+1, "%lu", ulong_value);
+        assert(buf[n] == '\0');
+        assert(c == n);
+         */
+        lcd->drawStr(155, LCD_ROW_1, "VDS:");
+        char vds[7];
+        sprintf(vds, "%lu", car->getVdsDump());
+        lcd->drawStr(205,LCD_ROW_1, vds);
+    }
+
 
     /****************************************************************
  * Reset Fuel
@@ -476,6 +491,7 @@ void Lcd240x62::menus() {
             displayCarVss();
             displayEngRpm();
             displayCarEcu();
+            displayCarDsp();
             break;
         case 12:
             displayResetFuel();

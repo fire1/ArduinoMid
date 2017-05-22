@@ -27,7 +27,7 @@
 class Menu240x60 : public MenuUiInterface {
 
     MenuBackend menu;
-
+    MenuBtn *btn;
     MenuItem
     //
     // Main menu
@@ -52,22 +52,22 @@ public:
 /**
  * Menu constructor
  */
-    Menu240x60() :  menu(menuUseEvent, menuChangeEvent),//  base menu initialization
+    Menu240x60(MenuBtn &_b) : btn(&_b), menu(menuUseEvent, menuChangeEvent),//  base menu initialization
 
             //
             // Main menu
-                               mainMenu(MenuItem(MENU_NAME_1)),
-                               dshBoardMenu(MenuItem(MENU_NAME_11)),
-                               testingsMenu(MenuItem(MENU_NAME_12)),
+                              mainMenu(MenuItem(MENU_NAME_1)),
+                              dshBoardMenu(MenuItem(MENU_NAME_11)),
+                              testingsMenu(MenuItem(MENU_NAME_12)),
             //
             // Trip menu
-                               tripMenu(MenuItem(MENU_NAME_2)),
+                              tripMenu(MenuItem(MENU_NAME_2)),
             //
             // Fuels menu
-                               fuelMenu(MenuItem(MENU_NAME_3)),
+                              fuelMenu(MenuItem(MENU_NAME_3)),
             //
             // Servicing menu
-                               statMenu(MenuItem(MENU_NAME_4)) {
+                              statMenu(MenuItem(MENU_NAME_4)) {
     }
 
     void setup(void) {
@@ -89,6 +89,14 @@ public:
     }
 
     void menuChanged(MenuChangeEvent change) {
+        //
+        // Check is navigation is active
+        if (btn->getNavigationState() == 0) {
+            return;
+        }
+
+        //
+        // Resolve
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
 

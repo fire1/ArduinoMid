@@ -47,7 +47,7 @@ Lcd16x2 lcdMenu(lcd, btnMenu, menuBase,/* &carGames, */shutDown);
 #include <U8g2lib.h>
 #include "ui/Lcd240x64.h"
 
-Menu240x60 midMenu;
+Menu240x60 midMenu(btnMenu);
 
 MenuBase menuBase(btnMenu, midMenu);
 /*
@@ -88,9 +88,7 @@ Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown);
 //
 // Event method set
 void menuChangeEvent(MenuChangeEvent changed) {
-        midMenu.menuChanged(changed);
-        delay(100);
-
+    midMenu.menuChanged(changed);
 }
 
 void menuUseEvent(MenuUseEvent used) {
