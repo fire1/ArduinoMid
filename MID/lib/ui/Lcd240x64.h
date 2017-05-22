@@ -408,9 +408,10 @@ private:
     void displayResetFuel() {
 
         lcd->drawStr(5, LCD_ROW_1, getMsg(20));
-        //
-        // Info to enter in menu
+
         if (btn->getNavigationState()) {
+            //
+            // Info  how to enter in menu
             lcd->drawStr(5, LCD_ROW_2, getMsg(21));
         }
 
@@ -419,6 +420,8 @@ private:
         }
 
         if (!btn->getNavigationState()) {
+            //
+            // Ask for reset
             lcd->drawStr(5, LCD_ROW_2, getMsg(22));
 
             const char *msg = getMsg(23);
@@ -426,6 +429,8 @@ private:
 
             lcd->drawStr(120 - askW, LCD_ROW_3, msg);
 
+            //
+            // Listen the buttons
             if (btn->isOk()) {
                 eep->saveResetData();
                 btn->setNavigationState(1);
@@ -445,7 +450,7 @@ private:
     }
 
 /****************************************************************
-* Reset Fuel
+* Car Servicing
 */
     void displayCarState() {
 
