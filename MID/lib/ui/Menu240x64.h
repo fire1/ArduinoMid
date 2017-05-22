@@ -48,6 +48,8 @@ class Menu240x60 : public MenuUiInterface {
 //            gamesMenu
     ;
 
+    unsigned long lastUsed = 0;
+
 public:
 /**
  * Menu constructor
@@ -88,10 +90,20 @@ public:
         return menu;
     }
 
+
+    boolean lastChangeCheck() {
+        unsigned long currentTime = millis();
+        if ((lastUsed + 1500) >= currentTime) {
+            return true;
+        }
+        lastUsed = currentTime;
+        return false;
+    }
+
     void menuChanged(MenuChangeEvent change) {
         //
         // Check is navigation is active
-        if (btn->getNavigationState() == 0) {
+        if (btn->getNavigationState() == 0 || lastChangeCheck()) {
             return;
         }
 
@@ -127,15 +139,21 @@ public:
     }
 
     void moveUp() {
-//        Serial.println("Up trigger");
+        if (btn->getNavigationState() == 0)
+            return;
+
         menu.moveDown();
         menu.use();
+
     }
 
     void moveDw() {
-//        Serial.println("Dw trigger");
+        if (btn->getNavigationState() == 0)
+            return;
+
         menu.moveRight();
         menu.use();
+
     }
 };
 

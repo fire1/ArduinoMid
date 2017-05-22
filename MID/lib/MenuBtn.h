@@ -30,7 +30,7 @@ class MenuBtn {
 private:
     uint8_t btnUp, btnDw, pinTn;
     uint8_t lastButtonPushed = 0;
-
+    const uint8_t btnMn = 200;
 
     boolean isNavigationActive = true;
     boolean playSecondTone = false;
@@ -89,6 +89,10 @@ public:
 
     inline uint8_t MenuBtn::getLastBtn() {
         return lastButtonPushed;
+    }
+
+    inline boolean isMn() {
+        return (!isNavigationActive) ? false : lastButtonPushed == btnMn;
     }
 
     inline boolean isUp() {
@@ -186,7 +190,11 @@ void MenuBtn::listener() {
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
-            lastButtonPushed = btnUp;
+            if (!digitalRead(btnDw) == HIGH) {
+                lastButtonPushed = btnMn;
+            } else {
+                lastButtonPushed = btnUp;
+            }
         }
     }
 }

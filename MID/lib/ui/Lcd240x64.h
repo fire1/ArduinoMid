@@ -183,6 +183,9 @@ protected:
     }
 
     void useTextMode() {
+        // Cyrillic font u8g2_font_crox1c_tf
+        // u8g2_font_crox1cb_tf
+        //u8g2_font_mercutio_basic_nbp_t_all
         lcd->setFont(u8g2_font_6x10_tf);
         lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
@@ -334,13 +337,15 @@ private:
         lcd->drawXBMP(120, LCD_ROW_3, 18, 18, gage_18x18_bits);
         //
         // Travel distance
-        lcd->drawStr(/*25*/ 155, LCD_ROW_1, "Range:");
+//        lcd->drawStr(/*25*/ 155, LCD_ROW_1, "Range:");
+        lcd->drawXBMP(150, LCD_ROW_1, 18, 10, car_dist_18x10_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(/*50*/195, LCD_ROW_1, char_4);
         drawKm(/*82*/230, 15);
         //
         // Travel time
-        lcd->drawStr(155, LCD_ROW_2, "Time:");
+//        lcd->drawStr(155, LCD_ROW_2, "Time:");
+        lcd->drawXBMP(150, LCD_ROW_2, 18, 10, car_time_18x10_bits);
         // TODO Check for FIX !
         lcd->drawStr(195, LCD_ROW_2, car->getHTm(saved.time_trp));
         lcd->drawStr(230, LCD_ROW_2, "h");
@@ -381,7 +386,7 @@ private:
         lcd->drawStr(35, LCD_ROW_3, char_2);
     }
 
-    void displayCarDsp(){
+    void displayCarDsp() {
         /*
          const int n = snprintf(NULL, 0, "%lu", ulong_value);
         assert(n > 0);
@@ -393,7 +398,7 @@ private:
         lcd->drawStr(155, LCD_ROW_1, "VDS:");
         char vds[7];
         sprintf(vds, "%lu", car->getVdsDump());
-        lcd->drawStr(205,LCD_ROW_1, vds);
+        lcd->drawStr(205, LCD_ROW_1, vds);
     }
 
 
@@ -401,70 +406,71 @@ private:
  * Reset Fuel
  */
     void displayResetFuel() {
+
+        lcd->drawStr(5, LCD_ROW_1, getMsg(20));
         //
-        // Information row
-        lcd->setCursor(0, 0);
-        if (amp->isSecond()) {
-            if (amp->is2Seconds()) {
-                lcd->print(F("fuels & distance"));
-            } else {
-                if (!btn->getNavigationState()) {
-                    lcd->print(F("Are u sure this"));
-                } else {
-                    lcd->print(F("Use R< to reset "));
-                }
-            }
+        // Info to enter in menu
+        if (btn->getNavigationState()) {
+            lcd->drawStr(5, LCD_ROW_2, getMsg(21));
         }
 
-        //
-        // Reset future capture
-        if (amp->is2Seconds()) {
-            lcd->setCursor(0, 1);
-            if (amp->is4Seconds() && !resetingFuelAndDistanceMenu) {
-                btn->setNavigationState(0);
-                lcd->print(F("Hold button now!"));
-            } else {
+        if (btn->isMn()) {
+            btn->setNavigationState(0);
+        }
+
+        if (!btn->getNavigationState()) {
+            lcd->drawStr(5, LCD_ROW_2, getMsg(22));
+
+            const char *msg = getMsg(23);
+            u8g2_uint_t askW = lcd->getStrWidth(msg);
+
+            lcd->drawStr(120 - askW, LCD_ROW_3, msg);
+
+            if (btn->isOk()) {
+                eep->saveResetData();
                 btn->setNavigationState(1);
-                lcd->print(F("Wait to lock Nav"));
-            }
-            if (btn->isHl()) {
-                resetingFuelAndDistanceMenu = true;
-                tone(TONE_ADT_PIN, 1500, 20);
-                delay(20);
-                tone(TONE_ADT_PIN, 2500, 20);
+                tone(TONE_ADT_PIN, 2500, 100);
+                resetingFuelAndDistanceMenu = false;
+                mbs->triggerMoveUp();
             }
 
-            if (resetingFuelAndDistanceMenu) {
-                //
-                // Disable navigation
-                btn->setNavigationState(0);
-                tone(TONE_ADT_PIN, 2000, 10);
+            if (btn->isNo()) {
+                btn->setNavigationState(1);
+                tone(TONE_ADT_PIN, 800, 100);
+                resetingFuelAndDistanceMenu = false;
+                mbs->triggerMoveUp();
             }
-
-            if (!btn->getNavigationState() && resetingFuelAndDistanceMenu) {
-                lcd->print(F("S< Yes  /  R< No"));
-                if (btn->isOk()) {
-                    eep->saveResetData();
-                    btn->setNavigationState(1);
-                    tone(TONE_ADT_PIN, 2500, 100);
-                    resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMoveUp();
-                }
-
-                if (btn->isNo()) {
-                    btn->setNavigationState(1);
-                    tone(TONE_ADT_PIN, 800, 100);
-                    resetingFuelAndDistanceMenu = false;
-                    mbs->triggerMoveUp();
-                }
-
-
-            }
-
         }
-
 
     }
+
+/****************************************************************
+* Reset Fuel
+*/
+    void displayCarState() {
+
+
+        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(4));
+        else lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
+
+        if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(6));
+        else lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(5));
+
+        if (stt->getLiveWin()) lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(8));
+        else lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(7));
+
+        if (stt->getLiveOil()) lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(10));
+        else lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(9));
+
+
+        if (MidCursorMenu == 46) {
+            lcd->print(F("Range: "));
+            lcd->print(eep->getWorkDistance());
+            lcd->write((uint8_t) 2);
+            lcd->print(" ");
+        }
+    }
+
 };
 
 /**
@@ -480,7 +486,7 @@ void Lcd240x62::menus() {
             //
             // Main / first menu
         case 1:
-            lcd->drawStr(0, 0, "HOME MENU");
+            lcd->drawStr(0, 0, getMsg(11));
             displayHomeTemperatures();
             displayHomeConsumption();
             displayCurrentTrip();
@@ -494,21 +500,22 @@ void Lcd240x62::menus() {
             displayCarDsp();
             break;
         case 12:
+            lcd->drawStr(0, 0, getMsg(15));
             displayResetFuel();
             break;
             //
             // Travel menu
         case 2:
-            lcd->drawStr(0, 0, "CURRENT TRIP");
+            lcd->drawStr(0, 0, getMsg(12));
 
             break;
             //
             // Fuel menu
         case 3:
-            lcd->drawStr(0, 0, "Fuel menu");
+            lcd->drawStr(0, 0, getMsg(13));
             break;
         case 4:
-            lcd->drawStr(0, 0, "Car State ");
+            lcd->drawStr(0, 0, getMsg(14));
             break;
 
 
