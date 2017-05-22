@@ -77,7 +77,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -92,7 +92,7 @@ public:
         do {
             lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
         } while (lcd->nextPage());
-        delay(1500);
+        delay(5000);
         lcd->clear();
         tone(TONE_ADT_PIN, 800, 10);
     }
@@ -117,8 +117,8 @@ public:
  * Draws shutdown begin for trip save
  */
     void drawShutdownShort() {
-        lcd->drawStr(15, 15, this->getMsg(0));
-        lcd->drawStr(15, 35, this->getMsg(1));
+        lcd->drawStr(15, LCD_ROW_1, this->getMsg(0));
+        lcd->drawStr(15, LCD_ROW_1, this->getMsg(1));
     }
 
 /**
@@ -338,14 +338,14 @@ private:
         //
         // Travel distance
 //        lcd->drawStr(/*25*/ 155, LCD_ROW_1, "Range:");
-        lcd->drawXBMP(150, LCD_ROW_1, 18, 10, car_dist_18x10_bits);
+        lcd->drawXBMP(150, LCD_ROW_1 - 3, 18, 10, car_dist_18x10_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(/*50*/195, LCD_ROW_1, char_4);
         drawKm(/*82*/230, 15);
         //
         // Travel time
 //        lcd->drawStr(155, LCD_ROW_2, "Time:");
-        lcd->drawXBMP(150, LCD_ROW_2, 18, 10, car_time_18x10_bits);
+        lcd->drawXBMP(150, LCD_ROW_2 - 1, 18, 10, car_time_18x10_bits);
         // TODO Check for FIX !
         lcd->drawStr(195, LCD_ROW_2, car->getHTm(saved.time_trp));
         lcd->drawStr(230, LCD_ROW_2, "h");
@@ -491,7 +491,7 @@ void Lcd240x62::menus() {
             //
             // Main / first menu
         case 1:
-            lcd->drawStr(0, 0, getMsg(11));
+            lcd->drawStr(5, 0, getMsg(11));
             displayHomeTemperatures();
             displayHomeConsumption();
             displayCurrentTrip();
@@ -505,13 +505,13 @@ void Lcd240x62::menus() {
             displayCarDsp();
             break;
         case 12:
-            lcd->drawStr(0, 0, getMsg(15));
+            lcd->drawStr(5, 0, getMsg(15));
             displayResetFuel();
             break;
             //
             // Travel menu
         case 2:
-            lcd->drawStr(0, 0, getMsg(12));
+            lcd->drawStr(5, 0, getMsg(12));
 
             break;
             //
