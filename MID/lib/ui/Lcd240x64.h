@@ -77,7 +77,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Mid's intro
@@ -396,9 +396,13 @@ private:
         assert(c == n);
          */
         lcd->drawStr(155, LCD_ROW_1, "VDS:");
-        char vds[7];
-        sprintf(vds, "%lu", car->getVdsDump());
-        lcd->drawStr(205, LCD_ROW_1, vds);
+        if (car->getVss() == 0) {
+            char vds[20];
+            sprintf(vds, "%lu", car->getVdsDump());
+            lcd->drawStr(205, LCD_ROW_1, vds);
+        } else {
+            lcd->drawStr(205, LCD_ROW_1, "?");
+        }
     }
 
 
@@ -491,7 +495,7 @@ void Lcd240x62::menus() {
             //
             // Main / first menu
         case 1:
-            lcd->drawStr(5, 0, getMsg(11));
+            lcd->drawStr(5, 0, getMsg(12));
             displayHomeTemperatures();
             displayHomeConsumption();
             displayCurrentTrip();
