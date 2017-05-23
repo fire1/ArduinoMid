@@ -338,14 +338,14 @@ private:
         //
         // Travel distance
 //        lcd->drawStr(/*25*/ 155, LCD_ROW_1, "Range:");
-        lcd->drawXBMP(150, LCD_ROW_1 - 3, 18, 10, car_dist_18x10_bits);
+        lcd->drawXBMP(150, LCD_ROW_1 , 18, 10, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(/*50*/195, LCD_ROW_1, char_4);
         drawKm(/*82*/230, 15);
         //
         // Travel time
 //        lcd->drawStr(155, LCD_ROW_2, "Time:");
-        lcd->drawXBMP(150, LCD_ROW_2 - 1, 18, 10, car_time_18x10_bits);
+        lcd->drawXBMP(150, LCD_ROW_2 , 18, 10, car_time_5x8_bits);
         // TODO Check for FIX !
         lcd->drawStr(195, LCD_ROW_2, car->getHTm(saved.time_trp));
         lcd->drawStr(230, LCD_ROW_2, "h");

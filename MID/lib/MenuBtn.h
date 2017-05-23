@@ -192,6 +192,7 @@ void MenuBtn::captureUp(void) {
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
             if (!digitalRead(btnDw) == HIGH) {
                 lastButtonPushed = btnMn;
+                tone(TONE_ADT_PIN, 2500, 15);
             } else {
                 lastButtonPushed = btnUp;
             }
