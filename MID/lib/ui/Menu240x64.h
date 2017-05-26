@@ -49,7 +49,6 @@ class Menu240x60 : public MenuUiInterface {
     ;
 
 
-
 public:
 /**
  * Menu constructor
@@ -80,6 +79,7 @@ public:
         mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
         dshBoardMenu.add(mainMenu);
         testingsMenu.add(mainMenu);
+        testingsMenu.addRight(mainMenu);
 
         menu.moveDown();
         MidCursorMenu = 1;
@@ -91,12 +91,10 @@ public:
     }
 
 
-
-
     void menuChanged(MenuChangeEvent change) {
         //
         // Check is navigation is active
-        if (btn->getNavigationState() == 0 ) {
+        if (btn->getNavigationState() == 0) {
             return;
         }
 
@@ -132,15 +130,12 @@ public:
     }
 
     void moveUp() {
-
-
         menu.moveDown();
         menu.use();
 
     }
 
     void moveDw() {
-
         menu.moveRight();
         menu.use();
 
