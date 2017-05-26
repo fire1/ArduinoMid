@@ -14,29 +14,29 @@
 const char msg0[] PROGMEM = "Goodbye ...     ";
 const char msg1[] PROGMEM = "until next time!";
 const char msg2[] PROGMEM = "ENTRY";
-const char msg3[] PROGMEM = "Brake wear is O.K. ";
-const char msg4[] PROGMEM = "CHECK your brake pads wear!";
-const char msg5[] PROGMEM = "Coolant level is O.K. ";
-const char msg6[] PROGMEM = "Coolant level is to low!";
-const char msg7[] PROGMEM = "Window washer liquid level is O.K. ";
-const char msg8[] PROGMEM = "Window washer liquid is to low!";
-const char msg9[] PROGMEM = "Oil level is  O.K.";
-const char msg10[] PROGMEM = "Engine oil is to low!";
+const char msg3[] PROGMEM = "Brake wearing state: ";
+const char msg4[] PROGMEM = "Coolant level state: ";
+const char msg5[] PROGMEM = "Window washer state: ";
+const char msg6[] PROGMEM = "Engine Oil level is: ";
+const char msg7[] PROGMEM = "NORMAL";
+const char msg8[] PROGMEM = "WARNING";
+const char msg9[] PROGMEM = "";
+const char msg10[] PROGMEM = "";
 //
 //
 const char msg11[] PROGMEM = "MAIN MENU";
 const char msg12[] PROGMEM = "CURRENT TRIP";
 const char msg13[] PROGMEM = "FUEL MENU";
 const char msg14[] PROGMEM = "CAR SERVICING";
-const char msg15[] PROGMEM = "TRIPs RESET";
+const char msg15[] PROGMEM = "RESET info";
 const char msg16[] PROGMEM = "";
 const char msg17[] PROGMEM = "";
 const char msg18[] PROGMEM = "";
 const char msg19[] PROGMEM = "";
 //
 //
-const char msg20[] PROGMEM = "To reset trips recorded in Board computer";
-const char msg21[] PROGMEM = "Press >S and >R together ";
+const char msg20[] PROGMEM = "To reset trips recorded in Board Comp";
+const char msg21[] PROGMEM = "Hold >R and break pedal ";
 const char msg22[] PROGMEM = "Do you really want to reset data?  ";
 const char msg23[] PROGMEM = "S< Yes  /  R< No";
 //

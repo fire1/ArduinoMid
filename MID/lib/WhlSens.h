@@ -27,8 +27,6 @@
 //
 // Creates test with maximum send value
 #define ADR_DIG_POD B10001
-// pull up Resistance 10k - After test is not good ...
-//#define STR_READ_RESIST_A
 //
 // pull up Resistance ~ 220 ohm
 #define STR_READ_RESIST_B
@@ -45,7 +43,7 @@ private:
 
     int currentStateButton;
     int lastStateButton = 0;
-    uint8_t pinSteering, pinDigPotCntr, pinOutVoltage;
+    uint8_t pinSteering, pinDigPotCntr, pinOutRelay;
     //
     // Used for shortcuts ...
     boolean isDisabled = 0;
@@ -76,7 +74,7 @@ public:
 
     int getAnalogReadButtons();
 
-    void setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage);
+    void setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinRelay);
 
     void listener();
 
@@ -114,6 +112,13 @@ public:
  */
 void WhlSens::_setCurrentState(int currentButton) {
     currentStateButton = currentButton;
+
+#if defined(STR_DEBUG)
+    if (amp->isSecond()) {
+        Serial.print("WHL Button detect ");
+        Serial.println(currentStateButton);
+    }
+#endif
 }
 
 /**
@@ -126,18 +131,18 @@ int WhlSens::getCurrentState() {
 /*
  * Setup Steering Wheel to Sony audio
  */
-void WhlSens::setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinVoltage) {
+void WhlSens::setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinRelay) {
 
 
     pinSteering = pinTargetSteering;
     pinDigPotCntr = pinDigitalPod;
-    pinOutVoltage = pinVoltage;
+    pinOutRelay = pinRelay;
 
 
     pinMode(pinSteering, INPUT);
     pinMode(pinDigPotCntr, OUTPUT);
-    pinMode(pinOutVoltage, OUTPUT);
-    digitalWrite(pinOutVoltage, HIGH);
+    pinMode(pinOutRelay, OUTPUT);
+    digitalWrite(pinOutRelay, LOW);
 //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
 //  pinMode (SLAVESELECT,OUTPUT); //same as above?
     //
@@ -199,18 +204,18 @@ void WhlSens::listener() {
         if (val != 0) {
             digitalWrite(pinDigPotCntr, LOW);
             delay(30);
-            digitalWrite(pinOutVoltage, LOW);
+            digitalWrite(pinOutRelay, LOW);
             SPI.transfer(B10001); // 17
             SPI.transfer(val);
             digitalWrite(pinDigPotCntr, HIGH);
             delay(30);
-            digitalWrite(pinOutVoltage, HIGH);
+            digitalWrite(pinOutRelay, HIGH);
         }
     }
 #endif
 
 #if defined(STR_DEBUG)
-    if (ampInt.isBig()) {
+    if (amp->isMid()) {
         Serial.print("Steering button: ");
         Serial.println(readingSteeringButton);
     }
@@ -218,12 +223,12 @@ void WhlSens::listener() {
     _setCurrentState(STR_BTN_NON);
     //
     // Volume down
-    if (readingSteeringButton > 200 && readingSteeringButton < 299) {
+    if (readingSteeringButton > 200 && readingSteeringButton < 330) {
         _setCurrentState(STR_BTN_VLD);
     }
     //
     // Volume up
-    if (readingSteeringButton > 300 && readingSteeringButton < 499) {
+    if (readingSteeringButton > 330 && readingSteeringButton < 499) {
         _setCurrentState(STR_BTN_VLU);
     }
     //
@@ -242,12 +247,12 @@ void WhlSens::listener() {
     }
     //
     // Left arrow / seek down
-    if (readingSteeringButton > 700 && readingSteeringButton < 799) {
+    if (readingSteeringButton > 700 && readingSteeringButton < 810) {
         _setCurrentState(STR_BTN_SKD);
     }
     //
     // Back button
-    if (readingSteeringButton > 800 && readingSteeringButton < 899) {
+    if (readingSteeringButton > 810 && readingSteeringButton < 900) {
         _setCurrentState(STR_BTN_BCK);
     }
     //
@@ -275,7 +280,7 @@ void WhlSens::sendRadioButtons() {
         return;
     }
 #if defined(STR_DEBUG)
-    if (amp->isMid()) {
+    if (amp->isSecond()) {
         Serial.print("WHL Current State ");
         Serial.println(currentState);
     }
@@ -283,19 +288,22 @@ void WhlSens::sendRadioButtons() {
     //
     // When is not none state
     if (currentState != STR_BTN_NON) {
-        //
-        // Open resistance to pot
-        digitalWrite(pinOutVoltage, LOW);
+
+        digitalWrite(50, HIGH);
 
         digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
         delay(5); // Some separation fix
-
+//
+        // Open resistance to pot
         digitalWrite(pinDigPotCntr, HIGH);
+
+
         lastStateButton = currentState;
+
     } else {
-        digitalWrite(pinOutVoltage, HIGH);
+        digitalWrite(50, LOW);
     }
 
 
@@ -306,11 +314,11 @@ void WhlSens::sendRadioButtons() {
  */
 void WhlSens::shutdownMode(void) {
     digitalWrite(pinDigPotCntr, LOW);
-    digitalWrite(pinOutVoltage, LOW);
+    analogWrite(pinOutRelay, HIGH);
     delay(5);
     _setDigitalPot(1);
     delay(5);
-    digitalWrite(pinDigPotCntr, HIGH);
+    analogWrite(pinDigPotCntr, LOW);
 
 }
 

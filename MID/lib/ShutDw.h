@@ -44,6 +44,7 @@ private :
     uint8_t entryDisplay = 0;
     boolean isShutdownActive = 0;
     boolean alreadySaved = 0;
+    boolean tiggerSave = 0;
 
 
     /**
@@ -112,6 +113,20 @@ public:
 
     void cursor();
 
+    void saveShutdown() {
+        if (MidCursorMenu == MENU_SHUTDOWN && tiggerSave) { // TODO disabled for now
+
+            if (alreadySaved) {
+                return;
+            }
+            alreadySaved = 1;
+            melodySave();
+            eep->saveCurrentData();
+            whl->shutdownMode();
+            delay(2200);
+            digitalWrite(pinCtrl, LOW);
+        }
+    }
 };
 
 
@@ -186,7 +201,7 @@ void ShutDw::listener() {
         detectorValue = analogRead(pinDtct);
 
 
-        if (millis() < 10000 && detectorValue < SHUTDOWN_LOW_VALUE) {
+        if (millis() < 5000 && detectorValue < SHUTDOWN_LOW_VALUE) {
             //
             // Skip save and shutdown
             digitalWrite(pinCtrl, LOW);
@@ -207,9 +222,6 @@ void ShutDw::listener() {
             // Fixes digital pot
             whl->shutdownMode();
             //
-            // Wait dig pot
-            delay(100);
-            //
             // Skip save and shutdown
             digitalWrite(pinCtrl, LOW);
         }
@@ -218,6 +230,9 @@ void ShutDw::listener() {
         detectorValue = !detectorValue;
     }
 
+    if (amp->is2Seconds()) {
+        saveShutdown();
+    }
 
 }
 
@@ -241,28 +256,18 @@ void ShutDw::melodySave() {
  */
 void ShutDw::menu(LcdUiInterface *lcd) {
 
+    Serial.println("Shutdown active");
     //
     // Basic information save
-    if (car->getDst() < SHUTDOWN_SAVE_TRIP || true) { // TODO disabled for now
 
-        if (alreadySaved) {
-            return;
-        }
-        alreadySaved = 1;
-        tone(pinTone, 1000, 50);
-        delay(50);
-        tone(pinTone, 1200, 50);
-        delay(50);
+//        tone(pinTone, 1000, 50);
+//        delay(50);
+//        tone(pinTone, 1200, 50);
+//        delay(50);
 
-        lcd->drawShutdownShort();
-
-        melodySave();
-        eep->saveCurrentData();
-        whl->shutdownMode();
-        delay(2200);
-        digitalWrite(pinCtrl, LOW);
-        return;
-    }
+    lcd->drawShutdownShort();
+    tiggerSave = 1;
+    return;
 
     char sec[2];
     //

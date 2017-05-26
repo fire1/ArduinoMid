@@ -70,7 +70,7 @@ void setup() {
     eepRom.setup();
     //
     // Setup button listener
-    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, TONE_ADT_PIN);
+    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, BRK_LGH_PIN, TONE_ADT_PIN);
     //
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
@@ -98,7 +98,7 @@ void setup() {
     midMenu.setup();
     //
     // Setup SPI lib
-    whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_VOL);
+    whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_RLY);
     //
     // Restore data
     eepRom.loadCurrentData();
@@ -184,19 +184,19 @@ void loop() {
     eepRom.injectFromSerial();
     //
     // Calls StackCount() to report the unused RAM
-    if (ampInt.isBig()) {
+/*    if (ampInt.isBig()) {
         Serial.print(F(" End free heap (RAM): "));
         Serial.println(getFreeRam());
         Serial.print(F(" VSS "));
         Serial.println(carSens.getVss());
-        Serial.print(F(" RPM " ));
+        Serial.print(F(" RPM "));
         Serial.println(carSens.getRpm());
-        Serial.print(F(" ECU " ));
+        Serial.print(F(" ECU "));
         Serial.println(carSens.getEcu());
 //        Serial.print(F(" TM3 " ));
 //        Serial.println(testTimer);
 
-    }
+    }*/
 }
 
 

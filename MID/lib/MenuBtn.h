@@ -12,7 +12,7 @@
 #include "CarState.h"
 
 
-//#define BUTTONS_DEBUG
+#define BUTTONS_DEBUG
 
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000
@@ -28,7 +28,8 @@ class MenuBtn {
     CarState *stt;
 
 private:
-    uint8_t btnUp, btnDw, pinTn;
+    unsigned long lastUsed = 0;
+    uint8_t btnUp, btnDw, btnBk, pinTn;
     uint8_t lastButtonPushed = 0;
     const uint8_t btnMn = 200;
 
@@ -40,6 +41,7 @@ private:
     //
     // Down Button
     bool entryDownState = false;
+    bool deblouncingState = false;
     unsigned long holdTimeHandler = 0;
 
     void captureUp(void);
@@ -57,7 +59,7 @@ public:
 
     void listener(void);
 
-    void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones);
+    void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones);
 
     inline void clearLastButton() {
         lastButtonPushed = 0;
@@ -136,24 +138,50 @@ public:
         return stt;
     }
 
+    boolean lastUseDebounce() {
+        if (millis() - lastUsed > 50) {
+#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+            if (amp->isSecond()) {
+                Serial.println("Debounce is true");
+            }
+
+#endif
+            return true;
+        } else {
+
+#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+            if (amp->isSecond()) {
+                Serial.println("Debounce is false");
+            }
+        }
+        return false;
+#endif
+    }
+
+
 };
 
 
-void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t pinTones) {
+void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones) {
     btnUp = buttonPinUp;
     btnDw = buttonPinDw;
+    btnBk = brakePedal;
     pinTn = pinTones;
     //
     // Pin button mode
     pinMode(pinTn, INPUT);
+    pinMode(btnUp, INPUT);
     pinMode(btnDw, INPUT);
+    pinMode(btnBk, INPUT);
 
     //
     // Turn on  Internal pull up resistor
     digitalWrite(btnUp, HIGH);
     digitalWrite(btnDw, HIGH);
+    digitalWrite(btnBk, LOW);
 
 }
+
 
 void MenuBtn::listener() {
     //
@@ -161,19 +189,22 @@ void MenuBtn::listener() {
     isHoldState = false;
     //
     // Delete last loop state record
-    lastButtonPushed = 0;
-    //
-    // Detect up state button
-    captureUp();
-    //
-    // Detect down state button
-    captureDw();
+
+    if (lastUseDebounce()) {
+        //
+        // Detect up state button
+        captureUp();
+        //
+        // Detect down state button
+        captureDw();
+
+        // TODO  make this hold as additional option
+        // and other other waiting press after hold to activate shortcuts
+    }
     //
     // Detect Hold button state
     captureHl();
-    // TODO  make this hold as additional option
-    // and other other waiting press after hold to activate shortcuts
-//
+
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isSecond()) {
         Serial.print(F("Last button is :"));
@@ -189,6 +220,7 @@ void MenuBtn::listener() {
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
+        lastUsed = millis();
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
             if (!digitalRead(btnDw) == HIGH) {
                 lastButtonPushed = btnMn;
@@ -209,6 +241,7 @@ void MenuBtn::captureDw(void) {
         //
         // Clear noise
         if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+            lastUsed = millis();
             tone(TONE_ADT_PIN, 700, 20);
             entryDownState = true;
             playSecondTone = true;
@@ -267,7 +300,7 @@ void MenuBtn::shortcut(void) {
     /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
     // Steering zero
     // Steering button is pressed
-    if (whl->getCurrentState() == WhlSens::STR_BTN_ATT) {
+    if (whl->getCurrentState() == WhlSens::STR_BTN_ATT || digitalRead(btnBk) == HIGH && car->getVss() == 0) {
         tone(TONE_ADT_PIN, 1000, 10);
         delay(10);
         tone(TONE_ADT_PIN, 1000, 10);
@@ -301,6 +334,7 @@ void MenuBtn::shortcut(void) {
         lastButtonPushed = 0;
     }
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
+
 
 
 }

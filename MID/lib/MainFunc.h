@@ -16,19 +16,19 @@
  */
 char displayFloat(float value, char *output) {
 
-    if (value < -99) {
-        value = -99;
-    }
+        if (value < -99) {
+            value = -99;
+        }
 
-    int dig1 = int(value) * 10; // 210
-    int dig2 = int((value * 10) - dig1);
+        int dig1 = int(value) * 10; // 210
+        int dig2 = int((value * 10) - dig1);
 
-    dig1 = dig1 / 10;
-    if (dig2 < 0) {
-        dig2 = dig2 * -1;
-    }
+        dig1 = dig1 / 10;
+        if (dig2 < 0) {
+            dig2 = dig2 * -1;
+        }
 
-    sprintf(output, "%02d.%1d", dig1, dig2);
+        sprintf(output, "%02d.%1d", dig1, dig2);
 }
 
 /**

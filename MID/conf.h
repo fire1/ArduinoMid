@@ -50,16 +50,18 @@ const uint8_t SAV_PIN_DTC = A7;     //  Plug:16   [20k] -> [meg] -> [znr]   Dete
 //
 // Engine pins
 const uint8_t ENG_CLT_PIN = A0;     //  Plug:31    [dvr + 100uf ] Engine Temp.  [may be 50uf capacitor]
-const uint8_t BRK_LGH_PIN = 11;     //  Plug:       [20k] [meg] [znr] Brake light detection
+const uint8_t BRK_LGH_PIN = 12;     //  Plug:15       [20k] [meg] [znr] Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [20k] [meg] [znr] RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [20k] [meg] [znr] Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [20k] [meg] [znr] ECU  signal
 //
 // Car state pins
-const uint8_t STT_BRK_PIN = A4;     //  Plug:19        [meg]    Critical Brake ware
-const uint8_t STT_CLN_PIN = A2;     //  Plug:20        [meg]    Critical Coolant level
-const uint8_t STT_OIL_PIN = A3;     //  Plug:13        [meg]   Critical oil level
-const uint8_t STT_WNW_PIN = A5;     //  Plug:22       [meg]   Critical window washer
+const uint8_t STT_UL1_PIN = A11;    // Plug 17 Unusable for now (do not connect)
+const uint8_t STT_UL2_PIN = A12;    // Plug 18 Unusable for now (do not connect)
+const uint8_t STT_BRK_PIN = A13;     //  Plug:19        [meg]    Critical Brake ware
+const uint8_t STT_CLN_PIN = A14;     //  Plug:20        [meg]    Critical Coolant level
+const uint8_t STT_WNW_PIN = A15;     //  Plug:22       [meg]   Critical window washer
+const uint8_t STT_OIL_PIN = A1;     //  Plug:13        [meg]   Critical oil level
 const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
@@ -139,10 +141,21 @@ const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
 // Alarm / Tone pin
 #define TONE_ADT_PIN 11
 //
+// Steering wheel buttons
+//
+// Digital Potentiometer
+// 50k digital potentiometer [MCP41050]
+// [meg] 53     to pin [pot] 1
+// [meg] 52     to pin [pot] 2
+// [meg] 51     to pin [pot] 3
+//     GND      to pin [pot] 4
+//     +5V      to pin [pot] 5
+//     GND      to pin [pot] 6
+// Stereo input to pin [pot] 7 (through  RELAY to stereo remote control)
 // Alpine / Steering Wheel buttons
-const uint8_t ALP_PIN_INP = A8;
-const uint8_t ALP_PIN_OUT = 53;
-const uint8_t ALP_PIN_VOL = 14; // deprecated
+const uint8_t ALP_PIN_INP = A8; // +5V ->  [240R] to Radio Unit plug pin 1
+const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
+const uint8_t ALP_PIN_RLY = 50; //  5V RELAY (signal cutter)
 
 //
 // Change state of shutdown "press to save"

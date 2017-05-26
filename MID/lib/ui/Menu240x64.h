@@ -48,7 +48,7 @@ class Menu240x60 : public MenuUiInterface {
 //            gamesMenu
     ;
 
-    unsigned long lastUsed = 0;
+
 
 public:
 /**
@@ -91,19 +91,12 @@ public:
     }
 
 
-    boolean lastChangeCheck() {
-        unsigned long currentTime = millis();
-        if ((lastUsed + 1500) >= currentTime) {
-            return true;
-        }
-        lastUsed = currentTime;
-        return false;
-    }
+
 
     void menuChanged(MenuChangeEvent change) {
         //
         // Check is navigation is active
-        if (btn->getNavigationState() == 0 || lastChangeCheck()) {
+        if (btn->getNavigationState() == 0 ) {
             return;
         }
 
@@ -139,8 +132,7 @@ public:
     }
 
     void moveUp() {
-        if (btn->getNavigationState() == 0)
-            return;
+
 
         menu.moveDown();
         menu.use();
@@ -148,8 +140,6 @@ public:
     }
 
     void moveDw() {
-        if (btn->getNavigationState() == 0)
-            return;
 
         menu.moveRight();
         menu.use();

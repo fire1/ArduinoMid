@@ -50,10 +50,10 @@
 // ECU Consumption signal mul by *10
 // next 3815
 #define ENG_CORRECTION 7.6      //  Divider pure voltage
-#define ECU_CORRECTION 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
-#define VSS_CORRECTION 3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
-#define RPM_CORRECTION 60   //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 15383.29  //   <sens:200> 15410      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
+#define ECU_CORRECTION 270 // 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
+#define VSS_CORRECTION 1.5//3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
+#define RPM_CORRECTION 75 //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
+#define DST_CORRECTION 30000.00 // 15383.29  //   <sens:200> 15410      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
 // 15383.32  / 15383.23 / 15383.36< / 15382.71 / 15383.11 / 15488.11 / 15382
 //  DST
 // ===============
@@ -238,7 +238,7 @@ private:
 
     //
     // Car's reached ...
-    int maxReachedSpeed = 0;
+    uint16_t maxReachedSpeed = 0;
     //
     int pushLpgIndex = 0;
 
@@ -551,17 +551,17 @@ public:
     /**
      * Gets Average Vss
      */
-    int getAvrVss();
+    uint16_t getAvrVss();
 
     /**
      * Gets Average Rpm
      */
-    int getAvrRpm();
+    uint16_t getAvrRpm();
 
     /**
      * Gets maximum car speed
      */
-    int getMxmVss();
+    uint16_t getMxmVss();
 
     /**
      *  Listen sensors
@@ -1221,21 +1221,21 @@ void CarSens::sensAvr() {
 /**
  * Gets Average Vss
  */
-int CarSens::getAvrVss() {
-    return int(averageAllVssValues / averageDivider);
+uint16_t CarSens::getAvrVss() {
+    return uint16_t(averageAllVssValues / averageDivider);
 }
 
 /**
  * Gets Average Rpm
  */
-int CarSens::getAvrRpm() {
-    return int(averageAllRpmValues / averageDivider);
+uint16_t  CarSens::getAvrRpm() {
+    return uint16_t(averageAllRpmValues / averageDivider);
 }
 
 /**
  * Max reached speed
  */
-int CarSens::getMxmVss() {
+uint16_t CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
@@ -1274,7 +1274,7 @@ void CarSens::sensTmp() {
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
-    if (isInitTemperature || amp->isBig()) {
+    if (isInitTemperature || amp->isSecond()) {
         float Vin = 5.0;     // [V]
         float Rt = 10000;    // Resistor t [ohm]
         float R0 = 10000;    // value of rct in T0 [ohm]
@@ -1289,7 +1289,7 @@ void CarSens::sensTmp() {
         float beta = 0.0;    // initial parameters [K]
         float Rinf = 0.0;    // initial parameters [ohm]
         float TempK = 0.0;   // variable output
-        float TempC = 0.0;   // variable output
+
 
 
         beta = (log(RT1 / RT2)) / ((1 / T1) - (1 / T2));
