@@ -117,6 +117,7 @@ public:
         if (MidCursorMenu == MENU_SHUTDOWN && tiggerSave) { // TODO disabled for now
 
             if (alreadySaved) {
+                digitalWrite(pinCtrl, LOW);
                 return;
             }
             alreadySaved = 1;

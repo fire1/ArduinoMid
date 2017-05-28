@@ -289,17 +289,16 @@ void WhlSens::sendRadioButtons() {
     // When is not none state
     if (currentState != STR_BTN_NON) {
 
-        digitalWrite(50, HIGH);
 
+        digitalWrite(50, HIGH);
         digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
-        delay(5); // Some separation fix
+
+        delay(10); // Some separation fix
 //
         // Open resistance to pot
         digitalWrite(pinDigPotCntr, HIGH);
-
-
         lastStateButton = currentState;
 
     } else {

@@ -50,7 +50,7 @@
 // ECU Consumption signal mul by *10
 // next 3815
 #define ENG_CORRECTION 7.6      //  Divider pure voltage
-#define ECU_CORRECTION 270 // 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
+#define ECU_CORRECTION 346 // 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
 #define VSS_CORRECTION 1.5//3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
 #define RPM_CORRECTION 75 //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
 #define DST_CORRECTION 30000.00 // 15383.29  //   <sens:200> 15410      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24

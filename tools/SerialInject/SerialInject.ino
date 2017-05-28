@@ -10,6 +10,12 @@ void setup() {
 }
 
 void loop() {
+    digitalWrite(50, LOW);
+    delay(20);
+    digitalWrite(50, HIGH);
+    delay(20);
+}
+void loop1() {
 
 
     String srlAllData;
