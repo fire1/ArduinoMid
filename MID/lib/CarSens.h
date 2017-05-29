@@ -2,7 +2,7 @@
 // Created by Angel Zaprianov on 19.10.2016 г..
 //
 #include <Arduino.h>
-#include "../conf.h"
+#include "../MID.h"
 #include "AmpTime.h"
 #include "MainFunc.h"
 //
@@ -46,36 +46,39 @@
 //  Using as frequency MAF. Wide open throttle test reaches ~244 gps.
 // --------------------------------------------------------------------------------------------------------------------
 //
+#ifndef CAR_SENS_CUSTOM_CORRECTION
 //
-// ECU Consumption signal mul by *10
-// next 3815
-#define ENG_CORRECTION 7.6      //  Divider pure voltage
-#define ECU_CORRECTION 346 // 346      //  <sens:200> 168          || <sens:150> 224           || <sens:100> 336      || <sens:50> 648
-#define VSS_CORRECTION 1.5//3.767    //  <sens:200> 3.835232     || <sens:150> 5             || <sens:100> 7.670464 || <sens:50> 15.340928
-#define RPM_CORRECTION 75 //  <sens:200> 33.767       || <sens:150> 50            || <sens:100> 67.534   || <sens:50> 135.068
-#define DST_CORRECTION 30000.00 // 15383.29  //   <sens:200> 15410      || <sens:150> 20266.66      || <sens:100> 30400    || <sens:50> 60791.24
-// 15383.32  / 15383.23 / 15383.36< / 15382.71 / 15383.11 / 15488.11 / 15382
-//  DST
-// ===============
-// cur test +40 = 15240.11
-// Best 15197.81,15636.44, 14952.25, 15736.44,
+// ECU Consumption correction
+#define ECU_CORRECTION 692  //      346
 //
-// VSS
-// ===============
-// 3.835232
+// Speed correction
+#define VSS_CORRECTION 1.5  //      3.767
+//
+// Revs correction
+#define RPM_CORRECTION 75   //      33.767
+//
+// Distance correction
+#define DST_CORRECTION 30766.58 //  15383.29  //   <sens:200> 15383.29
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
 #define SCREEN_DEF_LIGHT 75 // 22
+//
+// Screen default value
 #define SCREEN_GO_TO_DEF 15
 
+#endif
 
+
+#ifndef CAR_SENS_CUSTOM_FUELS
+//
+// Default fuel state
 #define DEFAULT_FUEL_STATE 1
 /**************************/
 /* GASOLINE ENGINE CONFIG */
 /**************************/
-// [CONFIRMED] For gas car use 3355 (1/14.7/730*3600)*10000
+// [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3355
 #define FUEL_BNZ_CNS 107310 // 14.7*730*10
 
@@ -90,10 +93,12 @@
 // 15.4 if 60/40 propane/butane is usedMenu
 // experiments shows that something in middle should be usedMenu eg. 15.4:1 :)
 
-// [TEST PROGRESS] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
+// [CONFIRMED] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
+// // Note: this value is set without detection of fuel switch (mixed with benzine)
 #define FUEL_LPG_IFC 4329
 #define FUEL_LPG_CNS 83160  // 15.4*540*10 = 83160
 #define LPG_SWTC_PIN 7
+#endif
 /************************/
 /* DIESEL ENGINE CONFIG */
 /************************/
@@ -101,6 +106,7 @@
 //#define FUEL_DSL_CNS ????
 //#define DSL_MAF_CNST ???   // ??*830*10
 #define FUEL_ADJUST 1
+
 /************************/
 /*        ENGINE CONFIG */
 /************************/
@@ -121,6 +127,7 @@ struct Fuel {
     unsigned long cns;
 };
 
+#ifndef CAR_SENS_CUSTOM_GEARS
 //
 // Gears resolver constants
 #define CAR_GEAR_Dia  616
@@ -133,6 +140,8 @@ struct Fuel {
 #define CAR_GEAR_G4  1.139
 #define CAR_GEAR_G5  0.949
 #define CAR_GEAR_G6  0.816
+
+#endif
 //
 // Additional temperature sensor
 //      [Dallas Temperature temperature sensor]

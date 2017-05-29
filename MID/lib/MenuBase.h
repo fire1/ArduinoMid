@@ -2,14 +2,14 @@
 // Created by Angel Zaprianov on 23.2.2017 г..
 //
 
-#ifndef ARDUINO_MID_MENUBASE_H
-#define ARDUINO_MID_MENUBASE_H
+#ifndef ARDUINO_MID_MENU_BASE_H
+#define ARDUINO_MID_MENU_BASE_H
 
 #define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>
-#include "../conf.h"
+#include "../MID.h"
 #include "MenuBtn.h"
 
 

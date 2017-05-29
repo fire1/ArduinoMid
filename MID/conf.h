@@ -1,303 +1,85 @@
 //
-// Created by Angel Zaprianov on 10.2.2017 г..
+// Created by Angel Zaprianov on 29.5.2017 г..
 //
 
-#ifndef ARDUINOMID_CONF_H
-#define ARDUINOMID_CONF_H
+#ifndef ARDUINO_MID_CONF_H
+#define ARDUINO_MID_CONF_H
+/***********************************************************************************************************************
+ Car sensing class correction values
+/** /
+#define CAR_SENS_CUSTOM_CORRECTION   // Values form fast clock speed
+// Note current set uses slow clock speed
+// to use fast clock use values after "//"
+//
+// ECU Consumption correction
+#define ECU_CORRECTION 692  //      346
+//
+// Speed correction
+#define VSS_CORRECTION 1.5  //      3.767
+//
+// Revs correction
+#define RPM_CORRECTION 75   //      33.767
+//
+// Distance correction
+#define DST_CORRECTION 30766.58 //  15383.29  //   <sens:200> 15383.29
+//
+#define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
+//
+//#define VSD_SENS_DEBUG;
+#define SCREEN_DEF_LIGHT 75 // 22
+//
+// Screen default value
+#define SCREEN_GO_TO_DEF 15
+/**/
 
-#include <Arduino.h>
-#include <MenuBackend.h>
+/***********************************************************************************************************************
+ Car sensing fuel correction values
+/** /
 //
-// Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+#define CAR_SENS_CUSTOM_FUELS
 //
-// Serial configuration
-#define SERIAL_INJECT_DATA          // Inject data from serial monitor
-#define SERIAL_MONITOR_BAUD 115200  // 115200 - Normal Speed of monitoring messages
-
+// Default fuel state
+#define DEFAULT_FUEL_STATE 1
 //
-// Time to wait when holding >R button
-#define AWAITING_HOLD_BTN 2000
+// GASOLINE ENGINE CONFIG
 //
-// Uncommented to debug basics
-//#define GLOBAL_SENS_DEBUG
-//
-// Sensing instrument interval time
-
-//
-// From this distance will trigger
-// menu for saving trip
-const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
-//
-// MID plug pins definition over Arduino
-//
-// 14.6V+   ---- [10K] --- [4.7K] --- GND
-//                      |
-//                     MCU
-//
-//      [meg] -> Connection to mega
-//      [znr] - Zenner diod 5.1v to GND
-//      [dvr] - Voltage divider = 5.2k to MID <- to mega ->  4.6k to GND
-//
-// Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 9;       //  Plug:23  [meg] [10k] [+5v]    Column switch
-const uint8_t BTN_PIN_DW = 8;       //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
-//
-// Shutdown protection pin
-const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect supply voltage
-const uint8_t SAV_PIN_DTC = A7;     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
-//
-// Engine pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31    [dvr + 100uf ] Engine Temp.  [may be 50uf capacitor]
-const uint8_t BRK_LGH_PIN = 12;     //  Plug:15       [20k] [meg] [znr] Brake light detection
-const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [20k] [meg] [znr] RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [20k] [meg] [znr] Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [20k] [meg] [znr] ECU  signal
-//
-// Car state pins
-const uint8_t STT_UL1_PIN = A11;    // Plug 17 Unusable for now (do not connect)
-const uint8_t STT_UL2_PIN = A12;    // Plug 18 Unusable for now (do not connect)
-const uint8_t STT_BRK_PIN = A13;     //  Plug:19        [meg]    Critical Brake ware
-const uint8_t STT_CLN_PIN = A14;     //  Plug:20        [meg]    Critical Coolant level
-const uint8_t STT_WNW_PIN = A15;     //  Plug:22       [meg]   Critical window washer
-const uint8_t STT_OIL_PIN = A1;     //  Plug:13        [meg]   Critical oil level
-const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
-//
-// Display dim pins
-const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dvr + 50uf ]     Display back-light
-//
-// Temperatures
-const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [20k]   Front temperature sensor
-
-#if SCREEN == 162 || !defined(SCREEN)
-//
-// Display pins map
-//  NOTE: pins are inverted due to sockets
-//
-//  General pins
-const uint8_t DSP_PIN_GD1 = 26; // Power GND
-const uint8_t DSP_PIN_GD2 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 29; // Power positive
-const uint8_t DSP_PIN_WR = 31;  // Write Signal
-const uint8_t DSP_PIN_RD = 30;  // Read Signal
-const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
-const uint8_t DSP_PIN_CD = 32;  // Instruction Code
-const uint8_t DSP_PIN_FS = 45;  // Font selection
-const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
-const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
-//
-// Data pins
-const uint8_t DSP_PIN_DT1 = 37;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 39;
-const uint8_t DSP_PIN_DT4 = 38;
-const uint8_t DSP_PIN_DT5 = 41;
-const uint8_t DSP_PIN_DT6 = 40;
-const uint8_t DSP_PIN_DT7 = 43;
-const uint8_t DSP_PIN_DT8 = 42;
-
-const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
-
-#elif SCREEN == 24064
-//
-// Add language
-#include "lib/ui/language/en.h"
+// [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
+#define FUEL_BNZ_IFC 3355
+#define FUEL_BNZ_CNS 107310 // 14.7*730*10
 
 //
-// Display pins map
-//  NOTE: pins are inverted due to sockets
+// LPG ENGINE CONFIG
 //
-//  General pins
-const uint8_t DSP_PIN_GD1 = 26; // Power GND
-const uint8_t DSP_PIN_GD2 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 29; // Power positive
-const uint8_t DSP_PIN_WR = 31;  // Write Signal
-const uint8_t DSP_PIN_RD = 30;  // Read Signal
-const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
-const uint8_t DSP_PIN_CD = 32;  // Instruction Code
-const uint8_t DSP_PIN_FS = 45;  // Font selection
-const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
-const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
+//LPG mass/volume is 520-580gr/ltr depending on propane/butane mix
+
+// LPG/air ratio:
+// 15.8:1 if 50/50 propane/butate is usedMenu
+// 15:1 if 100 propane is usedMenu
+// 15.4 if 60/40 propane/butane is usedMenu
+// experiments shows that something in middle should be usedMenu eg. 15.4:1 :)
+
+// [CONFIRMED] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
+// // Note: this value is set without detection of fuel switch (mixed with benzine)
+#define FUEL_LPG_IFC 4329
+#define FUEL_LPG_CNS 83160  // 15.4*540*10 = 83160
+#define LPG_SWTC_PIN 7
+/**/
+
+/***********************************************************************************************************************
+ Car sensing Gears values
+/** /
+#define CAR_SENS_CUSTOM_GEARS
 //
-// Data pins
-const uint8_t DSP_PIN_DT1 = 37;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 39;
-const uint8_t DSP_PIN_DT4 = 38;
-const uint8_t DSP_PIN_DT5 = 41;
-const uint8_t DSP_PIN_DT6 = 40;
-const uint8_t DSP_PIN_DT7 = 43;
-const uint8_t DSP_PIN_DT8 = 42;
-
-const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
-#endif;
-
-
-/* Extras ...   ******/
+// Gears resolver constants
+#define CAR_GEAR_Dia  616
+#define CAR_GEAR_Pi  3.14
 //
-// Alarm / Tone pin
-#define TONE_ADT_PIN 11
-//
-// Steering wheel buttons
-//
-// Digital Potentiometer
-// 50k digital potentiometer [MCP41050]
-// [meg] 53     to pin [pot] 1
-// [meg] 52     to pin [pot] 2
-// [meg] 51     to pin [pot] 3
-//     GND      to pin [pot] 4
-//     +5V      to pin [pot] 5
-//     GND      to pin [pot] 6
-// Stereo input to pin [pot] 7 (through  RELAY to stereo remote control)
-// Alpine / Steering Wheel buttons
-const uint8_t ALP_PIN_INP = A8; // +5V ->  [240R] to Radio Unit plug pin 1
-const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
-const uint8_t ALP_PIN_RLY = 50; //  5V RELAY (signal cutter)
-
-//
-// Change state of shutdown "press to save"
-const uint8_t SHUTDOWN_SAVE_STATE = LOW;
-const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
-//
-// External chip from eep rom
-//#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
-//
-//  DallasTemperature
-// Additional temperature sensor for
-// inside temperature [very cheep and ease to use]
-//
-#define INSIDE_TEMPERATURE_DS // Comment to disable it
-//
-// Configuration of oneWire protocol
-#if defined(INSIDE_TEMPERATURE_DS)
-//
-// Defining one wire BUS used for temperature sensor
-#define ONE_WIRE_BUS 7 // Pin define
-#endif
-//
-//
-//
-/***************************************************************************
- * LPG fuel support configuration
- */
-
-//
-// In my case  ... about LPG installation:
-// My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
-//  so ... i made simple driver "I2cSimpleListener" to listen communication without make any connection to devices
-//#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
-//
-// Include simple driver
-#ifdef ADT_FUEL_SYSTEM_I2C
-
-#include <MenuBackend.h>
-//#include "lib/drivers/I2cSimpleListener.h"
-
-#endif
-//
-// This definition is for carSens class
-// Additional fuel installation
-#define LPG_INSTALLATION
-#ifdef LPG_INSTALLATION
-//
-// [LPG ECU Avance 32]
-// 4 Pins 5V LPG fuel switch/gauge
-//      Two wires are for power supply, other two wires is for displayed information.
-//      * Check wiring diagram in order to determine your wiring
-// 20, 21
-//
-// bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
-// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be usedMenu for RX:
-// 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
-const uint8_t pinLpgDat = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
-#endif
-//
-/***************************************************************************/
-//
-//
-//
-// Global Menu cursor
-
-volatile uint8_t MidCursorMenu = 0;
-
-/**
- * LCD  interface
- */
-class LcdUiInterface {
-public:
-
-    virtual void draw() = 0;
-
-    virtual void intro() = 0;
-
-    virtual void begin() = 0;
-
-    virtual void drawShutdownBegin() = 0;
-
-    virtual void drawShutdownShort() = 0;
-
-    virtual void drawShutdownCount(char[2]) = 0;
-
-    virtual void draWShutdownTripSave() = 0;
-
-    virtual void draWShutdownTripSkip() = 0;
-
-protected:
-
-#ifdef ARDUINO_MID_LAN
-    char messageBuffer[128];
-#endif
-    //
-    // Defining content generate container variables
-    char char_2[3];
-    char char_3[4];
-    char char_4[5];
-
-
-#ifdef ARDUINO_MID_LAN
-    /**
- * Gets string message
- */
-    const char* getMsg(uint8_t i){
-        strcpy_P(messageBuffer, (char*)pgm_read_word(&(LcdMsgTable[i])));
-        return  messageBuffer;
-    }
-#endif
-};
-
-/**
- *  Menu interface
- */
-class MenuUiInterface {
-public:
-
-    virtual void setup() = 0;
-
-    virtual void menuChanged(MenuChangeEvent change) = 0;
-
-    virtual MenuBackend getMB() = 0;
-
-    virtual void moveUp() = 0;
-
-    virtual void moveDw() = 0;
-};
-
-
-static void menuUseEvent(MenuUseEvent used);
-
-static void menuChangeEvent(MenuChangeEvent changed);
-
-#define MID_VERSION "1.5+"
-//
-// Reserving RAM
-//#include "lib/drivers/ResRam.h"
-
-//
-// Init reserving RAM
-//ResRam resRam;
-
-#endif //ARDUINOMID_CONF_H
+// Car's gears ratio
+#define CAR_GEAR_G1  3.308
+#define CAR_GEAR_G2  2.13
+#define CAR_GEAR_G3  1.483
+#define CAR_GEAR_G4  1.139
+#define CAR_GEAR_G5  0.949
+#define CAR_GEAR_G6  0.816
+/**/
+#endif //ARDUINO_MID_CONF_H

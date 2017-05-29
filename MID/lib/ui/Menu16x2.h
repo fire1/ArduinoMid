@@ -13,7 +13,7 @@
 // And good example can be found here:
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include <MenuBackend.h>
-#include "../../conf.h"
+#include "../../MID.h"
 #include "../MainFunc.h"
 #include "../CarSens.h"
 #include "../WhlSens.h"

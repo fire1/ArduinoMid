@@ -6,7 +6,7 @@
 #define ARDUINO_MID_LCD_16x2_H
 
 #include <Arduino.h>
-#include "../../conf.h"
+#include "../../MID.h"
 #include <LiquidCrystal.h>
 #include "../MainFunc.h"
 #include "Menu16x2.h"

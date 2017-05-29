@@ -220,8 +220,8 @@ void MenuBtn::listener() {
 
 void MenuBtn::captureUp(void) {
     if (!digitalRead(btnUp) == HIGH) {
-        lastUsed = millis();
         if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
+            lastUsed = millis();
             if (!digitalRead(btnDw) == HIGH) {
                 lastButtonPushed = btnMn;
                 tone(TONE_ADT_PIN, 2500, 15);

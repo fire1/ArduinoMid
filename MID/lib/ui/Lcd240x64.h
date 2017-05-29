@@ -8,7 +8,7 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include "Menu240x64.h"
-#include "../../conf.h"
+#include "../../MID.h"
 #include "../MainFunc.h"
 #include "../ShutDw.h"
 #include "../CarState.h"
@@ -78,7 +78,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Mid's intro
@@ -245,20 +245,18 @@ protected:
                 lcd->drawStr(108, 1, this->getMsg(2));
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
-//                lcd->drawBox(10,12+  (drawEntry * 5),212,15);
                 lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
                 lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
                 lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
-
-
                 break;
             case 4:
-                lcd->clearBuffer();
-                lcd->clear();
+                lcd->drawStr(120 + (usedW / 2), 45, " > ");
+                lcd->drawStr((120 + (usedW / 2)) + 30, 45, usedMenu.down);
                 break;
             case 5:
                 btn->setNavigationState(true);
                 mbs->finishEntry();
+                lcd->clearBuffer();
                 lcd->clear();
                 drawEntry = 0;
                 initializeDraw = true;

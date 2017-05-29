@@ -6,15 +6,15 @@
 #define ARDUINO_MID_MENU240X64_H
 
 #include <Arduino.h>
-#include "../../conf.h"
+#include "../../MID.h"
 #include "../MenuBtn.h"
 #include "../MenuBase.h"
 #include <MenuBackend.h>
 
 
 #define MENU_NAME_1 "Home"
-#define MENU_NAME_11 "Panel"
-#define MENU_NAME_12 "Tests"
+#define MENU_NAME_11 "Dash"
+#define MENU_NAME_12 "Info"
 
 #define MENU_NAME_2 "Trip"
 #define MENU_NAME_3 "Fuel"

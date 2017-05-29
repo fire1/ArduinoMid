@@ -34,7 +34,7 @@
 
 #endif
 //
-#include "conf.h"
+#include "MID.h"
 #include "lib/InitObj.h"
 #include "lib/InitLcd.h"
 
