@@ -139,7 +139,7 @@ public:
     }
 
     boolean lastUseDebounce() {
-        if (millis() - lastUsed > 50) {
+        if (millis() - lastUsed > 450) {
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (amp->isSecond()) {
                 Serial.println("Debounce is true");

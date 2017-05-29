@@ -78,7 +78,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -134,7 +134,7 @@ public:
     void showHeader(const char *title) {
 
         if (stt->isAlert()) {
-            lcd->drawXBMP(1, 2, 10, 10, wrench_10x10_bits);
+            lcd->drawXBMP(195, 1, 10, 10, wrench_10x10_bits);
         }
 
         lcd->drawStr(12, 2, title);
@@ -168,7 +168,7 @@ public:
                 } while (lcd->nextPage());
                 drawIndex++;
 
-                if (drawIndex > 5) {
+                if (drawIndex > 8) {
                     drawIndex = 0;
                     initializeDraw = false;
                 }
@@ -257,10 +257,19 @@ protected:
                 lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
                 break;
             case 4:
-                lcd->drawStr(120 + (usedW / 2), 45, " > ");
-                lcd->drawStr((120 + (usedW / 2)) + 30, 45, usedMenu.down);
-                break;
             case 5:
+            case 6:
+            case 7:
+                lcd->drawFrame(10, 12 + (3 * 5), 212, 15);
+                lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
+                lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
+                lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
+                if (usedMenu.down) {
+                    lcd->drawStr(120 + (usedW / 2), 30, " > ");
+                    lcd->drawStr((120 + (usedW / 2)) + 30, 30, usedMenu.down);
+                }
+                break;
+            case 8:
                 btn->setNavigationState(true);
                 mbs->finishEntry();
                 lcd->clearBuffer();
@@ -280,7 +289,7 @@ private:
  * @param y
  */
     inline void showKm(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 9, 8, mark_km_9x8_bits);
+        lcd->drawXBMP(x, y + 1, 9, 8, mark_km_9x8_bits);
     }
 
 /**
@@ -343,7 +352,7 @@ private:
         //
         // Inside Graph
         lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
-        this->showCels(LCD_COL_L23, LCD_ROW_4);
+
 
         //
         //
@@ -351,12 +360,13 @@ private:
         lcd->drawStr(45, LCD_ROW_3, char_3);
 
         if (car->getTmpIns() < -99) {
-
+            lcd->drawStr(45, LCD_ROW_4, "none");
         } else {
             //
             // Data
             displayFloat(car->getTmpIns(), char_3);
             lcd->drawStr(45, LCD_ROW_4, char_3);
+            this->showCels(LCD_COL_L23, LCD_ROW_4);
         }
     }
 
@@ -372,7 +382,7 @@ private:
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_4);
-        showKm(LCD_COL_R22, 15);
+        showKm(LCD_COL_R22, 19);
         //
         // Travel time
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
@@ -415,7 +425,14 @@ private:
         lcd->drawStr(LCD_COL_L21, LCD_ROW_3, char_2);
     }
 
-    void displayCarDsp() {
+    void displayCarDst() {
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, "DST:");
+        displayFloat(car->getDst(), char_3);
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_3);
+        showKm(LCD_COL_L23, LCD_ROW_4);
+    }
+
+    void displayCarOdm() {
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, "ODO:");
         if (car->getVss() == 0) {
             char vds[20];
@@ -436,7 +453,7 @@ private:
     void displayCarGrs() {
         lcd->drawStr(LCD_COL_R11, LCD_ROW_3, "GRS:");
         sprintf(char_2, "%02d", car->getGear());
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_3);
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_2);
     }
 
     /****************************************************************
@@ -501,10 +518,12 @@ void Lcd240x62::menus() {
             //
             // Dashboard
         case 11:
+            showHeader(getMsg(16));
             displayCarVss();
             displayEngRpm();
             displayCarEcu();
-            displayCarDsp();
+            displayCarDst();
+            displayCarOdm();
             displayCarEnt();
             displayCarGrs();
             break;

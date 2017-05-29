@@ -70,9 +70,6 @@ private :
      * Save state
      */
     void doTripSaved() {
-        //
-        // Mark saved
-        alreadySaved = 1;
 
         //
         // Shutdown the system
@@ -114,7 +111,7 @@ public:
     void cursor();
 
     void saveShutdown() {
-        if (MidCursorMenu == MENU_SHUTDOWN && tiggerSave) { // TODO disabled for now
+        if (tiggerSave) {
 
             if (alreadySaved) {
                 digitalWrite(pinCtrl, LOW);
@@ -231,9 +228,9 @@ void ShutDw::listener() {
         detectorValue = !detectorValue;
     }
 
-    if (amp->is2Seconds()) {
-        saveShutdown();
-    }
+
+    saveShutdown();
+
 
 }
 

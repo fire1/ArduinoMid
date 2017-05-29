@@ -1293,7 +1293,7 @@ void CarSens::sensTmp() {
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      */
-    if (isInitTemperature || amp->isSecond()) {
+    if (isInitTemperature || amp->is5Seconds()) {
         float Vin = 5.0;     // [V]
         float Rt = 10000;    // Resistor t [ohm]
         float R0 = 10000;    // value of rct in T0 [ohm]

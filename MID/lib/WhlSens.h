@@ -290,7 +290,7 @@ void WhlSens::sendRadioButtons() {
     if (currentState != STR_BTN_NON) {
 
 
-        digitalWrite(50, HIGH);
+        digitalWrite(50, LOW);
         digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
@@ -302,7 +302,7 @@ void WhlSens::sendRadioButtons() {
         lastStateButton = currentState;
 
     } else {
-        digitalWrite(50, LOW);
+        digitalWrite(50, HIGH);
     }
 
 
