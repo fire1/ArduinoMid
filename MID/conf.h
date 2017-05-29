@@ -75,11 +75,12 @@
 #define CAR_GEAR_Pi  3.14
 //
 // Car's gears ratio
-#define CAR_GEAR_G1  3.308
-#define CAR_GEAR_G2  2.13
-#define CAR_GEAR_G3  1.483
-#define CAR_GEAR_G4  1.139
-#define CAR_GEAR_G5  0.949
-#define CAR_GEAR_G6  0.816
+#define CAR_GEAR_G1  3.73
+#define CAR_GEAR_G2  2.14
+#define CAR_GEAR_G3  1.41
+#define CAR_GEAR_G4  1.12
+#define CAR_GEAR_G5  0.89
+#define CAR_GEAR_G6  0.81
+#define CAR_GEAR_FD   3.74 // Final drive
 /**/
 #endif //ARDUINO_MID_CONF_H

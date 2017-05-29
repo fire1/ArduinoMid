@@ -91,10 +91,12 @@ public:
         lcd->clearBuffer();
         lcd->firstPage();
         do {
-            lcd->drawXBMP(0, 0, 240, 64, OpelLogoBits);
+            lcd->drawXBMP(0, 2, 240, 60, BertoneBits);
         } while (lcd->nextPage());
-        delay(5000);
+        delay(5100);
         lcd->clear();
+
+
         tone(TONE_ADT_PIN, 800, 10);
     }
 
@@ -104,7 +106,7 @@ public:
 //        lcd->enableUTF8Print();
 //        lcd->setAutoPageClear(1);
     }
-// TODO..
+
     /****************************************************************
 
 /**
@@ -130,6 +132,11 @@ public:
     }
 
     void showHeader(const char *title) {
+
+        if (stt->isAlert()) {
+            lcd->drawXBMP(1, 2, 10, 10, wrench_10x10_bits);
+        }
+
         lcd->drawStr(12, 2, title);
         lcd->drawLine(0, 12, 240, 11);
     }
@@ -272,7 +279,7 @@ private:
  * @param x
  * @param y
  */
-    inline void drawKm(u8g2_uint_t x, u8g2_uint_t y) {
+    inline void showKm(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 9, 8, mark_km_9x8_bits);
     }
 
@@ -281,7 +288,7 @@ private:
  * @param x
  * @param y
  */
-    inline void drawAverage(u8g2_uint_t x, u8g2_uint_t y) {
+    inline void showAverage(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 8, 8, mark_phi_8x8_bits);
     }
 
@@ -290,12 +297,20 @@ private:
  * @param x
  * @param y
  */
-    inline void drawL100km(u8g2_uint_t x, u8g2_uint_t y) {
+    inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(/*50*/x, y, 8, 8, mark_liter_per_8x8_bits);
         lcd->drawXBMP(/*58*/x + 8, y, 10, 8, mark_100_10x8_bits);
         lcd->drawXBMP(/*69*/x + 19, y, 9, 8, mark_km_9x8_bits);
     }
 
+/**
+ * Draws  celsius symbol
+ * @param x
+ * @param y
+ */
+    inline void showCels(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(x, y, 4, 8, mark_cel_4x8_bits);
+    }
 
     unsigned int aniIndex;
 
@@ -312,11 +327,7 @@ private:
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
         lcd->drawStr(25, LCD_ROW_2, char_3);
-        drawL100km(50, LCD_ROW_2);
-
-//        lcd->drawXBMP(50, LCD_ROW_2, 8, 8, mark_liter_per_8x8_bits);
-//        lcd->drawXBMP(58, LCD_ROW_2, 10, 8, mark_100_10x8_bits);
-//        lcd->drawXBMP(69, LCD_ROW_2, 9, 8, mark_km_9x8_bits);
+        showL100km(50, LCD_ROW_2);
     }
 
 /**
@@ -324,27 +335,29 @@ private:
  */
     void displayHomeTemperatures() {
 
-//        if (initializeDraw) {
         //
         // Outside graph
         lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
         lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
-        lcd->drawXBMP(70, LCD_ROW_3, 4, 8, mark_cel_4x8_bits);
+        this->showCels(LCD_COL_L23, LCD_ROW_3);
         //
         // Inside Graph
         lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
-        lcd->drawXBMP(70, LCD_ROW_4, 4, 8, mark_cel_4x8_bits);
-//        }
+        this->showCels(LCD_COL_L23, LCD_ROW_4);
+
         //
         //
         displayFloat(car->getTmpOut(), char_3);
         lcd->drawStr(45, LCD_ROW_3, char_3);
 
+        if (car->getTmpIns() < -99) {
 
-        //
-        // Data
-        displayFloat(car->getTmpIns(), char_3);
-        lcd->drawStr(45, LCD_ROW_4, char_3);
+        } else {
+            //
+            // Data
+            displayFloat(car->getTmpIns(), char_3);
+            lcd->drawStr(45, LCD_ROW_4, char_3);
+        }
     }
 
 /**
@@ -359,7 +372,7 @@ private:
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_4);
-        drawKm(LCD_COL_R22, 15);
+        showKm(LCD_COL_R22, 15);
         //
         // Travel time
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
@@ -367,16 +380,16 @@ private:
         lcd->drawStr(LCD_COL_R22, LCD_ROW_2, "h");
         //
         // Average speed
-        drawAverage(155, LCD_ROW_3);
+        showAverage(155, LCD_ROW_3);
         sprintf(char_2, "%02d", car->getAvrVss());
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_2);
-        drawKm(LCD_COL_R22, LCD_ROW_3);
+        showKm(LCD_COL_R22, LCD_ROW_3);
         //
         // Average liters per 100km
-        drawAverage(LCD_COL_R11, LCD_ROW_4);
+        showAverage(LCD_COL_R11, LCD_ROW_4);
         displayFloat(car->getDst() / car->getCurFuelCns(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
-        drawL100km(LCD_COL_R22, LCD_ROW_4);
+        showL100km(LCD_COL_R22, LCD_ROW_4);
         // Todo wasted fuel
     }
 
@@ -385,89 +398,53 @@ private:
  */
 
     void displayCarVss() {
-        lcd->drawStr(5, LCD_ROW_1, "KMH:");
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, "KMH:");
         sprintf(char_3, "%03d", car->getVss());
-        lcd->drawStr(35, LCD_ROW_1, char_3);
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_1, char_3);
     }
 
     void displayEngRpm() {
-        lcd->drawStr(5, LCD_ROW_2, "RPM:");
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, "RPM:");
         sprintf(char_4, "%04d", car->getRpm());
-        lcd->drawStr(35, LCD_ROW_2, char_4);
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_2, char_4);
     }
 
     void displayCarEcu() {
-        lcd->drawStr(5, LCD_ROW_3, "ECU:");
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, "ECU:");
         sprintf(char_2, "%02d", car->getEcu());
-        lcd->drawStr(35, LCD_ROW_3, char_2);
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_3, char_2);
     }
 
     void displayCarDsp() {
-        /*
-         const int n = snprintf(NULL, 0, "%lu", ulong_value);
-        assert(n > 0);
-        char buf[n+1];
-        int c = snprintf(buf, n+1, "%lu", ulong_value);
-        assert(buf[n] == '\0');
-        assert(c == n);
-         */
-        lcd->drawStr(155, LCD_ROW_1, "VDS:");
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_1, "ODO:");
         if (car->getVss() == 0) {
             char vds[20];
             sprintf(vds, "%lu", car->getVdsDump());
-            lcd->drawStr(195, LCD_ROW_1, vds);
+            lcd->drawStr(LCD_COL_R21, LCD_ROW_1, vds);
         } else {
-            lcd->drawStr(195, LCD_ROW_1, "?");
+            lcd->drawStr(LCD_COL_R21, LCD_ROW_1, "?");
         }
     }
 
+    void displayCarEnt() {
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_2, "ENG:");
+        sprintf(char_3, "%03d", car->getEngTmp());
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_2, char_3);
+        this->showCels(LCD_COL_R23, LCD_ROW_2);
+    }
+
+    void displayCarGrs() {
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_3, "GRS:");
+        sprintf(char_2, "%02d", car->getGear());
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_3);
+    }
 
     /****************************************************************
  * Reset Fuel
  */
     void displayResetFuel() {
-
         lcd->drawStr(5, LCD_ROW_1, getMsg(20));
         lcd->drawStr(5, LCD_ROW_2, getMsg(21));
-        /*
-        if (btn->getNavigationState()) {
-            //
-            // Info  how to enter in menu
-            lcd->drawStr(5, LCD_ROW_2, getMsg(21));
-        }
-
-        if (btn->isMn()) {
-            btn->setNavigationState(0);
-        }
-
-        if (!btn->getNavigationState()) {
-            //
-            // Ask for reset
-            lcd->drawStr(5, LCD_ROW_2, getMsg(22));
-
-            const char *msg = getMsg(23);
-            u8g2_uint_t askW = lcd->getStrWidth(msg);
-
-            lcd->drawStr(120 - askW, LCD_ROW_3, msg);
-
-            //
-            // Listen the buttons
-            if (btn->isOk()) {
-                eep->saveResetData();
-                btn->setNavigationState(1);
-                tone(TONE_ADT_PIN, 2500, 100);
-                resetingFuelAndDistanceMenu = false;
-                mbs->triggerMoveUp();
-            }
-
-            if (btn->isNo()) {
-                btn->setNavigationState(1);
-                tone(TONE_ADT_PIN, 800, 100);
-                resetingFuelAndDistanceMenu = false;
-                mbs->triggerMoveUp();
-            }
-        }
-*/
     }
 
 /****************************************************************
@@ -477,12 +454,12 @@ private:
 
 
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
-        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
-        else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
+        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
+        else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
 
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(4));
-        if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(7));
-        else lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
+        if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
+        else lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(7));
 
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(5));
         if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(8));
@@ -528,6 +505,8 @@ void Lcd240x62::menus() {
             displayEngRpm();
             displayCarEcu();
             displayCarDsp();
+            displayCarEnt();
+            displayCarGrs();
             break;
         case 12:
             showHeader(getMsg(15));
