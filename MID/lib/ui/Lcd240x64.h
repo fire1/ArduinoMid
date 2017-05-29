@@ -353,7 +353,7 @@ private:
     void displayCurrentTrip() {
         SavedData saved = eep->getData();
         lcd->drawXBMP(120, 15, 18, 18, road_18x18_bits);
-        lcd->drawXBMP(120, LCD_ROW_3, 18, 18, gage_18x18_bits);
+        lcd->drawXBMP(120, LCD_ROW_3, 18, 18, grap_18x18_bits);
         //
         // Travel distance
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
