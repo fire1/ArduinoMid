@@ -259,16 +259,19 @@ protected:
     char char_2[3];
     char char_3[4];
     char char_4[5];
+    char char_6[7];
 
 
 #ifdef ARDUINO_MID_LAN
+
     /**
  * Gets string message
  */
-    const char* getMsg(uint8_t i){
-        strcpy_P(messageBuffer, (char*)pgm_read_word(&(LcdMsgTable[i])));
-        return  messageBuffer;
+    const char *getMsg(uint8_t i) {
+        strcpy_P(messageBuffer, (char *) pgm_read_word(&(LcdMsgTable[i])));
+        return messageBuffer;
     }
+
 #endif
 };
 

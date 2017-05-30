@@ -132,16 +132,12 @@ public:
     }
 
     void showHeader(const char *title) {
-
-        if (stt->isAlert()) {
+        if (stt->isAlert() && drawIndex % 5 == 0) {
             lcd->drawXBMP(160, 1, 10, 10, wrench_10x10_bits);
         }
-
-        if (car->getEngTmp() > 99) {
-            lcd->drawXBMP(160, 1, 10, 10, fire_10x10_bits);
+        if (car->getEngTmp() > 99 && drawIndex % 2 == 0) {
+            lcd->drawXBMP(140, 1, 10, 10, fire_10x10_bits);
         }
-
-
         lcd->drawStr(12, 2, title);
         lcd->drawLine(0, 12, 240, 11);
     }
@@ -165,6 +161,8 @@ public:
  */
     void draw() {
 
+        //
+        // Slow Animation
         if (!animateFast) {
             if (amp->isMax()) {
                 lcd->firstPage();
@@ -173,13 +171,15 @@ public:
                 } while (lcd->nextPage());
                 drawIndex++;
 
-                if (drawIndex > 8) {
+                if (drawIndex > 10) {
                     drawIndex = 0;
                     initializeDraw = false;
                 }
 
 
             }
+            //
+            // Fast animation
         } else {
             if (amp->isBig()) {
                 lcd->firstPage();
@@ -403,7 +403,7 @@ private:
         //
         // Average liters per 100km
         showAverage(LCD_COL_R11, LCD_ROW_4);
-        displayFloat((car->getCurFuelCns() * 100) / car->getDst(), char_3);
+        displayFloat((car->getCurFuelCns() * 100) / car->getDst(), char_3); // ( litres X 100) / km distance
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_4);
         // Todo wasted fuel
@@ -461,6 +461,14 @@ private:
         sprintf(char_2, "%02d", car->getGear());
         lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_2);
     }
+
+    void displayCarWrk() {
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_4, "WRK:");
+        sprintf(char_6, "%06d", eep->getWorkDistance());
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_4, char_6);
+        showKm(LCD_COL_R23, LCD_ROW_4);
+    }
+
 
     /****************************************************************
  * Reset Fuel
@@ -532,6 +540,7 @@ void Lcd240x62::menus() {
             displayCarOdm();
             displayCarEnt();
             displayCarGrs();
+            displayCarWrk();
             break;
         case 12:
             showHeader(getMsg(15));
