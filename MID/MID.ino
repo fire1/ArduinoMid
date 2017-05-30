@@ -184,7 +184,7 @@ void loop() {
     eepRom.injectFromSerial();
     //
     // Calls StackCount() to report the unused RAM
-/*    if (ampInt.isBig()) {
+    if (ampInt.isBig()) {
         Serial.print(F(" End free heap (RAM): "));
         Serial.println(getFreeRam());
         Serial.print(F(" VSS "));
@@ -196,7 +196,7 @@ void loop() {
 //        Serial.print(F(" TM3 " ));
 //        Serial.println(testTimer);
 
-    }*/
+    }
 }
 
 

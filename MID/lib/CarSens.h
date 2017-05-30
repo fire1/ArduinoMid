@@ -648,7 +648,8 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
+    digitalWrite(pinTarget, HIGH);
 };
 
 /**
@@ -1247,7 +1248,7 @@ uint16_t CarSens::getAvrVss() {
 /**
  * Gets Average Rpm
  */
-uint16_t  CarSens::getAvrRpm() {
+uint16_t CarSens::getAvrRpm() {
     return uint16_t(averageAllRpmValues / averageDivider);
 }
 
