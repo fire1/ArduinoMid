@@ -648,8 +648,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
-    digitalWrite(pinTarget, HIGH);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
 };
 
 /**

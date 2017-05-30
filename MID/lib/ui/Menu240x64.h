@@ -14,7 +14,13 @@
 
 #define MENU_NAME_1 "Home"
 #define MENU_NAME_11 "Dash"
-#define MENU_NAME_12 "Info"
+#define MENU_NAME_12 "Edit"
+#define MENU_NAME_13 "Info"
+
+#define MENU_NAME_121 "VSS"
+#define MENU_NAME_122 "RPM"
+#define MENU_NAME_123 "DST"
+#define MENU_NAME_124 "ECU"
 
 #define MENU_NAME_2 "Trip"
 #define MENU_NAME_3 "Fuel"
@@ -32,8 +38,14 @@ class Menu240x60 : public MenuUiInterface {
     //
     // Main menu
             mainMenu,
-            dshBoardMenu,
-            testingsMenu,
+            gagesMenu,
+            setupMenu,
+            aboutMenu,
+
+            vssSet,
+            rpmSet,
+            dstSet,
+            ecuSet,
     //
     // Trip
             tripMenu,
@@ -58,8 +70,15 @@ public:
             //
             // Main menu
                               mainMenu(MenuItem(MENU_NAME_1)),
-                              dshBoardMenu(MenuItem(MENU_NAME_11)),
-                              testingsMenu(MenuItem(MENU_NAME_12)),
+                              gagesMenu(MenuItem(MENU_NAME_11)),
+                              setupMenu(MenuItem(MENU_NAME_12)),
+
+                              vssSet(MenuItem(MENU_NAME_121)),
+                              rpmSet(MenuItem(MENU_NAME_122)),
+                              dstSet(MenuItem(MENU_NAME_123)),
+                              ecuSet(MenuItem(MENU_NAME_124)),
+
+                              aboutMenu(MenuItem(MENU_NAME_13)),
             //
             // Trip menu
                               tripMenu(MenuItem(MENU_NAME_2)),
@@ -76,10 +95,11 @@ public:
                 .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu);
         statMenu.add(mainMenu);
 
-        mainMenu.addRight(dshBoardMenu).addRight(testingsMenu);
-        dshBoardMenu.add(mainMenu);
-        testingsMenu.add(mainMenu);
-        testingsMenu.addRight(mainMenu);
+        mainMenu.addRight(gagesMenu).addRight(setupMenu).addRight(aboutMenu);
+        gagesMenu.add(mainMenu);
+        setupMenu.add(vssSet).add(rpmSet).add(dstSet).add(ecuSet).add(setupMenu);
+        aboutMenu.add(mainMenu);
+        aboutMenu.addRight(mainMenu);
 
         menu.moveDown();
         MidCursorMenu = 1;
@@ -112,8 +132,22 @@ public:
             // Sub menu / Dashboard
         } else if (curMenuName == MENU_NAME_11) {
             MidCursorMenu = 11;
+            //
+            // Settings
         } else if (curMenuName == MENU_NAME_12) {
             MidCursorMenu = 12;
+        } else if (curMenuName == MENU_NAME_121) {
+            MidCursorMenu = 121;
+        } else if (curMenuName == MENU_NAME_122) {
+            MidCursorMenu = 122;
+        } else if (curMenuName == MENU_NAME_123) {
+            MidCursorMenu = 123;
+        } else if (curMenuName == MENU_NAME_124) {
+            MidCursorMenu = 124;
+            //
+            // Information
+        } else if (curMenuName == MENU_NAME_13) {
+            MidCursorMenu = 13;
             //
             // Trip
         } else if (curMenuName == MENU_NAME_2) {

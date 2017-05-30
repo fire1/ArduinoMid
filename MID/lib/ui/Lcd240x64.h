@@ -140,7 +140,9 @@ public:
             lcd->drawXBMP(215, 3, 10, 10, fire_10x10_bits);
             lcd->drawCircle(215, 1, 6, U8G2_DRAW_ALL);
         }
-        lcd->drawStr(12, 2, title);
+
+        u8g2_uint_t width = lcd->getStrWidth(title);
+        lcd->drawStr((LCD_CNR / 2) - (width / 2), 2, title);
         lcd->drawLine(0, 12, 240, 11);
     }
 
@@ -473,11 +475,20 @@ private:
 
 
     /****************************************************************
- * Reset Fuel
+ * About Fuel
  */
-    void displayResetFuel() {
-        lcd->drawStr(5, LCD_ROW_1, getMsg(20));
-        lcd->drawStr(5, LCD_ROW_2, getMsg(21));
+    void displayInfo() {
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(20));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(21));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, getMsg(22));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(23));
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_4, MID_VERSION);
+    }
+
+    void displayEdit() {
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
+        lcd->drawStr(0, LCD_ROW_3, getMsg(25));
+        lcd->drawStr(0, LCD_ROW_4, getMsg(26));
     }
 
 /****************************************************************
@@ -510,6 +521,11 @@ private:
             lcd->print(" ");
         }
     }
+
+    void displayTrip() {
+
+    }
+
 
 };
 
@@ -545,15 +561,25 @@ void Lcd240x62::menus() {
             displayCarWrk();
             break;
         case 12:
+            showHeader(getMsg(17));
+            displayEdit();
+            break;
+        case 121:
+        case 122:
+        case 123:
+        case 124:
+            break;
+        case 13:
             showHeader(getMsg(15));
-            displayResetFuel();
+            displayInfo();
             break;
             //
             // Travel menu
         case 2:
             showHeader(getMsg(12));
-
+            displayTrip();
             break;
+
             //
             // Fuel menu
         case 3:
