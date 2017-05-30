@@ -146,9 +146,9 @@ const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
 //
 // Digital Potentiometer
 // 50k digital potentiometer [MCP41050]
-// [meg] 53     to pin [pot] 1
-// [meg] 52     to pin [pot] 2
-// [meg] 51     to pin [pot] 3
+// [meg] 53     to pin [pot] 1 [CS]
+// [meg] 52     to pin [pot] 2 [SCK]
+// [meg] 51     to pin [pot] 3 [SI]
 //     GND      to pin [pot] 4
 //     +5V      to pin [pot] 5
 //     GND      to pin [pot] 6

@@ -52,7 +52,7 @@
 #define ECU_CORRECTION 692  //      346
 //
 // Speed correction
-#define VSS_CORRECTION 1.5  //      3.767
+#define VSS_CORRECTION 1.6  //      3.767
 //
 // Revs correction
 #define RPM_CORRECTION 75   //      33.767

@@ -78,7 +78,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Mid's intro
@@ -134,8 +134,13 @@ public:
     void showHeader(const char *title) {
 
         if (stt->isAlert()) {
-            lcd->drawXBMP(195, 1, 10, 10, wrench_10x10_bits);
+            lcd->drawXBMP(160, 1, 10, 10, wrench_10x10_bits);
         }
+
+        if (car->getEngTmp() > 99) {
+            lcd->drawXBMP(160, 1, 10, 10, fire_10x10_bits);
+        }
+
 
         lcd->drawStr(12, 2, title);
         lcd->drawLine(0, 12, 240, 11);
@@ -233,7 +238,7 @@ protected:
         u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
-
+        uint8_t subAnimateIndex = drawEntry & 4;
 
         switch (drawEntry) {
             default:
@@ -260,13 +265,14 @@ protected:
             case 5:
             case 6:
             case 7:
+
                 lcd->drawFrame(10, 12 + (3 * 5), 212, 15);
                 lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
                 lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
                 lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
                 if (usedMenu.down) {
-                    lcd->drawStr(120 + (usedW / 2), 30, " > ");
-                    lcd->drawStr((120 + (usedW / 2)) + 30, 30, usedMenu.down);
+                    lcd->drawStr(120 + (usedW / 2) + subAnimateIndex, 30, ">");
+                    lcd->drawStr((120 + (usedW / 2)) + 40, 30, usedMenu.down);
                 }
                 break;
             case 8:
@@ -397,7 +403,7 @@ private:
         //
         // Average liters per 100km
         showAverage(LCD_COL_R11, LCD_ROW_4);
-        displayFloat(car->getDst() / car->getCurFuelCns(), char_3);
+        displayFloat((car->getCurFuelCns() * 100) / car->getDst(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_4);
         // Todo wasted fuel

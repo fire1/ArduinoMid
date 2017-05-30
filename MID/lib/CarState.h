@@ -136,12 +136,12 @@ boolean CarState::isBadVoltage(void) {
     int readingVoltage = analogRead(pinVol);
     //
     // Voltage too high
-    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 985) {
+    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 990) {
         return true;
     }
     //
     // Voltage too low
-    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 900) {
+    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 850) {
         return true;
     }
     //

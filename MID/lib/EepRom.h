@@ -108,7 +108,7 @@ public:
 
 
     float getAverageLitersPer100km() {
-        return (container.dist_trv + car->getDst()) / getConsumedFuel();
+        return (getConsumedFuel() * 100) / (container.dist_trv + car->getDst());
     }
 
 /**
