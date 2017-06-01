@@ -527,6 +527,16 @@ private:
     }
 
 
+    void displayEditor() {
+        float defVal;
+        if (MidCursorMenu == 121) defVal = VSS_CORRECTION;
+        if (MidCursorMenu == 122) defVal = RPM_CORRECTION;
+        if (MidCursorMenu == 123) defVal = DST_CORRECTION;
+        if (MidCursorMenu == 124) defVal = ECU_CORRECTION;
+
+
+    }
+
 };
 
 /**
@@ -564,10 +574,14 @@ void Lcd240x62::menus() {
             showHeader(getMsg(17));
             displayEdit();
             break;
-        case 121:
-        case 122:
-        case 123:
-        case 124:
+        case 121: // VSS
+        case 122: // RPM
+        case 123: // DTS
+        case 124: // CNS
+            showHeader(getMsg(MidCursorMenu - 94));
+            displayEditor();
+
+
             break;
         case 13:
             showHeader(getMsg(15));
