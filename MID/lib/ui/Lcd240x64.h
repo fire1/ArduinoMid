@@ -87,13 +87,15 @@ public:
         //
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
-        delay(10);
-        lcd->clearBuffer();
-        lcd->firstPage();
-        do {
-            lcd->drawXBMP(0, 2, 240, 60, BertoneBits);
-        } while (lcd->nextPage());
-        delay(5100);
+        if(car->getRpm() < 699) {
+            delay(10);
+            lcd->clearBuffer();
+            lcd->firstPage();
+            do {
+                lcd->drawXBMP(0, 2, 240, 60, BertoneBits);
+            } while (lcd->nextPage());
+            delay(5100);
+        }
         lcd->clear();
 
 
@@ -132,16 +134,18 @@ public:
     }
 
     void showHeader(const char *title) {
-        if (stt->isAlert() && drawIndex % 5 == 0) {
-            lcd->drawXBMP(230, 3, 10, 10, wrench_10x10_bits);
-            lcd->drawCircle(225, 1, 6, U8G2_DRAW_ALL);
+        lcd->drawLine(0, 12, 240, 11);
+
+        if (stt->isAlert() /*&& drawIndex % 3 == 0*/) {
+            lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
+            lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
         }
-        if (car->getEngTmp() > 99 && drawIndex % 2 == 0) {
-            lcd->drawXBMP(215, 3, 10, 10, fire_10x10_bits);
-            lcd->drawCircle(215, 1, 6, U8G2_DRAW_ALL);
+        if (car->getEngTmp() > 99 /*&& drawIndex % 3 == 0*/) {
+            lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
+            lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
         lcd->drawStr(12, 2, title);
-        lcd->drawLine(0, 12, 240, 11);
+
     }
 
 /**
