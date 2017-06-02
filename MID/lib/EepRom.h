@@ -66,9 +66,14 @@ struct SavedData {
     float total_km;
     float time_trp;
     float dist_trp;
+
+    float sens_vss;
+    float sens_rpm;
+    float sens_dst;
+    float sens_ecu;
 };
 
-#define EEP_ROM_INDEXES 6
+#define EEP_ROM_INDEXES 10
 
 //
 //
@@ -76,7 +81,7 @@ class EepRom {
 
     SavedData container;
     CarSens *car;
-    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0};
+    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 public:
 /**
@@ -102,9 +107,7 @@ public:
 
     void loadCurrentData();
 
-    void saveTripData();
-
-    void clearTripData();
+    void injectFromSerial(void);
 
 
     float getAverageLitersPer100km() {
@@ -126,68 +129,153 @@ public:
         }
     }
 
-/**
- * Injection data from USB serial monitor
+/** TODO needs to be changed
+ * Saves trip data in order to continue the trip
  */
-    void injectFromSerial(void);
+    inline void saveTripData() {
+        float time = millis() / MILLIS_PER_HR;
+        container.dist_trp = container.dist_trp + car->getDst();
+        container.time_trp = container.time_trp + time;
+//    saveTripTime(container.time_trp);
+//    saveTripDistance(container.dist_trp);
+        saveCurrentData(); // Ordinary save of data
+    }
 
 /**
- * Gets worked distance
+ * Clears trip data
+ */
+    inline void clearTripData() {
+        container.time_trp = 0;
+        container.dist_trp = 0;
+    }
+
+/**
+ * Gets Car's total distance
  * @return
  */
-    int getWorkDistance(void);
+    inline int getWorkDistance(void) {
+        return int(container.total_km * 1000);
+    }
 
 /**
- * Gets travel distance
+ * Gets saved travel distance
  * @return
  */
-    float getTraveDistance(void);
+    inline float getTraveDistance(void) {
+        return container.dist_trv;
+    }
 
 /**
- * Gets default consumed fuel liters
+ * Gets default consumed fuel
  * @return
  */
-    float getDefFuel(void);
+    inline float getDefFuel(void) {
+        return container.fuel_def;
+    }
 
 /**
- * Gets additional consumed fuel liters
+ * Gets additional consumed fuel
  * @return
  */
-    float getAdtFuel(void);
+    inline float getAdtFuel(void) {
+        return container.fuel_adt;
+    }
+
+    inline float getSensVss(void) {
+        return container.sens_vss;
+    }
+
+    inline float getSensRpm(void) {
+        return container.sens_rpm;
+    }
+
+    inline float getSensDst(void) {
+        return container.sens_dst;
+    }
+
+    inline float getSensEco(void) {
+        return container.sens_ecu;
+    }
 
 /**
- * Sets new Car's worked distance
+ * Gets SavedData data
+ * @return
+ */
+    inline SavedData getData(void) {
+        return container;
+    }
+
+/**
+ *
  * @param value
  * @return
  */
-    void setWorkDistance(float value);
+    inline void setWorkDistance(float value) {
+        container.total_km = value;
+    }
 
 /**
- * Sets new travel distance
+ *
  * @param value
  * @return
  */
-    void setTravelDistance(float value);
+    inline void setTravelDistance(float value) {
+        container.dist_trv = value;
+    }
 
 /**
- * Sets new Default consumed liters
+ *
  * @param value
  * @return
  */
-    void setDefFuel(float value);
+    inline void setDefFuel(float value) {
+        container.fuel_def = value;
+    }
 
 /**
- * Sets new Additional consumed liters
+ *
  * @param value
  * @return
  */
-    void setAdtFuel(float value);
+    inline void setAdtFuel(float value) {
+        container.fuel_adt = value;
+    }
 
 /**
- *  Gets all saved data
- * @return SavedData
+ *
+ * @param value
+ * @return void
  */
-    SavedData getData(void);
+    inline void setSensVss(float value) {
+        container.sens_vss = value;
+    }
+
+/**
+ *
+ * @param value
+ * @return void
+ */
+    inline void setSensRpm(float value) {
+        container.sens_rpm = value;
+    }
+
+/**
+ *
+ * @param value
+ * @return void
+ */
+    inline void setSensDst(float value) {
+        container.sens_dst = value;
+    }
+
+/**
+ *
+ * @param value
+ * @return void
+ */
+    inline void setSensEu(float value) {
+        container.sens_ecu = value;
+    }
 
 private:
 
@@ -477,6 +565,12 @@ void EepRom::saveResetData() {
     data[5] = container.dist_trp;
     data[6] = container.time_trp;
 
+    //
+    // Sens editor
+    data[7] = container.sens_vss;
+    data[8] = container.sens_rpm;
+    data[9] = container.sens_dst;
+    data[10] = container.sens_ecu;
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
@@ -514,6 +608,14 @@ void EepRom::loadCurrentData() {
     // Trip
     container.dist_trp = data[5];
     container.time_trp = data[6];
+
+    //
+    // Sens Edit
+    container.sens_vss = data[7];
+    container.sens_rpm = data[8];
+    container.sens_dst = data[9];
+    container.sens_ecu = data[10];
+
     Serial.println(data[1], 2);
     Serial.println(data[2], 2);
     Serial.println(data[3], 2);
@@ -521,102 +623,6 @@ void EepRom::loadCurrentData() {
     delay(10);
 }
 
-/** TODO needs to be changed
- * Saves trip data in order to continue the trip
- */
-void EepRom::saveTripData() {
-    float time = millis() / MILLIS_PER_HR;
-    container.dist_trp = container.dist_trp + car->getDst();
-    container.time_trp = container.time_trp + time;
-//    saveTripTime(container.time_trp);
-//    saveTripDistance(container.dist_trp);
-    saveCurrentData(); // Ordinary save of data
-}
-
-/**
- * Clears trip data
- */
-void EepRom::clearTripData() {
-    container.time_trp = 0;
-    container.dist_trp = 0;
-}
-
-/**
- * Gets Car's total distance
- * @return
- */
-int EepRom::getWorkDistance(void) {
-    return int(container.total_km * 1000);
-}
-
-/**
- * Gets saved travel distance
- * @return
- */
-float EepRom::getTraveDistance(void) {
-    return container.dist_trv;
-}
-
-/**
- * Gets default consumed fuel
- * @return
- */
-float EepRom::getDefFuel(void) {
-    return container.fuel_def;
-}
-
-/**
- * Gets additional consumed fuel
- * @return
- */
-float EepRom::getAdtFuel(void) {
-    return container.fuel_adt;
-}
-
-
-/**
- * Gets SavedData data
- * @return
- */
-SavedData EepRom::getData(void) {
-    return container;
-}
-
-/**
- *
- * @param value
- * @return
- */
-void EepRom::setWorkDistance(float value) {
-    container.total_km = value;
-}
-
-/**
- *
- * @param value
- * @return
- */
-void EepRom::setTravelDistance(float value) {
-    container.dist_trv = value;
-}
-
-/**
- *
- * @param value
- * @return
- */
-void EepRom::setDefFuel(float value) {
-    container.fuel_def = value;
-}
-
-/**
- *
- * @param value
- * @return
- */
-void EepRom::setAdtFuel(float value) {
-    container.fuel_adt = value;
-}
 
 /**
  * Injection data from USB serial monitor

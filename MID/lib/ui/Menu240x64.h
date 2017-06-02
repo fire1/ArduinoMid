@@ -97,7 +97,8 @@ public:
 
         mainMenu.addRight(gagesMenu).addRight(setupMenu).addRight(aboutMenu);
         gagesMenu.add(mainMenu);
-        setupMenu.add(vssSet).add(rpmSet).add(dstSet).add(ecuSet).add(setupMenu);
+        setupMenu.add(vssSet).add(rpmSet).add(dstSet).add(ecuSet);
+        ecuSet.add(setupMenu);
         aboutMenu.add(mainMenu);
         aboutMenu.addRight(mainMenu);
 

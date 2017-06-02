@@ -260,6 +260,7 @@ protected:
     char char_3[4];
     char char_4[5];
     char char_6[7];
+    char char_7[8];
 
 
 #ifdef ARDUINO_MID_LAN

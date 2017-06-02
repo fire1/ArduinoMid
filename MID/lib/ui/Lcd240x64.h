@@ -87,7 +87,7 @@ public:
         //
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
-        if(car->getRpm() < 699) {
+        if (car->getRpm() < 699) {
             delay(10);
             lcd->clearBuffer();
             lcd->firstPage();
@@ -295,6 +295,17 @@ protected:
 
 
 private:
+
+
+    void valueControl(float &val) {
+        if (btn->isOk()) {
+            val++;
+        }
+        if (btn->isOk()) {
+            val--;
+        }
+    }
+
 /**
  * Draws km as string
  * @param x
@@ -427,7 +438,7 @@ private:
 
     void displayEngRpm() {
         lcd->drawStr(LCD_COL_L11, LCD_ROW_2, "RPM:");
-        sprintf(char_4, "%04d", car->getRpm());
+        sprintf(char_4, "%07d", car->getRpm());
         lcd->drawStr(LCD_COL_L21, LCD_ROW_2, char_4);
     }
 
@@ -471,17 +482,26 @@ private:
     void displayCarWrk() {
         lcd->drawStr(LCD_COL_R11, LCD_ROW_4, "WRK:");
         sprintf(char_6, "%06d", eep->getWorkDistance());
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_4, char_6);
+        lcd->drawStr(LCD_COL_R21 - 5, LCD_ROW_4, char_6);
         showKm(LCD_COL_R23, LCD_ROW_4);
     }
 
 
     /****************************************************************
- * Reset Fuel
+ * About Fuel
  */
-    void displayResetFuel() {
-        lcd->drawStr(5, LCD_ROW_1, getMsg(20));
-        lcd->drawStr(5, LCD_ROW_2, getMsg(21));
+    void displayInfo() {
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(20));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(21));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, getMsg(22));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(23));
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_4, MID_VERSION);
+    }
+
+    void displayEdit() {
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
+        lcd->drawStr(0, LCD_ROW_3, getMsg(25));
+        lcd->drawStr(0, LCD_ROW_4, getMsg(26));
     }
 
 /****************************************************************
@@ -512,6 +532,85 @@ private:
             lcd->print(eep->getWorkDistance());
             lcd->write((uint8_t) 2);
             lcd->print(" ");
+        }
+    }
+
+    void displayTrip() {
+
+    }
+
+
+    void displayEditor() {
+        float defVal = 0, curVal = 0, oldVal = 0;
+
+        switch (MidCursorMenu) {
+            case 121:
+                defVal = VSS_CORRECTION;
+                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : VSS_CORRECTION;
+                break;
+            case 122:
+                defVal = RPM_CORRECTION;
+                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : RPM_CORRECTION;
+                break;
+            case 123:
+                defVal = DST_CORRECTION;
+                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : DST_CORRECTION;
+
+                break;
+            case 124:
+                defVal = ECU_CORRECTION;
+                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : ECU_CORRECTION;
+                break;
+            default:
+                break;
+        }
+        //
+        // Change values
+        valueControl(curVal);
+
+        //
+        // Current value
+        sprintf(char_7, "%07d", (int) curVal);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, char_7);
+
+        if (!btn->getNavigationState()) {
+            lcd->drawStr(LCD_COL_R22 - 1, LCD_ROW_1, "[");
+            lcd->drawStr(LCD_COL_R22 + lcd->getStrWidth(char_7), LCD_ROW_1, "]");
+        }
+
+        if (btn->getNavigationState() && curVal != oldVal) {
+            switch (MidCursorMenu) {
+                case 121:
+                    eep->setSensVss(curVal);
+                    break;
+                case 122:
+                    eep->setSensRpm(curVal);
+                    break;
+                case 123:
+                    eep->setSensDst(curVal);
+                    break;
+                case 124:
+                    eep->setSensEu(curVal);
+                    break;
+            }
+        }
+
+        //
+        // Default value
+        sprintf(char_7, "%07d", (int) defVal);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, char_7);
+
+
+        //
+        // Edit manager
+        if (btn->isBk() && btn->getNavigationState()) {
+            btn->setNavigationState(false);
+        }
+
+        if (btn->isBk() && !btn->getNavigationState()) {
+            btn->setNavigationState(true);
         }
     }
 
@@ -549,14 +648,27 @@ void Lcd240x62::menus() {
             displayCarWrk();
             break;
         case 12:
+            showHeader(getMsg(17));
+            displayEdit();
+            break;
+        case 121: // VSS
+        case 122: // RPM
+        case 123: // DTS
+        case 124: // CNS
+            showHeader(getMsg(MidCursorMenu - 94));
+            displayEditor();
+
+
+            break;
+        case 13:
             showHeader(getMsg(15));
-            displayResetFuel();
+            displayInfo();
             break;
             //
             // Travel menu
         case 2:
             showHeader(getMsg(12));
-
+            displayTrip();
             break;
             //
             // Fuel menu

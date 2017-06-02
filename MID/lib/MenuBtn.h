@@ -117,6 +117,9 @@ public:
         return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
+    inline boolean isBk() {
+        return digitalRead(btnBk) == HIGH && car->getVss() == 0;
+    }
 
     inline AmpTime *passAmp(void) {
         return amp;
@@ -300,7 +303,7 @@ void MenuBtn::shortcut(void) {
     /*********** [SHORTCUTS] *********** *********** *********** *********** START ***********/
     // Steering zero
     // Steering button is pressed
-    if (whl->getCurrentState() == WhlSens::STR_BTN_ATT || digitalRead(btnBk) == HIGH && car->getVss() == 0) {
+    if (whl->getCurrentState() == WhlSens::STR_BTN_ATT || isBk()) {
         tone(TONE_ADT_PIN, 1000, 10);
         delay(10);
         tone(TONE_ADT_PIN, 1000, 10);

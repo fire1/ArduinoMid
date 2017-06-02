@@ -20,8 +20,8 @@ const char msg5[] PROGMEM = "Window washer state: ";
 const char msg6[] PROGMEM = "Engine Oil level is: ";
 const char msg7[] PROGMEM = "CORRECT";
 const char msg8[] PROGMEM = "WARNING";
-const char msg9[] PROGMEM = "";
-const char msg10[] PROGMEM = "";
+const char msg9[] PROGMEM = "Current value:";
+const char msg10[] PROGMEM = "Default value:";
 //
 //
 const char msg11[] PROGMEM = "MAIN MENU";
@@ -41,8 +41,8 @@ const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID version ";
 const char msg24[] PROGMEM = "Press >S to enter in settings";
 const char msg25[] PROGMEM = "Use  \">S\" to navigate ";
-const char msg26[] PROGMEM = "Hold \">R\" to edit values";
-const char msg27[] PROGMEM = "SPEED SENSOR";
+const char msg26[] PROGMEM = "Use Break Pedal to edit/set values";
+const char msg27[] PROGMEM = "VEHICLE SPEED"; // Vehicle speed sensor
 const char msg28[] PROGMEM = "REVOLUTIONS";
 const char msg29[] PROGMEM = "ODOMETER";
 const char msg30[] PROGMEM = "CONSUMPTION";
