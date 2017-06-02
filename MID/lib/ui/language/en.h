@@ -46,11 +46,12 @@ const char msg27[] PROGMEM = "VEHICLE SPEED"; // Vehicle speed sensor
 const char msg28[] PROGMEM = "REVOLUTIONS";
 const char msg29[] PROGMEM = "ODOMETER";
 const char msg30[] PROGMEM = "CONSUMPTION";
+const char msg31[] PROGMEM = "Result: ";
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
         msg0, msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11, msg12, msg13, msg14, msg15,
-        msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30
+        msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30, msg31
 };
 
 #endif //ARDUINOMID_EN_H_H

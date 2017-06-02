@@ -3,7 +3,6 @@
     Arduino MID
 
      Author: Angel Zaprianov <me@fire1.eu>
-     Version: 0.1 [pre-alpha]
      Start Date: 09.06.2016
 
      For the full copyright and license information, please view the LICENSE
@@ -110,6 +109,7 @@ void setup() {
     pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
     pciSetup(pinLpgDat); //   attachInterrupt (digitalPinToInterrupt (pinLpgDat), isr, CHANGE);
 
+    carSens.setSave(eepRom.getData());
     //
     // Shows MID intro
     lcdMenu.intro();

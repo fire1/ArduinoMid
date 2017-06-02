@@ -238,10 +238,10 @@ public:
         container.sens_vss = value;
     }
 
-  *
- * @param value
- * @return void
- */
+    /*
+   * @param value
+   * @return void
+   */
     inline void setSensRpm(float value) {
         container.sens_rpm = value;
     }

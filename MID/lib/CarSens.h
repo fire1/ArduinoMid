@@ -264,7 +264,7 @@ private:
     //
     int pushLpgIndex = 0;
 
-    int
+    uint16_t
     //
     // Human Results
             CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
@@ -546,17 +546,17 @@ public:
     /**
      * Gets current Vss
      */
-    inline int getVss() { return CUR_VSS; }
+    inline uint16_t getVss() { return CUR_VSS; }
 
     /**
      * Gets current Rpm
      */
-    inline int getRpm() { return CUR_RPM; }
+    inline uint16_t getRpm() { return CUR_RPM; }
 
     /**
      * Gets current Ecu
      */
-    inline int getEcu() { return CUR_ECU; }
+    inline uint16_t getEcu() { return CUR_ECU; }
 
     inline int getTnkLpg() { return CUR_LTK; }
 

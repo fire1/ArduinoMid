@@ -14,7 +14,7 @@
 #include "../CarState.h"
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
-
+#include "graphics/DrwGrap.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -509,7 +509,6 @@ private:
 */
     void displayCarState() {
 
-
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
         if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
@@ -535,31 +534,57 @@ private:
         }
     }
 
+/****************************************************************
+ * Trip graphic
+ */
     void displayTrip() {
+/* TODO Draw trip graphic
+ * */
+        double x, y;
+        boolean displayed = true;
+//        for (x = 0.00; x <= 20; x += .01) {
+//            y = ((sin(x)) * x + cos(x)) - log(x);
+//            Graph(lcd, x, y, 50, 290, 390, 260, 0, 20, 1, -20, 20, 5, "Weird Function", "x", " bla", displayed);
+//        }
+    }
+
+/****************************************************************
+ * Fuel information
+ */
+    void displayFuel() {
+/* TODO Show fuel information
+ * */
 
     }
 
 
+/****************************************************************
+ * Settings editor
+ */
     void displayEditor() {
         float defVal = 0, curVal = 0, oldVal = 0;
+        uint16_t result = 0;
 
         switch (MidCursorMenu) {
             case 121:
                 defVal = VSS_CORRECTION;
                 oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : VSS_CORRECTION;
+                result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
                 oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : RPM_CORRECTION;
+                result = car->getRpm();
                 break;
             case 123:
                 defVal = DST_CORRECTION;
                 oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : DST_CORRECTION;
-
+                result = car->getDst();
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
                 oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : ECU_CORRECTION;
+                result = car->getEcu();
                 break;
             default:
                 break;
@@ -579,10 +604,14 @@ private:
             lcd->drawStr(LCD_COL_R22 + lcd->getStrWidth(char_7), LCD_ROW_1, "]");
         }
 
+        /**
+         * Set data to carSens
+         */
         if (btn->getNavigationState() && curVal != oldVal) {
             switch (MidCursorMenu) {
                 case 121:
                     eep->setSensVss(curVal);
+
                     break;
                 case 122:
                     eep->setSensRpm(curVal);
@@ -594,14 +623,22 @@ private:
                     eep->setSensEu(curVal);
                     break;
             }
+            carSens.setSave(eepRom.getData());
         }
+
+
 
         //
         // Default value
         sprintf(char_7, "%07d", (int) defVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, char_7);
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_3, char_7);
 
+        //
+        // Result value
+        sprintf(char_7, "%07d", (int) result);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_4, char_7);
 
         //
         // Edit manager
@@ -672,6 +709,7 @@ void Lcd240x62::menus() {
             // Fuel menu
         case 3:
             showHeader(getMsg(13));
+            displayFuel();
             break;
         case 4:
             showHeader(getMsg(14));
