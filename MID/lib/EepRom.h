@@ -59,19 +59,7 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
-struct SavedData {
-    float fuel_adt;
-    float fuel_def;
-    float dist_trv;
-    float total_km;
-    float time_trp;
-    float dist_trp;
 
-    float sens_vss;
-    float sens_rpm;
-    float sens_dst;
-    float sens_ecu;
-};
 
 #define EEP_ROM_INDEXES 10
 
@@ -250,8 +238,7 @@ public:
         container.sens_vss = value;
     }
 
-/**
- *
+  *
  * @param value
  * @return void
  */

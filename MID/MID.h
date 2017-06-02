@@ -298,6 +298,24 @@ static void menuUseEvent(MenuUseEvent used);
 
 static void menuChangeEvent(MenuChangeEvent changed);
 
+/**
+ * EepRom  data
+ */
+
+struct SavedData {
+    float fuel_adt;
+    float fuel_def;
+    float dist_trv;
+    float total_km;
+    float time_trp;
+    float dist_trp;
+
+    float sens_vss;
+    float sens_rpm;
+    float sens_dst;
+    float sens_ecu;
+};
+
 #define MID_VERSION "1.5+"
 //
 // Reserving RAM

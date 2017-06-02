@@ -657,8 +657,6 @@ void Lcd240x62::menus() {
         case 124: // CNS
             showHeader(getMsg(MidCursorMenu - 94));
             displayEditor();
-
-
             break;
         case 13:
             showHeader(getMsg(15));

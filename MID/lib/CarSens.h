@@ -5,6 +5,7 @@
 #include "../MID.h"
 #include "AmpTime.h"
 #include "MainFunc.h"
+
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
@@ -209,6 +210,8 @@ class CarSens {
     // Take a pointer to time amplitude instance
     AmpTime *amp;
 
+    SavedData savedData;
+
 private:
     double CUR_VDS;
     //
@@ -349,6 +352,23 @@ protected:
 
 
 private:
+
+    float getCorVss() {
+        return (savedData.sens_vss != 0) ? savedData.sens_vss : VSS_CORRECTION;
+    }
+
+    float getCorRpm() {
+        return (savedData.sens_rpm != 0) ? savedData.sens_rpm : RPM_CORRECTION;
+    }
+
+    float getCorDst() {
+        return (savedData.sens_dst != 0) ? savedData.sens_dst : DST_CORRECTION;
+    }
+
+    float getCorEcu() {
+        return (savedData.sens_ecu != 0) ? savedData.sens_ecu : ECU_CORRECTION;
+    }
+
     void sensVss();
 
     void sensRpm();
@@ -370,6 +390,12 @@ private:
     void sensDlt();
 
 public:
+/**
+ *
+ */
+    void setSave(SavedData data) {
+        savedData = data;
+    }
 
     int getLpgPull();
 
@@ -585,7 +611,7 @@ public:
     /**
      *  Listen sensors
      */
-    void listener();
+    void listener(void);
 
 };
 
@@ -832,10 +858,10 @@ void CarSens::sensVss() {
 
         //
         // Pass vss to global
-        CUR_VSS = int(vssHitsCount / (VSS_CORRECTION + TRS_CORRECTION));
+        CUR_VSS = int(vssHitsCount / (getCorVss() + TRS_CORRECTION));
         //
         // Calculate distance
-        CUR_VDS = (vssHitsCount / (DST_CORRECTION + TRS_CORRECTION)) + CUR_VDS;
+        CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
 
         CUR_VDS_collection = vssHitsCount + CUR_VDS_collection;
 
@@ -876,7 +902,7 @@ void CarSens::sensRpm() {
     if (amp->isSens()) {
         //
         // Pass rpm to global
-        CUR_RPM = int(rpmHitsCount * RPM_CORRECTION);
+        CUR_RPM = int(rpmHitsCount * getCorRpm());
 
 //
 // debug info
@@ -902,7 +928,7 @@ void CarSens::sensEcu() {
     if (amp->isSens()) {
         //
         // Pass ecu to global
-        CUR_ECU = int(ecuHitsCount * ECU_CORRECTION);
+        CUR_ECU = int(ecuHitsCount * getCorEcu());
 //
 // debug info
 #if defined(ECU_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
