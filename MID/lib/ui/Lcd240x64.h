@@ -78,7 +78,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -136,7 +136,7 @@ public:
     void showHeader(const char *title) {
         lcd->drawLine(0, 12, 240, 11);
 
-        if (stt->isAlert() /*&& drawIndex % 3 == 0*/) {
+        if (!stt->isAlert() /*&& drawIndex % 3 == 0*/) {
             lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
             lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
         }
@@ -542,10 +542,10 @@ private:
  * */
         double x, y;
         boolean displayed = true;
-//        for (x = 0.00; x <= 20; x += .01) {
-//            y = ((sin(x)) * x + cos(x)) - log(x);
-//            Graph(lcd, x, y, 50, 290, 390, 260, 0, 20, 1, -20, 20, 5, "Weird Function", "x", " bla", displayed);
-//        }
+        x = drawIndex * 0.01;
+        y = ((sin(x)) * x + cos(x)) - log(x);
+        Graph(lcd, x, y, 0, 50, 240, 50, 12, 20, 1, -20, 20, 5, "Weird Function", "x", " bla", displayed);
+
     }
 
 /****************************************************************
@@ -569,7 +569,7 @@ private:
             case 121:
                 defVal = VSS_CORRECTION;
                 oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : VSS_CORRECTION;
-                result = car->getVss();
+                result = car->getVss() * 10;
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
@@ -597,11 +597,11 @@ private:
         // Current value
         sprintf(char_7, "%07d", (int) curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, char_7);
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_1, char_7);
 
         if (!btn->getNavigationState()) {
-            lcd->drawStr(LCD_COL_R22 - 1, LCD_ROW_1, "[");
-            lcd->drawStr(LCD_COL_R22 + lcd->getStrWidth(char_7), LCD_ROW_1, "]");
+            lcd->drawStr(LCD_COL_R21 - 1, LCD_ROW_1, "[");
+            lcd->drawStr(LCD_COL_R21 + lcd->getStrWidth(char_7), LCD_ROW_1, "]");
         }
 
         /**
@@ -610,7 +610,7 @@ private:
         if (btn->getNavigationState() && curVal != oldVal) {
             switch (MidCursorMenu) {
                 case 121:
-                    eep->setSensVss(curVal);
+                    eep->setSensVss(curVal * 0.1);
 
                     break;
                 case 122:
@@ -632,13 +632,13 @@ private:
         // Default value
         sprintf(char_7, "%07d", (int) defVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_3, char_7);
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_7);
 
         //
         // Result value
         sprintf(char_7, "%07d", (int) result);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_4, char_7);
+        lcd->drawStr(LCD_COL_R21, LCD_ROW_4, char_7);
 
         //
         // Edit manager

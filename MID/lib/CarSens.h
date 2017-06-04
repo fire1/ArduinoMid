@@ -5,7 +5,7 @@
 #include "../MID.h"
 #include "AmpTime.h"
 #include "MainFunc.h"
-
+//#define ECU_SENS_DEBUG
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
 #define ARDUINO_MID_CAR_SENS_H
@@ -354,18 +354,22 @@ protected:
 private:
 
     float getCorVss() {
+        return VSS_CORRECTION;
         return (savedData.sens_vss != 0) ? savedData.sens_vss : VSS_CORRECTION;
     }
 
     float getCorRpm() {
+        return RPM_CORRECTION;
         return (savedData.sens_rpm != 0) ? savedData.sens_rpm : RPM_CORRECTION;
     }
 
     float getCorDst() {
+        return DST_CORRECTION;
         return (savedData.sens_dst != 0) ? savedData.sens_dst : DST_CORRECTION;
     }
 
     float getCorEcu() {
+        return ECU_CORRECTION;
         return (savedData.sens_ecu != 0) ? savedData.sens_ecu : ECU_CORRECTION;
     }
 
@@ -674,6 +678,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT);
+    analogWrite(pinTarget,1);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 };
 
@@ -936,7 +941,7 @@ void CarSens::sensEcu() {
         Serial.print(" ecu count:  \t");
         Serial.print(ecuHitsCount);
         Serial.print(" ecu is:  \t");
-        Serial.print(ecuHitsCount * EcuCorrection);
+        Serial.print(ecuHitsCount * ECU_CORRECTION);
         Serial.print("\n");
 #endif
 
