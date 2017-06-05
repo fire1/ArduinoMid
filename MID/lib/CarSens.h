@@ -353,25 +353,6 @@ protected:
 
 private:
 
-    float getCorVss() {
-        return VSS_CORRECTION;
-        return (savedData.sens_vss != 0) ? savedData.sens_vss : VSS_CORRECTION;
-    }
-
-    float getCorRpm() {
-        return RPM_CORRECTION;
-        return (savedData.sens_rpm != 0) ? savedData.sens_rpm : RPM_CORRECTION;
-    }
-
-    float getCorDst() {
-        return DST_CORRECTION;
-        return (savedData.sens_dst != 0) ? savedData.sens_dst : DST_CORRECTION;
-    }
-
-    float getCorEcu() {
-        return ECU_CORRECTION;
-        return (savedData.sens_ecu != 0) ? savedData.sens_ecu : ECU_CORRECTION;
-    }
 
     void sensVss();
 
@@ -394,6 +375,27 @@ private:
     void sensDlt();
 
 public:
+
+    float getCorVss() {
+        return VSS_CORRECTION;
+        return (savedData.sens_vss > 0) ? savedData.sens_vss : (float) VSS_CORRECTION;
+    }
+
+    float getCorRpm() {
+        return RPM_CORRECTION;
+        return (savedData.sens_rpm > 0) ? savedData.sens_rpm : (float) RPM_CORRECTION;
+    }
+
+    float getCorDst() {
+        return DST_CORRECTION;
+        return (savedData.sens_dst > 0) ? savedData.sens_dst : (float) DST_CORRECTION;
+    }
+
+    float getCorEcu() {
+        return ECU_CORRECTION;
+        return (savedData.sens_ecu > 0) ? savedData.sens_ecu : (float) ECU_CORRECTION;
+    }
+
 /**
  *
  */
@@ -453,11 +455,13 @@ public:
       * @param pinTmp
       */
     void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp);
+
     /**
      * Is the engine was keen
      * @return bool
      */
     bool isRunEng() { return _isEngineSens; }
+
     /**
      * Is vehicle make some move
      * @return
@@ -660,7 +664,7 @@ void EngSens_catchEcuHits() {
   */
 void CarSens::setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchRpmHits, HIGH);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchRpmHits, HIGH);
 };
 
 /**
@@ -669,7 +673,7 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
   */
 void CarSens::setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt (pinTarget), EngSens_catchVssHits, HIGH);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchVssHits, HIGH);
 };
 
 /**
@@ -678,7 +682,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT);
-    analogWrite(pinTarget,1);
+    analogWrite(pinTarget, 1);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 };
 

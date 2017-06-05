@@ -108,30 +108,14 @@ void setup() {
     // Setup LPG pins
     pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
     pciSetup(pinLpgDat); //   attachInterrupt (digitalPinToInterrupt (pinLpgDat), isr, CHANGE);
-
-    carSens.setSave(eepRom.getData());
     //
     // Shows MID intro
     lcdMenu.intro();
+    //
+    // Restore custom settings of var
+    carSens.setSave(eepRom.getData());
 
 }
-//
-//
-// The interrupt can be enabled for each pin individually (analog and digital!),
-// but there are only 3 interrupt vectors, so 6-8 pins share one service routine:
-// ISR (PCINT1_vect) pin change interrupt for A0 to A5
-//ISR (PCINT1_vect) { // handle pin change interrupt for A0 to A5 here
-//
-//    // Install Pin change interrupt for a pin, can be called multiple times from pciSetup()
-//     Serial.print(F("\n\n\n\n");
-//     Serial.print(F(" LPG dat: ");
-//    Serial.print(digitalRead(pinLpgDat));
-//     Serial.print(F(" LPG clc: ");
-//    Serial.print(digitalRead(LPG_CLC_PIN));
-//     Serial.print(F("\n\n\n\n");
-//}
-
-//#define HEAP_DEBUG
 
 void loop() {
     if (ampInt.isSecond()) {

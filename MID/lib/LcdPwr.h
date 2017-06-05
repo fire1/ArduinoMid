@@ -8,7 +8,7 @@
 #include <Arduino.h>
 
 /**
- *
+ * 16x2 && 240x64 power pins
  */
 class LcdPwr {
 private:

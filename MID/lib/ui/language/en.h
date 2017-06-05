@@ -20,8 +20,8 @@ const char msg5[] PROGMEM = "Window washer state: ";
 const char msg6[] PROGMEM = "Engine Oil level is: ";
 const char msg7[] PROGMEM = "CORRECT";
 const char msg8[] PROGMEM = "WARNING";
-const char msg9[] PROGMEM = "Current value:";
-const char msg10[] PROGMEM = "Default value:";
+const char msg9[] PROGMEM = "CURRENT";
+const char msg10[] PROGMEM = "Default";
 //
 //
 const char msg11[] PROGMEM = "MAIN MENU";
@@ -41,17 +41,19 @@ const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID version ";
 const char msg24[] PROGMEM = "Press >S to enter in settings";
 const char msg25[] PROGMEM = "Use  \">S\" to navigate ";
-const char msg26[] PROGMEM = "Use Break Pedal to edit/set values";
+const char msg26[] PROGMEM = "Use \"Break\" to correct value";
 const char msg27[] PROGMEM = "VEHICLE SPEED"; // Vehicle speed sensor
 const char msg28[] PROGMEM = "REVOLUTIONS";
 const char msg29[] PROGMEM = "ODOMETER";
 const char msg30[] PROGMEM = "CONSUMPTION";
-const char msg31[] PROGMEM = "Result: ";
+const char msg31[] PROGMEM = "RESULT";
+const char msg32[] PROGMEM = "Turn engine On/Off to save";
+
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
         msg0, msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11, msg12, msg13, msg14, msg15,
-        msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30, msg31
+        msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30, msg31,msg32
 };
 
 #endif //ARDUINOMID_EN_H_H

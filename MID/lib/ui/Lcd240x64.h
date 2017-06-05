@@ -78,7 +78,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
 /**
  * Mid's intro
@@ -499,7 +499,12 @@ private:
     }
 
     void displayEdit() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
+        if (drawIndex < 5) {
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
+        } else
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(32));
+
+
         lcd->drawStr(0, LCD_ROW_3, getMsg(25));
         lcd->drawStr(0, LCD_ROW_4, getMsg(26));
     }
@@ -568,22 +573,22 @@ private:
         switch (MidCursorMenu) {
             case 121:
                 defVal = VSS_CORRECTION;
-                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : VSS_CORRECTION;
-                result = car->getVss() * 10;
+                oldVal = curVal = car->getCorVss() * 100;
+                result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : RPM_CORRECTION;
+                oldVal = curVal = car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
                 defVal = DST_CORRECTION;
-                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : DST_CORRECTION;
-                result = car->getDst();
+                oldVal = curVal = car->getCorDst() * 100;
+                result = (uint16_t) car->getDst() * 100;
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
-                oldVal = curVal = (eep->getSensEco() > 0) ? eep->getSensEco() : ECU_CORRECTION;
+                oldVal = curVal = car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
@@ -610,20 +615,19 @@ private:
         if (btn->getNavigationState() && curVal != oldVal) {
             switch (MidCursorMenu) {
                 case 121:
-                    eep->setSensVss(curVal * 0.1);
-
+                    eep->setSensVss(curVal * 0.01);
                     break;
                 case 122:
                     eep->setSensRpm(curVal);
                     break;
                 case 123:
-                    eep->setSensDst(curVal);
+                    eep->setSensDst(curVal * 0.01);
                     break;
                 case 124:
                     eep->setSensEu(curVal);
                     break;
             }
-            carSens.setSave(eepRom.getData());
+            car->setSave(eep->getData());
         }
 
 
