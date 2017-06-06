@@ -87,7 +87,7 @@ public:
         //
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
-        if (car->getRpm() < 699) {
+        if (/*car->getRpm() < 699*/ false) {
             delay(10);
             lcd->clearBuffer();
             lcd->firstPage();
@@ -545,11 +545,8 @@ private:
     void displayTrip() {
 /* TODO Draw trip graphic
  * */
-        double x, y;
-        boolean displayed = true;
-        x = drawIndex * 0.01;
-        y = ((sin(x)) * x + cos(x)) - log(x);
-        Graph(lcd, x, y, 0, 50, 240, 50, 12, 20, 1, -20, 20, 5, "Weird Function", "x", " bla", displayed);
+
+
 
     }
 
