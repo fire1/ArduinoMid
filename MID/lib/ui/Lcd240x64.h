@@ -509,9 +509,9 @@ private:
     }
 
     void displayEdit() {
-        if (drawIndex < 5) {
+        if (drawIndex < 5)
             lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
-        } else
+        else
             lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(32));
 
 
@@ -641,8 +641,8 @@ private:
         lcd->drawStr(LCD_COL_R21, LCD_ROW_1, char_7);
 
         if (!btn->getNavigationState()) {
-            lcd->drawStr(LCD_COL_R21 - 1, LCD_ROW_1, "[");
-            lcd->drawStr(LCD_COL_R21 + lcd->getStrWidth(char_7), LCD_ROW_1, "]");
+            lcd->drawStr(LCD_COL_R21 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
+            lcd->drawStr(LCD_COL_R21 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
 
         /**
@@ -678,15 +678,15 @@ private:
         // Result value
         sprintf(char_7, "%07d", (int) result);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_4, char_7);
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
 
         //
         // Edit manager
-        if (btn->isBk() && btn->getNavigationState()) {
+        if (btn->isDw() && btn->getNavigationState()) {
             btn->setNavigationState(false);
         }
 
-        if (btn->isBk() && !btn->getNavigationState()) {
+        if (btn->isNo() && !btn->getNavigationState()) {
             btn->setNavigationState(true);
         }
     }
