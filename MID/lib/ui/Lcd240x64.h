@@ -59,6 +59,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
+    uint16_t valueControlled;
     uint8_t lastValue;
 //
 // Drowing counter
@@ -167,6 +168,9 @@ public:
  * Draw graphic
  */
     void draw() {
+
+
+        valueControll();
 
         //
         // Slow Animation
@@ -307,13 +311,22 @@ protected:
 private:
 
 
-    void valueControl(float &val) {
+    void valueControll() {
         if (btn->isOk()) {
-            val++;
+            valueControlled++;
         }
-        if (btn->isOk()) {
-            val--;
+        if (btn->isNo()) {
+            valueControlled--;
         }
+    }
+
+    void setValueControlled(uint16_t value) {
+        valueControlled = value;
+    }
+
+
+    uint16_t getValueControlled() {
+        return valueControlled;
     }
 
 /**
@@ -603,37 +616,37 @@ private:
  * Settings editor
  */
     void displayEditor() {
-        float defVal = 0, curVal = 0, oldVal = 0;
-        uint16_t result = 0;
+        uint16_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = VSS_CORRECTION;
-                oldVal = curVal = car->getCorVss() * 100;
+                defVal = (uint16_t) VSS_CORRECTION * 100;
+                oldVal = curVal = (uint16_t) car->getCorVss() * 100;
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = car->getCorRpm();
+                oldVal = curVal = (uint16_t) car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = DST_CORRECTION;
-                oldVal = curVal = car->getCorDst() * 100;
+                defVal = (uint16_t) DST_CORRECTION * 100;
+                oldVal = curVal = (uint16_t) car->getCorDst() * 100;
                 result = (uint16_t) car->getDst() * 100;
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
-                oldVal = curVal = car->getCorEcu();
+                oldVal = curVal = (uint16_t) car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
                 break;
         }
-        //
-        // Change values
-        valueControl(curVal);
-
+        if (drawIndex == 0) {
+            //
+            // Change values
+            setValueControlled(curVal);
+        }
         //
         // Current value
         sprintf(char_7, "%07d", (int) curVal);
@@ -644,6 +657,8 @@ private:
             lcd->drawStr(LCD_COL_R21 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
             lcd->drawStr(LCD_COL_R21 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
+
+        curVal = getValueControlled();
 
         /**
          * Set data to carSens
@@ -660,7 +675,7 @@ private:
                     eep->setSensDst(curVal * 0.01);
                     break;
                 case 124:
-                    eep->setSensEu(curVal);
+                    eep->setSensEcu(curVal);
                     break;
             }
             car->setSave(eep->getData());

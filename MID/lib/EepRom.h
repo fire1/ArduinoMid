@@ -260,7 +260,7 @@ public:
  * @param value
  * @return void
  */
-    inline void setSensEu(float value) {
+    inline void setSensEcu(float value) {
         container.sens_ecu = value;
     }
 
