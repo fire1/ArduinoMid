@@ -59,6 +59,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
+    uint8_t lastValue;
 //
 // Drowing counter
     uint8_t drawIndex = 0;
@@ -207,6 +208,13 @@ public:
 protected:
 
 
+    inline void playFast() {
+        animateFast = true;
+    }
+
+    inline void playSlow() {
+        animateFast = false;
+    }
 //
 // Defining content generate container variables
 //    char char_2[3];
@@ -251,7 +259,7 @@ protected:
                 drawEntry = 0;
                 break;
             case 0:
-                animateFast = true;
+                this->playFast();
                 lcd->clear();
                 mbs->startEntry();
                 btn->setNavigationState(false);
@@ -287,8 +295,10 @@ protected:
                 lcd->clearBuffer();
                 lcd->clear();
                 drawEntry = 0;
+                drawIndex = 0;
                 initializeDraw = true;
                 animateFast = false;
+                this->playSlow();
                 break;
         }
     }
@@ -546,8 +556,37 @@ private:
 /* TODO Draw trip graphic
  * */
 
+        uint8_t arrSize = 10;
+        uint8_t wdDsp = 240;
+        uint8_t hgDsp = 48;
 
 
+        if (initializeDraw && drawIndex < (arrSize * 2)) {
+            //
+            // First frame
+            if (drawIndex == 0) {
+                this->lastValue = 25;
+            }
+
+
+            uint8_t cur = /*value*/ rangeRandomAlg(14, 64);
+            lcd->drawLine(((wdDsp / arrSize) * drawIndex) / 2, 12, ((wdDsp / arrSize) * (drawIndex + 1)) / 2, cur);
+            this->lastValue = cur;
+        }
+        // else playSlow();
+
+    }
+
+    //
+    // Only for testing draw
+    uint8_t rangeRandomAlg(uint8_t min, uint8_t max) {
+        uint8_t n = max - min + 1;
+        uint8_t remainder = RAND_MAX % n;
+        uint8_t x;
+        do {
+            x = (uint8_t) rand();
+        } while (x >= RAND_MAX - remainder);
+        return min + x % n;
     }
 
 /****************************************************************
