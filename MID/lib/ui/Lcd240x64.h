@@ -14,7 +14,6 @@
 #include "../CarState.h"
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
-#include "graphics/DrwGrap.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -59,7 +58,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
-    uint16_t valueControlled;
+    uint32_t valueControlled;
     uint8_t lastValue;
 //
 // Drowing counter
@@ -80,7 +79,7 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
 
 /**
  * Mid's intro
@@ -138,7 +137,7 @@ public:
     void showHeader(const char *title) {
         lcd->drawLine(0, 12, 240, 11);
 
-        if (!stt->isAlert() /*&& drawIndex % 3 == 0*/) {
+        if (stt->isAlert() /*&& drawIndex % 3 == 0*/) {
             lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
             lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
         }
@@ -320,7 +319,7 @@ private:
         }
     }
 
-    void setValueControlled(uint16_t value) {
+    void setValueControlled(uint32_t  value) {
         valueControlled = value;
     }
 
@@ -583,7 +582,8 @@ private:
 
 
             uint8_t cur = /*value*/ rangeRandomAlg(14, 64);
-            lcd->drawLine(((wdDsp / arrSize) * drawIndex) / 2, 12, ((wdDsp / arrSize) * (drawIndex + 1)) / 2, cur);
+            lcd->drawLine(((wdDsp / arrSize) * drawIndex) / 2, this->lastValue,
+                          ((wdDsp / arrSize) * (drawIndex + 1)) / 2, cur);
             this->lastValue = cur;
         }
         // else playSlow();
@@ -616,27 +616,39 @@ private:
  * Settings editor
  */
     void displayEditor() {
-        uint16_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
+        uint32_t  defVal = 0, curVal = 0, oldVal = 0, result = 0;
+
+
+
+        //
+        // Edit manager
+        if (btn->isBk() && btn->getNavigationState()) {
+            btn->setNavigationState(false);
+        }
+
+        if (btn->isBk() && !btn->getNavigationState()) {
+            btn->setNavigationState(true);
+        }
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = (uint16_t) VSS_CORRECTION * 100;
+                defVal = (uint32_t ) VSS_CORRECTION * 100;
                 oldVal = curVal = (uint16_t) car->getCorVss() * 100;
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = (uint16_t) car->getCorRpm();
+                oldVal = curVal = (uint32_t ) car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = (uint16_t) DST_CORRECTION * 100;
-                oldVal = curVal = (uint16_t) car->getCorDst() * 100;
-                result = (uint16_t) car->getDst() * 100;
+                defVal = (uint32_t ) DST_CORRECTION;
+                oldVal = curVal = (uint32_t ) car->getCorDst() * 100;
+                result = (uint32_t ) car->getDst() * 100;
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
-                oldVal = curVal = (uint16_t) car->getCorEcu();
+                oldVal = curVal = (uint32_t ) car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
@@ -651,11 +663,11 @@ private:
         // Current value
         sprintf(char_7, "%07d", (int) curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_1, char_7);
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
         if (!btn->getNavigationState()) {
-            lcd->drawStr(LCD_COL_R21 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
-            lcd->drawStr(LCD_COL_R21 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
+            lcd->drawStr(LCD_COL_R11 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
+            lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
 
         curVal = getValueControlled();
@@ -672,7 +684,7 @@ private:
                     eep->setSensRpm(curVal);
                     break;
                 case 123:
-                    eep->setSensDst(curVal * 0.01);
+                    eep->setSensDst(curVal);
                     break;
                 case 124:
                     eep->setSensEcu(curVal);
@@ -687,7 +699,7 @@ private:
         // Default value
         sprintf(char_7, "%07d", (int) defVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_7);
+        lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
 
         //
         // Result value
@@ -695,15 +707,6 @@ private:
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
 
-        //
-        // Edit manager
-        if (btn->isDw() && btn->getNavigationState()) {
-            btn->setNavigationState(false);
-        }
-
-        if (btn->isNo() && !btn->getNavigationState()) {
-            btn->setNavigationState(true);
-        }
     }
 
 };
