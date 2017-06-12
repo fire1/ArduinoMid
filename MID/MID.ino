@@ -114,10 +114,15 @@ void setup() {
     //
     // Restore custom settings of var
     carSens.setSave(eepRom.getData());
-
+    Serial2.begin(122); // Serial2 on pins 17 (RX)
 }
 
 void loop() {
+
+    if (Serial2.available() > 0) {
+        Serial2.read();
+    }
+
     if (ampInt.isSecond()) {
         Serial.print(F(" Start (RAM): "));
         Serial.println(getFreeRam());

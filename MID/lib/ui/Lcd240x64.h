@@ -58,7 +58,6 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
-    uint32_t valueControlled;
     uint8_t lastValue;
 //
 // Drowing counter
@@ -67,7 +66,10 @@ class Lcd240x62 : virtual public LcdUiInterface {
 
     boolean animateFast = false;
     boolean initializeDraw = false;
-    boolean resetingFuelAndDistanceMenu = false;
+
+    //
+    // from 14 to 64
+    uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
 
 public:
 /**
@@ -79,7 +81,10 @@ public:
  */
     Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {}
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {
+
+
+    }
 
 /**
  * Mid's intro
@@ -169,7 +174,7 @@ public:
     void draw() {
 
 
-        valueControll();
+
 
         //
         // Slow Animation
@@ -293,7 +298,7 @@ protected:
                 }
                 break;
             case 8:
-                btn->setNavigationState(true);
+                btn->resetStates();
                 mbs->finishEntry();
                 lcd->clearBuffer();
                 lcd->clear();
@@ -309,24 +314,6 @@ protected:
 
 private:
 
-
-    void valueControll() {
-        if (btn->isOk()) {
-            valueControlled++;
-        }
-        if (btn->isNo()) {
-            valueControlled--;
-        }
-    }
-
-    void setValueControlled(uint32_t  value) {
-        valueControlled = value;
-    }
-
-
-    uint16_t getValueControlled() {
-        return valueControlled;
-    }
 
 /**
  * Draws km as string
@@ -569,26 +556,33 @@ private:
  * */
 
         uint8_t arrSize = 10;
-        uint8_t wdDsp = 240;
-        uint8_t hgDsp = 48;
+        uint8_t wdDsp = lcd->getWidth();
+        uint8_t hgDsp = lcd->getHeight();
 
-
-        if (initializeDraw && drawIndex < (arrSize * 2)) {
-            //
-            // First frame
-            if (drawIndex == 0) {
-                this->lastValue = 25;
-            }
-
-
-            uint8_t cur = /*value*/ rangeRandomAlg(14, 64);
-            lcd->drawLine(((wdDsp / arrSize) * drawIndex) / 2, this->lastValue,
-                          ((wdDsp / arrSize) * (drawIndex + 1)) / 2, cur);
-            this->lastValue = cur;
+        if (initializeDraw) {
+            graphLines(arrSize, wdDsp, drawIndex);
+        } else {
+            this->lastValue = 25;
+            graphLines(arrSize, wdDsp, arrSize);
+            playSlow();
         }
-        // else playSlow();
-
     }
+
+    void graphLine(uint8_t arrSize, uint8_t wdDsp, uint8_t index) {
+        uint8_t cur = /*value*/ graphTest[index];
+        lcd->drawLine(((wdDsp / arrSize) * index) / 2, this->lastValue,
+                      ((wdDsp / arrSize) * (index + 1)) / 2, cur);
+        this->lastValue = cur;
+    }
+
+
+    void graphLines(uint8_t arrSize, uint8_t wdDsp, uint8_t toIndex) {
+        this->lastValue = 25;
+        for (uint8_t i = 0; i < toIndex; ++i) {
+            graphLine(arrSize, wdDsp, i);
+        }
+    }
+
 
     //
     // Only for testing draw
@@ -616,7 +610,7 @@ private:
  * Settings editor
  */
     void displayEditor() {
-        uint32_t  defVal = 0, curVal = 0, oldVal = 0, result = 0;
+        float defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
 
 
@@ -632,23 +626,23 @@ private:
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = (uint32_t ) VSS_CORRECTION * 100;
-                oldVal = curVal = (uint16_t) car->getCorVss() * 100;
+                defVal = VSS_CORRECTION * 100;
+                oldVal = curVal = car->getCorVss() * 100;
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = (uint32_t ) car->getCorRpm();
+                oldVal = curVal = car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = (uint32_t ) DST_CORRECTION;
-                oldVal = curVal = (uint32_t ) car->getCorDst() * 100;
-                result = (uint32_t ) car->getDst() * 100;
+                defVal = DST_CORRECTION;
+                oldVal = curVal = car->getCorDst() * 100;
+                result = car->getDst() * 100;
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
-                oldVal = curVal = (uint32_t ) car->getCorEcu();
+                oldVal = curVal = car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
@@ -657,11 +651,11 @@ private:
         if (drawIndex == 0) {
             //
             // Change values
-            setValueControlled(curVal);
+            btn->setValueControlled(curVal);
         }
         //
         // Current value
-        sprintf(char_7, "%07d", (int) curVal);
+        sprintf(char_7, "%07d", (unsigned int) curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
@@ -670,7 +664,7 @@ private:
             lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
 
-        curVal = getValueControlled();
+        curVal = btn->getValueControlled();
 
         /**
          * Set data to carSens

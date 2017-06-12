@@ -213,7 +213,61 @@ class CarSens {
     SavedData savedData;
 
 private:
-    double CUR_VDS;
+
+    //
+    //
+    boolean initializeAverage = 0;
+    //
+    // bool for read sensor at first loop
+    boolean isInitTemperature = 1;
+    //
+    // temperature pin container
+    uint8_t pinTmpOut;
+    //
+    // Engine temperature pin
+    uint8_t pinTemp;
+    uint8_t indexEngineTemp;
+    //
+    boolean vehicleStopped = false;
+    boolean _isEngineSens = false;
+    boolean _isVehicleSens = false;
+    uint8_t pinScreenInput, pinScreenOutput;
+    //
+    // Detect fuel switch
+    uint8_t FUEL_STATE;
+    uint8_t pinLpgClock, pinLpgData;
+    //
+    //
+    uint8_t carGearNum = 0;
+    //
+    // LPG tank
+    int CUR_LTK;
+    int FUEL_INST_CONS;
+    Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
+    uint16_t smoothEngineTemp;
+    //
+    // Screen back light vars
+    uint16_t backLightLevel = 0; // Container of current level
+
+
+    //
+    // Car's reached ...
+    uint16_t maxReachedSpeed = 0;
+    //
+    // Human Results
+    uint16_t CUR_VSS, CUR_RPM, CUR_ENT;
+    uint32_t CUR_ECU;
+    //
+    int pushLpgIndex = 0;
+
+    //
+    // Speeding alarms
+    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
+    //
+    // Fuel detection
+    unsigned int pullLpgIndex = 0, combLpgIndex = 0;
+
+
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -251,57 +305,7 @@ private:
     unsigned long CUR_VDS_collection;
 
 
-    //
-    // Speeding alarms
-    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
-    //
-    // Fuel detection
-    unsigned int pullLpgIndex = 0, combLpgIndex = 0;
-
-    //
-    // Car's reached ...
-    uint16_t maxReachedSpeed = 0;
-    //
-    int pushLpgIndex = 0;
-
-    uint16_t
-    //
-    // Human Results
-            CUR_VSS, CUR_RPM, CUR_ECU, CUR_ENT;
-    //
-    // LPG tank
-    int CUR_LTK;
-    int FUEL_INST_CONS;
-    Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
-    uint16_t smoothEngineTemp;
-    //
-    // Screen back light vars
-    uint16_t backLightLevel = 0; // Container of current level
-    uint8_t pinScreenInput, pinScreenOutput;
-    //
-    // Detect fuel switch
-    uint8_t FUEL_STATE;
-    uint8_t pinLpgClock, pinLpgData;
-    //
-    //
-    uint8_t carGearNum = 0;
-    //
-    //
-    boolean initializeAverage = 0;
-    //
-    // bool for read sensor at first loop
-    boolean isInitTemperature = 1;
-    //
-    // temperature pin container
-    uint8_t pinTmpOut;
-    //
-    // Engine temperature pin
-    uint8_t pinTemp;
-    uint8_t indexEngineTemp;
-    //
-    boolean vehicleStopped = false;
-    boolean _isEngineSens = false;
-    boolean _isVehicleSens = false;
+    double CUR_VDS;
 
 
     /**

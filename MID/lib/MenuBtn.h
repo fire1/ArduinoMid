@@ -28,21 +28,25 @@ class MenuBtn {
     CarState *stt;
 
 private:
-    unsigned long lastUsed = 0;
+
+    boolean
+            isNavigationActive = true,
+            playSecondTone = false,
+            activateSteering = false,
+            isHoldState = false,
+            entryDownState = false,
+            editorActivate = false;
+
+
     uint8_t btnUp, btnDw, btnBk, pinTn;
     uint8_t lastButtonPushed = 0;
+
     const uint8_t btnMn = 200;
 
-    boolean isNavigationActive = true;
-    boolean playSecondTone = false;
-    boolean activateSteering = false;
-    boolean isHoldState = false;
-
-    //
-    // Down Button
-    bool entryDownState = false;
-    bool deblouncingState = false;
     unsigned long holdTimeHandler = 0;
+    unsigned long lastUsed = 0;
+
+    float controlledValue;
 
     void captureUp(void);
 
@@ -51,6 +55,17 @@ private:
     void captureHl(void);
 
     void shortcut(void);
+
+
+    void valueControl() {
+        if (this->isOk()) {
+            controlledValue++;
+        }
+        if (this->isNo()) {
+            controlledValue--;
+        }
+    }
+
 
 public:
     MenuBtn(AmpTime &_amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt) :
@@ -65,12 +80,29 @@ public:
         lastButtonPushed = 0;
     }
 
+    inline void setValueControlled(float value) {
+        controlledValue = value;
+    }
+
+
+    inline float getValueControlled() {
+        return controlledValue;
+    }
+
+    inline void resetStates() {
+        this->setNavigationState(true);
+        this->setEditorState(false);
+    }
 
     /**
      * Activate or disable navigation
      */
     inline void setNavigationState(boolean state) {
         isNavigationActive = state;
+    }
+
+    inline void setEditorState(boolean state) {
+        editorActivate = state;
     }
 
     inline boolean getNavigationState() {
@@ -190,10 +222,23 @@ void MenuBtn::listener() {
     //
     // Delete hold state
     isHoldState = false;
+    boolean listenForValue = false;
     //
-    // Delete last loop state record
-
+    // LISTEN for Editor activation
+    if (editorActivate && this->isBk() && this->getNavigationState()) {
+        this->setNavigationState(false);
+        listenForValue = true;
+    }
+    //
+    // LISTEN for Editor deactivation
+    if (editorActivate && this->isBk() && !this->getNavigationState()) {
+        this->setNavigationState(true);
+        listenForValue = false;
+    }
+    //
+    // Debounce the buttons
     if (lastUseDebounce()) {
+        if (listenForValue) valueControl();
         //
         // Detect up state button
         captureUp();
