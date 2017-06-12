@@ -125,8 +125,6 @@ void CarState::listener() {
         if (result.oil || result.brk || result.cnt || result.win || result.vol) {
             alertState = true;
         }
-
-
     }
 }
 

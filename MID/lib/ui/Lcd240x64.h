@@ -523,17 +523,33 @@ private:
 */
     void displayCarState() {
 
+        Diagnostic history = stt->getResult();
+
+        const char is[2] = ">";
+
+
+        if (history.brk) lcd->drawStr(LCD_COL_L11, LCD_ROW_1, is);
+
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
         if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
+
+
+        if (history.cnt) lcd->drawStr(LCD_COL_L11, LCD_ROW_2, is);
 
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(4));
         if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(7));
 
+
+        if (history.win) lcd->drawStr(LCD_COL_L11, LCD_ROW_3, is);
+
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(5));
         if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(7));
+
+
+        if (history.oil) lcd->drawStr(LCD_COL_L11, LCD_ROW_4, is);
 
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(6));
         if (stt->getLiveOil()) lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(8));
