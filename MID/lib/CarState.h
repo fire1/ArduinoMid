@@ -35,10 +35,10 @@ private:
 
     boolean alertState = false;
 
-    uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol;
 
     boolean isBadVoltage();
 
+    uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     int lastVoltageValue = 0;
 
 public:
@@ -47,7 +47,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp) : amp(&_amp) {}
+    CarState(AmpTime &_amp) : amp(&_amp) { }
 
     void setWorkState(float distance);
 
@@ -108,22 +108,25 @@ void CarState::setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
     pinBrk = pinB;
     pinVol = pinV;
 
+
 }
 
 /**
  * Readings states
  */
 void CarState::listener() {
-    if (amp->is2Seconds()) {
+    if (amp->is10Seconds()) {
         result.oil = (boolean) digitalRead(pinOil);
         result.brk = (boolean) digitalRead(pinBrk);
         result.cnt = (boolean) digitalRead(pinCnt);
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
 
-        if (result.oil || result.brk || result.cnt, result.win || result.vol) {
+        if (result.oil || result.brk || result.cnt || result.win || result.vol) {
             alertState = true;
         }
+
+
     }
 }
 
