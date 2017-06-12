@@ -207,6 +207,12 @@ public:
                 } else {
                     drawEntry = 0;
                 }
+
+                if (drawIndex > 10) {
+                    drawIndex = 0;
+                    initializeDraw = false;
+                }
+
             }
         }
 
@@ -576,6 +582,7 @@ private:
         uint8_t hgDsp = lcd->getHeight();
 
         if (initializeDraw) {
+            playFast();
             graphLines(arrSize, wdDsp, drawIndex);
         } else {
             this->lastValue = 25;
@@ -586,8 +593,8 @@ private:
 
     void graphLine(uint8_t arrSize, uint8_t wdDsp, uint8_t index) {
         uint8_t cur = /*value*/ graphTest[index];
-        lcd->drawLine(((wdDsp / arrSize) * index) / 2, this->lastValue,
-                      ((wdDsp / arrSize) * (index + 1)) / 2, cur);
+        lcd->drawLine(((wdDsp / arrSize) * index), this->lastValue,
+                      ((wdDsp / arrSize) * (index + 1)), cur);
         this->lastValue = cur;
     }
 
@@ -629,16 +636,7 @@ private:
         float defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
 
-
-        //
-        // Edit manager
-        if (btn->isBk() && btn->getNavigationState()) {
-            btn->setNavigationState(false);
-        }
-
-        if (btn->isBk() && !btn->getNavigationState()) {
-            btn->setNavigationState(true);
-        }
+        btn->setEditorState(true);
 
         switch (MidCursorMenu) {
             case 121:
@@ -664,14 +662,15 @@ private:
             default:
                 break;
         }
-        if (drawIndex == 0) {
+        if (drawIndex < 3 && initializeDraw) {
             //
             // Change values
             btn->setValueControlled(curVal);
         }
+        curVal = btn->getValueControlled();
         //
         // Current value
-        sprintf(char_7, "%07d", (unsigned int) curVal);
+        sprintf(char_7, "%07d", (int) curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
@@ -680,12 +679,12 @@ private:
             lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
 
-        curVal = btn->getValueControlled();
+
 
         /**
          * Set data to carSens
          */
-        if (btn->getNavigationState() && curVal != oldVal) {
+        if (!btn->getNavigationState() && curVal != oldVal) {
             switch (MidCursorMenu) {
                 case 121:
                     eep->setSensVss(curVal * 0.01);

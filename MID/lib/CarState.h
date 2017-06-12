@@ -122,7 +122,7 @@ void CarState::listener() {
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
 
-        if (result.oil || result.brk || result.cnt || result.win || result.vol) {
+        if (result.oil || result.brk || result.cnt || result.win /*|| result.vol*/) {
             alertState = true;
         }
     }

@@ -222,29 +222,32 @@ void MenuBtn::listener() {
     //
     // Delete hold state
     isHoldState = false;
-    boolean listenForValue = false;
-    //
-    // LISTEN for Editor activation
-    if (editorActivate && this->isBk() && this->getNavigationState()) {
-        this->setNavigationState(false);
-        listenForValue = true;
-    }
-    //
-    // LISTEN for Editor deactivation
-    if (editorActivate && this->isBk() && !this->getNavigationState()) {
-        this->setNavigationState(true);
-        listenForValue = false;
-    }
+
     //
     // Debounce the buttons
     if (lastUseDebounce()) {
-        if (listenForValue) valueControl();
+
         //
         // Detect up state button
         captureUp();
         //
         // Detect down state button
         captureDw();
+
+        //
+        // LISTEN for Editor activation
+        if (editorActivate && this->isDw() && this->getNavigationState()) {
+            this->setNavigationState(false);
+        }
+        //
+        // LISTEN for Editor deactivation
+        if (editorActivate && this->isMn() && !this->getNavigationState()) {
+            this->setNavigationState(true);
+        }
+
+
+
+        if (editorActivate && !this->getNavigationState()) valueControl();
 
         // TODO  make this hold as additional option
         // and other other waiting press after hold to activate shortcuts
@@ -259,6 +262,10 @@ void MenuBtn::listener() {
         Serial.println(lastButtonPushed);
         Serial.print(F("Navigation state :"));
         Serial.println(isNavigationActive);
+        Serial.print(F("Editor active  :"));
+        Serial.println(editorActivate);
+        Serial.print(F("Controlled value  :"));
+        Serial.println(controlledValue);
 
     }
 #endif

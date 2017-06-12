@@ -21,7 +21,7 @@ const char msg6[] PROGMEM = "Engine Oil level is: ";
 const char msg7[] PROGMEM = "CORRECT";
 const char msg8[] PROGMEM = "WARNING";
 const char msg9[] PROGMEM = "CURRENT";
-const char msg10[] PROGMEM = "Default";
+const char msg10[] PROGMEM = "DEFAULT";
 //
 //
 const char msg11[] PROGMEM = "MAIN MENU";
