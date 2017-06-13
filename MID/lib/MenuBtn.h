@@ -122,7 +122,7 @@ public:
     }
 
     inline boolean isMn() {
-        return (!isNavigationActive) ? false : lastButtonPushed == btnMn;
+        return lastButtonPushed == btnMn;
     }
 
     inline boolean isUp() {
