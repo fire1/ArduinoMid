@@ -10,6 +10,7 @@
 #include "CarSens.h"
 #include "EepRom.h"
 #include "CarState.h"
+#include "InitObj.h"
 
 
 #define BUTTONS_DEBUG
@@ -48,11 +49,6 @@ private:
 
     float controlledValue;
 
-    void captureUp(void);
-
-    void captureDw(void);
-
-    void captureHl(void);
 
     void shortcut(void);
 
@@ -194,6 +190,104 @@ public:
     }
 
 
+    void captureUp(void) {
+        if (!digitalRead(btnUp) == HIGH) {
+            if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
+                lastUsed = millis();
+                lastButtonPushed = btnUp;
+            }
+        }
+    }
+
+
+    void captureDw(void) {
+
+        //
+        // Single press button
+        if (!digitalRead(btnDw) == HIGH && !entryDownState) {
+            //
+            // Clear noise
+            if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+                lastUsed = millis();
+                tone(TONE_ADT_PIN, 700, 20);
+                entryDownState = true;
+                playSecondTone = true;
+                holdTimeHandler = millis();
+                lastButtonPushed = btnDw;
+                whl->disable();
+            }
+
+        } else if (!digitalRead(btnDw) == LOW && entryDownState) {
+            entryDownState = false;
+            whl->enable();
+        }
+
+        if (amp->isBig() && playSecondTone) {
+            tone(pinTn, 1100, 50);
+            playSecondTone = false;
+        }
+
+    }
+
+    void captureMn() {
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && !entryDownState) {
+            if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && amp->isMid()) {
+                lastUsed = millis();
+                lastButtonPushed = btnMn;
+            }
+        }
+    }
+
+    void captureHl(void) {
+        //
+        // Hold button detection
+        if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
+            if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+                //
+                // Cut the method if shortcut is executed
+                shortcut();
+                holdTimeHandler = 0;
+                isHoldState = true;
+                entryDownState = false;
+                activateSteering = true;
+                whl->disable();
+            }
+        }
+
+        //
+        // Reactivate steering wheel buttons
+        if (amp->isSecond() && activateSteering) {
+            activateSteering = false;
+            whl->enable();
+            //
+            // Preventing navigation when is deactivated
+            if (isNavigationActive) {
+                lastButtonPushed = btnUp;
+            }
+            tone(pinTn, 1300, 100);
+        }
+
+    }
+
+    void captureEd() {
+
+        //
+        // LISTEN for Editor activation
+        if (editorActivate && this->isDw() && this->getNavigationState()) {
+            this->setNavigationState(false);
+        }
+        //
+        // LISTEN for Editor deactivation
+        if (editorActivate && this->isMn() && !this->getNavigationState()) {
+            this->setNavigationState(true);
+        }
+
+        //
+        // Manages given values
+        if (editorActivate && !this->getNavigationState()) valueControl();
+    }
+
+
 };
 
 
@@ -230,24 +324,18 @@ void MenuBtn::listener() {
         //
         // Detect up state button
         captureUp();
+
         //
         // Detect down state button
         captureDw();
 
         //
-        // LISTEN for Editor activation
-        if (editorActivate && this->isDw() && this->getNavigationState()) {
-            this->setNavigationState(false);
-        }
+        // Capture R+S
+        captureMn();
+
         //
-        // LISTEN for Editor deactivation
-        if (editorActivate && this->isMn() && !this->getNavigationState()) {
-            this->setNavigationState(true);
-        }
-
-
-
-        if (editorActivate && !this->getNavigationState()) valueControl();
+        // Provides editor futures
+        captureEd();
 
         // TODO  make this hold as additional option
         // and other other waiting press after hold to activate shortcuts
@@ -269,83 +357,6 @@ void MenuBtn::listener() {
 
     }
 #endif
-
-}
-
-
-void MenuBtn::captureUp(void) {
-    if (!digitalRead(btnUp) == HIGH) {
-        if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
-            lastUsed = millis();
-            if (!digitalRead(btnDw) == HIGH) {
-                lastButtonPushed = btnMn;
-                tone(TONE_ADT_PIN, 2500, 15);
-            } else {
-                lastButtonPushed = btnUp;
-            }
-        }
-    }
-}
-
-
-void MenuBtn::captureDw(void) {
-
-    //
-    // Single press button
-    if (!digitalRead(btnDw) == HIGH && !entryDownState) {
-        //
-        // Clear noise
-        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
-            lastUsed = millis();
-            tone(TONE_ADT_PIN, 700, 20);
-            entryDownState = true;
-            playSecondTone = true;
-            holdTimeHandler = millis();
-            lastButtonPushed = btnDw;
-            whl->disable();
-        }
-
-    } else if (!digitalRead(btnDw) == LOW && entryDownState) {
-        entryDownState = false;
-        whl->enable();
-    }
-
-    if (amp->isBig() && playSecondTone) {
-        tone(pinTn, 1100, 50);
-        playSecondTone = false;
-    }
-
-}
-
-
-void MenuBtn::captureHl(void) {
-    //
-    // Hold button detection
-    if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
-        if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
-            //
-            // Cut the method if shortcut is executed
-            shortcut();
-            holdTimeHandler = 0;
-            isHoldState = true;
-            entryDownState = false;
-            activateSteering = true;
-            whl->disable();
-        }
-    }
-
-    //
-    // Reactivate steering wheel buttons
-    if (amp->isSecond() && activateSteering) {
-        activateSteering = false;
-        whl->enable();
-        //
-        // Preventing navigation when is deactivated
-        if (isNavigationActive) {
-            lastButtonPushed = btnUp;
-        }
-        tone(pinTn, 1300, 100);
-    }
 
 }
 

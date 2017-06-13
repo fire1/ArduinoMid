@@ -10,7 +10,7 @@
 
 
 #ifndef COP_TRIP_LEN
-#define COP_TRIP_LEN 100
+#define COP_TRIP_LEN 6
 #endif
 
 typedef struct cop_trip {

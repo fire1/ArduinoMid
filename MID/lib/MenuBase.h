@@ -156,21 +156,6 @@ public:
 #endif
     }
 
-    inline boolean isNavigationActive() {
-        return true;
-    }
-
-    void setNavigation(boolean nav) {
-
-    }
-
-    inline boolean isEditOption() {
-        return false;
-    }
-
-    void setEditOption(boolean edit) {
-
-    }
 
 };
 
