@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 346 //      346 /// to high 692
+#define ECU_CORRECTION 348 //      346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -220,8 +220,7 @@ private:
     //
     // bool for read sensor at first loop
     boolean isInitTemperature = 1;
-    //
-    // temperature pin container
+
     uint8_t pinTmpOut;
     //
     // Engine temperature pin
@@ -239,10 +238,6 @@ private:
     //
     //
     uint8_t carGearNum = 0;
-    //
-    // LPG tank
-    int CUR_LTK;
-    int FUEL_INST_CONS;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
     uint16_t smoothEngineTemp;
     //
@@ -259,7 +254,9 @@ private:
     uint32_t CUR_ECU;
     //
     int pushLpgIndex = 0;
-
+    //
+    // LPG tank
+    int CUR_LTK;
     //
     // Speeding alarms
     unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
@@ -267,7 +264,7 @@ private:
     // Fuel detection
     unsigned int pullLpgIndex = 0, combLpgIndex = 0;
 
-
+    float FUEL_INST_CONS;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -449,7 +446,7 @@ public:
      */
     void clearBuffer();
 
-    int getGear();
+    uint8_t getGear();
 
     /**
      * Setup engine
@@ -519,7 +516,7 @@ public:
     /**
      * Gets instant fuel consumption
      */
-    inline int getIfc() { return FUEL_INST_CONS; }
+    inline float getIfc() { return FUEL_INST_CONS; }
 
     /**
      * Gets Instant fuel consumption average value
@@ -1431,11 +1428,12 @@ void CarSens::sensCns() {
  * Instance Fuel Consumption
  */
 void CarSens::sensIfc() {
-    long cons;
+    float cons;
     unsigned long delta_dist;
 
 
-
+    // Simulation of formula
+    //
     // divide MAF by 100 because our function return MAF*100
     // but multiply by 100 for double digits precision
     // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
@@ -1444,27 +1442,27 @@ void CarSens::sensIfc() {
     // formula: (3600 * MAF) / (14.7 * 730 * VSS)
     // = maf*0.3355/vss L/km
     // mul by 100 to have L/100km
+    //
+    // getIfcFuelVal returns constant value of already calculated fuel
 
-    float maf = CUR_ECU;
 
     if (amp->isSens()) {
+        float maf = CUR_ECU; // time eclipse restore value
 
-        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); //
+        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = long(
-                    long(maf * (getIfcFuelVal() / 2)) / 1000 *
-                    0.001);  // L/h, do not use float so mul first then divide
+            cons = (maf * (getIfcFuelVal())) / CONS_DELTA_TIME;  //
         } else {
-            cons = long(maf * (getIfcFuelVal() / 2)) / delta_dist; // L/100kmh, 100 comes from the /10000*100
+            cons = (maf * (getIfcFuelVal())) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
         // pass
         // Current Instance consumption
         if (cons > 99) {
             cons = 99;
         }
-        FUEL_INST_CONS = (int) cons;
+        FUEL_INST_CONS = cons;
         //
         // Average consumption for 5 seconds
         indexIfc++;
@@ -1501,7 +1499,7 @@ void CarSens::sensIfc() {
  * Car gear
  * TODO Needs testing
  */
-int CarSens::getGear() {
+uint8_t CarSens::getGear() {
     float Ratio, Diff;
 
     int Rpm = this->CUR_RPM;

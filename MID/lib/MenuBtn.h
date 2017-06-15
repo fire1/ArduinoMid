@@ -278,7 +278,7 @@ public:
         }
         //
         // LISTEN for Editor deactivation
-        if (editorActivate && this->isMn() && !this->getNavigationState()) {
+        if (editorActivate && this->isBk() && !this->getNavigationState()) {
             this->setNavigationState(true);
         }
 

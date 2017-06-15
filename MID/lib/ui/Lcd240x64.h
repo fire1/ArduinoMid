@@ -110,7 +110,7 @@ public:
 
     void begin(void) {
         lcd->begin();
-        useTextMode();
+        useDefaultMode();
 //        lcd->enableUTF8Print();
 //        lcd->setAutoPageClear(1);
     }
@@ -146,7 +146,7 @@ public:
             lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
             lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
         }
-        if (car->getEngTmp() > 99 /*&& drawIndex % 3 == 0*/) {
+        if (car->getEngTmp() > 99 && drawIndex % 3 == 0) {
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
@@ -241,7 +241,7 @@ protected:
         lcd->drawUTF8(aniIndex * 3, 36, str);
     }
 
-    void useTextMode() {
+    void useDefaultMode() {
         // Cyrillic font u8g2_font_crox1c_tf
         // u8g2_font_crox1cb_tf
         //u8g2_font_mercutio_basic_nbp_t_all
@@ -340,6 +340,16 @@ private:
     }
 
 /**
+ * Draws instant char
+ * @param x
+ * @param y
+ */
+    inline void showInstant(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(x, y, 8, 8, mark_now_5x8_bits);
+    }
+
+
+/**
  * Draws  L/100km
  * @param x
  * @param y
@@ -428,14 +438,14 @@ private:
         lcd->drawStr(LCD_COL_R22, LCD_ROW_2, "h");
         //
         // Average speed
-        showAverage(155, LCD_ROW_3);
+        showAverage(LCD_COL_R11, LCD_ROW_3);
         sprintf(char_2, "%02d", car->getAvrVss());
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_2);
         showKm(LCD_COL_R22, LCD_ROW_3);
         //
-        // Average liters per 100km
-        showAverage(LCD_COL_R11, LCD_ROW_4);
-        displayFloat((car->getCurFuelCns() * 100) / car->getDst(), char_3); // ( litres X 100) / km distance
+        // Instant cons per 100km
+        showInstant(LCD_COL_R11, LCD_ROW_4);
+        displayFloat(car->getIfc(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_4);
         // Todo wasted fuel
@@ -718,6 +728,44 @@ private:
 
     }
 
+/**
+ * Rally gages
+ */
+    void displayRallyGages() {
+
+        // GEARS
+        // W47 H63
+        // https://github.com/olikraus/u8g2/wiki/fntgrpinconsolata
+        lcd->setFont(u8g2_font_inb63_mn);
+        uint8_t gear = car->getGear();
+
+        if (gear > 6 || gear < 1) {
+            lcd->drawStr(LCD_COL_L11, 0, "N");
+        } else {
+            sprintf(char_2, "%1d", gear);
+            lcd->drawStr(LCD_COL_L11, 0, char_2);
+        }
+        //
+        // Reset fonts
+        this->useDefaultMode();
+
+        const uint16_t maxPwr = 5400;
+        const uint8_t all_blocks = 12;
+        uint8_t blocks = (uint8_t) map(car->getRpm(), 0, 7500, 0, all_blocks);
+        if(car->getRpm() < maxPwr) {
+            uint8_t height = (uint8_t) map(car->getRpm(), 0, maxPwr, 0, 64);
+        }else{
+            uint8_t height = (uint8_t) map(car->getRpm(), maxPwr, 0, 0, 64);
+        }
+        //
+        // RPMs
+        for (int i = 0; i <= blocks; ++i) {
+
+        }
+
+
+    }
+
 };
 
 /**
@@ -771,6 +819,9 @@ void Lcd240x62::menus() {
         case 2:
             showHeader(getMsg(12));
             displayTrip();
+            break;
+        case 21:
+            displayRallyGages();
             break;
             //
             // Fuel menu
