@@ -1447,13 +1447,13 @@ void CarSens::sensIfc() {
 
 
     if (amp->isSens()) {
-        float maf = CUR_ECU; // time eclipse restore value
+        float maf = CUR_ECU / 200; // time eclipse restore value
 
         delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = (maf * (getIfcFuelVal())) / CONS_DELTA_TIME;  //
+            cons = (maf * (getIfcFuelVal())) / (CONS_DELTA_TIME * 100);  //
         } else {
             cons = (maf * (getIfcFuelVal())) / delta_dist; // L/100kmh, 100 comes from the /10000*100
         }
@@ -1475,9 +1475,9 @@ void CarSens::sensIfc() {
 
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
-    if (amp->isMinute()) {
-        indexIfc = 3;
-        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS * 3;
+    if (amp->isBig()) {
+        indexIfc = 0;
+        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
