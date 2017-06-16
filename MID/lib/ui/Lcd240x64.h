@@ -99,9 +99,15 @@ public:
             lcd->clearBuffer();
             lcd->firstPage();
             do {
+                lcd->drawXBMP(0, 2, 240, 60, OpelLogoBits);
+            } while (lcd->nextPage());
+            delay(2550);
+            lcd->clearBuffer();
+            lcd->firstPage();
+            do {
                 lcd->drawXBMP(0, 2, 240, 60, BertoneBits);
             } while (lcd->nextPage());
-            delay(5100);
+            delay(2550);
         }
         lcd->clear();
 
@@ -143,7 +149,7 @@ public:
     void showHeader(const char *title) {
         lcd->drawLine(0, 12, 240, 11);
 
-        if (stt->isAlert() /*&& drawIndex % 3 == 0*/) {
+        if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 5200 && drawIndex % 2 == 0) {
             lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
             lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
         }
@@ -812,9 +818,9 @@ private:
         // https://github.com/olikraus/u8g2/wiki/fntgrpinconsolata
 
         uint8_t gear = car->getGear();
-        lcd->setCursor(10,3);
+        lcd->setCursor(10, 3);
 
-        if (gear > 6 || gear < 1) {
+        if (gear > CAR_GEAR_MX || gear < 1) {
             lcd->print("N");
         } else {
             sprintf(char_2, "%01d", gear);

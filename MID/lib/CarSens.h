@@ -151,7 +151,7 @@ struct Fuel {
 #define CAR_GEAR_G5  0.89
 #define CAR_GEAR_G6  0.816 //  Additional functionality :)
 #define CAR_GEAR_FD   3.74 // Final drive
-
+#define CAR_GEAR_MX  5 // Last gear
 #endif
 //
 // Additional temperature sensor
