@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 347 //      346 /// to high 692
+#define ECU_CORRECTION 346.2 //      346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -937,7 +937,7 @@ void CarSens::sensEcu() {
     if (amp->isSens()) {
         //
         // Pass ecu to global
-        CUR_ECU = int(ecuHitsCount * getCorEcu());
+        CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
 //
 // debug info
 #if defined(ECU_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)

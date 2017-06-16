@@ -524,14 +524,18 @@ private:
     }
 
     void displayEdit() {
-        if (drawIndex < 5)
-            lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(24));
-        else
-            lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(32));
+        lcd->enableUTF8Print();
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        if (drawIndex < 3)
+            lcd->print(getMsg(24));
+        else if (drawIndex > 3 && drawIndex < 7)
+            lcd->print(getMsg(25));
+        else if (drawIndex > 7)
+            lcd->print(getMsg(26));
+
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(32));
 
 
-        lcd->drawStr(0, LCD_ROW_3, getMsg(25));
-        lcd->drawStr(0, LCD_ROW_4, getMsg(26));
     }
 
 /****************************************************************
@@ -541,32 +545,37 @@ private:
 
         Diagnostic history = stt->getResult();
 
-        const char is[2] = ">";
 
-
-        if (history.brk) lcd->drawStr(LCD_COL_L11, LCD_ROW_1, is);
-
+        if (history.brk) {
+            lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+            lcd->print(F("\u23F2"));
+        }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
         if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
 
-
-        if (history.cnt) lcd->drawStr(LCD_COL_L11, LCD_ROW_2, is);
-
+        if (history.cnt) {
+            lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+            lcd->print(F("\u23F2"));
+        }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(4));
         if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(7));
 
 
-        if (history.win) lcd->drawStr(LCD_COL_L11, LCD_ROW_3, is);
-
+        if (history.win) {
+            lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+            lcd->print(F("\u23F2"));
+        }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(5));
         if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(7));
 
 
-        if (history.oil) lcd->drawStr(LCD_COL_L11, LCD_ROW_4, is);
-
+        if (history.oil) {
+            lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+            lcd->print(F("\u23F2"));
+        }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(6));
         if (stt->getLiveOil()) lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(7));
@@ -666,7 +675,7 @@ private:
                 break;
             case 124:
                 defVal = ECU_CORRECTION;
-                oldVal = curVal = car->getCorEcu();
+                oldVal = curVal = car->getCorEcu() * 100;
                 result = car->getEcu();
                 break;
             default:
@@ -677,7 +686,10 @@ private:
             // Change values
             btn->setValueControlled(curVal);
         }
+        //
+        // Getting back modified value
         curVal = btn->getValueControlled();
+
         //
         // Current value
         sprintf(char_7, "%07d", (int) curVal);
@@ -703,10 +715,10 @@ private:
                     eep->setSensRpm(curVal);
                     break;
                 case 123:
-                    eep->setSensDst(curVal);
+                    eep->setSensDst(curVal * 0.01);
                     break;
                 case 124:
-                    eep->setSensEcu(curVal);
+                    eep->setSensEcu(curVal * 0.01);
                     break;
             }
             car->setSave(eep->getData());
@@ -749,18 +761,32 @@ private:
         // Reset fonts
         this->useDefaultMode();
 
+        const uint8_t wdDsp = 180;
+        const uint8_t hgDsp = 64;
         const uint16_t maxPwr = 5400;
-        const uint8_t all_blocks = 12;
-        uint8_t blocks = (uint8_t) map(car->getRpm(), 0, 7500, 0, all_blocks);
-        if(car->getRpm() < maxPwr) {
-            uint8_t height = (uint8_t) map(car->getRpm(), 0, maxPwr, 0, 64);
-        }else{
-            uint8_t height = (uint8_t) map(car->getRpm(), maxPwr, 0, 0, 64);
-        }
-        //
-        // RPMs
-        for (int i = 0; i <= blocks; ++i) {
+        const uint8_t all_blocks = 26;
 
+        uint16_t rpm = car->getRpm();
+        uint8_t current = (uint8_t) map(rpm, -1600, 8000, 0, all_blocks);
+        if (current < 1) {
+            current = 1;
+        }
+
+        uint8_t width = wdDsp / all_blocks - 1;
+        uint8_t height = hgDsp / all_blocks;
+
+        uint8_t res = (uint8_t) map(maxPwr, 0, 8000, 0, all_blocks);
+
+        //
+        // Draw rpm
+        for (uint8_t i = 0; i < current; i++) {
+
+            uint8_t crh = height * i;
+            if (res < i) {
+                crh = crh - (all_blocks / res) * ((i - res) * 3);
+            }
+
+            lcd->drawBox((wdDsp / all_blocks) * i, hgDsp - crh, width, crh);
         }
 
 
