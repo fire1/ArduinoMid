@@ -1439,23 +1439,22 @@ void CarSens::sensIfc() {
     // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
     // divide by 730 (g/L at 15°C) according to Canadian Gov to have L/s
     // multiply by 3600 to get litre per hour
-    // formula: (3600 * MAF) / (14.7 * 730 * [VSS] )
-    // lpg value 83160
-    // getIfcFuelVal returns constant value of already calculated fuel
+    // formula: (3600 * MAF) / (14.7 * 730 * VSS)
+
 
 
     if (amp->isSens()) {
-        float maf = CUR_ECU; // time eclipse restore value
+//        float maf = CUR_ECU; // time eclipse restore value
 
 //        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = (CUR_ECU * 3600) / getIfcFuelVal();
+            cons = (CUR_ECU * 3600) / (getIfcFuelVal() * 100); // converts ot sec.
         } else {
-            cons = (CUR_ECU * 3600) / (CUR_VSS * getIfcFuelVal());
+            cons = (CUR_ECU * 3600) / (getIfcFuelVal() * (CUR_VSS));
         }
-        cons = cons / 100; // Liters per hour / 100kmh
+        // Liters per hour / 100kmh
         // pass
         // Current Instance consumption
         if (cons > 99) {
