@@ -81,7 +81,7 @@
 /**************************/
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3355
-#define FUEL_BNZ_CNS 107310 // 14.7*730*10
+#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
 
 /************************/
 /* LPG ENGINE CONFIG    */
@@ -97,7 +97,7 @@
 // [CONFIRMED] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
 // // Note: this value is set without detection of fuel switch (mixed with benzine)
 #define FUEL_LPG_IFC 4329
-#define FUEL_LPG_CNS 83160  // 15.4*540*10 = 83160
+#define FUEL_LPG_CNS 8316  // 15.4*540 = 8316
 #define LPG_SWTC_PIN 7
 #endif
 /************************/
@@ -1372,7 +1372,7 @@ void CarSens::sensTmp() {
         isInitTemperature = 0;
         //
         // Pass value to global
-        CUR_OUT_TMP = temperatureC;
+        CUR_OUT_TMP = temperatureC + 2;
     }
 
 }
@@ -1439,24 +1439,23 @@ void CarSens::sensIfc() {
     // divide MAF by 14.7 air/fuel ratio to have g of fuel/s
     // divide by 730 (g/L at 15°C) according to Canadian Gov to have L/s
     // multiply by 3600 to get litre per hour
-    // formula: (3600 * MAF) / (14.7 * 730 * VSS)
-    // = maf*0.3355/vss L/km
-    // mul by 100 to have L/100km
-    //
+    // formula: (3600 * MAF) / (14.7 * 730 * [VSS] )
+    // lpg value 83160
     // getIfcFuelVal returns constant value of already calculated fuel
 
 
     if (amp->isSens()) {
-        float maf = CUR_ECU / 200; // time eclipse restore value
+        float maf = CUR_ECU; // time eclipse restore value
 
-        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
+//        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = (maf * (getIfcFuelVal())) / (CONS_DELTA_TIME * 100);  //
+            cons = (CUR_ECU * 3600) / getIfcFuelVal();
         } else {
-            cons = (maf * (getIfcFuelVal())) / delta_dist; // L/100kmh, 100 comes from the /10000*100
+            cons = (CUR_ECU * 3600) / (CUR_VSS * getIfcFuelVal());
         }
+        cons = cons / 100; // Liters per hour / 100kmh
         // pass
         // Current Instance consumption
         if (cons > 99) {
@@ -1472,7 +1471,7 @@ void CarSens::sensIfc() {
         // Average instance fuel consumption for 5 sec
         FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
     }
-
+    // deprecated
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
     if (amp->isBig()) {
