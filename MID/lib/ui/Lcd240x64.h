@@ -761,6 +761,9 @@ private:
         // Reset fonts
         this->useDefaultMode();
 
+        sprintf(char_3, "%03d", car->getVss());
+        lcd->drawStr(64, 2, char_3);
+
         const uint8_t wdDsp = 180;
         const uint8_t hgDsp = 64;
         const uint16_t maxPwr = 5400;
