@@ -378,22 +378,22 @@ private:
 public:
 
     float getCorVss() {
-        return VSS_CORRECTION;
+        return VSS_CORRECTION; //TODO Remove after test
         return (savedData.sens_vss > 0) ? savedData.sens_vss : (float) VSS_CORRECTION;
     }
 
     float getCorRpm() {
-        return RPM_CORRECTION;
+        return RPM_CORRECTION; //TODO Remove after test
         return (savedData.sens_rpm > 0) ? savedData.sens_rpm : (float) RPM_CORRECTION;
     }
 
     float getCorDst() {
-        return DST_CORRECTION;
+        return DST_CORRECTION; // Remove after test
         return (savedData.sens_dst > 0) ? savedData.sens_dst : (float) DST_CORRECTION;
     }
 
     float getCorEcu() {
-        return ECU_CORRECTION;
+        return ECU_CORRECTION; //TODO Remove after test
         return (savedData.sens_ecu > 0) ? savedData.sens_ecu : (float) ECU_CORRECTION;
     }
 

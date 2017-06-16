@@ -182,6 +182,9 @@ void loop() {
         Serial.println(carSens.getRpm());
         Serial.print(F(" ECU "));
         Serial.println(carSens.getEcu());
+
+        Serial.print(F(" RpmC "));
+        Serial.println(eepRom.getSensRpm());
 //        Serial.print(F(" TM3 " ));
 //        Serial.println(testTimer);
 

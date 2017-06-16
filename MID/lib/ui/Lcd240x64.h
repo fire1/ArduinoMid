@@ -719,7 +719,7 @@ private:
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
-        if (!btn->getNavigationState()) {
+        if (!btn->getNavigationState() && drawIndex) {
             lcd->drawStr(LCD_COL_R11 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
             lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }
