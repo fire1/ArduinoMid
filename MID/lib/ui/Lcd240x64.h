@@ -766,6 +766,7 @@ private:
         const uint16_t maxPwr = 5400;
         const uint8_t all_blocks = 26;
 
+
         uint16_t rpm = car->getRpm();
         uint8_t current = (uint8_t) map(rpm, 0, 7500, 0, all_blocks);
         if (current < 1) {
@@ -774,7 +775,8 @@ private:
 
         uint8_t width = wdDsp / all_blocks - 1;
         uint8_t height = hgDsp / all_blocks;
-
+        //
+        // Power compensation
         uint8_t res = (uint8_t) map(maxPwr, 0, 7500, 0, all_blocks);
 
         //
@@ -783,10 +785,12 @@ private:
 
             uint8_t crh = height * i;
             if (res < i) {
+                //
+                // Stepping down the power
                 crh = crh - (all_blocks / res) * ((i - res) * 3);
             }
 
-            lcd->drawBox((wdDsp / all_blocks) * i, hgDsp - crh, width, crh);
+            lcd->drawBox(60 + (wdDsp / all_blocks) * i, hgDsp - crh - res, width, crh);
         }
 
 

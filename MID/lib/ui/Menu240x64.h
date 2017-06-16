@@ -23,6 +23,7 @@
 #define MENU_NAME_124 "ECU"
 
 #define MENU_NAME_2 "Trip"
+#define MENU_NAME_21 "Rally"
 #define MENU_NAME_3 "Fuel"
 #define MENU_NAME_4 "State"
 
@@ -49,6 +50,7 @@ class Menu240x60 : public MenuUiInterface {
     //
     // Trip
             tripMenu,
+            raceMenu,
     //
     // Fuel tank
             fuelMenu,
@@ -82,6 +84,7 @@ public:
             //
             // Trip menu
                               tripMenu(MenuItem(MENU_NAME_2)),
+                              raceMenu(MenuItem(MENU_NAME_21)),
             //
             // Fuels menu
                               fuelMenu(MenuItem(MENU_NAME_3)),
@@ -101,6 +104,10 @@ public:
         ecuSet.add(setupMenu);
         aboutMenu.add(mainMenu);
         aboutMenu.addRight(mainMenu);
+
+        tripMenu.addRight(raceMenu);
+        raceMenu.addRight(tripMenu);
+        raceMenu.add(tripMenu);
 
         menu.moveDown();
         MidCursorMenu = 1;
@@ -153,6 +160,8 @@ public:
             // Trip
         } else if (curMenuName == MENU_NAME_2) {
             MidCursorMenu = 2;
+        } else if (curMenuName == MENU_NAME_21) {
+            MidCursorMenu = 21;
             //
             // Fuel
         } else if (curMenuName == MENU_NAME_3) {
