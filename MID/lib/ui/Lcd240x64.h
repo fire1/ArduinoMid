@@ -58,6 +58,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
+    const uint8_t *fontSelect;
     uint8_t lastValue;
 //
 // Drowing counter
@@ -168,17 +169,38 @@ public:
 
     }
 
+    void setFont(const uint8_t *font) {
+        fontSelect = font;
+    }
+
+    void changeFont() {
+        if (!fontSelect) {
+            useDefaultMode();
+        } else {
+            lcd->setFont(fontSelect);
+        }
+    }
+
 /**
  * Draw graphic
  */
     void draw() {
-
+        if (MidCursorMenu == 21) {
+            lcd->setFont(u8g2_font_logisoso58_tr);
+            lcd->setFontRefHeightExtendedText();
+            lcd->setFontDirection(0);
+            lcd->setDrawColor(1);
+            lcd->setFontPosTop();
+        } else {
+            useDefaultMode();
+        }
 
 
 
         //
         // Slow Animation
         if (!animateFast) {
+//            changeFont();
             if (amp->isMax()) {
                 lcd->firstPage();
                 do {
@@ -197,6 +219,7 @@ public:
             // Fast animation
         } else {
             if (amp->isBig()) {
+//                changeFont();
                 lcd->firstPage();
                 do {
                     menus();
@@ -745,24 +768,9 @@ private:
  */
     void displayRallyGages() {
 
-        // GEARS
-        // W47 H63
-        // https://github.com/olikraus/u8g2/wiki/fntgrpinconsolata
-        lcd->setFont(u8g2_font_inb63_mn);
-        uint8_t gear = car->getGear();
-
-        if (gear > 6 || gear < 1) {
-            lcd->drawStr(LCD_COL_L11, 0, "N");
-        } else {
-            sprintf(char_2, "%1d", gear);
-            lcd->drawStr(LCD_COL_L11, 0, char_2);
-        }
-        //
-        // Reset fonts
-        this->useDefaultMode();
-
-        sprintf(char_3, "%03d", car->getVss());
-        lcd->drawStr(64, 2, char_3);
+//
+//        sprintf(char_3, "%03d", car->getVss());
+//        lcd->drawStr(64, 2, char_3);
 
         const uint8_t wdDsp = 180;
         const uint8_t hgDsp = 64;
@@ -784,7 +792,7 @@ private:
 
         //
         // Draw rpm
-        for (uint8_t i = 0; i < current; i++) {
+        for (uint8_t i = 1; i < current; i++) {
 
             uint8_t crh = height * i;
             if (res < i) {
@@ -795,6 +803,25 @@ private:
 
             lcd->drawBox(60 + (wdDsp / all_blocks) * i, hgDsp - crh - res, width, crh);
         }
+
+
+
+
+        // GEARS
+        // W47 H63
+        // https://github.com/olikraus/u8g2/wiki/fntgrpinconsolata
+
+        uint8_t gear = car->getGear();
+        lcd->setCursor(10,3);
+
+        if (gear > 6 || gear < 1) {
+            lcd->print("N");
+        } else {
+            sprintf(char_2, "%01d", gear);
+            lcd->print(char_2);
+        }
+
+        // Reset fonts
 
 
     }

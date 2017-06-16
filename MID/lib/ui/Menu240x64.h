@@ -23,7 +23,7 @@
 #define MENU_NAME_124 "ECU"
 
 #define MENU_NAME_2 "Trip"
-#define MENU_NAME_21 "Rally"
+#define MENU_NAME_21 "Race"
 #define MENU_NAME_3 "Fuel"
 #define MENU_NAME_4 "State"
 

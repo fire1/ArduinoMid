@@ -27,7 +27,7 @@
 #define MID_CAR_SENS_VERSION 0.1
 //
 // Show information from consumption
-//#define DEBUG_CONS_INFO
+#define DEBUG_CONS_INFO
 //
 // Speeding alarm
 #define VSS_ALARM_CITY_SPEED  60 // km
@@ -1461,28 +1461,28 @@ void CarSens::sensIfc() {
             cons = 99;
         }
         FUEL_INST_CONS = cons;
-        //
-        // Average consumption for 5 seconds
-        indexIfc++;
-        // Comes from missing 200 milliseconds between read intervals
-        collectionIfc += (cons  /** *  MILLIS_SENS*/);
-        //
-        // Average instance fuel consumption for 5 sec
-        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
-    }
-    // deprecated
-    // Average IFC for 5 sec
-    // Keep last value as 1:3 rate
-    if (amp->isBig()) {
-        indexIfc = 0;
-        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS;
+//        //
+//        // Average consumption for 5 seconds
+//        indexIfc++;
+//        // Comes from missing 200 milliseconds between read intervals
+//        collectionIfc += (cons  /** *  MILLIS_SENS*/);
+//        //
+//        // Average instance fuel consumption for 5 sec
+//        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
+//    }
+//    // deprecated
+//    // Average IFC for 5 sec
+//    // Keep last value as 1:3 rate
+//    if (amp->isBig()) {
+//        indexIfc = 0;
+//        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isMax()) {
 
         Serial.print("\n\n Fuel Cons  | INS: ");
-        Serial.print(FUEL_INST_CONS * 0.001);
+        Serial.print(FUEL_INST_CONS );
         Serial.print(" || TTL: ");
         Serial.print(TTL_FL_CNS);
         Serial.print(" || ECU: ");
