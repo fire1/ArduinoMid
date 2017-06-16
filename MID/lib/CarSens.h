@@ -1221,9 +1221,9 @@ void CarSens::sensEnt() {
         if (val < 390) {
             //
             // Mapping below 80deg C temperature
-            CUR_ENT = (int) map(val, 0, 390, -4, 80);
+            CUR_ENT = (uint16_t) map(val, 0, 390, -4, 80);
         } else { // old 385
-            CUR_ENT = (int) map(val, 390, 620, 80, 90);
+            CUR_ENT = (uint16_t) map(val, 390, 620, 80, 90);
         }
         //
         // Over heating ALARM
