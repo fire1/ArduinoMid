@@ -767,7 +767,7 @@ private:
         const uint8_t all_blocks = 26;
 
         uint16_t rpm = car->getRpm();
-        uint8_t current = (uint8_t) map(rpm, -1600, 8000, 0, all_blocks);
+        uint8_t current = (uint8_t) map(rpm, 0, 7500, 0, all_blocks);
         if (current < 1) {
             current = 1;
         }
@@ -775,7 +775,7 @@ private:
         uint8_t width = wdDsp / all_blocks - 1;
         uint8_t height = hgDsp / all_blocks;
 
-        uint8_t res = (uint8_t) map(maxPwr, 0, 8000, 0, all_blocks);
+        uint8_t res = (uint8_t) map(maxPwr, 0, 7500, 0, all_blocks);
 
         //
         // Draw rpm
