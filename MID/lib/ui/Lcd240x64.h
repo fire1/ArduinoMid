@@ -474,7 +474,7 @@ private:
         //
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
-        displayFloat(car->getIfc(), char_3);
+        displayFloat(car->getIfcAvr(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_4);
         // Todo wasted fuel
@@ -577,7 +577,7 @@ private:
 
         if (history.brk) {
             lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
-            lcd->print(F("\u23F2"));
+            lcd->print(F("*"));
         }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
         if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
@@ -585,7 +585,7 @@ private:
 
         if (history.cnt) {
             lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
-            lcd->print(F("\u23F2"));
+            lcd->print(F("*"));
         }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(4));
         if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
@@ -594,7 +594,7 @@ private:
 
         if (history.win) {
             lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
-            lcd->print(F("\u23F2"));
+            lcd->print(F("*"));
         }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(5));
         if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(8));
@@ -603,7 +603,7 @@ private:
 
         if (history.oil) {
             lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
-            lcd->print(F("\u23F2"));
+            lcd->print(F("*"));
         }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(6));
         if (stt->getLiveOil()) lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(8));
@@ -820,7 +820,7 @@ private:
         uint8_t gear = car->getGear();
         lcd->setCursor(10, 3);
 
-        if (gear >= CAR_GEAR_MX || gear < 1) {
+        if (gear >= 6 || gear < 1) {
             lcd->print("N");
         } else {
             sprintf(char_2, "%01d", gear);

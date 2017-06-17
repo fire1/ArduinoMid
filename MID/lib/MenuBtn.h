@@ -13,7 +13,7 @@
 #include "InitObj.h"
 
 
-#define BUTTONS_DEBUG
+//#define BUTTONS_DEBUG
 
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000
@@ -179,14 +179,15 @@ public:
 #endif
             return true;
         } else {
-
+            return false;
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (amp->isSecond()) {
                 Serial.println("Debounce is false");
             }
-        }
-        return false;
+
+
 #endif
+        }
     }
 
 

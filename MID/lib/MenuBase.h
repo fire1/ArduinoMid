@@ -5,7 +5,7 @@
 #ifndef ARDUINO_MID_MENU_BASE_H
 #define ARDUINO_MID_MENU_BASE_H
 
-#define MENU_DEBUG // Uncomment to get info
+//#define MENU_DEBUG // Uncomment to get info
 
 #include <Arduino.h>
 #include <MenuBackend.h>

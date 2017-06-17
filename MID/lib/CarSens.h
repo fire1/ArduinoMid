@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 346.2 //      346 /// to high 692
+#define ECU_CORRECTION 345.5 //      346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -1450,10 +1450,17 @@ void CarSens::sensIfc() {
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = (CUR_ECU * 3600) / (getIfcFuelVal() * 100); // converts ot sec.
+            cons = ((CUR_ECU * 3600) / (getIfcFuelVal())) * 0.003600; // converts ot sec.
         } else {
-            cons = (CUR_ECU * 3600) / (getIfcFuelVal() * (CUR_VSS));
+            cons = ((CUR_ECU * 3600) / (getIfcFuelVal() * (CUR_VDS * 100))) * 0.01;
         }
+
+        Serial.print(F("IFC: "));
+        Serial.print(((CUR_ECU * 3600) / (getIfcFuelVal())) * 0.003600);
+        Serial.print(F(" || "));
+        Serial.print(((CUR_ECU * 3600) / (getIfcFuelVal() * (60 * 100))) * 0.01);
+
+        Serial.println("");
         // Liters per hour / 100kmh
         // pass
         // Current Instance consumption
@@ -1461,28 +1468,30 @@ void CarSens::sensIfc() {
             cons = 99;
         }
         FUEL_INST_CONS = cons;
-//        //
-//        // Average consumption for 5 seconds
-//        indexIfc++;
-//        // Comes from missing 200 milliseconds between read intervals
-//        collectionIfc += (cons  /** *  MILLIS_SENS*/);
-//        //
-//        // Average instance fuel consumption for 5 sec
-//        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
-//    }
-//    // deprecated
-//    // Average IFC for 5 sec
-//    // Keep last value as 1:3 rate
-//    if (amp->isBig()) {
-//        indexIfc = 0;
-//        collectionIfc = (unsigned long) FUEL_AVRG_INST_CONS;
+        //
+        // Average consumption for 5 seconds
+
+        // Comes from missing 200 milliseconds between read intervals
+        collectionIfc += (cons  /** *  MILLIS_SENS*/);
+        indexIfc++;
+        //
+        // Average instance fuel consumption for 5 sec
+        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
+    }
+    // deprecated
+    // Average IFC for 5 sec
+    // Keep last value as 1:3 rate
+
+    if (amp->isMax()) {
+        indexIfc = 0;
+        collectionIfc = 0;
     }
 
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isMax()) {
 
         Serial.print("\n\n Fuel Cons  | INS: ");
-        Serial.print(FUEL_INST_CONS );
+        Serial.print(FUEL_INST_CONS);
         Serial.print(" || TTL: ");
         Serial.print(TTL_FL_CNS);
         Serial.print(" || ECU: ");
