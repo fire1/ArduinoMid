@@ -681,36 +681,38 @@ private:
  * Settings editor
  */
     void displayEditor() {
-        float defVal = 0, curVal = 0, oldVal = 0, result = 0;
+        //
+        // Max value 65535
+        uint32_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
 
         btn->setEditorState(true);
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = VSS_CORRECTION * 100;
-                oldVal = curVal = car->getCorVss() * 100;
+                defVal = (uint32_t) VSS_CORRECTION * 100;
+                oldVal = curVal = (uint32_t) car->getCorVss() * 100;
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = car->getCorRpm();
+                oldVal = curVal = (uint32_t) car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = DST_CORRECTION;
-                oldVal = curVal = car->getCorDst() * 100;
-                result = car->getDst() * 100;
+                defVal = (uint32_t) DST_CORRECTION * 100;
+                oldVal = curVal = (uint32_t) car->getCorDst() * 100;
+                result = (uint32_t) car->getDst();
                 break;
             case 124:
-                defVal = ECU_CORRECTION;
-                oldVal = curVal = car->getCorEcu() * 100;
+                defVal = (uint32_t) ECU_CORRECTION * 100;
+                oldVal = curVal = (uint32_t) car->getCorEcu() * 100;
                 result = car->getEcu();
                 break;
             default:
                 break;
         }
-        if (drawIndex < 3 && initializeDraw) {
+        if (drawIndex < 2 && initializeDraw) {
             //
             // Change values
             btn->setValueControlled(curVal);
@@ -820,7 +822,7 @@ private:
         uint8_t gear = car->getGear();
         lcd->setCursor(10, 3);
 
-        if (gear >= 6 || gear < 1) {
+        if (gear > 6 || gear < 1) {
             lcd->print("N");
         } else {
             sprintf(char_2, "%01d", gear);
