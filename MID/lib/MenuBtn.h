@@ -47,7 +47,7 @@ private:
     unsigned long holdTimeHandler = 0;
     unsigned long lastUsed = 0;
 
-    float controlledValue;
+    uint32_t controlledValue;
 
 
     void shortcut(void);
@@ -76,12 +76,12 @@ public:
         lastButtonPushed = 0;
     }
 
-    inline void setValueControlled(float value) {
+    inline void setValueControlled(uint32_t value) {
         controlledValue = value;
     }
 
 
-    inline float getValueControlled() {
+    inline uint32_t getValueControlled() {
         return controlledValue;
     }
 
