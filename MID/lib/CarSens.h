@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 187.13 //      346 /// to high 692
+#define ECU_CORRECTION 100.23 //      346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -242,7 +242,7 @@ private:
     uint16_t smoothEngineTemp;
     //
     // Screen back light vars
-    uint16_t backLightLevel = 0; // Container of current level
+    uint8_t backLightLevel = 0; // Container of current level
 
 
     //
@@ -565,7 +565,7 @@ public:
     /**
      * Gets current Ecu
      */
-    inline uint16_t getEcu() { return CUR_ECU; }
+    inline uint32_t getEcu() { return CUR_ECU; }
 
     inline int getTnkLpg() { return CUR_LTK; }
 
@@ -1070,10 +1070,10 @@ char *CarSens::getHTm(float saved) {
 void CarSens::sensDim() {
 
     boolean defaultActive = 0;
-    analogRead(pinScreenInput);
 
-    backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
+    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
 
+//    Serial.println(pinScreenOutput);
     if (backLightLevel < SCREEN_GO_TO_DEF) {
         backLightLevel = SCREEN_DEF_LIGHT;
         defaultActive = 1;
@@ -1087,7 +1087,7 @@ void CarSens::sensDim() {
         if (defaultActive == 0) {
             backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
         }
-        analogWrite(pinScreenOutput, backLightLevel + 50);
+        analogWrite(pinScreenOutput, backLightLevel );
     }
 }
 

@@ -108,7 +108,7 @@ const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
 
 //
 // Display pins map
-//  NOTE: pins are inverted due to sockets
+//  NOTE: pins are inverted due to LCD sockets
 //
 //  General pins
 const uint8_t DSP_PIN_GD1 = 26; // Power GND
@@ -133,7 +133,7 @@ const uint8_t DSP_PIN_DT6 = 40;
 const uint8_t DSP_PIN_DT7 = 43;
 const uint8_t DSP_PIN_DT8 = 42;
 
-const uint8_t DIM_PIN_OUT = 49;     //              Output dim of playEntry
+const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
 #endif;
 
 
