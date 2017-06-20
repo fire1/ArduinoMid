@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 100.23 //      346 /// to high 692
+#define ECU_CORRECTION 100.23 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -243,14 +243,14 @@ private:
     //
     // Screen back light vars
     uint8_t backLightLevel = 0; // Container of current level
-
+    uint8_t CUR_ENT; // Engine temperature
 
     //
     // Car's reached ...
-    uint16_t maxReachedSpeed = 0;
+    uint8_t maxReachedSpeed = 0, maxReachedRevs = 0;
     //
     // Human Results
-    uint16_t CUR_VSS, CUR_RPM, CUR_ENT;
+    uint16_t CUR_VSS, CUR_RPM;
     uint32_t CUR_ECU;
     //
     int pushLpgIndex = 0;
@@ -615,7 +615,9 @@ public:
     /**
      * Gets maximum car speed
      */
-    uint16_t getMxmVss();
+    uint8_t getMxmVss();
+
+    uint16_t getMxmRpm();
 
     /**
      *  Listen sensors
@@ -827,7 +829,7 @@ void CarSens::listener() {
     //
     // I don't know way but this is a fix ... ?
     // Only like this way base vars are initialized every single loop
-    //
+    // or this is a bug in Arduino IDE
     if (amp->isSens()) {
         int foo;
         foo = getEcu();
@@ -835,19 +837,23 @@ void CarSens::listener() {
         foo = getVss();
         foo = getAvrVss();
         foo = getAvrRpm();
+
+
+        uint8_t vss = getVss();
+        //
+        // Detect time
+        if (vss < 1) {
+            vehicleStopped = 1;
+        } else {
+            vehicleStopped = 0;
+        }
+        sensDim();
     }
 
-    int vss = getVss();
+
     //
-    // Detect time
-    if (vss < 1) {
-        vehicleStopped = 1;
-    } else {
-        vehicleStopped = 0;
-    }
-    //
-    // Sens playEntry dim
-    if (amp->isMin()) {
+    // Sens display Dim more frequently by skipping Sens loop
+    if (amp->isLow() && backLightLevel > SCREEN_GO_TO_DEF && !amp->isSens()) {
         sensDim();
     }
     //
@@ -867,7 +873,7 @@ void CarSens::sensVss() {
 
         //
         // Pass vss to global
-        CUR_VSS = int(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+        CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
@@ -911,7 +917,7 @@ void CarSens::sensRpm() {
     if (amp->isSens()) {
         //
         // Pass rpm to global
-        CUR_RPM = int(rpmHitsCount * getCorRpm());
+        CUR_RPM = uint16_t(rpmHitsCount * getCorRpm());
 
 //
 // debug info
@@ -1087,103 +1093,13 @@ void CarSens::sensDim() {
         if (defaultActive == 0) {
             backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
         }
-        analogWrite(pinScreenOutput, backLightLevel );
+        analogWrite(pinScreenOutput, backLightLevel);
     }
 }
 
 
 #ifdef ADT_FUEL_SYSTEM_I2C
 
-/**
- * Car tank/s sens
- *
-void CarSens::listenerI2cLpg(I2cSimpleListener *i2c) {
-    //
-    // LPG tank
-    //      Full tank reading        805
-    //      Empty tank reading       ---
-//    if (!digitalRead(CarSens::pinLpgClc))
-
-/*    if (digitalRead(pinLpgData) == HIGH)
-        pullLpgIndex |= digitalRead(pinLpgClc) << pushLpgIndex;
-
-
-    int value = 0;
-    pushLpgIndex++;
-
-
-    if (amp->is4Seconds()) {
-        pullLpgIndex = 0;
-        pushLpgIndex = 0;
-    }
-
-    if (amp->is4Seconds()) {
-        combLpgIndex = 0;
-    }
-
-    if (digitalRead(pinLpgClock) == LOW) {
-        pushLpgIndex++;
-//        Serial.print("\n\n");
-//        Serial.print("Last read LPG values | PUSH: ");
-//        Serial.print(pushLpgIndex);
-//        Serial.print(" | PULL: ");
-//        Serial.print(pullLpgIndex);
-//        Serial.print(" | COMB: ");
-//        Serial.print(combLpgIndex);
-//        Serial.print("\n\n");
-    }
-
-    if (digitalRead(pinLpgData) == LOW) {
-        pullLpgIndex++;
-//        Serial.print("\n\n");
-//        Serial.print("Last read LPG values | PUSH: ");
-//        Serial.print(pushLpgIndex);
-//        Serial.print(" | PULL: ");
-//        Serial.print(pullLpgIndex);
-//        Serial.print(" | COMB: ");
-//        Serial.print(combLpgIndex);
-//        Serial.print("\n\n");
-    }
-
-    if (!digitalRead(pinLpgData) && !digitalRead(pinLpgClock)) {
-        combLpgIndex++;
-//        Serial.print("\n\n");
-//        Serial.print("Last read LPG values | PUSH: ");
-//        Serial.print(pushLpgIndex);
-//        Serial.print(" | PULL: ");
-//        Serial.print(pullLpgIndex);
-//        Serial.print(" | COMB: ");
-//        Serial.print(combLpgIndex);
-//        Serial.print("\n\n");
-    }
-
-
-    unsigned long currentTime = millis();
-
-    if (pushLpgIndex > 30 && pushLpgIndex < 100 && lastDetectionLpg + 1000 >) {
-        lastDetectionLpg = currentTime;
-        if (FUEL_STATE == 1) {
-            FUEL_STATE = 0;
-        } else {
-            FUEL_STATE = 1;
-        }
-        Serial.print(F("CHANGED FUEL STATE TO "));
-        Serial.println(FUEL_STATE);
-    }
-
-//
-//    if (amp->isMid()) {
-//        Serial.print("\n\n");
-//        Serial.print("Last read LPG values | PUSH: ");
-//        Serial.print(pushLpgIndex);
-//        Serial.print(" | PULL: ");
-//        Serial.print(pullLpgIndex);
-//        Serial.print(" | COMB: ");
-//        Serial.print(combLpgIndex);
-//        Serial.print("\n\n");
-//    }
-}
-/**/
 #endif
 
 int CarSens::getLpgPull() {
@@ -1221,9 +1137,9 @@ void CarSens::sensEnt() {
         if (val < 390) {
             //
             // Mapping below 80deg C temperature
-            CUR_ENT = (uint16_t) map(val, 0, 390, -4, 80);
+            CUR_ENT = (uint8_t) map(val, 0, 390, -4, 80);
         } else { // old 385
-            CUR_ENT = (uint16_t) map(val, 390, 620, 80, 90);
+            CUR_ENT = (uint8_t) map(val, 390, 620, 80, 90);
         }
         //
         // Over heating ALARM
@@ -1246,28 +1162,32 @@ void CarSens::sensEnt() {
  */
 void CarSens::sensAvr() {
 
-    int vss = getVss();
-    int rpm = getRpm();
-
+    uint16_t  rpm = getRpm();
+    uint8_t  maxRpm = rpm / 100;
     //
     // Start average collection after run
-    if (!initializeAverage && vss > 1) {
+    if (!initializeAverage && getVss() > 1) {
         initializeAverage = 1;
     }
 
     //
     // Check is initialize Average
     if (amp->isSens() && initializeAverage) {
-        averageAllVssValues += vss;
+        averageAllVssValues += getVss();
         if (rpm > 0) {
             averageAllRpmValues += rpm;
         }
         averageDivider += 1;
         //
         //  Resolve maximum speed reached
-        if (maxReachedSpeed < vss) {
-            maxReachedSpeed = vss;
+        if (maxReachedSpeed < getVss()) {
+            maxReachedSpeed = getVss();
         }
+
+        if (maxReachedRevs < maxRpm) {
+            maxReachedRevs = maxRpm;
+        }
+
     }
 
 }
@@ -1287,9 +1207,16 @@ uint16_t CarSens::getAvrRpm() {
 }
 
 /**
- * Max reached speed
+ * Gets Max reached revolutions / 100
  */
-uint16_t CarSens::getMxmVss() {
+uint16_t CarSens::getMxmRpm() {
+    return maxReachedRevs * 100;
+}
+
+/**
+ * Gets Max reached speed
+ */
+uint8_t CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 

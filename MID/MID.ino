@@ -114,14 +114,26 @@ void setup() {
     //
     // Restore custom settings of var
     carSens.setSave(eepRom.getData());
-    Serial2.begin(122); // Serial2 on pins 17 (RX)
+    //
+    // TODO testing ...
+    // for 7bit frame 109
+//    pinMode(17, INPUT); Serial
+    Serial2.begin(122); // pin 17  input  121
+    // https://community.particle.io/t/serial-7-bit-data-even-parity/23446/10
+
 }
 
 void loop() {
 
     if (Serial2.available() > 0) {
-        Serial2.read();
+        char ch;
+        ch = Serial2.read();
+        Serial.println("");
+        Serial.print("LPG: ");
+        Serial.println(ch);
+        Serial.println("");
     }
+
 
     if (ampInt.isSecond()) {
         Serial.print(F(" Start (RAM): "));

@@ -683,30 +683,30 @@ private:
     void displayEditor() {
         //
         // Max value 65535
-        uint32_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
+        uint16_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
 
         btn->setEditorState(true);
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = (uint32_t) VSS_CORRECTION * 100;
-                oldVal = curVal = (uint32_t) car->getCorVss() * 100;
+                defVal = (uint16_t) VSS_CORRECTION * 100;
+                oldVal = curVal = (uint16_t) car->getCorVss() * 100;
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = (uint32_t) car->getCorRpm();
+                oldVal = curVal = (uint16_t) car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = (uint32_t) DST_CORRECTION * 100;
-                oldVal = curVal = (uint32_t) car->getCorDst() * 100;
+                defVal = (uint16_t) DST_CORRECTION ;
+                oldVal = curVal = (uint16_t) car->getCorDst() ;
                 result = (uint32_t) car->getDst();
                 break;
             case 124:
-                defVal = (uint32_t) ECU_CORRECTION * 100;
-                oldVal = curVal = (uint32_t) car->getCorEcu() * 100;
+                defVal = (uint16_t) ECU_CORRECTION ;
+                oldVal = curVal = (uint16_t) car->getCorEcu() ;
                 result = car->getEcu();
                 break;
             default:
@@ -723,7 +723,7 @@ private:
 
         //
         // Current value
-        sprintf(char_7, "%07d", (int) curVal);
+        sprintf(char_7, "%07d",  curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
@@ -759,13 +759,13 @@ private:
 
         //
         // Default value
-        sprintf(char_7, "%07d", (int) defVal);
+        sprintf(char_7, "%07d",  defVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
 
         //
         // Result value
-        sprintf(char_7, "%07d", (int) result);
+        sprintf(char_7, "%07d", result);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
 
