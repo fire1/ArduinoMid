@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 92.23 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 34.6 //75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -1162,8 +1162,8 @@ void CarSens::sensEnt() {
  */
 void CarSens::sensAvr() {
 
-    uint16_t  rpm = getRpm();
-    uint8_t  maxRpm = rpm / 100;
+    uint16_t rpm = getRpm();
+    uint8_t maxRpm = rpm / 100;
     //
     // Start average collection after run
     if (!initializeAverage && getVss() > 1) {
@@ -1377,17 +1377,16 @@ void CarSens::sensIfc() {
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * 3600) / (getIfcFuelVal())) * 0.003600; // converts ot sec.
+            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * 10000)); // converts ot sec.
         } else {
-            cons = ((CUR_ECU * 3600) / (getIfcFuelVal() * (CUR_VDS * 100))) * 0.01;
+            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (CUR_VDS * 1000)));
         }
-
-        Serial.print(F("IFC: "));
-        Serial.print(((CUR_ECU * 3600) / (getIfcFuelVal())) * 0.003600);
-        Serial.print(F(" || "));
-        Serial.print(((CUR_ECU * 3600) / (getIfcFuelVal() * (60 * 100))) * 0.01);
-
-        Serial.println("");
+        // 4329
+//        Serial.print(F("IFC: "));
+//        Serial.print(((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal())) * 0.003600);
+//        Serial.print(F(" || "));
+//        Serial.print(((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (60 * 100))) * 0.01);
+//        Serial.println("");
         // Liters per hour / 100kmh
         // pass
         // Current Instance consumption
@@ -1446,7 +1445,7 @@ uint8_t CarSens::getGear() {
         carGearNum = 7;
 
         if ((-0.1 < Ratio - CAR_GEAR_G1) and (Ratio - CAR_GEAR_G1 < 0.1)) carGearNum = 1;
-        if ((-0.1 < Ratio - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
+        if ((-0.1 < Ratio / 6 - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
         if ((-0.1 < Ratio - CAR_GEAR_G3) and (Ratio - CAR_GEAR_G3 < 0.1)) carGearNum = 3;
         if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
         if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
