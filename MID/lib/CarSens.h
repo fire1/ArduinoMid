@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 34.6 //75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 92.23//must be:34.6 //  75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
