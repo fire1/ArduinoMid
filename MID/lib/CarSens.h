@@ -705,6 +705,10 @@ void CarSens::setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_
     pinTemp = pinTmp;
 };
 
+//void deatach(){
+//    detachInterrupt(pinVss);
+//}
+
 /**
  * Gets calculate constant for instant consumption
  * @return int
@@ -811,6 +815,7 @@ void CarSens::listener() {
     // Interrupts
     //
     sei();
+
     //
     // Other
     sensAvr();
