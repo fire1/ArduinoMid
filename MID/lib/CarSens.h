@@ -162,7 +162,7 @@ struct Fuel {
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-//#define  DEBUG_TEMPERATURE_OU
+#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 
 
@@ -1259,6 +1259,8 @@ void CarSens::sensTmp() {
      *      Temperature range to [°C]: 250
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
+     *
+     * ~ 36°C value 136
      */
     if (isInitTemperature || amp->is5Seconds()) {
         float Vin = 5.0;     // [V]
@@ -1290,14 +1292,14 @@ void CarSens::sensTmp() {
         temperatureC = TempK - 284.75;
 
 #if defined(DEBUG_TEMPERATURE_OU)
-        if (amp->isMid()) {
+
             Serial.print("Read Temp  value: ");
             Serial.print(reading);
             Serial.print("  | volts: ");
             Serial.print(Vout);
             Serial.print(" | calculation:");
             Serial.println(temperatureC);
-        }
+
 #endif
         //
         // Close first loop

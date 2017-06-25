@@ -185,7 +185,12 @@ void loop() {
     eepRom.injectFromSerial();
     //
     // Calls StackCount() to report the unused RAM
-    if (ampInt.isBig() && false) {
+    if (ampInt.isSecond()) {
+
+        Serial.print("Correction Dst: ");
+        Serial.println(eepRom.getData().sens_dst);
+
+        /*
         Serial.print(F(" End free heap (RAM): "));
         Serial.println(getFreeRam());
         Serial.print(F(" VSS "));
@@ -199,6 +204,7 @@ void loop() {
         Serial.println(eepRom.getSensRpm());
 //        Serial.print(F(" TM3 " ));
 //        Serial.println(testTimer);
+         */
 
     }
 }

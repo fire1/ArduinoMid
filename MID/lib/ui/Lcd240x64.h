@@ -690,7 +690,7 @@ private:
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = (uint16_t) VSS_CORRECTION * 100;
+                defVal = (uint16_t) VSS_CORRECTION ;
                 oldVal = curVal = (uint16_t) car->getCorVss() * 100;
                 result = car->getVss();
                 break;
@@ -700,13 +700,13 @@ private:
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = (uint16_t) DST_CORRECTION ;
-                oldVal = curVal = (uint16_t) car->getCorDst() ;
+                defVal = (uint16_t) DST_CORRECTION;
+                oldVal = curVal = (uint16_t) car->getCorDst();
                 result = (uint32_t) car->getDst();
                 break;
             case 124:
-                defVal = (uint16_t) ECU_CORRECTION ;
-                oldVal = curVal = (uint16_t) car->getCorEcu() ;
+                defVal = (uint16_t) ECU_CORRECTION;
+                oldVal = curVal = (uint16_t) car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
@@ -723,7 +723,7 @@ private:
 
         //
         // Current value
-        sprintf(char_7, "%07d",  curVal);
+        sprintf(char_7, "%07d", curVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
@@ -746,10 +746,10 @@ private:
                     eep->setSensRpm(curVal);
                     break;
                 case 123:
-                    eep->setSensDst(curVal * 0.01);
+                    eep->setSensDst(curVal);
                     break;
                 case 124:
-                    eep->setSensEcu(curVal * 0.01);
+                    eep->setSensEcu(curVal);
                     break;
             }
             car->setSave(eep->getData());
@@ -759,7 +759,7 @@ private:
 
         //
         // Default value
-        sprintf(char_7, "%07d",  defVal);
+        sprintf(char_7, "%07d", defVal);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
 

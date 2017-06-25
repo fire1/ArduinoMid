@@ -686,6 +686,37 @@ void EepRom::injectFromSerial(void) {
             srlOutputs = F("Work distance ");
             srlOutputs += saveTemp;
         }
+        //
+        // Correction value inject
+        if (srlStrName == "cor_rpm") {
+            // Total work distance
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            setSensRpm(saveTemp);
+            srlOutputs = F("RPM correction ");
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "cor_vss") {
+            // Total work distance
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            setSensVss(saveTemp);
+            srlOutputs = F("VSS correction ");
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "cor_dst") {
+            // Total work distance
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            setSensDst(saveTemp);
+            srlOutputs = F("DST correction ");
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "cor_ecu") {
+            // Total work distance
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            setSensEcu(saveTemp);
+            srlOutputs = F("ECU correction ");
+            srlOutputs += saveTemp;
+        }
+
 
         if (srlStrName == "save_wrk") {
             // Saves type
