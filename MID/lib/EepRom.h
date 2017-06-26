@@ -525,6 +525,13 @@ void EepRom::saveCurrentData() {
     // trip
     data[5] = container.dist_trp;
     data[6] = container.time_trp;
+    //
+    // Sens editor
+    data[7] = container.sens_vss;
+    data[8] = container.sens_rpm;
+    data[9] = container.sens_dst;
+    data[10] = container.sens_ecu;
+
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
@@ -607,6 +614,10 @@ void EepRom::loadCurrentData() {
     Serial.println(data[2], 2);
     Serial.println(data[3], 2);
     Serial.println(data[4], 2);
+    Serial.println(data[7]);
+    Serial.println(data[8]);
+    Serial.println(data[9]);
+    Serial.println(data[10]);
     delay(10);
 }
 
@@ -709,6 +720,7 @@ void EepRom::injectFromSerial(void) {
             srlOutputs = F("DST correction ");
             srlOutputs += saveTemp;
         }
+
         if (srlStrName == "cor_ecu") {
             // Total work distance
             saveTemp = Serial.readStringUntil('\n').toFloat();
@@ -717,20 +729,33 @@ void EepRom::injectFromSerial(void) {
             srlOutputs += saveTemp;
         }
 
+        if (srlStrName == "cor_pass") {
+            // Saves type
+            saveTemp = Serial.readStringUntil('\n').toInt();
+            if (saveTemp == 1) {
+                car->setSave(container);
+                srlOutputs = F("Passing value to carSens ");
+            }
+        }
 
         if (srlStrName == "save_wrk") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1)saveResetData();
-            srlOutputs = F("Saved Work distance ");
-            srlOutputs += saveTemp;
+            if (saveTemp == 1) {
+                saveResetData();
+                srlOutputs = F("Saved Work distance ");
+                srlOutputs += saveTemp;
+            }
         }
         if (srlStrName == "save") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1)saveCurrentData();
-            srlOutputs = F("Saved All data ");
-            srlOutputs += saveTemp;
+            if (saveTemp == 1) {
+                saveCurrentData();
+                srlOutputs = F("Saved All data ");
+                srlOutputs += saveTemp;
+            }
+
         }
 
         //

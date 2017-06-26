@@ -47,7 +47,7 @@ private:
     unsigned long holdTimeHandler = 0;
     unsigned long lastUsed = 0;
 
-    uint16_t controlledValue;
+    float controlledValue;
 
 
     void shortcut(void);
@@ -55,10 +55,10 @@ private:
 
     void valueControl() {
         if (this->isOk()) {
-            controlledValue++;
+            controlledValue = controlledValue + 1;
         }
         if (this->isNo()) {
-            controlledValue--;
+            controlledValue = controlledValue - 1;
         }
     }
 
@@ -76,12 +76,12 @@ public:
         lastButtonPushed = 0;
     }
 
-    inline void setValueControlled(uint16_t value) {
+    inline void setValueControlled(float value) {
         controlledValue = value;
     }
 
 
-    inline uint16_t getValueControlled() {
+    inline float getValueControlled() {
         return controlledValue;
     }
 
@@ -170,7 +170,7 @@ public:
     }
 
     boolean lastUseDebounce() {
-        if (millis() - lastUsed > 450) {
+        if (millis() - lastUsed > 150) {
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (amp->isSecond()) {
                 Serial.println("Debounce is true");
@@ -205,7 +205,7 @@ public:
 
         //
         // Single press button
-        if (!digitalRead(btnDw) == HIGH && !entryDownState) {
+        if (!digitalRead(btnDw) == HIGH && !entryDownState || !digitalRead(btnDw) == HIGH && !isNavigationActive) {
             //
             // Clear noise
             if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
@@ -213,7 +213,7 @@ public:
                 tone(TONE_ADT_PIN, 700, 20);
                 entryDownState = true;
                 playSecondTone = true;
-                holdTimeHandler = millis();
+                holdTimeHandler = lastUsed;
                 lastButtonPushed = btnDw;
                 whl->disable();
             }

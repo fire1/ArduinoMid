@@ -66,6 +66,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     uint8_t drawEntry = 0;
 
     boolean animateFast = false;
+    boolean animateUltra = false;
     boolean initializeDraw = false;
 
     //
@@ -187,6 +188,32 @@ public:
         }
     }
 
+    void handleDrawerEntry() {
+        drawIndex++;
+        if (MidCursorMenu == MENU_ENTRY) {
+            drawEntry++;
+        } else {
+            drawEntry = 0;
+        }
+    }
+
+    void handleDrawer() {
+        drawIndex++;
+
+        if (drawIndex > 10) {
+            drawIndex = 0;
+            initializeDraw = false;
+        }
+    }
+
+    void makeDraw() {
+        lcd->firstPage();
+        do {
+            menus();
+        } while (lcd->nextPage());
+    }
+
+
 /**
  * Draw graphic
  */
@@ -205,43 +232,27 @@ public:
 
         //
         // Slow Animation
-        if (!animateFast) {
-//            changeFont();
-            if (amp->isMax()) {
-                lcd->firstPage();
-                do {
-                    menus();
-                } while (lcd->nextPage());
-                drawIndex++;
+        if (animateUltra) {
+            if (amp->isMid()) {
+                makeDraw();
+                handleDrawerEntry();
+            }
+        }
 
-                if (drawIndex > 10) {
-                    drawIndex = 0;
-                    initializeDraw = false;
-                }
-
+        if (animateFast) {
+            if (amp->isBig()) {
+                makeDraw();
+                handleDrawer();
 
             }
-            //
-            // Fast animation
-        } else {
-            if (amp->isBig()) {
-//                changeFont();
-                lcd->firstPage();
-                do {
-                    menus();
-                } while (lcd->nextPage());
-                drawIndex++;
-                if (MidCursorMenu == MENU_ENTRY) {
-                    drawEntry++;
-                } else {
-                    drawEntry = 0;
-                }
+        }
 
-                if (drawIndex > 10) {
-                    drawIndex = 0;
-                    initializeDraw = false;
-                }
 
+        if (!animateFast && !animateUltra) {
+//            changeFont();
+            if (amp->isMax()) {
+                makeDraw();
+                handleDrawer();
             }
         }
 
@@ -249,14 +260,23 @@ public:
     }
 
 protected:
-
+/**
+ * NOT RECCOMENDED use
+ * only for short time
+ */
+    inline void playUltra() {
+        animateUltra = true;
+        animateFast = false;
+    }
 
     inline void playFast() {
         animateFast = true;
+        animateUltra = false;
     }
 
     inline void playSlow() {
         animateFast = false;
+        animateUltra = false;
     }
 //
 // Defining content generate container variables
@@ -302,7 +322,7 @@ protected:
                 drawEntry = 0;
                 break;
             case 0:
-                this->playFast();
+                this->playUltra();
                 lcd->clear();
                 mbs->startEntry();
                 btn->setNavigationState(false);
@@ -340,7 +360,6 @@ protected:
                 drawEntry = 0;
                 drawIndex = 0;
                 initializeDraw = true;
-                animateFast = false;
                 this->playSlow();
                 break;
         }
@@ -683,30 +702,30 @@ private:
     void displayEditor() {
         //
         // Max value 65535
-        uint16_t defVal = 0, curVal = 0, oldVal = 0, result = 0;
+        float defVal = 0, curVal = 0, oldVal = 0, result = 0;
 
 
         btn->setEditorState(true);
 
         switch (MidCursorMenu) {
             case 121:
-                defVal = (uint16_t) VSS_CORRECTION ;
-                oldVal = curVal = (uint16_t) car->getCorVss() * 100;
+                defVal = VSS_CORRECTION;
+                oldVal = curVal = car->getCorVss();
                 result = car->getVss();
                 break;
             case 122:
                 defVal = RPM_CORRECTION;
-                oldVal = curVal = (uint16_t) car->getCorRpm();
+                oldVal = curVal = car->getCorRpm();
                 result = car->getRpm();
                 break;
             case 123:
-                defVal = (uint16_t) DST_CORRECTION;
-                oldVal = curVal = (uint16_t) car->getCorDst();
+                defVal = DST_CORRECTION;
+                oldVal = curVal = car->getCorDst();
                 result = (uint32_t) car->getDst();
                 break;
             case 124:
-                defVal = (uint16_t) ECU_CORRECTION;
-                oldVal = curVal = (uint16_t) car->getCorEcu();
+                defVal = ECU_CORRECTION;
+                oldVal = curVal = car->getCorEcu();
                 result = car->getEcu();
                 break;
             default:
@@ -723,7 +742,11 @@ private:
 
         //
         // Current value
-        sprintf(char_7, "%07d", curVal);
+
+//        dtostrf(curVal, 5, 2, char_6);
+//        sprintf(char_6, "%06s", char_7);
+
+        displayFloat(curVal, char_7);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
@@ -756,16 +779,16 @@ private:
         }
 
 
-
+        displayFloat(defVal, char_7);
         //
         // Default value
-        sprintf(char_7, "%07d", defVal);
+//        sprintf(char_7, "%0d.%02d", (uint16_t) defVal, (uint8_t) (defVal * 100) % 100);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
 
         //
         // Result value
-        sprintf(char_7, "%07d", result);
+        sprintf(char_7, "%07d", (uint16_t) result);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
 
