@@ -1293,12 +1293,12 @@ void CarSens::sensTmp() {
 
 #if defined(DEBUG_TEMPERATURE_OU)
 
-            Serial.print("Read Temp  value: ");
-            Serial.print(reading);
-            Serial.print("  | volts: ");
-            Serial.print(Vout);
-            Serial.print(" | calculation:");
-            Serial.println(temperatureC);
+        Serial.print("Read Temp  value: ");
+        Serial.print(reading);
+        Serial.print("  | volts: ");
+        Serial.print(Vout);
+        Serial.print(" | calculation:");
+        Serial.println(temperatureC);
 
 #endif
         //
@@ -1377,16 +1377,17 @@ void CarSens::sensIfc() {
 
 
 
-    if (amp->isSens()) {
+    if (amp->isSecond()) {
 //        float maf = CUR_ECU; // time eclipse restore value
 
 //        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
 
         // if maf is 0 it will just output 0
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * 10000)); // converts ot sec.
+            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) /
+                    (getIfcFuelVal() * CONS_DELTA_TIME * 10000)); // converts ot sec.
         } else {
-            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (CUR_VDS * 1000)));
+            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (CUR_VDS * 10000)));
         }
         // 4329
 //        Serial.print(F("IFC: "));
@@ -1397,6 +1398,22 @@ void CarSens::sensIfc() {
         // Liters per hour / 100kmh
         // pass
         // Current Instance consumption
+
+#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
+
+
+        Serial.print("\n\n Fuel Cons  | INS: ");
+        Serial.print(FUEL_INST_CONS);
+        Serial.print(" || TTL: ");
+        Serial.print(TTL_FL_CNS);
+        Serial.print(" || ECU: ");
+        Serial.print(CUR_ECU);
+        Serial.print(" || CNS: ");
+        Serial.print(cons);
+        Serial.print("\n\n ");
+
+#endif
+
         if (cons > 99) {
             cons = 99;
         }
@@ -1420,19 +1437,7 @@ void CarSens::sensIfc() {
         collectionIfc = 0;
     }
 
-#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
-    if (amp->isMax()) {
 
-        Serial.print("\n\n Fuel Cons  | INS: ");
-        Serial.print(FUEL_INST_CONS);
-        Serial.print(" || TTL: ");
-        Serial.print(TTL_FL_CNS);
-        Serial.print(" || ECU: ");
-        Serial.print(CUR_ECU);
-
-        Serial.print("\n\n ");
-    }
-#endif
 }
 
 /**

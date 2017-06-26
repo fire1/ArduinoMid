@@ -20,6 +20,8 @@
 #endif
 
 
+#define BTN_DEBOUNCE_RATE 300
+
 class MenuBtn {
 
     AmpTime *amp;
@@ -169,8 +171,10 @@ public:
         return stt;
     }
 
+    //
+    // TODO change BTN_DEBOUNCE_RATE to faster
     boolean lastUseDebounce() {
-        if (millis() - lastUsed > 100) {
+        if (millis() - lastUsed > BTN_DEBOUNCE_RATE) {
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (amp->isSecond()) {
                 Serial.println("Debounce is true");
