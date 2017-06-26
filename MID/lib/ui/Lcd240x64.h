@@ -181,10 +181,14 @@ public:
     }
 
     void changeFont() {
-        if (!fontSelect) {
-            useDefaultMode();
+        if (MidCursorMenu == 21) {
+            lcd->setFont(u8g2_font_logisoso58_tr);
+            lcd->setFontRefHeightExtendedText();
+            lcd->setFontDirection(0);
+            lcd->setDrawColor(1);
+            lcd->setFontPosTop();
         } else {
-            lcd->setFont(fontSelect);
+            useDefaultMode();
         }
     }
 
@@ -218,20 +222,10 @@ public:
  * Draw graphic
  */
     void draw() {
-        if (MidCursorMenu == 21) {
-            lcd->setFont(u8g2_font_logisoso58_tr);
-            lcd->setFontRefHeightExtendedText();
-            lcd->setFontDirection(0);
-            lcd->setDrawColor(1);
-            lcd->setFontPosTop();
-        } else {
-            useDefaultMode();
-        }
-
-
+        changeFont();
 
         //
-        // Slow Animation
+        // Ultra fast animation
         if (animateUltra) {
             if (amp->isMid()) {
                 makeDraw();
@@ -239,6 +233,8 @@ public:
             }
         }
 
+        //
+        // Fast animation
         if (animateFast) {
             if (amp->isBig()) {
                 makeDraw();
@@ -247,9 +243,9 @@ public:
             }
         }
 
-
+        //
+        // Slow / Normal animation
         if (!animateFast && !animateUltra) {
-//            changeFont();
             if (amp->isMax()) {
                 makeDraw();
                 handleDrawer();
@@ -261,7 +257,7 @@ public:
 
 protected:
 /**
- * NOT RECCOMENDED use
+ * NOT RECOMMENDED use
  * only for short time
  */
     inline void playUltra() {
@@ -566,19 +562,23 @@ private:
     void displayInfo() {
         lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(20));
         lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(21));
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, getMsg(22));
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(23));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_4, MID_VERSION);
+
+        if (drawIndex < 5) {
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(22));
+        } else {
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(23));
+            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, MID_VERSION);
+        }
     }
 
     void displayEdit() {
         lcd->enableUTF8Print();
         lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
-        if (drawIndex < 3)
+        if (drawIndex < 2)
             lcd->print(getMsg(24));
-        else if (drawIndex > 3 && drawIndex < 7)
+        else if (drawIndex > 2 && drawIndex < 6)
             lcd->print(getMsg(25));
-        else if (drawIndex > 7)
+        else if (drawIndex > 6 && drawIndex < 10)
             lcd->print(getMsg(26));
 
         lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(32));
@@ -703,7 +703,7 @@ private:
         //
         // Max value 65535
         float defVal = 0, curVal = 0, oldVal = 0, result = 0;
-
+        playFast();
 
         btn->setEditorState(true);
 
