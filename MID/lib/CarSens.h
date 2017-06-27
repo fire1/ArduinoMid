@@ -253,6 +253,10 @@ private:
     uint16_t CUR_VSS, CUR_RPM;
     uint32_t CUR_ECU;
     //
+    // Instant Fuel consumption counter
+    uint16_t indexIfc;
+
+    //
     int pushLpgIndex = 0;
     //
     // LPG tank
@@ -263,8 +267,10 @@ private:
     //
     // Fuel detection
     unsigned int pullLpgIndex = 0, combLpgIndex = 0;
-
+    //
+    //
     float FUEL_INST_CONS;
+    float FUEL_WASTED = 0;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -279,7 +285,8 @@ private:
     //
     unsigned long CUR_VTT;// Travel time
 
-    unsigned long collectionIfc, indexIfc;
+
+    unsigned long collectionIfc;
     unsigned long lastDetectionLpg = 0;
     //
     // Car's average
@@ -539,6 +546,10 @@ public:
     inline float getCurFuelCns() {
         if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
         if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
+    }
+
+    inline float getCurFuelWasted() {
+        return FUEL_WASTED * 0.00001;
     }
 
     /**
@@ -1353,6 +1364,11 @@ void CarSens::sensCns() {
 
         setConsumedFuel(deltaFuel);
 
+        //
+        // Collect wasted fuel
+        if (this->getVss() < 1) {
+            FUEL_WASTED = FUEL_WASTED + deltaFuel;
+        }
     }
 
 
@@ -1377,40 +1393,25 @@ void CarSens::sensIfc() {
 
 
 
-    if (amp->isSecond()) {
-//        float maf = CUR_ECU; // time eclipse restore value
-
-//        delta_dist = ((CUR_VSS * 100) * CONS_DELTA_TIME); // per 100km
-
-        // if maf is 0 it will just output 0
+    if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) /
-                    (getIfcFuelVal() * CONS_DELTA_TIME * 10000)); // converts ot sec.
+            cons = ((CUR_ECU * getIfcFuelVal()) / 1000000);
         } else {
-            cons = ((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (CUR_VDS * 10000)));
+            cons = ((CUR_ECU * getIfcFuelVal() / (CUR_VDS * 10000)));
         }
         // 4329
-//        Serial.print(F("IFC: "));
-//        Serial.print(((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal())) * 0.003600);
-//        Serial.print(F(" || "));
-//        Serial.print(((CUR_ECU * 3600 * CONS_DELTA_TIME) / (getIfcFuelVal() * (60 * 100))) * 0.01);
-//        Serial.println("");
-        // Liters per hour / 100kmh
-        // pass
-        // Current Instance consumption
-
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
 
 
-        Serial.print("\n\n Fuel Cons  | INS: ");
+        Serial.print(F("\n\n Fuel Cons  | INS: "));
         Serial.print(FUEL_INST_CONS);
-        Serial.print(" || TTL: ");
+        Serial.print(F(" || TTL: "));
         Serial.print(TTL_FL_CNS);
-        Serial.print(" || ECU: ");
+        Serial.print(F(" || ECU: "));
         Serial.print(CUR_ECU);
-        Serial.print(" || CNS: ");
+        Serial.print(F(" || CNS: "));
         Serial.print(cons);
-        Serial.print("\n\n ");
+        Serial.print(F("\n\n "));
 
 #endif
 
@@ -1419,22 +1420,33 @@ void CarSens::sensIfc() {
         }
         FUEL_INST_CONS = cons;
         //
-        // Average consumption for 5 seconds
-
-        // Comes from missing 200 milliseconds between read intervals
-        collectionIfc += (cons  /** *  MILLIS_SENS*/);
+        // Average consumption collection
+        collectionIfc += (cons);
         indexIfc++;
-        //
-        // Average instance fuel consumption for 5 sec
-        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
     }
     // deprecated
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
 
-    if (amp->isMax()) {
+    if (amp->isSecond()) {
+        //
+        // Average instance fuel consumption for 5 sec
+        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
         indexIfc = 0;
         collectionIfc = 0;
+#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
+        Serial.print(F("\n\n Fuel Cons  | INS: "));
+        Serial.print(FUEL_INST_CONS);
+        Serial.print(F(" || AVR: "));
+        Serial.print(FUEL_AVRG_INST_CONS);
+        Serial.print(F(" || TTL: "));
+        Serial.print(TTL_FL_CNS);
+        Serial.print(F(" || ECU: "));
+        Serial.print(CUR_ECU);
+        Serial.print(F(" || CNS: "));
+        Serial.print(cons);
+        Serial.print(F("\n\n "));
+#endif
     }
 
 

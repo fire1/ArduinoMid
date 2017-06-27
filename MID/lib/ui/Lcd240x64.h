@@ -29,7 +29,7 @@
 #define LCD_COL_L11 5
 #define LCD_COL_L12 25
 #define LCD_COL_L21 35
-#define LCD_COL_L22 45
+#define LCD_COL_L22 50
 #define LCD_COL_L23 70
 
 #define LCD_CNR 120 // Center of the screen
@@ -283,7 +283,7 @@ protected:
     void menus();
 
     void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
-        lcd->drawUTF8(aniIndex * 3, 36, str);
+//        lcd->drawUTF8(aniIndex * 3, 36, str);
     }
 
     void useDefaultMode() {
@@ -321,7 +321,10 @@ protected:
                 this->playUltra();
                 lcd->clear();
                 mbs->startEntry();
+                //
+                // Reset button handler
                 btn->setNavigationState(false);
+                btn->useDebounceNormal();
                 tone(TONE_ADT_PIN, 2800, 16);
                 break;
             case 1:
@@ -412,9 +415,12 @@ private:
     inline void showCels(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 4, 8, mark_cel_4x8_bits);
     }
-
-    unsigned int aniIndex;
-
+/**
+ *
+ */
+    inline void showLiter(u8g2_uint_t x, u8g2_uint_t y){
+        lcd->drawXBMP(x, y, 4, 8, mark_liter_4x8_bits);
+    }
 
 /**
  * Displays consumed fuel
@@ -423,12 +429,12 @@ private:
 
         lcd->drawXBMP(4, 15, 18, 18, fuel_18x18_bits);
         displayFloat(eep->getConsumedFuel(), char_3);
-        lcd->drawStr(25, LCD_ROW_1, char_3);
-        lcd->drawXBMP(50, LCD_ROW_1, 4, 8, mark_liter_4x8_bits);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
+        showLiter(LCD_COL_L22, LCD_ROW_1);
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
-        lcd->drawStr(25, LCD_ROW_2, char_3);
-        showL100km(50, LCD_ROW_2);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
+        showL100km(LCD_COL_L22, LCD_ROW_2);
     }
 
 /**
@@ -599,7 +605,7 @@ private:
             lcd->print(F("*"));
         }
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
-        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(8));
+        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, (drawIndex < 5) ? getMsg(9) : getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
 
         if (history.cnt) {
@@ -641,9 +647,32 @@ private:
  * Trip graphic
  */
     void displayTrip() {
-/* TODO Draw trip graphic
- * */
+        //
+        // Trip max
+        lcd->drawXBMP(4, 15, 18, 18, gage_18x18_bits);
+        sprintf(char_4, "%04d", car->getMxmRpm());
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_4);
+        lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
+        lcd->print(F("rpm"));
 
+        displayFloat(car->getMxmVss(), char_3);
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
+        showKm(LCD_COL_L22, LCD_ROW_2);
+        //
+        // Travel fuel
+        lcd->drawXBMP(120, 15, 18, 18, fuel_18x18_bits);
+        displayFloat(car->getCurFuelCns(), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
+        showLiter(LCD_COL_R12, LCD_ROW_1);
+
+        displayFloat(car->getCurFuelWasted(), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
+        showLiter(LCD_COL_R12, LCD_ROW_2);
+
+
+    }
+
+    void displayGraph() {
         uint8_t arrSize = 10;
         uint8_t wdDsp = lcd->getWidth();
         uint8_t hgDsp = lcd->getHeight();
@@ -657,6 +686,7 @@ private:
             playSlow();
         }
     }
+
 
     void graphLine(uint8_t arrSize, uint8_t wdDsp, uint8_t index) {
         uint8_t cur = /*value*/ graphTest[index];
@@ -703,7 +733,6 @@ private:
         //
         // Max value 65535
         float defVal = 0, curVal = 0, oldVal = 0, result = 0;
-        playFast();
 
         btn->setEditorState(true);
 
@@ -733,8 +762,11 @@ private:
         }
         if (drawIndex < 2 && initializeDraw) {
             //
-            // Change values
+            // Change values and speed of buttons
             btn->setValueControlled(curVal);
+            //
+            // Change speed of screen
+            playUltra();
         }
         //
         // Getting back modified value
@@ -747,7 +779,7 @@ private:
 //        sprintf(char_6, "%06s", char_7);
 
         displayFloat(curVal, char_7);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(9));
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(18));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
         if (!btn->getNavigationState() && drawIndex) {
@@ -783,7 +815,7 @@ private:
         //
         // Default value
 //        sprintf(char_7, "%0d.%02d", (uint16_t) defVal, (uint8_t) (defVal * 100) % 100);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(10));
+        lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(19));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
 
         //

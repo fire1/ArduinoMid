@@ -15,12 +15,18 @@
 
 //#define BUTTONS_DEBUG
 
+#ifndef BTN_DEBOUNCE_FAST
+#define BTN_DEBOUNCE_FAST 50
+#endif
+
+#ifndef BTN_DEBOUNCE_RATE
+#define BTN_DEBOUNCE_RATE 350
+#endif
+
 #ifndef AWAITING_HOLD_BTN
 #define AWAITING_HOLD_BTN 2000
 #endif
 
-
-#define BTN_DEBOUNCE_RATE 300
 
 class MenuBtn {
 
@@ -43,7 +49,7 @@ private:
 
     uint8_t btnUp, btnDw, btnBk, pinTn;
     uint8_t lastButtonPushed = 0;
-
+    uint8_t debounceRate = BTN_DEBOUNCE_RATE / 10;
     const uint8_t btnMn = 200;
 
     unsigned long holdTimeHandler = 0;
@@ -74,12 +80,25 @@ public:
 
     void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones);
 
+    inline void useDebounceFast() {
+        debounceRate = BTN_DEBOUNCE_FAST / 10;
+    }
+
+    inline void useDebounceNormal() {
+        debounceRate = BTN_DEBOUNCE_RATE / 10;
+    }
+
+    inline uint16_t getDebounceRate() {
+        return debounceRate * 10;
+    }
+
     inline void clearLastButton() {
         lastButtonPushed = 0;
     }
 
     inline void setValueControlled(float value) {
         controlledValue = value;
+        useDebounceFast();
     }
 
 
@@ -174,7 +193,7 @@ public:
     //
     // TODO change BTN_DEBOUNCE_RATE to faster
     boolean lastUseDebounce() {
-        if (millis() - lastUsed > BTN_DEBOUNCE_RATE) {
+        if (millis() - lastUsed > getDebounceRate()) {
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
             if (amp->isSecond()) {
                 Serial.println("Debounce is true");

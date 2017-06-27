@@ -14,16 +14,18 @@
 const char msg0[] PROGMEM = "Goodbye ...     ";
 const char msg1[] PROGMEM = "until next time!";
 const char msg2[] PROGMEM = "ENTRY";
+//
+// Car state
 const char msg3[] PROGMEM = "Brake wearing state: ";
 const char msg4[] PROGMEM = "Coolant level state: ";
 const char msg5[] PROGMEM = "Window washer state: ";
 const char msg6[] PROGMEM = "Engine Oil level is: ";
-const char msg7[] PROGMEM = "CORRECT";
-const char msg8[] PROGMEM = "WARNING";
-const char msg9[] PROGMEM = "CURRENT";
-const char msg10[] PROGMEM = "DEFAULT";
+const char msg7[] PROGMEM = "O.K."; // Is fine message
+const char msg8[] PROGMEM = "BELOW 25%"; // Problem message for liquid
+const char msg9[] PROGMEM = "WORN OUT"; // Problem message for brakes
+const char msg10[] PROGMEM = "WENT OUT"; // Problem message for lamps
 //
-//
+// Titles
 const char msg11[] PROGMEM = "MAIN MENU";
 const char msg12[] PROGMEM = "CURRENT TRIP";
 const char msg13[] PROGMEM = "FUEL MENU";
@@ -31,8 +33,8 @@ const char msg14[] PROGMEM = "SERVICING";
 const char msg15[] PROGMEM = "ABOUT";
 const char msg16[] PROGMEM = "DASHBOARD";
 const char msg17[] PROGMEM = "SETTINGS";
-const char msg18[] PROGMEM = "";
-const char msg19[] PROGMEM = "";
+const char msg18[] PROGMEM = "CURRENT";
+const char msg19[] PROGMEM = "DEFAULT";
 //
 //
 const char msg20[] PROGMEM = "To reset trips recorded in Board Comp";
