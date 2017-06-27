@@ -204,7 +204,7 @@ public:
     void handleDrawer() {
         drawIndex++;
 
-        if (drawIndex > 10) {
+        if (drawIndex > 11) {
             drawIndex = 0;
             initializeDraw = false;
         }
@@ -415,10 +415,11 @@ private:
     inline void showCels(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 4, 8, mark_cel_4x8_bits);
     }
+
 /**
  *
  */
-    inline void showLiter(u8g2_uint_t x, u8g2_uint_t y){
+    inline void showLiter(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y, 4, 8, mark_liter_4x8_bits);
     }
 
@@ -427,7 +428,7 @@ private:
  */
     void displayHomeConsumption() {
 
-        lcd->drawXBMP(4, 15, 18, 18, fuel_18x18_bits);
+        lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
         displayFloat(eep->getConsumedFuel(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
         showLiter(LCD_COL_L22, LCD_ROW_1);
@@ -473,7 +474,7 @@ private:
  */
     void displayCurrentTrip() {
         SavedData saved = eep->getData();
-        lcd->drawXBMP(120, 15, 18, 18, road_18x18_bits);
+        lcd->drawXBMP(120, LCD_ROW_1, 18, 18, road_18x18_bits);
         lcd->drawXBMP(120, LCD_ROW_3, 18, 18, grap_18x18_bits);
         //
         // Travel distance
@@ -649,7 +650,7 @@ private:
     void displayTrip() {
         //
         // Trip max
-        lcd->drawXBMP(4, 15, 18, 18, gage_18x18_bits);
+        lcd->drawXBMP(4, LCD_ROW_1 + 2, 18, 18, gage_18x18_bits);
         sprintf(char_4, "%04d", car->getMxmRpm());
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_4);
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
@@ -661,16 +662,16 @@ private:
         showKm(LCD_COL_L22, LCD_ROW_2);
         //
         // Travel fuel
-        lcd->drawXBMP(120, 15, 18, 18, fuel_18x18_bits);
+        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, fuel_18x18_bits);
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, drop_5x8_bits);
         displayFloat(car->getCurFuelCns(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
-        showLiter(LCD_COL_R21, LCD_ROW_1);
+        showLiter(LCD_COL_R22, LCD_ROW_1);
 
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
         displayFloat(car->getCurFuelWasted(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
-        showLiter(LCD_COL_R21, LCD_ROW_2);
+        showLiter(LCD_COL_R22, LCD_ROW_2);
 
 
     }
@@ -785,7 +786,7 @@ private:
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(18));
         lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
 
-        if (!btn->getNavigationState() && drawIndex) {
+        if (!btn->getNavigationState() && drawIndex % 4 == 0) {
             lcd->drawStr(LCD_COL_R11 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
             lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
         }

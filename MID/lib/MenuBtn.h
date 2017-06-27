@@ -16,7 +16,7 @@
 //#define BUTTONS_DEBUG
 
 #ifndef BTN_DEBOUNCE_FAST
-#define BTN_DEBOUNCE_FAST 50
+#define BTN_DEBOUNCE_FAST 100
 #endif
 
 #ifndef BTN_DEBOUNCE_RATE
