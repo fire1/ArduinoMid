@@ -655,19 +655,22 @@ private:
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(F("rpm"));
 
+
         displayFloat(car->getMxmVss(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         showKm(LCD_COL_L22, LCD_ROW_2);
         //
         // Travel fuel
         lcd->drawXBMP(120, 15, 18, 18, fuel_18x18_bits);
+        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, drop_5x8_bits);
         displayFloat(car->getCurFuelCns(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
-        showLiter(LCD_COL_R12, LCD_ROW_1);
+        showLiter(LCD_COL_R21, LCD_ROW_1);
 
+        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
         displayFloat(car->getCurFuelWasted(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
-        showLiter(LCD_COL_R12, LCD_ROW_2);
+        showLiter(LCD_COL_R21, LCD_ROW_2);
 
 
     }
