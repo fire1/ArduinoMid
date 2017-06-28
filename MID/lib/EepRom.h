@@ -142,7 +142,7 @@ public:
  * @return
  */
     inline int getWorkDistance(void) {
-        return int(container.total_km * 1000);
+        return int(container.total_km * 100);
     }
 
 /**
@@ -545,7 +545,7 @@ void EepRom::saveResetData() {
     //
     // Calculate total work distance
     if (container.dist_trv > 10) {
-        container.total_km = container.total_km + ((container.dist_trv) * 0.001);
+        container.total_km = container.total_km + (container.dist_trv / 100);
     }
     //
     // Resenting ...
@@ -647,7 +647,7 @@ void EepRom::injectFromSerial(void) {
 
         if (srlStrName == "trd") {
             // trip distance
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             container.dist_trp = saveTemp;
             srlOutputs = F("Trip distance ");
             srlOutputs += saveTemp;
@@ -655,13 +655,13 @@ void EepRom::injectFromSerial(void) {
 
         if (srlStrName == "trt") {
             // Trip time
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             container.time_trp = saveTemp;
             srlOutputs = F("Trip time ");
             srlOutputs += saveTemp;
         }
 
-        if (srlStrName == "change") {
+        if (srlStrName == "set_tr") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1)saveTripData();
@@ -671,28 +671,28 @@ void EepRom::injectFromSerial(void) {
 
         if (srlStrName == "lpg") {
             // Total Liters per hour consumed
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             setAdtFuel(saveTemp);
             srlOutputs = F("LPG fuel ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "bnz") {
             // Total Liters per hour consumed
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             setDefFuel(saveTemp);
             srlOutputs = F("BNZ fuel ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "ttd") {
             // Total Travel distance
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.01;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             setTravelDistance(saveTemp);
             srlOutputs = F("Travel distance ");
             srlOutputs += saveTemp;
         }
         if (srlStrName == "wrk") {
             // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toInt() * 0.001;
+            saveTemp = Serial.readStringUntil('\n').toFloat();
             setWorkDistance(saveTemp);
             srlOutputs = F("Work distance ");
             srlOutputs += saveTemp;
@@ -729,7 +729,7 @@ void EepRom::injectFromSerial(void) {
             srlOutputs += saveTemp;
         }
 
-        if (srlStrName == "cor_pass") {
+        if (srlStrName == "set_cor") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1) {
@@ -738,7 +738,7 @@ void EepRom::injectFromSerial(void) {
             }
         }
 
-        if (srlStrName == "save_wrk") {
+        if (srlStrName == "set_wrk") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             if (saveTemp == 1) {

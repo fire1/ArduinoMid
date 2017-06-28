@@ -220,7 +220,7 @@ private:
     //
     // bool for read sensor at first loop
     boolean isInitTemperature = 1;
-
+    uint8_t pinBreaks;
     uint8_t pinTmpOut;
     //
     // Engine temperature pin
@@ -255,7 +255,7 @@ private:
     //
     // Instant Fuel consumption counter
     uint16_t indexIfc;
-
+    //
     //
     int pushLpgIndex = 0;
     //
@@ -267,6 +267,10 @@ private:
     //
     // Fuel detection
     unsigned int pullLpgIndex = 0, combLpgIndex = 0;
+    //
+    //
+    float BRAK_TIME = 0;
+    unsigned long breakTimeStart = 0;
     //
     //
     float FUEL_INST_CONS;
@@ -382,6 +386,8 @@ private:
 
     void sensDlt();
 
+    void sensBkt();
+
 public:
 
     float getCorVss() {
@@ -462,7 +468,7 @@ public:
       * @param pinEcu
       * @param pinTmp
       */
-    void setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp);
+    void setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk);
 
     /**
      * Is the engine was keen
@@ -585,7 +591,10 @@ public:
     inline int getTnkBnz() { return 0; }
 
     inline int getTnkBnzPer() { return 0; }
-
+    /**
+     * Gets break time
+     */
+    inline float getBrakTime(){ return  BRAK_TIME; }
     /**
      *  Gets travel time
      */
@@ -706,7 +715,7 @@ void CarSens::setupEcuSens(uint8_t pinTarget) {
  * @param pinEcu
  * @param pinTmp
  */
-void CarSens::setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp) {
+void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk) {
     setupRpmSens(pinRpm);
     setupVssSens(pinVss);
     setupEcuSens(pinEcu);
@@ -714,6 +723,7 @@ void CarSens::setupEngine(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_
     // Engine temperature
     pinMode(pinTmp, INPUT);
     pinTemp = pinTmp;
+    pinBreaks = pinBrk;
 };
 
 //void deatach(){
@@ -838,6 +848,7 @@ void CarSens::listener() {
     sensDlt();
     sensCns();
     sensIfc();
+    sensBkt();
 
     //
     // Test Ecu
@@ -1398,7 +1409,7 @@ void CarSens::sensIfc() {
         if (CUR_VSS < CONS_TGL_VSS) {
             cons = ((CUR_ECU * getIfcFuelVal()) / 1000000);
         } else {
-            cons = ((CUR_ECU * getIfcFuelVal() / (CUR_VDS * 10000)));
+            cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VDS * 10000));
         }
         // 4329
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
@@ -1511,6 +1522,18 @@ void CarSens::setConsumedFuel(long value) {
 unsigned long dumpFuelSwitchCnt = 0;
 unsigned long dumpFuelSwitchLvl = 0;
 unsigned long dumpFuelSwitchSwt = 0;
+
+
+void CarSens::sensBkt() {
+    if (breakTimeStart == 0 && digitalRead(pinBreaks) == HIGH) {
+        breakTimeStart = millis();
+    }
+
+    if (breakTimeStart > 0 && digitalRead(pinBreaks) == LOW) {
+        BRAK_TIME = BRAK_TIME + ((millis() - breakTimeStart) / MILLIS_PER_SC);
+        breakTimeStart = 0;
+    }
+}
 
 /**
  * Makes fuel switch

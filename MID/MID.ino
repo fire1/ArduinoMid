@@ -52,7 +52,7 @@ void setup() {
     // Sets display pins to socket
     lcdPwr.begin();
     //
-    // Shutdown setupEngine
+    // Shutdown setupvehicle
     shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     //
@@ -79,7 +79,7 @@ void setup() {
     //
     // consumption
     // Engine / Speed sensors
-    carSens.setupEngine(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN);
+    carSens.setupVehicle(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN, BRK_LGH_PIN);
     //
     // Screen back-light
     carSens.setupScreen(DIM_PIN_VAL, DIM_PIN_OUT);

@@ -12,7 +12,7 @@
 // to use fast clock use values after "//"
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 692  //      346
+#define ECU_CORRECTION 346  //      346
 //
 // Speed correction
 #define VSS_CORRECTION 1.5  //      3.767

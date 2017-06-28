@@ -33,7 +33,7 @@ void menuSetup()
 	Serial.println("Setting up menu...");
 	//add the file menu to the menu root
 	menu.getRoot().add(settings); 
-		//setupEngine the settings menu item
+		//setupvehicle the settings menu item
 		settings.addRight(pin);
 			//we want looping both up and down
 			pin.addBefore(debug);

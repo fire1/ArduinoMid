@@ -474,8 +474,8 @@ private:
  */
     void displayCurrentTrip() {
         SavedData saved = eep->getData();
-        lcd->drawXBMP(120, LCD_ROW_1, 18, 18, road_18x18_bits);
-        lcd->drawXBMP(120, LCD_ROW_3, 18, 18, grap_18x18_bits);
+        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, road_18x18_bits);
+        lcd->drawXBMP(LCD_CNR, LCD_ROW_3, 18, 18, grap_18x18_bits);
         //
         // Travel distance
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
@@ -589,8 +589,6 @@ private:
             lcd->print(getMsg(26));
 
         lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(32));
-
-
     }
 
 /****************************************************************
@@ -650,13 +648,13 @@ private:
     void displayTrip() {
         //
         // Trip max
-        lcd->drawXBMP(4, LCD_ROW_1 + 2, 18, 18, gage_18x18_bits);
+        lcd->drawXBMP(4, LCD_ROW_1 + 2, 18, 18, gage_max_18x18_bits);
         sprintf(char_4, "%04d", car->getMxmRpm());
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_4);
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(F("rpm"));
-
-
+        //
+        //
         displayFloat(car->getMxmVss(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         showKm(LCD_COL_L22, LCD_ROW_2);
@@ -667,12 +665,28 @@ private:
         displayFloat(car->getCurFuelCns(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
         showLiter(LCD_COL_R22, LCD_ROW_1);
-
+        //
+        //
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
         displayFloat(car->getCurFuelWasted(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
         showLiter(LCD_COL_R22, LCD_ROW_2);
 
+        lcd->drawXBMP(4, LCD_ROW_3, 18, 18, gage_18x18_bits);
+        //
+        // Breaking time
+        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_brk_18x10_bits);
+        displayFloat(car->getBrakTime(), char_3);
+        lcd->drawStr(45, LCD_ROW_3, char_3);
+        lcd->setCursor(LCD_COL_L23, LCD_ROW_3);
+        lcd->print(F("h"));
+        //
+        // Avr RPM time
+        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_acl_18x10_bits);
+        displayFloat(car->getBrakTime(), char_3);
+        lcd->drawStr(45, LCD_ROW_3, char_3);
+        lcd->setCursor(LCD_COL_L23, LCD_ROW_3);
+        lcd->print(F("h"));
 
     }
 
