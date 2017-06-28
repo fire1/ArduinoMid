@@ -1272,6 +1272,7 @@ void CarSens::sensTmp() {
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
      *
      * ~ 36°C value 136
+     * ~ 22°C value 203
      */
     if (isInitTemperature || amp->is5Seconds()) {
         float Vin = 5.0;     // [V]
