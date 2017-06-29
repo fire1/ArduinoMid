@@ -50,7 +50,7 @@
 #ifndef CAR_SENS_CUSTOM_CORRECTION
 //
 // ECU Consumption correction
-#define ECU_CORRECTION 92.23//must be:34.6 //  75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 88.1// 92.23 must be:34.6 //  75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //      3.767
@@ -59,7 +59,7 @@
 #define RPM_CORRECTION 75   //      33.767
 //
 // Distance correction
-#define DST_CORRECTION 30800.58 //  15383.29  //   <sens:200> 15383.29
+#define DST_CORRECTION  30800.58  // Tested >30800.58 //  15383.29  //   <sens:200> 15383.29
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
@@ -1281,7 +1281,7 @@ void CarSens::sensTmp() {
      *      Temperature range to [°C]: 250
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
-     *
+     * ~ 41°C value 120
      * ~ 36°C value 136
      * ~ 22°C value 203
      */
