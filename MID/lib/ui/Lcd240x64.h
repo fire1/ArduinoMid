@@ -472,7 +472,7 @@ private:
 /**
  * Displays trip
  */
-    void displayCurrentTrip() {
+    void displayMainTrip() {
         SavedData saved = eep->getData();
         lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, road_18x18_bits);
         lcd->drawXBMP(LCD_CNR, LCD_ROW_3, 18, 18, grap_18x18_bits);
@@ -526,7 +526,7 @@ private:
 
     void displayCarDst() {
         lcd->drawStr(LCD_COL_L11, LCD_ROW_4, "DST:");
-        displayFloat(car->getDst(), char_3);
+        displayFloat(eep->getTravelDistance(), char_3);
         lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_3);
         showKm(LCD_COL_L23, LCD_ROW_4);
     }
@@ -667,7 +667,7 @@ private:
         showLiter(LCD_COL_R22, LCD_ROW_1);
         //
         //
-        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
+        lcd->drawXBMP(LCD_COL_R11 - 1, LCD_ROW_2, 6, 8, trash_6x8_bits);
         displayFloat(car->getCurFuelWasted(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
         showLiter(LCD_COL_R22, LCD_ROW_2);
@@ -682,11 +682,20 @@ private:
         lcd->print(F("h"));
         //
         // Avr RPM time
-        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_acl_18x10_bits);
+        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, eng_avr_18x10_bits);
         displayFloat(car->getBrakTime(), char_3);
         lcd->drawStr(45, LCD_ROW_3, char_3);
         lcd->setCursor(LCD_COL_L23, LCD_ROW_3);
-        lcd->print(F("h"));
+
+
+        //
+        // Consumed fuel per 100km
+        showInstant(LCD_COL_R11, LCD_ROW_3);
+        displayFloat((car->getCurFuelCns() * 100) / (car->getDst()), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_3);
+        showL100km(LCD_COL_R22, LCD_ROW_3);
+
+
 
     }
 
@@ -925,7 +934,7 @@ void Lcd240x62::menus() {
             showHeader(getMsg(11));
             displayHomeTemperatures();
             displayHomeConsumption();
-            displayCurrentTrip();
+            displayMainTrip();
             break;
             //
             // Dashboard

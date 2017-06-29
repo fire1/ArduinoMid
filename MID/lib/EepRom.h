@@ -149,8 +149,8 @@ public:
  * Gets saved travel distance
  * @return
  */
-    inline float getTraveDistance(void) {
-        return container.dist_trv;
+    inline float getTravelDistance(void) {
+        return car->getDst() + container.dist_trv;
     }
 
 /**
