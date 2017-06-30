@@ -168,6 +168,9 @@ static const uint8_t car_dist_5x8_bits[] U8X8_PROGMEM = {
 static const uint8_t car_time_5x8_bits[] U8X8_PROGMEM = {
         0x1f, 0x11, 0x1d, 0x0e, 0x0a, 0x11, 0x17, 0x1f
 };
+static const uint8_t  revs_8x8_bits[] U8X8_PROGMEM= {
+0x5c, 0x66, 0x73, 0x01, 0x81, 0xc3, 0x66, 0x3c
+};
 
 //
 // Servicing warning symbols
