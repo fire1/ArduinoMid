@@ -502,7 +502,7 @@ private:
         // Todo wasted fuel
     }
 
-    /****************************************************************
+/****************************************************************
  * Display Dashboard
  */
 
@@ -647,31 +647,17 @@ private:
  */
     void displayTrip() {
         //
-        // Trip max
+        // Trip max rpm
         lcd->drawXBMP(4, LCD_ROW_1 + 2, 18, 18, gage_max_18x18_bits);
         sprintf(char_4, "%04d", car->getMxmRpm());
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_4);
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(F("rpm"));
         //
-        //
+        // Trip max vss
         displayFloat(car->getMxmVss(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         showKm(LCD_COL_L22, LCD_ROW_2);
-        //
-        // Travel fuel
-        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, fuel_18x18_bits);
-        lcd->drawXBMP(LCD_COL_R11 + 1, LCD_ROW_1, 5, 8, drop_5x8_bits);
-        displayFloat(car->getCurFuelCns(), char_3);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
-        showLiter(LCD_COL_R22, LCD_ROW_1);
-        //
-        //
-        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
-        displayFloat(car->getCurFuelWasted(), char_3);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
-        showLiter(LCD_COL_R22, LCD_ROW_2);
-
 //        lcd->drawXBMP(4, LCD_ROW_3, 18, 18, gage_18x18_bits);
         //
         // Breaking time
@@ -683,11 +669,22 @@ private:
         //
         // Avr RPM time
         lcd->drawXBMP(LCD_COL_L11 + 1, LCD_ROW_4, 18, 10, eng_avr_18x10_bits);
-        displayFloat(car->getBrakTime(), char_3);
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_3);
-        lcd->setCursor(LCD_COL_L23, LCD_ROW_4);
+        sprintf(char_4, "%04d", car->getAvrRpm());
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_4);
 
-
+        //
+        // Travel fuel
+        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, fuel_18x18_bits);
+        lcd->drawXBMP(LCD_COL_R11 + 1, LCD_ROW_1, 5, 8, drop_5x8_bits);
+        displayFloat(car->getCurFuelCns(), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_3);
+        showLiter(LCD_COL_R22, LCD_ROW_1);
+        //
+        // Travel fuel waste
+        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 6, 8, trash_6x8_bits);
+        displayFloat(car->getCurFuelWasted(), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_3);
+        showLiter(LCD_COL_R22, LCD_ROW_2);
         //
         // Consumed fuel per 100km
         showAverage(LCD_COL_R11, LCD_ROW_3);
@@ -695,10 +692,10 @@ private:
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_3);
 
-        //
-        // TODO max speed and rpm
     }
-
+/****************************************************************
+ * Draw graph
+ */
     void displayGraph() {
         uint8_t arrSize = 10;
         uint8_t wdDsp = lcd->getWidth();
@@ -730,18 +727,6 @@ private:
         }
     }
 
-
-    //
-    // Only for testing draw
-    uint8_t rangeRandomAlg(uint8_t min, uint8_t max) {
-        uint8_t n = max - min + 1;
-        uint8_t remainder = RAND_MAX % n;
-        uint8_t x;
-        do {
-            x = (uint8_t) rand();
-        } while (x >= RAND_MAX - remainder);
-        return min + x % n;
-    }
 
 /****************************************************************
  * Fuel information
@@ -853,8 +838,8 @@ private:
 
     }
 
-/**
- * Rally gages
+/****************************************************************
+ * Rally gage
  */
     void displayRallyGages() {
 
@@ -878,7 +863,7 @@ private:
         uint8_t height = hgDsp / all_blocks;
         //
         // Power compensation
-        uint8_t res = (uint8_t) map(maxPwr, 0, 7500, 0, all_blocks);
+        uint8_t res = (uint8_t) map(maxPwr, 0, 7000, 0, all_blocks);
 
         //
         // Draw rpm
@@ -900,7 +885,6 @@ private:
         // GEARS
         // W47 H63
         // https://github.com/olikraus/u8g2/wiki/fntgrpinconsolata
-
         uint8_t gear = car->getGear();
         lcd->setCursor(10, 3);
 

@@ -48,15 +48,28 @@
 // --------------------------------------------------------------------------------------------------------------------
 //
 #ifndef CAR_SENS_CUSTOM_CORRECTION
+/**
+ * 92.23 * X = 22.5L  [full fill with 18.37L]
+ * X = 2250 / 9223
+ * X = 0.24396 [0.24395532906863276591130868480971  pulses given from signal]
+ *
+ * So ... 18.37 / 0.24396 = ~75.3
+ * 75.3 * 0.24396 = 18.370188
+ * ECU_CORRECTION = 75
+ * 88.1
+ *
+ */
 //
+// 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
+// must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 88.1// 92.23 must be:34.6 //  75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 75.3// 92.23  //  75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 1.6  //      3.767
+#define VSS_CORRECTION 1.6  //    fast 3.767
 //
 // Revs correction
-#define RPM_CORRECTION 75   //      33.767
+#define RPM_CORRECTION 75   //    fast 33.767
 //
 // Distance correction
 #define DST_CORRECTION  30800.58  // Tested >30800.58 //  15383.29  //   <sens:200> 15383.29

@@ -545,6 +545,9 @@ void EepRom::saveResetData() {
     //
     // Calculate total work distance
     if (container.dist_trv > 10) {
+        if (container.total_km < 1) {
+            container.total_km = 0;
+        }
         container.total_km = container.total_km + (container.dist_trv / 100);
     }
     //
