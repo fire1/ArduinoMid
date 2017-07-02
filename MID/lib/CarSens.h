@@ -268,6 +268,7 @@ private:
     //
     // Instant Fuel consumption counter
     uint16_t indexIfc;
+    uint16_t temperatureOutIndex = 0;
     //
     //
     int pushLpgIndex = 0;
@@ -284,6 +285,9 @@ private:
     //
     float BRAK_TIME = 0;
     unsigned long breakTimeStart = 0;
+    //
+    //
+    unsigned long temperatureOutCollection = 0;
     //
     //
     float FUEL_INST_CONS;
@@ -604,10 +608,12 @@ public:
     inline int getTnkBnz() { return 0; }
 
     inline int getTnkBnzPer() { return 0; }
+
     /**
      * Gets break time
      */
-    inline float getBrakTime(){ return  BRAK_TIME; }
+    inline float getBrakTime() { return BRAK_TIME; }
+
     /**
      *  Gets travel time
      */
@@ -1294,45 +1300,53 @@ void CarSens::sensTmp() {
      *      Temperature range to [°C]: 250
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
+     * ~ 40°C value 117
      * ~ 41°C value 120
      * ~ 36°C value 136
      * ~ 22°C value 203
      */
+    temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
+    temperatureOutIndex++;
     if (isInitTemperature || amp->is5Seconds()) {
-        float Vin = 5.0;     // [V]
-        float Rt = 10000;    // Resistor t [ohm]
-        float R0 = 10000;    // value of rct in T0 [ohm]
-        float T0 = 280.15;   // use T0 in Kelvin [K]  (corect this value )
-        float Vout = 0.0;    // Vout in A0
-        float Rout = 0.0;    // Rout in A0
-// use the datasheet to get this data.
-        float T1 = 250.15;      // [K] in datasheet 0º C
-        float T2 = 360.15;      // [K] in datasheet 100° C
-        float RT1 = 50000;   // [ohms]  resistence in T1
-        float RT2 = 150;    // [ohms]   resistence in T2
-        float beta = 0.0;    // initial parameters [K]
-        float Rinf = 0.0;    // initial parameters [ohm]
-        float TempK = 0.0;   // variable output
+//        float Vin = 5.0;     // [V]
+//        float Rt = 10000;    // Resistor t [ohm]
+//        float R0 = 10000;    // value of rct in T0 [ohm]
+//        float T0 = 280.15;   // use T0 in Kelvin [K]  (corect this value )
+//        float Vout = 0.0;    // Vout in A0
+//        float Rout = 0.0;    // Rout in A0
+//// use the datasheet to get this data.
+//        float T1 = 250.15;      // [K] in datasheet 0º C
+//        float T2 = 360.15;      // [K] in datasheet 100° C
+//        float RT1 = 50000;   // [ohms]  resistence in T1
+//        float RT2 = 150;    // [ohms]   resistence in T2
+//        float beta = 0.0;    // initial parameters [K]
+//        float Rinf = 0.0;    // initial parameters [ohm]
+//        float TempK = 0.0;   // variable output
 
 
 
-        beta = (log(RT1 / RT2)) / ((1 / T1) - (1 / T2));
-        Rinf = R0 * exp(-beta / T0);
+//        beta = (log(RT1 / RT2)) / ((1 / T1) - (1 / T2));
+//        Rinf = R0 * exp(-beta / T0);
 //auto
 
-        int reading = analogRead(TMP_PIN_OUT);
-        Vout = Vin * ((float) ((reading)) / 1024.0); // calc for ntc
-        Rout = (Rt * Vout / (Vin - Vout));
 
-        TempK = (beta / log(Rout / Rinf)); // calc for temperature
-        temperatureC = TempK - 284.75;
+        uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
+
+        temperatureC = (map(readings, 2030, 1200, 220, 410) * 0.1);
+        temperatureOutCollection = 0;
+        temperatureOutIndex = 0;
+//        Vout = Vin * ((float) ((reading)) / 1024.0); // calc for ntc
+//        Rout = (Rt * Vout / (Vin - Vout));
+//
+//        TempK = (beta / log(Rout / Rinf)); // calc for temperature
+//        temperatureC = TempK - 284.75;
 
 #if defined(DEBUG_TEMPERATURE_OU)
 
         Serial.print("Read Temp  value: ");
-        Serial.print(reading);
-        Serial.print("  | volts: ");
-        Serial.print(Vout);
+        Serial.print(readings);
+//        Serial.print("  | volts: ");
+//        Serial.print(Vout);
         Serial.print(" | calculation:");
         Serial.println(temperatureC);
 
@@ -1342,7 +1356,7 @@ void CarSens::sensTmp() {
         isInitTemperature = 0;
         //
         // Pass value to global
-        CUR_OUT_TMP = temperatureC + 2;
+        CUR_OUT_TMP = temperatureC;
     }
 
 }
@@ -1420,9 +1434,9 @@ void CarSens::sensIfc() {
 
     if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * getIfcFuelVal()) / 1000000);
+            cons = ((CUR_ECU * getIfcFuelVal()) / (CONS_DELTA_TIME * 10000));
         } else {
-            cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VDS * 10000));
+            cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VDS * 100000));
         }
         // 4329
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
@@ -1453,7 +1467,7 @@ void CarSens::sensIfc() {
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
 
-    if (amp->isSecond()) {
+    if (amp->is2Seconds()) {
         //
         // Average instance fuel consumption for 5 sec
         FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
