@@ -1304,7 +1304,7 @@ void CarSens::sensTmp() {
      * ~ 41°C value 120
      * ~ 36°C value 136
      * ~ 22°C value 203
-     * ~ 20°C value 228
+     * ~ 19°C value 2290
      */
     temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
     temperatureOutIndex++;
@@ -1333,7 +1333,7 @@ void CarSens::sensTmp() {
 
         uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
 
-        temperatureC = (map(readings, 2280, 1200, 194, 410) * 0.1);
+        temperatureC = (map(readings, 2250, 1200, 195, 410) * 0.1);
         temperatureOutCollection = 0;
         temperatureOutIndex = 0;
 //        Vout = Vin * ((float) ((reading)) / 1024.0); // calc for ntc
