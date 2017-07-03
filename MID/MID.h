@@ -160,9 +160,10 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // [meg] 52     to pin [pot] 2 [SCK]
 // [meg] 51     to pin [pot] 3 [SI]
 //     GND      to pin [pot] 4
-//     +5V      to pin [pot] 5
-//     GND      to pin [pot] 6
-// Stereo input to pin [pot] 7 (through  RELAY to stereo remote control)
+//     +5V      to pin [pot] 8
+//     GND      to pin [pot] 7
+// Stereo input to pin [pot] 6 (through  RELAY to stereo remote control)
+//                     [pot] 5 NC
 // Alpine / Steering Wheel buttons
 const uint8_t ALP_PIN_INP = A8; // +5V ->  [240R] to Radio Unit plug pin 1
 const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
