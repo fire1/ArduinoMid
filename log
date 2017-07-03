@@ -44,7 +44,7 @@ Restore Value:
 0.00
 0.00
 0.00
-Read Temp  value: 2250 | calculation:20.00
+Read Temp  value: 2400 | calculation:20.00
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -60,14 +60,6 @@ Read Temp  value: 2250 | calculation:20.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -148,73 +140,6 @@ Correction Dst: 0.00
 
 
 
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
   Draw (RAM): 5405
@@ -244,6 +169,11 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+ Read Temp  value: 2380 | calculation:20.30
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -251,10 +181,6 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -331,48 +257,8 @@ Correction Dst: 0.00
 
 
 
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -396,10 +282,22 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+  Draw (RAM): 5405
+Correction Dst: 0.00
+ Start (RAM): 5405
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+ Read Temp  value: 2380 | calculation:20.30
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -435,88 +333,9 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -560,25 +379,9 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -599,6 +402,10 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
@@ -606,22 +413,7 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
+ Read Temp  value: 2380 | calculation:20.30
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -637,327 +429,6 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
- Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1005,25 +476,9 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1067,10 +522,6 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
@@ -1078,23 +529,11 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+ Read Temp  value: 2380 | calculation:20.30
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1107,21 +546,13 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1141,14 +572,6 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1169,17 +592,13 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1203,18 +622,6 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1238,6 +645,7 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
+Read Temp  value: 2380 | calculation:20.30
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1246,11 +654,6 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1266,18 +669,6 @@ Correction Dst: 0.00
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1298,6 +689,29 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+  Draw (RAM): 5405
+Correction Dst: 0.00
+ Start (RAM): 5405
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
@@ -1319,11 +733,7 @@ Correction Dst: 0.00
 
 
 
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+ Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
 
 
@@ -1340,6 +750,22 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+ Read Temp  value: 2380 | calculation:20.30
+
+
+ Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
+
+  Draw (RAM): 5405
+Correction Dst: 0.00
+ Start (RAM): 5405
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1383,30 +809,9 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1427,29 +832,6 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
@@ -1473,349 +855,9 @@ Correction Dst: 0.00
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
 
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
   Draw (RAM): 5405
 Correction Dst: 0.00
  Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
- Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-Read Temp  value: 2250 | calculation:20.00
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || AVR: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-  Draw (RAM): 5405
-Correction Dst: 0.00
- Start (RAM): 5405
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
-
-
- Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
-
 
 
  Fuel Cons  | INS: 0.00 || TTL: 0 || ECU: 0 || CNS: 0.00
