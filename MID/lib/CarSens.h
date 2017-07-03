@@ -1299,8 +1299,8 @@ void CarSens::sensTmp() {
      * ~ 40°C value 117
      * ~ 41°C value 120
      * ~ 36°C value 136
-     * ~ 22°C value 203
-     * ~ 19°C value 225
+     * ~ 22°C value 203 <- inside garage
+     * ~ 19°C value 225 <- hot engine
      * ~ 20°C value 238
      */
     temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
