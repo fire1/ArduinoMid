@@ -1300,7 +1300,7 @@ void CarSens::sensTmp() {
      * ~ 41°C value 120
      * ~ 36°C value 136
      * ~ 22°C value 203
-     * ~ 19°C value 2290
+     * ~ 19°C value 2250
      */
     temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
     temperatureOutIndex++;
@@ -1309,7 +1309,7 @@ void CarSens::sensTmp() {
         // Get more precise average value
         uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
 
-        temperatureC = (map(readings, 2250, 1200, 195, 410) * 0.1);
+        temperatureC = (map(readings, 2200, 1200, 195, 410) * 0.1);
         temperatureOutCollection = 0;
         temperatureOutIndex = 0;
 
