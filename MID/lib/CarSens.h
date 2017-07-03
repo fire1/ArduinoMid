@@ -1406,7 +1406,7 @@ void CarSens::sensIfc() {
 
     if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * CONS_DELTA_TIME) / (getIfcFuelVal()));
+            cons = ((CUR_ECU * CONS_DELTA_TIME) / (getIfcFuelVal() ));
         } else {
             cons = ((CUR_ECU * CONS_DELTA_TIME) / (CUR_VSS * getIfcFuelVal()));
         }
@@ -1432,7 +1432,7 @@ void CarSens::sensIfc() {
         FUEL_INST_CONS = cons;
         //
         // Average consumption collection
-        collectionIfc += (cons);
+        collectionIfc += cons;
         indexIfc++;
     }
     // deprecated
@@ -1443,8 +1443,8 @@ void CarSens::sensIfc() {
         //
         // Average instance fuel consumption for 5 sec
         FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
-        indexIfc = 0;
-        collectionIfc = 0;
+        collectionIfc = FUEL_AVRG_INST_CONS * 3;
+        indexIfc =  2;
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
         Serial.print(F("\n\n Fuel Cons  | INS: "));
         Serial.print(FUEL_INST_CONS);
