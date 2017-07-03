@@ -333,9 +333,9 @@ protected:
                 lcd->drawStr(108, 1, this->getMsg(2));
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
-                lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
-                lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
-                lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
+                lcd->drawStr(LCD_CNR - (backW / 2), 15, usedMenu.back);
+                lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
+                lcd->drawStr(LCD_CNR - (nextW / 2), 45, usedMenu.next);
                 break;
             case 4:
             case 5:
@@ -343,12 +343,12 @@ protected:
             case 7:
 
                 lcd->drawFrame(10, 12 + (3 * 5), 212, 15);
-                lcd->drawStr(120 - (backW / 2), 15, usedMenu.back);
-                lcd->drawStr(120 - (usedW / 2), 30, usedMenu.used);
-                lcd->drawStr(120 - (nextW / 2), 45, usedMenu.next);
+                lcd->drawStr(LCD_CNR - (backW / 2), 15, usedMenu.back);
+                lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
+                lcd->drawStr(LCD_CNR - (nextW / 2), 45, usedMenu.next);
                 if (usedMenu.down) {
-                    lcd->drawStr(120 + (usedW / 2) + subAnimateIndex, 30, ">");
-                    lcd->drawStr((120 + (usedW / 2)) + 40, 30, usedMenu.down);
+                    lcd->drawStr(LCD_CNR + (usedW / 2) + subAnimateIndex + 20, 30, ">>");
+                    lcd->drawStr((LCD_CNR + (usedW / 2)) + 40, 30, usedMenu.down);
                 }
                 break;
             case 8:
