@@ -73,13 +73,13 @@ const uint8_t STT_BRK_PIN = A13;     //  Plug:19        [meg]    Critical Brake 
 const uint8_t STT_CLN_PIN = A14;     //  Plug:20        [meg]    Critical Coolant level
 const uint8_t STT_WNW_PIN = A15;     //  Plug:22        [meg]   Critical window washer
 const uint8_t STT_OIL_PIN = A1;     //   Plug:13        [meg]   Critical oil level
-const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
+const uint8_t STT_VLT_PIN = A7;     //   Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-light
 //
 // Temperatures
-const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [20k]   Front temperature sensor
+const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [150R]   Front temperature sensor
 
 #if SCREEN == 162 || !defined(SCREEN)
 //
