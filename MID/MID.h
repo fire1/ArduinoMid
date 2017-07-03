@@ -33,13 +33,23 @@ const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
 //
 // MID plug pins definition over Arduino
 //
-// 14.6V+   ---- [10K] --- [4.7K] --- GND
-//                      |
-//                     MCU
+// Divider Digital
+// [DVD]
+// 14.6V+   [PIN]---- [10K] --- [4.7K] --- GND
+//                           |
+//                          MCU
+//
+// Divider Analog
+//                              .----- [37uF] --- GND
+// [DVA]                        |
+// 14.6V+   [PIN]-- [5.2K] ----------- [4.7K] --- GND
+//                           |    |
+//                          MCU [ZNR] ----------- GND
+//
 //
 //      [meg] -> Connection to mega
 //      [znr] - Zenner diod 5.1v to GND
-//      [dvr] - Voltage divider = 5.2k to MID <- to mega ->  4.6k to GND
+//      [dva] - Voltage divider = 5.2k to MID <- to mega ->  4.6k to GND
 //
 // Define button pins for steering controller
 const uint8_t BTN_PIN_UP = 9;       //  Plug:23  [meg] [10k] [+5v]    Column switch
@@ -50,23 +60,23 @@ const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect sup
 const uint8_t SAV_PIN_DTC = A7;     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
 //
 // Engine pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31    [dvr + 100uf ] Engine Temp.  [may be 50uf capacitor]
-const uint8_t BRK_LGH_PIN = 12;     //  Plug:15       [20k] [meg] [znr] Brake light detection
-const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [20k] [meg] [znr] RPM [attachInterrupt]
-const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [20k] [meg] [znr] Speed sensor hub [attachInterrupt]
-const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [20k] [meg] [znr] ECU  signal
+const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 50uf] Engine Temperature
+const uint8_t BRK_LGH_PIN = 12;     //  Plug:15     [100k] + [znr] Brake light detection
+const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [dvd] RPM [attachInterrupt]
+const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [dvd] Speed sensor hub [attachInterrupt]
+const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
 //
 // Car state pins
-const uint8_t STT_UL1_PIN = A11;    // Plug 17 Unusable for now (do not connect)
-const uint8_t STT_UL2_PIN = A12;    // Plug 18 Unusable for now (do not connect)
+const uint8_t STT_UL1_PIN = A11;    //   Plug 17 Unusable for now (do not connect)
+const uint8_t STT_UL2_PIN = A12;    //   Plug 18 Unusable for now (do not connect)
 const uint8_t STT_BRK_PIN = A13;     //  Plug:19        [meg]    Critical Brake ware
 const uint8_t STT_CLN_PIN = A14;     //  Plug:20        [meg]    Critical Coolant level
-const uint8_t STT_WNW_PIN = A15;     //  Plug:22       [meg]   Critical window washer
-const uint8_t STT_OIL_PIN = A1;     //  Plug:13        [meg]   Critical oil level
+const uint8_t STT_WNW_PIN = A15;     //  Plug:22        [meg]   Critical window washer
+const uint8_t STT_OIL_PIN = A1;     //   Plug:13        [meg]   Critical oil level
 const uint8_t STT_VLT_PIN = A7;     // Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
-const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dvr + 50uf ]     Display back-light
+const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-light
 //
 // Temperatures
 const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [20k]   Front temperature sensor
