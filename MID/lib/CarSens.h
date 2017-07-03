@@ -1299,7 +1299,8 @@ void CarSens::sensTmp() {
      * ~ 40°C value 117
      * ~ 41°C value 120
      * ~ 36°C value 136
-     * ~ 22°C value 203 <- inside garage
+     * ~ 23+°C value 203 <- inside garage
+     * ~ 22°C value 220
      * ~ 19°C value 225 <- hot engine
      * ~ 16°C value 238
      */
@@ -1310,16 +1311,11 @@ void CarSens::sensTmp() {
         // Get more precise average value
         uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
 
-        temperatureC = (map(readings, 2250, 1200, 193, 400) * 0.1);
+        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.1);
 
 
-        if (isInitializedLoop) {
-            temperatureOutCollection = 0;
-            temperatureOutIndex = 0;
-        } else {
-            temperatureOutCollection = temperatureOutCollection / 3;
-            temperatureOutIndex = 3;
-        }
+        temperatureOutCollection = (readings * 3) / 10;
+        temperatureOutIndex = 2;
 
 
 #if defined(DEBUG_TEMPERATURE_OU)

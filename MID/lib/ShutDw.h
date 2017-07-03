@@ -116,13 +116,14 @@ public:
             if (alreadySaved) {
                 digitalWrite(pinCtrl, LOW);
                 return;
+            } else {
+                alreadySaved = 1;
+                melodySave();
+                eep->saveCurrentData();
+                whl->shutdownMode();
+                delay(2200);
+                digitalWrite(pinCtrl, LOW);
             }
-            alreadySaved = 1;
-            melodySave();
-            eep->saveCurrentData();
-            whl->shutdownMode();
-            delay(2200);
-            digitalWrite(pinCtrl, LOW);
         }
     }
 };
