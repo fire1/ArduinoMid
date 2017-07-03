@@ -232,7 +232,7 @@ private:
     boolean initializeAverage = 0;
     //
     // bool for read sensor at first loop
-    boolean isInitTemperature = 1;
+    boolean isInitializedLoop = 1;
     uint8_t pinBreaks;
     uint8_t pinTmpOut;
     //
@@ -322,9 +322,6 @@ private:
             CONS_DELTA_TIME,
             TTL_FL_CNS,  // Consumed fuel
             TTL_FL_WST;  // Waste fuel
-    //
-    // Divider for averages
-    unsigned long LOOP_SENS_INDEX = 0;
     //
     // Distance container
     unsigned long CUR_VDS_collection;
@@ -839,12 +836,6 @@ void CarSens::setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
  *      LISTENER
  */
 void CarSens::listener() {
-    if (amp->isSens()) {
-        //
-        // Counting sens loops
-        LOOP_SENS_INDEX += 1;
-    }
-
 
     // Important!
     // No Interrupts
@@ -906,6 +897,11 @@ void CarSens::listener() {
     // Mark engine on
     if (CUR_RPM > 500) {
         _isEngineSens = true;
+    }
+    //
+    // Close first loop
+    if(isInitializedLoop){
+        isInitializedLoop = 0;
     }
 }
 
@@ -1308,53 +1304,24 @@ void CarSens::sensTmp() {
      */
     temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
     temperatureOutIndex++;
-    if (isInitTemperature || amp->is5Seconds()) {
-//        float Vin = 5.0;     // [V]
-//        float Rt = 10000;    // Resistor t [ohm]
-//        float R0 = 10000;    // value of rct in T0 [ohm]
-//        float T0 = 280.15;   // use T0 in Kelvin [K]  (corect this value )
-//        float Vout = 0.0;    // Vout in A0
-//        float Rout = 0.0;    // Rout in A0
-//// use the datasheet to get this data.
-//        float T1 = 250.15;      // [K] in datasheet 0º C
-//        float T2 = 360.15;      // [K] in datasheet 100° C
-//        float RT1 = 50000;   // [ohms]  resistence in T1
-//        float RT2 = 150;    // [ohms]   resistence in T2
-//        float beta = 0.0;    // initial parameters [K]
-//        float Rinf = 0.0;    // initial parameters [ohm]
-//        float TempK = 0.0;   // variable output
-
-
-
-//        beta = (log(RT1 / RT2)) / ((1 / T1) - (1 / T2));
-//        Rinf = R0 * exp(-beta / T0);
-//auto
-
-
+    if (isInitializedLoop || amp->is5Seconds()) {
+        //
+        // Get more precise average value
         uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
 
         temperatureC = (map(readings, 2250, 1200, 195, 410) * 0.1);
         temperatureOutCollection = 0;
         temperatureOutIndex = 0;
-//        Vout = Vin * ((float) ((reading)) / 1024.0); // calc for ntc
-//        Rout = (Rt * Vout / (Vin - Vout));
-//
-//        TempK = (beta / log(Rout / Rinf)); // calc for temperature
-//        temperatureC = TempK - 284.75;
+
 
 #if defined(DEBUG_TEMPERATURE_OU)
-
         Serial.print("Read Temp  value: ");
         Serial.print(readings);
-//        Serial.print("  | volts: ");
-//        Serial.print(Vout);
         Serial.print(" | calculation:");
         Serial.println(temperatureC);
 
 #endif
-        //
-        // Close first loop
-        isInitTemperature = 0;
+
         //
         // Pass value to global
         CUR_OUT_TMP = temperatureC;
@@ -1435,9 +1402,9 @@ void CarSens::sensIfc() {
 
     if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * getIfcFuelVal()) / (CONS_DELTA_TIME * 10000));
+            cons = ((CUR_ECU * CONS_DELTA_TIME) / (getIfcFuelVal()));
         } else {
-            cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VDS * 100000));
+            cons = ((CUR_ECU * CONS_DELTA_TIME) / (CUR_VSS * getIfcFuelVal()));
         }
         // 4329
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
@@ -1497,7 +1464,7 @@ void CarSens::sensIfc() {
  * TODO Needs testing
  */
 uint8_t CarSens::getGear() {
-    float Ratio, Diff;
+    float Ratio;
 
     int Rpm = this->CUR_RPM;
     int CarSpeed = this->CUR_VSS;
