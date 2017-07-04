@@ -1310,9 +1310,11 @@ void CarSens::sensTmp() {
     if (isInitializedLoop || amp->is5Seconds()) {
         //
         // Get more precise average value
-        uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 100);
+        uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 10);
 
-        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.01);
+        // (map(readings, 4100, 1200, 15, 390) * 0.1)
+//        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.01);
+        temperatureC = (map(readings, 2400, 1170, 160, 405) * 0.1);
 
 
         temperatureOutCollection = (readings * 3) / 10;
