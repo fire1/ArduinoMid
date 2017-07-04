@@ -1303,15 +1303,16 @@ void CarSens::sensTmp() {
      * ~ 22°C value 220
      * ~ 19°C value 225 <- hot engine
      * ~ 16°C value 238
+     * ~ 20°C value 226
      */
     temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
     temperatureOutIndex++;
     if (isInitializedLoop || amp->is5Seconds()) {
         //
         // Get more precise average value
-        uint16_t readings = ((temperatureOutCollection / temperatureOutIndex) * 10);
+        uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 100);
 
-        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.1);
+        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.01);
 
 
         temperatureOutCollection = (readings * 3) / 10;
@@ -1406,9 +1407,9 @@ void CarSens::sensIfc() {
 
     if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = ((CUR_ECU * CONS_DELTA_TIME) / (getIfcFuelVal() ));
+            cons = (CUR_ECU * getIfcFuelVal()) / (MILLIS_PER_HR / 10);
         } else {
-            cons = ((CUR_ECU * CONS_DELTA_TIME) / (CUR_VSS * getIfcFuelVal()));
+            cons = (CUR_ECU * getIfcFuelVal()) / (CUR_VSS * 10000);
         }
         // 4329
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
@@ -1439,12 +1440,12 @@ void CarSens::sensIfc() {
     // Average IFC for 5 sec
     // Keep last value as 1:3 rate
 
-    if (amp->is2Seconds()) {
+    if (amp->isSecond()) {
         //
         // Average instance fuel consumption for 5 sec
         FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
-        collectionIfc = FUEL_AVRG_INST_CONS * 3;
-        indexIfc =  2;
+        collectionIfc = FUEL_AVRG_INST_CONS;
+        indexIfc = 1;
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
         Serial.print(F("\n\n Fuel Cons  | INS: "));
         Serial.print(FUEL_INST_CONS);
