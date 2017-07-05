@@ -67,12 +67,12 @@ const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [dvd] Speed sensor hub [atta
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
 //
 // Car state pins
-const uint8_t STT_UL1_PIN = A11;    //   Plug 17 Unusable for now (do not connect)
-const uint8_t STT_UL2_PIN = A12;    //   Plug 18 Unusable for now (do not connect)
-const uint8_t STT_BRK_PIN = A13;     //  Plug:19        [meg]    Critical Brake ware
-const uint8_t STT_CLN_PIN = A14;     //  Plug:20        [meg]    Critical Coolant level
-const uint8_t STT_WNW_PIN = A15;     //  Plug:22        [meg]   Critical window washer
-const uint8_t STT_OIL_PIN = A1;     //   Plug:13        [meg]   Critical oil level
+const uint8_t STT_UL1_PIN = A11;    //      Plug 17 Unusable for now (do not connect)
+const uint8_t STT_UL2_PIN = A12;    //      Plug 18 Unusable for now (do not connect)
+const uint8_t STT_BRK_PIN = A13;    //      Plug:19        [meg]    Critical Brake ware
+const uint8_t STT_CLN_PIN = A14;    //      Plug:20        [meg]    Critical Coolant level
+const uint8_t STT_WNW_PIN = A15;    //      Plug:22        [meg]   Critical window washer
+const uint8_t STT_OIL_PIN = A1;     //      Plug:13        [meg]   Critical oil level
 const uint8_t STT_VLT_PIN = A7;     //   Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
