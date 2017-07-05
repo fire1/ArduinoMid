@@ -1,1 +1,84 @@
-# ArduinoMidVauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoMidThis project is rebuild of on-board computer  base on original interface connection.## Note:_This project is rebuild of on-board computer for Vauxhall/Opel vehicles  made it between 2000/2004 with gray(32 pin) MID plug.In this project is used Mega2560 RV3 board.The project sourcecode is based on Internet published information!_* Source code is in "MID" folder* Used libraries are in "libraries" folder [zip them for importing]## Version    _Code is  in development..._## ArduinoMid supported features* Multi screen support. For now 16x2 and 240x64.* Engine RPMs.* Vehicle speed in KMh RPMs.* Display back-light works with dashboard lighting.* Consumption for distance and instance [not tested well]* Trip time and distance.* Speed alarm  City / Highway / Out-City* Smart Speed alarm auto off/on* Average speed braking and engine revolutions.* Outside temperature [needs more tests / TODO inside temperature]* Steering wheel buttons handler.* Support Sony xPlod to vehicles steering wheel media buttons.* Fuel gauge/switch support [analog detection from fuel switch].* Car Inspection menu detects critical level for  Oil, Window washer, Brake ware, voltage [Todo lamps, belt, and other ]* Engine temperature.* Power saving operation [factory Bord. Comp. have energy drain when engine is off ...]* Check menu - based on worked time / distance [Todo]* Brake pedal as button [Todo ]* Resolving driving gears * Sport mode [Todo ... luring ECU signal]* Two fuel lines supported [For benzine & propane-butane ... ]* [TODO] Breaking time detection* [Adittional] Stopwatch menu* [Adittional] Drag racing menu [Todo ... Gets best speed / time for 402 maters]* [Adittional] From 0 to 100km [Todo ... Gets acceleration time from 0 to 100 kilometers]* [Adittional] Trip distance/time save* Block the ignition [hiddant code to detect owner of the car]* Todo more ...## Menu structure for screen 16x2    -----[Main Menu]-----[Trip Menu]-----[Consumption]-----[Servecing]------    ----------|---------------|---------------|-----------------|------------    -----[Dashboard]-----[Averages ]-----[Fuel levels]-----[Sensor list]-----    ----------|--------------------------------------------------*-----------    -----[Test Menu]---------------------------------------------*-----------    -------------------------------------------------------------*-----------    -------------------------------------------------------------*-----------## Menu structure for screen 240x64    -----[Main Menu]-----[Trip Menu]-----[Servecing]------    ----------|-------------------------------------------    -----[Dashboard]-----    ----------|----------    -----[Settings]------    ---------|-----------    -----[About]---------## Schematics   _Hardware is  in development..._     Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID-41fc7dfe4c28497e8611276d7192d732)## Download         Beta version[releases](https://github.com/fire1/ArduinoMid/releases)
+# ArduinoMid
+Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoMid
+This project is rebuild of on-board computer  base on original interface connection.
+
+
+![https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
+
+## Note:
+_This project is rebuild of on-board computer for Vauxhall/Opel vehicles 
+ made  between 2000/2004 with gray(32 pin) MID plug.
+In this project is used Mega2560 RV3 board.
+The project sourcecode is based on Internet published information!_
+
+* Source code is in "MID" folder
+* Used libraries are in "libraries" folder [zip them for importing]
+
+## Version 
+   _Code is  in development..._ Current version is intended for GLCD 240x64
+
+## ArduinoMid supported features
+
+* Multi screen support. For now 16x2 and 240x64.
+* Engine RPMs.
+* Vehicle speed in KMh RPMs.
+* Display back-light works with dashboard lighting.
+* Consumption for distance and instance [not tested well]
+* Trip time and distance.
+* Speed alarm  City / Highway / Out-City
+* Smart Speed alarm auto off/on
+* Average speed braking and engine revolutions.
+* Outside temperature [needs more tests / TODO inside temperature]
+* Steering wheel buttons handler.
+* Support Sony xPlod to vehicles steering wheel media buttons.
+* Fuel gauge/switch support [analog detection from fuel switch].
+* Car Inspection menu detects critical level for  Oil, Window washer, Brake ware, voltage [Todo lamps, belt, and other ]
+* Engine temperature.
+* Power saving operation [factory Bord. Comp. have energy drain when engine is off ...]
+* Check menu - based on worked time / distance [Todo]
+* Brake pedal as button [Todo ]
+* Resolving driving gears 
+* Sport mode [Todo ... luring ECU signal]
+* Two fuel lines supported [For benzine & propane-butane ... ]
+* [TODO] Breaking time detection
+* [Adittional] Stopwatch menu
+* [Adittional] Drag racing menu [Todo ... Gets best speed / time for 402 maters]
+* [Adittional] From 0 to 100km [Todo ... Gets acceleration time from 0 to 100 kilometers]
+* [Adittional] Trip distance/time save
+* Block the ignition [hiddant code to detect owner of the car]
+* Todo more ...
+
+## Menu structure for screen 16x2
+
+    -----[Main Menu]-----[Trip Menu]-----[Consumption]-----[Servecing]------
+    ----------|---------------|---------------|-----------------|------------
+    -----[Dashboard]-----[Averages ]-----[Fuel levels]-----[Sensor list]-----
+    ----------|--------------------------------------------------*-----------
+    -----[Test Menu]---------------------------------------------*-----------
+    -------------------------------------------------------------*-----------
+    -------------------------------------------------------------*-----------
+
+## Menu structure for screen 240x64
+
+    -----[Main Menu]-----[Trip Menu]-----[Servecing]------
+    ----------|-------------------------------------------
+    -----[Dashboard]-----
+    ----------|----------
+    -----[Settings]------
+    ---------|-----------
+    -----[About]---------
+
+
+## Schematics
+   _Hardware is  in development..._
+   
+  Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID-41fc7dfe4c28497e8611276d7192d732)
+
+## Download 
+        Beta version
+[releases](https://github.com/fire1/ArduinoMid/releases)
+
+
+
+
+
