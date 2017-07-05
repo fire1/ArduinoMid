@@ -498,8 +498,13 @@ private:
         showInstant(LCD_COL_R11, LCD_ROW_4);
         displayFloat(car->getIfcAvr(), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
-        showL100km(LCD_COL_R22, LCD_ROW_4);
-        // Todo wasted fuel
+        if (car->getVss() > 0) {
+            showL100km(LCD_COL_R22, LCD_ROW_4);
+        } else {
+            lcd->setCursor(LCD_COL_R22, LCD_ROW_4);
+            lcd->print(F("L/h"));
+        }
+
     }
 
 /****************************************************************
@@ -693,6 +698,7 @@ private:
         showL100km(LCD_COL_R22, LCD_ROW_3);
 
     }
+
 /****************************************************************
  * Draw graph
  */

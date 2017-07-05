@@ -307,7 +307,7 @@ private:
     unsigned long CUR_VTT;// Travel time
 
 
-    unsigned long collectionIfc;
+    double collectionIfc;
     unsigned long lastDetectionLpg = 0;
     //
     // Car's average
@@ -1409,9 +1409,9 @@ void CarSens::sensIfc() {
 
     if (amp->isSec()) {
         if (CUR_VSS < CONS_TGL_VSS) {
-            cons = (CUR_ECU * getIfcFuelVal()) / (MILLIS_PER_HR / 10);
+            cons = ((CUR_ECU * getIfcFuelVal()) / (MILLIS_PER_HR / 10) * 2);
         } else {
-            cons = (CUR_ECU * getIfcFuelVal()) / (CUR_VSS * 10000);
+            cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VSS * 10000)) * 0.1;
         }
         // 4329
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
@@ -1445,7 +1445,7 @@ void CarSens::sensIfc() {
     if (amp->isSecond()) {
         //
         // Average instance fuel consumption for 5 sec
-        FUEL_AVRG_INST_CONS = (collectionIfc / indexIfc);//
+        FUEL_AVRG_INST_CONS = float(collectionIfc / indexIfc);//
         collectionIfc = FUEL_AVRG_INST_CONS;
         indexIfc = 1;
 #if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
