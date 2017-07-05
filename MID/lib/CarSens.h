@@ -72,7 +72,7 @@
 #define RPM_CORRECTION 75   //    fast 33.767
 //
 // Distance correction
-#define DST_CORRECTION  30800.58  // Tested >30800.58 //  15383.29  //   <sens:200> 15383.29
+#define DST_CORRECTION  30800.58  //  //  15383.29  //   15385
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
