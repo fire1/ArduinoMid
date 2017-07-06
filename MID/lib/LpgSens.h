@@ -35,6 +35,7 @@ public:
     LpgSens::LpgSens(void/*CarSens *carSens*/);
 
     void setup(uint8_t dataPin, uint8_t clockPin);
+
 /**
  * Listen communication
  */
@@ -48,7 +49,7 @@ public:
         unsigned long durationHIGH = pulseIn(_pinClock, HIGH);
 
         if (trans && (durationHIGH / 1000) >= 2) {
-            LpgSens::receiveBuffer |= LpgSens::receiveData << LpgSens::receiveBufferIndex;
+            LpgSens::receiveBuffer |= 1 << LpgSens::receiveBufferIndex;
             ++LpgSens::receiveBufferIndex;
         }
 
@@ -64,17 +65,21 @@ public:
         }
 
     }
+
 /**
  * Returns transmition value and clear buffer
  */
-    uint8_t getTransmition(){
-        if(LpgSens::receivedValue){
+    uint8_t read() {
+        if (LpgSens::receivedValue) {
             uint8_t value = LpgSens::receivedValue;
             LpgSens::receivedValue = 0;
             return value;
         }
+    }
 
 
+    boolean available() {
+        return LpgSens::transmissionBegin;
     }
 
 
@@ -148,8 +153,6 @@ static void LpgSens::interruptClock(void) {
 static void LpgSens::_interruptData(void) {
     LpgSens::receiveData = digitalRead(_pinData);
 }
-
-
 
 
 #endif //ARDUINOMID_LPGSENS_H
