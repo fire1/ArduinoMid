@@ -9,7 +9,7 @@
 #include "CarSens.h"
 
 #define LPG_RECEIVE_BUFFER_LENGTH 8
-
+#define LPG_BIT_TIMIN
 
 volatile uint8_t lpgSens_clockState, lpgSens_dataState;
 
@@ -35,6 +35,48 @@ public:
     LpgSens::LpgSens(void/*CarSens *carSens*/);
 
     void setup(uint8_t dataPin, uint8_t clockPin);
+/**
+ * Listen communication
+ */
+    void listener() {
+        //
+        // Just shorting state var.
+        boolean trans = LpgSens::transmissionBegin;
+
+
+        unsigned long durationLOW = pulseIn(_pinClock, LOW);
+        unsigned long durationHIGH = pulseIn(_pinClock, HIGH);
+
+        if (trans && (durationHIGH / 1000) >= 2) {
+            LpgSens::receiveBuffer |= LpgSens::receiveData << LpgSens::receiveBufferIndex;
+            ++LpgSens::receiveBufferIndex;
+        }
+
+
+        if (trans && LpgSens::receiveBufferIndex >= LPG_RECEIVE_BUFFER_LENGTH) {
+            LpgSens::transmissionBegin = false;
+            LpgSens::receivedValue = LpgSens::receiveBuffer;
+            LpgSens::receiveBuffer = 0;
+        }
+
+        if ((durationLOW / 1000) >= 3) {
+            LpgSens::transmissionBegin = true;
+        }
+
+    }
+/**
+ * Returns transmition value and clear buffer
+ */
+    uint8_t getTransmition(){
+        if(LpgSens::receivedValue){
+            uint8_t value = LpgSens::receivedValue;
+            LpgSens::receivedValue = 0;
+            return value;
+        }
+
+
+    }
+
 
     static void interruptClock(void);
 
@@ -73,7 +115,6 @@ LpgSens::LpgSens(void /*CarSens *carSens*/) {
  */
 static void LpgSens::interruptClock(void) {
 
-
     //
     // Just shorting state var.
     boolean trans = LpgSens::transmissionBegin;
@@ -109,21 +150,6 @@ static void LpgSens::_interruptData(void) {
 }
 
 
-/**
- * Sets pins into class
- * @param dataPin
- * @param clockPin
- */
-void LpgSens::setup(uint8_t dataPin, uint8_t clockPin) {
 
-    pinMode(clockPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(clockPin), LpgSens::_interruptData, CHANGE);
-
-    pinMode(dataPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(dataPin), LpgSens::interruptClock, CHANGE);
-
-    _pinClock = dataPin;
-    _pinData = clockPin;
-}
 
 #endif //ARDUINOMID_LPGSENS_H
