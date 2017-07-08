@@ -27,7 +27,7 @@
 #define MID_CAR_SENS_VERSION 0.1
 //
 // Show information from consumption
-#define DEBUG_CONS_INFO
+//#define DEBUG_CONS_INFO
 //
 // Speeding alarm
 #define VSS_ALARM_CITY_SPEED  60 // km
@@ -890,8 +890,8 @@ void CarSens::listener() {
 
     //
     // Sens display Dim more frequently by skipping Sens loop
-    if (amp->isLow() && backLightLevel > SCREEN_GO_TO_DEF && !amp->isSens()) {
-        sensDim();
+    if (amp->isLow() /*&& backLightLevel > SCREEN_GO_TO_DEF && !amp->isSens()*/) {
+//        sensDim();
     }
     //
     // Mark engine on
@@ -1119,24 +1119,32 @@ void CarSens::sensDim() {
 
     boolean defaultActive = 0;
 
-    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 255);
+    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 253);
 
+
+    Serial.print("Display Dim ");
+    Serial.println(backLightLevel);
 //    Serial.println(pinScreenOutput);
-    if (backLightLevel < SCREEN_GO_TO_DEF) {
+    if (backLightLevel  < 5 ) {
         backLightLevel = SCREEN_DEF_LIGHT;
         defaultActive = 1;
     } else {
         defaultActive = 0;
     }
 
-    if (lastReadValueDim != backLightLevel && backLightLevel > 0) {
+    if ((lastReadValueDim / 10) != (backLightLevel / 10) && backLightLevel > 0) {
         lastReadValueDim = backLightLevel;
+//
+//        if (defaultActive == 0) {
+//            backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
+//        }
 
-        if (defaultActive == 0) {
-            backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
-        }
-        analogWrite(pinScreenOutput, backLightLevel);
+
+
     }
+//    analogWrite(pinScreenOutput, backLightLevel);
+    analogWrite(pinScreenOutput, 255);
+
 }
 
 

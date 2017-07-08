@@ -130,8 +130,8 @@ const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
 const uint8_t DSP_PIN_CD = 32;  // Instruction Code
 const uint8_t DSP_PIN_FS = 45;  // Font selection
 const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
-const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
+const uint8_t DSP_PIN_LDA = 47; // Blacklight Anode (+5V)
+const uint8_t DSP_PIN_LDK = 46; // Blacklight cathode (0v)
 //
 // Data pins
 const uint8_t DSP_PIN_DT1 = 37;
