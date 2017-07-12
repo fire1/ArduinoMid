@@ -15,7 +15,7 @@ The project sourcecode is based on Internet published information!_
 * Used libraries are in "libraries" folder [zip them for importing]
 
 ## Version 
-   _Code is  in development..._ Current version is intended for GLCD 240x64
+   **1.5.4** _and should be considered as beta quality._
 
 ## ArduinoMid supported features
 
