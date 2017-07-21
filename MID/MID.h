@@ -59,12 +59,14 @@ const uint8_t BTN_PIN_DW = 8;       //  Plug:24  [meg] [10k] [+5v]    Column swi
 const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect supply voltage
 const uint8_t SAV_PIN_DTC = A7;     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
 //
-// Engine pins
+// Live pins
 const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 50uf] Engine Temperature
-const uint8_t BRK_LGH_PIN = 12;     //  Plug:15     [100k] + [znr] Brake light detection
+const uint8_t BRK_LGH_PIN = 12;     //  Plug:15     [50k] + [znr] Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [dvd] RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [dvd] Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
+const uint8_t FUL_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
+
 //
 // Car state pins
 const uint8_t STT_UL1_PIN = A11;    //      Plug 17 Unusable for now (do not connect)
@@ -78,7 +80,7 @@ const uint8_t STT_VLT_PIN = A7;     //   Duplicating  SAV_PIN_DTC
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-light
 //
-// Temperatures
+// Temperatures todo A8
 const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [150R]   Front temperature sensor
 
 #if SCREEN == 162 || !defined(SCREEN)
@@ -160,11 +162,12 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // [meg] 52     to pin [pot] 2 [SCK]
 // [meg] 51     to pin [pot] 3 [SI]
 //     GND      to pin [pot] 4
+
 //     +5V      to pin [pot] 8
 //     GND      to pin [pot] 7
 // Stereo input to pin [pot] 6 (through  RELAY to stereo remote control)
 //                     [pot] 5 NC
-// Alpine / Steering Wheel buttons
+// Alpine / Steering Wheel buttons todo A9
 const uint8_t ALP_PIN_INP = A8; // +5V ->  [240R] to Radio Unit plug pin 1
 const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
 const uint8_t ALP_PIN_RLY = 50; //  mg50  ->  1N5406 ->  Unit input ||  5V -> RELAY
