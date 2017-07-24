@@ -22,6 +22,7 @@
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
+#include <SD.h>
 //
 #ifdef EEP_ROM_ADDRESS
 
@@ -44,7 +45,7 @@
 #ifdef ADT_FUEL_SYSTEM_I2C
 //I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
-
+File logFile;
 //
 // Setup the code...
 void setup() {
@@ -118,20 +119,72 @@ void setup() {
     // TODO testing ...
     // for 7bit frame 109
 //    pinMode(17, INPUT); Serial
-    Serial2.begin(122); // pin 17  input  121
+    Serial2.begin(246); // pin 17  input  121
     // https://community.particle.io/t/serial-7-bit-data-even-parity/23446/10
+    Serial.print("Starting SD..");
+    if(!SD.begin(8)) Serial.println("failed");
+    else Serial.println("ok");
 
+    // open the file. note that only one file can be open at a time,
+    // so you have to close this one before opening another.
+//    logFile =  SD.open("test.txt", FILE_WRITE);
+    // if the file opened okay, write to it:
+
+/*
+    // re-open the file for reading:
+    logFile = SD.open("test.txt");
+    if (logFile) {
+        Serial.println("test.txt:");
+        // read from the file until there's nothing else in it:
+        while (logFile.available()) {
+            Serial.write(logFile.read());
+        }
+        // close the file:
+        logFile.close();
+    } else {
+        // if the file didn't open, print an error:
+        Serial.println("error opening test.txt");
+    }
+    */
+
+    logFile =  SD.open("test.txt", FILE_WRITE);
+    if (logFile) {
+        Serial.print("Writing log to test.txt...");
+        logFile.println("Start new session ------------------------------------");
+        // close the file:
+        logFile.close();
+        Serial.println("done.");
+    }
 }
-
+/*
+     if (logFile) {
+        Serial.print("Writing to test.txt...");
+        logFile.println("Some test");
+        // close the file:
+        logFile.close();
+        Serial.println("done.");
+    } else {
+        // if the file didn't open, print an error:
+        Serial.println("error opening test.txt");
+    }
+ */
 void loop() {
 
     if (Serial2.available() > 0) {
         char ch;
-        ch = Serial2.read();
-        Serial.println("");
-        Serial.print("LPG: ");
-        Serial.println(ch);
-        Serial.println("");
+//        ch = ;
+//        Serial.println("");
+//        Serial.print("LPG: ");
+//        Serial.println(Serial2.read(),HEX);
+//        Serial.println("");
+        logFile =  SD.open("test.txt", FILE_WRITE);
+        if (logFile) {
+            Serial.print("Writing log to test.txt...");
+            logFile.println(Serial2.read(), HEX);
+            // close the file:
+            logFile.close();
+            Serial.println("done.");
+        }
     }
 
 

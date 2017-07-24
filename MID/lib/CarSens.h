@@ -1122,8 +1122,8 @@ void CarSens::sensDim() {
     backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 253);
 
 
-    Serial.print("Display Dim ");
-    Serial.println(backLightLevel);
+//    Serial.print("Display Dim ");
+//    Serial.println(backLightLevel);
 //    Serial.println(pinScreenOutput);
     if (backLightLevel  < 5 ) {
         backLightLevel = SCREEN_DEF_LIGHT;
