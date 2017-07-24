@@ -14,6 +14,12 @@
 #include <LiquidCrystal.h>
 #include "ui/Lcd16x2.h"
 
+
+#ifndef LiquidCrystal_h
+
+#include "../../libraries/LiquidCrystal/src/LiquidCrystal.h"
+
+#endif
 //
 // This class somehow fixes unexpected
 // reboot from Mid plug dim value. (in my case)
@@ -27,7 +33,7 @@ MenuBase menuBase(btnMenu, midMenu);
 LcdPwr lcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_WR);
 //
 // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7)
-LiquidCrystal lcd(32, 33, 34, 35, 36, 37);
+LiquidCrystal lcd(DSP_PIN_CD, DSP_PIN_CE, 34, 35, 36, 37);
 //
 //
 Lcd16x2 lcdMenu(lcd, btnMenu, menuBase,/* &carGames, */shutDown);

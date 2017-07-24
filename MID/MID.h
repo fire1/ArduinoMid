@@ -10,8 +10,8 @@
 #include "conf.h"
 //
 // Sets screen size
-#define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+//#define SCREEN 24064 // Glcd 240x64
+#define SCREEN 162 // lcd 16x2
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -87,29 +87,24 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [150R]   Front temperatu
 //  NOTE: pins are inverted due to sockets
 //
 //  General pins
-const uint8_t DSP_PIN_GD1 = 26; // Power GND
-const uint8_t DSP_PIN_GD2 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 29; // Power positive
-const uint8_t DSP_PIN_WR = 31;  // Write Signal
-const uint8_t DSP_PIN_RD = 30;  // Read Signal
-const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
-const uint8_t DSP_PIN_CD = 32;  // Instruction Code
-const uint8_t DSP_PIN_FS = 45;  // Font selection
-const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 46; // Blacklight Anode (+5V)
-const uint8_t DSP_PIN_LDK = 47; // Blacklight cathode (0v)
+const uint8_t DSP_PIN_GD1 = 22; // Power GND
+const uint8_t DSP_PIN_VCC = 23; // Power positive
+const uint8_t DSP_PIN_CD = 24;  // RS / Data instruction
+const uint8_t DSP_PIN_WR = 25;  // R/W Write signal (HIGH)
+const uint8_t DSP_PIN_CE = 26;  // Chip Enable Signal
+
 //
 // Data pins
-const uint8_t DSP_PIN_DT1 = 37;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 39;
-const uint8_t DSP_PIN_DT4 = 38;
-const uint8_t DSP_PIN_DT5 = 41;
-const uint8_t DSP_PIN_DT6 = 40;
-const uint8_t DSP_PIN_DT7 = 43;
-const uint8_t DSP_PIN_DT8 = 42;
+const uint8_t DSP_PIN_DT1 = 28;
+const uint8_t DSP_PIN_DT2 = 29;
+const uint8_t DSP_PIN_DT3 = 30;
+const uint8_t DSP_PIN_DT4 = 31;
+//
+//
+const uint8_t DSP_PIN_LDA = 34; // Black-light Anode (+5V)
+const uint8_t DSP_PIN_LDK = 35; // Black-light cathode (0v)
 
-const uint8_t DIM_PIN_OUT = 46;     //              Output dim of playEntry
+const uint8_t DIM_PIN_OUT = 34;     //              Output dim of playEntry
 
 #elif SCREEN == 24064
 //
