@@ -45,7 +45,10 @@
 #ifdef ADT_FUEL_SYSTEM_I2C
 //I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
 #endif
+//
+// Log file
 File logFile;
+
 //
 // Setup the code...
 void setup() {
@@ -119,7 +122,8 @@ void setup() {
     // TODO testing ...
     // for 7bit frame 109
 //    pinMode(17, INPUT); Serial
-    Serial2.begin(246); // pin 17  input  121
+
+    Serial2.begin(246); // pin 17  input  245
     // https://community.particle.io/t/serial-7-bit-data-even-parity/23446/10
     Serial.print("Starting SD..");
     if(!SD.begin(8)) Serial.println("failed");
@@ -171,7 +175,7 @@ void setup() {
 void loop() {
 
     if (Serial2.available() > 0) {
-        char ch;
+        int ch = Serial2.read();
 //        ch = ;
 //        Serial.println("");
 //        Serial.print("LPG: ");
@@ -180,11 +184,18 @@ void loop() {
         logFile =  SD.open("test.txt", FILE_WRITE);
         if (logFile) {
             Serial.print("Writing log to test.txt...");
-            logFile.println(Serial2.read(), HEX);
+            logFile.println(ch, HEX);
             // close the file:
             logFile.close();
             Serial.println("done.");
         }
+
+        //
+        // Start Executing command
+        if(0x8C == ch){
+
+        }
+
     }
 
 
