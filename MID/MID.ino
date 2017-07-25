@@ -121,8 +121,9 @@ void setup() {
     //
     // TODO testing ...
     // for 7bit frame 109
-//    pinMode(17, INPUT); Serial
-
+//
+    //
+    // PIN 17 with 1k resistor
     Serial2.begin(246); // pin 17  input  245
     // https://community.particle.io/t/serial-7-bit-data-even-parity/23446/10
     Serial.print("Starting SD..");
@@ -177,10 +178,10 @@ void loop() {
     if (Serial2.available() > 0) {
         int ch = Serial2.read();
 //        ch = ;
-//        Serial.println("");
-//        Serial.print("LPG: ");
-//        Serial.println(Serial2.read(),HEX);
-//        Serial.println("");
+        Serial.println("");
+        Serial.print("LPG: ");
+        Serial.println(ch,HEX);
+        Serial.println("");
         logFile =  SD.open("test.txt", FILE_WRITE);
         if (logFile) {
             Serial.print("Writing log to test.txt...");
@@ -200,8 +201,8 @@ void loop() {
 
 
     if (ampInt.isSecond()) {
-        Serial.print(F(" Start (RAM): "));
-        Serial.println(getFreeRam());
+//        Serial.print(F(" Start (RAM): "));
+//        Serial.println(getFreeRam());
     }
     //
     // Amplitude loop init
@@ -238,8 +239,8 @@ void loop() {
     // Display UI
     lcdMenu.draw();
     if (ampInt.isSecond()) {
-        Serial.print(F(" Draw (RAM): "));
-        Serial.println(getFreeRam());
+//        Serial.print(F(" Draw (RAM): "));
+//        Serial.println(getFreeRam());
     }
     //
     // Commands that changes global value from serial monitor
@@ -250,9 +251,9 @@ void loop() {
     //
     // Calls StackCount() to report the unused RAM
     if (ampInt.isSecond()) {
-
-        Serial.print("Correction Dst: ");
-        Serial.println(eepRom.getData().sens_dst);
+//
+//        Serial.print("Correction Dst: ");
+//        Serial.println(eepRom.getData().sens_dst);
 
         /*
         Serial.print(F(" End free heap (RAM): "));

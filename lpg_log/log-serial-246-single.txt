@@ -1,0 +1,181 @@
+Restore Value:
+nan
+
+Restore Value:
+4.31
+
+Restore Value:
+0.00
+
+Restore Value:
+50.45
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+4.31
+0.00
+50.45
+nan
+nan
+nan
+nan
+nan
+Restore Value:
+nan
+
+Restore Value:
+4.31
+
+Restore Value:
+0.00
+
+Restore Value:
+50.45
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+4.31
+0.00
+50.45
+nan
+nan
+nan
+nan
+nan
+Starting SD..failed
+Read Temp  value: 4010 | calculation:-16.00
+Read Temp  value: 9360 | calculation:-122.60
+Read Temp  value: 9440 | calculation:-124.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 4C
+
+
+LPG: 8C
+
+
+LPG: 9B
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 9B
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 63
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 63
+
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 0
+

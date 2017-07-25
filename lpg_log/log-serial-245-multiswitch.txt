@@ -1,0 +1,288 @@
+Restore Value:
+nan
+
+Restore Value:
+4.31
+
+Restore Value:
+0.00
+
+Restore Value:
+50.45
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+Restore Value:
+nan
+
+4.31
+0.00
+50.45
+nan
+nan
+nan
+nan
+nan
+Starting SD..failed
+
+LPG: 8C
+
+Read Temp  value: 4220 | calculation:-20.20
+
+LPG: 4C
+
+
+LPG: C
+
+
+LPG: 9A
+
+Read Temp  value: 9370 | calculation:-122.80
+Read Temp  value: 9440 | calculation:-124.20 // go to lpg
+
+LPG: 8C
+
+
+LPG: 9B
+
+
+LPG: 8C
+
+
+LPG: 9B
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 9B
+
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 64
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 63
+
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20 // go to benz
+
+LPG: 8C
+
+
+LPG: 63
+
+
+LPG: 8C
+
+
+LPG: 63
+
+
+LPG: 8C
+
+
+LPG: 9A
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 9A
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: C
+
+
+LPG: 9A
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 9A
+
+Read Temp  value: 9490 | calculation:-125.20 //// Return to lpg
+
+LPG: 8C
+
+
+LPG: 9B
+
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 64
+
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 64
+
+
+LPG: 8C
+
+
+LPG: 63
+
+
+LPG: C
+
+
+LPG: 63
+
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 8C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: C
+
+
+LPG: 62
+
+Read Temp  value: 9490 | calculation:-125.20
+Read Temp  value: 9490 | calculation:-125.20
+
+LPG: 0
+
