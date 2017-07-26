@@ -35,6 +35,11 @@
 //
 #include "MenuBase.h"
 
+#ifdef LPG_INSTALLATION
+
+#include "LpgSerial.h"
+
+#endif
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
@@ -60,5 +65,9 @@ MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
 // Shutdown constructor
 ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 
+
+#ifdef ADT_FUEL_SYSTEM_SERIAL
+LpgSerial lpgCom;
+#endif
 
 #endif //ARDUINOMID_INITIALIZATIONS_H

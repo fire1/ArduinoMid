@@ -6,6 +6,7 @@
 #define ARDUINO_MID_LPG_SERIAL_H
 
 #include <Arduino.h>
+#include "../MID.h"
 //
 // Marker for start transmitting
 #ifndef LPG_SERIAL_T_ST
@@ -22,19 +23,13 @@
 #define LPG_SERIAL_T_FB 0x9B
 #endif
 //
-// Switching to additional fuel A
-#ifndef LPG_SERIAL_T_FBA
-#define LPG_SERIAL_T_FBA 0x63
-#endif
-//
 // Switching to additional fuel B
 #ifndef LPG_SERIAL_T_FBB
 #define LPG_SERIAL_T_FBB 0x62
 #endif
 
-class LpgSerial {
+class LpgSerial : public LpgFuel {
 
-    Serial_ *com;
 
 private:
     boolean stateStart = false;
@@ -42,44 +37,37 @@ private:
     int history;
 
 
-protected:
-
-
 public:
-    LpgSerial(Serial_ &_com) : com(&_com) { }
+    LpgSerial(void) {
 
-    void begin(unsigned long baud = 245) {
-        com->begin(baud);
+    }
+
+    void begin(void) {
+        Serial2.begin(246);
     }
 
 
     void listener(void) {
-        if (trans != LPG_SERIAL_T_ST)
-            history = trans;
-
-        if (com->available() > 0) {
-            trans = com->read();
+        if (Serial2.available() > 0) {
+            if (trans != LPG_SERIAL_T_ST) {
+                history = trans;
+            }
+            trans = Serial2.read();
         }
-
     }
 
-    /**
-     *
-     */
-    boolean isTransmiting() {
-        if (trans == LPG_SERIAL_T_ST)
-            stateStart = true;
-
-        return stateStart;
-
+/**
+ *  Is additional fuel active
+ */
+    boolean isLPG() {
+        return (history == LPG_SERIAL_T_FBB || trans == LPG_SERIAL_T_FBB) ? true : false;
     }
 
-    boolean isSwitchLPG() {
-        if (trans == LPG_SERIAL_T_FB || trans == LPG_SERIAL_T_FBB && history == LPG_SERIAL_T_FBA) {
-            stateStart = false;
-            return true;
-        }
-        return false;
+/**
+ *  Is default fuel active
+ */
+    inline boolean isBNZ() {
+        return (history == LPG_SERIAL_T_FA || trans == LPG_SERIAL_T_FA) ? true : false;
     }
 
 };

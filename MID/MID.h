@@ -150,13 +150,20 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 #define TONE_ADT_PIN 11
 //
 // Steering wheel buttons
-//
+
 // Digital Potentiometer
 // 50k digital potentiometer [MCP41050]
 // [meg] 53     to pin [pot] 1 [CS]
 // [meg] 52     to pin [pot] 2 [SCK]
 // [meg] 51     to pin [pot] 3 [SI]
 //     GND      to pin [pot] 4
+
+// SPI map
+// 51 MOSI
+// 50 MISO
+// 51 MOSI
+// 52 SCK
+// 53 SS
 
 //     +5V      to pin [pot] 8
 //     GND      to pin [pot] 7
@@ -196,37 +203,8 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
  * LPG fuel support configuration
  */
 
-//
-// In my case  ... about LPG installation:
-// My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
-//  so ... i made simple driver "I2cSimpleListener" to listen communication without make any connection to devices
-//#define ADT_FUEL_SYSTEM_I2C // comment to disable additional fuel system such as LPG
-//
-// Include simple driver
-#ifdef ADT_FUEL_SYSTEM_I2C
 
-#include <MenuBackend.h>
-//#include "lib/drivers/I2cSimpleListener.h"
 
-#endif
-//
-// This definition is for carSens class
-// Additional fuel installation
-#define LPG_INSTALLATION
-#ifdef LPG_INSTALLATION
-//
-// [LPG ECU Avance 32]
-// 4 Pins 5V LPG fuel switch/gauge
-//      Two wires are for power supply, other two wires is for displayed information.
-//      * Check wiring diagram in order to determine your wiring
-// 20, 21
-//
-// bla aaa http://arduino.stackexchange.com/questions/9481/why-is-my-interrupt-code-not-working?answertab=active#tab-top
-// Not all pins on the Mega and Mega 2560 support change interrupts, so only the following can be usedMenu for RX:
-// 10, 11, 12, 13, 14, 15, 50, 51, 52, 53, A8 (62), A9 (63), A10 (64), A11 (65), A12 (66), A13 (67), A14 (68), A15 (69).
-const uint8_t pinLpgDat = A11;     //  [brown]     Switch DATA     Tank fuel level     /// A8
-const uint8_t LPG_CLC_PIN = A12;     //  [blue]      Switch button   Fuel switcher       /// A9
-#endif
 //
 /***************************************************************************/
 //
@@ -324,6 +302,29 @@ struct SavedData {
     float sens_dst;
     float sens_ecu;
 };
+
+//
+// In my case  ... about LPG installation:
+// My LPG fuel installation is EuropeGas "Avance 32" and communication between LPG ECU and fuel switch is I2C protocol
+// 4 Pins 5V LPG fuel switch/gauge
+//      Two wires are for power supply, other two wires is for  information.
+//      * Check wiring diagram in order to determine your wiring
+//      * This code uses pin17 as slow serial communication
+#define ADT_FUEL_SYSTEM_SERIAL // comment to disable additional fuel system such as LPG
+//
+// Include simple driver
+#ifdef ADT_FUEL_SYSTEM_SERIAL
+
+#define LPG_INSTALLATION
+
+class LpgFuel {
+public:
+    virtual boolean isLPG() = 0;
+    virtual boolean isBNZ() = 0;
+};
+
+
+#endif
 
 #define MID_VERSION "1.5+"
 //

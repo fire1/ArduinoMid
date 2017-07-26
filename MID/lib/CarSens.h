@@ -11,7 +11,7 @@
 #define ARDUINO_MID_CAR_SENS_H
 
 // TODO this is test mode
-#ifndef ADT_FUEL_SYSTEM_I2C
+#ifndef ADT_FUEL_SYSTEM_SERIAL
 #define ADT_FUEL_SYSTEM_I2C
 #endif
 //#ifdef ADT_FUEL_SYSTEM_I2C
@@ -247,7 +247,6 @@ private:
     //
     // Detect fuel switch
     uint8_t FUEL_STATE;
-    uint8_t pinLpgClock, pinLpgData;
     //
     //
     uint8_t carGearNum = 0;
@@ -435,11 +434,6 @@ public:
 
     int getLpgPush();
 
-#ifdef ADT_FUEL_SYSTEM_I2C
-
-//    void listenerI2cLpg(I2cSimpleListener *i2c);
-
-#endif
 
     /**
  * Construct class
@@ -498,10 +492,16 @@ public:
 
     /**
      * Setup additional fuel line
-      * @param pinTank
-      * @param pinSwitch
       */
-    void setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch);
+    void setFuelListener(LpgFuel *f) {
+        if (f->isBNZ()) {
+            FUEL_STATE = 0;
+        }
+
+        if (f->isLPG()) {
+            FUEL_STATE = 1;
+        }
+    }
 
     /**
     * Setup screen pins
@@ -814,23 +814,6 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
 #endif
 };
 
-/**
- * Setup additional fuel line pins
- * @param pinTank
- * @param pinSwitch
- */
-void CarSens::setupAdtFuel(uint8_t pinTank, uint8_t pinSwitch) {
-
-    FUEL_STATE = DEFAULT_FUEL_STATE;
-
-    pinMode(pinTank, INPUT);
-    pinMode(pinSwitch, INPUT);
-    //
-    //
-    pinLpgClock = pinSwitch;
-    pinLpgData = pinTank;
-}
-
 
 /*******************************************************************
  *      LISTENER
@@ -1125,7 +1108,7 @@ void CarSens::sensDim() {
 //    Serial.print("Display Dim ");
 //    Serial.println(backLightLevel);
 //    Serial.println(pinScreenOutput);
-    if (backLightLevel  < 5 ) {
+    if (backLightLevel < 5) {
         backLightLevel = SCREEN_DEF_LIGHT;
         defaultActive = 1;
     } else {
@@ -1148,7 +1131,7 @@ void CarSens::sensDim() {
 }
 
 
-#ifdef ADT_FUEL_SYSTEM_I2C
+#ifdef ADT_FUEL_SYSTEM_SERIAL
 
 #endif
 

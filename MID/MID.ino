@@ -40,12 +40,6 @@
 
 
 //
-//
-//LpgSens lpgSens;
-#ifdef ADT_FUEL_SYSTEM_I2C
-//I2cSimpleListener i2cLpg(pinLpgDat, LPG_CLC_PIN);
-#endif
-//
 // Log file
 File logFile;
 
@@ -78,9 +72,6 @@ void setup() {
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
     carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
     //
-    // Setup fuel gauge two required wires
-    carSens.setupAdtFuel(pinLpgDat, LPG_CLC_PIN);
-    //
     // consumption
     // Engine / Speed sensors
     carSens.setupVehicle(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN, BRK_LGH_PIN);
@@ -108,10 +99,7 @@ void setup() {
     //
     // Pass saved data to car state for calculation
     carStat.setWorkState(eepRom.getWorkDistance());
-    //
-    // Setup LPG pins
-    pciSetup(LPG_CLC_PIN); //   attachInterrupt (digitalPinToInterrupt (LPG_CLC_PIN), isr, CHANGE);
-    pciSetup(pinLpgDat); //   attachInterrupt (digitalPinToInterrupt (pinLpgDat), isr, CHANGE);
+
     //
     // Shows MID intro
     lcdMenu.intro();
@@ -120,47 +108,13 @@ void setup() {
     carSens.setSave(eepRom.getData());
     //
     // TODO testing ...
-    // for 7bit frame 109
-//
-    //
-    // PIN 17 with 1k resistor
-    Serial2.begin(246); // pin 17  input  245
-    // https://community.particle.io/t/serial-7-bit-data-even-parity/23446/10
-    Serial.print("Starting SD..");
-    if(!SD.begin(8)) Serial.println("failed");
-    else Serial.println("ok");
 
-    // open the file. note that only one file can be open at a time,
-    // so you have to close this one before opening another.
-//    logFile =  SD.open("test.txt", FILE_WRITE);
-    // if the file opened okay, write to it:
+#ifdef ADT_FUEL_SYSTEM_SERIAL
+    lpgCom.begin();
+#endif
 
-/*
-    // re-open the file for reading:
-    logFile = SD.open("test.txt");
-    if (logFile) {
-        Serial.println("test.txt:");
-        // read from the file until there's nothing else in it:
-        while (logFile.available()) {
-            Serial.write(logFile.read());
-        }
-        // close the file:
-        logFile.close();
-    } else {
-        // if the file didn't open, print an error:
-        Serial.println("error opening test.txt");
-    }
-    */
-
-    logFile =  SD.open("test.txt", FILE_WRITE);
-    if (logFile) {
-        Serial.print("Writing log to test.txt...");
-        logFile.println("Start new session ------------------------------------");
-        // close the file:
-        logFile.close();
-        Serial.println("done.");
-    }
 }
+
 /*
      if (logFile) {
         Serial.print("Writing to test.txt...");
@@ -175,31 +129,6 @@ void setup() {
  */
 void loop() {
 
-    if (Serial2.available() > 0) {
-        int ch = Serial2.read();
-//        ch = ;
-        Serial.println("");
-        Serial.print("LPG: ");
-        Serial.println(ch,HEX);
-        Serial.println("");
-        logFile =  SD.open("test.txt", FILE_WRITE);
-        if (logFile) {
-            Serial.print("Writing log to test.txt...");
-            logFile.println(ch, HEX);
-            // close the file:
-            logFile.close();
-            Serial.println("done.");
-        }
-
-        //
-        // Start Executing command
-        if(0x8C == ch){
-
-        }
-
-    }
-
-
     if (ampInt.isSecond()) {
 //        Serial.print(F(" Start (RAM): "));
 //        Serial.println(getFreeRam());
@@ -213,11 +142,7 @@ void loop() {
     //
     // Listen state pins
     carStat.listener();
-//#ifdef ADT_FUEL_SYSTEM_I2C
-//    cli();
-//    carSens.listenerI2cLpg(&i2cLpg);
-//    sei();
-//#endif
+
     //
     // Reads buttons from steering
     whlSens.listener();
@@ -234,7 +159,12 @@ void loop() {
     //
     //  Switch to shutdown menu
     shutDown.cursor();
-
+    //
+    // Listen LPG fuel system
+#ifdef ADT_FUEL_SYSTEM_SERIAL
+    lpgCom.listener();
+    carSens.setFuelListener(&lpgCom);
+#endif
     //
     // Display UI
     lcdMenu.draw();
