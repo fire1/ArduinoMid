@@ -10,12 +10,12 @@
 //
 // Marker for start transmitting
 #ifndef LPG_SERIAL_T_ST
-#define LPG_SERIAL_T_ST 0x8C
+#define LPG_SERIAL_T_ST 140
 #endif
 //
 // Switching to default fuel
 #ifndef LPG_SERIAL_T_FA
-#define LPG_SERIAL_T_FA 0x9A
+#define LPG_SERIAL_T_FA 218
 #endif
 //
 // Switching to additional fuel (LPG)
@@ -25,9 +25,11 @@
 //
 // Switching to additional fuel B
 #ifndef LPG_SERIAL_T_FBB
-#define LPG_SERIAL_T_FBB 0x62
+#define LPG_SERIAL_T_FBB 18
 #endif
 
+//
+// All buttons up - 18
 class LpgSerial : public LpgFuel {
 
 
@@ -53,6 +55,16 @@ public:
                 history = trans;
             }
             trans = Serial2.read();
+            Serial.print("LPG trans ");
+            Serial.println(trans);
+        }
+
+
+    }
+
+    uint8_t getCurrentValue() {
+        if (trans < 100 && trans > 10) {
+            return trans;
         }
     }
 
@@ -60,7 +72,8 @@ public:
  *  Is additional fuel active
  */
     boolean isLPG() {
-        return (history == LPG_SERIAL_T_FBB || trans == LPG_SERIAL_T_FBB) ? true : false;
+
+        return (history < 100 && history > 10 || trans < 100 && trans > 10 == LPG_SERIAL_T_FBB) ? true : false;
     }
 
 /**

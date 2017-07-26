@@ -88,7 +88,7 @@
 #ifndef CAR_SENS_CUSTOM_FUELS
 //
 // Default fuel state
-#define DEFAULT_FUEL_STATE 1
+#define DEFAULT_FUEL_STATE 0
 /**************************/
 /* GASOLINE ENGINE CONFIG */
 /**************************/
@@ -494,6 +494,9 @@ public:
      * Setup additional fuel line
       */
     void setFuelListener(LpgFuel *f) {
+
+        FUEL_STATE = DEFAULT_FUEL_STATE;
+
         if (f->isBNZ()) {
             FUEL_STATE = 0;
         }
@@ -501,6 +504,11 @@ public:
         if (f->isLPG()) {
             FUEL_STATE = 1;
         }
+    }
+
+
+    void setFuelListener(void) {
+        FUEL_STATE = DEFAULT_FUEL_STATE;
     }
 
     /**
@@ -1529,6 +1537,7 @@ void CarSens::sensBkt() {
 }
 
 /**
+ * @deprecated
  * Makes fuel switch
  */
 void CarSens::switchCurrentFuel() {

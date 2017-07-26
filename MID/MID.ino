@@ -164,6 +164,8 @@ void loop() {
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
+#else
+    carSens.setFuelListener();
 #endif
     //
     // Display UI
@@ -171,6 +173,8 @@ void loop() {
     if (ampInt.isSecond()) {
 //        Serial.print(F(" Draw (RAM): "));
 //        Serial.println(getFreeRam());
+        Serial.print(F(" Fuel state is "));
+        Serial.println(carSens.getFuelState());
     }
     //
     // Commands that changes global value from serial monitor

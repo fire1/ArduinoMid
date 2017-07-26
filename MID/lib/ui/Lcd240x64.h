@@ -433,6 +433,12 @@ private:
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
         showLiter(LCD_COL_L22, LCD_ROW_1);
 
+        if (car->getFuelState() == 0) {
+            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "[BNZ]");
+        } else {
+            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "[LPG]");
+        }
+
         displayFloat(eep->getAverageLitersPer100km(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         showL100km(LCD_COL_L22, LCD_ROW_2);
@@ -740,6 +746,10 @@ private:
     void displayFuel() {
 /* TODO Show fuel information
  * */
+
+        sprintf(char_3, "%03d", lpgCom.getCurrentValue());
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, "LPG");
+        lcd->drawStr(LCD_COL_L21, LCD_ROW_1, char_3);
 
     }
 
