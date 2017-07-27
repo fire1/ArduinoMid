@@ -493,23 +493,26 @@ public:
     /**
      * Setup additional fuel line
       */
+#ifdef ADT_FUEL_SYSTEM_SERIAL
     void setFuelListener(LpgFuel *f) {
-
-        FUEL_STATE = DEFAULT_FUEL_STATE;
-
         if (f->isBNZ()) {
             FUEL_STATE = 0;
-        }
-
-        if (f->isLPG()) {
+        } else {
             FUEL_STATE = 1;
         }
+    }
+#endif
+
+    void setFuelListener(boolean no_switch) {
+        FUEL_STATE = 1;
     }
 
 
     void setFuelListener(void) {
         FUEL_STATE = DEFAULT_FUEL_STATE;
     }
+
+
 
     /**
     * Setup screen pins

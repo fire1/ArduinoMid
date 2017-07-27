@@ -160,11 +160,15 @@ void loop() {
     //  Switch to shutdown menu
     shutDown.cursor();
     //
-    // Listen LPG fuel system
+    // Listen LPG fuel system from serial com
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
-#else
+    //
+    // set usage of LPG system without the switching listener
+#elif defined(LPG_INSTALLATION)
+    carSens.setFuelListener(true);
+#else// Only default fuel system (benzine)
     carSens.setFuelListener();
 #endif
     //

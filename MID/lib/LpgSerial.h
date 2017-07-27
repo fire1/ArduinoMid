@@ -19,13 +19,13 @@
 #endif
 //
 // Switching to additional fuel (LPG)
-#ifndef LPG_SERIAL_T_FB
-#define LPG_SERIAL_T_FB 0x9B
+#ifndef LPG_SERIAL_T_FBA
+#define LPG_SERIAL_T_FBA 15
 #endif
 //
 // Switching to additional fuel B
 #ifndef LPG_SERIAL_T_FBB
-#define LPG_SERIAL_T_FBB 18
+#define LPG_SERIAL_T_FBB 100
 #endif
 
 //
@@ -35,8 +35,13 @@ class LpgSerial : public LpgFuel {
 
 private:
     boolean stateStart = false;
-    int trans;
-    int history;
+    uint8_t fuelTankAverage = 0;
+    uint8_t trans;
+    uint8_t history;
+
+
+    uint16_t fuelTankIndex = 0;
+    uint32_t fuelTankCollector = 0;
 
 
 public:
@@ -53,34 +58,58 @@ public:
         if (Serial2.available() > 0) {
             if (trans != LPG_SERIAL_T_ST) {
                 history = trans;
+                //
+                // Calculate averages
+                if (fuelTankIndex > 10) {
+                    fuelTankAverage = fuelTankCollector / fuelTankIndex;
+                }
             }
-            trans = Serial2.read();
-            Serial.print("LPG trans ");
+            trans = uint8_t(Serial2.read());
+            //
+            // Agg to average
+            fuelTankCollector = fuelTankCollector + trans;
+            fuelTankIndex++;
+
+
+            if (fuelTankAverage == 0) {
+                fuelTankAverage = trans;
+            }
+
+            Serial.print("LPG transmition: ");
             Serial.println(trans);
         }
 
 
     }
 
+    /**
+     *
+     */
     uint8_t getCurrentValue() {
         if (trans < 100 && trans > 10) {
             return trans;
         }
     }
 
+    /**
+     * Gets fuel tank level
+     */
+    uint8_t getFuelTankLiters() {
+        return (uint8_t) map(fuelTankAverage, 65, 15, 0, 30);
+    }
+
 /**
  *  Is additional fuel active
  */
     boolean isLPG() {
-
-        return (history < 100 && history > 10 || trans < 100 && trans > 10 == LPG_SERIAL_T_FBB) ? true : false;
+        return (history < 100 && history > 10 || trans < 100 && trans > 10) ? true : false;
     }
 
 /**
  *  Is default fuel active
  */
     inline boolean isBNZ() {
-        return (history == LPG_SERIAL_T_FA || trans == LPG_SERIAL_T_FA) ? true : false;
+        return (trans == LPG_SERIAL_T_FA) ? true : false;
     }
 
 };

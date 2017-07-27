@@ -4,6 +4,15 @@
 
 #ifndef ARDUINO_MID_CONF_H
 #define ARDUINO_MID_CONF_H
+
+// To active LPG use one of:
+//
+// Serial communication with LPG
+#define ADT_FUEL_SYSTEM_SERIAL // comment to disable
+//
+// No detection of switch but use LPG
+//#define LPG_INSTALLATION // uncomment
+
 /***********************************************************************************************************************
  Car sensing class correction values
 /** /
@@ -39,7 +48,9 @@
 #define CAR_SENS_CUSTOM_FUELS
 //
 // Default fuel state
-#define DEFAULT_FUEL_STATE 1
+// 0 - benzine
+// 1 - propane-butane
+#define DEFAULT_FUEL_STATE 0
 //
 // GASOLINE ENGINE CONFIG
 //

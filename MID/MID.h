@@ -310,17 +310,25 @@ struct SavedData {
 //      Two wires are for power supply, other two wires is for  information.
 //      * Check wiring diagram in order to determine your wiring
 //      * This code uses pin17 as slow serial communication
-#define ADT_FUEL_SYSTEM_SERIAL // comment to disable additional fuel system such as LPG
+//
+
 //
 // Include simple driver
 #ifdef ADT_FUEL_SYSTEM_SERIAL
 
+#ifndef LPG_INSTALLATION
 #define LPG_INSTALLATION
+#endif
 
 class LpgFuel {
 public:
     virtual boolean isLPG() = 0;
+
     virtual boolean isBNZ() = 0;
+
+    virtual uint8_t getCurrentValue() = 0;
+
+    virtual uint8_t getFuelTankLiters() = 0;
 };
 
 
