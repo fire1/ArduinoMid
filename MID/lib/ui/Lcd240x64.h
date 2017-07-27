@@ -746,10 +746,19 @@ private:
     void displayFuel() {
 /* TODO Show fuel information
  * */
+#ifdef ADT_FUEL_SYSTEM_SERIAL
+        sprintf(char_2, "%02d", lpgCom.getFuelTankLiters());
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->print(F("LPG tank:  "));
+        lcd->print(char_2);
+        lcd->print(F("l"));
 
-        sprintf(char_3, "%03d", lpgCom.getCurrentValue());
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, "LPG");
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_1, char_3);
+
+        sprintf(char_2, "%02d", lpgCom.getCurrentValue());
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->print(F("LPG value: "));
+        lcd->print(char_2);
+#endif
 
     }
 
