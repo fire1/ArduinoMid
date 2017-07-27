@@ -34,6 +34,7 @@ class LpgSerial : public LpgFuel {
 
 
 private:
+    boolean transStart = false;
     boolean stateStart = false;
     uint8_t fuelTankAverage = 0;
     uint8_t trans;
@@ -63,8 +64,20 @@ public:
                 if (fuelTankIndex > 10) {
                     fuelTankAverage = fuelTankCollector / fuelTankIndex;
                 }
+                stateStart = true;
             }
-            trans = uint8_t(Serial2.read());
+            uint8_t  val = uint8_t(Serial2.read());
+
+            if(transStart) {
+                trans = val;
+                transStart = false;
+            }
+
+            if(val == 140){
+                transStart = true;
+            }
+
+
             //
             // Agg to average
             fuelTankCollector = fuelTankCollector + trans;
@@ -95,6 +108,10 @@ public:
      * Gets fuel tank level
      */
     uint8_t getFuelTankLiters() {
+
+        if(fuelTankAverage > 140){
+            return (uint8_t) map(fuelTankAverage, 65, 15, 225, 175);
+        }
         return (uint8_t) map(fuelTankAverage, 65, 15, 0, 30);
     }
 
@@ -102,14 +119,14 @@ public:
  *  Is additional fuel active
  */
     boolean isLPG() {
-        return (history < 100 && history > 10 || trans < 100 && trans > 10) ? true : false;
+        return (history < 140 && history > 10 || trans < 140 && trans > 10) ? true : false;
     }
 
 /**
  *  Is default fuel active
  */
     inline boolean isBNZ() {
-        return (trans == LPG_SERIAL_T_FA) ? true : false;
+        return (trans > 140 || stateStart == false) ? true : false;
     }
 
 };
