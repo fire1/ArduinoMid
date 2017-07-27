@@ -15,7 +15,7 @@
 //
 // Switching to default fuel
 #ifndef LPG_SERIAL_T_FA
-#define LPG_SERIAL_T_FA 218
+#define LPG_SERIAL_T_FA 218 // 219
 #endif
 //
 // Switching to additional fuel (LPG)
