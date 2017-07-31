@@ -51,6 +51,7 @@ const char msg30[] PROGMEM = "CONSUMPTION";
 const char msg31[] PROGMEM = "RESULT";
 const char msg32[] PROGMEM = "Turn engine On/Off to save";
 const char msg33[] PROGMEM = "Use BREAK pedal for end";
+const char msg34[] PROGMEM = " Recommend to take a coffee break";
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
