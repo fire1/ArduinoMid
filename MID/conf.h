@@ -8,6 +8,7 @@
 // To active LPG use one of:
 //
 // Serial communication with LPG
+//  Also activates precise consumption calculation
 #define ADT_FUEL_SYSTEM_SERIAL // comment to disable
 //
 // No detection of switch but use LPG

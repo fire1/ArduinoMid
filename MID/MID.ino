@@ -70,7 +70,7 @@ void setup() {
     btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, BRK_LGH_PIN, TONE_ADT_PIN);
     //
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
-    carSens.setupFuel({FUEL_BNZ_IFC, FUEL_BNZ_CNS}, {FUEL_LPG_IFC, FUEL_LPG_CNS});
+    carSens.setupFuel({ifc: FUEL_BNZ_IFC, cns: FUEL_BNZ_CNS}, {ifc: FUEL_LPG_IFC, cns: FUEL_LPG_CNS});
     //
     // consumption
     // Engine / Speed sensors
@@ -115,18 +115,7 @@ void setup() {
 
 }
 
-/*
-     if (logFile) {
-        Serial.print("Writing to test.txt...");
-        logFile.println("Some test");
-        // close the file:
-        logFile.close();
-        Serial.println("done.");
-    } else {
-        // if the file didn't open, print an error:
-        Serial.println("error opening test.txt");
-    }
- */
+
 void loop() {
 
     if (ampInt.isSecond()) {

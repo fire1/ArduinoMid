@@ -147,7 +147,8 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
-#define TONE_ADT_PIN 11
+#define TONE_ADT_PIN 11 // buzzer
+#define TONE_ADT_PIN_R 10 // buzzer
 //
 // Steering wheel buttons
 
@@ -317,6 +318,10 @@ struct SavedData {
 
 #ifndef LPG_INSTALLATION
 #define LPG_INSTALLATION
+#endif
+
+#ifndef LPG_SWITCHING_DETECT
+#define LPG_SWITCHING_DETECT
 #endif
 
 class LpgFuel {

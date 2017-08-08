@@ -34,7 +34,11 @@
 //
 //
 #include "MenuBase.h"
-
+//
+//
+#include "CarCollect.h"
+//
+//
 #ifdef LPG_INSTALLATION
 
 #include "LpgSerial.h"
@@ -65,6 +69,7 @@ MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
 // Shutdown constructor
 ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 
+CarCollect carCollect(carSens, ampInt);
 
 #ifdef ADT_FUEL_SYSTEM_SERIAL
 LpgSerial lpgCom;

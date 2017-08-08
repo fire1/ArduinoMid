@@ -63,7 +63,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 75.3// 92.23  //  75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6  //    fast 3.767
@@ -108,9 +108,17 @@
 // experiments shows that something in middle should be usedMenu eg. 15.4:1 :)
 
 // [CONFIRMED] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
-// // Note: this value is set without detection of fuel switch (mixed with benzine)
+#ifndef LPG_SWITCHING_DETECT
+// // NOTE: this value is set without detection of fuel switch (mixed with benzine cons)
 #define FUEL_LPG_IFC 4329
 #define FUEL_LPG_CNS 8316  // 15.4*540 = 8316
+
+#else
+// // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
+#define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
+#define FUEL_LPG_CNS 7458  // 15.4*540 = 8316 [NOT CONFIRMED]
+#endif
+
 #define LPG_SWTC_PIN 7
 #endif
 /************************/
@@ -137,8 +145,8 @@ X18XE1  - 1796 cm3 = 17.96 dl
 #define SWITCH_FUEL_ON_STATE LOW
 #endif
 struct Fuel {
-    unsigned int ifc;
-    unsigned long cns;
+    uint16_t ifc;
+    uint16_t cns;
 };
 
 #ifndef CAR_SENS_CUSTOM_GEARS

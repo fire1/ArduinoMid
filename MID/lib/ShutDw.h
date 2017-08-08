@@ -110,6 +110,7 @@ public:
 
     void cursor();
 
+
     void saveShutdown() {
         if (tiggerSave) {
 
@@ -117,6 +118,9 @@ public:
                 digitalWrite(pinCtrl, LOW);
                 return;
             } else {
+
+                Serial.println("WARNING!  Writing EEP ROM data to chip...");
+
                 alreadySaved = 1;
                 melodySave();
                 eep->saveCurrentData();
