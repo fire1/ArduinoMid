@@ -633,7 +633,7 @@ public:
     /**
      * Gets break time
      */
-    inline float getBreakTime() { return BREAK_TIME / (MILLIS_PER_MN / MILLIS_PER_SC); }
+    inline float getBreakTime() { return BREAK_TIME / 60; }
 
     /**
      *  Gets travel time
