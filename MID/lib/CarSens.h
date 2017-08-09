@@ -292,7 +292,7 @@ private:
     unsigned int pullLpgIndex = 0, combLpgIndex = 0;
     //
     //
-    float BRAK_TIME = 0;
+    float BREAK_TIME = 0;
     unsigned long breakTimeStart = 0;
     //
     //
@@ -633,7 +633,7 @@ public:
     /**
      * Gets break time
      */
-    inline float getBrakTime() { return BRAK_TIME; }
+    inline float getBreakTime() { return BREAK_TIME / (MILLIS_PER_MN / MILLIS_PER_SC); }
 
     /**
      *  Gets travel time
@@ -1547,7 +1547,7 @@ void CarSens::sensBkt() {
     }
 
     if (breakTimeStart > 0 && digitalRead(pinBreaks) == LOW) {
-        BRAK_TIME = BRAK_TIME + ((millis() - breakTimeStart) / MILLIS_PER_SC);
+        BREAK_TIME = BREAK_TIME + ((millis() - breakTimeStart) / MILLIS_PER_SC);
         breakTimeStart = 0;
     }
 }
