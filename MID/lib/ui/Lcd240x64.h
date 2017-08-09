@@ -703,6 +703,7 @@ private:
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_3);
 
+
     }
 
 /****************************************************************
