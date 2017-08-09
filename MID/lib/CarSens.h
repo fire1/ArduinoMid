@@ -107,16 +107,18 @@
 // 15.4 if 60/40 propane/butane is usedMenu
 // experiments shows that something in middle should be usedMenu eg. 15.4:1 :)
 
+
+
 // [CONFIRMED] For lpg(summer >20C) car use 4412 (1/15.4/540*3600)*10000
 #ifndef LPG_SWITCHING_DETECT
 // // NOTE: this value is set without detection of fuel switch (mixed with benzine cons)
 #define FUEL_LPG_IFC 4329
-#define FUEL_LPG_CNS 8316  // 15.4*540 = 8316
+#define FUEL_LPG_CNS 8316  // [CONFIRMED]
 
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 7458  // 15.4*540 = 8316 [NOT CONFIRMED]
+#define FUEL_LPG_CNS 7435  // 7435 [NOT CONFIRMED] // 15.4*540 = 8316 [CONFIRMED (no switching)]
 #endif
 
 #define LPG_SWTC_PIN 7
