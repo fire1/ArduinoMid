@@ -66,14 +66,14 @@ public:
                 }
                 stateStart = true;
             }
-            uint8_t  val = uint8_t(Serial2.read());
+            uint8_t val = uint8_t(Serial2.read());
 
-            if(transStart) {
+            if (transStart) {
                 trans = val;
                 transStart = false;
             }
 
-            if(val == 140){
+            if (val == 140) {
                 transStart = true;
             }
 
@@ -109,7 +109,7 @@ public:
      */
     uint8_t getFuelTankLiters() {
 
-        if(fuelTankAverage > 140){
+        if (fuelTankAverage > 140) {
             return (uint8_t) map(fuelTankAverage, 65, 15, 225, 175);
         }
         return (uint8_t) map(fuelTankAverage, 65, 15, 0, 30);
@@ -119,14 +119,14 @@ public:
  *  Is additional fuel active
  */
     boolean isLPG() {
-        return (history < 140 && history > 10 || trans < 140 && trans > 10) ? true : false;
+        return (history < 140 && history > 27 || trans < 140 && trans > 27) ? true : false;
     }
 
 /**
  *  Is default fuel active
  */
     inline boolean isBNZ() {
-        return (trans > 140 || stateStart == false) ? true : false;
+        return (trans > 140 || trans == 27 || stateStart == false) ? true : false;
     }
 
 };
