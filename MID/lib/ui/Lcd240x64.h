@@ -673,10 +673,10 @@ private:
         //
         // Breaking time
         lcd->drawXBMP(LCD_COL_L11, LCD_ROW_3, 18, 10, car_brk_18x10_bits);
-        displayFloat(car->getBrakTime(), char_3);
+        displayFloat(car->getBreakTime(), char_3);
         lcd->drawStr(LCD_COL_L21, LCD_ROW_3, char_3);
         lcd->setCursor(LCD_COL_L23, LCD_ROW_3);
-        lcd->print(F("h"));
+        lcd->print(F("min."));
         //
         // Avr RPM time
         lcd->drawXBMP(LCD_COL_L11 + 1, LCD_ROW_4, 18, 10, eng_avr_18x10_bits);
@@ -702,6 +702,7 @@ private:
         displayFloat((car->getCurFuelCns() * 100) / (car->getDst()), char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_3);
+
 
     }
 
