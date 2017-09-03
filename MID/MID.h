@@ -185,7 +185,6 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // Stereo input to pin [pot] 6 (through  RELAY to stereo remote control)
 //                     [pot] 5 NC
 // SPI map
-// 51 MOSI
 // 50 MISO
 // 51 MOSI
 // 52 SCK
