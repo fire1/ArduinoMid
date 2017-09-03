@@ -56,6 +56,7 @@ void setup() {
     //
 //    lpgSens.setup(pinLpgDat, LPG_CLC_PIN);
 
+    analogWrite(35, 0);
     //
     // Debug serial
     Serial.begin(SERIAL_MONITOR_BAUD);
@@ -117,6 +118,13 @@ void setup() {
 
 
 void loop() {
+
+//    Serial.print("Pin 9 is: ");
+//    Serial.println(digitalRead(9));
+//
+//
+//    Serial.print("Pin 8 is: ");
+//    Serial.println(digitalRead(8));
 
     if (ampInt.isSecond()) {
 //        Serial.print(F(" Start (RAM): "));

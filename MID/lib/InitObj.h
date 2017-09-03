@@ -59,7 +59,7 @@ CarState carStat(ampInt);
 WhlSens whlSens(ampInt);
 //
 // Data storage
-EepRom eepRom(carSens);
+EepRom eepRom(carSens, whlSens);
 //
 // Buttons driver
 MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);

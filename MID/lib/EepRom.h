@@ -18,6 +18,7 @@
 
 #include "CarSens.h"
 #include "MainFunc.h"
+#include "WhlSens.h"
 
 #ifndef ARDUINOMID_EepRom_H
 #define ARDUINOMID_EepRom_H
@@ -69,6 +70,7 @@ class EepRom {
 
     SavedData container;
     CarSens *car;
+    WhlSens *whl;
     float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 public:
@@ -76,7 +78,7 @@ public:
  * EepRom Constructor
  * @param carSens
  */
-    EepRom(CarSens &carSens) : car(&carSens) {
+    EepRom(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens)  {
 
     }
 
@@ -760,6 +762,15 @@ void EepRom::injectFromSerial(void) {
             }
 
         }
+        if (srlStrName == "whl") {
+            // Saves type
+            saveTemp = Serial.readStringUntil('\n').toInt();
+            srlOutputs = F("Wheel Simulate resistance ");
+            whl->sendRadioButtons(saveTemp);
+            srlOutputs += saveTemp;
+
+        }
+
 
         //
         // Show command information to human

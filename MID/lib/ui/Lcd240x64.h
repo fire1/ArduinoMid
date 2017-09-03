@@ -21,26 +21,30 @@
 
 #endif
 
-#define LCD_ROW_1 18
-#define LCD_ROW_2 28
-#define LCD_ROW_3 40
+#define LCD_ROW_1 16
+#define LCD_ROW_2 27
+#define LCD_ROW_3 39
 #define LCD_ROW_4 50
 
-#define LCD_COL_L11 5
-#define LCD_COL_L12 25
+#define LCD_COL_L10 0
+#define LCD_COL_L11 8
+#define LCD_COL_L12 30
 #define LCD_COL_L21 35
-#define LCD_COL_L22 50
-#define LCD_COL_L23 70
+#define LCD_COL_L22 65
+#define LCD_COL_L23 85
 
 #define LCD_CNR 120 // Center of the screen
 #define LCD_CNR_1 125 // Center of the screen
 #define LCD_CNR_2 145 // Center of the screen
 
-#define LCD_COL_R11 155
+#define LCD_COL_R11 154
 #define LCD_COL_R12 175
 #define LCD_COL_R21 195
-#define LCD_COL_R22 210
+#define LCD_COL_R22 215
 #define LCD_COL_R23 230
+
+#define LCD_ICO_HIGH 2
+#define LCD_ENTRY_FRAME 2
 
 class Lcd240x62 : virtual public LcdUiInterface {
 
@@ -148,7 +152,7 @@ public:
     }
 
     void showHeader(const char *title) {
-        lcd->drawLine(0, 12, 240, 11);
+        lcd->drawLine(0, 13, 240, 12);
 
         if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
             lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
@@ -158,7 +162,10 @@ public:
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
-        lcd->drawStr(12, 2, title);
+//        lcd->setFont(u8g2_font_crox1hb_tf );
+        lcd->drawStr(12, 1, title);
+//        useDefaultMode();
+
 
     }
 
@@ -290,7 +297,8 @@ protected:
         // Cyrillic font u8g2_font_crox1c_tf
         // u8g2_font_crox1cb_tf
         //u8g2_font_mercutio_basic_nbp_t_all
-        lcd->setFont(u8g2_font_6x10_tf);
+        // u8g2_font_crox1cb_tf
+        lcd->setFont(u8g2_font_crox1h_tf); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
@@ -342,7 +350,7 @@ protected:
             case 6:
             case 7:
 
-                lcd->drawFrame(10, 12 + (3 * 5), 212, 15);
+                lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
                 lcd->drawStr(LCD_CNR - (backW / 2), 15, usedMenu.back);
                 lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
                 lcd->drawStr(LCD_CNR - (nextW / 2), 45, usedMenu.next);
@@ -374,7 +382,7 @@ private:
  * @param y
  */
     inline void showKm(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + 1, 9, 8, mark_km_9x8_bits);
+        lcd->drawXBMP(x, y + 1 + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
     }
 
 /**
@@ -383,7 +391,7 @@ private:
  * @param y
  */
     inline void showAverage(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 8, 8, mark_phi_8x8_bits);
+        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_phi_8x8_bits);
     }
 
 /**
@@ -392,7 +400,7 @@ private:
  * @param y
  */
     inline void showInstant(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 8, 8, mark_now_5x8_bits);
+        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_now_5x8_bits);
     }
 
 
@@ -402,9 +410,9 @@ private:
  * @param y
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(/*50*/x, y, 8, 8, mark_liter_per_8x8_bits);
-        lcd->drawXBMP(/*58*/x + 8, y, 10, 8, mark_100_10x8_bits);
-        lcd->drawXBMP(/*69*/x + 19, y, 9, 8, mark_km_9x8_bits);
+        lcd->drawXBMP(/*50*/x, y + LCD_ICO_HIGH, 8, 8, mark_liter_per_8x8_bits);
+        lcd->drawXBMP(/*58*/x + 8, y + LCD_ICO_HIGH, 10, 8, mark_100_10x8_bits);
+        lcd->drawXBMP(/*69*/x + 19, y + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
     }
 
 /**
@@ -413,14 +421,14 @@ private:
  * @param y
  */
     inline void showCels(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 4, 8, mark_cel_4x8_bits);
+        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
     }
 
 /**
  *
  */
     inline void showLiter(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y, 4, 8, mark_liter_4x8_bits);
+        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_liter_4x8_bits);
     }
 
 /**
@@ -434,9 +442,9 @@ private:
         showLiter(LCD_COL_L22, LCD_ROW_1);
 
         if (car->getFuelState() == 0) {
-            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "[BNZ]");
+            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
         } else {
-            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "[LPG]");
+            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
         }
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
@@ -452,11 +460,11 @@ private:
         //
         // Outside graph
         lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-        lcd->drawXBMP(20, LCD_ROW_3, 18, 10, car_out_18x10_bits);
+        lcd->drawXBMP(20, LCD_ROW_3 + 2, 18, 10, car_out_18x10_bits);
         this->showCels(LCD_COL_L23, LCD_ROW_3);
         //
         // Inside Graph
-        lcd->drawXBMP(20, LCD_ROW_4, 18, 10, car_ins_18x10_bits);
+        lcd->drawXBMP(20, LCD_ROW_4 + 2, 18, 10, car_ins_18x10_bits);
 
 
         //
@@ -487,7 +495,7 @@ private:
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_4);
-        showKm(LCD_COL_R22, 19);
+        showKm(LCD_COL_R22, LCD_ROW_1);
         //
         // Travel time
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
@@ -611,36 +619,36 @@ private:
 
 
         if (history.brk) {
-            lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+            lcd->setCursor(0, LCD_ROW_1);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(3));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(3));
         if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12, LCD_ROW_1, (drawIndex < 5) ? getMsg(9) : getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_1, getMsg(7));
 
         if (history.cnt) {
-            lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+            lcd->setCursor(0, LCD_ROW_2);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_2, getMsg(4));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(4));
         if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_2, getMsg(7));
 
 
         if (history.win) {
-            lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+            lcd->setCursor(0, LCD_ROW_3);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(5));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, getMsg(5));
         if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_3, getMsg(7));
 
 
         if (history.oil) {
-            lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+            lcd->setCursor(0, LCD_ROW_4);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(6));
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(6));
         if (stt->getLiveOil()) lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(8));
         else lcd->drawStr(LCD_COL_R12, LCD_ROW_4, getMsg(7));
 

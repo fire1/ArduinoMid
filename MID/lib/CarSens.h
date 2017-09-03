@@ -77,7 +77,7 @@
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
-#define SCREEN_DEF_LIGHT 75 // 22
+#define SCREEN_DEF_LIGHT 22 // This value is mul. by *10
 //
 // Screen default value
 #define SCREEN_GO_TO_DEF 15
@@ -1126,31 +1126,21 @@ void CarSens::sensDim() {
 
     boolean defaultActive = 0;
 
-    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 253);
+    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
+    Serial.print("Display Dim read pure ");
+    Serial.println(backLightLevel);
+    Serial.print("Display board read pure ");
+    Serial.println(analogRead(pinScreenInput));
 
-
-//    Serial.print("Display Dim ");
-//    Serial.println(backLightLevel);
-//    Serial.println(pinScreenOutput);
-    if (backLightLevel < 5) {
+    if (backLightLevel < 1) {
         backLightLevel = SCREEN_DEF_LIGHT;
-        defaultActive = 1;
-    } else {
-        defaultActive = 0;
     }
 
-    if ((lastReadValueDim / 10) != (backLightLevel / 10) && backLightLevel > 0) {
-        lastReadValueDim = backLightLevel;
 //
-//        if (defaultActive == 0) {
-//            backLightLevel = backLightLevel - SCREEN_DEF_LIGHT;
-//        }
+    Serial.print("Display Dim ");
+    Serial.println(backLightLevel);
 
-
-
-    }
-//    analogWrite(pinScreenOutput, backLightLevel);
-    analogWrite(pinScreenOutput, 255);
+    analogWrite(pinScreenOutput, backLightLevel * 10);
 
 }
 

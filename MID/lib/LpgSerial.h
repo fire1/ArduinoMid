@@ -63,6 +63,8 @@ public:
                 // Calculate averages
                 if (fuelTankIndex > 10) {
                     fuelTankAverage = fuelTankCollector / fuelTankIndex;
+                    fuelTankCollector = 0;
+                    fuelTankIndex = 0;
                 }
                 stateStart = true;
             }
@@ -110,9 +112,9 @@ public:
     uint8_t getFuelTankLiters() {
 
         if (fuelTankAverage > 140) {
-            return (uint8_t) map(fuelTankAverage, 65, 15, 225, 175);
+            return (uint8_t) map(fuelTankAverage, 215, 145, 65, 15);
         }
-        return (uint8_t) map(fuelTankAverage, 65, 15, 0, 30);
+        return (uint8_t) map(fuelTankAverage, 75, 15, 5, 30);
     }
 
 /**
@@ -126,7 +128,7 @@ public:
  *  Is default fuel active
  */
     inline boolean isBNZ() {
-        return (trans > 140 || trans == 27 || stateStart == false) ? true : false;
+        return (trans > 140 && trans == history || trans == 27 || stateStart == false) ? true : false;
     }
 
 };

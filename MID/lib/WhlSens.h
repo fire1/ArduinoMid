@@ -49,13 +49,17 @@ private:
     boolean isDisabled = 0;
 
 
-    void setDigitalPot(uint8_t resistance);
+//    void setDigitalPot(uint8_t resistance);
 
     void setCurrentState(int currentButton);
 
     void setButtonStateParser(int currentState);
 
+    void setDigitalPot(uint8_t resistance);
+
 public:
+
+
     WhlSens(AmpTime &timeAmp) : amp(&timeAmp) {
 
     }
@@ -79,6 +83,8 @@ public:
     void listener();
 
     void sendRadioButtons();
+
+    void sendRadioButtons(uint8_t resistance);
 
     int getCurrentState();
 
@@ -305,6 +311,37 @@ void WhlSens::sendRadioButtons() {
     } else {
         digitalWrite(pinOutMask, HIGH);
     }
+
+
+}
+
+void WhlSens::sendRadioButtons(uint8_t resistance) {
+
+
+    //
+    // Disable commands to radio
+    if (isDisable()) {
+        return;
+    }
+
+    Serial.print("WHL Current resistance ");
+    Serial.println(resistance);
+
+
+    digitalWrite(pinOutMask, LOW);
+    digitalWrite(pinDigPotCntr, LOW);
+
+    setDigitalPot(resistance);
+// TODO test here
+    delay(10); // Some separation fix
+    if (amp->isLow()) {
+        // Open resistance to pot
+        digitalWrite(pinDigPotCntr, HIGH);
+
+    }
+
+    delay(30);
+    digitalWrite(pinOutMask, HIGH);
 
 
 }

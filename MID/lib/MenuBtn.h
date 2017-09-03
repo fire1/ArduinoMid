@@ -323,14 +323,16 @@ void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal
     //
     // Pin button mode
     pinMode(pinTn, INPUT);
-    pinMode(btnUp, INPUT);
-    pinMode(btnDw, INPUT);
+    pinMode(btnUp, INPUT_PULLUP);
+    pinMode(btnDw, INPUT_PULLUP);
     pinMode(btnBk, INPUT);
 
     //
     // Turn on  Internal pull up resistor
-    digitalWrite(btnUp, HIGH);
-    digitalWrite(btnDw, HIGH);
+//    digitalWrite(btnUp, HIGH);
+//    digitalWrite(btnDw, HIGH);
+//    analogWrite(btnUp, 250);
+//    analogWrite(btnDw, 250);
     digitalWrite(btnBk, LOW);
 
 }
