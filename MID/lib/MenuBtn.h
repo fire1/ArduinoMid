@@ -343,6 +343,8 @@ void MenuBtn::listener() {
     // Delete hold state
     isHoldState = false;
 
+//    Serial.print("Break is ");
+//    Serial.println(isBk());
     //
     // Debounce the buttons
     if (lastUseDebounce()) {

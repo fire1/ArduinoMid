@@ -78,7 +78,7 @@ public:
  * EepRom Constructor
  * @param carSens
  */
-    EepRom(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens)  {
+    EepRom(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens) {
 
     }
 
@@ -762,6 +762,18 @@ void EepRom::injectFromSerial(void) {
             }
 
         }
+        if (srlStrName == "reset") {
+            // Saves type
+            saveTemp = Serial.readStringUntil('\n').toInt();
+            if (saveTemp == 1) {
+                this->saveResetData();
+                srlOutputs = F("Saved All data and resetting...");
+                srlOutputs += saveTemp;
+            }
+
+        }
+
+
         if (srlStrName == "whl") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
