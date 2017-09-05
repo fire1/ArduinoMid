@@ -261,24 +261,22 @@ private:
     //
     uint8_t carGearNum = 0;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
-    uint16_t smoothEngineTemp;
-    //
-    // Screen back light vars
-    uint8_t backLightLevel = 0; // Container of current level
+    uint8_t backLightIndex = 0; // Container of current level
     uint8_t CUR_ENT; // Engine temperature
-
     //
     // Car's reached ...
     uint8_t maxReachedSpeed = 0, maxReachedRevs = 0;
     //
     // Human Results
     uint16_t CUR_VSS, CUR_RPM;
-    uint32_t CUR_ECU;
     //
+    uint16_t backLightReadCollection = 0;
     // Instant Fuel consumption counter
     uint16_t indexIfc;
     uint16_t temperatureOutIndex = 0;
     //
+    uint16_t smoothEngineTemp;
+    uint32_t CUR_ECU;
     //
     int pushLpgIndex = 0;
     //
@@ -325,7 +323,6 @@ private:
     /**
      * Handle playEntry dim
      */
-    unsigned long lastReadValueDim = 0;
     unsigned long averageDivider = 0;
     unsigned long sensDeltaCnsOldTime,
             CONS_DELTA_TIME,
@@ -891,15 +888,11 @@ void CarSens::listener() {
         } else {
             vehicleStopped = 0;
         }
-        sensDim();
     }
-
-
     //
-    // Sens display Dim more frequently by skipping Sens loop
-    if (amp->isLow() /*&& backLightLevel > SCREEN_GO_TO_DEF && !amp->isSens()*/) {
-//        sensDim();
-    }
+    // This method has private isSens handling
+    sensDim();
+
     //
     // Mark engine on
     if (CUR_RPM > 500) {
@@ -1124,23 +1117,32 @@ char *CarSens::getHTm(float saved) {
  */
 void CarSens::sensDim() {
 
-    boolean defaultActive = 0;
-
-    backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
+    backLightReadCollection += (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
+    backLightIndex++;
+#if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     Serial.print("Display Dim read pure ");
     Serial.println(backLightLevel);
     Serial.print("Display board read pure ");
     Serial.println(analogRead(pinScreenInput));
+#endif
 
-    if (backLightLevel < 1) {
-        backLightLevel = SCREEN_DEF_LIGHT;
+    if (amp->isSens()) {
+
+        uint8_t backLightLevel = (uint8_t) backLightReadCollection / backLightIndex;
+        backLightReadCollection = backLightReadCollection * 2;
+        backLightIndex = 2;
+
+        if (backLightLevel < 1) {
+            backLightLevel = SCREEN_DEF_LIGHT;
+        }
+
+        analogWrite(pinScreenOutput, backLightLevel * 10);
     }
 
-//
+#if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     Serial.print("Display Dim ");
     Serial.println(backLightLevel);
-
-    analogWrite(pinScreenOutput, backLightLevel * 10);
+#endif
 
 }
 
