@@ -254,7 +254,7 @@ public:
     }
 
     void captureMn() {
-        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && !entryDownState) {
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH ) {
             if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && amp->isMid()) {
                 lastUsed = millis();
                 lastButtonPushed = btnMn;
