@@ -166,6 +166,10 @@ public:
         return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
+    inline boolean isEd(){
+        return editorActivate;
+    }
+
     inline boolean isBk() {
         return digitalRead(btnBk) == HIGH && car->getVss() == 0;
     }
@@ -371,6 +375,8 @@ void MenuBtn::listener() {
     //
     // Detect Hold button state
     captureHl();
+
+
 
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isSecond()) {

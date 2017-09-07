@@ -90,8 +90,6 @@ public:
                 fuelTankAverage = trans;
             }
 
-            Serial.print("LPG transmition: ");
-            Serial.println(trans);
         }
 
 
