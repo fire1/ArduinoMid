@@ -44,7 +44,8 @@ private:
             activateSteering = false,
             isHoldState = false,
             entryDownState = false,
-            editorActivate = false;
+            editorActivate = false,
+            toggetherPress = false;
 
 
     uint8_t btnUp, btnDw, btnBk, pinTn;
@@ -166,8 +167,12 @@ public:
         return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
-    inline boolean isEd(){
+    inline boolean isEd() {
         return editorActivate;
+    }
+
+    inline boolean isTg() {
+        return toggetherPress;
     }
 
     inline boolean isBk() {
@@ -258,7 +263,7 @@ public:
     }
 
     void captureMn() {
-        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH ) {
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
             if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && amp->isMid()) {
                 lastUsed = millis();
                 lastButtonPushed = btnMn;
@@ -297,11 +302,21 @@ public:
 
     }
 
+    void captureTg() {
+        toggetherPress = false;
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
+            if (amp->isLow()) {
+                toggetherPress = true;
+                lastUsed = millis();
+            }
+        }
+    };
+
     void captureEd() {
 
         //
         // LISTEN for Editor activation
-        if (editorActivate && this->isDw() && this->getNavigationState()) {
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && !entryDownState) {
             this->setNavigationState(false);
         }
         //
@@ -375,7 +390,9 @@ void MenuBtn::listener() {
     //
     // Detect Hold button state
     captureHl();
-
+    //
+    // Detect together pressed
+    captureTg();
 
 
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
