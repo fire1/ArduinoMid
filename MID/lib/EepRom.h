@@ -60,7 +60,9 @@ const int EEP_ADR_RMS = 6; // Rims Size
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
-
+#ifndef EEP_ROM_WORK_DIV
+#define EEP_ROM_WORK_DIV 100
+#endif
 
 #define EEP_ROM_INDEXES 10
 
@@ -144,7 +146,7 @@ public:
  * @return
  */
     inline int getWorkDistance(void) {
-        return int(container.total_km * 100);
+        return int(container.total_km * EEP_ROM_WORK_DIV);
     }
 
 /**
@@ -550,7 +552,7 @@ void EepRom::saveResetData() {
         if (container.total_km < 1) {
             container.total_km = 0;
         }
-        container.total_km = container.total_km + (container.dist_trv / 100);
+        container.total_km = container.total_km + (container.dist_trv / EEP_ROM_WORK_DIV);
     }
     //
     // Resenting ...

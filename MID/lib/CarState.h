@@ -7,6 +7,20 @@
 
 #include "AmpTime.h"
 
+#ifndef CAR_STT_AC_ALERT
+#define CAR_STT_AC_ALERT 3
+#endif
+
+#ifndef CAR_STT_TM_BELT
+#define CAR_STT_TM_BELT 85000
+#endif
+
+#ifndef CAR_STT_AR_FILTER
+#define CAR_STT_AR_FILTER 42000
+#endif
+
+
+
 struct Diagnostic {
     boolean all;    // All combined
     boolean oil;    // oil level
@@ -33,13 +47,16 @@ private:
 
     float workDistance;
 
-    boolean alertState = false;
+    uint8_t alertState = 0;
 
 
     boolean isBadVoltage();
 
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
+    uint8_t cursorMenu = 1;
+
     int lastVoltageValue = 0;
+
 
 public:
 
@@ -80,6 +97,15 @@ public:
     void setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV);
 
     void listener();
+
+    void cursor(){
+        if(this->isAlert()){
+            cursorMenu = MidCursorMenu;
+        }
+
+
+    }
+
 
     Diagnostic getResult();
 };
@@ -122,8 +148,23 @@ void CarState::listener() {
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
 
+        // Timing belt change
+        if (workDistance > CAR_STT_TM_BELT) {
+            result.blt = true;
+        }
+
+        // Air filter change
+        if (workDistance > CAR_STT_AR_FILTER) {
+            result.air = true;
+        }
+
+        // Oil change
+        if (workDistance > CAR_STT_AR_FILTER) {
+            result.och = true;
+        }
+
         if (result.oil || result.brk || result.cnt || result.win /*|| result.vol*/) {
-            alertState = true;
+            alertState++;
         }
     }
 }
@@ -224,7 +265,13 @@ Diagnostic CarState::getResult() {
  * @return boolean
  */
 boolean CarState::isAlert() {
-    return alertState;
+    if (alertState >= CAR_STT_AC_ALERT) {
+        alertState = 0;
+        return true;
+    }
+    return false;
+
+
 }
 
 #endif //ARDUINOMID_CARSTAT_H

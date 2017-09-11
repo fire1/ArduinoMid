@@ -107,6 +107,8 @@ void setup() {
     //
     // Restore custom settings of var
     carSens.setSave(eepRom.getData());
+
+    carStat.setWorkState(eepRom.getWorkDistance());
     //
     // TODO testing ...
 
