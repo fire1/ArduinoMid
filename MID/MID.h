@@ -52,8 +52,8 @@ const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
 //      [dva] - Voltage divider = 5.2k to MID <- to mega ->  4.6k to GND
 //
 // Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 9;       //  Plug:23  [meg] [10k] [+5v]    Column switch
-const uint8_t BTN_PIN_DW = 8;//8;       //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
+const uint8_t BTN_PIN_UP = 9;           //  Plug:23  [meg] [10k] [+5v]    Column switch
+const uint8_t BTN_PIN_DW = 8;           //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
 //
 // Shutdown protection pin
 const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect supply voltage
@@ -80,7 +80,12 @@ const uint8_t STT_VLT_PIN = A7;     //   Duplicating  SAV_PIN_DTC
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-light
 //
-// Temperatures todo A8
+// Temperatures
+// todo test values:
+// Bais resistor 2490
+//      -40C / 100700
+//      30C  / 2238
+//      90C  / 177
 const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [150R]   Front temperature sensor
 
 #if SCREEN == 162 || !defined(SCREEN)
