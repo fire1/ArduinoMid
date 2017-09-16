@@ -94,22 +94,22 @@ const uint8_t TMP_PIN_OUT = A9;     // Plug:3     [+5v] [150R]   Front temperatu
 //  NOTE: pins are inverted due to sockets
 //
 //  General pins
-const uint8_t DSP_PIN_GD1 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 33; // Power positive
-const uint8_t DSP_PIN_CD = 37;  // RS / Data instruction
-const uint8_t DSP_PIN_WR = 39;  // R/W Write signal (HIGH)
-const uint8_t DSP_PIN_CE = 41;  // Chip Enable Signal
+const uint8_t DSP_PIN_GD1 = 25; // Power GND
+const uint8_t DSP_PIN_VCC = 31; // Power positive
+const uint8_t DSP_PIN_CD = 35;  // RS / Data instruction
+const uint8_t DSP_PIN_WR = 37;  // R/W Write signal (HIGH)
+const uint8_t DSP_PIN_CE = 39;  // Chip Enable Signal
 
 //
 // Data pins
-const uint8_t DSP_PIN_DT1 = 34;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 38;
-const uint8_t DSP_PIN_DT4 = 40;
+const uint8_t DSP_PIN_DT1 = 32;
+const uint8_t DSP_PIN_DT2 = 34;
+const uint8_t DSP_PIN_DT3 = 36;
+const uint8_t DSP_PIN_DT4 = 38;
 //
 //
-const uint8_t DSP_PIN_LDA = 29; // Black-light Anode (+5V)
-const uint8_t DSP_PIN_LDK = 31; // Black-light cathode (0v)
+const uint8_t DSP_PIN_LDA = 27; // Black-light Anode (+5V)
+const uint8_t DSP_PIN_LDK = 29; // Black-light cathode (0v)
 
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
 
