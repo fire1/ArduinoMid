@@ -394,6 +394,16 @@ void MenuBtn::listener() {
     // Detect together pressed
     captureTg();
 
+    if(amp->isSecond()){
+        Serial.print("Break is: ");
+        Serial.println(this->isBk());
+        Serial.print("Up is: ");
+        Serial.println(this->isUp());
+
+        Serial.print("Dw is: ");
+        Serial.println(this->isDw());
+    }
+
 
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isSecond()) {

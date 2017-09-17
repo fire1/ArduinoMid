@@ -52,12 +52,12 @@ const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
 //      [dva] - Voltage divider = 5.2k to MID <- to mega ->  4.6k to GND
 //
 // Define button pins for steering controller
-const uint8_t BTN_PIN_UP = 9;           //  Plug:23  [meg] [10k] [+5v]    Column switch
-const uint8_t BTN_PIN_DW = 8;           //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
+const uint8_t BTN_PIN_UP = 9;  // old 9         //  Plug:23  [meg] [10k] [+5v]    Column switch
+const uint8_t BTN_PIN_DW = 8;  // old 8         //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
 //
 // Shutdown protection pin
 const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect supply voltage
-const uint8_t SAV_PIN_DTC = A7;     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
+const uint8_t SAV_PIN_DTC = A7; //  proto A7     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
 //
 // Live pins
 const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 50uf] Engine Temperature
@@ -75,7 +75,7 @@ const uint8_t STT_BRK_PIN = A13;    //      Plug:19        [meg]    Critical Bra
 const uint8_t STT_CLN_PIN = A14;    //      Plug:20        [meg]    Critical Coolant level
 const uint8_t STT_WNW_PIN = A15;    //      Plug:22        [meg]   Critical window washer
 const uint8_t STT_OIL_PIN = A1;     //      Plug:13        [meg]   Critical oil level
-const uint8_t STT_VLT_PIN = A7;     //   Duplicating  SAV_PIN_DTC
+const uint8_t STT_VLT_PIN = SAV_PIN_DTC;     //   Duplicating  SAV_PIN_DTC
 //
 // Display dim pins
 const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-light

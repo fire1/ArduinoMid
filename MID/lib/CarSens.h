@@ -1117,9 +1117,8 @@ char *CarSens::getHTm(float saved) {
  */
 void CarSens::sensDim() {
     if (amp->isMid()) {
-        backLightReadCollection += (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
-        backLightIndex++;
-    }
+        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
+
 #if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     Serial.print("Dim collection ");
     Serial.println(backLightReadCollection);
@@ -1129,11 +1128,11 @@ void CarSens::sensDim() {
     Serial.println(analogRead(pinScreenInput));
 #endif
 
-    if (amp->isSec()) {
 
-        uint8_t backLightLevel = (uint8_t) backLightReadCollection / backLightIndex;
-        backLightReadCollection = backLightLevel * 6;
-        backLightIndex = 6;
+
+        if(backLightLevel > 25){
+            backLightLevel = 25;
+        }
 
         if (backLightLevel < 1) {
             backLightLevel = SCREEN_DEF_LIGHT;
