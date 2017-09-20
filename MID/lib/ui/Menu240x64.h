@@ -11,7 +11,6 @@
 #include "../MenuBase.h"
 #include <MenuBackend.h>
 
-
 #define MENU_NAME_1 "Home"
 #define MENU_NAME_11 "Dash"
 #define MENU_NAME_12 "Edit"
