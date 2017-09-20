@@ -172,35 +172,59 @@ public:
 //
 // Servicing screens
     void drawWarnCoolant() {
-
+        lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(49));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(50));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(51));
     }
 
     void drawWarnBattery() {
-
+        lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(43));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(44));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(45));
     }
 
     void drawWarnMotorOil() {
-
+        lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(40));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(41));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(42));
     }
 
     void drawWarnBulbOut() {
-
+        lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(59));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(61)); // TODO front/back
     }
 
     void drawWarnBreakWare() {
-
+        lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(46));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(47));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(48));
     }
 
     void drawWarnOverheating() {
-
+        lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(52));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(53));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(54));
     }
 
     void drawWarnWinter() {
-
+        lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(37));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(38));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(39));
     }
 
     void drawWarnWasher() {
-
+        lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
+        lcd->drawStr(90, LCD_ROW_1, this->getMsg(55));
+        lcd->drawStr(90, LCD_ROW_3, this->getMsg(56));
+        lcd->drawStr(90, LCD_ROW_4, this->getMsg(57));
     }
 
     /**
