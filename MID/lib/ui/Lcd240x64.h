@@ -169,7 +169,41 @@ public:
 
     }
 
-/**
+//
+// Servicing screens
+    void drawWarnCoolant() {
+
+    }
+
+    void drawWarnBattery() {
+
+    }
+
+    void drawWarnMotorOil() {
+
+    }
+
+    void drawWarnBulbOut() {
+
+    }
+
+    void drawWarnBreakWare() {
+
+    }
+
+    void drawWarnOverheating() {
+
+    }
+
+    void drawWarnWinter() {
+
+    }
+
+    void drawWarnWasher() {
+
+    }
+
+    /**
  *
  */
     void draWShutdownTripSave() {
@@ -988,20 +1022,24 @@ void Lcd240x62::menus() {
             showHeader(getMsg(12));
             displayTrip();
             break;
-        case 21:
-            displayRallyGages();
-            break;
             //
             // Fuel menu
-        case 3:
+        case 21:
             showHeader(getMsg(13));
             displayFuel();
             break;
+        case 22:
+            displayRallyGages();
+            break;
+
         case 4:
             showHeader(getMsg(14));
             displayCarState();
             break;
 
+        case CarState::MENU_SERVICE:
+            stt->menu(this);
+            break;
 
         case ShutDw::MENU_SHUTDOWN:
             sdw->menu(this);

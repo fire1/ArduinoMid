@@ -22,9 +22,9 @@
 #define MENU_NAME_123 "DST"
 #define MENU_NAME_124 "ECU"
 
-#define MENU_NAME_2 "Trip"
-#define MENU_NAME_21 "Race"
-#define MENU_NAME_3 "Fuel"
+#define MENU_NAME_2 "Trips"
+#define MENU_NAME_21 "Fuels"
+#define MENU_NAME_22 "Race"
 #define MENU_NAME_4 "State"
 
 
@@ -84,10 +84,12 @@ public:
             //
             // Trip menu
                               tripMenu(MenuItem(MENU_NAME_2)),
-                              raceMenu(MenuItem(MENU_NAME_21)),
+                              fuelMenu(MenuItem(MENU_NAME_21)),
+                              raceMenu(MenuItem(MENU_NAME_22)),
+
             //
             // Fuels menu
-                              fuelMenu(MenuItem(MENU_NAME_3)),
+
             //
             // Servicing menu
                               statMenu(MenuItem(MENU_NAME_4)) {
@@ -95,7 +97,7 @@ public:
 
     void setup(void) {
         menu.getRoot()
-                .add(mainMenu).add(tripMenu).add(fuelMenu).add(statMenu);
+                .add(mainMenu).add(tripMenu).add(statMenu);
         statMenu.add(mainMenu);
 
         mainMenu.addRight(gagesMenu).addRight(setupMenu).addRight(aboutMenu);
@@ -105,7 +107,7 @@ public:
         aboutMenu.add(mainMenu);
         aboutMenu.addRight(mainMenu);
 
-        tripMenu.addRight(raceMenu);
+        tripMenu.addRight(fuelMenu).addRight(raceMenu);
         raceMenu.addRight(tripMenu);
         raceMenu.add(tripMenu);
 
@@ -160,12 +162,12 @@ public:
             // Trip
         } else if (curMenuName == MENU_NAME_2) {
             MidCursorMenu = 2;
-        } else if (curMenuName == MENU_NAME_21) {
-            MidCursorMenu = 21;
             //
             // Fuel
-        } else if (curMenuName == MENU_NAME_3) {
-            MidCursorMenu = 3;
+        } else if (curMenuName == MENU_NAME_21) {
+            MidCursorMenu = 21;
+        } else if (curMenuName == MENU_NAME_22) {
+            MidCursorMenu = 22;
             //
             // State
         } else if (curMenuName == MENU_NAME_4) {

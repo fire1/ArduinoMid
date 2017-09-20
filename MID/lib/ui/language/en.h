@@ -37,7 +37,7 @@ const char msg18[] PROGMEM = "CURRENT";
 const char msg19[] PROGMEM = "DEFAULT";
 //
 //
-const char msg20[] PROGMEM = "To reset trips recorded in Board Comp";
+const char msg20[] PROGMEM = "To reset trip data";
 const char msg21[] PROGMEM = "Hold >R and break pedal ";
 const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID version ";
@@ -54,6 +54,41 @@ const char msg33[] PROGMEM = "Use BREAK pedal for end";
 const char msg34[] PROGMEM = " Take a break";
 const char msg35[] PROGMEM = " Drowsiness detected";
 const char msg36[] PROGMEM = " Bulb failure!";
+//
+// Warning winter
+const char msg37[] PROGMEM = " ROAD ICING WARNING!";
+const char msg38[] PROGMEM = " ";
+const char msg39[] PROGMEM = "Please drive safe!";
+//
+// Warning Oil level
+const char msg40[] PROGMEM = " THE LEVEL OF MOTOR OIL IS LOW!";
+const char msg41[] PROGMEM = "Oil level is detected as below 25%.";
+const char msg42[] PROGMEM = " Please add more.";
+//
+// Warning Battery
+const char msg43[] PROGMEM = "  MALFUNCTION IN EL. SYSTEM!";
+const char msg44[] PROGMEM = "A voltage of: ";
+const char msg45[] PROGMEM = "which is not in  working limits.";
+//
+// Warning breaks
+const char msg46[] PROGMEM = " BREAK WARN OUT!";
+const char msg47[] PROGMEM = "Determined pad wear in one of ";
+const char msg48[] PROGMEM = "the front breaks ";
+//
+// Warning coolant
+const char msg49[] PROGMEM = " COOLANT LEVEL IS LOW!";
+const char msg50[] PROGMEM = "Check the coolant level";
+const char msg51[] PROGMEM = "if is necessary add more.";
+//
+// Warning overheating
+const char msg52[] PROGMEM = " DANGER! OVERHEATING!!!";
+const char msg53[] PROGMEM = "The temperature in the cooling system";
+const char msg54[] PROGMEM = "is too high, possible overheating!";
+//
+// Warning window washer
+const char msg55[] PROGMEM = " LOW LEVEL OF WINDOW WASHER!";
+const char msg56[] PROGMEM = "Window washer liquid level is below ";
+const char msg57[] PROGMEM = "25%. Please add more. ";
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {

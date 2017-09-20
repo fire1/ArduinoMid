@@ -394,7 +394,7 @@ void MenuBtn::listener() {
     // Detect together pressed
     captureTg();
 
-    if(amp->isSecond()){
+    if (amp->isSecond()) {
         Serial.print("Break is: ");
         Serial.println(this->isBk());
         Serial.print("Up is: ");
@@ -460,6 +460,11 @@ void MenuBtn::shortcut(void) {
         delay(80);
         lastButtonPushed = 0;
     }
+
+    if (millis() < (AWAITING_HOLD_BTN * 2)) {
+                
+    }
+
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
 
 

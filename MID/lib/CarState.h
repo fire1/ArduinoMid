@@ -20,7 +20,6 @@
 #endif
 
 
-
 struct Diagnostic {
     boolean all;    // All combined
     boolean oil;    // oil level
@@ -59,6 +58,7 @@ private:
 
 
 public:
+    static constexpr uint8_t MENU_SERVICE = 101;
 
     /**
  * Construction Car State class
@@ -69,6 +69,10 @@ public:
     void setWorkState(float distance);
 
     boolean isAlert();
+
+    void menu(LcdUiInterface *lcd) {
+
+    }
 
     /**
      *
@@ -98,8 +102,8 @@ public:
 
     void listener();
 
-    void cursor(){
-        if(this->isAlert()){
+    void cursor() {
+        if (this->isAlert()) {
             cursorMenu = MidCursorMenu;
         }
 

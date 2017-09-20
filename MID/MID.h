@@ -262,6 +262,22 @@ public:
 
     virtual void draWShutdownTripSkip() = 0;
 
+    virtual void drawWarnCoolant() = 0;
+
+    virtual void drawWarnBattery() = 0;
+
+    virtual void drawWarnMotorOil() = 0;
+
+    virtual void drawWarnBulbOut() = 0;
+
+    virtual void drawWarnBreakWare() = 0;
+
+    virtual void drawWarnOverheating() = 0;
+
+    virtual void drawWarnWinter() = 0;
+
+    virtual void drawWarnWasher() = 0;
+
 protected:
 
 #ifdef ARDUINO_MID_LAN
