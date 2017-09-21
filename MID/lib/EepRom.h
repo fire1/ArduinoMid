@@ -270,6 +270,15 @@ public:
 
 private:
 
+    //
+    // Gets target fuel of use
+    float getDefaultFuelUse() {
+#if (DEFAULT_FUEL_USING == 1)
+        return car->getAdtFuelCns();
+#else
+        return car->getDefFuelCns();
+#endif
+    }
 
 /**
  *
@@ -536,6 +545,15 @@ void EepRom::saveCurrentData() {
     data[9] = container.sens_dst;
     data[10] = container.sens_ecu;
 
+    data[11] = container.trip_a.fuel + getDefaultFuelUse();
+    data[12] = container.trip_a.range + car->getDst();
+
+    data[13] = container.trip_b.fuel + getDefaultFuelUse();
+    data[14] = container.trip_b.range + car->getDst();
+
+    data[15] = container.trip_c.fuel + getDefaultFuelUse();
+    data[16] = container.trip_c.range + car->getDst();
+
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
@@ -616,6 +634,15 @@ void EepRom::loadCurrentData() {
     container.sens_rpm = data[8];
     container.sens_dst = data[9];
     container.sens_ecu = data[10];
+
+    container.trip_a.fuel = data[11];
+    container.trip_a.range = data[12];
+
+    container.trip_b.fuel = data[13];
+    container.trip_b.range = data[14];
+
+    container.trip_c.fuel = data[15];
+    container.trip_c.range = data[16];
 
     Serial.println(data[1], 2);
     Serial.println(data[2], 2);

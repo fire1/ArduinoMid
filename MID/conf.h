@@ -52,6 +52,8 @@
 // 0 - benzine
 // 1 - propane-butane
 #define DEFAULT_FUEL_STATE 0
+#define DEFAULT_FUEL_USING 1  // defines default fuel system to use
+
 //
 // GASOLINE ENGINE CONFIG
 //

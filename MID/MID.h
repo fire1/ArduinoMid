@@ -278,8 +278,6 @@ public:
 
     virtual void warnTmBelt() = 0;
 
-    virtual void warnFilter() = 0;
-
     virtual void warnLightsFront() = 0;
 
     virtual void warnLightsBack() = 0;
@@ -334,6 +332,13 @@ static void menuUseEvent(MenuUseEvent used);
 static void menuChangeEvent(MenuChangeEvent changed);
 
 /**
+ * Trip data
+ */
+struct TripData {
+    float fuel;
+    float range;
+};
+/**
  * EepRom  data
  */
 
@@ -349,6 +354,10 @@ struct SavedData {
     float sens_rpm;
     float sens_dst;
     float sens_ecu;
+
+    TripData trip_a;
+    TripData trip_b;
+    TripData trip_c;
 };
 
 //
@@ -366,11 +375,22 @@ struct SavedData {
 
 #ifndef LPG_INSTALLATION
 #define LPG_INSTALLATION
+
+//
+// Define default use of fuel system
+#ifndef  DEFAULT_FUEL_USING
+#define DEFAULT_FUEL_USING 1
+#endif
+
 #endif
 
 #ifndef LPG_SWITCHING_DETECT
 #define LPG_SWITCHING_DETECT
+
+
+
 #endif
+
 
 class LpgFuel {
 public:

@@ -28,9 +28,10 @@ struct Diagnostic {
     boolean brk;    // Brake ware
     boolean vol;    // Car Voltage
     boolean blt;    // Belt ware change
-    boolean air;    // Air/Oil filter change
     boolean la1;    // 1 Incandescent lamps
     boolean la2;    // 2 incandescent lamps
+    boolean wnt;    // Winter warning
+    boolean ovh;    // Overheating warning
 };
 
 /**
@@ -42,18 +43,33 @@ private:
     Diagnostic result;
 
     AmpTime *amp;
+    CarSens *car;
     int lastVoltageValue = 0;
     float workDistance;
 
     uint8_t alertState = 0;
 
-    boolean isUserWarn = false;
 
     boolean isBadVoltage();
 
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     uint8_t cursorMenu = 1;
+    uint8_t lastUserWarn = 0;
 
+    boolean userWarnStack[11];
+
+
+/**
+ *
+ */
+    boolean in_state(const uint8_t index) {
+        return userWarnStack[index];
+    }
+
+    boolean add_state(const uint8_t index, const boolean value) {
+        lastUserWarn = index;
+        userWarnStack[index] = value;
+    }
 
 public:
     static constexpr uint8_t MENU_SERVICE = 101;
@@ -62,7 +78,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp) : amp(&_amp) { }
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
 
     void setWorkState(float distance);
 
@@ -74,27 +90,50 @@ public:
     void menu(LcdUiInterface *lcd) {
 
 
-        if (result.oil)
+        if (result.oil) {
             lcd->warnMotorOil();
-        else if (result.win)
+            add_state(1, true);
+        }
+        else if (result.cnt) {
+            lcd->warnCoolant();
+            add_state(2, true);
+        }
+        else if (result.win) {
             lcd->warnWasher();
-        else if (result.brk)
+            add_state(3, true);
+        }
+        else if (result.brk) {
             lcd->warnBreakWare();
-        else if (result.vol)
+            add_state(4, true);
+        }
+        else if (result.vol) {
             lcd->warnBattery(this->getVoltage());
-        else if (result.la1)
+            add_state(5, true);
+        }
+        else if (result.la1) {
             lcd->warnLightsFront();
-        else if (result.la2)
+            add_state(6, true);
+        }
+        else if (result.la2) {
             lcd->warnLightsBack();
-        else if (result.air)
-            lcd->warnFilter();
-        else if (result.blt)
+            add_state(7, true);
+        }
+        else if (result.blt) {
             lcd->warnTmBelt();
+            add_state(8, true);
+        }
+        else if (result.wnt) {
+            lcd->warnWinter();
+            add_state(9, true);
+        }
+        else if (result.ovh) {
+            lcd->warnOverheat();
+            add_state(10, true);
+        }
         else;
 
 
         if (amp->is4Seconds()) {
-            isUserWarn = true; // do not show message any more int current session live time
             MidCursorMenu = cursorMenu; // return user to last usable screen
         }
     }
@@ -132,12 +171,25 @@ public:
  *
  */
     void cursor() {
-        if (amp->is4Seconds() && this->isAlert() && !isUserWarn) {
+        if (amp->is4Seconds() && this->isAlert() && !lastUserWarn) {
             cursorMenu = MidCursorMenu;
             MidCursorMenu = MENU_SERVICE;
         }
     }
 
+    boolean isWinter() {
+        if (car->getTmpOut() < -3) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean isOverhead() {
+        if (car->getEngTmp() > 98) {
+            return true;
+        }
+        return false;
+    }
 
     Diagnostic getResult();
 };
@@ -179,19 +231,18 @@ void CarState::listener() {
         result.cnt = (boolean) digitalRead(pinCnt);
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
+
+        result.wnt = isWinter();
+        result.ovh = isOverhead();
         //
         // Car servicing
         if (workDistance > CAR_STT_TM_BELT) { // Timing belt change
             result.blt = true;
         }
 
-        if (workDistance > CAR_STT_AR_FILTER) { // Filters change
-            result.air = true;
-        }
-
         //
         // Car state
-        if (result.oil || result.brk || result.cnt || result.win || result.vol) {
+        if (result.oil || result.brk || result.cnt || result.win || result.vol || result.wnt || result.ovh) {
             alertState++;
         }
     }
@@ -296,10 +347,18 @@ Diagnostic CarState::getResult() {
  * @return boolean
  */
 boolean CarState::isAlert() {
+
     if (alertState >= CAR_STT_AC_ALERT) {
-        alertState = 0;
+        //
+        // Check for older state
+        if (in_state(lastUserWarn)) {
+            alertState = 0;
+            return false;
+        }
         return true;
     }
+
+
     return false;
 
 

@@ -53,7 +53,7 @@ AmpTime ampInt;
 CarSens carSens(ampInt);
 //
 // Constructing car state
-CarState carStat(ampInt);
+CarState carStat(ampInt, carSens);
 //
 // Constructing the class
 WhlSens whlSens(ampInt);

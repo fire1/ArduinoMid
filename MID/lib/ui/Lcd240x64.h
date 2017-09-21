@@ -204,6 +204,7 @@ public:
         lcd->drawStr(90, LCD_ROW_4, this->getMsg(60));
     }
 
+
     void warnLightsBack() {
         lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
@@ -246,12 +247,6 @@ public:
         lcd->drawStr(90, LCD_ROW_4, this->getMsg(64));
     }
 
-    void warnFilter() {
-        lcd->drawXBMP(0, 0, 85, 64, servicing_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(65));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(66));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(67));
-    }
 
 
     /**

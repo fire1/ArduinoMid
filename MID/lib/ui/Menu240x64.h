@@ -25,6 +25,8 @@
 #define MENU_NAME_21 "Fuels"
 #define MENU_NAME_22 "Race"
 #define MENU_NAME_4 "State"
+#define MENU_NAME_41 "Oil"
+#define MENU_NAME_42 "Air"
 
 
 /**
@@ -55,7 +57,9 @@ class Menu240x60 : public MenuUiInterface {
             fuelMenu,
     //
     // States
-            statMenu
+            statMenu,
+            resetOil,
+            resetAir
     //
     // Sprint
 //            gamesMenu
@@ -91,7 +95,9 @@ public:
 
             //
             // Servicing menu
-                              statMenu(MenuItem(MENU_NAME_4)) {
+                              statMenu(MenuItem(MENU_NAME_4)),
+                              resetOil(MenuItem(MENU_NAME_41)),
+                              resetAir(MenuItem(MENU_NAME_42)) {
     }
 
     void setup(void) {
