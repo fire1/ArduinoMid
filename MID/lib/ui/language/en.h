@@ -90,11 +90,21 @@ const char msg55[] PROGMEM = " LOW LEVEL OF WINDOW WASHER!";
 const char msg56[] PROGMEM = "Window washer liquid level is below ";
 const char msg57[] PROGMEM = "25%. Please add more. ";
 //
-// Warning window washer
+// Warning bulb
 const char msg58[] PROGMEM = " BURNED OUT BULB";
-const char msg59[] PROGMEM = "Detect bulb malfunction in: ";
-const char msg60[] PROGMEM = "Head lights ";
+const char msg59[] PROGMEM = "Incandescent  malfunction in: ";
+const char msg60[] PROGMEM = "Front lights ";
 const char msg61[] PROGMEM = "Back lights ";
+//
+// Warning timing  Belt ware
+const char msg62[] PROGMEM = " TIMING BELT WORN OUT WARNING";
+const char msg63[] PROGMEM = "The timing belt needs replacement after";
+const char msg64[] PROGMEM = "85000km (After change reset servicing)";
+//
+// Warning Air filter ware
+const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT WARNING";
+const char msg66[] PROGMEM = "The air filter needs replacement after";
+const char msg67[] PROGMEM = "42000km (After change reset servicing)";
 
 //
 // Generate message table for LCD
@@ -103,7 +113,9 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30,
         msg31, msg32, msg33, msg34, msg35, msg36, msg37, msg38, msg39, msg40, msg41, msg42, msg43, msg44, msg45,
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
-        msg61
+        msg61, msg62, msg63, msg64, msg65, msg66, msg67
 };
+
+
 
 #endif //ARDUINOMID_EN_H_H

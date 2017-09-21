@@ -262,21 +262,27 @@ public:
 
     virtual void draWShutdownTripSkip() = 0;
 
-    virtual void drawWarnCoolant() = 0;
+    virtual void warnCoolant() = 0;
 
-    virtual void drawWarnBattery() = 0;
+    virtual void warnBattery(float Voltage) = 0;
 
-    virtual void drawWarnMotorOil() = 0;
+    virtual void warnMotorOil() = 0;
 
-    virtual void drawWarnBulbOut() = 0;
+    virtual void warnBreakWare() = 0;
 
-    virtual void drawWarnBreakWare() = 0;
+    virtual void warnOverheat() = 0;
 
-    virtual void drawWarnOverheating() = 0;
+    virtual void warnWinter() = 0;
 
-    virtual void drawWarnWinter() = 0;
+    virtual void warnWasher() = 0;
 
-    virtual void drawWarnWasher() = 0;
+    virtual void warnTmBelt() = 0;
+
+    virtual void warnFilter() = 0;
+
+    virtual void warnLightsFront() = 0;
+
+    virtual void warnLightsBack() = 0;
 
 protected:
 

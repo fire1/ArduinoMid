@@ -16,7 +16,7 @@
 #endif
 
 #ifndef CAR_STT_AR_FILTER
-#define CAR_STT_AR_FILTER 42000
+#define CAR_STT_AR_FILTER 40000
 #endif
 
 
@@ -28,8 +28,7 @@ struct Diagnostic {
     boolean brk;    // Brake ware
     boolean vol;    // Car Voltage
     boolean blt;    // Belt ware change
-    boolean och;    // Oil level change
-    boolean air;    // Air filter change
+    boolean air;    // Air/Oil filter change
     boolean la1;    // 1 Incandescent lamps
     boolean la2;    // 2 incandescent lamps
 };
@@ -43,18 +42,17 @@ private:
     Diagnostic result;
 
     AmpTime *amp;
-
+    int lastVoltageValue = 0;
     float workDistance;
 
     uint8_t alertState = 0;
 
+    boolean isUserWarn = false;
 
     boolean isBadVoltage();
 
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     uint8_t cursorMenu = 1;
-
-    int lastVoltageValue = 0;
 
 
 public:
@@ -70,15 +68,43 @@ public:
 
     boolean isAlert();
 
+    /**
+     * Display warning screen
+     */
     void menu(LcdUiInterface *lcd) {
 
+
+        if (result.oil)
+            lcd->warnMotorOil();
+        else if (result.win)
+            lcd->warnWasher();
+        else if (result.brk)
+            lcd->warnBreakWare();
+        else if (result.vol)
+            lcd->warnBattery(this->getVoltage());
+        else if (result.la1)
+            lcd->warnLightsFront();
+        else if (result.la2)
+            lcd->warnLightsBack();
+        else if (result.air)
+            lcd->warnFilter();
+        else if (result.blt)
+            lcd->warnTmBelt();
+        else;
+
+
+        if (amp->is4Seconds()) {
+            isUserWarn = true; // do not show message any more int current session live time
+            MidCursorMenu = cursorMenu; // return user to last usable screen
+        }
     }
+
 
     /**
      *
      * @return int Voltage
      */
-    int getVoltage(void);
+    float getVoltage(void);
 
     boolean getLiveOil();
 
@@ -102,12 +128,14 @@ public:
 
     void listener();
 
+/**
+ *
+ */
     void cursor() {
-        if (this->isAlert()) {
+        if (amp->is4Seconds() && this->isAlert() && !isUserWarn) {
             cursorMenu = MidCursorMenu;
+            MidCursorMenu = MENU_SERVICE;
         }
-
-
     }
 
 
@@ -151,26 +179,25 @@ void CarState::listener() {
         result.cnt = (boolean) digitalRead(pinCnt);
         result.win = (boolean) digitalRead(pinWin);
         result.vol = isBadVoltage();
-
-        // Timing belt change
-        if (workDistance > CAR_STT_TM_BELT) {
+        //
+        // Car servicing
+        if (workDistance > CAR_STT_TM_BELT) { // Timing belt change
             result.blt = true;
         }
 
-        // Air filter change
-        if (workDistance > CAR_STT_AR_FILTER) {
+        if (workDistance > CAR_STT_AR_FILTER) { // Filters change
             result.air = true;
         }
 
-        // Oil change
-        if (workDistance > CAR_STT_AR_FILTER) {
-            result.och = true;
-        }
-
-        if (result.oil || result.brk || result.cnt || result.win /*|| result.vol*/) {
+        //
+        // Car state
+        if (result.oil || result.brk || result.cnt || result.win || result.vol) {
             alertState++;
         }
     }
+    //
+    // Handle menu cursor
+    cursor();
 }
 
 /**
@@ -252,7 +279,7 @@ boolean CarState::getLiveVol() {
  *  Gets car voltage
  * @return integer
  */
-int CarState::getVoltage(void) {
+float CarState::getVoltage(void) {
     return analogRead(pinVol) / 67;
 }
 
@@ -265,7 +292,7 @@ Diagnostic CarState::getResult() {
 }
 
 /**
- * Is car have some issue
+ * Is car have some issue with simple verification
  * @return boolean
  */
 boolean CarState::isAlert() {
