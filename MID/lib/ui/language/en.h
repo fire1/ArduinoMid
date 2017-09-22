@@ -62,7 +62,7 @@ const char msg39[] PROGMEM = "Please drive safe!";
 //
 // Warning Oil level
 const char msg40[] PROGMEM = " THE LEVEL OF MOTOR OIL IS LOW!";
-const char msg41[] PROGMEM = "Oil level is detected as below 25%.";
+const char msg41[] PROGMEM = "Oil level is  below 25%";
 const char msg42[] PROGMEM = " Please add more.";
 //
 // Warning Battery
@@ -82,12 +82,12 @@ const char msg51[] PROGMEM = "if is necessary add more.";
 //
 // Warning overheating
 const char msg52[] PROGMEM = " DANGER! OVERHEATING!!!";
-const char msg53[] PROGMEM = "The temperature in the cooling system";
+const char msg53[] PROGMEM = "The temperature in the cooling ";
 const char msg54[] PROGMEM = "is too high, possible overheating!";
 //
 // Warning window washer
 const char msg55[] PROGMEM = " LOW LEVEL OF WINDOW WASHER!";
-const char msg56[] PROGMEM = "Window washer liquid level is below ";
+const char msg56[] PROGMEM = "Window washer liquid is below";
 const char msg57[] PROGMEM = "25%. Please add more. ";
 //
 // Warning bulb
@@ -98,12 +98,12 @@ const char msg61[] PROGMEM = "Back lights ";
 //
 // Warning timing  Belt ware
 const char msg62[] PROGMEM = " TIMING BELT WORN OUT WARNING";
-const char msg63[] PROGMEM = "The timing belt needs replacement after";
-const char msg64[] PROGMEM = "85000km (After change reset servicing)";
+const char msg63[] PROGMEM = "Timing belt needs replacement ";
+const char msg64[] PROGMEM = "85000km.After change reset servicing";
 //
 // Warning Air filter ware
 const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT WARNING";
-const char msg66[] PROGMEM = "The air filter needs replacement after";
+const char msg66[] PROGMEM = "Air filter needs replacement after";
 const char msg67[] PROGMEM = "42000km (After change reset servicing)";
 
 //

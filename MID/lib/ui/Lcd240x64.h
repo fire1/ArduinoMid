@@ -193,58 +193,58 @@ public:
     void warnMotorOil() {
         lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(40));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(41));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(42));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(41));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(42));
     }
 
     void warnLightsFront() {
         lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(59));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(60));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(59));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(60));
     }
 
 
     void warnLightsBack() {
         lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(59));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(61));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(59));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(61));
     }
 
     void warnBreakWare() {
         lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(46));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(47));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(48));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(47));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(48));
     }
 
     void warnOverheat() {
         lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(52));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(53));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(54));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(53));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(54));
     }
 
     void warnWinter() {
         lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(37));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(38));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(39));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(38));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(39));
     }
 
     void warnWasher() {
         lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(55));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(56));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(57));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(56));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(57));
     }
 
     void warnTmBelt() {
         lcd->drawXBMP(0, 0, 85, 64, servicing_85x64_bits);
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(62));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(63));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(64));
+        lcd->drawStr(85, LCD_ROW_3, this->getMsg(63));
+        lcd->drawStr(85, LCD_ROW_4, this->getMsg(64));
     }
 
 
