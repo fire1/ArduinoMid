@@ -60,12 +60,12 @@ const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect sup
 const uint8_t SAV_PIN_DTC = A7;     //  proto A7     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
 //
 // Live pins
-const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 50uf] Engine Temperature
+const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 47uf] Engine Temperature
+const uint8_t FUL_TNK_PIN = A2;     //  Plug:31     [dva + 47uf] Fuel Tank TODO
 const uint8_t BRK_LGH_PIN = 12;     //  Plug:15     [50k] + [znr] Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [dvd] RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [dvd] Speed sensor hub [attachInterrupt]
 const uint8_t ECU_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
-const uint8_t FUL_SGN_PIN = 19;     //  Plug:27     [dvd] ECU  signal
 
 //
 // Car state pins
@@ -117,6 +117,7 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 //
 // Add language
 #include "lib/ui/language/en.h"
+//#include "lib/ui/language/bg.h"
 
 //
 // Display pins map
@@ -144,28 +145,7 @@ const uint8_t DSP_PIN_DT5 = 39;
 const uint8_t DSP_PIN_DT6 = 38;
 const uint8_t DSP_PIN_DT7 = 41;
 const uint8_t DSP_PIN_DT8 = 40;
-/*//  General pins
-const uint8_t DSP_PIN_GD1 = 26; // Power GND
-const uint8_t DSP_PIN_GD2 = 27; // Power GND
-const uint8_t DSP_PIN_VCC = 29; // Power positive
-const uint8_t DSP_PIN_WR = 31;  // Write Signal
-const uint8_t DSP_PIN_RD = 30;  // Read Signal
-const uint8_t DSP_PIN_CE = 33;  // Chip Enable Signal
-const uint8_t DSP_PIN_CD = 32;  // Instruction Code
-const uint8_t DSP_PIN_FS = 45;  // Font selection
-const uint8_t DSP_PIN_RST = 34; // Reset signal
-const uint8_t DSP_PIN_LDA = 47; // Black-light Anode (+5V)
-const uint8_t DSP_PIN_LDK = 46; // Black-light cathode (0v)
-//
-// Data pins
-const uint8_t DSP_PIN_DT1 = 37;
-const uint8_t DSP_PIN_DT2 = 36;
-const uint8_t DSP_PIN_DT3 = 39;
-const uint8_t DSP_PIN_DT4 = 38;
-const uint8_t DSP_PIN_DT5 = 41;
-const uint8_t DSP_PIN_DT6 = 40;
-const uint8_t DSP_PIN_DT7 = 43;
-const uint8_t DSP_PIN_DT8 = 42;*/
+
 
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
 #endif
@@ -198,14 +178,14 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // Alpine / Steering Wheel buttons todo A9
 const uint8_t ALP_PIN_INP = A8; // +5V ->  [240R] to Radio Unit plug pin 1
 const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
-const uint8_t ALP_PIN_RLY = 50; //  mg50  ->  1N5406 ->  Unit input ||  5V -> RELAY
+const uint8_t ALP_PIN_RLY = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RELAY
 // * Signal HIGH will be send from pin 50 to hide dig pot resistance
 // * 1N5406 is used in mega pin 50 to block GND signal from pin (only +5V need to be forward )
 // * 5V to relay is used as signal cutter when MID is out of power
 //
 // Change state of shutdown "press to save"
 const uint8_t SHUTDOWN_SAVE_STATE = LOW;
-const uint8_t SHUTDOWN_SAVE_BUTTON = 9;
+const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 //
 // External chip from eep rom
 //#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip

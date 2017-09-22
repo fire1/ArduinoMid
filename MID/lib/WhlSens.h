@@ -148,7 +148,7 @@ void WhlSens::setup(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pi
     pinMode(pinSteering, INPUT);
     pinMode(pinDigPotCntr, OUTPUT);
     pinMode(pinOutMask, OUTPUT);
-    digitalWrite(pinOutMask, HIGH); // Hide dig pot
+    analogWrite(pinOutMask, 255); // Hide dig pot
 //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
 //  pinMode (SLAVESELECT,OUTPUT); //same as above?
     //
@@ -272,7 +272,7 @@ void WhlSens::listener() {
 int WhlSens::getAnalogReadButtons() {
     return analogRead(pinSteering);
 }
-
+#define STR_DEBUG
 /**
  * Sends commands to radio
  */
@@ -296,7 +296,7 @@ void WhlSens::sendRadioButtons() {
     if (currentState != STR_BTN_NON) {
 
 
-        digitalWrite(pinOutMask, LOW);
+//        digitalWrite(pinOutMask, LOW);
         digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
@@ -309,7 +309,7 @@ void WhlSens::sendRadioButtons() {
         }
 
     } else {
-        digitalWrite(pinOutMask, HIGH);
+        analogWrite(pinOutMask, 255);
     }
 
 

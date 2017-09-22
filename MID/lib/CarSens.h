@@ -1166,42 +1166,30 @@ int CarSens::getLpgPush() {
  */
 void CarSens::sensEnt() {
 
-//    if (amp->isSens()) {
-//        //
-//        // Make more measurements to calculate average
-//        smoothEngineTemp = analogRead(pinTemp) + smoothEngineTemp;
-//        indexEngineTemp++;
-//    }
-
-
-    if (amp->isMax()) {
+    if (amp->isSens()) {
         //
-        // 80 = 390
-        // 82 = 420
-        // 90 = 630
-//        int val = (int) (smoothEngineTemp / indexEngineTemp);
-//        indexEngineTemp = 0;
-//        smoothEngineTemp = 0;
-//        //
-//        // Seems this values do not comes from coolant temperature sensor
-//        // So this is best wey to determinate them...
-//        if (val < 390) {
-//            //
-//            // Mapping below 80deg C temperature
-//            CUR_ENT = (uint8_t) map(val, 0, 390, -4, 80);
-//        } else { // old 385
-//            CUR_ENT = (uint8_t) map(val, 390, 620, 80, 90);
-//        }
-        CUR_ENT = (uint8_t) map( analogRead(pinTemp), 0, 1024, 0, 120);
+        // Make more measurements to calculate average
+        smoothEngineTemp = analogRead(pinTemp) + smoothEngineTemp;
+        indexEngineTemp++;
+    }
 
-//        //
-//        // Over heating ALARM
-//        if (amp->isSecond() && CUR_ENT > 95) {
-//            tone(TONE_ADT_PIN, 2000, 350);
-//        }
-#define DEBUG_ENG_TEMP
+
+    if (amp->isSecond()) {
+
+        int val = (int) (smoothEngineTemp / indexEngineTemp);
+        indexEngineTemp = 0;
+        smoothEngineTemp = 0;
+
+        // cap 47uf 225 - 80C / 515 - 90C
+        CUR_ENT = (uint8_t) map( val, 225, 500, 80, 90);
+
+    }
+
+
+//#define DEBUG_ENG_TEMP
 #ifdef DEBUG_ENG_TEMP
 //
+    if(amp->isSecond()){
         Serial.print("Engine temperature ");
 //        Serial.print(val);
         Serial.print("  result:");
@@ -1209,9 +1197,9 @@ void CarSens::sensEnt() {
 
         Serial.print(" / Real:");
         Serial.println(analogRead(pinTemp));
-
-#endif
     }
+#endif
+
 }
 
 /**
