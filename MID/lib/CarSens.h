@@ -1175,7 +1175,6 @@ void CarSens::sensEnt() {
 
 
     if (amp->isSecond()) {
-
         int val = (int) (smoothEngineTemp / indexEngineTemp);
         indexEngineTemp = 0;
         smoothEngineTemp = 0;
