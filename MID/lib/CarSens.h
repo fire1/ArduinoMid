@@ -1557,6 +1557,8 @@ void CarSens::sensTnk() {
         indexFuelTank = 0;
         smoothFuelTank = 0;
 
+        //
+        //
         // cap 47uf lamp 595 (10% / 5.2l)
         FUEL_TANK =  map(val, 595, 1024, 52, 520) / 10;
 
