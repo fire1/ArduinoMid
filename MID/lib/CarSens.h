@@ -66,13 +66,18 @@
 #define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 2.5 //v1.5 = 2.5   // V1.4 = 1.6 //  fast 3.767
+#define VSS_CORRECTION 1 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
 #define RPM_CORRECTION 75   //    fast 33.767
+////Impulse Odometer:
+/// If as stated above, use the " pulse according to " Set here the number of pulses that traveled for 1km.
+/// The value of this parameter, we find holding the button.
+/// reset daily kilometers to flight instruments while turning the key in the ignition to the active position.
+/// For vehicles Astra G it is usually worth the 15385. For vehicles Frontera , it is the value of the 2700.
 //
 // Distance correction
-#define DST_CORRECTION  30800.58  //30770  //  15383.29  //   15385
+#define DST_CORRECTION  15385  // v1.4 30800.00  //  15383.29  //   15385
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
@@ -258,7 +263,7 @@ private:
     uint8_t pinScreenInput, pinScreenOutput;
     //
     // Detect fuel switch
-    uint8_t FUEL_STATE, FEUL_TANK;
+    uint8_t FUEL_STATE;
     //
     //
     uint8_t carGearNum = 0;
@@ -302,6 +307,7 @@ private:
     //
     float FUEL_INST_CONS;
     float FUEL_WASTED = 0;
+    float FUEL_TANK;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -859,7 +865,7 @@ void CarSens::listener() {
     sensAvr();
     sensEnt();
     sensTmp();
-
+    sensTnk();
     //
     // Consumption
     sensDlt();
@@ -1551,21 +1557,19 @@ void CarSens::sensTnk() {
         indexFuelTank = 0;
         smoothFuelTank = 0;
 
-        // cap 47uf
-        FEUL_TANK = (uint8_t) map(val, 225, 500, 80, 90);
+        // cap 47uf lamp 595 (10% / 5.2l)
+        FUEL_TANK =  map(val, 595, 1024, 52, 520) / 10;
 
 #ifdef DEBUG_FUEL_TNK
         Serial.print("Vehicle fuel tank: ");
         Serial.print(val);
         Serial.print("  result:");
-        Serial.print(FEUL_TANK);
+        Serial.print(FUEL_TANK);
 
         Serial.print(" / Real:");
         Serial.println(analogRead(pinFulTnk));
 #endif
     }
-
-
 
 
 }

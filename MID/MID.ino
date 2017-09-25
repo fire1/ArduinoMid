@@ -76,7 +76,7 @@ void setup() {
     //
     // consumption
     // Engine / Speed sensors
-    carSens.setupVehicle(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN, BRK_LGH_PIN);
+    carSens.setupVehicle(SPD_SNS_PIN, RPM_SNS_PIN, ECU_SGN_PIN, ENG_CLT_PIN, BRK_LGH_PIN, FUL_TNK_PIN);
     //
     // Screen back-light
     carSens.setupScreen(DIM_PIN_VAL, DIM_PIN_OUT);

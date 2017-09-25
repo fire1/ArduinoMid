@@ -8,7 +8,7 @@
 #include "AmpTime.h"
 
 #ifndef CAR_STT_AC_ALERT
-#define CAR_STT_AC_ALERT 3
+#define CAR_STT_AC_ALERT 6 // a wait minute
 #endif
 
 #ifndef CAR_STT_TM_BELT
@@ -130,9 +130,7 @@ public:
             lcd->warnOverheat();
             add_state(10, true);
         }
-        else{
-            MidCursorMenu = cursorMenu;
-        }
+        else;
 
 
         if (amp->is4Seconds()) {
