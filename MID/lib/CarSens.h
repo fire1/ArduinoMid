@@ -66,7 +66,7 @@
 #define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 1.6  //    fast 3.767
+#define VSS_CORRECTION 2.5 //v1.5 = 2.5   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
 #define RPM_CORRECTION 75   //    fast 33.767
@@ -245,10 +245,12 @@ private:
     boolean isInitializedLoop = 1;
     uint8_t pinBreaks;
     uint8_t pinTmpOut;
+    uint8_t pinFulTnk;
     //
     // Engine temperature pin
     uint8_t pinTemp;
     uint8_t indexEngineTemp;
+    uint8_t indexFuelTank;
     //
     boolean vehicleStopped = false;
     boolean _isEngineSens = false;
@@ -256,7 +258,7 @@ private:
     uint8_t pinScreenInput, pinScreenOutput;
     //
     // Detect fuel switch
-    uint8_t FUEL_STATE;
+    uint8_t FUEL_STATE, FEUL_TANK;
     //
     //
     uint8_t carGearNum = 0;
@@ -276,6 +278,7 @@ private:
     uint16_t temperatureOutIndex = 0;
     //
     uint16_t smoothEngineTemp;
+    uint16_t smoothFuelTank;
     uint32_t CUR_ECU;
     //
     int pushLpgIndex = 0;
@@ -408,25 +411,23 @@ private:
 
     void sensBkt();
 
+    void sensTnk();
+
 public:
 
     float getCorVss() {
-//        return VSS_CORRECTION; //TODO Remove after test
         return (savedData.sens_vss > 0) ? savedData.sens_vss : (float) VSS_CORRECTION;
     }
 
     float getCorRpm() {
-//        return RPM_CORRECTION; //TODO Remove after test
         return (savedData.sens_rpm > 0) ? savedData.sens_rpm : (float) RPM_CORRECTION;
     }
 
     float getCorDst() {
-//        return DST_CORRECTION; // Remove after test
         return (savedData.sens_dst > 0) ? savedData.sens_dst : (float) DST_CORRECTION;
     }
 
     float getCorEcu() {
-//        return ECU_CORRECTION; //TODO Remove after test
         return (savedData.sens_ecu > 0) ? savedData.sens_ecu : (float) ECU_CORRECTION;
     }
 
@@ -483,7 +484,7 @@ public:
       * @param pinEcu
       * @param pinTmp
       */
-    void setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk);
+    void setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk, uint8_t pinTnk);
 
     /**
      * Is the engine was keen
@@ -752,7 +753,8 @@ void CarSens::setupEcuSens(uint8_t pinTarget) {
  * @param pinEcu
  * @param pinTmp
  */
-void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk) {
+void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8_t pinTmp, uint8_t pinBrk,
+                           uint8_t pinTnk) {
     setupRpmSens(pinRpm);
     setupVssSens(pinVss);
     setupEcuSens(pinEcu);
@@ -761,6 +763,7 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     pinMode(pinTmp, INPUT);
     pinTemp = pinTmp;
     pinBreaks = pinBrk;
+    pinFulTnk = pinTnk;
 };
 
 //void deatach(){
@@ -1120,17 +1123,16 @@ void CarSens::sensDim() {
         uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
 
 #if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    Serial.print("Dim collection ");
-    Serial.println(backLightReadCollection);
-    Serial.print("Dim index ");
-    Serial.println(backLightIndex);
-    Serial.print("Display board read pure ");
-    Serial.println(analogRead(pinScreenInput));
+        Serial.print("Dim collection ");
+        Serial.println(backLightReadCollection);
+        Serial.print("Dim index ");
+        Serial.println(backLightIndex);
+        Serial.print("Display board read pure ");
+        Serial.println(analogRead(pinScreenInput));
 #endif
 
 
-
-        if(backLightLevel > 25){
+        if (backLightLevel > 25) {
             backLightLevel = 25;
         }
 
@@ -1180,23 +1182,23 @@ void CarSens::sensEnt() {
         smoothEngineTemp = 0;
 
         // cap 47uf 225 - 80C / 515 - 90C
-        CUR_ENT = (uint8_t) map( val, 225, 500, 80, 90);
+        CUR_ENT = (uint8_t) map(val, 225, 500, 80, 90);
 
     }
 
 
 //#define DEBUG_ENG_TEMP
 #ifdef DEBUG_ENG_TEMP
-//
-    if(amp->isSecond()){
-        Serial.print("Engine temperature ");
-//        Serial.print(val);
-        Serial.print("  result:");
-        Serial.print(CUR_ENT);
+    //
+        if(amp->isSecond()){
+            Serial.print("Engine temperature ");
+    //        Serial.print(val);
+            Serial.print("  result:");
+            Serial.print(CUR_ENT);
 
-        Serial.print(" / Real:");
-        Serial.println(analogRead(pinTemp));
-    }
+            Serial.print(" / Real:");
+            Serial.println(analogRead(pinTemp));
+        }
 #endif
 
 }
@@ -1308,7 +1310,7 @@ void CarSens::sensTmp() {
      * ~ 16°C value 238
      * ~ 20°C value 226
      */
-    temperatureOutCollection += (uint16_t) analogRead(TMP_PIN_OUT);
+    temperatureOutCollection += (uint16_t) analogRead(pinTmpOut);
     temperatureOutIndex++;
     if (isInitializedLoop || amp->is5Seconds()) {
         //
@@ -1521,13 +1523,6 @@ void CarSens::setConsumedFuel(long value) {
 
 }
 
-//
-// TODO driver to detect fuel level and fuel type
-//
-unsigned long dumpFuelSwitchCnt = 0;
-unsigned long dumpFuelSwitchLvl = 0;
-unsigned long dumpFuelSwitchSwt = 0;
-
 
 void CarSens::sensBkt() {
     if (breakTimeStart == 0 && digitalRead(pinBreaks) == HIGH) {
@@ -1540,24 +1535,42 @@ void CarSens::sensBkt() {
     }
 }
 
-/**
- * @deprecated
- * Makes fuel switch
- */
-void CarSens::switchCurrentFuel() {
-    unsigned long currentTime = millis();
-    if (lastDetectionLpg + 1000 > currentTime) {
-        lastDetectionLpg = currentTime;
+#define DEBUG_FUEL_TNK
 
-        if (FUEL_STATE == 1) {
-            FUEL_STATE = 0;
-        } else {
-            FUEL_STATE = 1;
-        }
-        Serial.print(F("CHANGED FUEL STATE TO "));
-        Serial.println(FUEL_STATE);
+void CarSens::sensTnk() {
+    if (amp->isSens()) {
+        //
+        // Make more measurements to calculate average
+        smoothFuelTank = analogRead(pinFulTnk) + smoothFuelTank;
+        indexFuelTank++;
     }
+
+
+    if (amp->isSecond()) {
+        int val = (int) (smoothFuelTank / indexFuelTank);
+        indexFuelTank = 0;
+        smoothFuelTank = 0;
+
+        // cap 47uf
+        FEUL_TANK = (uint8_t) map(val, 225, 500, 80, 90);
+
+#ifdef DEBUG_FUEL_TNK
+        Serial.print("Vehicle fuel tank: ");
+        Serial.print(val);
+        Serial.print("  result:");
+        Serial.print(FEUL_TANK);
+
+        Serial.print(" / Real:");
+        Serial.println(analogRead(pinFulTnk));
+#endif
+    }
+
+
+
+
 }
+
+
 
 //ARDUINO_MID_CAR_SENS_H
 #endif

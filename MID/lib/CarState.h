@@ -130,7 +130,9 @@ public:
             lcd->warnOverheat();
             add_state(10, true);
         }
-        else;
+        else{
+            MidCursorMenu = cursorMenu;
+        }
 
 
         if (amp->is4Seconds()) {

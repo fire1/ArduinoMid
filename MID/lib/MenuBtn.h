@@ -394,7 +394,11 @@ void MenuBtn::listener() {
     // Detect together pressed
     captureTg();
 
-    if (amp->isSecond()) {
+
+
+
+#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
+    if (amp->isMid()) {
         Serial.print("Break is: ");
         Serial.println(this->isBk());
         Serial.print("Up is: ");
@@ -403,10 +407,8 @@ void MenuBtn::listener() {
         Serial.print("Dw is: ");
         Serial.println(this->isDw());
     }
-
-
-#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isSecond()) {
+
         Serial.print(F("Last button is :"));
         Serial.println(lastButtonPushed);
         Serial.print(F("Navigation state :"));
