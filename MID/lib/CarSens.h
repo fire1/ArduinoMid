@@ -66,7 +66,7 @@
 #define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 1 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
+#define VSS_CORRECTION 1.625 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
 #define RPM_CORRECTION 75   //    fast 33.767
@@ -77,7 +77,7 @@
 /// For vehicles Astra G it is usually worth the 15385. For vehicles Frontera , it is the value of the 2700.
 //
 // Distance correction
-#define DST_CORRECTION  15385  // v1.4 30800.00  //  15383.29  //   15385
+#define DST_CORRECTION  30800  // v1.4 30800.00  //  15383.29  //   15385
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
