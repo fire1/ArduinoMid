@@ -97,12 +97,19 @@ void menuChangeEvent(MenuChangeEvent changed) {
     midMenu.menuChanged(changed);
 }
 
+
+#include "../../../libraries/MenuBackend/MenuBackend.h"
+
 void menuUseEvent(MenuUseEvent used) {
 //    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
 //    Serial.println(getFreeRam());
     usedMenu.used = used.item.getName();
 
 #if SCREEN != 162
+
+    Serial.print("Sort key menu: ");
+    Serial.println((uint8_t)used.item.getBack()->getShortkey());
+
     usedMenu.back = used.item.getBack()->getName();
     usedMenu.last = used.item.getAfter()->getAfter()->getName();
     usedMenu.down = used.item.getRight()->getName();

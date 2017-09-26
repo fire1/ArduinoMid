@@ -66,7 +66,7 @@
 #define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 1.625 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
+#define VSS_CORRECTION 1.6 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
 #define RPM_CORRECTION 75   //    fast 33.767
@@ -74,8 +74,8 @@
 /// If as stated above, use the " pulse according to " Set here the number of pulses that traveled for 1km.
 /// The value of this parameter, we find holding the button.
 /// reset daily kilometers to flight instruments while turning the key in the ignition to the active position.
-/// For vehicles Astra G it is usually worth the 15385. For vehicles Frontera , it is the value of the 2700.
-//
+/// For vehicles Astra G it is usually worth the 15385 (mul by 2 = 30770). For vehicles Frontera , it is the value of the 2700.
+//25.2 / 1.8l
 // Distance correction
 #define DST_CORRECTION  30800  // v1.4 30800.00  //  15383.29  //   15385
 //
@@ -190,7 +190,7 @@ struct Fuel {
 // additional mounted temperature sensor from DallasTemperature
 #define INSIDE_TEMPERATURE_DS
 #endif
-#define  DEBUG_TEMPERATURE_OU
+//#define  DEBUG_TEMPERATURE_OU
 //#define  DEBUG_TEMPERATURE_IN
 
 
@@ -1559,8 +1559,10 @@ void CarSens::sensTnk() {
 
         //
         //
-        // cap 47uf lamp 595 (10% / 5.2l)
-        FUEL_TANK =  map(val, 595, 1024, 52, 520) / 10;
+        // cap 47uf
+        // lamp 595 (10% / 5.2l)
+        // fill 546 - 5liters
+        FUEL_TANK =  map(val, 595, 546, 52, 57) / 10;
 
 #ifdef DEBUG_FUEL_TNK
         Serial.print("Vehicle fuel tank: ");

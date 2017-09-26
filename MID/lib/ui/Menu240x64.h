@@ -74,7 +74,7 @@ public:
 
             //
             // Main menu
-                              mainMenu(MenuItem(MENU_NAME_1)),
+                              mainMenu(MenuItem(MENU_NAME_1, 11)),
                               gagesMenu(MenuItem(MENU_NAME_11)),
                               setupMenu(MenuItem(MENU_NAME_12)),
 
@@ -86,7 +86,7 @@ public:
                               aboutMenu(MenuItem(MENU_NAME_13)),
             //
             // Trip menu
-                              tripMenu(MenuItem(MENU_NAME_2)),
+                              tripMenu(MenuItem(MENU_NAME_2, 12)),
                               fuelMenu(MenuItem(MENU_NAME_21)),
                               raceMenu(MenuItem(MENU_NAME_22)),
 
@@ -95,7 +95,7 @@ public:
 
             //
             // Servicing menu
-                              statMenu(MenuItem(MENU_NAME_4)),
+                              statMenu(MenuItem(MENU_NAME_4, 14)),
                               resetOil(MenuItem(MENU_NAME_41)),
                               resetAir(MenuItem(MENU_NAME_42)) {
     }
