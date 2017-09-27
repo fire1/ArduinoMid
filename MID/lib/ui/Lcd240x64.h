@@ -248,7 +248,6 @@ public:
     }
 
 
-
     /**
  *
  */
@@ -528,7 +527,11 @@ private:
         }
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
+        if (car->getDst() < 1) {
+            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, "--.-");
+        } else {
+            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
+        }
         showL100km(LCD_COL_L22, LCD_ROW_2);
     }
 

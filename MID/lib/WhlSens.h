@@ -197,6 +197,8 @@ void WhlSens::setDigitalPot(uint8_t resistanceValue) {
         front	        33940	1.13
         bottom	        48800	0.84
 */
+
+#define STR_DEBUG
 void WhlSens::listener() {
 
     int readingSteeringButton = getAnalogReadButtons();
@@ -296,7 +298,7 @@ void WhlSens::sendRadioButtons() {
     if (currentState != STR_BTN_NON) {
 
 
-//        digitalWrite(pinOutMask, LOW);
+        digitalWrite(pinOutMask, LOW);
         digitalWrite(pinDigPotCntr, LOW);
 
         setButtonStateParser(currentState);
