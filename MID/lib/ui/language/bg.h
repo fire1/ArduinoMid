@@ -13,7 +13,7 @@
 //
 const char msg0[] PROGMEM = "Довиждане...     ";
 const char msg1[] PROGMEM = "до следващия път!";
-const char msg2[] PROGMEM = "Смяна ";
+const char msg2[] PROGMEM = "Преход ";
 //
 // Car state
 const char msg3[] PROGMEM = "Предни на спирачки: ";

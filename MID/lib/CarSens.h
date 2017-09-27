@@ -604,6 +604,10 @@ public:
      * Gets current fuel state
      */
     inline int getFuelState() { return FUEL_STATE; }
+    /**
+     * Gets default fuel levels in liters
+     */
+    inline float getFuelTnk() { return FUEL_TANK; }
 
     /**
      * Gets engine temperature
@@ -1562,7 +1566,7 @@ void CarSens::sensTnk() {
         // cap 47uf
         // lamp 595 (10% / 5.2l)
         // fill 546 - 5liters
-        FUEL_TANK =  map(val, 595, 546, 52, 57) / 10;
+        FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
 
 #ifdef DEBUG_FUEL_TNK
         Serial.print("Vehicle fuel tank: ");

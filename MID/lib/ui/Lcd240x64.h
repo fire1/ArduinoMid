@@ -268,7 +268,7 @@ public:
     }
 
     void changeFont() {
-        if (MidCursorMenu == 21) {
+        if (MidCursorMenu == 22) {
             lcd->setFont(u8g2_font_logisoso58_tr);
             lcd->setFontRefHeightExtendedText();
             lcd->setFontDirection(0);
@@ -847,6 +847,12 @@ private:
         lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
         lcd->print(F("LPG value: "));
         lcd->print(char_2);
+
+        displayFloat(car->getFuelTnk(), char_3);
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
+        lcd->print(F("MNZ value: "));
+        lcd->print(char_3);
+        lcd->print("L");
 #endif
 
     }

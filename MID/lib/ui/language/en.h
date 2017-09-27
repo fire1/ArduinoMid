@@ -43,7 +43,7 @@ const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID version ";
 const char msg24[] PROGMEM = "Press \"S<\" to enter in settings";
 const char msg25[] PROGMEM = "Use \"S<\" to navigate ";
-const char msg26[] PROGMEM = "Use \"R<\" to change value";
+const char msg26[] PROGMEM = "Dabble press R<+S< to change value";
 const char msg27[] PROGMEM = "VEHICLE SPEED"; // Vehicle speed sensor
 const char msg28[] PROGMEM = "REVOLUTIONS";
 const char msg29[] PROGMEM = "ODOMETER";
@@ -61,14 +61,14 @@ const char msg38[] PROGMEM = " ";
 const char msg39[] PROGMEM = "Please drive safe!";
 //
 // Warning Oil level
-const char msg40[] PROGMEM = " THE LEVEL OF MOTOR OIL IS LOW!";
+const char msg40[] PROGMEM = " THE OIL LEVEL IS LOW!";
 const char msg41[] PROGMEM = "Oil level is  below 25%";
-const char msg42[] PROGMEM = " Please add more.";
+const char msg42[] PROGMEM = "Top up motor oil";
 //
 // Warning Battery
 const char msg43[] PROGMEM = "  MALFUNCTION IN EL. SYSTEM!";
 const char msg44[] PROGMEM = "A voltage of: ";
-const char msg45[] PROGMEM = "which is not in  working limits.";
+const char msg45[] PROGMEM = "which is not in working range";
 //
 // Warning breaks
 const char msg46[] PROGMEM = " BREAK WARN OUT!";
@@ -83,7 +83,7 @@ const char msg51[] PROGMEM = "if is necessary add more.";
 // Warning overheating
 const char msg52[] PROGMEM = " DANGER! OVERHEATING!!!";
 const char msg53[] PROGMEM = "The temperature in the cooling ";
-const char msg54[] PROGMEM = "is too high, possible overheating!";
+const char msg54[] PROGMEM = "is too high, overheating!";
 //
 // Warning window washer
 const char msg55[] PROGMEM = " LOW LEVEL OF WINDOW WASHER!";
@@ -99,13 +99,12 @@ const char msg61[] PROGMEM = "Back lights ";
 // Warning timing  Belt ware
 const char msg62[] PROGMEM = " TIMING BELT WORN OUT WARNING";
 const char msg63[] PROGMEM = "Timing belt needs replacement ";
-const char msg64[] PROGMEM = "85000km.After change reset servicing";
+const char msg64[] PROGMEM = "After change reset servicing";
 //
-// Warning Air filter ware
+// Warning Air filter ware @deprecated
 const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT WARNING";
-const char msg66[] PROGMEM = "Air filter needs replacement after";
-const char msg67[] PROGMEM = "42000km (After change reset servicing)";
-
+const char msg66[] PROGMEM = "Air filter  replacement after";
+const char msg67[] PROGMEM = " (After change reset servicing)";
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
