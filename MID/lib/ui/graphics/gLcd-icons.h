@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 10.4.2017 г..
 //
 
-#ifndef ARDUINOMID_GLCD_ICONS_H
-#define ARDUINOMID_GLCD_ICONS_H
+#ifndef ARDUINO_MID_GLCD_ICONS_H
+#define ARDUINO_MID_GLCD_ICONS_H
 
 #include <U8g2lib.h>
 

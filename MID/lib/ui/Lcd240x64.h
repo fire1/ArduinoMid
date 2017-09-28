@@ -1,7 +1,6 @@
 //
 // Created by Angel Zaprianov on 8.2.2017 г..
 //
-
 #ifndef ARDUINO_MID_LCD240X64_H
 #define ARDUINO_MID_LCD240X64_H
 //#include "CarGames.h"
@@ -853,6 +852,15 @@ private:
             lcd->print(char_3);
             lcd->print("L");
         }
+#else
+        displayFloat(data.fuel + car->getDefFuelCns(), char_3);
+            lcd->print(char_3);
+            lcd->print("L ");
+            showAverage(LCD_COL_R21, LCD_ROW_1);
+            displayFloat(((data.fuel + car->getDefFuelCns()) * 100) / dst, char_3);
+            lcd->print(char_3);
+            lcd->print("L");
+#endif
     }
 
     void displayTrips() {
@@ -866,10 +874,11 @@ private:
         //
         // Manage section
         if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            if (btn->isOk) {
+            if (btn->isOk()) {
                 tripCursor++;
                 tripReset = false;
             }
+
             if (tripCursor == 1) {
                 lcd->setCursor(0, LCD_ROW_2);
             } else if (tripCursor == 2) {

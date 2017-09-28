@@ -2,11 +2,8 @@
 // Created by Angel Zaprianov on 3.4.2017 г..
 //
 
-#ifndef ARDUINOMID_INITIALIZATIONS_H
-#define ARDUINOMID_INITIALIZATIONS_H
-//
-// I2C detector driver
-//#include "LpgSens.h"
+#ifndef ARDUINO_MID_INITIALIZATIONS_H
+#define ARDUINO_MID_INITIALIZATIONS_H
 //
 // Interval / Amplitude
 #include "AmpTime.h"
