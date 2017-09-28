@@ -1,4 +1,7 @@
 .idea/
 cmake-build-*/
+
 # Created by .ignore support plugin (hsz.mobi)
 
+# skip extracted folders in libraries folder
+libraries/*/
