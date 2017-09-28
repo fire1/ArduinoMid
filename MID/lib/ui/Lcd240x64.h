@@ -540,7 +540,9 @@ private:
         displayFloat(eep->getConsumedFuel(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
         showLiter(LCD_COL_L22, LCD_ROW_1);
-
+        //
+        // When have several fuel lines
+#ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
             this->showIconBnz(LCD_COL_L23, LCD_ROW_1);
@@ -548,6 +550,7 @@ private:
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
             this->showIconLpg(LCD_COL_L23, LCD_ROW_1);
         }
+#endif
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
         if (car->getDst() < 1) {
