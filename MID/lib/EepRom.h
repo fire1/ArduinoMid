@@ -111,6 +111,7 @@ public:
  */
     float getConsumedFuel() {
 
+#ifdef SWITCH_FUEL_ON_STATE
         //
         // Switching between LPG / BNZ
         if (car->getFuelState() == 0) { // BNZ [default]
@@ -119,6 +120,9 @@ public:
         if (car->getFuelState() == 1) { // LPG [additional]
             return container.fuel_adt + car->getAdtFuelCns();
         }
+#else
+        return container.fuel_def + car->getDefFuelCns();
+#endif
     }
 
 /** TODO needs to be changed
@@ -267,6 +271,41 @@ public:
     inline void setSensEcu(float value) {
         container.sens_ecu = value;
     }
+
+    TripData getTrip0() {
+        TripData trip;
+        trip.fuel = getDefaultFuelUse();
+        trip.range = car->getDst();
+        return trip;
+    }
+
+    TripData getTripA() {
+        return container.trip_a;
+    }
+
+    TripData getTripB() {
+        return container.trip_b;
+    }
+
+    TripData getTripC() {
+        return container.trip_c;
+    }
+
+    void resetTripA() {
+        container.trip_a.fuel = 0;
+        container.trip_a.range = 0;
+    }
+
+    void resetTripB() {
+        container.trip_b.fuel = 0;
+        container.trip_b.range = 0;
+    }
+
+    void resetTripC() {
+        container.trip_c.fuel = 0;
+        container.trip_c.range = 0;
+    }
+
 
 private:
 

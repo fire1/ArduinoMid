@@ -66,6 +66,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     boolean animateUltra = false;
     boolean initializeDraw = false;
     boolean changedFont = false;
+    boolean tripReset = false;
 
     const uint8_t *fontSelect;
     uint8_t lastValue;
@@ -73,6 +74,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
 // Drowing counter
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
+    uint8_t tripCursor = 1;
 
     //
     // from 14 to 64
@@ -773,7 +775,7 @@ private:
 /****************************************************************
  * Trip graphic
  */
-    void displayTrip() {
+    void displayTripDetails() {
         //
         // Trip max rpm
         lcd->drawXBMP(4, LCD_ROW_1 + 2, 18, 18, gage_max_18x18_bits);
@@ -786,7 +788,6 @@ private:
         displayFloat(car->getMxmVss(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         showKm(LCD_COL_L22, LCD_ROW_2);
-//        lcd->drawXBMP(4, LCD_ROW_3, 18, 18, gage_18x18_bits);
         //
         // Breaking time
         lcd->drawXBMP(LCD_COL_L11, LCD_ROW_3, 18, 10, car_brk_18x10_bits);
@@ -799,7 +800,6 @@ private:
         lcd->drawXBMP(LCD_COL_L11 + 1, LCD_ROW_4, 18, 10, eng_avr_18x10_bits);
         sprintf(char_4, "%04d", car->getAvrRpm());
         lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_4);
-
         //
         // Travel fuel
         lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, fuel_18x18_bits);
@@ -821,6 +821,95 @@ private:
         showL100km(LCD_COL_R22, LCD_ROW_3);
 
 
+    }
+
+/**
+ * Dysplay trip row
+ * */
+    void buildRowTrip(const char *name, TripData data, uint8_t y) {
+        lcd->setCursor(LCD_COL_L11, y);
+        lcd->print("TR1: ");
+        float dst = data.range + car->getDst();
+        displayFloat(dst, char_4);
+        lcd->print(char_4);
+        lcd->print("km ");
+
+
+#ifdef  DEFAULT_FUEL_USING
+        if (DEFAULT_FUEL_USING == 1) {
+            displayFloat(data.fuel + car->getAdtFuelCns(), char_3);
+            lcd->print(char_3);
+            lcd->print("L ");
+            showAverage(LCD_COL_R21, y);
+            displayFloat(((data.fuel + car->getAdtFuelCns()) * 100) / dst, char_3);
+            lcd->print(char_3);
+            lcd->print("L");
+        } else {
+            displayFloat(data.fuel + car->getDefFuelCns(), char_3);
+            lcd->print(char_3);
+            lcd->print("L ");
+            showAverage(LCD_COL_R21, LCD_ROW_1);
+            displayFloat(((data.fuel + car->getDefFuelCns()) * 100) / dst, char_3);
+            lcd->print(char_3);
+            lcd->print("L");
+        }
+    }
+
+    void displayTrips() {
+        this->buildRowTrip("TC: ", eep->getTrip0(), LCD_ROW_1);
+        this->buildRowTrip("T1: ", eep->getTripA(), LCD_ROW_2);
+        this->buildRowTrip("T2: ", eep->getTripB(), LCD_ROW_3);
+        this->buildRowTrip("T3: ", eep->getTripC(), LCD_ROW_4);
+
+        btn->setEditorState(true);
+
+        //
+        // Manage section
+        if (!btn->getNavigationState() && drawIndex % 4 == 0) {
+            if (btn->isOk) {
+                tripCursor++;
+                tripReset = false;
+            }
+            if (tripCursor == 1) {
+                lcd->setCursor(0, LCD_ROW_2);
+            } else if (tripCursor == 2) {
+                lcd->setCursor(0, LCD_ROW_3);
+            } else if (tripCursor == 3) {
+                lcd->setCursor(0, LCD_ROW_4);
+            } else {
+                tripCursor = 1;// Clear wrong cursor
+                Serial.println("ERROR: Trip cursor out of range .... ");
+            }
+            //
+            // Display cursor blink
+            if (!btn->getNavigationState() && drawIndex % 4 == 0) {
+                lcd->print(">");
+            }
+            //
+            // Verify reset
+            if (btn->isNo()) {
+                tripReset = true;
+                lcd->print("    DELETE THIS TRIP DATA?        ");
+                Serial.println("NOTICE: Verify trip deletion .... ");
+
+            }
+            //
+            // Reset trip data from EepRom
+            if (btn->isNo() && tripReset) {
+                if (tripCursor == 1) {
+                    eep->resetTripA();
+                } else if (tripCursor == 2) {
+                    eep->resetTripB();
+                } else if (tripCursor == 3) {
+                    eep->resetTripC();
+                } else {
+                    Serial.println("ERROR: Cannot find cursor for deleting .... ");
+                }
+                tripReset = false;
+            }
+
+
+        }
     }
 
 /****************************************************************
@@ -1097,7 +1186,7 @@ void Lcd240x62::menus() {
             // Travel menu
         case 2:
             showHeader(getMsg(12));
-            displayTrip();
+            displayTrips();
             break;
             //
             // Fuel menu
