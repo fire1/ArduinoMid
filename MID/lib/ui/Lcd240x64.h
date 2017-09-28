@@ -62,6 +62,11 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBtn *btn;
 
 
+    boolean animateFast = false;
+    boolean animateUltra = false;
+    boolean initializeDraw = false;
+    boolean changedFont = false;
+
     const uint8_t *fontSelect;
     uint8_t lastValue;
 //
@@ -69,13 +74,10 @@ class Lcd240x62 : virtual public LcdUiInterface {
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
 
-    boolean animateFast = false;
-    boolean animateUltra = false;
-    boolean initializeDraw = false;
-
     //
     // from 14 to 64
     uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
+    const uint8_t *currentFont;
 
 public:
 /**
@@ -162,9 +164,7 @@ public:
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
-//        lcd->setFont(u8g2_font_crox1hb_tf );
         lcd->drawStr(12, 1, title);
-//        useDefaultMode();
 
 
     }
@@ -261,14 +261,17 @@ public:
     void draWShutdownTripSkip() {
 
     }
-
+    /**
+     *  changes the font to given
+     */
     void setFont(const uint8_t *font) {
-        fontSelect = font;
+        this->currentFont = font;
+        this->changedFont = true;
     }
 
-    void changeFont() {
-        if (MidCursorMenu == 22) {
-            lcd->setFont(u8g2_font_logisoso58_tr);
+    void drawFont() {
+        if (this->changedFont) {
+            lcd->setFont(this->currentFont);
             lcd->setFontRefHeightExtendedText();
             lcd->setFontDirection(0);
             lcd->setDrawColor(1);
@@ -308,7 +311,10 @@ public:
  * Draw graphic
  */
     void draw() {
-        changeFont();
+
+        //
+        // Font handler
+        drawFont();
 
         //
         // Ultra fast animation
@@ -965,11 +971,6 @@ private:
  * Rally gage
  */
     void displayRallyGages() {
-
-//
-//        sprintf(char_3, "%03d", car->getVss());
-//        lcd->drawStr(64, 2, char_3);
-
         const uint8_t wdDsp = 180;
         const uint8_t hgDsp = 64;
         const uint16_t maxPwr = 5400;
@@ -1033,6 +1034,7 @@ void Lcd240x62::menus() {
     switch (MidCursorMenu) {
         default:
         case MENU_ENTRY:
+            this->changedFont = false;
             displayEntry();
             break;
             //
@@ -1084,6 +1086,7 @@ void Lcd240x62::menus() {
             displayFuel();
             break;
         case 22:
+            setFont(u8g2_font_logisoso58_tr);
             displayRallyGages();
             break;
 
