@@ -169,6 +169,20 @@ public:
 
     }
 
+/**
+ * Icons for fuel switching BNZ
+ */
+    void showIconBnz(uint8_t x, uint8_t y) {
+        lcd->drawXBMP(x, y, 16, 16, bnz_16x16_bits);
+    }
+
+/**
+ * Icons for fuel switching LPG
+ */
+    void showIconLpg(uint8_t x, uint8_t y) {
+        lcd->drawXBMP(x, y, 16, 16, lpg_16x16_bits);
+    }
+
 //
 // Servicing screens
     void warnCoolant() {
@@ -261,6 +275,7 @@ public:
     void draWShutdownTripSkip() {
 
     }
+
     /**
      *  changes the font to given
      */
@@ -527,9 +542,11 @@ private:
         showLiter(LCD_COL_L22, LCD_ROW_1);
 
         if (car->getFuelState() == 0) {
-            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
+//            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
+            this->showIconBnz(LCD_COL_L23, LCD_ROW_1);
         } else {
-            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
+//            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
+            this->showIconLpg(LCD_COL_L23, LCD_ROW_1);
         }
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
