@@ -198,7 +198,6 @@ void WhlSens::setDigitalPot(uint8_t resistanceValue) {
         bottom	        48800	0.84
 */
 
-#define STR_DEBUG
 void WhlSens::listener() {
 
     int readingSteeringButton = getAnalogReadButtons();
@@ -223,7 +222,7 @@ void WhlSens::listener() {
 #endif
 
 #if defined(STR_DEBUG)
-    if (amp->isMid()) {
+    if (amp->isSecond() ) {
         Serial.print("Steering button: ");
         Serial.println(readingSteeringButton);
     }
@@ -274,7 +273,7 @@ void WhlSens::listener() {
 int WhlSens::getAnalogReadButtons() {
     return analogRead(pinSteering);
 }
-#define STR_DEBUG
+//#define STR_DEBUG
 /**
  * Sends commands to radio
  */

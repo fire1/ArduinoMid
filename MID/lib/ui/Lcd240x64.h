@@ -65,7 +65,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     boolean animateUltra = false;
     boolean initializeDraw = false;
     boolean changedFont = false;
-    boolean tripReset = false;
+
 
     const uint8_t *fontSelect;
     uint8_t lastValue;
@@ -74,6 +74,9 @@ class Lcd240x62 : virtual public LcdUiInterface {
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
     uint8_t tripCursor = 1;
+    uint8_t tripActive = 1;
+    uint8_t tripCompare = 1;
+    uint8_t tripReset = 0;
 
     //
     // from 14 to 64
@@ -546,15 +549,15 @@ private:
 #ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
-            this->showIconBnz(LCD_COL_L23, LCD_ROW_1);
+            this->showIconBnz(LCD_COL_L23 + 12, LCD_ROW_1);
         } else {
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
-            this->showIconLpg(LCD_COL_L23, LCD_ROW_1);
+            this->showIconLpg(LCD_COL_L23 + 12, LCD_ROW_1);
         }
 #endif
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
-        if (car->getDst() < 1) {
+        if (car->getDst() < 1 && eep->getTravelDistance() < 1) {
             lcd->drawStr(LCD_COL_L12, LCD_ROW_2, "--.-");
         } else {
             lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
@@ -827,11 +830,11 @@ private:
  * */
     void buildRowTrip(const char *name, TripData data, uint8_t y) {
         lcd->setCursor(LCD_COL_L11, y);
-        lcd->print("TR1: ");
+        lcd->print(name);
         float dst = data.range + car->getDst();
         displayFloat(dst, char_4);
         lcd->print(char_4);
-        lcd->print("km ");
+        lcd->print("km     ");
 
 
 #ifdef  DEFAULT_FUEL_USING
@@ -839,10 +842,11 @@ private:
             displayFloat(data.fuel + car->getAdtFuelCns(), char_3);
             lcd->print(char_3);
             lcd->print("L ");
-            showAverage(LCD_COL_R21, y);
+            showAverage(LCD_COL_R11, y);
+            lcd->setCursor(LCD_COL_R12, y);
             displayFloat(((data.fuel + car->getAdtFuelCns()) * 100) / dst, char_3);
             lcd->print(char_3);
-            lcd->print("L");
+            lcd->print("L  ");
         } else {
             displayFloat(data.fuel + car->getDefFuelCns(), char_3);
             lcd->print(char_3);
@@ -864,57 +868,89 @@ private:
     }
 
     void displayTrips() {
-        this->buildRowTrip("TC: ", eep->getTrip0(), LCD_ROW_1);
-        this->buildRowTrip("T1: ", eep->getTripA(), LCD_ROW_2);
-        this->buildRowTrip("T2: ", eep->getTripB(), LCD_ROW_3);
-        this->buildRowTrip("T3: ", eep->getTripC(), LCD_ROW_4);
+        this->buildRowTrip("T0:  ", eep->getTrip0(), LCD_ROW_1);
+        this->buildRowTrip("T1:  ", eep->getTripA(), LCD_ROW_2);
+        this->buildRowTrip("T2:  ", eep->getTripB(), LCD_ROW_3);
+        this->buildRowTrip("T3:  ", eep->getTripC(), LCD_ROW_4);
 
         btn->setEditorState(true);
 
+        if (drawIndex < 2 && initializeDraw) {
+            //
+            // Change values and speed of buttons
+            btn->setValueControlled(tripCursor);
+            //
+            // Change speed of screen
+            this->playUltra();
+        }
+        tripCompare = tripCursor;
         //
         // Manage section
-        if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            if (btn->isOk()) {
+        if (!btn->getNavigationState() && drawIndex % 2 == 0) {
+            uint8_t cursor = (uint8_t) btn->getValueControlled();
+
+            if (cursor > tripCompare && drawIndex % 4 == 0) {
                 tripCursor++;
-                tripReset = false;
+                tripReset = 0;
+
             }
+
+            boolean delete_trip = false;
+            if (tripReset > cursor && cursor < tripCompare) {
+
+                Serial.println("NOTICE: Delete trip.... ");
+                tripReset = 0;
+                tripCompare = 0;
+                delete_trip = true;
+            }
+
+            if (cursor < tripCompare) {
+                lcd->drawStr(LCD_COL_R22, tripActive, "  X");
+                tripReset = cursor;
+            }
+//
 
             if (tripCursor == 1) {
                 lcd->setCursor(0, LCD_ROW_2);
+                tripActive = LCD_ROW_2;
             } else if (tripCursor == 2) {
                 lcd->setCursor(0, LCD_ROW_3);
+                tripActive = LCD_ROW_3;
             } else if (tripCursor == 3) {
                 lcd->setCursor(0, LCD_ROW_4);
+                tripActive = LCD_ROW_4;
             } else {
                 tripCursor = 1;// Clear wrong cursor
+                btn->setValueControlled(tripCursor);
                 Serial.println("ERROR: Trip cursor out of range .... ");
             }
             //
             // Display cursor blink
-            if (!btn->getNavigationState() && drawIndex % 4 == 0) {
+            if (drawIndex % 4 == 0) {
                 lcd->print(">");
-            }
-            //
-            // Verify reset
-            if (btn->isNo()) {
-                tripReset = true;
-                lcd->print("    DELETE THIS TRIP DATA?        ");
-                Serial.println("NOTICE: Verify trip deletion .... ");
 
             }
+
             //
             // Reset trip data from EepRom
-            if (btn->isNo() && tripReset) {
-                if (tripCursor == 1) {
+            if (delete_trip) {
+                if (tripActive == LCD_ROW_2) {
                     eep->resetTripA();
-                } else if (tripCursor == 2) {
+                    Serial.println("ERROR: DELETE trip A ");
+                } else if (tripActive == LCD_ROW_3) {
                     eep->resetTripB();
-                } else if (tripCursor == 3) {
+                    Serial.println("ERROR: DELETE trip B ");
+                } else if (tripActive == LCD_ROW_4) {
                     eep->resetTripC();
+                    Serial.println("ERROR: DELETE trip C ");
                 } else {
                     Serial.println("ERROR: Cannot find cursor for deleting .... ");
                 }
-                tripReset = false;
+                tripCursor = 1;
+                tripCompare = 1;
+                tripActive = 0;
+                tripReset = 0;
+                btn->setNavigationState(true);
             }
 
 
@@ -961,6 +997,7 @@ private:
  */
     void displayFuel() {
 /* TODO Show fuel information
+ * TODO add icons
  * */
 #ifdef ADT_FUEL_SYSTEM_SERIAL
         sprintf(char_2, "%02d", lpgCom.getFuelTankLiters());
@@ -977,7 +1014,7 @@ private:
 
         displayFloat(car->getFuelTnk(), char_3);
         lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
-        lcd->print(F("MNZ value: "));
+        lcd->print(F("BNZ value: "));
         lcd->print(char_3);
         lcd->print("L");
 #endif
@@ -1025,7 +1062,7 @@ private:
             btn->setValueControlled(curVal);
             //
             // Change speed of screen
-            playUltra();
+            this->playUltra();
         }
         //
         // Getting back modified value

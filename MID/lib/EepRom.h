@@ -64,7 +64,7 @@ const int EEP_ADR_RMS = 6; // Rims Size
 #define EEP_ROM_WORK_DIV 100
 #endif
 
-#define EEP_ROM_INDEXES 10
+#define EEP_ROM_INDEXES 16
 
 //
 //
@@ -73,7 +73,7 @@ class EepRom {
     SavedData container;
     CarSens *car;
     WhlSens *whl;
-    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 public:
 /**

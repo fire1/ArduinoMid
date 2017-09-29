@@ -113,6 +113,7 @@ public:
         aboutMenu.addRight(mainMenu);
 
         tripMenu.addRight(fuelMenu).addRight(raceMenu);
+        fuelMenu.add(tripMenu);
         raceMenu.addRight(tripMenu);
         raceMenu.add(tripMenu);
 
