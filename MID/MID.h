@@ -56,7 +56,7 @@ const uint8_t BTN_PIN_UP = 8;  // old 9         //  Plug:23  [meg] [10k] [+5v]  
 const uint8_t BTN_PIN_DW = 9;  // old 8         //  Plug:24  [meg] [10k] [+5v]    Column switch navigation
 //
 // Shutdown protection pin
-const uint8_t SAV_PIN_CTR = A6;     //  Plug:4    [to +5v relay]  Disconnect supply voltage
+const uint8_t SAV_PIN_CTR = A6;     //  Plug:16    [to +5v relay]  Disconnect supply voltage
 const uint8_t SAV_PIN_DTC = A7;     //  proto A7     //  Plug:16   [20k] -> [meg] -> [znr]   Detect ignition key off state
 //
 // Live pins
