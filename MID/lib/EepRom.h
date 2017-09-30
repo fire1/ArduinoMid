@@ -303,13 +303,15 @@ public:
 
     void resetTripC() {
         container.trip_c.fuel = 0;
-        container.trip_c.range = sqrt(-1);
+        container.trip_c.range = 0;
     }
 
 
 private:
 
-
+/**
+ * Fixes EepRom trip nan values
+ */
     void fixtureTripNan() {
         if (isnan(container.trip_a.fuel) || isnan(container.trip_a.range)) {
             resetTripA();
@@ -323,13 +325,6 @@ private:
             resetTripC();
             Serial.println("Fix nan trip C");
         }
-    }
-
-    float getClearNan(float data) {
-        if (isnan(data)) {
-            return sqrt(-1);
-        }
-        return data;
     }
 
     //
