@@ -64,7 +64,7 @@ const int EEP_ADR_RMS = 6; // Rims Size
 #define EEP_ROM_WORK_DIV 100
 #endif
 
-#define EEP_ROM_INDEXES 16
+#define EEP_ROM_INDEXES 17
 
 //
 //
@@ -583,7 +583,8 @@ void EepRom::saveCurrentData() {
     data[8] = container.sens_rpm;
     data[9] = container.sens_dst;
     data[10] = container.sens_ecu;
-
+    //
+    // Trip records
     data[11] = container.trip_a.fuel + getDefaultFuelUse();
     data[12] = container.trip_a.range + car->getDst();
 
@@ -629,6 +630,15 @@ void EepRom::saveResetData() {
     data[8] = container.sens_rpm;
     data[9] = container.sens_dst;
     data[10] = container.sens_ecu;
+
+    data[11] = container.trip_a.fuel + getDefaultFuelUse();
+    data[12] = container.trip_a.range + car->getDst();
+
+    data[13] = container.trip_b.fuel + getDefaultFuelUse();
+    data[14] = container.trip_b.range + car->getDst();
+
+    data[15] = container.trip_c.fuel + getDefaultFuelUse();
+    data[16] = container.trip_c.range + car->getDst();
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
@@ -691,6 +701,14 @@ void EepRom::loadCurrentData() {
     Serial.println(data[8]);
     Serial.println(data[9]);
     Serial.println(data[10]);
+    delay(10);
+    Serial.println("Trip records: ");
+    Serial.println(data[11]);
+    Serial.println(data[12]);
+    Serial.println(data[13]);
+    Serial.println(data[14]);
+    Serial.println(data[15]);
+    Serial.println(data[16]);
     delay(10);
 }
 
@@ -848,9 +866,52 @@ void EepRom::injectFromSerial(void) {
             srlOutputs = F("Wheel Simulate resistance ");
             whl->sendRadioButtons(saveTemp);
             srlOutputs += saveTemp;
-
         }
 
+        //
+        // Trips record
+        //
+        // Trip A
+        if (srlStrName == "tf1") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip A fuel");
+            container.trip_a.fuel = saveTemp;
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "td1") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip A range");
+            container.trip_a.range = saveTemp;
+            srlOutputs += saveTemp;
+        }
+        //
+        // Trip B
+        if (srlStrName == "tf2") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip B fuel");
+            container.trip_b.fuel = saveTemp;
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "td2") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip B range");
+            container.trip_b.range = saveTemp;
+            srlOutputs += saveTemp;
+        }
+        //
+        // Trip C
+        if (srlStrName == "tf3") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip C fuel");
+            container.trip_c.fuel = saveTemp;
+            srlOutputs += saveTemp;
+        }
+        if (srlStrName == "td3") {
+            saveTemp = Serial.readStringUntil('\n').toFloat();
+            srlOutputs = F("Sets Trip C range");
+            container.trip_c.range = saveTemp;
+            srlOutputs += saveTemp;
+        }
 
         //
         // Show command information to human

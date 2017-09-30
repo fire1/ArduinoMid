@@ -27,7 +27,7 @@ const char msg10[] PROGMEM = "WENT OUT"; // Problem message for lamps
 //
 // Titles
 const char msg11[] PROGMEM = "MAIN MENU";
-const char msg12[] PROGMEM = "TRIP DETAILS";
+const char msg12[] PROGMEM = "TRIP RECORDS";
 const char msg13[] PROGMEM = "FUEL MENU";
 const char msg14[] PROGMEM = "SERVICING";
 const char msg15[] PROGMEM = "ABOUT";

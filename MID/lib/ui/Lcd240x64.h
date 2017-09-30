@@ -834,7 +834,7 @@ private:
         float dst = data.range + car->getDst();
         displayFloat(dst, char_4);
         lcd->print(char_4);
-        lcd->print("km     ");
+        lcd->print("km         ");
 
 
 #ifdef  DEFAULT_FUEL_USING
