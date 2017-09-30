@@ -315,8 +315,8 @@ static void menuChangeEvent(MenuChangeEvent changed);
  * Trip data
  */
 struct TripData {
-    float fuel;
-    float range;
+    float fuel =  sqrt (-1);
+    float range =  sqrt (-1);
 };
 /**
  * EepRom  data
@@ -366,7 +366,6 @@ struct SavedData {
 
 #ifndef LPG_SWITCHING_DETECT
 #define LPG_SWITCHING_DETECT
-
 
 
 #endif

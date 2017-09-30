@@ -303,11 +303,34 @@ public:
 
     void resetTripC() {
         container.trip_c.fuel = 0;
-        container.trip_c.range = 0;
+        container.trip_c.range = sqrt(-1);
     }
 
 
 private:
+
+
+    void fixtureTripNan() {
+        if (isnan(container.trip_a.fuel) || isnan(container.trip_a.range)) {
+            resetTripA();
+            Serial.println("Fix nan trip A");
+        }
+        if (isnan(container.trip_b.fuel) || isnan(container.trip_b.range)) {
+            resetTripB();
+            Serial.println("Fix nan trip B");
+        }
+        if (isnan(container.trip_c.fuel) || isnan(container.trip_c.range)) {
+            resetTripC();
+            Serial.println("Fix nan trip C");
+        }
+    }
+
+    float getClearNan(float data) {
+        if (isnan(data)) {
+            return sqrt(-1);
+        }
+        return data;
+    }
 
     //
     // Gets target fuel of use
@@ -631,6 +654,8 @@ void EepRom::saveResetData() {
     data[9] = container.sens_dst;
     data[10] = container.sens_ecu;
 
+    //
+    // Trip record
     data[11] = container.trip_a.fuel + getDefaultFuelUse();
     data[12] = container.trip_a.range + car->getDst();
 
@@ -684,6 +709,8 @@ void EepRom::loadCurrentData() {
     container.sens_dst = data[9];
     container.sens_ecu = data[10];
 
+    //
+    // Trips record
     container.trip_a.fuel = data[11];
     container.trip_a.range = data[12];
 
@@ -692,6 +719,8 @@ void EepRom::loadCurrentData() {
 
     container.trip_c.fuel = data[15];
     container.trip_c.range = data[16];
+    this->fixtureTripNan(); // Fix broken not NAN  values
+
 
     Serial.println(data[1], 2);
     Serial.println(data[2], 2);
@@ -874,13 +903,13 @@ void EepRom::injectFromSerial(void) {
         // Trip A
         if (srlStrName == "tf1") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip A fuel");
+            srlOutputs = F("Sets Trip A fuel ");
             container.trip_a.fuel = saveTemp;
             srlOutputs += saveTemp;
         }
         if (srlStrName == "td1") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip A range");
+            srlOutputs = F("Sets Trip A range ");
             container.trip_a.range = saveTemp;
             srlOutputs += saveTemp;
         }
@@ -888,13 +917,13 @@ void EepRom::injectFromSerial(void) {
         // Trip B
         if (srlStrName == "tf2") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip B fuel");
+            srlOutputs = F("Sets Trip B fuel ");
             container.trip_b.fuel = saveTemp;
             srlOutputs += saveTemp;
         }
         if (srlStrName == "td2") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip B range");
+            srlOutputs = F("Sets Trip B range ");
             container.trip_b.range = saveTemp;
             srlOutputs += saveTemp;
         }
@@ -902,13 +931,13 @@ void EepRom::injectFromSerial(void) {
         // Trip C
         if (srlStrName == "tf3") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip C fuel");
+            srlOutputs = F("Sets Trip C fuel ");
             container.trip_c.fuel = saveTemp;
             srlOutputs += saveTemp;
         }
         if (srlStrName == "td3") {
             saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip C range");
+            srlOutputs = F("Sets Trip C range ");
             container.trip_c.range = saveTemp;
             srlOutputs += saveTemp;
         }
