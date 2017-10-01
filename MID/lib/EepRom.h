@@ -66,8 +66,9 @@ const int EEP_ADR_RMS = 6; // Rims Size
 
 #define EEP_ROM_INDEXES 17
 
-//
-//
+/**
+ *
+ */
 class EepRom {
 
     SavedData container;
@@ -883,7 +884,8 @@ void EepRom::injectFromSerial(void) {
 
         }
 
-
+        //
+        // Steering buttons digPod inject
         if (srlStrName == "whl") {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();

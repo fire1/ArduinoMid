@@ -19,6 +19,7 @@
 
 #include <SPI.h>
 #include "AmpTime.h"
+#include "InitObj.h"
 
 //#define STR_DEBUG
 //#define STR_WHL_SEND_A
@@ -41,7 +42,7 @@ class WhlSens {
     unsigned long timer;
     int currentStateButton;
     int lastStateButton = 0;
-    uint8_t pinSteering, pinDigPotCtr, pinOutMask;
+    uint8_t pinSteering, pinDigPotCtr, pinMaskHide;
     //
     // Used for shortcuts ...
     boolean isDisabled = 0;
@@ -82,13 +83,14 @@ public:
 
         pinSteering = pinTargetSteering;
         pinDigPotCtr = pinDigitalPod;
-        pinOutMask = pinMask;
+        pinMaskHide = pinMask;
 
 
         pinMode(pinSteering, INPUT);
         pinMode(pinDigPotCtr, OUTPUT);
-        pinMode(pinOutMask, OUTPUT);
-        digitalWrite(pinOutMask, HIGH); // Hide dig pot
+        pinMode(pinMaskHide, OUTPUT);
+//        digitalWrite(pinMaskHide, HIGH); // Hide dig pot
+        analogWrite(pinMaskHide, 255); // Hide dig pot
         //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
         //  pinMode (SLAVESELECT,OUTPUT); //same as above?
         //
@@ -115,6 +117,7 @@ public:
         bottom	        48800	0.84
      */
     void listener() {
+
         resolveButton(getAnalogReadButtons());
         //
         // Simulate resistance in radio
@@ -126,34 +129,18 @@ public:
      * @param resistance
      */
     void sendRadioButtons(uint8_t resistance) {
-        //
-        // Disable commands to radio
-        if (isDisable()) {
-            return;
-        }
-
         Serial.print("WHL Current resistance ");
         Serial.println(resistance);
 
 
-        digitalWrite(pinOutMask, LOW);
+        digitalWrite(pinMaskHide, LOW);
         digitalWrite(pinDigPotCtr, LOW);
 
         setDigitalPot(resistance);
-        // TODO test here
-        unsigned long now = millis();
-        if (now > timer) {
-
-        }
-        delay(3); // Some separation fix
-//    if (amp->isLow()) {
-        // Open resistance to pot
+        delay(5); // Some separation fix
         digitalWrite(pinDigPotCtr, HIGH);
-
-//    }
-
-        delay(5000);
-        digitalWrite(pinOutMask, HIGH);
+        delay(1000);
+        digitalWrite(pinMaskHide, HIGH);
 
 
     }
@@ -185,13 +172,14 @@ public:
      */
     void shutdownMode(void) {
         digitalWrite(pinDigPotCtr, LOW);
-        analogWrite(pinOutMask, HIGH);
+        analogWrite(pinMaskHide, HIGH);
         delay(5);
         setDigitalPot(1);
         delay(5);
         analogWrite(pinDigPotCtr, LOW);
 
     }
+
 private:
 
 
@@ -204,6 +192,7 @@ private:
         SPI.transfer(ADR_DIG_POD); // 17
         SPI.transfer(resistanceValue);
     }
+
     /**
      * Sets current button press
      */
@@ -218,25 +207,17 @@ private:
 #endif
     }
 
-    void setButtonStateParser(int currentState) {
-
-        if (currentState == STR_BTN_VLU) this->setDigitalPot(95);// Volume up
-        if (currentState == STR_BTN_VLD) this->setDigitalPot(115);// Volume down
-        if (currentState == STR_BTN_ATT) this->setDigitalPot(225); // Zero
-        if (currentState == STR_BTN_MNT) this->setDigitalPot(155);// Mute
-        if (currentState == STR_BTN_SKU) this->setDigitalPot(45);// seek up
-        if (currentState == STR_BTN_SKD) this->setDigitalPot(65);// seek down
-        if (currentState == STR_BTN_BCK) this->setDigitalPot(15);// back button
-        if (currentState == STR_BTN_NON) this->setDigitalPot(0);// return to default
-
-    }
-
 
     /**
      *
      * @param readVoltage
      */
     void resolveButton(int readVoltage) {
+//
+//        if(amp->isSecond()){
+//            Serial.print("Read voltage ");
+//            Serial.println(readVoltage);
+//        }
 
         if (readVoltage > 900) {
             setCurrentState(STR_BTN_NON);
@@ -273,6 +254,19 @@ private:
         }
     }
 
+    void setButtonStateParser(int currentState) {
+
+        if (currentState == STR_BTN_VLU) setDigitalPot(95);// Volume up
+        if (currentState == STR_BTN_VLD) setDigitalPot(125);// Volume down
+        if (currentState == STR_BTN_ATT) setDigitalPot(20); // Zero
+        if (currentState == STR_BTN_MNT) setDigitalPot(155);// Mute
+        if (currentState == STR_BTN_SKU) setDigitalPot(50);// seek up
+        if (currentState == STR_BTN_SKD) setDigitalPot(70);// seek down
+        if (currentState == STR_BTN_BCK) setDigitalPot(15);// back button
+        if (currentState == STR_BTN_NON) setDigitalPot(0);// return to default
+
+    }
+
     /**
  * Sends commands to radio
  */
@@ -294,19 +288,20 @@ private:
         //
         // When is not none state
         if (currentState != STR_BTN_NON) {
-            analogWrite(pinOutMask, 0);
-            digitalWrite(pinDigPotCtr, LOW);
-            setButtonStateParser(currentState);
-            // TODO test here
-            delay(3); // Some separation fix
-//        if (amp->isLow()) {
-            // Open resistance to pot
-            digitalWrite(pinDigPotCtr, HIGH);
-            lastStateButton = currentState;
-//        }
+            if (lastStateButton != currentState) {
+                Serial.print("WHL state ");
+                Serial.println(currentState);
+                digitalWrite(pinDigPotCtr, LOW);
+                setButtonStateParser(currentState);
+                delay(3);
+                digitalWrite(pinDigPotCtr, HIGH);
+                // TODO test here
+                digitalWrite(pinMaskHide, LOW);
 
+                lastStateButton = currentState;
+            } else digitalWrite(pinMaskHide, LOW);
         } else {
-            analogWrite(pinOutMask, 255);
+            digitalWrite(pinMaskHide, HIGH);
         }
     }
 

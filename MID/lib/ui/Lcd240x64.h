@@ -558,7 +558,7 @@ private:
 
         displayFloat(eep->getAverageLitersPer100km(), char_3);
         if (car->getDst() < 1 && eep->getTravelDistance() < 1) {
-            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, "--.-");
+            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, "00.0");
         } else {
             lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
         }
@@ -825,6 +825,22 @@ private:
 
     }
 
+
+    void buildInnerRowTrip(float carFuelConsumption, float dataFuel, float distance, uint8_t y) {
+        displayFloat(dataFuel + carFuelConsumption, char_3);
+        lcd->print(char_3);
+        lcd->print("L ");
+        showAverage(LCD_COL_R11, y);
+        lcd->setCursor(LCD_COL_R12, y);
+        displayFloat(((dataFuel + car->getAdtFuelCns()) * 100) / distance, char_3);
+        if (distance > 1) {
+            lcd->print(char_3);
+        } else {
+            lcd->print("00.0");
+        }
+        lcd->print("L  ");
+    }
+
 /**
  * Dysplay trip row
  * */
@@ -834,36 +850,18 @@ private:
         float dst = data.range + car->getDst();
         displayFloat(dst, char_4);
         lcd->print(char_4);
-        lcd->print("km         ");
+        lcd->print("km");
+        lcd->setCursor(LCD_COL_L23, y);
 
 
 #ifdef  DEFAULT_FUEL_USING
         if (DEFAULT_FUEL_USING == 1) {
-            displayFloat(data.fuel + car->getAdtFuelCns(), char_3);
-            lcd->print(char_3);
-            lcd->print("L ");
-            showAverage(LCD_COL_R11, y);
-            lcd->setCursor(LCD_COL_R12, y);
-            displayFloat(((data.fuel + car->getAdtFuelCns()) * 100) / dst, char_3);
-            lcd->print(char_3);
-            lcd->print("L  ");
+            buildInnerRowTrip(car->getAdtFuelCns(), data.fuel, dst, y);
         } else {
-            displayFloat(data.fuel + car->getDefFuelCns(), char_3);
-            lcd->print(char_3);
-            lcd->print("L ");
-            showAverage(LCD_COL_R21, LCD_ROW_1);
-            displayFloat(((data.fuel + car->getDefFuelCns()) * 100) / dst, char_3);
-            lcd->print(char_3);
-            lcd->print("L");
+            buildInnerRowTrip(car->getDefFuelCns(), data.fuel, dst, y);
         }
 #else
-        displayFloat(data.fuel + car->getDefFuelCns(), char_3);
-            lcd->print(char_3);
-            lcd->print("L ");
-            showAverage(LCD_COL_R21, LCD_ROW_1);
-            displayFloat(((data.fuel + car->getDefFuelCns()) * 100) / dst, char_3);
-            lcd->print(char_3);
-            lcd->print("L");
+        buildInnerRowTrip(car->getDefFuelCns(), data.fuel, dst, y);
 #endif
     }
 
