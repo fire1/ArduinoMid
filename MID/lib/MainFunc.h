@@ -152,7 +152,7 @@ void setupTimer31() {
     // TIFR5 = (1 << ICF5) | (1 << TOV5);
 
 
-    // If I change the line in my timer setup "TIMSK3 =" to:
+    // If I change the line in my timer begin "TIMSK3 =" to:
     // TIMSK3 = (0<<ICIE3)|(0<<TCIE3);
     // Everything works fine.
     // For some reason when the TIMER4 Input Capture Interrupt Service Routine

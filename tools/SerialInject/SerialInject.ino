@@ -3,7 +3,7 @@
 void setup() {
 
 
-    // put your setup code here, to run once:
+    // put your begin code here, to run once:
     pinMode(50, OUTPUT);
     pinMode(13, OUTPUT);
     Serial.begin(115200);

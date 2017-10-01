@@ -100,7 +100,7 @@ public:
                               resetAir(MenuItem(MENU_NAME_42)) {
     }
 
-    void setup(void) {
+    void begin(void) {
         menu.getRoot()
                 .add(mainMenu).add(tripMenu).add(statMenu);
         statMenu.add(mainMenu);

@@ -51,13 +51,7 @@ void setup() {
     lcdPwr.begin();
     //
     // Shutdown setupvehicle
-    shutDown.setup(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
-    //
-    //
-//    lpgSens.setup(pinLpgDat, LPG_CLC_PIN);
-
-//    analogWrite(35, 0);
-    analogWrite(46, 255);
+    shutDown.begin(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     // Debug serial
     Serial.begin(SERIAL_MONITOR_BAUD);
@@ -66,10 +60,10 @@ void setup() {
     setupTimer3();
     //
     //
-    eepRom.setup();
+    eepRom.begin();
     //
     // Setup button listener
-    btnMenu.setup(BTN_PIN_UP, BTN_PIN_DW, BRK_LGH_PIN, TONE_ADT_PIN);
+    btnMenu.begin(BTN_PIN_UP, BTN_PIN_DW, BRK_LGH_PIN, TONE_ADT_PIN);
     //
     // Sets Default Fuel as Benzine (fuel that engine will start) and additional LPG
     carSens.setupFuel({ifc: FUEL_BNZ_IFC, cns: FUEL_BNZ_CNS}, {ifc: FUEL_LPG_IFC, cns: FUEL_LPG_CNS});
@@ -85,19 +79,19 @@ void setup() {
     carSens.setupTemperature(TMP_PIN_OUT);
     //
     //  Setup car state pins to detect
-    carStat.setup(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
+    carStat.begin(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
     //
     //
     lcdMenu.begin();
     //
     // Set MID menu
-    midMenu.setup();
+    midMenu.begin();
     //
     // Setup SPI lib
-    whlSens.setup(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_RLY);
+    whlSens.begin(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_MSK);
     //
     // Restore data
-    eepRom.loadCurrentData();
+    eepRom.load();
     //
     // Pass saved data to car state for calculation
     carStat.setWorkState(eepRom.getWorkDistance());
@@ -121,17 +115,6 @@ void setup() {
 
 
 void loop() {
-//    Serial.print("Pin 9 is: ");
-//    Serial.println(digitalRead(9));
-//
-//
-//    Serial.print("Pin 8 is: ");
-//    Serial.println(digitalRead(8));
-
-    if (ampInt.isSecond()) {
-//        Serial.print(F(" Start (RAM): "));
-//        Serial.println(getFreeRam());
-    }
     //
     // Amplitude loop init
     ampInt.listener();
@@ -141,14 +124,12 @@ void loop() {
     //
     // Listen state pins
     carStat.listener();
-
     //
     // Reads buttons from steering
     whlSens.listener();
     //
     // Listener shutdown
     shutDown.listener();
-
     //
     //  Read main buttons
     btnMenu.listener();

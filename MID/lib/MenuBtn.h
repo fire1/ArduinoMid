@@ -79,7 +79,7 @@ public:
 
     void listener(void);
 
-    void setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones);
+    void begin(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones);
 
     inline void useDebounceFast() {
         debounceRate = BTN_DEBOUNCE_FAST / 10;
@@ -334,7 +334,7 @@ public:
 };
 
 
-void MenuBtn::setup(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones) {
+void MenuBtn::begin(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones) {
     btnUp = buttonPinUp;
     btnDw = buttonPinDw;
     btnBk = brakePedal;

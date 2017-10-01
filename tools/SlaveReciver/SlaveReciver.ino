@@ -14,7 +14,7 @@ void loop() {
 }
 
 // function that executes whenever data is received from master
-// this function is registered as an event, see setup()
+// this function is registered as an event, see begin()
 void receiveEvent(int howMany) {
     while (1 < Wire.available()) { // loop through all but the last
         char c = Wire.read(); // receive byte as a character

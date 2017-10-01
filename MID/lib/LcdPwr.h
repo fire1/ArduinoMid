@@ -2,8 +2,8 @@
 // Created by Angel Zaprianov on 3.5.2017 г..
 //
 
-#ifndef ARDUINOMID_LCDPWR_H
-#define ARDUINOMID_LCDPWR_H
+#ifndef ARDUINO_MID_LCD_PWR_H
+#define ARDUINO_MID_LCD_PWR_H
 
 #include <Arduino.h>
 
@@ -47,9 +47,9 @@ public:
         pwr[2] = pBLn;
         pwr[3] = pBLp;
         pwr[4] = pRD;
-        additional = true;
         adt[0] = pFS;
         adt[1] = pGnd2;
+        additional = true;
     }
 
 

@@ -84,7 +84,7 @@ public:
 
     }
 
-    void setup() {
+    void begin() {
 #ifdef EEP_ROM_ADDRESS
         Wire.begin();
 #endif
@@ -97,7 +97,7 @@ public:
 
     void saveCurrentData();
 
-    void loadCurrentData();
+    void load();
 
     void injectFromSerial(void);
 
@@ -673,7 +673,7 @@ void EepRom::saveResetData() {
 /**
  * Load data from chip
  */
-void EepRom::loadCurrentData() {
+void EepRom::load() {
 
     float eGetValue;
     int eLocation = 0;
@@ -888,7 +888,7 @@ void EepRom::injectFromSerial(void) {
             // Saves type
             saveTemp = Serial.readStringUntil('\n').toInt();
             srlOutputs = F("Wheel Simulate resistance ");
-            whl->sendRadioButtons(saveTemp);
+            whl->sendRadioButtons((uint8_t)saveTemp);
             srlOutputs += saveTemp;
         }
 

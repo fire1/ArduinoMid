@@ -104,7 +104,7 @@ public:
             eep(&eepRom), amp(&ampInt), car(&carSens), whl(&whlSens) {
     }
 
-    void setup(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm);
+    void begin(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm);
 
     void listener();
 
@@ -145,7 +145,7 @@ public:
 /**
  * Setup shutdown class
  */
-void ShutDw::setup(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm) {
+void ShutDw::begin(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm) {
 
     pinCtrl = uint8_t(pinControl);
     pinDtct = uint8_t(pinDetect);

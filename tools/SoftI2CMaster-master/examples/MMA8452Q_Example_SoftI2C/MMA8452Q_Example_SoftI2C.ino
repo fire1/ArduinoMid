@@ -16,7 +16,7 @@
    the single/double-tap and portrait landscape functions. The
    P/L stuff is really neat, something not many accelerometers have.
    
-   Hardware setup:
+   Hardware begin:
    MMA8452 Breakout ------------ Arduino
        3.3V --------------------- 3.3V
        SDA ----------------------- A4

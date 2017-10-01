@@ -98,7 +98,7 @@ OCR2B = ocrb;
 // mpguino timer dump
 
 void init2(){
-    // this needs to be called before setup() or some functions won't
+    // this needs to be called before begin() or some functions won't
     // work there
     sei();
 

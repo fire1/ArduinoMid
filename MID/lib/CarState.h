@@ -163,7 +163,7 @@ public:
  * @param pinB
  * @param pinV
  */
-    void setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV);
+    void begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV);
 
     void listener();
 
@@ -203,7 +203,7 @@ public:
  * @param pinB
  * @param pinV
  */
-void CarState::setup(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV) {
+void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV) {
     //
     // Sets mode
     pinMode(pinO, INPUT_PULLUP);
