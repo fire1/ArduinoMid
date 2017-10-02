@@ -176,7 +176,7 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // 53 SS
 
 // Alpine / Steering Wheel buttons todo A9
-const uint8_t ALP_PIN_INP = A9; // +5V ->  [240R] to Radio Unit plug pin 1
+const uint8_t ALP_PIN_INP = A9; // +5V -> [220R] to Radio Unit plug pin 1
 const uint8_t ALP_PIN_OUT = 53; //  Dig pot signal
 const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RELAY
 // * Signal HIGH will be send from pin 50 to hide dig pot resistance
