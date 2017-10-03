@@ -145,6 +145,12 @@ void loop() {
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
     //
+    // Debugging LPG data
+    if (ampInt.isSecond()) {
+        Serial.print(F(" Fuel state is "));
+        Serial.println(carSens.getFuelState());
+    }
+    //
     // set usage of LPG system without the switching listener
 #elif defined(LPG_INSTALLATION)
     carSens.setFuelListener(true);
@@ -154,42 +160,12 @@ void loop() {
     //
     // Display UI
     lcdMenu.draw();
-    if (ampInt.isSecond()) {
-//        Serial.print(F(" Draw (RAM): "));
-//        Serial.println(getFreeRam());
-        Serial.print(F(" Fuel state is "));
-        Serial.println(carSens.getFuelState());
-    }
     //
     // Commands that changes global value from serial monitor
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
-    eepRom.injectFromSerial();
-    //
-    // Calls StackCount() to report the unused RAM
-    if (ampInt.isSecond()) {
-//
-//        Serial.print("Correction Dst: ");
-//        Serial.println(eepRom.getData().sens_dst);
-
-        /*
-        Serial.print(F(" End free heap (RAM): "));
-        Serial.println(getFreeRam());
-        Serial.print(F(" VSS "));
-        Serial.println(carSens.getVss());
-        Serial.print(F(" RPM "));
-        Serial.println(carSens.getRpm());
-        Serial.print(F(" ECU "));
-        Serial.println(carSens.getEcu());
-
-        Serial.print(F(" RpmC "));
-        Serial.println(eepRom.getSensRpm());
-//        Serial.print(F(" TM3 " ));
-//        Serial.println(testTimer);
-         */
-
-    }
+    eepRom.injectSerial();
 }
 
 

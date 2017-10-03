@@ -15,7 +15,7 @@ The project sourcecode is based on Internet published information!_
 * Used libraries are in "libraries" folder [zip them for importing]
 
 ## Version 
-   **1.5.4** _and should be considered as beta (test) quality._
+   **1.5.6** _and should be considered as beta (test) quality._
 
 ## ArduinoMid supported features
 

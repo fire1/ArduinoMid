@@ -165,7 +165,7 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 // [meg] 52     to pin [pot] 2 [SCK]
 // [meg] 51     to pin [pot] 3 [SI]
 //     GND      to pin [pot] 4
-//     +5V      to pin [pot] 8
+//     +5V      to pin [pot] 8 [VCC]
 //     GND      to pin [pot] 7
 // Stereo input to pin [pot] 6 (through  RELAY to stereo remote control)
 //                     [pot] 5 NC

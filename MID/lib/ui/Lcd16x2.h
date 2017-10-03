@@ -549,7 +549,7 @@ protected:
             lcd->setCursor(0, 1);
             lcd->print(F("Whl Btns: "));
 
-            lcd->print(whl->getAnalogReadButtons() / 100);
+            lcd->print(whl->readAnalogButtons() / 100);
 
             if (whl->isDisable()) {
                 lcd->print((char) 222);

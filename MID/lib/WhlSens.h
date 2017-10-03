@@ -16,10 +16,10 @@
 #ifndef ARDUINO_MID_STR_SENS_H
 #define ARDUINO_MID_STR_SENS_H
 
-
 #include <SPI.h>
 #include "AmpTime.h"
 #include "InitObj.h"
+#include "CarSens.h"
 
 //#define STR_DEBUG
 //#define STR_WHL_SEND_A
@@ -39,6 +39,7 @@
 class WhlSens {
 
     AmpTime *amp;
+    CarSens *car;
     unsigned long timer;
     int currentStateButton;
     int lastStateButton = 0;
@@ -60,17 +61,13 @@ public:
     static constexpr uint8_t STR_BTN_ATT = 6;
     static constexpr uint8_t STR_BTN_MNT = 7;
 
-    WhlSens(AmpTime &_amp) : amp(&_amp) {
-
-    }
-
     /**
-     * Gets reading from steering buttons
-     * @return
+     *
      */
-    int getAnalogReadButtons() {
-        return analogRead(pinSteering);
+    WhlSens(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {
+
     }
+
 
     /**
      * Setup Steering Wheel to Sony audio
@@ -118,7 +115,7 @@ public:
      */
     void listener() {
 
-        resolveButton(getAnalogReadButtons());
+        resolveButton(analogRead(pinSteering));
         //
         // Simulate resistance in radio
         sendRadioButtons();
@@ -254,7 +251,16 @@ private:
         }
     }
 
+    /**
+     * @param  int
+     */
     void setButtonStateParser(int currentState) {
+
+        if (car->getRpm() > 500) {
+            // TODO
+        } else {
+
+        }
 
         if (currentState == STR_BTN_VLU) setDigitalPot(95);// Volume up
         if (currentState == STR_BTN_VLD) setDigitalPot(125);// Volume down

@@ -100,7 +100,7 @@ public:
 
     void load();
 
-    void injectFromSerial(void);
+    void injectSerial(void);
 
 
     float getAverageLitersPer100km() {
@@ -741,7 +741,7 @@ void EepRom::load() {
 /**
  * Injection data from USB serial monitor
  */
-void EepRom::injectFromSerial(void) {
+void EepRom::injectSerial(void) {
     //
 // Serial injection
 #if defined(SERIAL_INJECT_DATA)

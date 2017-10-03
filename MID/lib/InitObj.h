@@ -23,19 +23,19 @@
 // Menu button handler
 #include "MenuBtn.h"
 //
-//
+// Data recorder
 #include "EepRom.h"
 //
 // Add library
 #include "ShutDw.h"
 //
-//
+// Menu constructor
 #include "MenuBase.h"
 //
-//
+// Car data collector
 #include "CarCollect.h"
 //
-//
+// External LPG listener
 #ifdef LPG_INSTALLATION
 
 #include "LpgSerial.h"
@@ -53,7 +53,7 @@ CarSens carSens(ampInt);
 CarState carStat(ampInt, carSens);
 //
 // Constructing the class
-WhlSens whlSens(ampInt);
+WhlSens whlSens(ampInt, carSens);
 //
 // Data storage
 EepRom eepRom(carSens, whlSens);
