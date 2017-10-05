@@ -123,7 +123,8 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 7435  // 7435 [NOT CONFIRMED] // 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 8316   // 15.4*540 = 8316 [CONFIRMED (no switching)]
+// (old may be changed from noise) 7435 [NOT CONFIRMED]
 #endif
 
 #define LPG_SWTC_PIN 7
