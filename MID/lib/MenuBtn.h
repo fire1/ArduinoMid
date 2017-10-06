@@ -225,7 +225,7 @@ public:
 
     void captureUp(void) {
         if (!digitalRead(btnUp) == HIGH) {
-            if (amp->isLow() && !digitalRead(btnUp) == HIGH) {
+            if (amp->isMid() && !digitalRead(btnUp) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
                 lastButtonPushed = btnUp;
             }
@@ -240,7 +240,7 @@ public:
         if (!digitalRead(btnDw) == HIGH && !entryDownState || !digitalRead(btnDw) == HIGH && !isNavigationActive) {
             //
             // Clear noise
-            if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+            if (amp->isMid() && !digitalRead(btnDw) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
                 tone(TONE_ADT_PIN, 700, 20);
                 entryDownState = true;
