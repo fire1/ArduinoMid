@@ -845,9 +845,9 @@ private:
  * Dysplay trip row
  * */
     void buildRowTrip(const char *name, TripData data, uint8_t y) {
+        float dst = car->getDst() + data.range ;
         lcd->setCursor(LCD_COL_L11, y);
         lcd->print(name);
-        float dst = data.range + car->getDst();
         displayFloat(dst, char_4);
         lcd->print(char_4);
         lcd->print("km");

@@ -275,8 +275,8 @@ public:
 
     TripData getTrip0() {
         TripData trip;
-        trip.fuel = getDefaultFuelUse();
-        trip.range = car->getDst();
+        trip.fuel = 0;  //
+        trip.range = 0; // LCD will pass live data
         return trip;
     }
 
