@@ -1296,7 +1296,7 @@ void CarSens::sensTmp() {
     }
 #endif
 
-    if (amp->isBig()) {
+    if (amp->is10Seconds()) {
         temperatureSensors.requestTemperatures();
         CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
     }

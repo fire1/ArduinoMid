@@ -350,8 +350,9 @@ void MenuBtn::begin(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal
     // Turn on  Internal pull up resistor
 //    digitalWrite(btnUp, HIGH);
 //    digitalWrite(btnDw, HIGH);
-//    analogWrite(btnUp, 250);
-//    analogWrite(btnDw, 250);
+//    analogWrite(btnUp, 240);
+//    analogWrite(btnDw, 240);
+
     digitalWrite(btnBk, LOW);
 
 }
@@ -362,6 +363,10 @@ void MenuBtn::listener() {
     // Delete hold state
     isHoldState = false;
 
+//    Serial.print("Btn dw ");
+//    Serial.println(digitalRead(btnDw));
+//    Serial.print("Btn up ");
+//    Serial.println(digitalRead(btnUp));
 //    Serial.print("Break is ");
 //    Serial.println(isBk());
     //
@@ -393,8 +398,6 @@ void MenuBtn::listener() {
     //
     // Detect together pressed
     captureTg();
-
-
 
 
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
@@ -464,7 +467,7 @@ void MenuBtn::shortcut(void) {
     }
 
     if (millis() < (AWAITING_HOLD_BTN * 2)) {
-                
+
     }
 
     /*********** [SHORTCUTS] *********** *********** *********** *********** END   ***********/
