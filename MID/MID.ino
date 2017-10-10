@@ -47,6 +47,12 @@ File logFile;
 // Setup the code...
 void setup() {
     //
+    // TODO Inside temp pin mapping
+    analogWrite(A5, 255);
+    analogWrite(A4, 0);
+
+
+    //
     // Sets display pins to socket
     lcdPwr.begin();
     //
@@ -150,6 +156,8 @@ void loop() {
         Serial.print(F(" Fuel state is "));
         Serial.println(carSens.getFuelState());
     }
+
+
     //
     // set usage of LPG system without the switching listener
 #elif defined(LPG_INSTALLATION)

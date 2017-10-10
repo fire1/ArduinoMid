@@ -200,7 +200,9 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 #if defined(INSIDE_TEMPERATURE_DS)
 //
 // Defining one wire BUS used for temperature sensor
-#define ONE_WIRE_BUS 7 // Pin define
+//
+//  +5V pull-up 4.7k resistor to this pin
+#define ONE_WIRE_BUS A3 // Pin define
 #endif
 //
 //
