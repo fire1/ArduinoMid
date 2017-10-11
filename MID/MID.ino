@@ -47,12 +47,6 @@ File logFile;
 // Setup the code...
 void setup() {
     //
-    // TODO Inside temp pin mapping
-    analogWrite(A5, 255);
-    analogWrite(A4, 0);
-
-
-    //
     // Sets display pins to socket
     lcdPwr.begin();
     //

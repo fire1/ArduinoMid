@@ -27,9 +27,7 @@
 // Sensing instrument interval time
 
 //
-// From this distance will trigger
-// menu for saving trip
-const uint8_t SHUTDOWN_SAVE_TRIP = 25; // more than 25km
+// Components list https://docs.google.com/document/d/11Yb3lh6lio_FKBEzur-n49dYgrX5xFf_UQObUGn2u_c/edit?usp=sharing
 //
 // MID plug pins definition over Arduino
 //
@@ -203,6 +201,8 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 //
 //  +5V pull-up 4.7k resistor to this pin
 #define ONE_WIRE_BUS A3 // Pin define
+#define TEMPERATURE_DS_VCC A5
+#define TEMPERATURE_DS_GND A4
 #endif
 //
 //

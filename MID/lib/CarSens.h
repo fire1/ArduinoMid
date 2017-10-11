@@ -261,6 +261,7 @@ private:
     boolean vehicleStopped = false;
     boolean _isEngineSens = false;
     boolean _isVehicleSens = false;
+    boolean CUR_DIM_ON = false;
     uint8_t pinScreenInput, pinScreenOutput;
     //
     // Detect fuel switch
@@ -605,6 +606,7 @@ public:
      * Gets current fuel state
      */
     inline int getFuelState() { return FUEL_STATE; }
+
     /**
      * Gets default fuel levels in liters
      */
@@ -686,7 +688,16 @@ public:
      */
     uint8_t getMxmVss();
 
+    /**
+     * Gets maximum RPM reached during the trip
+     */
     uint16_t getMxmRpm();
+
+    /**
+     *
+     */
+    inline uint8_t isDimOn() { return CUR_DIM_ON; }
+
 
     /**
      *  Listen sensors
@@ -845,7 +856,12 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
     //
     // Setup inside pin
 #if defined(INSIDE_TEMPERATURE_DS)
+    analogWrite(TEMPERATURE_DS_VCC, 255);
+    analogWrite(TEMPERATURE_DS_GND, 0);
     temperatureSensors.begin();
+
+    temperatureSensors.requestTemperatures();
+    CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
 #endif
 };
 
@@ -1149,8 +1165,9 @@ void CarSens::sensDim() {
 
         if (backLightLevel < 1) {
             backLightLevel = SCREEN_DEF_LIGHT;
+            CUR_DIM_ON = false;
         }
-
+        CUR_DIM_ON = true;
         analogWrite(pinScreenOutput, backLightLevel * 10);
 
 #if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
@@ -1295,8 +1312,9 @@ void CarSens::sensTmp() {
         Serial.println(temperatureSensors.getTempCByIndex(0)); // Why "byIndex"?
     }
 #endif
-
-    if (amp->is10Seconds()) {
+    //
+    // Since this library slow down main loop ... will increase temperature read to 1 minute
+    if (amp->isMinute()) {
         temperatureSensors.requestTemperatures();
         CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
     }
