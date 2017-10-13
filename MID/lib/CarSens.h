@@ -1317,7 +1317,7 @@ void CarSens::sensTmp() {
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
         temperatureSensors.requestTemperatures();
-        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
+        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0) - 2;
     }
 #endif
 
@@ -1351,7 +1351,7 @@ void CarSens::sensTmp() {
 //        temperatureC = (map(readings, 2400, 1170, 160, 405) * 0.1); // 5/15
 //        temperatureC = (map(readings, 2950, 1170, 85, 405) * 0.1) ;
 //        temperatureC = (map(readings, 2830, 1170, 158, 405) * 0.1) ;
-        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1);
+        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1); // may be + 2
 
 
         temperatureOutCollection = (readings * 3) / 10;

@@ -40,13 +40,15 @@ class WhlSens {
 
     AmpTime *amp;
     CarSens *car;
+
+    //
+    // Used for shortcuts ...
+    boolean isDisabled = 0;
+    boolean isNewResist = 0;
     unsigned long timer;
     int currentStateButton;
     int lastStateButton = 0;
     uint8_t pinSteering, pinDigPotCtr, pinMaskHide;
-    //
-    // Used for shortcuts ...
-    boolean isDisabled = 0;
 
 
 public:
@@ -295,16 +297,19 @@ private:
         // When is not none state
         if (currentState != STR_BTN_NON) {
             if (lastStateButton != currentState) {
-                Serial.print("WHL state ");
-                Serial.println(currentState);
-                digitalWrite(pinDigPotCtr, LOW);
-                setButtonStateParser(currentState);
-                delay(3);
-                digitalWrite(pinDigPotCtr, HIGH);
-                // TODO test here
-                digitalWrite(pinMaskHide, LOW);
 
-                lastStateButton = currentState;
+                if (!isNewResist) {
+                    digitalWrite(pinDigPotCtr, LOW);
+                    setButtonStateParser(currentState);
+                    isNewResist = 1;
+                }
+//                delay(3);
+                if (amp->isMin()) {// TODO test here
+                    digitalWrite(pinDigPotCtr, HIGH);
+                    digitalWrite(pinMaskHide, LOW);
+                    lastStateButton = currentState;
+                    isNewResist = 0;
+                }
             } else digitalWrite(pinMaskHide, LOW);
         } else {
             digitalWrite(pinMaskHide, HIGH);
