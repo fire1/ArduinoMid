@@ -859,6 +859,10 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
     analogWrite(TEMPERATURE_DS_VCC, 255);
     analogWrite(TEMPERATURE_DS_GND, 0);
     temperatureSensors.begin();
+    //
+    // Sends initial request (first from two)
+    temperatureSensors.requestTemperatures();
+    CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
 #endif
 };
 
@@ -1311,7 +1315,7 @@ void CarSens::sensTmp() {
 #endif
     //
     // Since this library slow down main loop ... will increase temperature read to 1 minute
-    if (amp->isMinute() ) {
+    if (amp->isMinute() || isInitializedLoop) {
         temperatureSensors.requestTemperatures();
         CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
     }
