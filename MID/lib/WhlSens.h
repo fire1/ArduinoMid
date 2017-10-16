@@ -303,8 +303,9 @@ private:
                     setButtonStateParser(currentState);
                     isNewResist = 1;
                 }
-//                delay(3);
+                // delay(3);
                 if (amp->isMin()) {// TODO test here
+                    // Test done .... it seems to be O.K.
                     digitalWrite(pinDigPotCtr, HIGH);
                     digitalWrite(pinMaskHide, LOW);
                     lastStateButton = currentState;
