@@ -49,26 +49,53 @@ private:
 
     uint8_t alertState = 0;
 
-
-    boolean isBadVoltage();
-
+    boolean userWarnStack[11];
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
-    uint8_t cursorMenu = 1;
+    uint8_t cursorMenu = 0;
     uint8_t lastUserWarn = 0;
 
-    boolean userWarnStack[11];
+
+    /**
+     * Checks given state index
+     */
+    boolean isRecordedState(const uint8_t index) {
+        return userWarnStack[index];
+    }
+
+    /**
+     * Adds state index
+     */
+    boolean addState(const uint8_t index, const boolean value) {
+        lastUserWarn = index;
+        userWarnStack[index] = value;
+    }
 
 
 /**
  *
+ * @return
  */
-    boolean in_state(const uint8_t index) {
-        return userWarnStack[index];
-    }
+    boolean isBadVoltage(void) {
 
-    boolean add_state(const uint8_t index, const boolean value) {
-        lastUserWarn = index;
-        userWarnStack[index] = value;
+        int readingVoltage = analogRead(pinVol);
+        //
+        // Voltage too high
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 990) {
+            return true;
+        }
+        //
+        // Voltage too low
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 850) {
+            return true;
+        }
+        //
+        // Save last reading
+        if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
+            lastVoltageValue = readingVoltage;
+        }
+        //
+        // Voltage is good
+        return false;
     }
 
 public:
@@ -92,48 +119,48 @@ public:
 
         if (result.oil) {
             lcd->warnMotorOil();
-            add_state(1, true);
+            addState(1, true);
         }
         else if (result.cnt) {
             lcd->warnCoolant();
-            add_state(2, true);
+            addState(2, true);
         }
         else if (result.win) {
             lcd->warnWasher();
-            add_state(3, true);
+            addState(3, true);
         }
         else if (result.brk) {
             lcd->warnBreakWare();
-            add_state(4, true);
+            addState(4, true);
         }
         else if (result.vol) {
             lcd->warnBattery(this->getVoltage());
-            add_state(5, true);
+            addState(5, true);
         }
         else if (result.la1) {
             lcd->warnLightsFront();
-            add_state(6, true);
+            addState(6, true);
         }
         else if (result.la2) {
             lcd->warnLightsBack();
-            add_state(7, true);
+            addState(7, true);
         }
         else if (result.blt) {
             lcd->warnTmBelt();
-            add_state(8, true);
+            addState(8, true);
         }
         else if (result.wnt) {
             lcd->warnWinter();
-            add_state(9, true);
+            addState(9, true);
         }
         else if (result.ovh) {
             lcd->warnOverheat();
-            add_state(10, true);
+            addState(10, true);
         }
-        else;
+        else { MidCursorMenu = cursorMenu; };
 
 
-        if (amp->is4Seconds()) {
+        if (amp->is10Seconds()) { // TODO not access
             MidCursorMenu = cursorMenu; // return user to last usable screen
         }
     }
@@ -167,9 +194,9 @@ public:
 
     void listener();
 
-/**
- *
- */
+    /**
+     * Changes menu cursor
+     */
     void cursor() {
         if (amp->is4Seconds() && this->isAlert() && !lastUserWarn) {
             cursorMenu = MidCursorMenu;
@@ -177,6 +204,9 @@ public:
         }
     }
 
+    /**
+     * Checks for winter temperature
+     */
     boolean isWinter() {
         if (car->getTmpOut() < -3) {
             return true;
@@ -184,6 +214,9 @@ public:
         return false;
     }
 
+    /**
+     * Checks engine overheating
+     */
     boolean isOverhead() {
         if (car->getEngTmp() > 98) {
             return true;
@@ -251,32 +284,6 @@ void CarState::listener() {
     cursor();
 }
 
-/**
- *
- * @return
- */
-boolean CarState::isBadVoltage(void) {
-
-    int readingVoltage = analogRead(pinVol);
-    //
-    // Voltage too high
-    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 990) {
-        return true;
-    }
-    //
-    // Voltage too low
-    if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 850) {
-        return true;
-    }
-    //
-    // Save last reading
-    if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
-        lastVoltageValue = readingVoltage;
-    }
-    //
-    // Voltage is good
-    return false;
-}
 
 /**
  * Sets work distance from EepRom for calculation
@@ -351,7 +358,7 @@ boolean CarState::isAlert() {
     if (alertState >= CAR_STT_AC_ALERT) {
         //
         // Check for older state
-        if (in_state(lastUserWarn)) {
+        if (isRecordedState(lastUserWarn)) {
             alertState = 0;
             return false;
         }

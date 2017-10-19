@@ -1329,19 +1329,20 @@ void CarSens::sensTmp() {
      *      Temperature range to [°C]: 250
      *      Resistance [Ohm]: 5000
      * https://www.hackster.io/Marcazzan_M/how-easy-is-it-to-use-a-thermistor-e39321
-     * ~ 40°C   value 117
-     * ~ 41°C   value 120
-     * ~ 36°C   value 136
-     * ~ 23+°C  value 203 <- inside garage
-     * ~ 22°C   value 220
-     * ~ 19°C   value 225 <- hot engine
-     * ~ 16°C   value 238
-     * ~ 20°C   value 226
-     * ~ 8°C    value 295 <- guess
+     * ~ 40     °C      value 117
+     * ~ 41     °C      value 120
+     * ~ 36     °C      value 136
+     * ~ 23+    °C      value 203 <- inside garage
+     * ~ 22     °C      value 220
+     * ~ 19     °C      value 225 <- hot engine
+     * ~ 16     °C      value 238
+     * ~ 20     °C      value 226
+     * ~ 11.1   °C      value 281
+     * ~ 8 (14) °C      value 295 <- guess
      */
     temperatureOutCollection += (uint16_t) analogRead(pinTmpOut);
     temperatureOutIndex++;
-    if (isInitializedLoop || amp->is5Seconds()) {
+    if (isInitializedLoop || amp->is10Seconds()) {
         //
         // Get more precise average value
         uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 10);
@@ -1351,8 +1352,8 @@ void CarSens::sensTmp() {
 //        temperatureC = (map(readings, 2400, 1170, 160, 405) * 0.1); // 5/15
 //        temperatureC = (map(readings, 2950, 1170, 85, 405) * 0.1) ;
 //        temperatureC = (map(readings, 2830, 1170, 158, 405) * 0.1) ;
-        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1); // may be + 2
-
+//        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1); // may be + 2
+        temperatureC = (map(readings, 2810, 1200, 140, 400) * 0.1);
 
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
