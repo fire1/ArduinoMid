@@ -1300,6 +1300,8 @@ uint8_t CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
+#define DEBUG_TEMPERATURE_OU
+
 /**
  * Temperature sensing
  */
@@ -1321,7 +1323,7 @@ void CarSens::sensTmp() {
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
         temperatureSensors.requestTemperatures();
-        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0) ;
+        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
     }
 #endif
 
@@ -1343,8 +1345,10 @@ void CarSens::sensTmp() {
      * ~ 20     °C      value 226
      * ~ 11.1   °C      value 281
      * ~ 8 (14) °C      value 295 <- guess
+     * ~  15    °C      value 293 <- guess
      */
-    temperatureOutCollection += (uint16_t) analogRead(pinTmpOut);
+    uint16_t liveTemperatureValue;
+    temperatureOutCollection += liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
     temperatureOutIndex++;
     if (isInitializedLoop || amp->is10Seconds()) {
         //
@@ -1352,19 +1356,17 @@ void CarSens::sensTmp() {
         uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 10);
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
-//        temperatureC = (map(readings, 2200, 1200, 225, 400) * 0.01);
-//        temperatureC = (map(readings, 2400, 1170, 160, 405) * 0.1); // 5/15
-//        temperatureC = (map(readings, 2950, 1170, 85, 405) * 0.1) ;
-//        temperatureC = (map(readings, 2830, 1170, 158, 405) * 0.1) ;
-//        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1); // may be + 2
-        temperatureC = (map(readings, 2810, 1200, 140, 400) * 0.1);
+
+        temperatureC = (map(readings, 2810, 1170, 160, 405) * 0.1);
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
 
 #if defined(DEBUG_TEMPERATURE_OU)
-        Serial.print("Read Temp  value: ");
+        Serial.print("Read Temp |  smooth: ");
         Serial.print(readings);
+        Serial.print(" / live: ");
+        Serial.print(liveTemperatureValue);
         Serial.print(" | calculation:");
         Serial.println(temperatureC);
 
