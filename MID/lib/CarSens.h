@@ -1,6 +1,8 @@
 //
 // Created by Angel Zaprianov on 19.10.2016 г..
 //
+// Consumption calculation of this file is base over OBDuino
+//
 #include <Arduino.h>
 #include "../MID.h"
 #include "AmpTime.h"
@@ -123,7 +125,9 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 8316   // 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 8479  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+// At ~20°C 8479
+//
 // (old may be changed from noise) 7435 [NOT CONFIRMED]
 #endif
 
@@ -1317,7 +1321,7 @@ void CarSens::sensTmp() {
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
         temperatureSensors.requestTemperatures();
-        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0) - 2;
+        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0) ;
     }
 #endif
 
@@ -1354,7 +1358,7 @@ void CarSens::sensTmp() {
 //        temperatureC = (map(readings, 2830, 1170, 158, 405) * 0.1) ;
 //        temperatureC = (map(readings, 2830, 1170, 108, 405) * 0.1); // may be + 2
         temperatureC = (map(readings, 2810, 1200, 140, 400) * 0.1);
-
+        // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
 
