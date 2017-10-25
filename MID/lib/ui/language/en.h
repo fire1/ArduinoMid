@@ -61,48 +61,48 @@ const char msg38[] PROGMEM = " ";
 const char msg39[] PROGMEM = "Please drive safe!";
 //
 // Warning Oil level
-const char msg40[] PROGMEM = " THE OIL LEVEL IS LOW!";
+const char msg40[] PROGMEM = " LOW OIL LEVEL!";
 const char msg41[] PROGMEM = "Oil level is  below 25%";
 const char msg42[] PROGMEM = "Top up motor oil";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "  MALFUNCTION IN EL. SYSTEM!";
+const char msg43[] PROGMEM = "ELECTRICAL MALFUNCTION!";
 const char msg44[] PROGMEM = "A voltage of: ";
 const char msg45[] PROGMEM = "which is not in working range";
 //
 // Warning breaks
-const char msg46[] PROGMEM = " BREAK WARN OUT!";
+const char msg46[] PROGMEM = " WORN BRAKES!";
 const char msg47[] PROGMEM = "Determined pad wear in one of ";
 const char msg48[] PROGMEM = "the front breaks ";
 //
 // Warning coolant
-const char msg49[] PROGMEM = " COOLANT LEVEL IS LOW!";
+const char msg49[] PROGMEM = " LOW COOLANT!";
 const char msg50[] PROGMEM = "Check the coolant level";
 const char msg51[] PROGMEM = "if is necessary add more.";
 //
 // Warning overheating
-const char msg52[] PROGMEM = " DANGER! OVERHEATING!!!";
+const char msg52[] PROGMEM = " OVERHEATING!!!";
 const char msg53[] PROGMEM = "The temperature in the cooling ";
 const char msg54[] PROGMEM = "is too high, overheating!";
 //
 // Warning window washer
-const char msg55[] PROGMEM = " LOW LEVEL OF WINDOW WASHER!";
+const char msg55[] PROGMEM = " LOW WINDOW WASHER!";
 const char msg56[] PROGMEM = "Window washer liquid is below";
 const char msg57[] PROGMEM = "25%. Please add more. ";
 //
 // Warning bulb
-const char msg58[] PROGMEM = " BURNED OUT BULB";
+const char msg58[] PROGMEM = " BULB BURN OUT ";
 const char msg59[] PROGMEM = "Incandescent  malfunction in: ";
 const char msg60[] PROGMEM = "Front lights ";
 const char msg61[] PROGMEM = "Back lights ";
 //
 // Warning timing  Belt ware
-const char msg62[] PROGMEM = " TIMING BELT WORN OUT WARNING";
+const char msg62[] PROGMEM = " WORN TIMING BELT";
 const char msg63[] PROGMEM = "Timing belt needs replacement ";
 const char msg64[] PROGMEM = "After change reset servicing";
 //
 // Warning Air filter ware @deprecated
-const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT WARNING";
+const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT ";
 const char msg66[] PROGMEM = "Air filter  replacement after";
 const char msg67[] PROGMEM = " (After change reset servicing)";
 //
