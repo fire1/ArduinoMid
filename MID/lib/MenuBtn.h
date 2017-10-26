@@ -45,7 +45,7 @@ private:
             isHoldState = false,
             entryDownState = false,
             editorActivate = false,
-            toggetherPress = false;
+            togetherPress = false;
 
 
     uint8_t btnUp, btnDw, btnBk, pinTn;
@@ -68,6 +68,22 @@ private:
         }
         if (this->isNo()) {
             controlledValue = controlledValue - 1;
+        }
+    }
+
+    void startup() {
+
+        //
+        // Startup reset trip
+        if (millis() < 3000) {
+            if (isBk()) {
+
+                if (isDw()) {
+                    eep->saveResetData();
+                }
+
+
+            }
         }
     }
 
@@ -172,7 +188,7 @@ public:
     }
 
     inline boolean isTg() {
-        return toggetherPress;
+        return togetherPress;
     }
 
     inline boolean isBk() {
@@ -303,10 +319,10 @@ public:
     }
 
     void captureTg() {
-        toggetherPress = false;
+        togetherPress = false;
         if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
             if (amp->isLow()) {
-                toggetherPress = true;
+                togetherPress = true;
                 lastUsed = millis();
             }
         }
@@ -398,7 +414,9 @@ void MenuBtn::listener() {
     //
     // Detect together pressed
     captureTg();
-
+    //
+    //  Startup short cuts
+    startup();
 
 #if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
     if (amp->isMid()) {
