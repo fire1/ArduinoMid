@@ -1357,7 +1357,7 @@ void CarSens::sensTmp() {
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
 
-        temperatureC = (map(readings, 2810, 1170, 160, 405) * 0.1);
+        temperatureC = (map(readings, 2810, 1170, 170, 405) * 0.1);
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
