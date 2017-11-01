@@ -1346,6 +1346,7 @@ void CarSens::sensTmp() {
      * ~ 11.1   °C      value 281
      * ~ 8 (14) °C      value 295 <- guess
      * ~  15    °C      value 293 <- guess
+     * ~  9     °C      value 335 <- guess
      */
     uint16_t liveTemperatureValue;
     temperatureOutCollection += liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
@@ -1357,7 +1358,7 @@ void CarSens::sensTmp() {
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
 
-        temperatureC = (map(readings, 2810, 1170, 170, 405) * 0.1);
+        temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
