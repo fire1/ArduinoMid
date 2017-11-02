@@ -48,7 +48,8 @@ The project sourcecode is based on Internet published information!_
 * Block the ignition [hiddant code to detect owner of the car]
 * Todo more ...
 
-## Menu structure for screen 16x2
+## Menu structure for screen 16x2 
+[deprecated for newer version since is not tested]
 
     -----[Main Menu]-----[Trip Menu]-----[Consumption]-----[Servecing]------
     ----------|---------------|---------------|-----------------|------------
@@ -60,9 +61,9 @@ The project sourcecode is based on Internet published information!_
 
 ## Menu structure for screen 240x64
 
-    -----[Main Menu]-----[Trip Menu]-----[Servecing]------
-    ----------|-------------------------------------------
-    -----[Dashboard]-----
+    -----[Main Menu]-----[Trips Record]-----[Servecing]------
+    ----------|-----------------|----------------------------
+    -----[Dashboard]-----[Fuel Systems]
     ----------|----------
     -----[Settings]------
     ---------|-----------
