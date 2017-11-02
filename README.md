@@ -72,14 +72,19 @@ The project sourcecode is based on Internet published information!_
 ## Schematics
    _Hardware is  in development..._
    
-  Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID-41fc7dfe4c28497e8611276d7192d732)
+  Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID2-a3445ff633e5483aa7c6525f325a687a)
 
-## Download 
-        Beta version
-[releases](https://github.com/fire1/ArduinoMid/releases)
+
 
 ## Printable PCB
-        Cumming soon ...
+   [Donwload printable PCB](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-pcb.pdf)
+   [Donwload components ](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-e.pdf)
+        
+        
+        
+## Donations
+     Every cent will be used for new futures
+   [Donate!](paypal.me/AngelZaprianov)
 
 
 
