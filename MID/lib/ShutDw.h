@@ -113,18 +113,16 @@ public:
 
     void saveShutdown() {
         if (tiggerSave) {
-
+            whl->shutdownMode();
             if (alreadySaved) {
                 digitalWrite(pinCtrl, LOW);
                 return;
             } else {
 
                 Serial.println("WARNING!  Writing EEP ROM data to chip...");
-
                 alreadySaved = 1;
                 melodySave();
                 eep->saveCurrentData();
-                whl->shutdownMode();
                 delay(2200);
                 digitalWrite(pinCtrl, LOW);
             }
