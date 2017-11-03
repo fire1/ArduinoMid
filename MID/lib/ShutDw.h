@@ -113,7 +113,7 @@ public:
 
     void saveShutdown() {
         if (tiggerSave) {
-            whl->shutdownMode();
+
             if (alreadySaved) {
                 digitalWrite(pinCtrl, LOW);
                 return;
@@ -123,6 +123,9 @@ public:
                 alreadySaved = 1;
                 melodySave();
                 eep->saveCurrentData();
+                whl->shutdownMode();
+                delay(100);
+                whl->shutdownMode();
                 delay(2200);
                 digitalWrite(pinCtrl, LOW);
             }

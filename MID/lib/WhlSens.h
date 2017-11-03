@@ -173,7 +173,7 @@ public:
         digitalWrite(pinDigPotCtr, LOW);
         analogWrite(pinMaskHide, HIGH);
         delay(5);
-        setDigitalPot(1);
+        setDigitalPot(0);
         delay(5);
         analogWrite(pinDigPotCtr, LOW);
 
