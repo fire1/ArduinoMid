@@ -79,7 +79,7 @@ The project sourcecode is based on Internet published information!_
 
 ## Printable PCB
    
-   [Donwload printable PCB lauers](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-pcb.pdf)
+   [Donwload printable PCB layers](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-pcb.pdf)
    
    [Donwload component outlines](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-e.pdf)
         
