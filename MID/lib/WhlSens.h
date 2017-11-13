@@ -138,7 +138,7 @@ public:
         setDigitalPot(resistance);
         delay(5); // Some separation fix
         digitalWrite(pinDigPotCtr, HIGH);
-        delay(1000);
+        delay(500);
         digitalWrite(pinMaskHide, HIGH);
 
 
@@ -170,12 +170,16 @@ public:
      * Change dig pod to shutdown mode
      */
     void shutdownMode(void) {
-        digitalWrite(pinDigPotCtr, LOW);
-        analogWrite(pinMaskHide, HIGH);
-        delay(5);
-        setDigitalPot(0);
-        delay(5);
-        analogWrite(pinDigPotCtr, LOW);
+        //
+        // New type
+        this->sendRadioButtons(1);
+        this->sendRadioButtons(1);
+//        digitalWrite(pinDigPotCtr, LOW);
+//        analogWrite(pinMaskHide, HIGH);
+//        delay(5);
+//        setDigitalPot(0);
+//        delay(5);
+//        analogWrite(pinDigPotCtr, LOW);
 
     }
 

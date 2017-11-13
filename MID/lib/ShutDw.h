@@ -124,8 +124,6 @@ public:
                 melodySave();
                 eep->saveCurrentData();
                 whl->shutdownMode();
-                delay(100);
-                whl->shutdownMode();
                 delay(2200);
                 digitalWrite(pinCtrl, LOW);
             }
