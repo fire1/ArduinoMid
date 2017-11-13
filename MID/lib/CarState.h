@@ -243,12 +243,7 @@ void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
     pinMode(pinC, INPUT_PULLUP);
     pinMode(pinW, INPUT_PULLUP);
     pinMode(pinB, INPUT_PULLUP);
-    //
-    // Force to be high
-    digitalWrite(pinO, HIGH);
-    digitalWrite(pinC, HIGH);
-    digitalWrite(pinW, HIGH);
-    digitalWrite(pinB, HIGH);
+
 
     pinMode(pinV, INPUT);
 

@@ -888,9 +888,10 @@ void EepRom::injectSerial(void) {
         // Steering buttons digPod inject
         if (srlStrName == "whl") {
             // Saves type
+            uint8_t vol = Serial.readStringUntil('+').toInt();
             saveTemp = Serial.readStringUntil('\n').toInt();
             srlOutputs = F("Wheel Simulate resistance ");
-            whl->sendRadioButtons((uint8_t)saveTemp);
+            whl->sendRadioButtons((uint8_t) saveTemp,  vol);
             srlOutputs += saveTemp;
         }
 

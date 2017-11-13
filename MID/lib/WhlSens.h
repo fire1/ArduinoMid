@@ -144,6 +144,33 @@ public:
 
     }
 
+    /**
+     *
+     * @param resistance
+     * @param voltage
+     */
+    void sendRadioButtons(uint8_t resistance, uint8_t voltage) {
+
+        uint8_t volts = (uint8_t) map(voltage, 0, 50, 0, 255);
+        Serial.print("WHL Current resistance ");
+        Serial.print(resistance);
+        Serial.print(" voltage ");
+        Serial.print(voltage);
+        Serial.print(" at ");
+        Serial.println(volts);
+
+        analogWrite(pinMaskHide, volts);
+        digitalWrite(pinDigPotCtr, LOW);
+
+        setDigitalPot(resistance);
+        delay(5); // Some separation fix
+        digitalWrite(pinDigPotCtr, HIGH);
+        delay(500);
+        digitalWrite(pinMaskHide, HIGH);
+
+
+    }
+
 
     /**
      *  GEts current pressed button
