@@ -8,7 +8,7 @@
 #include "AmpTime.h"
 
 #ifndef CAR_STT_A1_ALERT
-#define CAR_STT_A1_ALERT 60 // a wait minute
+#define CAR_STT_A1_ALERT 10 // a wait minute
 #endif
 
 #ifndef CAR_STT_A2_ALERT
@@ -16,7 +16,7 @@
 #endif
 
 #ifndef CAR_STT_A3_ALERT
-#define CAR_STT_A3_ALERT 180
+#define CAR_STT_A3_ALERT 130
 #endif
 
 #ifndef CAR_STT_TM_BELT
@@ -54,6 +54,7 @@ private:
 
 
     boolean alertState = 0;
+    boolean initAlertState = 0;
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     uint8_t cursorMenu = 0;
 
@@ -88,15 +89,23 @@ private:
         return false;
     }
 
-
+/**
+ *
+ * @param pin
+ * @param val
+ */
     void sensorDigital(uint8_t pin, uint8_t &val) {
-        if (digitalRead(pin)) {
+        if ((bool) digitalRead(pin)) {
             val++;
-            return;
-        }
-        val = 0;
+        } else
+            val = 0;
     }
 
+/**
+ *
+ * @param result
+ * @param val
+ */
     void sensorCustom(boolean result, uint8_t &val) {
         if (result) {
             val++;
@@ -105,16 +114,25 @@ private:
         val = 0;
     }
 
+/**
+ *
+ * @param value
+ * @return
+ */
     boolean isStateDisplay(uint8_t value) {
-        if (value == CAR_STT_A2_ALERT) {
+        if (value > CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
             return true;
         }
         return false;
     }
 
+/**
+ * Note this method do not change any value .. (unusable correctly)
+ * @param value
+ */
     void setStateShowed(uint8_t &value) {
-        //amp->is4Seconds()
-        value = CAR_STT_A3_ALERT;
+        if (value > CAR_STT_A2_ALERT + 5)
+            value = CAR_STT_A3_ALERT;
     }
 
 
@@ -125,7 +143,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {}
 
     void setWorkState(float distance);
 
@@ -140,49 +158,41 @@ public:
         if (isStateDisplay(result.oil)) {
             lcd->warnMotorOil();
             setStateShowed(result.oil);
-        }
-        else if (isStateDisplay(result.cnt)) {
+        } else if (isStateDisplay(result.cnt)) {
             lcd->warnCoolant();
             setStateShowed(result.cnt);
-        }
-        else if (isStateDisplay(result.win)) {
+        } else if (isStateDisplay(result.win)) {
             lcd->warnWasher();
             setStateShowed(result.win);
-        }
-        else if (isStateDisplay(result.brk)) {
+        } else if (isStateDisplay(result.brk)) {
             lcd->warnBreakWare();
             setStateShowed(result.brk);
-        }
-        else if (isStateDisplay(result.vol)) {
+        } else if (isStateDisplay(result.vol)) {
             lcd->warnBattery(this->getVoltage());
             setStateShowed(result.vol);
-        }
-        else if (isStateDisplay(result.la1)) {
+        } else if (isStateDisplay(result.la1)) {
             lcd->warnLightsFront();
             setStateShowed(result.la1);
-        }
-        else if (isStateDisplay(result.la2)) {
+        } else if (isStateDisplay(result.la2)) {
             lcd->warnLightsBack();
             setStateShowed(result.la2);
-        }
-        else if (isStateDisplay(result.blt)) {
+        } else if (isStateDisplay(result.blt)) {
             lcd->warnTmBelt();
             setStateShowed(result.blt);
-        }
-        else if (isStateDisplay(result.wnt)) {
+        } else if (isStateDisplay(result.wnt)) {
             lcd->warnWinter();
             setStateShowed(result.wnt);
-        }
-        else if (isStateDisplay(result.ovh)) {
+        } else if (isStateDisplay(result.ovh)) {
             lcd->warnOverheat();
             setStateShowed(result.ovh);
-        }
-        else { MidCursorMenu = cursorMenu; };
-
-
-        if (amp->is10Seconds()) { // TODO not access
+        } else {
             MidCursorMenu = cursorMenu; // return user to last usable screen
-        }
+        };
+
+//
+//        if (amp->is10Seconds()) { // TODO not access
+//
+//        }
     }
 
 
@@ -250,8 +260,11 @@ public:
             isStateAlert(result.win) || isStateAlert(result.vol) || isStateAlert(result.wnt) ||
             isStateAlert(result.ovh)) {
             alertState = 1;
-            cursorMenu = MidCursorMenu;
-            MidCursorMenu = MENU_SERVICE;
+            if (!initAlertState) {
+                cursorMenu = MidCursorMenu;
+                MidCursorMenu = MENU_SERVICE;
+                initAlertState = 1;
+            }
         }
     }
 

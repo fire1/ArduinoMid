@@ -302,7 +302,7 @@ private:
         if (currentState == STR_BTN_SKU) setDigitalPot(50);// seek up
         if (currentState == STR_BTN_SKD) setDigitalPot(70);// seek down
         if (currentState == STR_BTN_BCK) setDigitalPot(15);// back button
-        if (currentState == STR_BTN_NON) setDigitalPot(0);// return to default
+//        if (currentState == STR_BTN_NON) setDigitalPot(0);// return to default
 
     }
 

@@ -68,12 +68,12 @@ const char msg42[] PROGMEM = "Top up motor oil";
 // Warning Battery
 const char msg43[] PROGMEM = "ELECTRICAL MALFUNCTION!";
 const char msg44[] PROGMEM = "A voltage of: ";
-const char msg45[] PROGMEM = "which is not in working range";
+const char msg45[] PROGMEM = "not in work range";
 //
 // Warning breaks
 const char msg46[] PROGMEM = " WORN BRAKES!";
-const char msg47[] PROGMEM = "Determined pad wear in one of ";
-const char msg48[] PROGMEM = "the front breaks ";
+const char msg47[] PROGMEM = "Determined pad wear into ";
+const char msg48[] PROGMEM = " front breaks! ";
 //
 // Warning coolant
 const char msg49[] PROGMEM = " LOW COOLANT!";
@@ -82,24 +82,24 @@ const char msg51[] PROGMEM = "if is necessary add more.";
 //
 // Warning overheating
 const char msg52[] PROGMEM = " OVERHEATING!!!";
-const char msg53[] PROGMEM = "The temperature in the cooling ";
+const char msg53[] PROGMEM = "Engine temperature ";
 const char msg54[] PROGMEM = "is too high, overheating!";
 //
 // Warning window washer
 const char msg55[] PROGMEM = " LOW WINDOW WASHER!";
-const char msg56[] PROGMEM = "Window washer liquid is below";
-const char msg57[] PROGMEM = "25%. Please add more. ";
+const char msg56[] PROGMEM = "Check window washer ";
+const char msg57[] PROGMEM = "if is necessary add more.";
 //
 // Warning bulb
 const char msg58[] PROGMEM = " BULB BURN OUT ";
-const char msg59[] PROGMEM = "Incandescent  malfunction in: ";
-const char msg60[] PROGMEM = "Front lights ";
-const char msg61[] PROGMEM = "Back lights ";
+const char msg59[] PROGMEM = "Incandescent malfunction";
+const char msg60[] PROGMEM = "In front lights ";
+const char msg61[] PROGMEM = "In back lights ";
 //
 // Warning timing  Belt ware
 const char msg62[] PROGMEM = " WORN TIMING BELT";
-const char msg63[] PROGMEM = "Timing belt needs replacement ";
-const char msg64[] PROGMEM = "After change reset servicing";
+const char msg63[] PROGMEM = "Timing belt worn-out";
+const char msg64[] PROGMEM = "After change reset data";
 //
 // Warning Air filter ware @deprecated
 const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT ";
@@ -114,7 +114,6 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
         msg61, msg62, msg63, msg64, msg65, msg66, msg67
 };
-
 
 
 #endif //ARDUINOMID_EN_H_H
