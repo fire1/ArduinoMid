@@ -409,6 +409,4 @@ boolean CarState::isAlert() {
 }
 
 
-}
-
 #endif //ARDUINOMID_CARSTAT_H
