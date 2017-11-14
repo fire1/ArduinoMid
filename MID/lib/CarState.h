@@ -7,8 +7,16 @@
 
 #include "AmpTime.h"
 
-#ifndef CAR_STT_AC_ALERT
-#define CAR_STT_AC_ALERT 6 // a wait minute
+#ifndef CAR_STT_A1_ALERT
+#define CAR_STT_A1_ALERT 60 // a wait minute
+#endif
+
+#ifndef CAR_STT_A2_ALERT
+#define CAR_STT_A2_ALERT 120
+#endif
+
+#ifndef CAR_STT_A3_ALERT
+#define CAR_STT_A3_ALERT 180
 #endif
 
 #ifndef CAR_STT_TM_BELT
@@ -21,17 +29,16 @@
 
 
 struct Diagnostic {
-    boolean all;    // All combined
-    boolean oil;    // oil level
-    boolean cnt;    // Coolant level
-    boolean win;    // Window washer level
-    boolean brk;    // Brake ware
-    boolean vol;    // Car Voltage
-    boolean blt;    // Belt ware change
-    boolean la1;    // 1 Incandescent lamps
-    boolean la2;    // 2 incandescent lamps
-    boolean wnt;    // Winter warning
-    boolean ovh;    // Overheating warning
+    uint8_t oil;    // oil level
+    uint8_t cnt;    // Coolant level
+    uint8_t win;    // Window washer level
+    uint8_t brk;    // Brake ware
+    uint8_t vol;    // Car Voltage
+    uint8_t blt;    // Belt ware change
+    uint8_t la1;    // 1 Incandescent lamps
+    uint8_t la2;    // 2 incandescent lamps
+    uint8_t wnt;    // Winter warning
+    uint8_t ovh;    // Overheating warning
 };
 
 /**
@@ -44,31 +51,14 @@ private:
 
     AmpTime *amp;
     CarSens *car;
-    int lastVoltageValue = 0;
-    float workDistance;
 
-    uint8_t alertState = 0;
 
-    boolean userWarnStack[11];
+    boolean alertState = 0;
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     uint8_t cursorMenu = 0;
-    uint8_t lastUserWarn = 0;
 
-
-    /**
-     * Checks given state index
-     */
-    boolean isRecordedState(const uint8_t index) {
-        return userWarnStack[index];
-    }
-
-    /**
-     * Adds state index
-     */
-    boolean addState(const uint8_t index, const boolean value) {
-        lastUserWarn = index;
-        userWarnStack[index] = value;
-    }
+    int lastVoltageValue = 0;
+    float workDistance;
 
 
 /**
@@ -98,6 +88,36 @@ private:
         return false;
     }
 
+
+    void sensorDigital(uint8_t pin, uint8_t &val) {
+        if (digitalRead(pin)) {
+            val++;
+            return;
+        }
+        val = 0;
+    }
+
+    void sensorCustom(boolean result, uint8_t &val) {
+        if (result) {
+            val++;
+            return;
+        }
+        val = 0;
+    }
+
+    boolean isStateDisplay(uint8_t value) {
+        if (value == CAR_STT_A2_ALERT) {
+            return true;
+        }
+        return false;
+    }
+
+    void setStateShowed(uint8_t &value) {
+        //amp->is4Seconds()
+        value = CAR_STT_A3_ALERT;
+    }
+
+
 public:
     static constexpr uint8_t MENU_SERVICE = 101;
 
@@ -117,45 +137,45 @@ public:
     void menu(LcdUiInterface *lcd) {
 
 
-        if (result.oil) {
+        if (isStateDisplay(result.oil)) {
             lcd->warnMotorOil();
-            addState(1, true);
+            setStateShowed(result.oil);
         }
-        else if (result.cnt) {
+        else if (isStateDisplay(result.cnt)) {
             lcd->warnCoolant();
-            addState(2, true);
+            setStateShowed(result.cnt);
         }
-        else if (result.win) {
+        else if (isStateDisplay(result.win)) {
             lcd->warnWasher();
-            addState(3, true);
+            setStateShowed(result.win);
         }
-        else if (result.brk) {
+        else if (isStateDisplay(result.brk)) {
             lcd->warnBreakWare();
-            addState(4, true);
+            setStateShowed(result.brk);
         }
-        else if (result.vol) {
+        else if (isStateDisplay(result.vol)) {
             lcd->warnBattery(this->getVoltage());
-            addState(5, true);
+            setStateShowed(result.vol);
         }
-        else if (result.la1) {
+        else if (isStateDisplay(result.la1)) {
             lcd->warnLightsFront();
-            addState(6, true);
+            setStateShowed(result.la1);
         }
-        else if (result.la2) {
+        else if (isStateDisplay(result.la2)) {
             lcd->warnLightsBack();
-            addState(7, true);
+            setStateShowed(result.la2);
         }
-        else if (result.blt) {
+        else if (isStateDisplay(result.blt)) {
             lcd->warnTmBelt();
-            addState(8, true);
+            setStateShowed(result.blt);
         }
-        else if (result.wnt) {
+        else if (isStateDisplay(result.wnt)) {
             lcd->warnWinter();
-            addState(9, true);
+            setStateShowed(result.wnt);
         }
-        else if (result.ovh) {
+        else if (isStateDisplay(result.ovh)) {
             lcd->warnOverheat();
-            addState(10, true);
+            setStateShowed(result.ovh);
         }
         else { MidCursorMenu = cursorMenu; };
 
@@ -192,13 +212,44 @@ public:
  */
     void begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV);
 
-    void listener();
+    void listener() {
+        if (amp->isSecond()) {
+
+            sensorDigital(pinOil, result.oil);
+            sensorDigital(pinBrk, result.brk);
+            sensorDigital(pinCnt, result.cnt);
+            sensorDigital(pinWin, result.win);
+
+            sensorCustom(isWinter(), result.wnt);
+            sensorCustom(isOverhead(), result.ovh);
+            sensorCustom(isBadVoltage(), result.vol);
+            sensorCustom(workDistance > CAR_STT_TM_BELT, result.blt);
+        }
+
+        //
+        // Handle menu cursor
+        cursor();
+    };
+
+
+    boolean isStateAlert(uint8_t &container) {
+        if (container > CAR_STT_A1_ALERT && container < CAR_STT_A2_ALERT && amp->is4Seconds()) {
+            container = CAR_STT_A2_ALERT;
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * Changes menu cursor
      */
     void cursor() {
-        if (amp->is4Seconds() && this->isAlert() && !lastUserWarn) {
+
+        if (isStateAlert(result.oil) || isStateAlert(result.brk) || isStateAlert(result.cnt) ||
+            isStateAlert(result.win) || isStateAlert(result.vol) || isStateAlert(result.wnt) ||
+            isStateAlert(result.ovh)) {
+            alertState = 1;
             cursorMenu = MidCursorMenu;
             MidCursorMenu = MENU_SERVICE;
         }
@@ -259,7 +310,7 @@ void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
 /**
  * Readings states
  */
-void CarState::listener() {
+/*void CarState::_listener() {
     if (amp->is10Seconds()) {
         result.oil = (boolean) digitalRead(pinOil);
         result.brk = (boolean) digitalRead(pinBrk);
@@ -281,10 +332,8 @@ void CarState::listener() {
             alertState++;
         }
     }
-    //
-    // Handle menu cursor
-    cursor();
-}
+
+}*/
 
 
 /**
@@ -356,19 +405,8 @@ Diagnostic CarState::getResult() {
  * @return boolean
  */
 boolean CarState::isAlert() {
-
-    if (alertState >= CAR_STT_AC_ALERT) {
-        //
-        // Check for older state
-        if (isRecordedState(lastUserWarn)) {
-            alertState = 0;
-            return false;
-        }
-        return true;
-    }
-
-
-    return false;
+    return alertState;
+}
 
 
 }
