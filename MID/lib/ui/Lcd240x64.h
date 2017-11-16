@@ -42,6 +42,8 @@
 #define LCD_COL_R22 215
 #define LCD_COL_R23 230
 
+#define LCD_PADDING  5
+
 #define LCD_ICO_HIGH 2
 #define LCD_ENTRY_FRAME 2
 
@@ -77,6 +79,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     uint8_t tripActive = 1;
     uint8_t tripCompare = 1;
     uint8_t tripReset = 0;
+    uint8_t wordWidth = 0;
 
     //
     // from 14 to 64
@@ -133,7 +136,34 @@ public:
 //        lcd->setAutoPageClear(1);
     }
 
+/**
+ *
+ * @param col
+ * @param row
+ * @param before
+ * @param tag
+ */
+    void showTag(uint8_t col, uint8_t row, const char *before, uint8_t tag, uint8_t padding = LCD_PADDING) {
+        wordWidth = lcd->getStrWidth(before);
+        lcd->drawStr(col + wordWidth + padding, row, getMsg(tag));
+    }
+
+/**
+ *
+ * @param col
+ * @param row
+ * @param before
+ * @param data
+ * @param padding
+ */
+    void showDin(uint8_t col, uint8_t row, const char *before, const char *data, uint8_t padding = LCD_PADDING) {
+        wordWidth = lcd->getStrWidth(before);
+        lcd->drawStr(col + padding + wordWidth, row, data);
+    }
+
     /****************************************************************
+
+
 
 /**
  * Draws shutdown begin for trip save
@@ -525,8 +555,9 @@ private:
  * @param x
  * @param y
  */
-    inline void showCels(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
+    void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *before, uint8_t padding = LCD_PADDING) {
+        wordWidth = lcd->getStrWidth(before);
+        lcd->drawXBMP(x + padding + wordWidth, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
     }
 
 /**
@@ -544,7 +575,11 @@ private:
         lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
         displayFloat(eep->getConsumedFuel(), char_3);
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
-        showLiter(LCD_COL_L22, LCD_ROW_1);
+        wordWidth = lcd->getStrWidth(char_3);
+
+        lcd->drawStr(LCD_COL_L22, LCD_ROW_1, getMsg(68));
+//        this->showTag(LCD_COL_L12, LCD_ROW_1, char_3, 68);
+//        showLiter(LCD_COL_L22, LCD_ROW_1);
         //
         // When have several fuel lines
 #ifdef LPG_SWITCHING_DETECT
@@ -584,8 +619,7 @@ private:
         //
         displayFloat(car->getTmpOut(), char_3);
         lcd->drawStr(45, LCD_ROW_3, char_3);
-        uint8_t wStr = lcd->getStrWidth(char_3);
-        this->showCels(45 + wStr + 5, LCD_ROW_3);
+        this->showCels(45, LCD_ROW_3, char_3);
 
 
         if (car->getTmpIns() < -99) {
@@ -595,8 +629,8 @@ private:
             // Data
             displayFloat(car->getTmpIns(), char_3);
             lcd->drawStr(45, LCD_ROW_4, char_3);
-            wStr = lcd->getStrWidth(char_3);
-            this->showCels(45 + wStr + 5, LCD_ROW_4);
+            wordWidth = lcd->getStrWidth(char_3);
+            this->showCels(45, LCD_ROW_4, char_3);
         }
     }
 
@@ -612,18 +646,25 @@ private:
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_4);
-        showKm(LCD_COL_R22, LCD_ROW_1);
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, getMsg(69));
+//        this->showTag(LCD_COL_R22, LCD_ROW_1, char_4, 69, 0);
+//        showKm(LCD_COL_R22, LCD_ROW_1);
         //
         // Travel time
+        car->getHTm(saved.time_trp, char_5);
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, car->getHTm(saved.time_trp));
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_2, "h");
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_5);
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_2, getMsg(70));
+//        this->showTag(LCD_COL_R22, LCD_ROW_2, char_5, 70, 0);
+//        lcd->drawStr(LCD_COL_R22, LCD_ROW_2, "h");
         //
         // Average speed
         showAverage(LCD_COL_R11, LCD_ROW_3);
         sprintf(char_2, "%02d", car->getAvrVss());
         lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_2);
-        showKm(LCD_COL_R22, LCD_ROW_3);
+        lcd->drawStr(LCD_COL_R22, LCD_ROW_3, getMsg(69));
+//        this->showTag(LCD_COL_R22, LCD_ROW_3, char_5, 69, 0);
+//        showKm(LCD_COL_R22, LCD_ROW_3);
         //
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
@@ -632,8 +673,8 @@ private:
         if (car->getVss() > 0) {
             showL100km(LCD_COL_R22, LCD_ROW_4);
         } else {
-            lcd->setCursor(LCD_COL_R22, LCD_ROW_4);
-            lcd->print(F("L/h"));
+            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, getMsg(71));
+//            this->showTag(LCD_COL_R22, LCD_ROW_4, char_3, 71, 0);
         }
 
     }
@@ -682,7 +723,7 @@ private:
         lcd->drawStr(LCD_COL_R11, LCD_ROW_2, "ENG:");
         sprintf(char_3, "%03d", car->getEngTmp());
         lcd->drawStr(LCD_COL_R21, LCD_ROW_2, char_3);
-        this->showCels(LCD_COL_R23, LCD_ROW_2);
+        this->showCels(LCD_COL_R23, LCD_ROW_2, char_3);
     }
 
     void displayCarGrs() {

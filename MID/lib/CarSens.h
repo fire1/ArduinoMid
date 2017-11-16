@@ -661,6 +661,13 @@ public:
     char *getHTm(float saved = 0);
 
     /**
+     *
+     * @param saved
+     * @param dspTime
+     */
+    void getHTm(float saved, char *dspTime);
+
+    /**
      *  Gets current Distance
      */
     inline float getDst() { return float(CUR_VDS); }
@@ -1147,6 +1154,24 @@ char *CarSens::getHTm(float saved) {
     return dspTime;
 };
 
+void CarSens::getHTm(float saved, char *dspTime) {
+
+//    char dspTime[6] = "00:00";
+    unsigned long tmSec;
+    int tmMin, tmHrs;
+
+    tmSec = millis() / 1000;
+    tmMin = int(tmSec / 60);
+    tmHrs = tmMin / 60;
+
+    int old[1];
+    separateFloat(saved, old);
+    /* 11 = len of clock time + 1 char for \0*/
+
+    sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
+
+};
+
 /**
  *  Sensing Screen DIM
  */
@@ -1359,7 +1384,7 @@ void CarSens::sensTmp() {
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
-        temperatureC =(map(readings, 3440, 1170, 94, 403) * 0.1);
+        temperatureC = (map(readings, 3440, 1170, 94, 403) * 0.1);
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
 

@@ -274,6 +274,7 @@ protected:
     char char_2[3];
     char char_3[4];
     char char_4[5];
+    char char_5[6];
     char char_6[7];
     char char_7[8];
 
