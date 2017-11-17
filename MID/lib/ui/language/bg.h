@@ -106,13 +106,18 @@ const char msg65[] PROGMEM = " НУЖНА СМЯНА ВЪЗДУШЕН/МАСЛЕ
 const char msg66[] PROGMEM = "Въздушният филтър се сменя на над";
 const char msg67[] PROGMEM = "42000km (След смяна нулирайте данните)";
 //
+// Value tags
+const char msg68[] PROGMEM = "л";
+const char msg69[] PROGMEM = "км";
+const char msg70[] PROGMEM = "ч";
+const char msg71[] PROGMEM = "л/ч";
+//
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
         msg0, msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11, msg12, msg13, msg14, msg15,
         msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30,
         msg31, msg32, msg33, msg34, msg35, msg36, msg37, msg38, msg39, msg40, msg41, msg42, msg43, msg44, msg45,
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
-        msg61, msg62, msg63, msg64, msg65, msg66, msg67
+        msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71
 };
-
 #endif //ARDUINOMID_EN_H_H
