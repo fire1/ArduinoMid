@@ -438,7 +438,11 @@ protected:
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
+
+//        lcd->drawStr(0,0,"\xabАБВГ");
+//        lcd->drawStr(0,0,"\xyzАБВГ");
     }
+
 
     void useUtf8() {
         lcd->setFont(u8g2_font_unifont_t_symbols);
