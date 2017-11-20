@@ -571,7 +571,7 @@ private:
 //        lcd->drawXBMP(/*58*/x + 8, y + LCD_ICO_HIGH, 10, 8, mark_100_10x8_bits);
 //        lcd->drawXBMP(/*69*/x + 19, y + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
         lcd->drawStr(x, y, getMsg(68));
-        lcd->drawXBMP(x + 8, y, 16, 12, per100km_16x13_bits);
+        lcd->drawXBMP(x + 10, y + (LCD_ICO_HIGH / 2), 16, 9, per100km_16x9_bits);
 
     }
 

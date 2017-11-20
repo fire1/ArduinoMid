@@ -1375,7 +1375,7 @@ void CarSens::sensTmp() {
      * ~  9     °C      value 335 <- guess
      */
 
-    if (amp->isSecond()) {
+    if (isInitializedLoop || amp->isSecond()) {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
         if (this->getVss() > 2 && this->getVss() < 30) {
@@ -1386,7 +1386,7 @@ void CarSens::sensTmp() {
         } else
             //
             // Cold engine
-        if (this->getEngTmp() < 85  && this->getVss() == 0) {
+        if (isInitializedLoop || this->getEngTmp() < 85 && this->getVss() == 0) {
             temperatureOutCollection += liveTemperatureValue;
             temperatureOutIndex++;
         }
@@ -1396,7 +1396,7 @@ void CarSens::sensTmp() {
     if (isInitializedLoop || amp->is10Seconds()) {
         //
         // Get more precise average value
-        uint16_t readings = uint16_t(double(temperatureOutCollection / temperatureOutIndex) * 10);
+        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex * 10);
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
