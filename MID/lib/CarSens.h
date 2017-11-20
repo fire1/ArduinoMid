@@ -1325,7 +1325,7 @@ uint8_t CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
-#define DEBUG_TEMPERATURE_OU
+//#define DEBUG_TEMPERATURE_OU
 
 /**
  * Temperature sensing
@@ -1355,6 +1355,7 @@ void CarSens::sensTmp() {
 
     /******************************* Car's temperature sensor ******************************************/
     float temperatureC;
+    uint16_t liveTemperatureValue;
     /**
      * About GM Temperature sensor
      *      Temperature range to [°C]: 250
@@ -1373,9 +1374,25 @@ void CarSens::sensTmp() {
      * ~  15    °C      value 293 <- guess
      * ~  9     °C      value 335 <- guess
      */
-    uint16_t liveTemperatureValue;
-    temperatureOutCollection += liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
-    temperatureOutIndex++;
+
+    if (amp->isSecond()) {
+        liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
+
+        if (this->getVss() > 2 && this->getVss() < 30) {
+            //
+            // Usable value
+            temperatureOutCollection += liveTemperatureValue;
+            temperatureOutIndex++;
+        } else
+            //
+            // Cold engine
+        if (this->getEngTmp() < 85  && this->getVss() == 0) {
+            temperatureOutCollection += liveTemperatureValue;
+            temperatureOutIndex++;
+        }
+    }
+
+
     if (isInitializedLoop || amp->is10Seconds()) {
         //
         // Get more precise average value
