@@ -11,7 +11,11 @@ _This project is rebuild of on-board computer for Vauxhall/Opel vehicles
 In this project is used Mega2560 RV3 board.
 The project sourcecode is based on Internet published information!_
 
-* Source code is in "MID" folder
+## Quick Notes
+* Source code is in "MID" folder. Uploading softer use MID.ino file.
+* Before uploading check software configuration in MID.h file.  
+* Configuration is suppurated  is over two files, default MID.h and your custom conf.h
+* Make your custom configuration into conf.h file 
 * Used libraries are in "libraries" folder [zip them for importing]
 
 ## Version 
