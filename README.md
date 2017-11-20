@@ -92,7 +92,8 @@ The project sourcecode is based on Internet published information!_
 ## Donations
     Every cent will be used for new futures. 
     Keep in mind I spend a lot of money and time over this project... 
-    also my girlfriend promise me to lock me into a garage 
+    
+    Also my girlfriend promise me to lock me into a garage 
     if I do not stop spending money  here ... so  ... HELP! ;)
     
 ### [Donate!](https://paypal.me/AngelZaprianov)
