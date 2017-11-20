@@ -609,10 +609,10 @@ private:
 #ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
-            this->showIconBnz(LCD_COL_L23 + 12, LCD_ROW_1);
+            this->showIconBnz(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
         } else {
 //            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
-            this->showIconLpg(LCD_COL_L23 + 12, LCD_ROW_1);
+            this->showIconLpg(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
         }
 #endif
 
@@ -643,7 +643,7 @@ private:
         //
         displayFloat(car->getTmpOut(), char_3);
         lcd->drawStr(45, LCD_ROW_3, char_3);
-        this->showCels(LCD_COL_L23 - 10, LCD_ROW_3);
+        this->showCels(LCD_COL_L23 - 6, LCD_ROW_3);
 
 //        lcd->drawGlyph(LCD_COL_L22, LCD_ROW_3, 0x2103);
 
@@ -656,7 +656,7 @@ private:
             displayFloat(car->getTmpIns(), char_3);
             lcd->drawStr(45, LCD_ROW_4, char_3);
             wordWidth = lcd->getStrWidth(char_3);
-            this->showCels(LCD_COL_L23 - 10, LCD_ROW_4);
+            this->showCels(LCD_COL_L23 - 6, LCD_ROW_4);
         }
 //        lcd->setCursor(LCD_COL_L22, LCD_ROW_4);
 //        lcd->print("~АА");
@@ -697,15 +697,25 @@ private:
 //        showKm(LCD_COL_R22, LCD_ROW_3);
         //
         // Instant cons per 100km
+//        showAverage(LCD_COL_R11, LCD_ROW_4);
         showInstant(LCD_COL_R11, LCD_ROW_4);
-        displayFloat(car->getIfcAvr(), char_3);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
-        if (car->getVss() > 0) {
-            showL100km(LCD_COL_R22, LCD_ROW_4);
-        } else {
-            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, getMsg(71));
-//            this->showTag(LCD_COL_R22, LCD_ROW_4, char_3, 71, 0);
+//        displayFloat(car->getIfcAvr(), char_3);
+        float dataFuel;
+        if (car->getFuelState() == 0) { // BNZ [default]
+            dataFuel = car->getDefFuelCns();
         }
+        if (car->getFuelState() == 1) { // LPG [additional]
+            dataFuel = car->getAdtFuelCns();
+        }
+        displayFloat(((dataFuel + car->getAdtFuelCns()) * 100) / car->getDst(), char_3);
+        lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
+        showL100km(LCD_COL_R22, LCD_ROW_4);
+//        if (car->getVss() > 0) {
+//            showL100km(LCD_COL_R22, LCD_ROW_4);
+//        } else {
+//            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, getMsg(71));
+////            this->showTag(LCD_COL_R22, LCD_ROW_4, char_3, 71, 0);
+//        }
 
     }
 
