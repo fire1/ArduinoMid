@@ -12,7 +12,7 @@ In this project is used Mega2560 RV3 board.
 The project sourcecode is based on Internet published information!_
 
 ## Quick Notes
-* Source code is in "MID" folder. Uploading softer use MID.ino file.
+* Source code is in "MID" folder. To upload  softer use MID.ino file.
 * Before uploading check software configuration in MID.h file.  
 * Configuration is suppurated  is over two files, default MID.h and your custom conf.h
 * Make your custom configuration into conf.h file 
