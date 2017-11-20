@@ -1389,11 +1389,16 @@ void CarSens::sensTmp() {
         if (isInitializedLoop || this->getEngTmp() < 85 && this->getVss() == 0) {
             temperatureOutCollection += liveTemperatureValue;
             temperatureOutIndex++;
+        } else {
+            // TODO Add referece  value
+//            temperatureOutCollection = temperatureOutCollection;
+//            temperatureOutIndex++;
         }
+
     }
 
 
-    if (isInitializedLoop || amp->is10Seconds()) {
+    if (isInitializedLoop || amp->is10Seconds() && temperatureOutCollection > 0) {
         //
         // Get more precise average value
         uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex * 10);

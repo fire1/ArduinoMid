@@ -707,7 +707,11 @@ private:
         if (car->getFuelState() == 1) { // LPG [additional]
             dataFuel = car->getAdtFuelCns();
         }
-        displayFloat(((dataFuel + car->getAdtFuelCns()) * 100) / car->getDst(), char_3);
+        float result = ((dataFuel + car->getAdtFuelCns()) * 100) / car->getDst();
+        if (result > 100) {
+            result = 0;
+        }
+        displayFloat(result, char_3);
         lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
         showL100km(LCD_COL_R22, LCD_ROW_4);
 //        if (car->getVss() > 0) {
