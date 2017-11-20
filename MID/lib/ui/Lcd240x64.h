@@ -132,7 +132,7 @@ public:
     void begin(void) {
         lcd->begin();
         useDefaultMode();
-//        lcd->enableUTF8Print();
+        lcd->enableUTF8Print();
 //        lcd->setAutoPageClear(1);
     }
 
@@ -187,7 +187,25 @@ public:
 
     }
 
+
+    void HeaderIcons() {
+        this->setFont(u8g2_font_unifont_t_symbols);
+        float temperature = car->getTmpOut();
+        if (temperature > 20) {
+            lcd->drawGlyph(1, 1, 0x2600);
+        } else if (temperature < 20 && temperature > 0) {
+            lcd->drawGlyph(1, 1, 0x2601);
+        } else if (temperature < 0) {
+            lcd->drawGlyph(1, 1, 0x2603);
+        } else {
+            lcd->drawGlyph(1, 1, 0x2610);
+        }
+
+
+    }
+
     void showHeader(const char *title) {
+        lcd->enableUTF8Print();
         lcd->drawLine(0, 13, 240, 12);
 
         if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
@@ -198,7 +216,7 @@ public:
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
-        lcd->drawStr(12, 1, title);
+        lcd->drawStr(15, 1, title);
 
 
     }
@@ -317,6 +335,8 @@ public:
         this->currentFont = font;
         this->changedFont = true;
     }
+    //
+    // TODO reset to default font...
 
     void drawFont() {
         if (this->changedFont) {
@@ -439,8 +459,6 @@ protected:
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
 
-//        lcd->drawStr(0,0,"\xabАБВГ");
-//        lcd->drawStr(0,0,"\xyzАБВГ");
     }
 
 
@@ -549,9 +567,12 @@ private:
  * @param y
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(/*50*/x, y + LCD_ICO_HIGH, 8, 8, mark_liter_per_8x8_bits);
-        lcd->drawXBMP(/*58*/x + 8, y + LCD_ICO_HIGH, 10, 8, mark_100_10x8_bits);
-        lcd->drawXBMP(/*69*/x + 19, y + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
+//        lcd->drawXBMP(/*50*/x, y + LCD_ICO_HIGH, 8, 8, mark_liter_per_8x8_bits);
+//        lcd->drawXBMP(/*58*/x + 8, y + LCD_ICO_HIGH, 10, 8, mark_100_10x8_bits);
+//        lcd->drawXBMP(/*69*/x + 19, y + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
+        lcd->drawStr(x, y, getMsg(68));
+        lcd->drawXBMP(x + 8, y, 16, 12, per100km_16x13_bits);
+
     }
 
 /**
@@ -559,9 +580,8 @@ private:
  * @param x
  * @param y
  */
-    void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *before, uint8_t padding = LCD_PADDING) {
-        wordWidth = lcd->getStrWidth(before);
-        lcd->drawXBMP(x + padding + wordWidth, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
+    void showCels(u8g2_uint_t x, u8g2_uint_t y) {
+        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
     }
 
 /**
@@ -623,7 +643,9 @@ private:
         //
         displayFloat(car->getTmpOut(), char_3);
         lcd->drawStr(45, LCD_ROW_3, char_3);
-        this->showCels(45, LCD_ROW_3, char_3);
+        this->showCels(LCD_COL_L23 - 10, LCD_ROW_3);
+
+//        lcd->drawGlyph(LCD_COL_L22, LCD_ROW_3, 0x2103);
 
 
         if (car->getTmpIns() < -99) {
@@ -634,8 +656,12 @@ private:
             displayFloat(car->getTmpIns(), char_3);
             lcd->drawStr(45, LCD_ROW_4, char_3);
             wordWidth = lcd->getStrWidth(char_3);
-            this->showCels(45, LCD_ROW_4, char_3);
+            this->showCels(LCD_COL_L23 - 10, LCD_ROW_4);
         }
+//        lcd->setCursor(LCD_COL_L22, LCD_ROW_4);
+//        lcd->print("~АА");
+//        lcd->drawGlyph(LCD_COL_L22, LCD_ROW_3, 0x2103);
+
     }
 
 /**
@@ -727,7 +753,7 @@ private:
         lcd->drawStr(LCD_COL_R11, LCD_ROW_2, "ENG:");
         sprintf(char_3, "%03d", car->getEngTmp());
         lcd->drawStr(LCD_COL_R21, LCD_ROW_2, char_3);
-        this->showCels(LCD_COL_R23, LCD_ROW_2, char_3);
+        this->showCels(LCD_COL_R23, LCD_ROW_2);
     }
 
     void displayCarGrs() {

@@ -168,6 +168,6 @@ void loop() {
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
     eepRom.injectSerial();
-}
 
+}
 

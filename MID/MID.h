@@ -1,5 +1,5 @@
 //
-// Created by Angel Zaprianov on 10.2.2017 г..
+// Created by Angel Zaprianov on 10.2.2017 ÃƒÆ’Ã¯Â¿Â½Ãƒâ€šÃ‚Â³..
 //
 
 #ifndef ARDUINO_MID_H
