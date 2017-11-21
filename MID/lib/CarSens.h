@@ -1376,6 +1376,8 @@ void CarSens::sensTmp() {
      * ~  9     °C      value 335 <- guess
      */
 
+    //
+    // TODO use ResponsiveAnalogRead driver
     if (isInitializedLoop || amp->isMax()) {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
