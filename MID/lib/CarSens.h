@@ -287,6 +287,7 @@ private:
     // Instant Fuel consumption counter
     uint16_t indexIfc;
     uint16_t temperatureOutIndex = 0;
+    uint16_t temperatureOutFirst = 0;
     //
     uint16_t smoothEngineTemp;
     uint16_t smoothFuelTank;
@@ -1375,10 +1376,11 @@ void CarSens::sensTmp() {
      * ~  9     °C      value 335 <- guess
      */
 
-    if (isInitializedLoop || amp->isSecond()) {
+    if (isInitializedLoop || amp->isMax()) {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
-        if (this->getVss() > 2 && this->getVss() < 30) {
+
+        if (this->getVss() > 5 && this->getVss() < 30) {
             //
             // Usable value
             temperatureOutCollection += liveTemperatureValue;
@@ -1389,10 +1391,15 @@ void CarSens::sensTmp() {
         if (isInitializedLoop || this->getEngTmp() < 85 && this->getVss() == 0) {
             temperatureOutCollection += liveTemperatureValue;
             temperatureOutIndex++;
+            //
+            // Add reference temperature
+            if (isInitializedLoop)
+                temperatureOutFirst = liveTemperatureValue;
+
         } else {
-            // TODO Add referece  value
-//            temperatureOutCollection = temperatureOutCollection;
-//            temperatureOutIndex++;
+            // TODO Test reference  value
+            temperatureOutCollection += temperatureOutFirst;
+            temperatureOutIndex++;
         }
 
     }
