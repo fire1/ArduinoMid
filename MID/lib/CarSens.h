@@ -1382,7 +1382,7 @@ void CarSens::sensTmp() {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
 
-        if (this->getVss() > 5) {
+        if (this->getVss() > 2 && this->getVss() < 15) {
             //
             // Usable value
             temperatureOutCollection += liveTemperatureValue;
@@ -1399,13 +1399,12 @@ void CarSens::sensTmp() {
                 temperatureOutFirst = liveTemperatureValue;
         } else {
             // TODO Test reference  value
-            temperatureOutCollection += temperatureOutFirst;
+            temperatureOutCollection += (temperatureOutFirst + temperatureOutCollection) / 2;
             temperatureOutIndex++;
         }
 
     }
 
-    float Rcv = 1.34756; // resistor correction value
 
     if (isInitializedLoop || amp->is10Seconds() && temperatureOutCollection > 0) {
         //
@@ -1417,10 +1416,14 @@ void CarSens::sensTmp() {
         // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
         temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
 
+        //
+        // Wind chill patch
+#if defined (WIND_CHILD)
         // TODO tests for verification
         // WIND CHILL calculations
         float avrSpeed = this->getAvrVss();
         if (this->getVss() > 3 && avrSpeed > 5 && temperatureOutFirst < 18) {
+        float Rcv = 1.34756; // resistor correction value
             //
             // Formula for vehicle speed coefficient
             uint8_t vehicleSpeed = (uint8_t) ((this->getVss()) + avrSpeed) / 2;
@@ -1438,6 +1441,7 @@ void CarSens::sensTmp() {
             temperatureC = ((13.12 * Rcv) - 0.6215 / temperatureC - 11.37 / pow(vehicleSpeed, 0.16) -
                             0.3965 / temperatureC / pow(vehicleSpeed, 0.16));
         }
+#endif
         //
         // Keep current value for more smooth data
         temperatureOutCollection = (readings * 3) / 10;
