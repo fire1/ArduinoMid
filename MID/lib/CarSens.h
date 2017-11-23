@@ -1382,7 +1382,7 @@ void CarSens::sensTmp() {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
 
-        if (this->getVss() > 5 && this->getVss() < 30) {
+        if (this->getVss() > 5) {
             //
             // Usable value
             temperatureOutCollection += liveTemperatureValue;
@@ -1390,14 +1390,13 @@ void CarSens::sensTmp() {
         } else
             //
             // Cold engine
-        if (isInitializedLoop || this->getEngTmp() < 85 && this->getVss() == 0) {
+        if (isInitializedLoop || this->getEngTmp() < 90 && this->getVss() == 0) {
             temperatureOutCollection += liveTemperatureValue;
             temperatureOutIndex++;
             //
             // Add reference temperature
             if (isInitializedLoop)
                 temperatureOutFirst = liveTemperatureValue;
-
         } else {
             // TODO Test reference  value
             temperatureOutCollection += temperatureOutFirst;
@@ -1406,6 +1405,7 @@ void CarSens::sensTmp() {
 
     }
 
+    float Rcv = 1.34756; // resistor correction value
 
     if (isInitializedLoop || amp->is10Seconds() && temperatureOutCollection > 0) {
         //
@@ -1416,6 +1416,30 @@ void CarSens::sensTmp() {
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
         temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
+
+        // TODO tests for verification
+        // WIND CHILL calculations
+        float avrSpeed = this->getAvrVss();
+        if (this->getVss() > 3 && avrSpeed > 5 && temperatureOutFirst < 18) {
+            //
+            // Formula for vehicle speed coefficient
+            uint8_t vehicleSpeed = (uint8_t) ((this->getVss()) + avrSpeed) / 2;
+            /*
+                 temperatureC    is temperature
+                 vehicleSpeed    is wind speed
+                ^0.16            is an exponent.
+
+                If using ºF and mph:    Wind chill temperature = 35.74 + 0.6215T - 35.75V0.16 + 0.4275TV0.16
+                If using ºC and km/h:   Wind chill temperature = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16
+
+             */
+            //
+            // Formula for Wind Chill reversed to remove effect of wind
+            temperatureC = ((13.12 * Rcv) - 0.6215 / temperatureC - 11.37 / pow(vehicleSpeed, 0.16) -
+                            0.3965 / temperatureC / pow(vehicleSpeed, 0.16));
+        }
+        //
+        // Keep current value for more smooth data
         temperatureOutCollection = (readings * 3) / 10;
         temperatureOutIndex = 2;
 
