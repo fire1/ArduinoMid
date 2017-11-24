@@ -1378,7 +1378,7 @@ void CarSens::sensTmp() {
 
     //
     // TODO use ResponsiveAnalogRead driver
-    if (amp->isMax() && this->getVss() > 0 && this->getVss() < 5) {
+    if (amp->isSens() && this->getVss() > 0 && this->getVss() < 14) {
         //
         // Usable value
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
@@ -1399,10 +1399,9 @@ void CarSens::sensTmp() {
                 temperatureOutFirst = liveTemperatureValue;
         } else {
             // TODO Test reference  value
-            temperatureOutCollection += (temperatureOutFirst + temperatureOutCollection) / 2;
+            temperatureOutCollection += ((temperatureOutFirst * 2) + temperatureOutCollection) / 4;
             temperatureOutIndex++;
         }
-
     }
 
 
@@ -1444,7 +1443,7 @@ void CarSens::sensTmp() {
 #endif
         //
         // Keep current value for more smooth data
-        temperatureOutCollection = (readings * 3) / 10;
+        temperatureOutCollection = (readings * 2) / 10;
         temperatureOutIndex = 2;
 
 #if defined(DEBUG_TEMPERATURE_OU)
