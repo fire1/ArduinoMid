@@ -454,10 +454,10 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         lcd->setFont(u8g2_font_crox1hb_tf); // u8g2_font_unifont_t_cyrillic
-        lcd->setFontRefHeightExtendedText();
+//        lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
-        lcd->setFontPosTop();
+//        lcd->setFontPosTop();
 
     }
 
@@ -473,6 +473,19 @@ protected:
  * @param index of loop
  */
     void displayEntry() {
+        //
+        // TODO state error
+//        if (!usedMenu.used) {
+//            btn->resetStates();
+//            mbs->finishEntry();
+//            lcd->clearBuffer();
+//            lcd->clear();
+//            drawEntry = 0;
+//            drawIndex = 0;
+//            initializeDraw = true;
+//            this->playSlow();
+//            return;
+//        }
         u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);

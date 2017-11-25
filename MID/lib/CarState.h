@@ -261,9 +261,9 @@ public:
             isStateAlert(result.ovh)) {
             alertState = 1;
             if (!initAlertState) {
-                cursorMenu = MidCursorMenu;
-                MidCursorMenu = MENU_SERVICE;
-                initAlertState = 1;
+//                cursorMenu = MidCursorMenu;
+//                MidCursorMenu = MENU_SERVICE;
+//                initAlertState = 1;
             }
         }
     }
