@@ -1399,7 +1399,8 @@ void CarSens::sensTmp() {
                 temperatureOutFirst = liveTemperatureValue;
         } else {
             // TODO Test reference  value
-            temperatureOutCollection += ((temperatureOutFirst * 2) + temperatureOutCollection) / 4;
+            temperatureOutCollection +=
+                    (temperatureOutFirst + (temperatureOutCollection / temperatureOutIndex) * 2) / 4;
             temperatureOutIndex++;
         }
     }
