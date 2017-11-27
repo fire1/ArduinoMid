@@ -457,7 +457,7 @@ protected:
 //        lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
-//        lcd->setFontPosTop();
+        lcd->setFontPosTop();
 
     }
 
@@ -475,17 +475,6 @@ protected:
     void displayEntry() {
         //
         // TODO state error
-//        if (!usedMenu.used) {
-//            btn->resetStates();
-//            mbs->finishEntry();
-//            lcd->clearBuffer();
-//            lcd->clear();
-//            drawEntry = 0;
-//            drawIndex = 0;
-//            initializeDraw = true;
-//            this->playSlow();
-//            return;
-//        }
         u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
@@ -497,7 +486,7 @@ protected:
                 break;
             case 0:
                 this->playUltra();
-                lcd->clear();
+//                lcd->clear();
                 mbs->startEntry();
                 //
                 // Reset button handler
@@ -519,7 +508,7 @@ protected:
             case 5:
             case 6:
             case 7:
-
+//
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
                 lcd->drawStr(LCD_CNR - (backW / 2), 15, usedMenu.back);
                 lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
@@ -532,7 +521,7 @@ protected:
             case 8:
                 btn->resetStates();
                 mbs->finishEntry();
-                lcd->clearBuffer();
+//                lcd->clearBuffer();
                 lcd->clear();
                 drawEntry = 0;
                 drawIndex = 0;
