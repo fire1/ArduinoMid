@@ -760,7 +760,7 @@ void EngSens_catchEcuHits() {
 void CarSens::setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchRpmHits, HIGH);
-};
+}
 
 /**
   * Setup VSS
@@ -769,7 +769,7 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
 void CarSens::setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchVssHits, HIGH);
-};
+}
 
 /**
   * Setup Ecu
@@ -778,7 +778,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
-};
+}
 
 /**
  *  Setup engine pins
@@ -798,7 +798,7 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     pinTemp = pinTmp;
     pinBreaks = pinBrk;
     pinFulTnk = pinTnk;
-};
+}
 
 //void deatach(){
 //    detachInterrupt(pinVss);
@@ -811,7 +811,8 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
 int CarSens::getIfcFuelVal() {
     if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
     if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
-};
+    return 0;
+}
 
 /**
  * Gets calculated constant for consumption
@@ -820,7 +821,8 @@ int CarSens::getIfcFuelVal() {
 long CarSens::getCnsFuelVal() {
     if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
     if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
-};
+    return 0;
+}
 
 /**
  * Setup fuel line data
@@ -834,7 +836,7 @@ void CarSens::setupFuel(Fuel defFuel, Fuel adtFuel) {
     if (adtFuel.cns > 0 && adtFuel.ifc > 0) {
         FUEL_PARAM_ADT = adtFuel;
     }
-};
+}
 
 /**
  * Setup screen data
@@ -854,7 +856,7 @@ void CarSens::setupScreen(uint8_t pinInputInstrumentValue, uint8_t pinOutputDisp
     //
     // Sens dim level at start
     sensDim();
-};
+}
 
 /**
  * Setup temperatures
@@ -1139,7 +1141,6 @@ void CarSens::speedingAlarmsDw() {
  */
 char *CarSens::getHTm(float saved) {
 
-    char dspTime[6] = "00:00";
     unsigned long tmSec;
     int tmMin, tmHrs;
 
@@ -1151,6 +1152,7 @@ char *CarSens::getHTm(float saved) {
     separateFloat(saved, old);
     /* 11 = len of clock time + 1 char for \0*/
 
+    char *dspTime;
     sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
     return dspTime;
 };

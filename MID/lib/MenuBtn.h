@@ -143,19 +143,19 @@ public:
         return isNavigationActive;
     }
 
-    inline uint8_t MenuBtn::getPinUp(void) {
+     uint8_t getPinUp(void) {
         return btnUp;
     }
 
-    inline uint8_t MenuBtn::getPinDw(void) {
+     uint8_t getPinDw(void) {
         return btnDw;
     }
 
-    inline uint8_t MenuBtn::getPinTn(void) {
+     uint8_t getPinTn(void) {
         return pinTn;
     }
 
-    inline uint8_t MenuBtn::getLastBtn() {
+     uint8_t getLastBtn() {
         return lastButtonPushed;
     }
 

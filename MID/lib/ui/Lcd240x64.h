@@ -443,9 +443,9 @@ protected:
 
     void menus();
 
-    void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
-//        lcd->drawUTF8(aniIndex * 3, 36, str);
-    }
+//    void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
+////        lcd->drawUTF8(aniIndex * 3, 36, str);
+//    }
 
     void useDefaultMode() {
         // Cyrillic font u8g2_font_crox1c_tf
@@ -702,7 +702,7 @@ private:
 //        showAverage(LCD_COL_R11, LCD_ROW_4);
         showInstant(LCD_COL_R11, LCD_ROW_4);
 //        displayFloat(car->getIfcAvr(), char_3);
-        float dataFuel;
+        float dataFuel = 0;
         if (car->getFuelState() == 0) { // BNZ [default]
             dataFuel = car->getDefFuelCns();
         }
@@ -1052,7 +1052,7 @@ private:
     void displayGraph() {
         uint8_t arrSize = 10;
         uint8_t wdDsp = lcd->getWidth();
-        uint8_t hgDsp = lcd->getHeight();
+//        uint8_t hgDsp = lcd->getHeight();
 
         if (initializeDraw) {
             playFast();

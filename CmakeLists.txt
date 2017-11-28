@@ -11,6 +11,7 @@ generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
 set(SOURCE_FILES MID.ino)
 set(BOARD_SUB atmega2560)
+set(BOARD_TAG  mega)
 
 list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 #

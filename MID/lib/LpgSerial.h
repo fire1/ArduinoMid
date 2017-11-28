@@ -102,6 +102,7 @@ public:
         if (trans < 100 && trans > 10) {
             return trans;
         }
+        return 0;
     }
 
     /**

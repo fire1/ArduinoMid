@@ -124,6 +124,7 @@ public:
 #else
         return container.fuel_def + car->getDefFuelCns();
 #endif
+        return 0;
     }
 
 /** TODO needs to be changed
@@ -676,7 +677,7 @@ void EepRom::saveResetData() {
  */
 void EepRom::load() {
 
-    float eGetValue;
+    float eGetValue = 0;
     int eLocation = 0;
 
     for (int i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
@@ -891,7 +892,7 @@ void EepRom::injectSerial(void) {
             uint8_t vol = Serial.readStringUntil('+').toInt();
             saveTemp = Serial.readStringUntil('\n').toInt();
             srlOutputs = F("Wheel Simulate resistance ");
-            whl->sendRadioButtons((uint8_t) saveTemp,  vol);
+            whl->sendRadioButtons((uint8_t) saveTemp, vol);
             srlOutputs += saveTemp;
         }
 

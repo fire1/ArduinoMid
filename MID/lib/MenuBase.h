@@ -32,7 +32,7 @@ struct UsedMenu {
 * Reserve space in used menu container
 */
 static UsedMenu usedMenu = {
-        used: new char(512)
+        used:""/* new char(512)*/
 };
 
 //

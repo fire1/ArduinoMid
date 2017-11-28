@@ -20,7 +20,7 @@
 
 
 #include <Arduino.h>
-#include <SPI.h>
+//#include <SPI.h>
 #include <OneWire.h>
 #include <MenuBackend.h>
 #include <DallasTemperature.h>
