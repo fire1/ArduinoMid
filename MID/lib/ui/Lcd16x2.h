@@ -59,6 +59,27 @@ public:
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
             whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) { }
 
+
+    void warnCoolant() { }
+
+    void warnBattery(float Voltage) { }
+
+    void warnMotorOil() { }
+
+    void warnBreakWare() { }
+
+    void warnOverheat() { }
+
+    void warnWinter() { }
+
+    void warnWasher() { }
+
+    void warnTmBelt() { }
+
+    void warnLightsFront() { }
+
+    void warnLightsBack() { }
+
 /**
  * Welcome screen ...
  */
@@ -75,6 +96,7 @@ public:
         delay(1500);
         lcd->clear();
     }
+
 
     void begin(void) {
         lcd->noDisplay();
@@ -549,7 +571,7 @@ protected:
             lcd->setCursor(0, 1);
             lcd->print(F("Whl Btns: "));
 
-            lcd->print(whl->readAnalogButtons() / 100);
+//            lcd->print(whl->readAnalogButtons() / 100);
 
             if (whl->isDisable()) {
                 lcd->print((char) 222);
@@ -561,6 +583,7 @@ protected:
 
         }
     }
+
 /**
  * Resenting state
  */

@@ -155,7 +155,7 @@ public:
  * @param pinDw
  * @param pinTn
  */
-    void setup(void) {
+    void begin(void) {
         //
         // Base tree construction
         menu.getRoot()
