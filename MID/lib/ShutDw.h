@@ -57,9 +57,7 @@ private :
         //
         // Shutdown the system
         tone(pinTone, 800, 500);
-#ifdef SHUTDOWN_RADIO
         whl->shutdownMode();
-#endif
         delay(2000);
         analogWrite(pinCtrl, LOW);
         //
@@ -76,9 +74,7 @@ private :
         //
         // Shutdown the system
         melodySave();
-#ifdef SHUTDOWN_RADIO
         whl->shutdownMode();
-#endif
         delay(2000);
         digitalWrite(pinCtrl, LOW);
         //
@@ -127,9 +123,7 @@ public:
                 alreadySaved = 1;
                 melodySave();
                 eep->saveCurrentData();
-#ifdef SHUTDOWN_RADIO
                 whl->shutdownMode();
-#endif
                 delay(2200);
                 digitalWrite(pinCtrl, LOW);
             }
@@ -226,11 +220,9 @@ void ShutDw::listener() {
         //
         // Check for some data changed,  but in case save button is pressed ... shutdown save trigger ...
         if (amp->isMax() && detectorValue < SHUTDOWN_LOW_VALUE && !car->isRunEng()) {
-#ifdef SHUTDOWN_RADIO
             //
             // Fixes digital pot
             whl->shutdownMode();
-#endif
             //
             // Skip save and shutdown
             digitalWrite(pinCtrl, LOW);

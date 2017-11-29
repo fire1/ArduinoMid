@@ -199,14 +199,14 @@ public:
     void shutdownMode(void) {
         //
         // New type
+#ifdef SHUTDOWN_RADIO
         this->sendRadioButtons(1);
         this->sendRadioButtons(1);
-//        digitalWrite(pinDigPotCtr, LOW);
-//        analogWrite(pinMaskHide, HIGH);
-//        delay(5);
-//        setDigitalPot(0);
-//        delay(5);
-//        analogWrite(pinDigPotCtr, LOW);
+#else
+        this->sendRadioButtons(255);
+        this->sendRadioButtons(255);
+#endif
+
 
     }
 
