@@ -249,9 +249,10 @@ public:
         lcd->drawStr(90, LCD_ROW_1, this->getMsg(43));
         lcd->drawStr(90, LCD_ROW_3, this->getMsg(44));
 
+        lcd->setCursor(LCD_COL_R22, LCD_ROW_3);
         displayFloat(Voltage, char_3);
         lcd->print(char_3);
-        lcd->print("V");
+        lcd->print(F("V"));
 
         lcd->drawStr(90, LCD_ROW_4, this->getMsg(45));
     }
