@@ -22,9 +22,9 @@
 #include <Arduino.h>
 //#include <SPI.h>
 #include <OneWire.h>
-#include <MenuBackend.h>
+#include "lib/MenuBackend.h"
 #include <DallasTemperature.h>
-#include <SD.h>
+//#include <SD.h>
 //
 #ifdef EEP_ROM_ADDRESS
 
@@ -43,7 +43,7 @@
 
 //
 // Log file
-File logFile;
+//File logFile;
 
 //
 // Setup the code...

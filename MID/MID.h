@@ -6,7 +6,7 @@
 #define ARDUINO_MID_H
 
 #include <Arduino.h>
-#include <MenuBackend.h>
+#include "lib/MenuBackend.h"
 #include "conf.h"
 //
 // Sets screen size

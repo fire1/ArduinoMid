@@ -74,7 +74,7 @@ class EepRom {
     SavedData container;
     CarSens *car;
     WhlSens *whl;
-    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 public:
 /**
@@ -679,8 +679,8 @@ void EepRom::load() {
 
     float eGetValue = 0;
     int eLocation = 0;
-
-    for (int i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
+    volatile uint8_t i;
+    for (i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
 
         Serial.println(F("Restore Value:"));
         EEPROM.get(eLocation, eGetValue);
