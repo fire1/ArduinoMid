@@ -66,7 +66,7 @@ const char msg41[] PROGMEM = "Oil level is  below 25%";
 const char msg42[] PROGMEM = "Top up motor oil";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "ELECTRICAL MALFUNCTION!";
+const char msg43[] PROGMEM = "ELECTRICAL PROBLEM";
 const char msg44[] PROGMEM = "A voltage of: ";
 const char msg45[] PROGMEM = "not in work range";
 //

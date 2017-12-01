@@ -1141,37 +1141,40 @@ void CarSens::speedingAlarmsDw() {
  */
 char *CarSens::getHTm(float saved) {
 
-    unsigned long tmSec;
-    int tmMin, tmHrs;
-
-    tmSec = millis() / 1000;
-    tmMin = int(tmSec / 60);
-    tmHrs = tmMin / 60;
+    unsigned long x;
+    uint8_t seconds, minutes, hours;
+    x = millis() / 1000;
+    seconds = x % 60;
+    x /= 60;
+    minutes = x % 60;
+    x /= 60;
+    hours = x % 24;
 
     int old[1];
     separateFloat(saved, old);
     /* 11 = len of clock time + 1 char for \0*/
 
     char *dspTime;
-    sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
+    sprintf(dspTime, "%02d:%02d", hours + old[0], minutes + old[1]);
     return dspTime;
 };
 
 void CarSens::getHTm(float saved, char *dspTime) {
 
-//    char dspTime[6] = "00:00";
-    unsigned long tmSec;
-    int tmMin, tmHrs;
-
-    tmSec = millis() / 1000;
-    tmMin = int(tmSec / 60);
-    tmHrs = tmMin / 60;
+    unsigned long x;
+    uint8_t seconds, minutes, hours;
+    x = millis() / 1000;
+    seconds = x % 60;
+    x /= 60;
+    minutes = x % 60;
+    x /= 60;
+    hours = x % 24;
 
     int old[1];
     separateFloat(saved, old);
     /* 11 = len of clock time + 1 char for \0*/
 
-    sprintf(dspTime, "%02d:%02d", tmHrs + old[0], tmMin + old[1]);
+    sprintf(dspTime, "%02d:%02d", hours + old[0], minutes + old[1]);
 
 };
 

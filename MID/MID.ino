@@ -161,6 +161,16 @@ void loop() {
     if (ampInt.isSecond()) {
         Serial.print(F(" Fuel state is "));
         Serial.println(carSens.getFuelState());
+
+        Serial.print("Lights :");
+        Serial.print(analogRead(A12));
+        Serial.print(" / ");
+        Serial.print(analogRead(A13));
+        Serial.println();
+
+        Serial.print("Out tmp :");
+        Serial.print(carSens.getTmpOut());
+        Serial.println();
     }
 
 
