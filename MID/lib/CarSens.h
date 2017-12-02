@@ -1354,7 +1354,11 @@ void CarSens::sensTmp() {
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
         temperatureSensors.requestTemperatures();
-        CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
+        float currentInside = temperatureSensors.getTempCByIndex(0);
+        if (currentInside > -100 && !isInitializedLoop || isInitializedLoop) {
+            CUR_INS_TMP = currentInside;
+        }
+
     }
 #endif
 

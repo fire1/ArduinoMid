@@ -126,6 +126,7 @@ void setup() {
 //    delay(1000);
 //}
 
+
 void loop() {
     //
     // Amplitude loop init
@@ -168,8 +169,8 @@ void loop() {
         Serial.print(analogRead(A13));
         Serial.println();
 
-        Serial.print("Out tmp :");
-        Serial.print(carSens.getTmpOut());
+        Serial.print("Inside tmp :");
+        Serial.print(carSens.getTmpIns());
         Serial.println();
     }
 
