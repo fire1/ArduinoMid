@@ -11,17 +11,16 @@ _This project is rebuild of on-board computer for Vauxhall/Opel vehicles
 In this project is used Mega2560 RV3 board.
 The project sourcecode is based on Internet published information!_
 
-## Quick Notes
+## Notes
 * Source code is in "MID" folder. To upload  softer use MID.ino file.
 * Before uploading check software configuration in MID.h file.  
 * Configuration is suppurated  is over two files, default MID.h and your custom conf.h
 * Make your custom configuration into conf.h file 
 * Used libraries are in "libraries" folder [zip them for importing]
+* [Extra information for project](https://docs.google.com/document/d/11Yb3lh6lio_FKBEzur-n49dYgrX5xFf_UQObUGn2u_c/edit?usp=sharing)
 
 ## Version 
    **1.5.6** _and should be considered as beta (test) quality._
-
-#### [Extra information for project](https://docs.google.com/document/d/11Yb3lh6lio_FKBEzur-n49dYgrX5xFf_UQObUGn2u_c/edit?usp=sharing)
 
 ## ArduinoMid supported features
 
