@@ -2,18 +2,17 @@
 Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoMid
 This project is rebuild of on-board computer  base on original interface connection.
 
-## NEWS 
-[At Twitter](https://twitter.com/hashtag/ArduinoMid?src=hash)
 
 ![https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
 
-## Note:
+## About:
 _This project is rebuild of on-board computer for Vauxhall/Opel vehicles 
  made  between 2000/2004 with gray(32 pin) MID plug.
 In this project is used Mega2560 RV3 board.
 The project sourcecode is based on Internet published information!_
 
 ## Notes
+* [News at Twitter](https://twitter.com/hashtag/ArduinoMid?src=hash)
 * Source code is in "MID" folder. To upload  softer use MID.ino file.
 * Before uploading check software configuration in MID.h file.  
 * Configuration is suppurated  is over two files, default MID.h and your custom conf.h
