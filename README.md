@@ -77,10 +77,10 @@ The project sourcecode is based on Internet published information!_
 
 ## Schematics
    _Hardware is  in development..._
-   
+   **NOT YET TESTED VERSION!**
   Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID2-a3445ff633e5483aa7c6525f325a687a)
   
-**NOT YET TESTED VERSION!**
+
 
     
 
