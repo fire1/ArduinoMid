@@ -80,8 +80,8 @@ The project sourcecode is based on Internet published information!_
    
    **NOT YET TESTED VERSION!**
    
-  Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID2-a3445ff633e5483aa7c6525f325a687a)
-  
+   * [PCB Shield Development Beta version](https://easyeda.com/fire1.a.zaprianov/MID2-a3445ff633e5483aa7c6525f325a687a)
+   * [LCD Connections](https://easyeda.com/fire1.a.zaprianov/MID_LCD_240x64-eee21a1e00ac4a4da848eed4253e9cf7)
 
 
     
@@ -92,6 +92,9 @@ The project sourcecode is based on Internet published information!_
    [Donwload printable PCB layers](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-pcb.pdf)
    
    [Donwload component outlines](https://github.com/fire1/ArduinoMid/raw/master/PCB/amid-e.pdf)
+        
+        
+## LCD Connections 
         
         
         
