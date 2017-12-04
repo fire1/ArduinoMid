@@ -13,6 +13,12 @@
 //
 // No detection of switch but use LPG
 //#define LPG_INSTALLATION // uncomment
+//
+// Use radio output Sony XPLOD
+#define WHL_RDO_XPLOD
+//
+// JVC KD-X330BT
+//#define WHL_RDO_KDX330
 
 /***********************************************************************************************************************
  Car sensing class correction values

@@ -294,7 +294,9 @@ private:
         } else {
 
         }
-
+        //
+        // Sony XPlod
+#ifdef WHL_RDO_XPLOD
         if (currentState == STR_BTN_VLU) setDigitalPot(95);// Volume up
         if (currentState == STR_BTN_VLD) setDigitalPot(125);// Volume down
         if (currentState == STR_BTN_ATT) setDigitalPot(20); // Zero
@@ -303,6 +305,9 @@ private:
         if (currentState == STR_BTN_SKD) setDigitalPot(70);// seek down
         if (currentState == STR_BTN_BCK) setDigitalPot(15);// back button
 //        if (currentState == STR_BTN_NON) setDigitalPot(0);// return to default
+#else WHL_RDO_KDX330
+
+#endif
 
     }
 
