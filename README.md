@@ -21,6 +21,8 @@ The project sourcecode is based on Internet published information!_
 ## Version 
    **1.5.6** _and should be considered as beta (test) quality._
 
+#### [Extra information for project](https://docs.google.com/document/d/11Yb3lh6lio_FKBEzur-n49dYgrX5xFf_UQObUGn2u_c/edit?usp=sharing)
+
 ## ArduinoMid supported features
 
 * Multi screen support. For now 16x2 and 240x64.
@@ -79,6 +81,7 @@ The project sourcecode is based on Internet published information!_
    
   Development PCB/Schematic: [Beta version](https://easyeda.com/fire1.a.zaprianov/MID2-a3445ff633e5483aa7c6525f325a687a)
 
+    
 
 
 ## Printable PCB
