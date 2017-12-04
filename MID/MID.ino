@@ -126,6 +126,7 @@ void setup() {
 //    delay(1000);
 //}
 
+
 void loop() {
     //
     // Amplitude loop init
@@ -161,6 +162,16 @@ void loop() {
     if (ampInt.isSecond()) {
         Serial.print(F(" Fuel state is "));
         Serial.println(carSens.getFuelState());
+
+        Serial.print("Lights :");
+        Serial.print(analogRead(A12));
+        Serial.print(" / ");
+        Serial.print(analogRead(A13));
+        Serial.println();
+
+        Serial.print("Inside tmp :");
+        Serial.print(carSens.getTmpIns());
+        Serial.println();
     }
 
 

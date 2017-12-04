@@ -731,9 +731,10 @@ private:
  */
 
     void displayCarVss() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, "KMH:");
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->print(F("KMH"));
         sprintf(char_3, "%03d", car->getVss());
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_1, char_3);
+        lcd->print(char_3);
     }
 
     void displayEngRpm() {
@@ -749,10 +750,15 @@ private:
     }
 
     void displayCarDst() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, "DST:");
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->print(F("DST"));
         displayFloat(eep->getTravelDistance(), char_3);
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_4, char_3);
-        showKm(LCD_COL_L23, LCD_ROW_4);
+        lcd->print(char_3);
+        lcd->print(F(" BLB"));
+        lcd->print(analogRead(A12));
+        lcd->print(F("/"));
+        lcd->print(analogRead(A13));
+
     }
 
     void displayCarOdm() {
