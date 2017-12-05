@@ -17,7 +17,6 @@ This project is rebuild of on-board computer  base on original interface connect
 * Configuration is suppurated  is over two files, default MID.h and your custom conf.h
 * Make your custom configuration into conf.h file 
 * Used libraries are in "libraries" folder [zip them for importing]
-* [Extra information for project](https://docs.google.com/document/d/11Yb3lh6lio_FKBEzur-n49dYgrX5xFf_UQObUGn2u_c/edit?usp=sharing)
 
 ## Version 
    **1.5.6** _and should be considered as beta (test) quality._
