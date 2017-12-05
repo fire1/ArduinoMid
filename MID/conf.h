@@ -22,7 +22,7 @@
 
 /***********************************************************************************************************************
  Car sensing class correction values
-/** /
+/*!<* /
 #define CAR_SENS_CUSTOM_CORRECTION   // Values form fast clock speed
 // Note current set uses slow clock speed
 // to use fast clock use values after "//"
