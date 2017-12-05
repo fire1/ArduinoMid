@@ -28,9 +28,6 @@ This project is rebuild of on-board computer  base on original interface connect
     Every cent will be used for new futures. 
     Keep in mind I spend a lot of money and time over this project... 
     
-    Also my girlfriend promise me to lock me into a garage 
-    if I do not stop spending money  here ... so  ... HELP! ;)
-    
 ### [Donate!](https://paypal.me/AngelZaprianov)
    
    
