@@ -216,7 +216,8 @@ public:
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
-        lcd->drawStr(15, 1, title);
+        lcd->setCursor(15, 1);
+        lcd->print(title);
 
 
     }
@@ -455,7 +456,10 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         lcd->setFont(u8g2_font_crox1hb_tf); // u8g2_font_unifont_t_cyrillic
-//        lcd->setFontRefHeightExtendedText();
+        lcd->setFontRefHeightExtendedText();
+
+//        lcd->enableUTF8Print();
+//        lcd->setFont(u8g2_font_nine_by_five_nbp_t_all);
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
@@ -927,7 +931,8 @@ private:
     void buildInnerRowTrip(float carFuelConsumption, float dataFuel, float distance, uint8_t y) {
         displayFloat(dataFuel + carFuelConsumption, char_3);
         lcd->print(char_3);
-        lcd->print("L ");
+        lcd->print(getMsg(68));
+        lcd->print(" ");
         showAverage(LCD_COL_R11, y);
         lcd->setCursor(LCD_COL_R12, y);
         displayFloat(((dataFuel + car->getAdtFuelCns()) * 100) / distance, char_3);
@@ -936,7 +941,8 @@ private:
         } else {
             lcd->print("00.0");
         }
-        lcd->print("L  ");
+        lcd->print(getMsg(68));
+        lcd->print("  ");
     }
 
 /**
@@ -948,7 +954,7 @@ private:
         lcd->print(name);
         displayFloat(dst, char_4);
         lcd->print(char_4);
-        lcd->print("km");
+        lcd->print(getMsg(69));
         lcd->setCursor(LCD_COL_L23 + 15, y);
 
 
@@ -994,7 +1000,7 @@ private:
             boolean delete_trip = false;
             if (tripReset > cursor && cursor < tripCompare) {
 
-                Serial.println("NOTICE: Delete trip.... ");
+                Serial.println(F("NOTICE: Delete trip.... "));
                 tripReset = 0;
                 tripCompare = 0;
                 delete_trip = true;
@@ -1018,12 +1024,12 @@ private:
             } else {
                 tripCursor = 1;// Clear wrong cursor
                 btn->setValueControlled(tripCursor);
-                Serial.println("ERROR: Trip cursor out of range .... ");
+                Serial.println(F("ERROR: Trip cursor out of range .... "));
             }
             //
             // Display cursor blink
             if (drawIndex % 4 == 0) {
-                lcd->print(">");
+                lcd->print(F(">"));
 
             }
 
@@ -1032,15 +1038,15 @@ private:
             if (delete_trip) {
                 if (tripActive == LCD_ROW_2) {
                     eep->resetTripA();
-                    Serial.println("ERROR: DELETE trip A ");
+                    Serial.println(F("ERROR: DELETE trip A "));
                 } else if (tripActive == LCD_ROW_3) {
                     eep->resetTripB();
-                    Serial.println("ERROR: DELETE trip B ");
+                    Serial.println(F("ERROR: DELETE trip B "));
                 } else if (tripActive == LCD_ROW_4) {
                     eep->resetTripC();
-                    Serial.println("ERROR: DELETE trip C ");
+                    Serial.println(F("ERROR: DELETE trip C "));
                 } else {
-                    Serial.println("ERROR: Cannot find cursor for deleting .... ");
+                    Serial.println(F("ERROR: Cannot find cursor for deleting .... "));
                 }
                 tripCursor = 1;
                 tripCompare = 1;
@@ -1100,7 +1106,7 @@ private:
         lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
         lcd->print(F("LPG tank:  "));
         lcd->print(char_2);
-        lcd->print(F("l"));
+        lcd->print(getMsg(68));
 
 
         sprintf(char_2, "%02d", lpgCom.getCurrentValue());
@@ -1112,7 +1118,7 @@ private:
         lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
         lcd->print(F("BNZ value: "));
         lcd->print(char_3);
-        lcd->print("L");
+        lcd->print(getMsg(68));
 #endif
 
     }
