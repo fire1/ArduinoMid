@@ -5,7 +5,10 @@ This project is rebuild of on-board computer  base on original interface connect
 
 ![https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
 
-## [Reference Manual](wiki)
+
+
+# [Reference Manual](https://github.com/fire1/ArduinoMid/wiki)
+
 
 ## Notes
 * [News at Twitter](https://twitter.com/hashtag/ArduinoMid?src=hash)
