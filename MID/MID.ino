@@ -115,13 +115,14 @@ void setup() {
 
 }
 
-//void _loop() {
+//void loop_() {
 //    u8g2.firstPage();
+//    u8g2.enableUTF8Print();
 //    do {
-//        u8g2.setFont(u8g2_font_crox1hb_tf);
+//        u8g2.setFont(u8g2_font_pxplusibmvga9_m_all);
+//        u8g2.setCursor(120, 10);
+//        u8g2.print(F("Тестово"));    /* Hello World */
 //
-//        u8g2.drawStr(120, 10, "Тестово");    /* Hello World */
-//        u8g2.drawExtUTF8(120, 30, 0, NULL, "Тестово");    /* Hello World */
 //    } while (u8g2.nextPage());
 //    delay(1000);
 //}
