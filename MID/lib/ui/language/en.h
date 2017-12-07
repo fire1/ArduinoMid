@@ -26,13 +26,13 @@ const char msg9[] PROGMEM = "WORN OUT"; // Problem message for brakes
 const char msg10[] PROGMEM = "WENT OUT"; // Problem message for lamps
 //
 // Titles
-const char msg11[] PROGMEM = "MAIN MENU";
+const char msg11[] PROGMEM = "HOME MENU";
 const char msg12[] PROGMEM = "TRIP RECORDS";
 const char msg13[] PROGMEM = "FUEL MENU";
 const char msg14[] PROGMEM = "SERVICING";
 const char msg15[] PROGMEM = "ABOUT";
 const char msg16[] PROGMEM = "DASHBOARD";
-const char msg17[] PROGMEM = "SETTINGS";
+const char msg17[] PROGMEM = "CALIBRATION";
 const char msg18[] PROGMEM = "CURRENT";
 const char msg19[] PROGMEM = "DEFAULT";
 //

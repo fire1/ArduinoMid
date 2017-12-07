@@ -521,7 +521,7 @@ protected:
                 lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
                 lcd->drawStr(LCD_CNR - (nextW / 2), 45, usedMenu.next);
                 if (usedMenu.down) {
-                    lcd->drawStr(LCD_CNR + (usedW / 2) + subAnimateIndex + 20, 30, ">>");
+                    lcd->drawStr(LCD_CNR + (usedW / 2) + subAnimateIndex + 20, 30, ">");
                     lcd->drawStr((LCD_CNR + (usedW / 2)) + 40, 30, usedMenu.down);
                 }
                 break;
@@ -540,6 +540,65 @@ protected:
 
 
 private:
+
+    uint8_t getTitleMsgIndex(const char *menu_t) {
+
+        //
+        // General titles
+        //
+
+        if (menu_t == MENU_NAME_1) { // home
+            return 11;
+        }
+        if (menu_t == MENU_NAME_2) { // trips
+            return 12;
+        }
+        if (menu_t == MENU_NAME_4) { // service
+            return 14;
+        }
+
+        //
+        // Sub-titles
+        //
+
+        // Home
+        if (menu_t == MENU_NAME_11) { // dash
+            return 16;
+        }
+        if (menu_t == MENU_NAME_12) { // calibration
+            return 17;
+        }
+        if (menu_t == MENU_NAME_13) { // about
+            return 15;
+        }
+
+        // Trip
+        if (menu_t == MENU_NAME_21) { // fuel
+            return 13;
+        }
+        if (menu_t == MENU_NAME_22) { // race
+            return 13;
+        }
+
+        //
+        // Sub-sub-titles
+        //
+
+        if (menu_t == MENU_NAME_121) { // VSS
+            return 27;
+        }
+        if (menu_t == MENU_NAME_122) { // RPM
+            return 28;
+        }
+        if (menu_t == MENU_NAME_123) { // DST
+            return 29;
+        }
+        if (menu_t == MENU_NAME_124) { // ECU
+            return 30;
+        }
+
+
+    }
 
 
 /**
