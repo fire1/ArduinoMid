@@ -509,11 +509,11 @@ protected:
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
 
-                lcd->setCursor(LCD_COL_L10 , 15);
+                lcd->setCursor(LCD_COL_L10, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
-                lcd->setCursor(LCD_COL_L10 , 30);
+                lcd->setCursor(LCD_COL_L10, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                lcd->setCursor(LCD_COL_L10 , 45);
+                lcd->setCursor(LCD_COL_L10, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
 
                 break;
@@ -523,12 +523,20 @@ protected:
             case 7:
 //
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
-                lcd->drawStr(LCD_CNR - (backW / 2), 15, usedMenu.back);
-                lcd->drawStr(LCD_CNR - (usedW / 2), 30, usedMenu.used);
-                lcd->drawStr(LCD_CNR - (nextW / 2), 45, usedMenu.next);
+
+
+                lcd->setCursor(LCD_COL_L10, 15);
+                lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
+                lcd->setCursor(LCD_COL_L10, 30);
+                lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
+                lcd->setCursor(LCD_COL_L10, 45);
+                lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
+
                 if (usedMenu.down) {
-                    lcd->drawStr(LCD_CNR + (usedW / 2) + subAnimateIndex + 20, 30, ">");
-                    lcd->drawStr((LCD_CNR + (usedW / 2)) + 40, 30, usedMenu.down);
+                    lcd->setCursor(LCD_COL_L10 + (usedW / 2) + subAnimateIndex + 20, 30);
+                    lcd->print(F(">"));
+                    lcd->setCursor((LCD_COL_L10 + (usedW / 2)) + 40, 30);
+                    lcd->print(getTitleMsgIndex(usedMenu.down));
                 }
                 break;
             case 8:
