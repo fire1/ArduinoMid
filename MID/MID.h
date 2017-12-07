@@ -388,7 +388,7 @@ public:
 
 #endif
 
-#define MID_VERSION "1.5+"
+#define MID_VERSION "1.5.7"
 //
 // Reserving RAM
 //#include "lib/drivers/ResRam.h"

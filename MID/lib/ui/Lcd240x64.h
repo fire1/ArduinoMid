@@ -177,8 +177,10 @@ public:
  * Draws shutdown begin for trip save
  */
     void drawShutdownShort() {
-        lcd->drawStr(15, LCD_ROW_1, this->getMsg(0));
-        lcd->drawStr(15, LCD_ROW_2, this->getMsg(1));
+        lcd->setCursor(15, LCD_ROW_1);
+        lcd->print(this->getMsg(0));
+        lcd->setCursor(15, LCD_ROW_2);
+        lcd->print(this->getMsg(1));
     }
 
 /**
@@ -241,79 +243,125 @@ public:
 // Servicing screens
     void warnCoolant() {
         lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(49));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(50));
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(51));
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(49));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(50));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(51));
+
     }
 
     void warnBattery(float Voltage) {
         lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(43));
-        lcd->drawStr(90, LCD_ROW_3, this->getMsg(44));
-
-        lcd->setCursor(LCD_COL_R21, LCD_ROW_3);
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(43));
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(44));
+        lcd->print(" ");
         displayFloat(Voltage, char_3);
         lcd->print(char_3);
         lcd->print(F("V"));
 
-        lcd->drawStr(90, LCD_ROW_4, this->getMsg(45));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(45));
     }
 
     void warnMotorOil() {
         lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(40));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(41));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(42));
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(40));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(41));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(44));
     }
 
     void warnLightsFront() {
         lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(59));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(60));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(58));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(59));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(60));
     }
 
 
     void warnLightsBack() {
         lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(58));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(59));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(61));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(58));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(59));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(61));
     }
 
     void warnBreakWare() {
         lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(46));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(47));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(48));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(46));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(47));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(48));
+
     }
 
     void warnOverheat() {
         lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(52));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(53));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(54));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(52));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(53));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(54));
     }
 
     void warnWinter() {
         lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(37));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(38));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(39));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(37));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(38));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(39));
     }
 
     void warnWasher() {
         lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(55));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(56));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(57));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(55));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(56));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(57));
     }
 
     void warnTmBelt() {
-        lcd->drawXBMP(0, 0, 85, 64, servicing_85x64_bits);
-        lcd->drawStr(90, LCD_ROW_1, this->getMsg(62));
-        lcd->drawStr(85, LCD_ROW_3, this->getMsg(63));
-        lcd->drawStr(85, LCD_ROW_4, this->getMsg(64));
+
+        lcd->setCursor(85, LCD_ROW_1);
+        lcd->print(this->getMsg(62));
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(63));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(64));
     }
 
 
@@ -650,12 +698,24 @@ private:
  * @param y
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
-//        lcd->drawXBMP(/*50*/x, y + LCD_ICO_HIGH, 8, 8, mark_liter_per_8x8_bits);
-//        lcd->drawXBMP(/*58*/x + 8, y + LCD_ICO_HIGH, 10, 8, mark_100_10x8_bits);
-//        lcd->drawXBMP(/*69*/x + 19, y + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
         lcd->drawStr(x, y, getMsg(68));
-        lcd->drawXBMP(x + 9, y + (LCD_ICO_HIGH / 2), 16, 9, per100km_16x9_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(68));
+        lcd->drawXBMP(x + lcd->getStrWidth(getMsg(68)) + 1, y + (LCD_ICO_HIGH / 2), 16, 9, per100km_16x9_bits);
+    }
 
+/**
+ * Draws  L/100km
+ * @param x
+ * @param y
+ */
+    inline void showL100km(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
+        lcd->drawStr(x, y, getMsg(68));
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(68));
+        lcd->drawXBMP(
+                x + lcd->getStrWidth(getMsg(68)) + lcd->getStrWidth(parent) + 1, y + (LCD_ICO_HIGH / 2), 16, 9,
+                per100km_16x9_bits);
     }
 
 /**
@@ -665,6 +725,15 @@ private:
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
+    }
+
+/**
+ * Draws  celsius symbol
+ * @param x
+ * @param y
+ */
+    void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
+        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
     }
 
 /**
@@ -684,17 +753,14 @@ private:
         lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
         wordWidth = lcd->getStrWidth(char_3);
 
-        lcd->drawStr(LCD_COL_L22, LCD_ROW_1, getMsg(68));
-//        this->showTag(LCD_COL_L12, LCD_ROW_1, char_3, 68);
-//        showLiter(LCD_COL_L22, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
+        lcd->print(getMsg(68));
         //
         // When have several fuel lines
 #ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
-//            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "BNZ");
             this->showIconBnz(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
         } else {
-//            lcd->drawStr(LCD_COL_L23, LCD_ROW_1, "LPG");
             this->showIconLpg(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
         }
 #endif
@@ -728,8 +794,6 @@ private:
         lcd->drawStr(45, LCD_ROW_3, char_3);
         this->showCels(LCD_COL_L23 - 6, LCD_ROW_3);
 
-//        lcd->drawGlyph(LCD_COL_L22, LCD_ROW_3, 0x2103);
-
 
         if (car->getTmpIns() < -99) {
             lcd->drawStr(45, LCD_ROW_4, "none");
@@ -741,9 +805,6 @@ private:
             wordWidth = lcd->getStrWidth(char_3);
             this->showCels(LCD_COL_L23 - 6, LCD_ROW_4);
         }
-//        lcd->setCursor(LCD_COL_L22, LCD_ROW_4);
-//        lcd->print("~АА");
-//        lcd->drawGlyph(LCD_COL_L22, LCD_ROW_3, 0x2103);
 
     }
 
@@ -758,31 +819,29 @@ private:
         // Travel distance
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         displayFloat(car->getDst() + saved.dist_trp, char_4);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_1, char_4);
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_1, getMsg(69));
-//        this->showTag(LCD_COL_R22, LCD_ROW_1, char_4, 69, 0);
-//        showKm(LCD_COL_R22, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_R12, LCD_ROW_1);
+        lcd->print(char_4);
+        lcd->print(" ");
+        lcd->print(getMsg(69));
         //
         // Travel time
         car->getHTm(saved.time_trp, char_5);
         lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_2, char_5);
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_2, getMsg(70));
-//        this->showTag(LCD_COL_R22, LCD_ROW_2, char_5, 70, 0);
-//        lcd->drawStr(LCD_COL_R22, LCD_ROW_2, "h");
+        lcd->setCursor(LCD_COL_R12, LCD_ROW_2);
+        lcd->print(char_5);
+        lcd->print(" ");
+        lcd->print(getMsg(70));
         //
         // Average speed
         showAverage(LCD_COL_R11, LCD_ROW_3);
         sprintf(char_2, "%02d", car->getAvrVss());
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_3, char_2);
-        lcd->drawStr(LCD_COL_R22, LCD_ROW_3, getMsg(69));
-//        this->showTag(LCD_COL_R22, LCD_ROW_3, char_5, 69, 0);
-//        showKm(LCD_COL_R22, LCD_ROW_3);
+        lcd->setCursor(LCD_COL_R12, LCD_ROW_3);
+        lcd->print(char_2);
+        lcd->print(" ");
+        lcd->print(getMsg(69));
         //
         // Instant cons per 100km
-//        showAverage(LCD_COL_R11, LCD_ROW_4);
         showInstant(LCD_COL_R11, LCD_ROW_4);
-//        displayFloat(car->getIfcAvr(), char_3);
         float dataFuel = 0;
         if (car->getFuelState() == 0) { // BNZ [default]
             dataFuel = car->getDefFuelCns();
@@ -795,14 +854,10 @@ private:
             result = 0;
         }
         displayFloat(result, char_3);
-        lcd->drawStr(LCD_COL_R12, LCD_ROW_4, char_3);
-        showL100km(LCD_COL_R22, LCD_ROW_4);
-//        if (car->getVss() > 0) {
-//            showL100km(LCD_COL_R22, LCD_ROW_4);
-//        } else {
-//            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, getMsg(71));
-////            this->showTag(LCD_COL_R22, LCD_ROW_4, char_3, 71, 0);
-//        }
+        lcd->setCursor(LCD_COL_R12, LCD_ROW_4);
+        lcd->print(char_3);
+        lcd->print(" ");
+        showL100km(LCD_COL_R22, LCD_ROW_4, char_3);
 
     }
 
@@ -812,64 +867,66 @@ private:
 
     void displayCarVss() {
         lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
-        lcd->print(F("KMH"));
+        lcd->print(F("KMH "));
         sprintf(char_3, "%03d", car->getVss());
         lcd->print(char_3);
     }
 
     void displayEngRpm() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, "RPM:");
-        sprintf(char_4, "%07d", car->getRpm());
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_2, char_4);
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->print(F("RPM "));
+        sprintf(char_4, "%04d", car->getRpm());
+        lcd->print(char_4);
     }
 
     void displayCarEcu() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, "ECU:");
-        sprintf(char_2, "%02d", car->getEcu());
-        lcd->drawStr(LCD_COL_L21, LCD_ROW_3, char_2);
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->print(F("ECU "));
+        sprintf(char_2, "%04d", car->getRpm());
+        lcd->print(char_2);
     }
 
     void displayCarDst() {
         lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
-        lcd->print(F("DST"));
+        lcd->print(F("DST "));
         displayFloat(eep->getTravelDistance(), char_3);
         lcd->print(char_3);
         lcd->print(F(" BLB"));
         lcd->print(analogRead(A12));
         lcd->print(F("/"));
         lcd->print(analogRead(A13));
-
     }
 
     void displayCarOdm() {
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_1, "ODO:");
-        if (car->getVss() == 0) {
-            char vds[20];
-            sprintf(vds, "%lu", car->getVdsDump());
-            lcd->drawStr(LCD_COL_R21, LCD_ROW_1, vds);
-        } else {
-            lcd->drawStr(LCD_COL_R21, LCD_ROW_1, "?");
-        }
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_1);
+        lcd->print(F("ODO "));
+        char vds[20];
+        sprintf(vds, "%lu", car->getVdsDump());
+        lcd->print(vds);
     }
 
     void displayCarEnt() {
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_2, "ENG:");
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
+        lcd->print(F("ENG "));
         sprintf(char_3, "%03d", car->getEngTmp());
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_2, char_3);
-        this->showCels(LCD_COL_R23, LCD_ROW_2);
+        lcd->print(char_3);
+        lcd->print(" ");
+        this->showCels(LCD_COL_R23, LCD_ROW_2, char_3);
     }
 
     void displayCarGrs() {
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_3, "GRS:");
-        sprintf(char_2, "%02d", car->getGear());
-        lcd->drawStr(LCD_COL_R21, LCD_ROW_3, char_2);
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_3);
+        lcd->print(F("GRS "));
+        sprintf(char_2, "%01d", car->getGear());
+        lcd->print(char_2);
     }
 
     void displayCarWrk() {
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_4, "WRK:");
-        sprintf(char_6, "%06d", eep->getWorkDistance());
-        lcd->drawStr(LCD_COL_R21 - 5, LCD_ROW_4, char_6);
-        showKm(LCD_COL_R23, LCD_ROW_4);
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_4);
+        lcd->print(F("WRK "));
+        sprintf(char_6, "%04d", eep->getWorkDistance());
+        lcd->print(char_6);
+        lcd->print(getMsg(69));
     }
 
 
@@ -877,17 +934,25 @@ private:
  * About Fuel
  */
     void displayInfo() {
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(20));
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(21));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->print(getMsg(20));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->print(getMsg(21));
 
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
         if (drawIndex < 5) {
-            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(22));
+            lcd->print(getMsg(22));
+
         } else {
-            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(23));
-            lcd->drawStr(LCD_COL_R22, LCD_ROW_4, MID_VERSION);
+            lcd->print(getMsg(23));
+            lcd->print(" ");
+            lcd->print(MID_VERSION);
         }
     }
 
+    /**
+     * Edit user information
+     */
     void displayEdit() {
         lcd->enableUTF8Print();
         lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
@@ -898,7 +963,8 @@ private:
         else if (drawIndex > 6 && drawIndex < 10)
             lcd->print(getMsg(26));
 
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(32));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->print(getMsg(32));
     }
 
 /****************************************************************
@@ -913,35 +979,47 @@ private:
             lcd->setCursor(0, LCD_ROW_1);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, getMsg(3));
-        if (stt->getLiveBrk()) lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_1, (drawIndex < 5) ? getMsg(9) : getMsg(8));
-        else lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_1, getMsg(7));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->print(getMsg(3));
 
+        lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_1);
+        if (stt->getLiveBrk())lcd->print((drawIndex < 5) ? getMsg(9) : getMsg(8)); else lcd->print(getMsg(7));
+
+        // Coolant
         if (history.cnt) {
             lcd->setCursor(0, LCD_ROW_2);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_2, getMsg(4));
-        if (stt->getLiveCnt()) lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_2, getMsg(8));
-        else lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_2, getMsg(7));
+
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->print(getMsg(4));
+        lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_2);
+        if (stt->getLiveCnt()) lcd->print(getMsg(8)); else lcd->print(getMsg(7));
 
 
+        // Window washer
         if (history.win) {
             lcd->setCursor(0, LCD_ROW_3);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, getMsg(5));
-        if (stt->getLiveWin()) lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_3, getMsg(8));
-        else lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_3, getMsg(7));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->print(getMsg(5));
+        lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_3);
+        if (stt->getLiveWin()) lcd->print(getMsg(8));
+        else lcd->print(getMsg(7));
 
 
+        // Oil level
         if (history.oil) {
             lcd->setCursor(0, LCD_ROW_4);
             lcd->print(F("*"));
         }
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_4, getMsg(6));
-        if (stt->getLiveOil()) lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_4, getMsg(8));
-        else lcd->drawStr(LCD_COL_R12 - 20, LCD_ROW_4, getMsg(7));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->print(getMsg(6));
+
+        lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_4);
+        if (stt->getLiveOil()) lcd->print(getMsg(8));
+        else lcd->print(getMsg(7));
 
 
         if (MidCursorMenu == 46) {
@@ -1141,7 +1219,6 @@ private:
     void displayGraph() {
         uint8_t arrSize = 10;
         uint8_t wdDsp = lcd->getWidth();
-//        uint8_t hgDsp = lcd->getHeight();
 
         if (initializeDraw) {
             playFast();
@@ -1249,16 +1326,17 @@ private:
         //
         // Current value
 
-//        dtostrf(curVal, 5, 2, char_6);
-//        sprintf(char_6, "%06s", char_7);
-
         displayFloat(curVal, char_7);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, getMsg(18));
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_1, char_7);
+        lcd->setCursor(LCD_COL_L12, LCD_ROW_1);
+        lcd->print(getMsg(18));
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_1);
+        lcd->print(char_7);
 
         if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            lcd->drawStr(LCD_COL_R11 - (lcd->getStrWidth("[") + 5), LCD_ROW_1, "[");
-            lcd->drawStr(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1, "]");
+            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth(("[")) + 5, LCD_ROW_1);
+            lcd->print("[");
+            lcd->setCursor(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1);
+            lcd->print("]");
         }
 
 
@@ -1289,13 +1367,17 @@ private:
         //
         // Default value
 //        sprintf(char_7, "%0d.%02d", (uint16_t) defVal, (uint8_t) (defVal * 100) % 100);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_3, getMsg(19));
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_3, char_7);
+        lcd->setCursor(LCD_COL_L12, LCD_ROW_3);
+        lcd->print(getMsg(19));
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_3);
+        lcd->print(char_7);
 
         //
         // Result value
         sprintf(char_7, "%07d", (uint16_t) result);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_4, getMsg(31));
+        lcd->setCursor(LCD_COL_L12, LCD_ROW_4);
+        lcd->print(getMsg(31));
+
         lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
 
     }
