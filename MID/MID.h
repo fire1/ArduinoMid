@@ -114,8 +114,8 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 #elif SCREEN == 24064
 //
 // Add language
-#include "lib/ui/language/en.h"
-//#include "lib/ui/language/bg.h"
+//#include "lib/ui/language/en.h"
+#include "lib/ui/language/bg.h"
 
 //
 // Display pins map

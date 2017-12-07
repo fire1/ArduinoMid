@@ -178,7 +178,7 @@ public:
  */
     void drawShutdownShort() {
         lcd->setCursor(15, LCD_ROW_1);
-        lcd->print(this->getMsg(0));
+        lcd->print(this->getMsg(72));
         lcd->setCursor(15, LCD_ROW_2);
         lcd->print(this->getMsg(1));
     }
@@ -557,11 +557,11 @@ protected:
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
 
-                lcd->setCursor(LCD_COL_L10, 15);
+                lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
-                lcd->setCursor(LCD_COL_L10, 30);
+                lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                lcd->setCursor(LCD_COL_L10, 45);
+                lcd->setCursor(LCD_COL_L12, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
 
                 break;
@@ -573,18 +573,18 @@ protected:
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
 
 
-                lcd->setCursor(LCD_COL_L10, 15);
+                lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
-                lcd->setCursor(LCD_COL_L10, 30);
-                lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                lcd->setCursor(LCD_COL_L10, 45);
+                lcd->setCursor(LCD_COL_L12, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
 
+                lcd->setCursor(LCD_COL_L12, 30);
+                lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (usedMenu.down) {
-                    lcd->setCursor(LCD_COL_L10 + (usedW / 2) + subAnimateIndex + 20, 30);
-                    lcd->print(F(">"));
-                    lcd->setCursor((LCD_COL_L10 + (usedW / 2)) + 40, 30);
-                    lcd->print(getTitleMsgIndex(usedMenu.down));
+//                    lcd->setCursor(LCD_COL_L10 + (usedW / 2) + subAnimateIndex + 20, 30);
+                    lcd->print(F(" > "));
+//                    lcd->setCursor((LCD_COL_L10 + (usedW / 2)) + 40, 30);
+                    lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
                 }
                 break;
             case 8:
@@ -698,10 +698,9 @@ private:
  * @param y
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawStr(x, y, getMsg(68));
         lcd->setCursor(x, y);
         lcd->print(getMsg(68));
-        lcd->drawXBMP(x + lcd->getStrWidth(getMsg(68)) + 1, y + (LCD_ICO_HIGH / 2), 16, 9, per100km_16x9_bits);
+        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH ), 16, 9, per100km_16x9_bits);
     }
 
 /**
@@ -710,12 +709,11 @@ private:
  * @param y
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
-        lcd->drawStr(x, y, getMsg(68));
-        lcd->setCursor(x, y);
+        uint8_t wd = lcd->getStrWidth(parent) + 5;
+        lcd->setCursor(x + wd, y);
         lcd->print(getMsg(68));
-        lcd->drawXBMP(
-                x + lcd->getStrWidth(getMsg(68)) + lcd->getStrWidth(parent) + 1, y + (LCD_ICO_HIGH / 2), 16, 9,
-                per100km_16x9_bits);
+        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH ), 16, 9,
+                      per100km_16x9_bits);
     }
 
 /**
@@ -856,8 +854,7 @@ private:
         displayFloat(result, char_3);
         lcd->setCursor(LCD_COL_R12, LCD_ROW_4);
         lcd->print(char_3);
-        lcd->print(" ");
-        showL100km(LCD_COL_R22, LCD_ROW_4, char_3);
+        showL100km(LCD_COL_R12, LCD_ROW_4, char_3);
 
     }
 

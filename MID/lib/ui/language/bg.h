@@ -11,7 +11,8 @@
 // Maximum size of message is 128 symbols
 //
 //
-const char msg0[] PROGMEM = "Довиждане...     ";
+const char msg0[] PROGMEM = "";
+const char msg72[] PROGMEM = "Довиждане...     ";
 const char msg1[] PROGMEM = "до следващия път!";
 const char msg2[] PROGMEM = "Преход ";
 //
@@ -61,43 +62,43 @@ const char msg38[] PROGMEM = " ";
 const char msg39[] PROGMEM = "Моля шофирайте внимателно!";
 //
 // Warning Oil level
-const char msg40[] PROGMEM = " НИВОТО НА МОТОРНОТО МАСЛО Е НИСКО!";
-const char msg41[] PROGMEM = "Установено е ниво по-малко от 25% ";
-const char msg42[] PROGMEM = "Моля проверете и при нужда долейте.";
+const char msg40[] PROGMEM = "НИВОТО НА МОТОРНОТО МАСЛО!";
+const char msg41[] PROGMEM = "Ниво е по-малко от 25% ";
+const char msg42[] PROGMEM = "Моля проверете.";
 //
 // Warning Battery
-const char msg43[] PROGMEM = " ЕЛЕКТРИЧЕСКА НЕИЗПРАВНОСТ!";
-const char msg44[] PROGMEM = "Установено е напрежение от: ";
-const char msg45[] PROGMEM = "което не е в работните граници. ";
+const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ ПРОБЛЕМ!";
+const char msg44[] PROGMEM = "Напрежение от: ";
+const char msg45[] PROGMEM = "не е в работните граници.";
 //
 // Warning breaks
-const char msg46[] PROGMEM = " НЕИЗПРАВНОСТ В СПИРАЧКИТЕ!";
-const char msg47[] PROGMEM = "Установено износване на накладките";
-const char msg48[] PROGMEM = "при предните спирачки. (Износени) ";
+const char msg46[] PROGMEM = "НЕИЗПРАВНОСТ В СПИРАЧКИТЕ!";
+const char msg47[] PROGMEM = "Износване на накладките";
+const char msg48[] PROGMEM = "при предните спирачки.  ";
 //
 // Warning coolant
-const char msg49[] PROGMEM = " НИВОТО НА ОХЛАДИТЕЛНАТА ТЕЧНОСТ Е НИСКО!";
-const char msg50[] PROGMEM = "Проверете нивото на охладителната течност";
-const char msg51[] PROGMEM = "при нужда долейте. ";
+const char msg49[] PROGMEM = "ОХЛАДИТЕЛНАТА ТЕЧНОСТ";
+const char msg50[] PROGMEM = "Охладителната течност";
+const char msg51[] PROGMEM = "е малко. ";
 //
 // Warning overheating
-const char msg52[] PROGMEM = " ОПАСНОСТ ОТ ПРЕГРЯВАНЕ!";
-const char msg53[] PROGMEM = "Температурата в охладителната система";
-const char msg54[] PROGMEM = "е твърде висока, възможно е прегряване!";
+const char msg52[] PROGMEM = "ОПАСНОСТ ОТ ПРЕГРЯВАНЕ!";
+const char msg53[] PROGMEM = "Температурата в охладителната ";
+const char msg54[] PROGMEM = "система е твърде висока!";
 //
 // Warning window washer
-const char msg55[] PROGMEM = " НИСКО НИВО НА ТЕЧНОСТТА ЗА ЧИСТАЧКИ!";
-const char msg56[] PROGMEM = "Установено е ниво по-малко от 25% ";
-const char msg57[] PROGMEM = "Моля проверете и при нужда долейте.";
+const char msg55[] PROGMEM = "ТЕЧНОСТТА ЗА ЧИСТАЧКИ!";
+const char msg56[] PROGMEM = "Ниво е по-малко от 25% ";
+const char msg57[] PROGMEM = "Моля проверете.";
 //
 // Warning window washer
 const char msg58[] PROGMEM = " ИЗГОРЯЛА КРУШКА";
-const char msg59[] PROGMEM = "Установена и неработаща круша в : ";
+const char msg59[] PROGMEM = "Неработаща круша в : ";
 const char msg60[] PROGMEM = "Предни светлини";
 const char msg61[] PROGMEM = "Задни светлини ";
 //
 // Warning timing  Belt ware
-const char msg62[] PROGMEM = " НУЖНА СМЯНА АНГРЕНАЖЕН РЕМЪК";
+const char msg62[] PROGMEM = "СМЯНА АНГРЕНАЖЕН РЕМЪК";
 const char msg63[] PROGMEM = "Ангренаженият ремък се сменя на над";
 const char msg64[] PROGMEM = "85000km (След смяна нулирайте данните)";
 //
@@ -118,6 +119,6 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg16, msg17, msg18, msg19, msg20, msg21, msg22, msg23, msg24, msg25, msg26, msg27, msg28, msg29, msg30,
         msg31, msg32, msg33, msg34, msg35, msg36, msg37, msg38, msg39, msg40, msg41, msg42, msg43, msg44, msg45,
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
-        msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71
+        msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72
 };
 #endif //ARDUINOMID_EN_H_H
