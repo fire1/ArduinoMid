@@ -305,7 +305,10 @@ private:
         if (currentState == STR_BTN_SKD) setDigitalPot(70);// seek down
         if (currentState == STR_BTN_BCK) setDigitalPot(15);// back button
 //        if (currentState == STR_BTN_NON) setDigitalPot(0);// return to default
-#else WHL_RDO_KDX330
+#endif
+
+#ifdef WHL_RDO_KDX330
+
 
 #endif
 
