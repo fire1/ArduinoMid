@@ -57,50 +57,50 @@ const char msg35[] PROGMEM = " Сънливост засечена";
 const char msg36[] PROGMEM = " Неизправност на крушка";
 //
 // Warning winter
-const char msg37[] PROGMEM = " ОПАСНОСТ ОТ ЗАЛЕДЯВАНИЯ ПО ПЪТЯ!";
+const char msg37[] PROGMEM = "ЗАЛЕДЯВАНИЯ ПО ПЪТЯ"; // max 20 char
 const char msg38[] PROGMEM = " ";
-const char msg39[] PROGMEM = "Моля шофирайте внимателно!";
+const char msg39[] PROGMEM = "Шофирайте внимателно!";
 //
 // Warning Oil level
-const char msg40[] PROGMEM = "НИВОТО НА МОТОРНОТО МАСЛО!";
-const char msg41[] PROGMEM = "Ниво е по-малко от 25% ";
+const char msg40[] PROGMEM = "МАЛКО МОТОРНОТО МАСЛО";
+const char msg41[] PROGMEM = "Ниво е по-малко от 25%";
 const char msg42[] PROGMEM = "Моля проверете.";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ ПРОБЛЕМ!";
+const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ ПРОБЛЕМ";
 const char msg44[] PROGMEM = "Напрежение от: ";
-const char msg45[] PROGMEM = "не е в работните граници.";
+const char msg45[] PROGMEM = "извън работните граници"; // max 24
 //
 // Warning breaks
-const char msg46[] PROGMEM = "НЕИЗПРАВНОСТ В СПИРАЧКИТЕ!";
+const char msg46[] PROGMEM = "ПРОБЛЕМ В СПИРАЧКИТЕ";
 const char msg47[] PROGMEM = "Износване на накладките";
 const char msg48[] PROGMEM = "при предните спирачки.  ";
 //
 // Warning coolant
-const char msg49[] PROGMEM = "ОХЛАДИТЕЛНАТА ТЕЧНОСТ";
-const char msg50[] PROGMEM = "Охладителната течност";
-const char msg51[] PROGMEM = "е малко. ";
+const char msg49[] PROGMEM = "ОХЛАДИТЕЛНА СИСТЕМА";
+const char msg50[] PROGMEM = "Проверете нивото на";
+const char msg51[] PROGMEM = "охладителната течност";
 //
 // Warning overheating
-const char msg52[] PROGMEM = "ОПАСНОСТ ОТ ПРЕГРЯВАНЕ!";
-const char msg53[] PROGMEM = "Температурата в охладителната ";
-const char msg54[] PROGMEM = "система е твърде висока!";
+const char msg52[] PROGMEM = "ОПАСНОС ПРЕГРЯВАНЕ";
+const char msg53[] PROGMEM = "Температурата ";
+const char msg54[] PROGMEM = "на двигателя е висока!";
 //
 // Warning window washer
-const char msg55[] PROGMEM = "ТЕЧНОСТТА ЗА ЧИСТАЧКИ!";
-const char msg56[] PROGMEM = "Ниво е по-малко от 25% ";
+const char msg55[] PROGMEM = "ТЕЧНОСТ ЗА ЧИСТАЧКИ";
+const char msg56[] PROGMEM = "Ниво е по-малко от 25%";
 const char msg57[] PROGMEM = "Моля проверете.";
 //
 // Warning window washer
-const char msg58[] PROGMEM = " ИЗГОРЯЛА КРУШКА";
-const char msg59[] PROGMEM = "Неработаща круша в : ";
+const char msg58[] PROGMEM = "ИЗГОРЯЛА КРУШКА";
+const char msg59[] PROGMEM = "Неработеща крушка в:";
 const char msg60[] PROGMEM = "Предни светлини";
 const char msg61[] PROGMEM = "Задни светлини ";
 //
 // Warning timing  Belt ware
-const char msg62[] PROGMEM = "СМЯНА АНГРЕНАЖЕН РЕМЪК";
-const char msg63[] PROGMEM = "Ангренаженият ремък се сменя на над";
-const char msg64[] PROGMEM = "85000km (След смяна нулирайте данните)";
+const char msg62[] PROGMEM = "АНГРЕНАЖЕН РЕМЪК";
+const char msg63[] PROGMEM = "Ангренаженият ремък";
+const char msg64[] PROGMEM = "е за смяна (85000km+)";
 //
 // Warning Air filter ware
 const char msg65[] PROGMEM = " НУЖНА СМЯНА ВЪЗДУШЕН/МАСЛЕН ФИЛТЪР ";
