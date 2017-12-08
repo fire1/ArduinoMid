@@ -83,7 +83,7 @@ const char msg51[] PROGMEM = "if is necessary add more.";
 // Warning overheating
 const char msg52[] PROGMEM = " OVERHEATING!!!";
 const char msg53[] PROGMEM = "Engine temperature ";
-const char msg54[] PROGMEM = "is too high, overheating!";
+const char msg54[] PROGMEM = "is too high, overheating";
 //
 // Warning window washer
 const char msg55[] PROGMEM = " LOW WINDOW WASHER!";
