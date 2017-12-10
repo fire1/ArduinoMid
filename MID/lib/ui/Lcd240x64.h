@@ -6,6 +6,7 @@
 //#include "CarGames.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
+
 #include "Menu240x64.h"
 #include "../../MID.h"
 #include "../MainFunc.h"
@@ -14,6 +15,7 @@
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
 #include "graphics/OpelFontU8g.h"
+#include "graphics/SourceFontU8g.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -505,6 +507,7 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
+//        lcd->setFont(u8g2_opel_font_bold);
         lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
 
@@ -530,10 +533,21 @@ protected:
     void displayEntry() {
         //
         // TODO state error
-        u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
+//        u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
         u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
-        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
+//        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
         uint8_t subAnimateIndex = drawEntry & 4;
+
+        if (usedW < 1) {
+            btn->resetStates();
+            mbs->finishEntry();
+            lcd->clear();
+            drawEntry = 0;
+            drawIndex = 0;
+            initializeDraw = true;
+            this->playSlow();
+            return;
+        }
 
         switch (drawEntry) {
             default:
@@ -571,8 +585,6 @@ protected:
             case 7:
 //
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
-
-
                 lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
                 lcd->setCursor(LCD_COL_L12, 45);
@@ -581,9 +593,7 @@ protected:
                 lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (usedMenu.down) {
-//                    lcd->setCursor(LCD_COL_L10 + (usedW / 2) + subAnimateIndex + 20, 30);
                     lcd->print(F(" > "));
-//                    lcd->setCursor((LCD_COL_L10 + (usedW / 2)) + 40, 30);
                     lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
                 }
                 break;
@@ -700,7 +710,7 @@ private:
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->setCursor(x, y);
         lcd->print(getMsg(68));
-        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH ), 16, 9, per100km_16x9_bits);
+        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH), 16, 9, per100km_16x9_bits);
     }
 
 /**
@@ -712,7 +722,7 @@ private:
         uint8_t wd = lcd->getStrWidth(parent) + 5;
         lcd->setCursor(x + wd, y);
         lcd->print(getMsg(68));
-        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH ), 16, 9,
+        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH), 16, 9,
                       per100km_16x9_bits);
     }
 
