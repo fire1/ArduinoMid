@@ -69,12 +69,12 @@ const char msg42[] PROGMEM = "Моля проверете.";
 // Warning Battery
 const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ ПРОБЛЕМ";
 const char msg44[] PROGMEM = "Напрежение от: ";
-const char msg45[] PROGMEM = "извън работните граници"; // max 24
+const char msg45[] PROGMEM = "не е работни граници"; // max 23
 //
 // Warning breaks
 const char msg46[] PROGMEM = "ПРОБЛЕМ В СПИРАЧКИТЕ";
-const char msg47[] PROGMEM = "Износване на накладките";
-const char msg48[] PROGMEM = "при предните спирачки.  ";
+const char msg47[] PROGMEM = "Износване на ";
+const char msg48[] PROGMEM = "предните спирачки.  ";
 //
 // Warning coolant
 const char msg49[] PROGMEM = "ОХЛАДИТЕЛНА СИСТЕМА";

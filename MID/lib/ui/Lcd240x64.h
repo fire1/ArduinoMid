@@ -135,7 +135,6 @@ public:
     void begin(void) {
         lcd->begin();
         useDefaultMode();
-        lcd->enableUTF8Print();
 //        lcd->setAutoPageClear(1);
     }
 
@@ -501,15 +500,16 @@ protected:
 //    }
 
     void useDefaultMode() {
+        lcd->enableUTF8Print();
         // Cyrillic font u8g2_font_crox1c_tf
         // u8g2_font_crox1cb_tf
         //u8g2_font_mercutio_basic_nbp_t_all
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
-//        lcd->setFont(u8g2_font_t0_15b_tf); // u8g2_font_unifont_t_cyrillic
-//        lcd->setFont(u8g2_opel_font_bold);
         lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
+//        lcd->setFont(u8g2_opel_font_bold);
+//        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
 
 //        lcd->enableUTF8Print();
@@ -535,13 +535,12 @@ protected:
         //
         // TODO state error
 //        u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
-        u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
+//        u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
 //        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
         uint8_t subAnimateIndex = drawEntry & 4;
 
-        if (usedW < 1) {
+        if (!usedMenu.used) {
             btn->resetStates();
-            mbs->finishEntry();
             lcd->clear();
             drawEntry = 0;
             drawIndex = 0;
@@ -594,7 +593,7 @@ protected:
                 lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (usedMenu.down) {
-                    lcd->print(F(" > "));
+                    lcd->print(F(" >  "));
                     lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
                 }
                 break;
@@ -670,7 +669,8 @@ private:
             return 30;
         }
 
-        Serial.println(F(" ERROR: Cannot resolve title index"));
+        if (amp->isSec())
+            Serial.println(F(" ERROR: Cannot resolve title index"));
 
     }
 
@@ -890,7 +890,7 @@ private:
     void displayCarEcu() {
         lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
         lcd->print(F("ECU "));
-        sprintf(char_2, "%04d", car->getRpm());
+        sprintf(char_2, "%04d", car->getEcu());
         lcd->print(char_2);
     }
 

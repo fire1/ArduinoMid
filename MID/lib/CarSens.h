@@ -1331,7 +1331,7 @@ uint8_t CarSens::getMxmVss() {
     return maxReachedSpeed;
 }
 
-//#define DEBUG_TEMPERATURE_OU
+#define DEBUG_TEMPERATURE_OU
 
 // resistance at 25 degrees C
 #define THERMISTOR_NOMINAL 5000
@@ -1413,8 +1413,9 @@ void CarSens::sensTmp() {
             temperatureOutIndex++;
             //
             // Add reference temperature
-            if (isInitializedLoop)
+            if (isInitializedLoop) {
                 temperatureOutFirst = liveTemperatureValue;
+            }
         } else {
             // TODO Test reference  value
             temperatureOutCollection +=
@@ -1437,7 +1438,7 @@ void CarSens::sensTmp() {
 //        temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
 
 
-        average = 1023 / readings - 1;
+        average = 1023 / readings ;
         average = SERIES_RESISTOR / average;
 
 
@@ -1477,7 +1478,7 @@ void CarSens::sensTmp() {
 #endif
         //
         // Keep current value for more smooth data
-        temperatureOutCollection = (readings * 2) / 10;
+        temperatureOutCollection = (readings * 2);
         temperatureOutIndex = 2;
 
 #if defined(DEBUG_TEMPERATURE_OU)
