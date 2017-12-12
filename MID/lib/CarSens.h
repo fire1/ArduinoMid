@@ -1338,7 +1338,7 @@ uint8_t CarSens::getMxmVss() {
 // temp. for nominal resistance (almost always 25 C)
 #define TEMPERATURE_NOMINAL 25
 // The beta coefficient of the thermistor (usually 3000-4000)
-#define BCO_EFFICIENT 4000
+#define BCO_EFFICIENT 3880 // NTC Thermistor Beta https://www.ametherm.com/thermistor/ntc-thermistor-beta
 // the value of the 'other' resistor
 #define SERIES_RESISTOR 20000
 
