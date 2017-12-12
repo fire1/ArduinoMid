@@ -1333,6 +1333,15 @@ uint8_t CarSens::getMxmVss() {
 
 //#define DEBUG_TEMPERATURE_OU
 
+// resistance at 25 degrees C
+#define THERMISTOR_NOMINAL 5000
+// temp. for nominal resistance (almost always 25 C)
+#define TEMPERATURE_NOMINAL 25
+// The beta coefficient of the thermistor (usually 3000-4000)
+#define BCO_EFFICIENT 4000
+// the value of the 'other' resistor
+#define SERIES_RESISTOR 20000
+
 /**
  * Temperature sensing
  */
@@ -1415,16 +1424,30 @@ void CarSens::sensTmp() {
         }
     }
 
-
+    float average, calculation;
     if (isInitializedLoop || amp->isMinute() && temperatureOutCollection > 0) {
         //
         // Get more precise average value
-        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex * 10);
+        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex);
+//        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex * 10);
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
-        temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
+//        temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
+
+
+        average = 1023 / readings - 1;
+        average = SERIES_RESISTOR / average;
+
+
+        calculation = average / THERMISTOR_NOMINAL;     // (R/Ro)
+        calculation = log(calculation);                  // ln(R/Ro)
+        calculation /= BCO_EFFICIENT;                   // 1/B * ln(R/Ro)
+        calculation += 1.0 / (TEMPERATURE_NOMINAL + 273.15); // + (1/To)
+        calculation = 1.0 / calculation;                 // Invert
+        calculation -= 273.15;
+        temperatureC = calculation;
 
         //
         // Wind chill patch
@@ -1466,7 +1489,6 @@ void CarSens::sensTmp() {
         Serial.println(temperatureC);
 
 #endif
-
         //
         // Pass value to global
         CUR_OUT_TMP = temperatureC;
