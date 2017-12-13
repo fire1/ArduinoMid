@@ -1347,6 +1347,21 @@ uint8_t CarSens::getMxmVss() {
  */
 void CarSens::sensTmp() {
 
+    float temperatureC;
+    uint16_t liveTemperatureValue;
+    //
+    // TODO use ResponsiveAnalogRead driver
+    if (isInitializedLoop || amp->isSens() && this->getVss() > 6 && this->getVss() < 15) {
+        //
+        // Usable value
+        liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
+        temperatureOutCollection += liveTemperatureValue;
+        temperatureOutIndex++;
+    }
+
+
+
+
 /*******************************     DS    temperature sensor ******************************************/
     //
     // Read inside temperature
@@ -1373,8 +1388,7 @@ void CarSens::sensTmp() {
 
 
     /******************************* Car's temperature sensor ******************************************/
-    float temperatureC;
-    uint16_t liveTemperatureValue;
+
     /**
      * About GM Temperature sensor
      *      Temperature range to [°C]: 250
@@ -1394,21 +1408,13 @@ void CarSens::sensTmp() {
      * ~  9     °C      value 335 <- guess
      */
 
-    //
-    // TODO use ResponsiveAnalogRead driver
-    if (amp->isSens() && this->getVss() > 0 && this->getVss() < 14) {
-        //
-        // Usable value
-        liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
-        temperatureOutCollection += liveTemperatureValue;
-        temperatureOutIndex++;
-    }
+//    float average, calculation;
 
     if (isInitializedLoop || amp->is4Seconds()) {
         liveTemperatureValue = (uint16_t) analogRead(pinTmpOut);
 
         // Cold engine
-        if (isInitializedLoop || this->getEngTmp() < 90 && this->getVss() == 0) {
+        if (isInitializedLoop || this->getEngTmp() < 78 && this->getVss() == 0) {
             temperatureOutCollection += liveTemperatureValue;
             temperatureOutIndex++;
             //
@@ -1417,19 +1423,18 @@ void CarSens::sensTmp() {
                 temperatureOutFirst = liveTemperatureValue;
             }
         } else {
-            // TODO Test reference  value
-            temperatureOutCollection +=
-                    (temperatureOutFirst + (temperatureOutCollection / temperatureOutIndex) * 2) / 3;
-//            temperatureOutCollection += (temperatureOutCollection / temperatureOutIndex);
+//            temperatureOutCollection +=
+//                    (temperatureOutFirst + (temperatureOutCollection / temperatureOutIndex) * 2) / 3;
+            temperatureOutCollection += (temperatureOutCollection / temperatureOutIndex);
             temperatureOutIndex++;
         }
     }
 
-    float average, calculation;
+
     if (isInitializedLoop || amp->isMinute() && temperatureOutCollection > 0) {
         //
         // Get more precise average value
-        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex);
+        uint16_t average_readings = uint16_t(temperatureOutCollection / temperatureOutIndex);
 //        uint16_t readings = uint16_t(temperatureOutCollection / temperatureOutIndex * 10);
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
@@ -1438,17 +1443,17 @@ void CarSens::sensTmp() {
 //        temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
 
 
-        average = 1023 / readings ;
-        average = SERIES_RESISTOR / average;
+        temperatureC = 1023 / average_readings - 1;
+        temperatureC = SERIES_RESISTOR / temperatureC;
 
 
-        calculation = average / THERMISTOR_NOMINAL;     // (R/Ro)
-        calculation = log(calculation);                  // ln(R/Ro)
-        calculation /= BCO_EFFICIENT;                   // 1/B * ln(R/Ro)
-        calculation += 1.0 / (TEMPERATURE_NOMINAL + 273.15); // + (1/To)
-        calculation = 1.0 / calculation;                 // Invert
-        calculation -= 273.15;
-        temperatureC = calculation;
+        temperatureC = temperatureC / THERMISTOR_NOMINAL;     // (R/Ro)
+        temperatureC = log(temperatureC);                  // ln(R/Ro)
+        temperatureC /= BCO_EFFICIENT;                   // 1/B * ln(R/Ro)
+        temperatureC += 1.0 / (TEMPERATURE_NOMINAL + 273.15); // + (1/To)
+        temperatureC = 1.0 / temperatureC;                 // Invert
+        temperatureC -= 273.15;
+//        temperatureC = calculation;
 
         //
         // Wind chill patch
@@ -1478,15 +1483,15 @@ void CarSens::sensTmp() {
 #endif
         //
         // Keep current value for more smooth data
-        temperatureOutCollection = (readings * 2);
-        temperatureOutIndex = 2;
+        temperatureOutCollection = average_readings * 1;
+        temperatureOutIndex = 1;
 
 #if defined(DEBUG_TEMPERATURE_OU)
-        Serial.print("Read Temp |  smooth: ");
-        Serial.print(readings);
+        Serial.print("Read Temp |  average: ");
+        Serial.print(average_readings);
         Serial.print(" / live: ");
         Serial.print(liveTemperatureValue);
-        Serial.print(" | calculation:");
+        Serial.print(" / result: ");
         Serial.println(temperatureC);
 
 #endif
