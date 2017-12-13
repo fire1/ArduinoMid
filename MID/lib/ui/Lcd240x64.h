@@ -508,8 +508,7 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
-        lcd->setFont(u8g2_font_armio); // u8g2_font_unifont_t_cyrillic
-//        lcd->setFont(u8g2_opel_font_bold);
+        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
 //        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
 
