@@ -15,7 +15,7 @@
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
 #include "fonts/OpelFontU8g.h"
-#include "fonts/XrusFontU8g.h"
+#include "fonts/OpelFnSmU8g.h"
 
 
 #ifndef _U8G2LIB_HH
@@ -508,7 +508,7 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
-        lcd->setFont(u8g_xrus_font_bold); // u8g2_font_unifont_t_cyrillic
+        lcd->setFont(u8g_font_opel_sm); // u8g2_font_unifont_t_cyrillic
 //        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
 

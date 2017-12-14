@@ -59,27 +59,27 @@ const char msg36[] PROGMEM = " Неизправност на крушка";
 // Warning winter
 const char msg37[] PROGMEM = "ЗАЛЕДЯВАНИЯ ПО ПЪТЯ"; // max 20 char
 const char msg38[] PROGMEM = " ";
-const char msg39[] PROGMEM = "Шофирайте внимателно!";
+const char msg39[] PROGMEM = "Шофирайте внимателно";
 //
 // Warning Oil level
-const char msg40[] PROGMEM = "МАЛКО МОТОРНОТО МАСЛО";
-const char msg41[] PROGMEM = "Ниво е по-малко от 25%";
-const char msg42[] PROGMEM = "Моля проверете.";
+const char msg40[] PROGMEM = "СМАЗОЧНА СИСТЕМА";
+const char msg41[] PROGMEM = "Проверете нивото на";
+const char msg42[] PROGMEM = "моторното масло";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ ПРОБЛЕМ";
+const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ СИСТЕМА";
 const char msg44[] PROGMEM = "Напрежение от: ";
-const char msg45[] PROGMEM = "не е работни граници"; // max 23
+const char msg45[] PROGMEM = "не е работни граници";
 //
 // Warning breaks
-const char msg46[] PROGMEM = "ПРОБЛЕМ В СПИРАЧКИТЕ";
+const char msg46[] PROGMEM = "СПИРАЧНА СИСТЕМА";
 const char msg47[] PROGMEM = "Износване на ";
 const char msg48[] PROGMEM = "предните спирачки.  ";
 //
 // Warning coolant
 const char msg49[] PROGMEM = "ОХЛАДИТЕЛНА СИСТЕМА";
 const char msg50[] PROGMEM = "Проверете нивото на";
-const char msg51[] PROGMEM = "охладителната течност";
+const char msg51[] PROGMEM = "охладителна течност";
 //
 // Warning overheating
 const char msg52[] PROGMEM = "ОПАСНОС ПРЕГРЯВАНЕ";
