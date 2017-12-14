@@ -19,7 +19,8 @@ list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 # To set definitions use "-D"[DefName]
 add_definitions( -DUSBCON=1 )
 add_definitions ( -DSerial2=Serial)
+add_definitions ( -mmcu=atmega2560)
 LINK_DIRECTORIES("../libraries/")
-LINK_DIRECTORIES(c:\\ARDUINO\\libraries)
+#LINK_DIRECTORIES(c:\\ARDUINO\\libraries)
 
 link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
