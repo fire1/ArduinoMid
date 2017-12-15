@@ -113,14 +113,14 @@ public:
         // Test tone
         tone(TONE_ADT_PIN, 400, 20);
         if (/*car->getRpm() < 699*/ false) {
-            delay(10);
             lcd->clearBuffer();
             lcd->firstPage();
             do {
                 lcd->drawXBMP(0, 2, 240, 60, OpelLogoBits);
             } while (lcd->nextPage());
-            delay(2550);
+            delay(500);
             lcd->clearBuffer();
+
             lcd->firstPage();
             do {
                 lcd->drawXBMP(0, 2, 240, 60, BertoneBits);
