@@ -67,7 +67,7 @@ const char msg41[] PROGMEM = "Проверете нивото на";
 const char msg42[] PROGMEM = "моторното масло";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСИ СИСТЕМА";
+const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСКА СИСТЕМА";
 const char msg44[] PROGMEM = "Напрежение от: ";
 const char msg45[] PROGMEM = "не е работни граници";
 //

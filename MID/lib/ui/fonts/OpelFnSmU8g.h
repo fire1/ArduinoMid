@@ -15,9 +15,9 @@
 #include "../../libraries/U8g2/src/U8g2lib.h"
 
 #endif
-//
+// Size 13 / 72
 // Recommended
-extern const uint8_t u8g_font_opel_sm[6284] U8G2_FONT_SECTION("u8g_font_opel_sm") =
+extern const uint8_t u8g_font_opel_13[6284] U8G2_FONT_SECTION("u8g_font_opel_13") =
         "\305\0\3\3\4\4\3\5\5\22\20\374\375\11\375\12\376\1\213\3$\11 \5\0\204\23!\7\242\204"
                 "\23O\4\42\10C\255\25\21-\1#\23\227\204w\221`$r\212\4#\241Kb$\30\211\1$\23"
                 "\266|w\61\212$\62\11\321\210\263\210(\22!\206\0%\24\230\204\71\242,\241\220P\22\7\204#B"
