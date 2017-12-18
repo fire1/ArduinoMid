@@ -296,7 +296,7 @@ private:
     uint16_t CUR_ECU;
     //
     //
-    uint32_t  tmp_outCollection = 0;
+    uint32_t tmp_outCollection = 0;
     //
     int pushLpgIndex = 0;
     //
@@ -1434,7 +1434,7 @@ void CarSens::sensTmp() {
 
         //
         // Get more precise average value
-        uint16_t averageReadings = uint16_t(tmp_outCollection / tmp_outIndex);
+        float resistanceReadings = (tmp_outCollection / tmp_outIndex);
 //        uint16_t readings = uint16_t(tmp_outCollection / tmp_OutIndex * 10);
 
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
@@ -1443,7 +1443,7 @@ void CarSens::sensTmp() {
         // temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
 
         // convert the value to resistance
-        float resistanceReadings = 1023 / averageReadings - 1;
+        resistanceReadings = 1023 / resistanceReadings - 1;
         resistanceReadings = SERIES_RESISTOR / resistanceReadings;
 
         //
@@ -1484,12 +1484,12 @@ void CarSens::sensTmp() {
 #endif
         //
         // Keep current value for more smooth data
-        tmp_outCollection = averageReadings;
-        tmp_outIndex = 1;
+        tmp_outCollection = (uint16_t) ceil(resistanceReadings) * 2;
+        tmp_outIndex = 2;
 
 #if defined(DEBUG_TEMPERATURE_OU)
         Serial.print("Read Temp |  average: ");
-        Serial.print(averageReadings);
+        Serial.print(resistanceReadings);
         Serial.print(" / live: ");
         Serial.print(liveValue);
         Serial.print(" / result: ");
