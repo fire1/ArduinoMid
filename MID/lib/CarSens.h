@@ -1411,7 +1411,7 @@ void CarSens::sensTmp() {
 
 //    float average, calculation;
 
-    if (isInitializedLoop || amp->is5Seconds()) {
+    if (isInitializedLoop || amp->is10Seconds()) {
         liveValue = (uint16_t) analogRead(pinTmpOut);
         // Cold engine
         if (isInitializedLoop || this->getEngTmp() < 80 && this->getVss() == 0) {
@@ -1478,8 +1478,8 @@ void CarSens::sensTmp() {
 #endif
         //
         // Keep current value for more smooth data
-        tmp_outCollection = (uint16_t) ceil(resistanceReadings) * 2;
-        tmp_outIndex = 2;
+        tmp_outCollection = (uint16_t) floor(resistanceReadings) * 3;
+        tmp_outIndex = 3;
 
 #if defined(DEBUG_TEMPERATURE_OU)
         Serial.print("Read Temp |  average: ");

@@ -735,7 +735,7 @@ private:
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->setCursor(x, y + LCD_ICO_HIGH);
-        lcd->print(0x81);
+        lcd->print(F("°C"));
 //        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
@@ -746,7 +746,7 @@ private:
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
         lcd->setCursor(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH);
-        lcd->print(0x81);
+        lcd->print(F("°C"));
 //        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
