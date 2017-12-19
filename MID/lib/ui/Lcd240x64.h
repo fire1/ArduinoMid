@@ -7,6 +7,7 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
+
 #include "Menu240x64.h"
 #include "../../MID.h"
 #include "../MainFunc.h"
@@ -16,7 +17,7 @@
 #include "graphics/gLcd-icons.h"
 #include "fonts/OpelFontU8g.h"
 #include "fonts/OpelFnSmU8g.h"
-
+#include "fonts/OpelFn12U8g.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -508,7 +509,7 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
-        lcd->setFont(u8g_font_opel_13); // u8g2_font_unifont_t_cyrillic
+        lcd->setFont(u8g_font_opel_ic_12); // u8g2_font_unifont_t_cyrillic
 //        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
 
@@ -733,7 +734,9 @@ private:
  * @param y
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
+        lcd->setCursor(x, y + LCD_ICO_HIGH);
+        lcd->print(0x81);
+//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
 /**
@@ -742,7 +745,9 @@ private:
  * @param y
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
-        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits);
+        lcd->setCursor(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH);
+        lcd->print(0x81);
+//        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
 /**

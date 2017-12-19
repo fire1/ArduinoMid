@@ -1413,9 +1413,8 @@ void CarSens::sensTmp() {
 
     if (isInitializedLoop || amp->is5Seconds()) {
         liveValue = (uint16_t) analogRead(pinTmpOut);
-
         // Cold engine
-        if (isInitializedLoop || this->getEngTmp() < 77 && this->getVss() == 0) {
+        if (isInitializedLoop || this->getEngTmp() < 80 && this->getVss() == 0) {
             tmp_outCollection += liveValue;
             tmp_outIndex++;
         } else {
@@ -1426,11 +1425,6 @@ void CarSens::sensTmp() {
 
 
     if (isInitializedLoop || amp->isMinute() && tmp_outCollection > 0) {
-
-
-        liveValue = (uint16_t) analogRead(pinTmpOut);
-        tmp_outCollection += (liveValue + (tmp_outCollection / tmp_outIndex) * 8) / 9;
-        tmp_outIndex++;
 
         //
         // Get more precise average value

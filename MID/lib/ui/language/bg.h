@@ -57,7 +57,7 @@ const char msg35[] PROGMEM = " Сънливост засечена";
 const char msg36[] PROGMEM = " Неизправност на крушка";
 //
 // Warning winter
-const char msg37[] PROGMEM = "ЗАЛЕДЯВАНИЯ ПО ПЪТЯ"; // max 20 char
+const char msg37[] PROGMEM = "ЗАЛЕДЯВАНИЯ ПО ПЪТЯ"; // max 19 char
 const char msg38[] PROGMEM = " ";
 const char msg39[] PROGMEM = "Шофирайте внимателно";
 //
@@ -67,7 +67,7 @@ const char msg41[] PROGMEM = "Проверете нивото на";
 const char msg42[] PROGMEM = "моторното масло";
 //
 // Warning Battery
-const char msg43[] PROGMEM = "ЕЛЕКТРИЧЕСКА СИСТЕМА";
+const char msg43[] PROGMEM = "ЕЛ. СИСТЕМА";
 const char msg44[] PROGMEM = "Напрежение от: ";
 const char msg45[] PROGMEM = "не е работни граници";
 //
