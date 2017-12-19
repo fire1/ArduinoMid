@@ -296,7 +296,7 @@ private:
     uint16_t CUR_ECU;
     //
     //
-    uint32_t tmp_outCollection = 0;
+    uint64_t tmp_outCollection = 0;
     //
     int pushLpgIndex = 0;
     //
