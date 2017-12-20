@@ -21,12 +21,6 @@
 // $ >S
 
 
-
-// ª Sun
-
-
-// ª Sun
-
 // ¡ Road
 // ¢ >
 // £ checkbox
