@@ -411,7 +411,6 @@ extern const uint8_t u8g_font_opel_13r[6158] U8G2_FONT_SECTION("u8g_font_opel_13
                 "\4_\14\205u\27\231\267a\312\62\0\0";
 
 
-
 // Size 13 / 72
 // Recommended
 extern const uint8_t u8g_font_opel_13[6284] U8G2_FONT_SECTION("u8g_font_opel_13") =
