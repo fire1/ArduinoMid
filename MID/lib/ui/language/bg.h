@@ -17,7 +17,7 @@ const char msg1[] PROGMEM = "до следващия път!";
 const char msg2[] PROGMEM = "Преход ";
 //
 // Car state
-const char msg3[] PROGMEM = "Предни на спирачки: ";
+const char msg3[] PROGMEM = "Предни накладки: ";
 const char msg4[] PROGMEM = "Охладителна течност: ";
 const char msg5[] PROGMEM = "Течност за чистачки: ";
 const char msg6[] PROGMEM = "Ниво моторно  масло: ";
@@ -50,10 +50,10 @@ const char msg28[] PROGMEM = "ОБОРОТИ В МИН.";
 const char msg29[] PROGMEM = "ОДОМЕТЪР";
 const char msg30[] PROGMEM = "КОНСУМАЦИЯ";
 const char msg31[] PROGMEM = "РЕЗУЛТАТ";
-const char msg32[] PROGMEM = "Изгасетедвигателя за запазване.";
+const char msg32[] PROGMEM = "Изгасете двигателя за запазване.";
 const char msg33[] PROGMEM = "Използвайте спирачката за край";
 const char msg34[] PROGMEM = " Направете почивка";
-const char msg35[] PROGMEM = " Сънливост засечена";
+const char msg35[] PROGMEM = " Опасност сънливост ";
 const char msg36[] PROGMEM = " Неизправност на крушка";
 //
 // Warning winter
@@ -69,7 +69,7 @@ const char msg42[] PROGMEM = "моторното масло";
 // Warning Battery
 const char msg43[] PROGMEM = "ЕЛ. СИСТЕМА";
 const char msg44[] PROGMEM = "Напрежение от: ";
-const char msg45[] PROGMEM = "не е работни граници";
+const char msg45[] PROGMEM = "не е в работни граници";
 //
 // Warning breaks
 const char msg46[] PROGMEM = "СПИРАЧНА СИСТЕМА";
