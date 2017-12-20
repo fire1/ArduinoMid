@@ -296,7 +296,7 @@ private:
     uint16_t CUR_ECU;
     //
     //
-    uint64_t tmp_outCollection = 0;
+    uint32_t tmp_outCollection = 0;
     //
     int pushLpgIndex = 0;
     //
@@ -1429,26 +1429,28 @@ void CarSens::sensTmp() {
         //
         // Get more precise average value
         float resistanceReadings = (tmp_outCollection / tmp_outIndex);
-//        uint16_t readings = uint16_t(tmp_outCollection / tmp_OutIndex * 10);
 
+        //
+        // uint16_t readings = uint16_t(tmp_outCollection / tmp_OutIndex * 10);
         // (map(readings, 4100, 1200, 15, 390) * 0.1)
         // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
         // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
         // temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
-
-        // convert the value to resistance
-        resistanceReadings = 1023 / resistanceReadings - 1;
-        resistanceReadings = SERIES_RESISTOR / resistanceReadings;
+        //
 
         //
+        // convert the value to resistance
+        temperatureC = 1023 / resistanceReadings - 1;
+        temperatureC = SERIES_RESISTOR / temperatureC;
+        //
         // Convert to temperature
-        temperatureC = resistanceReadings / THERMISTOR_NOMINAL;     // (R/Ro)
+        temperatureC = temperatureC / THERMISTOR_NOMINAL;           // (R/Ro)
         temperatureC = log(temperatureC);                           // ln(R/Ro)
         temperatureC /= BCO_EFFICIENT;                              // 1/B * ln(R/Ro)
         temperatureC += 1.0 / (TEMPERATURE_NOMINAL + 273.15);       // + (1/To)
         temperatureC = 1.0 / temperatureC;                          // Invert
         temperatureC -= 273.15;
-//        temperatureC = calculation;
+        // temperatureC = calculation;
 
         //
         // Wind chill patch
