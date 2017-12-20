@@ -16,6 +16,45 @@
 
 #endif
 
+// IC symbols
+// # >R
+// $ >S
+
+
+
+// ª Sun
+
+
+// ª Sun
+
+// ¡ Road
+// ¢ >
+// £ checkbox
+// ¤ empty
+// ¥ 100km
+// ¦ inside
+// § outside
+// © Ice
+// ª Sun
+// « Petrol
+// ¬ Switch arrow
+// ® Break
+// ¯ km
+// °  °
+// ±  л
+// ²  ч
+// ³  h
+// ´  L
+// ¶  coffee
+// ·  >
+// ¹  lamp
+// »  lpg
+// ¼ connection
+// ½ settings
+// ¾ petrol station
+// ¿ car
+// ÷ \
+// ø Ø
 
 extern
 const uint8_t u8g_font_opel_ic_13[6237] U8G2_FONT_SECTION("u8g_font_opel_ic_13") =
