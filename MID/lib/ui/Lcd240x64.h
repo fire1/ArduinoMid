@@ -701,6 +701,8 @@ private:
  */
     inline void showInstant(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_now_5x8_bits);
+//        lcd->setCursor(x, y + LCD_ICO_HIGH);
+//        lcd->print(getMsg(75));
     }
 
 
@@ -711,8 +713,9 @@ private:
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->setCursor(x, y);
-        lcd->print(getMsg(68));
-        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH), 16, 9, per100km_16x9_bits);
+//        lcd->print(getMsg(68));
+        lcd->print(getMsg(71));
+//        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH), 16, 9, per100km_16x9_bits);
     }
 
 /**
@@ -723,9 +726,10 @@ private:
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
         uint8_t wd = lcd->getStrWidth(parent) + 5;
         lcd->setCursor(x + wd, y);
-        lcd->print(getMsg(68));
-        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH), 16, 9,
-                      per100km_16x9_bits);
+        lcd->print(getMsg(71));
+
+//        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH), 16, 9,
+//                      per100km_16x9_bits);
     }
 
 /**
@@ -734,8 +738,8 @@ private:
  * @param y
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->setCursor(x, y + LCD_ICO_HIGH);
-        lcd->print(F("°C"));
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(74));
 //        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
@@ -745,8 +749,8 @@ private:
  * @param y
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
-        lcd->setCursor(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH);
-        lcd->print(F("°C"));
+        lcd->setCursor(x + lcd->getStrWidth(parent) + 1, y);
+        lcd->print(getMsg(74));
 //        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
