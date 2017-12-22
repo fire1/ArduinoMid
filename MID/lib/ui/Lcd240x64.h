@@ -778,7 +778,7 @@ private:
     void displayHomeConsumption() {
 
 //        lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
-        lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_L10 + 1, LCD_ROW_1);
         lcd->print(getMsg(85)); // petrol station
         displayFloat(eep->getConsumedFuel(), char_3);
         lcd->drawStr(LCD_COL_L11, LCD_ROW_1, char_3);
@@ -786,7 +786,7 @@ private:
 
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(getMsg(68));
-        lcd->print(F(" "));
+        lcd->print(F("  "));
 
         //
         // When have several fuel lines
