@@ -17,12 +17,12 @@ const char msg1[] PROGMEM = "до следващия път!";
 const char msg2[] PROGMEM = "Преход ";
 //
 // Car state
-const char msg3[] PROGMEM = "Предни накладки: ";
+const char msg3[] PROGMEM = "   Предни  накладки: ";
 const char msg4[] PROGMEM = "Охладителна течност: ";
 const char msg5[] PROGMEM = "Течност за чистачки: ";
-const char msg6[] PROGMEM = "Ниво моторно  масло: ";
+const char msg6[] PROGMEM = " Ниво моторно масло: ";
 const char msg7[] PROGMEM = "        £ "; // Is fine message
-const char msg8[] PROGMEM = "Под 25%"; // Problem message for liquid
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = "Износени"; // Problem message for brakes
 const char msg10[] PROGMEM = "Изгорели"; // Problem message for lamps
 //
@@ -118,7 +118,7 @@ const char msg75[] PROGMEM = "¢"; // instant
 const char msg76[] PROGMEM = "^"; // point
 const char msg77[] PROGMEM = "`"; // time
 const char msg78[] PROGMEM = "®"; // break
-const char msg79[] PROGMEM = "¢"; // instant
+const char msg79[] PROGMEM = ""; //
 const char msg80[] PROGMEM = "¡"; // road
 const char msg81[] PROGMEM = "¶"; // coffee
 const char msg82[] PROGMEM = "·"; // temperature
@@ -133,6 +133,12 @@ const char msg90[] PROGMEM = "«"; // petrol
 const char msg91[] PROGMEM = "¬"; // bottom
 const char msg92[] PROGMEM = "®"; // break
 const char msg93[] PROGMEM = "¹"; // lamp
+const char msg94[] PROGMEM = "ø"; // average
+const char msg95[] PROGMEM = "¬"; // Switch arrow
+const char msg96[] PROGMEM = "»"; // LPG
+const char msg97[] PROGMEM = "¦"; // inside temperature
+const char msg98[] PROGMEM = "§"; // outside temperature
+
 //
 // Generate message table for LCD
 const char *const LcdMsgTable[] PROGMEM = {
@@ -142,6 +148,6 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
         msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72, msg73, msg74, msg75,
         msg76, msg77, msg78, msg79, msg80, msg81, msg82, msg83, msg84, msg85, msg86, msg87, msg88, msg89, msg90,
-        msg91, msg92, msg93
+        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98
 };
 #endif //ARDUINOMID_EN_H_H

@@ -31,11 +31,11 @@
 #define LCD_ROW_4 50
 
 #define LCD_COL_L10 5
-#define LCD_COL_L11 8
-#define LCD_COL_L12 30
-#define LCD_COL_L21 35
-#define LCD_COL_L22 65
-#define LCD_COL_L23 85
+#define LCD_COL_L11 28
+#define LCD_COL_L12 39
+#define LCD_COL_L21 49
+#define LCD_COL_L22 56
+#define LCD_COL_L23 75
 
 #define LCD_CNR 120 // Center of the screen
 #define LCD_CNR_1 125 // Center of the screen
@@ -213,18 +213,31 @@ public:
     void showHeader(const char *title) {
         lcd->enableUTF8Print();
         lcd->drawLine(0, 13, 240, 12);
+        lcd->setCursor(15, 1);
+        lcd->print(title);
 
-        if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
-            lcd->drawXBMP(135, 1, 10, 10, wrench_10x10_bits);
-            lcd->drawCircle(139, 6, 6, U8G2_DRAW_ALL);
-        }
+
         if (car->getEngTmp() > 99 && drawIndex % 3 == 0) {
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }
-        lcd->setCursor(15, 1);
-        lcd->print(title);
 
+        lcd->setCursor(1, 1);
+        if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
+            lcd->print(getMsg(84));
+        } else if (millis() > 7000) {
+            if (car->getTmpOut() < 3) {
+                if (drawIndex % 2 == 0)lcd->print(getMsg(88));
+            } else if (car->getTmpOut() < 0) {
+                lcd->print(getMsg(88));
+            } else if (car->getTmpOut() < 15) {
+                lcd->print(getMsg(87));
+            } else if (car->getTmpOut() < 40) {
+                lcd->print(getMsg(89));
+            } else {
+                if (drawIndex % 2 == 0) lcd->print(getMsg(89));
+            }
+        }
 
     }
 
@@ -232,14 +245,18 @@ public:
  * Icons for fuel switching BNZ
  */
     void showIconBnz(uint8_t x, uint8_t y) {
-        lcd->drawXBMP(x, y, 16, 16, bnz_16x16_bits);
+//        lcd->drawXBMP(x, y, 16, 16, bnz_16x16_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(90));
     }
 
 /**
  * Icons for fuel switching LPG
  */
     void showIconLpg(uint8_t x, uint8_t y) {
-        lcd->drawXBMP(x, y, 16, 16, lpg_16x16_bits);
+//        lcd->drawXBMP(x, y, 16, 16, lpg_16x16_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(96));
     }
 
 //
@@ -489,16 +506,11 @@ protected:
         animateFast = false;
         animateUltra = false;
     }
-//
-// Defining content generate container variables
-//    char char_2[3];
-//    char char_3[4];
-//    char char_4[5];
 
     void menus();
 
 //    void aniHrzChar(u8g2_uint_t x, u8g2_uint_t y, const char *str) {
-////        lcd->drawUTF8(aniIndex * 3, 36, str);
+//        lcd->drawUTF8(aniIndex * 3, 36, str);
 //    }
 
     void useDefaultMode() {
@@ -512,19 +524,10 @@ protected:
         lcd->setFont(u8g_font_opel_ic_13); // u8g2_font_unifont_t_cyrillic
 //        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
-
-//        lcd->enableUTF8Print();
-//        lcd->setFont(u8g2_font_nine_by_five_nbp_t_all);
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
 
-    }
-
-
-    void useUtf8() {
-        lcd->setFont(u8g2_font_unifont_t_symbols);
-        lcd->setFontPosTop();
     }
 
 
@@ -594,7 +597,9 @@ protected:
                 lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (usedMenu.down) {
-                    lcd->print(F(" >  "));
+                    lcd->print(F(" "));
+                    lcd->print(getMsg(95));
+                    lcd->print(F("  "));
                     lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
                 }
                 break;
@@ -682,7 +687,9 @@ private:
  * @param y
  */
     inline void showKm(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + 1 + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
+//        lcd->drawXBMP(x, y + 1 + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(69));
     }
 
 /**
@@ -691,7 +698,9 @@ private:
  * @param y
  */
     inline void showAverage(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_phi_8x8_bits);
+//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_phi_8x8_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(94));
     }
 
 /**
@@ -700,9 +709,9 @@ private:
  * @param y
  */
     inline void showInstant(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_now_5x8_bits);
-//        lcd->setCursor(x, y + LCD_ICO_HIGH);
-//        lcd->print(getMsg(75));
+//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_now_5x8_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(75));
     }
 
 
@@ -738,7 +747,7 @@ private:
  * @param y
  */
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->setCursor(x, y);
+        lcd->setCursor(x + 1, y);
         lcd->print(getMsg(74));
 //        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
@@ -758,7 +767,9 @@ private:
  *
  */
     inline void showLiter(u8g2_uint_t x, u8g2_uint_t y) {
-        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_liter_4x8_bits);
+//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_liter_4x8_bits);
+        lcd->setCursor(x, y);
+        lcd->print(getMsg(68));
     }
 
 /**
@@ -766,28 +777,34 @@ private:
  */
     void displayHomeConsumption() {
 
-        lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
+//        lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
+        lcd->print(getMsg(85)); // petrol station
         displayFloat(eep->getConsumedFuel(), char_3);
-        lcd->drawStr(LCD_COL_L12, LCD_ROW_1, char_3);
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, char_3);
         wordWidth = lcd->getStrWidth(char_3);
 
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(getMsg(68));
+        lcd->print(F(" "));
+
         //
         // When have several fuel lines
 #ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
-            this->showIconBnz(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
+            lcd->print(getMsg(90));
         } else {
-            this->showIconLpg(LCD_COL_L23 + 10, LCD_ROW_1 + 3);
+            lcd->print(getMsg(96));
         }
 #endif
 
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2 - 2);
+        lcd->print(getMsg(94));
         displayFloat(eep->getAverageLitersPer100km(), char_3);
         if (car->getDst() < 1 && eep->getTravelDistance() < 1) {
-            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, "00.0");
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_2, "00.0");
         } else {
-            lcd->drawStr(LCD_COL_L12, LCD_ROW_2, char_3);
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_2, char_3);
         }
         showL100km(LCD_COL_L22, LCD_ROW_2);
     }
@@ -799,29 +816,33 @@ private:
 
         //
         // Outside graph
-        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-        lcd->drawXBMP(20, LCD_ROW_3 + 2, 18, 10, car_out_18x10_bits);
+//        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
+//        lcd->drawXBMP(20, LCD_ROW_3 + 2, 18, 10, car_out_18x10_bits);
+
         //
         // Inside Graph
-        lcd->drawXBMP(20, LCD_ROW_4 + 2, 18, 10, car_ins_18x10_bits);
+//        lcd->drawXBMP(20, LCD_ROW_4 + 2, 18, 10, car_ins_18x10_bits);
 
 
-        //
-        //
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_3 - 1);
+        lcd->print(getMsg(98));
+
         displayFloat(car->getTmpOut(), char_3);
-        lcd->drawStr(45, LCD_ROW_3, char_3);
-        this->showCels(LCD_COL_L23 - 6, LCD_ROW_3);
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_3, char_3);
+        this->showCels(LCD_COL_L22, LCD_ROW_3);
 
 
         if (car->getTmpIns() < -99) {
             lcd->drawStr(45, LCD_ROW_4, "none");
         } else {
+            lcd->setCursor(LCD_COL_L10, LCD_ROW_4 + 1);
+            lcd->print(getMsg(97));
             //
             // Data
             displayFloat(car->getTmpIns(), char_3);
-            lcd->drawStr(45, LCD_ROW_4, char_3);
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, char_3);
             wordWidth = lcd->getStrWidth(char_3);
-            this->showCels(LCD_COL_L23 - 6, LCD_ROW_4);
+            this->showCels(LCD_COL_L22, LCD_ROW_4);
         }
 
     }
@@ -831,11 +852,13 @@ private:
  */
     void displayHomeTrip() {
         SavedData saved = eep->getData();
-        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, road_18x18_bits);
-        lcd->drawXBMP(LCD_CNR, LCD_ROW_3, 18, 18, car_18x18_bits); // grap_18x18_bits
+//        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, road_18x18_bits);
+//        lcd->drawXBMP(LCD_CNR, LCD_ROW_3, 18, 18, car_18x18_bits); // grap_18x18_bits
         //
         // Travel distance
-        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
+//        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_1);
+        lcd->print(getMsg(76));
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->setCursor(LCD_COL_R12, LCD_ROW_1);
         lcd->print(char_4);
@@ -844,7 +867,9 @@ private:
         //
         // Travel time
         car->getHTm(saved.time_trp, char_5);
-        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
+//        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
+        lcd->print(getMsg(77));
         lcd->setCursor(LCD_COL_R12, LCD_ROW_2);
         lcd->print(char_5);
         lcd->print(" ");
@@ -994,9 +1019,9 @@ private:
 
         if (history.brk) {
             lcd->setCursor(0, LCD_ROW_1);
-            lcd->print(F("*"));
+            lcd->print(F(">"));
         }
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
         lcd->print(getMsg(3));
 
         lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_1);
@@ -1005,10 +1030,10 @@ private:
         // Coolant
         if (history.cnt) {
             lcd->setCursor(0, LCD_ROW_2);
-            lcd->print(F("*"));
+            lcd->print(F(">"));
         }
 
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
         lcd->print(getMsg(4));
         lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_2);
         if (stt->getLiveCnt()) lcd->print(getMsg(8)); else lcd->print(getMsg(7));
@@ -1017,9 +1042,9 @@ private:
         // Window washer
         if (history.win) {
             lcd->setCursor(0, LCD_ROW_3);
-            lcd->print(F("*"));
+            lcd->print(F(">"));
         }
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_3);
         lcd->print(getMsg(5));
         lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_3);
         if (stt->getLiveWin()) lcd->print(getMsg(8));
@@ -1029,9 +1054,9 @@ private:
         // Oil level
         if (history.oil) {
             lcd->setCursor(0, LCD_ROW_4);
-            lcd->print(F("*"));
+            lcd->print(F(">"));
         }
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
         lcd->print(getMsg(6));
 
         lcd->setCursor(LCD_COL_R12 - 20, LCD_ROW_4);
@@ -1121,7 +1146,7 @@ private:
  * */
     void buildRowTrip(const char *name, TripData data, uint8_t y) {
         float dst = car->getDst() + data.range;
-        lcd->setCursor(LCD_COL_L11, y);
+        lcd->setCursor(LCD_COL_L10, y);
         lcd->print(name);
         displayFloat(dst, char_4);
         lcd->print(char_4);
