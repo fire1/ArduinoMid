@@ -71,12 +71,12 @@ private:
         int readingVoltage = analogRead(pinVol);
         //
         // Voltage too high
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 990) {
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 950) {
             return true;
         }
         //
         // Voltage too low
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 850) {
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 680) {
             return true;
         }
         //
@@ -84,6 +84,14 @@ private:
         if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
             lastVoltageValue = readingVoltage;
         }
+
+        if(amp->isSecond()){
+            Serial.print(" Voltage: ");
+            Serial.print(readingVoltage);
+            Serial.print(" ");
+            Serial.println(readingVoltage / 68);
+        }
+
         //
         // Voltage is good
         return false;
@@ -320,33 +328,6 @@ void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
 
 }
 
-/**
- * Readings states
- */
-/*void CarState::_listener() {
-    if (amp->is10Seconds()) {
-        result.oil = (boolean) digitalRead(pinOil);
-        result.brk = (boolean) digitalRead(pinBrk);
-        result.cnt = (boolean) digitalRead(pinCnt);
-        result.win = (boolean) digitalRead(pinWin);
-        result.vol = isBadVoltage();
-
-        result.wnt = isWinter();
-        result.ovh = isOverhead();
-        //
-        // Car servicing
-        if (workDistance > CAR_STT_TM_BELT) { // Timing belt change
-            result.blt = true;
-        }
-
-        //
-        // Car state
-        if (result.oil || result.brk || result.cnt || result.win || result.vol || result.wnt || result.ovh) {
-            alertState++;
-        }
-    }
-
-}*/
 
 
 /**
@@ -402,7 +383,7 @@ boolean CarState::getLiveVol() {
  * @return integer
  */
 float CarState::getVoltage(void) {
-    return analogRead(pinVol) / 67;
+    return analogRead(pinVol) / 68;
 }
 
 /**
