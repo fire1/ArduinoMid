@@ -71,7 +71,7 @@ private:
         int readingVoltage = analogRead(pinVol);
         //
         // Voltage too high
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 950) {
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 950) { // are maximum 13.8V-14.2V
             return true;
         }
         //
