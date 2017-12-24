@@ -32,7 +32,7 @@ const char msg12[] PROGMEM = "ПЪТУВАНИЯ";
 const char msg13[] PROGMEM = "ГОРИВА";
 const char msg14[] PROGMEM = "ОБСЛУЖВАНЕ";
 const char msg15[] PROGMEM = "ОТНОСНО";
-const char msg16[] PROGMEM = "ИНСТУМЕНТИ";
+const char msg16[] PROGMEM = "ИНСТРУМЕНТИ";
 const char msg17[] PROGMEM = "НАСТРОЙКИ";
 const char msg18[] PROGMEM = "ТЕКУЩО";
 const char msg19[] PROGMEM = "ЗАВОДСКИ";
@@ -54,7 +54,7 @@ const char msg32[] PROGMEM = "Изгасете двигателя за запа�
 const char msg33[] PROGMEM = "Използвайте спирачката за край";
 const char msg34[] PROGMEM = " Направете почивка";
 const char msg35[] PROGMEM = " Опасност сънливост ";
-const char msg36[] PROGMEM = " Неизправност на крушка";
+const char msg36[] PROGMEM = " Не изправност на крушка";
 //
 // Warning winter
 const char msg37[] PROGMEM = "ЗАЛЕДЯВАНИЯ ПО ПЪТЯ"; // max 19 char
@@ -82,7 +82,7 @@ const char msg50[] PROGMEM = "Проверете нивото на";
 const char msg51[] PROGMEM = "охладителна течност";
 //
 // Warning overheating
-const char msg52[] PROGMEM = "ОПАСНОС ПРЕГРЯВАНЕ";
+const char msg52[] PROGMEM = "ОПАСНОСТ ПРЕГРЯВАНЕ";
 const char msg53[] PROGMEM = "Температурата ";
 const char msg54[] PROGMEM = "на двигателя е висока!";
 //
@@ -128,16 +128,8 @@ const char msg85[] PROGMEM = "¾"; // petrol station
 const char msg86[] PROGMEM = "¿"; // car
 const char msg87[] PROGMEM = "¨"; // cloudy
 const char msg88[] PROGMEM = "©"; // oven /ice
-const char msg89[] PROGMEM = "ª"; // sun
-const char msg90[] PROGMEM = "«"; // petrol
-const char msg91[] PROGMEM = "¬"; // bottom
-const char msg92[] PROGMEM = "®"; // break
-const char msg93[] PROGMEM = "¹"; // lamp
-const char msg94[] PROGMEM = "ø"; // average
-const char msg95[] PROGMEM = "¬"; // Switch arrow
-const char msg96[] PROGMEM = "»"; // LPG
-const char msg97[] PROGMEM = "¦"; // inside temperature
-const char msg98[] PROGMEM = "§"; // outside temperature
+const char msg89[] PROGMEM = "ª"; //
+
 
 //
 // Generate message table for LCD
