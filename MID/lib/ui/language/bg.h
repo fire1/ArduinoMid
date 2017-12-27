@@ -128,7 +128,16 @@ const char msg85[] PROGMEM = "¾"; // petrol station
 const char msg86[] PROGMEM = "¿"; // car
 const char msg87[] PROGMEM = "¨"; // cloudy
 const char msg88[] PROGMEM = "©"; // oven /ice
-const char msg89[] PROGMEM = "ª"; //
+const char msg89[] PROGMEM = "ª"; // sun
+const char msg90[] PROGMEM = "«"; // petrol
+const char msg91[] PROGMEM = "¬"; // bottom
+const char msg92[] PROGMEM = "®"; // break
+const char msg93[] PROGMEM = "¹"; // lamp
+const char msg94[] PROGMEM = "ø"; // average
+const char msg95[] PROGMEM = "¬"; // Switch arrow
+const char msg96[] PROGMEM = "»"; // LPG
+const char msg97[] PROGMEM = "¦"; // inside temperature
+const char msg98[] PROGMEM = "§"; // outside temperature
 
 
 //

@@ -7,6 +7,11 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
+#ifndef _U8G2LIB_HH
+// Some IDE syntax mishmash fixer
+#include "../../libraries/U8g2/src/U8g2lib.h"
+
+#endif
 
 #include "Menu240x64.h"
 #include "../../MID.h"
@@ -17,13 +22,7 @@
 #include "graphics/gLcd-icons.h"
 #include "fonts/OpelFontU8g.h"
 #include "fonts/OpelFn13U8g.h"
-#include "fonts/OpelFn12U8g.h"
 
-#ifndef _U8G2LIB_HH
-// Some IDE syntax mishmash fixer
-#include "../../libraries/U8g2/src/U8g2lib.h"
-
-#endif
 
 #define LCD_ROW_1 16
 #define LCD_ROW_2 27
