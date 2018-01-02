@@ -18,7 +18,7 @@
 
 #include "CarSens.h"
 #include "MainFunc.h"
-#include "WhlSens.h"
+
 
 #ifndef ARDUINOMID_EepRom_H
 #define ARDUINOMID_EepRom_H
@@ -27,33 +27,6 @@
 #define DEBUG_EEP_ROM
 //#define EEP__INJ_SER true
 
-//
-//  Mega2560
-// 	20 (SDA), 21 (SCL)
-//
-// Saves Addresses in EEP Rom
-const int EEP_ADR_FTK = 0; // Fuel tank Astra G -  52 liter 14 gallons
-
-const uint8_t EEP_ADR_CL1 = 1; // Consumption Float A LPG
-const uint8_t EEP_ADR_Cl2 = 2; // Consumption Float B LPG
-
-const uint8_t EEP_ADR_CB1 = 8; // Consumption Float A BNZ
-const uint8_t EEP_ADR_CB2 = 9; // Consumption Float B BNZ
-// Fuel distance
-const uint8_t EEP_ADR_TD1 = 3; //  Travel distance
-const uint8_t EEP_ADR_TD2 = 4; //  Travel distance
-// Global car distance
-const uint8_t EEP_ADR_WD1 = 5; // Work distance
-const uint8_t EEP_ADR_WD2 = 6; // Work distance
-// Trip distance
-const uint8_t EEP_ADR_TR1 = 10; // Trip distance
-const uint8_t EEP_ADR_TR2 = 11; // Trip distance
-// Trip time
-const uint8_t EEP_ADR_TT1 = 12; // Trip Time
-const uint8_t EEP_ADR_TT2 = 13; // Trip Time
-
-const int EEP_ADR_TRS = 5; // Tires size
-const int EEP_ADR_RMS = 6; // Rims Size
 
 // AT24C256
 // We’re using a 256kbit eeprom which is actually 32kbytes of space.
@@ -69,11 +42,11 @@ const int EEP_ADR_RMS = 6; // Rims Size
 /**
  *
  */
-class EepRom {
+class EepRom  {
 
     SavedData container;
     CarSens *car;
-    WhlSens *whl;
+
     float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 public:
@@ -81,7 +54,7 @@ public:
  * EepRom Constructor
  * @param carSens
  */
-    EepRom(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens) {
+    EepRom(CarSens &carSens) : car(&carSens) {
 
     }
 
@@ -100,7 +73,6 @@ public:
 
     void load();
 
-    void injectSerial(void);
 
 
     float getAverageLitersPer100km() {
@@ -134,8 +106,6 @@ public:
         float time = millis() / MILLIS_PER_HR;
         container.dist_trp = container.dist_trp + car->getDst();
         container.time_trp = container.time_trp + time;
-//    saveTripTime(container.time_trp);
-//    saveTripDistance(container.dist_trp);
         saveCurrentData(); // Ordinary save of data
     }
 
@@ -201,6 +171,12 @@ public:
  */
     inline SavedData getData(void) {
         return container;
+    }
+/**
+ *
+ */
+    inline void setData(SavedData newer){
+        container  = newer;
     }
 
 /**
@@ -339,246 +315,12 @@ private:
 #endif
     }
 
-/**
- *
- * @return
- *
-    float loadAdtCons();
-
-/**
- *
- * @param value
- *
-    void saveAdtCons(float value = 0);
-
-/**
- * Loads default consumption
- * @return
- *
-    float loadDefCons();
-
-/**
- * Loads default consumption
- * @param value
- *
-    void saveDefCons(float value = 0);
-
-/**
- * Loads Work distance
- * @return
- *
-    float loadWorkDistance();
-
-/**
- * Saves work distance
- * @param value
- *
-    void saveWorkingDistance(float value = 0);
-
-/**
- * loads travel distance
- * @return
- *
-    float loadTravelDistance();
-
-/**
- * Saves travel distance
- * @param value
- *
-    void saveTravelDistance(float value = 0);
-
-/**
- * Load trip distance
- *
-    float loadTripDistance();
-
-/**
- * Save trip distance
- *
-    void saveTripDistance(float value = 0);
-
-/**
- * Save trip Time
- *
-    float loadTripTime();
-
-/**
- * Save trip Time
- *
-    void saveTripTime(float value = 0);
-
-/**
- * Write data driver
- * @param theMemoryAddress
- * @param u8Byte
- */
-    void WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte);
-
-/**
- * Read data driver
- * @param theMemoryAddress
- * @return
- */
-    uint8_t WireEepRomRead(uint16_t theMemoryAddress);
 
 };
 
 
-/**
- *
- * @param theMemoryAddress
- * @param u8Byte
- */
-void EepRom::WireEepRomWriteByte(uint16_t theMemoryAddress, uint8_t u8Byte) {
 
-#ifdef  EEP_ROM_ADDRESS
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.write((uint8_t) u8Byte);
-    Wire.endTransmission();
-#else
-    EEPROM.write(theMemoryAddress, u8Byte);
-#endif
 
-    delay(10);
-}
-
-/**
- *
- * @param theMemoryAddress
- * @return
- */
-uint8_t EepRom::WireEepRomRead(uint16_t theMemoryAddress) {
-    uint8_t u8retVal = 0;
-#ifdef  EEP_ROM_ADDRESS
-
-    Wire.beginTransmission(EEP_ROM_ADDRESS);
-    Wire.write((theMemoryAddress >> 8) & 0xFF);
-    Wire.write((theMemoryAddress >> 0) & 0xFF);
-    Wire.endTransmission();
-    delay(10);
-    Wire.requestFrom(EEP_ROM_ADDRESS, 1);
-    if (Wire.available()) u8retVal = Wire.read();
-#else
-    u8retVal = EEPROM.read(theMemoryAddress);
-#endif
-    return u8retVal;
-}
-
-/**
- *  Loads travel consumption
- *
-float EepRom::loadAdtCons() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_CL1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_Cl2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  Saves travel consumption
- *
-void EepRom::saveAdtCons(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_CL1, (uint8_t) val[0]);
-    WireEepRomWriteByte(EEP_ADR_Cl2, (uint8_t) val[1]);
-}
-
-/**
- *  Loads travel consumption
- *
-float EepRom::loadDefCons() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_CB1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_CB2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  Saves travel consumption
- *
-void EepRom::saveDefCons(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_CB1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_CB2, val[1]);
-}
-
-/**
- *  LOAD Travel distance
- *
-float EepRom::loadTripDistance() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_TR1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_TR2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  SAVE Travel distance
- *
-void EepRom::saveTripDistance(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_TR1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_TR2, val[1]);
-}
-
-/**
- *  LOAD Travel distance
- *
-float EepRom::loadTripTime() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_TT1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_TT2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  SAVE Travel distance
- *
-void EepRom::saveTripTime(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_TT1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_TT2, val[1]);
-}
-
-/**
- *  LOAD Travel distance
- *
-float EepRom::loadTravelDistance() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_TD1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_TD2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  SAVE Travel distance
- *
-void EepRom::saveTravelDistance(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_TD1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_TD2, val[1]);
-}
-
-/**
- *  LOAD Work distance
- *
-float EepRom::loadWorkDistance() {
-    uint8_t va1 = WireEepRomRead(EEP_ADR_WD1);
-    uint8_t va2 = WireEepRomRead(EEP_ADR_WD2);
-    return restoreFloat(va1, va2);
-}
-
-/**
- *  Saves Work distance
- *
-void EepRom::saveWorkingDistance(float value) {
-    uint8_t val[2];
-    separateFloat(value, val);
-    WireEepRomWriteByte(EEP_ADR_WD1, val[0]);
-    WireEepRomWriteByte(EEP_ADR_WD2, val[1]);
-}
 
 /*************************************************
  *  public
@@ -736,224 +478,6 @@ void EepRom::load() {
     Serial.println(data[15]);
     Serial.println(data[16]);
     delay(10);
-}
-
-
-/**
- * Injection data from USB serial monitor
- */
-void EepRom::injectSerial(void) {
-    //
-// Serial injection
-#if defined(SERIAL_INJECT_DATA)
-    String srlAllData;
-    String srlStrName;
-    String srlOutputs;
-    //
-    // Default message
-    srlOutputs = F(" None ... Sorry! ");
-    //
-    // Execute command from serial
-    if (Serial.available() > 0) {
-        float saveTemp;
-
-        srlStrName = Serial.readStringUntil('=');
-        //
-        // So ... C++ is static language...
-        //      is not good idea to re-set dynamically
-
-        if (srlStrName == "trd") {
-            // trip distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            container.dist_trp = saveTemp;
-            srlOutputs = F("Trip distance ");
-            srlOutputs += saveTemp;
-        }
-
-        if (srlStrName == "trt") {
-            // Trip time
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            container.time_trp = saveTemp;
-            srlOutputs = F("Trip time ");
-            srlOutputs += saveTemp;
-        }
-
-        if (srlStrName == "set_tr") {
-            // Saves type
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1)saveTripData();
-            srlOutputs = F("Change trip data ");
-            srlOutputs += saveTemp;
-        }
-
-        if (srlStrName == "lpg") {
-            // Total Liters per hour consumed
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setAdtFuel(saveTemp);
-            srlOutputs = F("LPG fuel ");
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "bnz") {
-            // Total Liters per hour consumed
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setDefFuel(saveTemp);
-            srlOutputs = F("BNZ fuel ");
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "ttd") {
-            // Total Travel distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setTravelDistance(saveTemp);
-            srlOutputs = F("Travel distance ");
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "wrk") {
-            // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setWorkDistance(saveTemp);
-            srlOutputs = F("Work distance ");
-            srlOutputs += saveTemp;
-        }
-        //
-        // Correction value inject
-        if (srlStrName == "cor_rpm") {
-            // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setSensRpm(saveTemp);
-            srlOutputs = F("RPM correction ");
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "cor_vss") {
-            // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setSensVss(saveTemp);
-            srlOutputs = F("VSS correction ");
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "cor_dst") {
-            // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setSensDst(saveTemp);
-            srlOutputs = F("DST correction ");
-            srlOutputs += saveTemp;
-        }
-
-        if (srlStrName == "cor_ecu") {
-            // Total work distance
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            setSensEcu(saveTemp);
-            srlOutputs = F("ECU correction ");
-            srlOutputs += saveTemp;
-        }
-
-        if (srlStrName == "set_cor") {
-            // Saves type
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1) {
-                car->setSave(container);
-                srlOutputs = F("Passing value to carSens ");
-            }
-        }
-
-        if (srlStrName == "set_wrk") {
-            // Saves type
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1) {
-                saveResetData();
-                srlOutputs = F("Saved Work distance ");
-                srlOutputs += saveTemp;
-            }
-        }
-        if (srlStrName == "save") {
-            // Saves type
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1) {
-                saveCurrentData();
-                srlOutputs = F("Saved All data ");
-                srlOutputs += saveTemp;
-            }
-
-        }
-        if (srlStrName == "reset") {
-            // Saves type
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            if (saveTemp == 1) {
-                this->saveResetData();
-                srlOutputs = F("Saved All data and resetting...");
-                srlOutputs += saveTemp;
-            }
-
-        }
-
-        //
-        // Steering buttons digPod inject
-        if (srlStrName == "whl") {
-            // Saves type
-            uint8_t vol = Serial.readStringUntil('+').toInt();
-            saveTemp = Serial.readStringUntil('\n').toInt();
-            srlOutputs = F("Wheel Simulate resistance ");
-            whl->sendRadioButtons((uint8_t) saveTemp, vol);
-            srlOutputs += saveTemp;
-        }
-
-        //
-        // Trips record
-        //
-        // Trip A
-        if (srlStrName == "tf1") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip A fuel ");
-            container.trip_a.fuel = saveTemp;
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "td1") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip A range ");
-            container.trip_a.range = saveTemp;
-            srlOutputs += saveTemp;
-        }
-        //
-        // Trip B
-        if (srlStrName == "tf2") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip B fuel ");
-            container.trip_b.fuel = saveTemp;
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "td2") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip B range ");
-            container.trip_b.range = saveTemp;
-            srlOutputs += saveTemp;
-        }
-        //
-        // Trip C
-        if (srlStrName == "tf3") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip C fuel ");
-            container.trip_c.fuel = saveTemp;
-            srlOutputs += saveTemp;
-        }
-        if (srlStrName == "td3") {
-            saveTemp = Serial.readStringUntil('\n').toFloat();
-            srlOutputs = F("Sets Trip C range ");
-            container.trip_c.range = saveTemp;
-            srlOutputs += saveTemp;
-        }
-
-        //
-        // Show command information to human
-        Serial.print(F("\n\n==============================================================\n"));
-        Serial.print(F("\n \t\t  [MID $]> Affected value of "));
-        Serial.print(srlOutputs);
-        Serial.print(F("\n\n\n==============================================================\n\n"));
-        //
-        // Remove containers
-        srlStrName = "";
-        srlAllData = ""; // Clear recieved buffer
-        srlOutputs = "";
-    }
-#endif
 }
 
 

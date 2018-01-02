@@ -1,5 +1,3 @@
-
-
 /*
 ---------------------------------------------------
     Arduino MID
@@ -201,7 +199,7 @@ void loop() {
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
-    eepRom.injectSerial();
+    dbgSerial.listener();
 
 }
 
