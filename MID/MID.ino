@@ -155,6 +155,12 @@ void loop() {
     //
     //  Switch to shutdown menu
     shutDown.cursor();
+
+
+//    if(ampInt.isSens()){
+//        DBG_P("RPM: ");
+//        DBG_PLN(carSens.getRpm());
+//    }
     //
     // Listen LPG fuel system from serial com
 #ifdef ADT_FUEL_SYSTEM_SERIAL
@@ -163,18 +169,20 @@ void loop() {
     //
     // Debugging LPG data
     if (ampInt.isSecond()) {
-        Serial.print(F(" Fuel state is "));
-        Serial.println(carSens.getFuelState());
+//        Serial.print(F(" Fuel state is "));
+//        Serial.println(carSens.getFuelState());
+//
+//        Serial.print("Lights :");
+//        Serial.print(analogRead(A12));
+//        Serial.print(" / ");
+//        Serial.print(analogRead(A13));
+//        Serial.println();
+//
+//        Serial.print("Inside tmp :");
+//        Serial.print(carSens.getTmpIns());
+//        Serial.println();
 
-        Serial.print("Lights :");
-        Serial.print(analogRead(A12));
-        Serial.print(" / ");
-        Serial.print(analogRead(A13));
-        Serial.println();
 
-        Serial.print("Inside tmp :");
-        Serial.print(carSens.getTmpIns());
-        Serial.println();
     }
 
 

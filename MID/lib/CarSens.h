@@ -957,6 +957,8 @@ void CarSens::listener() {
  */
 void CarSens::sensVss() {
 
+    //
+    // 200hz for 50km/h
     if (amp->isSens()) {
 
         //
@@ -1001,7 +1003,8 @@ void CarSens::sensVss() {
  * Detect RPMs
  */
 void CarSens::sensRpm() {
-
+    //
+    // 200hz for 6000 rpm
     if (amp->isSens()) {
         //
         // Pass rpm to global

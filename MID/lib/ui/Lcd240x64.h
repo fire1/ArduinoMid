@@ -212,7 +212,7 @@ public:
     void showHeader(const char *title) {
         lcd->enableUTF8Print();
         lcd->drawLine(0, 13, 240, 12);
-        lcd->setCursor(15, 1);
+        lcd->setCursor(20, 1);
         lcd->print(title);
 
 
@@ -791,11 +791,16 @@ private:
         // When have several fuel lines
 #ifdef LPG_SWITCHING_DETECT
         if (car->getFuelState() == 0) {
-            lcd->print(getMsg(90));
+            lcd->print(getMsg(90)); // petrol icon
         } else {
-            lcd->print(getMsg(96));
+            lcd->print(getMsg(96)); // lpg icon
         }
 #endif
+
+//        if (initializeDraw) {
+//            lcd->drawFrame(90, 18, 50, 42);
+
+//        }
 
         lcd->setCursor(LCD_COL_L10, LCD_ROW_2 - 2);
         lcd->print(getMsg(94));
@@ -806,6 +811,10 @@ private:
             lcd->drawStr(LCD_COL_L11, LCD_ROW_2, char_3);
         }
         showL100km(LCD_COL_L22, LCD_ROW_2);
+
+//        if (drawIndex < 2 && initializeDraw) {
+            lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
+//        }
     }
 
 /**

@@ -10,8 +10,8 @@
 
 
 // serial print macros
-#define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } initialization
-#define DBG_P(...)    { Serial.print(__VA_ARGS__);  } print
+#define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
+#define DBG_P(...)    { Serial.print(__VA_ARGS__);  } //print
 #define DBG_PLN(...)  { Serial.println(__VA_ARGS__); } // print line
 
 

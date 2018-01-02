@@ -39,23 +39,34 @@ private:
     uint8_t fuelTankAverage = 0;
     uint8_t trans;
     uint8_t history;
-
+    uint8_t lpg = 0;
 
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
 
 public:
-    LpgSerial(void) {
+    LpgSerial() {
 
     }
 
     void begin(void) {
-        Serial2.begin(246);
+        Serial2.begin(245);
+        Serial1.begin(128);
     }
 
 
     void listener(void) {
+
+        if (lpg != 0) {
+            lpg = 0;
+        }
+
+        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
+            Serial.print("LPG1 ");
+            Serial.println(Serial1.read());
+        }
+
         if (Serial2.available() > 0) {
             if (trans != LPG_SERIAL_T_ST) {
                 history = trans;
@@ -69,16 +80,31 @@ public:
                 stateStart = true;
             }
             uint8_t val = uint8_t(Serial2.read());
+//
+            Serial.print("LPG2 ");
+            Serial.println(val);
 
-            if (transStart) {
+
+            if (val > 40 && val < 250) {
                 trans = val;
-                transStart = false;
             }
 
-            if (val == 140) {
-                transStart = true;
-            }
 
+//            if (val == 146) {
+//                lpg = 1;
+//            }
+//
+//            if (val == 148) {
+//                lpg = 2;
+//            }
+
+//            if (val == 146) {
+//                transStart = true;
+//            }
+//
+//            if (val == 255) {
+//                transStart = false;
+//            }
 
             //
             // Agg to average
@@ -120,14 +146,16 @@ public:
  *  Is additional fuel active
  */
     boolean isLPG() {
-        return (history < 140 && history > 27 || trans < 140 && trans > 27) ? true : false;
+//        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
+        return (trans < 147) ? true : false;
     }
 
 /**
  *  Is default fuel active
  */
     inline boolean isBNZ() {
-        return (trans > 140 && trans == history || trans == 27 || stateStart == false) ? true : false;
+//        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
+        return (trans > 147) ? true : false;
     }
 
 };
