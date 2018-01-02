@@ -229,11 +229,12 @@ public:
                 if (drawIndex % 2 == 0)lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 0) {
                 lcd->print(getMsg(88));
-            } else if (car->getTmpOut() < 15) {
-                lcd->print(getMsg(87));
+            } else if (car->getTmpOut() < 36) {
+                lcd->print(getMsg(86));
+//                lcd->print(getMsg(87));
             } else if (car->getTmpOut() < 40) {
                 lcd->print(getMsg(89));
-            } else {
+            } else if (car->getTmpOut() > 40){
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
             }
         }
