@@ -20,7 +20,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1513755956
-ModificationTime: 1513941847
+ModificationTime: 1514875095
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -1308,7 +1308,7 @@ EndChar
 
 StartChar: $00BF
 Encoding: 191 191 126
-Width: 1076
+Width: 1230
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -4985,7 +4985,7 @@ Fore
 Validated: 1
 EndChar
 EndChars
-BitmapFont: 13 494 12 1 1 FreeType
+BitmapFont: 13 495 12 1 1 FreeType
 BDFStartProperties: 25
 COMMENT 1 ""
 COMMENT 1 "Converted from OpenType font "OpelSansBold.ttf" by "otf2bdf 3.0"."
@@ -5214,8 +5214,8 @@ BDFChar: 98 163 13 1 9 1 10
 4odkKJ:N6%L4H@U\:BZk5la(K
 BDFChar: 99 164 13 1 9 1 10
 4odkKJ:Nl7Lk(;3P^n:75la(K
-BDFChar: 100 165 11 0 9 1 10
-8:]5U<BsPL<Bs**!!#oIAO'6\
+BDFChar: 100 165 11 0 9 1 8
+8:]5U<Bs**!!#oIAO'6\
 BDFChar: 101 166 13 0 11 0 11
 &-+*Y.f_O/3WM,N<1ph<]&:."6i]1H
 BDFChar: 102 167 13 0 11 0 11
@@ -5266,8 +5266,8 @@ BDFChar: 124 189 10 0 8 0 9
 !rrRV"onmY%fdRL2ummthuLOm
 BDFChar: 125 190 11 0 9 0 9
 Duf_7MZATaq*=b+q#L>CqLJAA
-BDFChar: 126 191 14 0 12 0 7
-+2B!A5S/G7Y\9EFJ+-i"
+BDFChar: 126 191 16 0 14 0 7
+&)\!1TF-2H:ZQa_J,F7*
 BDFChar: 127 192 9 0 8 0 11
 (]XsE!!!9))uprY2?5W8@fUuY_19@P
 BDFChar: 128 193 9 0 8 0 11

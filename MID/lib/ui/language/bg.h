@@ -113,6 +113,8 @@ const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "²"; // ч
 const char msg71[] PROGMEM = "±÷¥"; // Л/100km
 const char msg73[] PROGMEM = "¥"; // 100km
+//
+// Icons
 const char msg74[] PROGMEM = "°"; // celsius
 const char msg75[] PROGMEM = "¢"; // instant
 const char msg76[] PROGMEM = "^"; // point
