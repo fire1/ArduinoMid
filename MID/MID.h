@@ -149,12 +149,11 @@ const uint8_t DSP_PIN_DT8 = 40;
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
 #endif
 
-
+//#define  VSS_ALARM_ENABLED;
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
 #define TONE_ADT_PIN 11 // buzzer
-#define TONE_ADT_PIN_R 10 // buzzer
 //
 // Steering wheel buttons
 

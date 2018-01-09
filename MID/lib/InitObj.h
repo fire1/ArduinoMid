@@ -40,12 +40,16 @@
 
 #include "LpgSerial.h"
 #include "DbgSerial.h"
+#include "Melody.h"
 
 #endif
 //
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
 AmpTime ampInt;
+//
+//
+Melody melody(ampInt);
 //
 // Constructing the class
 CarSens carSens(ampInt);

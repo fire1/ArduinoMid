@@ -1,19 +1,17 @@
-//
-// Created by Angel Zaprianov on 21.9.2017 г..
-//
 
-#ifndef ARDUINO_MID_MELODY_H
-#define ARDUINO_MID_MELODY_H
+
 
 #include <Arduino.h>
 #include "AmpTime.h"
-#include "../MID.h"
 
+
+#define TONE_ADT_PIN 11
 
 class Melody {
 
     AmpTime *amp;
-    uint8_t melody = 0;
+
+
     uint8_t index;
 
     boolean tempoFast() {
@@ -38,6 +36,18 @@ class Melody {
         return false;
     }
 
+public:
+    Melody(AmpTime &ampInt) : amp(&ampInt) {
+
+    }
+
+    void begin() {
+        pinMode(TONE_ADT_PIN, OUTPUT);
+    }
+
+    void listener() {
+
+    }
 /**
  * Checker to high fast
  */
@@ -56,7 +66,6 @@ class Melody {
             }
         }
     }
-
 /**
  * Checker to high slow
  */
@@ -75,7 +84,6 @@ class Melody {
             }
         }
     }
-
 /**
  * Checker wave to high
  */
@@ -97,7 +105,6 @@ class Melody {
             }
         }
     }
-
 /**
  * To High fast melody
  */
@@ -114,7 +121,6 @@ class Melody {
             }
         }
     }
-
 /**
  * Alarm melody
  */
@@ -126,7 +132,6 @@ class Melody {
             }
         }
     }
-
 /**
  * To low beep melody
  */
@@ -146,7 +151,6 @@ class Melody {
         }
 
     }
-
 /**
  * 3 beeps low
  */
@@ -160,7 +164,6 @@ class Melody {
         }
 
     }
-
 /**
  * 3 beeps high
  */
@@ -174,7 +177,6 @@ class Melody {
         }
 
     }
-
 /**
  * 2 beeps high
  */
@@ -195,79 +197,22 @@ class Melody {
 
     }
 
-
-public:
-    Melody(AmpTime &ampInt) : amp(&ampInt) {
-
-    }
-
-    void begin() {
-        pinMode(TONE_ADT_PIN, OUTPUT);
-    }
-
-/**
- * Sets melody to play
- * @param value
- */
-    void play(uint8_t value) {
-        melody = value;
-    }
-
-    void playSave() {
-        melody = 2;
-    }
-
-    void playSpeed() {
-        melody = 8;
-    }
-
-/**
- * general executor of melody
- */
-    void listener() {
-
-        switch (melody) {
-            case 0:
-            default:
-                break;
-
-            case 1:
-                m1();
-                break;
-            case 2:
-                m2();
-                break;
-            case 3:
-                m3();
-                break;
-            case 4:
-                m4();
-                break;
-            case 5:
-                m5();
-                break;
-            case 6:
-                m6();
-                break;
-            case 7:
-                m7();
-                break;
-            case 8:
-                m8();
-                break;
-            case 9:
-                m9();
-                break;
-        }
-
-        //
-        // Zeroing melody
-        if (melody > 0) {
-            melody = 0;
-        }
-    }
-
 };
 
+AmpTime ampInt;
 
-#endif //ARDUINOMID_MELODY_H
+Melody mld(ampInt);
+
+void setup() {
+    mld.begin();
+    Serial.begin(115200);
+}
+
+
+void loop() {
+    ampInt.listener();
+
+    mld.listener();
+
+    mld.m8();
+}

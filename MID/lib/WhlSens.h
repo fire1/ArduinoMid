@@ -138,7 +138,7 @@ public:
         setDigitalPot(resistance);
         delay(5); // Some separation fix
         digitalWrite(pinDigPotCtr, HIGH);
-        delay(500);
+        delay(150); // only for this method
         digitalWrite(pinMaskHide, HIGH);
 
 
@@ -203,8 +203,8 @@ public:
         this->sendRadioButtons(1);
         this->sendRadioButtons(1);
 #else
-        this->sendRadioButtons(255);
-        this->sendRadioButtons(255);
+        this->sendRadioButtons(250);
+        this->sendRadioButtons(250);
 #endif
 
 

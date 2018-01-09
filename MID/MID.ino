@@ -59,6 +59,9 @@ void setup() {
     // Change timer 3
     setupTimer3();
     //
+    // Starts sound effects
+    melody.begin();
+    //
     //
     eepRom.begin();
     //
@@ -132,6 +135,9 @@ void loop() {
     //
     // Amplitude loop init
     ampInt.listener();
+    //
+    // Listen sound tempo
+    melody.listener();
     //
     // Listen engine
     carSens.listener();

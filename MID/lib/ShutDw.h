@@ -21,7 +21,7 @@
 #endif
 
 #ifndef SHUTDOWN_LOW_VALUE
-#define SHUTDOWN_LOW_VALUE 500
+#define SHUTDOWN_LOW_VALUE 254 // old 500
 #endif
 
 
