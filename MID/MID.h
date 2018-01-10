@@ -149,7 +149,7 @@ const uint8_t DSP_PIN_DT8 = 40;
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
 #endif
 
-//#define  VSS_ALARM_ENABLED;
+#define VSS_ALARM_ENABLED 1;
 /* Extras ...   ******/
 //
 // Alarm / Tone pin
@@ -237,12 +237,9 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 #endif
 
 
-
 #define MID_VERSION "1.5.7"
 
 #include "glob.h"
-
-
 
 
 #endif //ARDUINOMID_CONF_H

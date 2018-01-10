@@ -7,6 +7,7 @@
 #include "../MID.h"
 #include "AmpTime.h"
 #include "MainFunc.h"
+#include "Melody.h"
 //#define ECU_SENS_DEBUG
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
@@ -25,8 +26,6 @@
 //
 
 //#define DEBUG_ENG_TEMP
-// Version of MID plug driver
-#define MID_CAR_SENS_VERSION 0.1
 //
 // Show information from consumption
 //#define DEBUG_CONS_INFO
@@ -36,7 +35,6 @@
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
-#define VSS_ALARM_AWAITING 5
 //
 // --------------------------------------------------------------------------------------------------------------------
 // ABOUT ECU signal
@@ -246,6 +244,8 @@ class CarSens {
     // Take a pointer to time amplitude instance
     AmpTime *amp;
 
+    Melody *mld;
+
     SavedData savedData;
 
 private:
@@ -253,6 +253,7 @@ private:
     //
     //
     boolean initializeAverage = 0;
+    boolean speedAlarmActive = 0;
     //
     // bool for read sensor at first loop
     boolean isInitializedLoop = 1;
@@ -283,8 +284,12 @@ private:
     // Car's reached ...
     uint8_t maxReachedSpeed = 0, maxReachedRevs = 0;
     //
+    // Speeding alarms
+    uint8_t speedAlarmCursor = 0;
+    //
     // Human Results
-    uint16_t CUR_VSS, CUR_RPM;
+    uint8_t CUR_VSS;
+    uint16_t CUR_RPM;
     //
     uint16_t backLightReadCollection = 0;
     // Instant Fuel consumption counter
@@ -302,9 +307,7 @@ private:
     //
     // LPG tank
     int CUR_LTK;
-    //
-    // Speeding alarms
-    unsigned int speedAlarmCursor = 1, speedAlarmCounter = 0;
+
     //
     // Fuel detection
     unsigned int pullLpgIndex = 0;
@@ -461,7 +464,7 @@ public:
  * Construct class
   * @param ampInt
   */
-    CarSens(AmpTime &ampInt) : amp(&ampInt) {
+    CarSens(AmpTime &ampInt, Melody &melody) : amp(&ampInt), mld(&melody) {
 
     }
 
@@ -627,7 +630,7 @@ public:
     /**
      * Gets current Vss
      */
-    inline uint16_t getVss() { return CUR_VSS; }
+    inline uint8_t getVss() { return CUR_VSS; }
 
     /**
      * Gets current Rpm
@@ -1052,68 +1055,59 @@ void CarSens::sensEcu() {
 }
 
 
-boolean CarSens::isAlrWtn() {
-    if (speedAlarmCounter >= VSS_ALARM_AWAITING) {
-        return 1;
-    }
-    return 0;
-}
-
-boolean CarSens::isAlrCur(unsigned int curSet) {
-    return speedAlarmCursor == curSet;
-};
-
 /*******************************************************************
 * Speed Alarms
 */
 void CarSens::speedingAlarms() {
 #if defined(VSS_ALARM_ENABLED)
 
-    boolean activeAlarm = false;
-
-    if (speedAlarmCursor < DISABLE_SPEED_AL) {
-        speedAlarmCursor = ENABLE_SPEED_HW;
-    }
-
-    //
-    // Alarm city
-    if (amp->is2Seconds() && CUR_VSS > VSS_ALARM_CITY_SPEED && isAlrCur(ENABLE_SPEED_CT)) {
-        if (!isAlrWtn()) {
-            speedAlarmCounter++;
-            tone(TONE_ADT_PIN, 4000, 150);
-        }
-        activeAlarm = true;
-
-    }
-    //
-    // Alarm village way
-    if (amp->is5Seconds() && CUR_VSS > VSS_ALARM_VWAY_SPEED && isAlrCur(ENABLE_SPEED_VW)) {
-        if (!isAlrWtn()) {
-            speedAlarmCounter++;
-            tone(TONE_ADT_PIN, 4000, 200);
-        }
-        activeAlarm = true;
-    }
+    uint8_t currentSpeed = 0;
     //
     // Alarm high way
-    if (amp->isMinute() && CUR_VSS > VSS_ALARM_HWAY_SPEED && isAlrCur(ENABLE_SPEED_HW)) {
-        if (!isAlrWtn()) {
-            speedAlarmCounter++;
-            tone(TONE_ADT_PIN, 4000, 200);
+    if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
+        currentSpeed = VSS_ALARM_HWAY_SPEED;
+    } else
+        //
+        // Alarm between villages
+    if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
+        currentSpeed = VSS_ALARM_VWAY_SPEED;
+    } else
+        //
+        // Alarm in city
+    if (CUR_VSS > VSS_ALARM_CITY_SPEED) {
+        currentSpeed = VSS_ALARM_CITY_SPEED;
+    } else
+        //
+        // Zeroing the speed cursor
+    if (CUR_VSS < VSS_ALARM_CITY_SPEED) {
+        currentSpeed = 0;
+    }
+
+    if (currentSpeed != speedAlarmCursor) {
+        //
+        // If speed is bigger play alarm
+        if (currentSpeed > speedAlarmCursor) {
+            switch (currentSpeed) {
+                case 0:
+                default:
+                    break;
+
+                case VSS_ALARM_CITY_SPEED:
+                    mld->playSpeed();
+                    break;
+
+                case VSS_ALARM_VWAY_SPEED:
+                    mld->playSpeed();
+                    break;
+
+                case VSS_ALARM_HWAY_SPEED:
+                    mld->playSpeed();
+                    break;
+            }
         }
-        activeAlarm = true;
-        speedAlarmCounter++;
+        speedAlarmCursor = currentSpeed;
     }
 
-    if (speedAlarmCursor > ENABLE_SPEED_HW) {
-        speedAlarmCursor = DISABLE_SPEED_AL;
-    }
-
-    //
-    // Reset alarm set if speed is lower
-    if (isAlrWtn() && amp->is5Seconds() && !activeAlarm) {
-        speedAlarmCounter = 0;
-    }
 
 #endif
 }

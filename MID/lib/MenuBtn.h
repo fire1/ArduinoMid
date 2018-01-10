@@ -258,7 +258,6 @@ public:
             // Clear noise
             if (amp->isMid() && !digitalRead(btnDw) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
-                tone(TONE_ADT_PIN, 700, 20);
                 entryDownState = true;
                 playSecondTone = true;
                 holdTimeHandler = lastUsed;
@@ -272,7 +271,6 @@ public:
         }
 
         if (amp->isBig() && playSecondTone) {
-            tone(pinTn, 1100, 50);
             playSecondTone = false;
         }
 
@@ -313,7 +311,6 @@ public:
             if (isNavigationActive) {
                 lastButtonPushed = btnUp;
             }
-            tone(pinTn, 1300, 100);
         }
 
     }
@@ -451,36 +448,19 @@ void MenuBtn::shortcut(void) {
     // Steering zero
     // Steering button is pressed
     if (whl->getCurrentState() == WhlSens::STR_BTN_ATT || isBk()) {
-        tone(TONE_ADT_PIN, 1000, 10);
-        delay(10);
-        tone(TONE_ADT_PIN, 1000, 10);
-        delay(10);
-
-        tone(TONE_ADT_PIN, 2500, 10);
-        delay(20);
-        tone(TONE_ADT_PIN, 2500, 10);
         eep->saveResetData();
-        delay(20);
         lastButtonPushed = 0;
     }
     // Steering SEEK UP
     // Change Speed alarm Up
     if (whl->getCurrentState() == WhlSens::STR_BTN_SKU) {
         car->speedingAlarmsUp();
-        tone(TONE_ADT_PIN, 800, 50);
-        delay(50);
-        tone(TONE_ADT_PIN, 2000, 80);
-        delay(80);
         lastButtonPushed = 0;
     }
     // Steering SEEK DOWN
     // Change Speed alarm Down
     if (whl->getCurrentState() == WhlSens::STR_BTN_SKD) {
         car->speedingAlarmsDw();
-        tone(TONE_ADT_PIN, 2000, 50);
-        delay(50);
-        tone(TONE_ADT_PIN, 800, 80);
-        delay(80);
         lastButtonPushed = 0;
     }
 

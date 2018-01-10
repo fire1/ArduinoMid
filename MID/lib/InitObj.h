@@ -52,7 +52,7 @@ AmpTime ampInt;
 Melody melody(ampInt);
 //
 // Constructing the class
-CarSens carSens(ampInt);
+CarSens carSens(ampInt, melody);
 //
 // Constructing car state
 CarState carStat(ampInt, carSens);
