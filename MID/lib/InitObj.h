@@ -39,7 +39,7 @@
 #ifdef LPG_INSTALLATION
 
 #include "LpgSerial.h"
-#include "DbgSerial.h"
+#include "CmdSerial.h"
 #include "Melody.h"
 
 #endif
@@ -63,7 +63,7 @@ WhlSens whlSens(ampInt, carSens);
 // Data storage
 EepRom eepRom(carSens);
 
-DbgSerial dbgSerial(carSens, eepRom, whlSens);
+CmdSerial dbgSerial(carSens, eepRom, whlSens);
 //
 // Buttons driver
 MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
