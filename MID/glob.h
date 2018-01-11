@@ -6,6 +6,7 @@
 #define ARDUINO_MID_GLOB_H
 
 #include <Arduino.h>
+
 #include "lib/MenuBackend.h"
 
 
@@ -13,6 +14,12 @@
 #define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
 #define DBG_P(...)    { Serial.print(__VA_ARGS__);  } //print
 #define DBG_PLN(...)  { Serial.println(__VA_ARGS__); } // print line
+
+#define DBG_MIN(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isMid()  ) ?Serial.println(data): 0; }
+#define DBG_BIG(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isBig()  ) ?Serial.println(data): 0; }
+#define DBG_SEC(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isSecond()  ) ?Serial.println(data): 0; }
+
+
 
 
 //
@@ -150,6 +157,7 @@ struct SavedData {
 };
 
 #ifdef ADT_FUEL_SYSTEM_SERIAL
+
 class LpgFuel {
 public:
     virtual boolean isLPG() = 0;
@@ -160,6 +168,7 @@ public:
 
     virtual uint8_t getFuelTankLiters() = 0;
 };
+
 #endif
 
 

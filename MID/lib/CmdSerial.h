@@ -12,11 +12,73 @@
 #include "WhlSens.h"
 #include "InitObj.h"
 
+String LastSerialReadingDebug;
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, const __FlashStringHelper *data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
+
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, uint16_t data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
+
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, float data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
+
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, int data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
+
+
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, unsigned long data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
+
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, double data) {
+    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
+    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.println(data);
+        }
+    }
+}
 /**
  * Command Serial Prompt
  */
 class CmdSerial {
 
+    AmpTime *amp;
     CarSens *car;
     EepRom *eep;
     WhlSens *whl;
@@ -24,15 +86,10 @@ class CmdSerial {
     String srlStrName;
     String srlOutputs;
 
-    typedef void (*cb_cmd)(float, SavedData &);
 
-    typedef void (*cb_tpe)(float, EepRom *);
+    typedef void (*cb_svd)(float, SavedData &);
 
-    typedef float (*cb_tpf)(void);
-
-    typedef int (*cb_tpi)(void);
-
-    typedef void (*cb_tpn)(float);
+    typedef void (*cb_eep)(float, EepRom *);
 
 private:
 
@@ -55,12 +112,13 @@ private:
         }
     }
 
-    void smp_eep(const __FlashStringHelper *cmd, cb_tpe _call, float value, EepRom *eep,
+
+    void cmd_eep(const __FlashStringHelper *cmd, cb_eep _call, float value, EepRom *eep,
                  const __FlashStringHelper *inf = 0) {
         if (srlStrName == cmd) {
             saveTemp = value;
             (*_call)(value, eep);
-            srlOutputs = F(" EEP CMD <");
+            srlOutputs = F("[MID$]> EEP CMD <");
             srlOutputs += cmd;
             srlOutputs += F("> VAL <");
             srlOutputs += saveTemp;
@@ -71,13 +129,13 @@ private:
     }
 
 
-    void cmd_svd(const __FlashStringHelper *cmd, cb_cmd cm_callback, SavedData &save,
+    void cmd_svd(const __FlashStringHelper *cmd, cb_svd cm_callback, SavedData &save,
                  const __FlashStringHelper *inf = 0) {
         if (srlStrName == cmd) {
             saveTemp = getSrlFloat();
             (*cm_callback)(saveTemp, save);
 
-            srlOutputs = F(" SVD CMD <");
+            srlOutputs = F("[MID$]> SVD CMD <");
             srlOutputs += cmd;
             srlOutputs += F("> \t VAL <");
             srlOutputs += saveTemp;
@@ -88,32 +146,12 @@ private:
     }
 
 
-    void cmd_null(const char *cmd, cb_tpn cm_callback) {
-
-    }
-
-    void cmd_int(const char *cmd, cb_cmd cm_callback, SavedData &save) {
-        if (srlStrName == cmd) {
-            saveTemp = getSrlFloat();
-            (*cm_callback)(saveTemp, save);
-
-            srlOutputs = F(" \t CMD <");
-            srlOutputs += cmd;
-            srlOutputs += F("> \t VAL <");
-            srlOutputs += saveTemp;
-            srlOutputs += F(">");
-        }
-    }
-
-
-    void setTripDistance(float value, SavedData &savedData) {
-        savedData.dist_trp = value;
-    }
-
 public:
     CmdSerial(CarSens &carSens, EepRom &eepRom, WhlSens &whlSens) : car(&carSens), eep(&eepRom), whl(&whlSens) {
 
     }
+
+
 
     void listener(void) {
         //
@@ -145,7 +183,7 @@ public:
 //                    srlOutputs = F("LPG fuel ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("lpg"), [](float value, EepRom *e) { e->setAdtFuel(value); }, getSrlFloat(), eep);
+                cmd_eep(F("lpg"), [](float value, EepRom *e) { e->setAdtFuel(value); }, getSrlFloat(), eep);
 
 
 //                if (srlStrName == "bnz") {
@@ -155,7 +193,7 @@ public:
 //                    srlOutputs = F("BNZ fuel ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("bnz"), [](float value, EepRom *e) { e->setDefFuel(value); }, getSrlFloat(), eep);
+                cmd_eep(F("bnz"), [](float value, EepRom *e) { e->setDefFuel(value); }, getSrlFloat(), eep);
 
 //                if (srlStrName == "ttd") {
 //                    // Total Travel distance
@@ -164,7 +202,7 @@ public:
 //                    srlOutputs = F("Travel distance ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("ttd"), [](float value, EepRom *e) { e->setTravelDistance(value); }, getSrlFloat(), eep);
+                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setTravelDistance(value); }, getSrlFloat(), eep);
 
 
 //                if (srlStrName == "wrk") {
@@ -174,7 +212,7 @@ public:
 //                    srlOutputs = F("Work distance ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("ttd"), [](float value, EepRom *e) { e->setWorkDistance(value); }, getSrlFloat(), eep);
+                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setWorkDistance(value); }, getSrlFloat(), eep);
 
                 // ************************************************************
                 // Correction value inject
@@ -185,7 +223,7 @@ public:
 //                    srlOutputs = F("RPM correction ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("cor_rpm"), [](float value, EepRom *e) { e->setSensRpm(value); }, getSrlFloat(), eep);
+                cmd_eep(F("cor_rpm"), [](float value, EepRom *e) { e->setSensRpm(value); }, getSrlFloat(), eep);
 
 //                if (srlStrName == "cor_vss") {
 //                    // Total work distance
@@ -194,7 +232,7 @@ public:
 //                    srlOutputs = F("VSS correction ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("cor_vss"), [](float value, EepRom *e) { e->setSensVss(value); }, getSrlFloat(), eep);
+                cmd_eep(F("cor_vss"), [](float value, EepRom *e) { e->setSensVss(value); }, getSrlFloat(), eep);
 
 //                if (srlStrName == "cor_dst") {
 //                    // Total work distance
@@ -203,7 +241,7 @@ public:
 //                    srlOutputs = F("DST correction ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("cor_dst"), [](float value, EepRom *e) { e->setSensDst(value); }, getSrlFloat(), eep);
+                cmd_eep(F("cor_dst"), [](float value, EepRom *e) { e->setSensDst(value); }, getSrlFloat(), eep);
 
 //                if (srlStrName == "cor_ecu") {
 //                    // Total work distance
@@ -212,18 +250,16 @@ public:
 //                    srlOutputs = F("ECU correction ");
 //                    srlOutputs += saveTemp;
 //                }
-                smp_eep(F("cor_ecu"), [](float value, EepRom *e) { e->setSensEcu(value); }, getSrlFloat(), eep);
+                cmd_eep(F("cor_ecu"), [](float value, EepRom *e) { e->setSensEcu(value); }, getSrlFloat(), eep);
 
-//                if (srlStrName == "set_cor") {
-//                    // Saves type
-//                    saveTemp = getSrlInt();
-//                    if (saveTemp == 1) {
-//                        car->setSave(eep->getData());
-//                        srlOutputs = F("Passing value to carSens ");
-//                    }
-//                }
-                smp_eep(F("set_cor"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->getData(); },
-                        getSrlFloat(), eep, F("Passing value to carSens driver"));
+                if (srlStrName == "set_cor") {
+                    // Saves type
+                    saveTemp = getSrlInt();
+                    if (saveTemp == 1) {
+                        car->setSave(eep->getData());
+                        srlOutputs = F("Passing value to carSens driver");
+                    }
+                }
 //
 //                if (srlStrName == "set_wrk") {
 //                    // Saves type
@@ -234,7 +270,7 @@ public:
 //                        srlOutputs += saveTemp;
 //                    }
 //                }
-                smp_eep(F("set_wrk"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
+                cmd_eep(F("set_wrk"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
                         getSrlFloat(), eep, F("SAVED Work distance "));
 //
 //                if (srlStrName == "save") {
@@ -246,7 +282,7 @@ public:
 //                        srlOutputs += saveTemp;
 //                    }
 //                }
-                smp_eep(F("save"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveCurrentData(); },
+                cmd_eep(F("save"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveCurrentData(); },
                         getSrlFloat(), eep, F("SAVED ALL DATA "));
 
 //
@@ -261,7 +297,7 @@ public:
 //
 //                }
 
-                smp_eep(F("reset"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
+                cmd_eep(F("reset"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
                         getSrlFloat(), eep, F("SAVED-RESET LAST DATA "));
 
                 // ************************************************************
@@ -367,14 +403,36 @@ public:
                 // Return back changes
                 eep->setData(savedData);
 
+
                 //
                 // Show command information to human
                 Serial.print(F("\n\n==============================================================\n"));
-                Serial.print(F("\n \t\t  [MID $]> Affected value of "));
                 Serial.print(srlOutputs);
-                Serial.print(F("\n\n\n==============================================================\n\n"));
+                Serial.print(F("\n==============================================================\n\n"));
 
             }
+
+            srlStrName = Serial.readStringUntil('*');
+            // ************************************************************
+            // Debug partition
+            if (srlStrName == F("dbg")) {
+
+#ifdef DEBUG
+                String tempo = Serial.readStringUntil('=');
+                if (tempo == F("min")) {
+                    if (amp->isMin()) {
+                        //
+                        // Show command information to human
+                        Serial.println(srlOutputs);
+                    }
+                }
+
+#else
+                Serial.println(F("Debug functionality is disabled! "));
+#endif
+            }
+
+
         }
     }
 };
