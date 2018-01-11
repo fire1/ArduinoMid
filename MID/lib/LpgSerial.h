@@ -7,6 +7,7 @@
 
 #include <Arduino.h>
 #include "../MID.h"
+#include "CmdSerial.h"
 //
 // Marker for start transmitting
 #ifndef LPG_SERIAL_T_ST
@@ -32,6 +33,7 @@
 // All buttons up - 18
 class LpgSerial : public LpgFuel {
 
+    AmpTime *amp;
 
 private:
     boolean transStart = false;
@@ -46,7 +48,7 @@ private:
 
 
 public:
-    LpgSerial() {
+    LpgSerial(AmpTime &ampTime) : amp(&ampTime) {
 
     }
 
@@ -63,8 +65,7 @@ public:
         }
 
         if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
-            Serial.print("LPG1 ");
-            Serial.println(Serial1.read());
+//            debug_fast(amp, F("lpg1"), Serial1.read());
         }
 
         if (Serial2.available() > 0) {
@@ -80,9 +81,12 @@ public:
                 stateStart = true;
             }
             uint8_t val = uint8_t(Serial2.read());
+//            debug_now(amp, F("lpg2"), val);
 //
-            Serial.print("LPG2 ");
-            Serial.println(val);
+//            Serial.print("LPG2: ");
+//            Serial.println(val);
+//            Serial.print("LPG2 History: ");
+//            Serial.println(history);
 
 
             if (val > 40 && val < 250) {
@@ -147,6 +151,7 @@ public:
  */
     boolean isLPG() {
 //        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
+        history = trans;
         return (trans < 147) ? true : false;
     }
 
@@ -155,6 +160,7 @@ public:
  */
     inline boolean isBNZ() {
 //        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
+        history = trans;
         return (trans > 147) ? true : false;
     }
 

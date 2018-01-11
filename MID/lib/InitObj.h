@@ -35,11 +35,14 @@
 // Car data collector
 #include "CarCollect.h"
 //
+// Debugging Command class
+#include "CmdSerial.h"
+//
 // External LPG listener
 #ifdef LPG_INSTALLATION
 
 #include "LpgSerial.h"
-#include "CmdSerial.h"
+
 #include "Melody.h"
 
 #endif
@@ -76,7 +79,7 @@ ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 //CarCollect carCollect(carSens, ampInt);
 
 #ifdef ADT_FUEL_SYSTEM_SERIAL
-LpgSerial lpgCom;
+LpgSerial lpgCom(ampInt);
 #endif
 
 #endif //ARDUINOMID_INITIALIZATIONS_H

@@ -967,6 +967,7 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+//        CUR_VSS++;
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;

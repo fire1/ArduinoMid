@@ -13,72 +13,133 @@
 #include "InitObj.h"
 
 String LastSerialReadingDebug;
+
 static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, const __FlashStringHelper *data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.println(data);
-        }
-    }
-}
 
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, uint16_t data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.println(data);
-        }
-    }
-}
+    if (LastSerialReadingDebug == cmd) {
 
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, float data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
         if (amp->isSens()) {
-            Serial.println(data);
-        }
-    }
-}
-
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, int data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.println(data);
-        }
-    }
-}
-
-
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, unsigned long data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.println(data);
-        }
-    }
-}
-
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, double data) {
-    if (Serial.readStringUntil('?') == F("stop") && LastSerialReadingDebug.length() > 0) LastSerialReadingDebug = "";
-    if (Serial.readStringUntil('?') == cmd || LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(" ");
             Serial.println(data);
         }
     }
 }
 /**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_now(AmpTime *amp, const __FlashStringHelper *cmd, uint8_t data) {
+
+    if (LastSerialReadingDebug == cmd) {
+
+        if (amp->isMin()) {
+            Serial.print(cmd);
+            Serial.print(" ");
+            Serial.println(data);
+        }
+    }
+}
+
+
+/**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, const char *data) {
+
+    if (LastSerialReadingDebug == cmd) {
+
+        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(" ");
+            Serial.println(data);
+        }
+    }
+}
+
+/**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, float data) {
+
+    if (LastSerialReadingDebug == cmd) {
+
+        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(" ");
+            Serial.println(data);
+        }
+    }
+}
+
+/**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, int data) {
+
+    if (LastSerialReadingDebug == cmd) {
+
+        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(" ");
+            Serial.println(data);
+        }
+    }
+}
+
+/**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, unsigned long data) {
+
+    if (LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(" ");
+            Serial.println(data);
+        }
+    }
+}
+
+/**
+ *
+ * @param amp
+ * @param cmd
+ * @param data
+ */
+static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, double data) {
+
+    if (LastSerialReadingDebug == cmd) {
+        LastSerialReadingDebug = cmd;
+        if (amp->isSens()) {
+            Serial.print(cmd);
+            Serial.print(": \t ");
+            Serial.println(data);
+        }
+    }
+}
+
+/**
  * Command Serial Prompt
  */
 class CmdSerial {
 
-    AmpTime *amp;
+
     CarSens *car;
     EepRom *eep;
     WhlSens *whl;
@@ -152,7 +213,6 @@ public:
     }
 
 
-
     void listener(void) {
         //
 // Serial injection
@@ -170,49 +230,50 @@ public:
 
             srlStrName = Serial.readStringUntil('=');
 
-            if (srlStrName.length() > 1) {
+
+            if (srlStrName.length() > 2) {
                 SavedData savedData = eep->getData();
 
                 // ************************************************************
                 // Correction values
 
-//                if (srlStrName == "lpg") {
-//                    // Total Liters per hour consumed
-//                    saveTemp = getSrlFloat();
-//                    eep->setAdtFuel(saveTemp);
-//                    srlOutputs = F("LPG fuel ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("lpg"), [](float value, EepRom *e) { e->setAdtFuel(value); }, getSrlFloat(), eep);
+                if (srlStrName == F("lpg")) {
+                    // Total Liters per hour consumed
+                    saveTemp = getSrlFloat();
+                    eep->setAdtFuel(saveTemp);
+                    srlOutputs = F("LPG fuel ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("lpg"), [](float value, EepRom *e) { e->setAdtFuel(value); }, getSrlFloat(), eep);
 
 
-//                if (srlStrName == "bnz") {
-//                    // Total Liters per hour consumed
-//                    saveTemp = getSrlFloat();
-//                    eep->setDefFuel(saveTemp);
-//                    srlOutputs = F("BNZ fuel ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("bnz"), [](float value, EepRom *e) { e->setDefFuel(value); }, getSrlFloat(), eep);
+                if (srlStrName == F("bnz")) {
+                    // Total Liters per hour consumed
+                    saveTemp = getSrlFloat();
+                    eep->setDefFuel(saveTemp);
+                    srlOutputs = F("BNZ fuel ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("bnz"), [](float value, EepRom *e) { e->setDefFuel(value); }, getSrlFloat(), eep);
 
-//                if (srlStrName == "ttd") {
-//                    // Total Travel distance
-//                    saveTemp = getSrlFloat();
-//                    eep->setTravelDistance(saveTemp);
-//                    srlOutputs = F("Travel distance ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setTravelDistance(value); }, getSrlFloat(), eep);
+                if (srlStrName == "ttd") {
+                    // Total Travel distance
+                    saveTemp = getSrlFloat();
+                    eep->setTravelDistance(saveTemp);
+                    srlOutputs = F("Travel distance ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setTravelDistance(value); }, getSrlFloat(), eep);
 
 
-//                if (srlStrName == "wrk") {
-//                    // Total work distance
-//                    saveTemp = getSrlFloat();
-//                    eep->setWorkDistance(saveTemp);
-//                    srlOutputs = F("Work distance ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setWorkDistance(value); }, getSrlFloat(), eep);
+                if (srlStrName == "wrk") {
+                    // Total work distance
+                    saveTemp = getSrlFloat();
+                    eep->setWorkDistance(saveTemp);
+                    srlOutputs = F("Work distance ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setWorkDistance(value); }, getSrlFloat(), eep);
 
                 // ************************************************************
                 // Correction value inject
@@ -223,34 +284,34 @@ public:
 //                    srlOutputs = F("RPM correction ");
 //                    srlOutputs += saveTemp;
 //                }
-                cmd_eep(F("cor_rpm"), [](float value, EepRom *e) { e->setSensRpm(value); }, getSrlFloat(), eep);
+//                cmd_eep(F("cor_rpm"), [](float value, EepRom *e) { e->setSensRpm(value); }, getSrlFloat(), eep);
 
-//                if (srlStrName == "cor_vss") {
-//                    // Total work distance
-//                    saveTemp = getSrlFloat();
-//                    eep->setSensVss(saveTemp);
-//                    srlOutputs = F("VSS correction ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("cor_vss"), [](float value, EepRom *e) { e->setSensVss(value); }, getSrlFloat(), eep);
+                if (srlStrName == "cor_vss") {
+                    // Total work distance
+                    saveTemp = getSrlFloat();
+                    eep->setSensVss(saveTemp);
+                    srlOutputs = F("VSS correction ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("cor_vss"), [](float value, EepRom *e) { e->setSensVss(value); }, getSrlFloat(), eep);
 
-//                if (srlStrName == "cor_dst") {
-//                    // Total work distance
-//                    saveTemp = getSrlFloat();
-//                    eep->setSensDst(saveTemp);
-//                    srlOutputs = F("DST correction ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("cor_dst"), [](float value, EepRom *e) { e->setSensDst(value); }, getSrlFloat(), eep);
+                if (srlStrName == "cor_dst") {
+                    // Total work distance
+                    saveTemp = getSrlFloat();
+                    eep->setSensDst(saveTemp);
+                    srlOutputs = F("DST correction ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("cor_dst"), [](float value, EepRom *e) { e->setSensDst(value); }, getSrlFloat(), eep);
 
-//                if (srlStrName == "cor_ecu") {
-//                    // Total work distance
-//                    saveTemp = getSrlFloat();
-//                    eep->setSensEcu(saveTemp);
-//                    srlOutputs = F("ECU correction ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_eep(F("cor_ecu"), [](float value, EepRom *e) { e->setSensEcu(value); }, getSrlFloat(), eep);
+                if (srlStrName == "cor_ecu") {
+                    // Total work distance
+                    saveTemp = getSrlFloat();
+                    eep->setSensEcu(saveTemp);
+                    srlOutputs = F("ECU correction ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_eep(F("cor_ecu"), [](float value, EepRom *e) { e->setSensEcu(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "set_cor") {
                     // Saves type
@@ -261,44 +322,44 @@ public:
                     }
                 }
 //
-//                if (srlStrName == "set_wrk") {
-//                    // Saves type
-//                    saveTemp = getSrlInt();
-//                    if (saveTemp == 1) {
-//                        eep->saveResetData();
-//                        srlOutputs = F("Saved Work distance ");
-//                        srlOutputs += saveTemp;
-//                    }
-//                }
-                cmd_eep(F("set_wrk"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
-                        getSrlFloat(), eep, F("SAVED Work distance "));
+                if (srlStrName == "set_wrk") {
+                    // Saves type
+                    saveTemp = getSrlInt();
+                    if (saveTemp == 1) {
+                        eep->saveResetData();
+                        srlOutputs = F("Saved Work distance ");
+                        srlOutputs += saveTemp;
+                    }
+                }
+//                cmd_eep(F("set_wrk"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
+//                        getSrlFloat(), eep, F("SAVED Work distance "));
 //
-//                if (srlStrName == "save") {
-//                    // Saves type
-//                    saveTemp = getSrlInt();
-//                    if (saveTemp == 1) {
-//                        eep->saveCurrentData();
-//                        srlOutputs = F("Saved All data ");
-//                        srlOutputs += saveTemp;
-//                    }
-//                }
-                cmd_eep(F("save"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveCurrentData(); },
-                        getSrlFloat(), eep, F("SAVED ALL DATA "));
+                if (srlStrName == "save") {
+                    // Saves type
+                    saveTemp = getSrlInt();
+                    if (saveTemp == 1) {
+                        eep->saveCurrentData();
+                        srlOutputs = F("Saved All data ");
+                        srlOutputs += saveTemp;
+                    }
+                }
+//                cmd_eep(F("save"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveCurrentData(); },
+//                        getSrlFloat(), eep, F("SAVED ALL DATA "));
 
 //
-//                if (srlStrName == "reset") {
-//                    // Saves type
-//                    saveTemp = getSrlInt();
-//                    if (saveTemp == 1) {
-//                        eep->saveResetData();
-//                        srlOutputs = F("Saved All data and resetting...");
-//                        srlOutputs += saveTemp;
-//                    }
-//
-//                }
+                if (srlStrName == "reset") {
+                    // Saves type
+                    saveTemp = getSrlInt();
+                    if (saveTemp == 1) {
+                        eep->saveResetData();
+                        srlOutputs = F("Saved All data and resetting...");
+                        srlOutputs += saveTemp;
+                    }
 
-                cmd_eep(F("reset"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
-                        getSrlFloat(), eep, F("SAVED-RESET LAST DATA "));
+                }
+//
+//                cmd_eep(F("reset"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
+//                        getSrlFloat(), eep, F("SAVED-RESET LAST DATA "));
 
                 // ************************************************************
                 // Steering buttons digPod inject
@@ -312,14 +373,14 @@ public:
                 }
                 // ************************************************************
                 // Saved data ...
-//                if (srlStrName == "trd") {
-//                    // trip distance
-//                    saveTemp = getSrlFloat();
-//                    savedData.dist_trp = saveTemp;
-//                    srlOutputs = F("Trip distance ");
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("trd"), [](float value, SavedData &save) { save.dist_trp = value; }, savedData);
+                if (srlStrName == "trd") {
+                    // trip distance
+                    saveTemp = getSrlFloat();
+                    savedData.dist_trp = saveTemp;
+                    srlOutputs = F("Trip distance ");
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("trd"), [](float value, SavedData &save) { save.dist_trp = value; }, savedData);
 
 //                if (srlStrName == "trt") {
 //                    // Trip time
@@ -328,7 +389,7 @@ public:
 //                    srlOutputs = F("Trip time ");
 //                    srlOutputs += saveTemp;
 //                }
-                cmd_svd(F("trt"), [](float value, SavedData &save) { save.time_trp = value; }, savedData);
+//                cmd_svd(F("trt"), [](float value, SavedData &save) { save.time_trp = value; }, savedData);
 
 
                 if (srlStrName == "set_tr") {
@@ -342,66 +403,81 @@ public:
                 // Trips record
                 //
                 // Trip A
-//                if (srlStrName == "tf1") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip A fuel ");
-//                    savedData.trip_a.fuel = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("tf1"), [](float value, SavedData &save) { save.trip_a.fuel = value; }, savedData,
-                        F("TRIP A fuel"));
+                if (srlStrName == "tf1") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip A fuel ");
+                    savedData.trip_a.fuel = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("tf1"), [](float value, SavedData &save) { save.trip_a.fuel = value; }, savedData,
+//                        F("TRIP A fuel"));
 
-//                if (srlStrName == "td1") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip A range ");
-//                    savedData.trip_a.range = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("td1"), [](float value, SavedData &save) { save.trip_a.range = value; }, savedData,
-                        F("TRIP A range"));
+                if (srlStrName == "td1") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip A range ");
+                    savedData.trip_a.range = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("td1"), [](float value, SavedData &save) { save.trip_a.range = value; }, savedData,
+//                        F("TRIP A range"));
 
                 //
                 // Trip B
-//                if (srlStrName == "tf2") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip B fuel ");
-//                    savedData.trip_b.fuel = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("tf2"), [](float value, SavedData &save) { save.trip_b.fuel = value; }, savedData,
-                        F("TRIP B range"));
+                if (srlStrName == "tf2") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip B fuel ");
+                    savedData.trip_b.fuel = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("tf2"), [](float value, SavedData &save) { save.trip_b.fuel = value; }, savedData,
+//                        F("TRIP B range"));
 //
-//                if (srlStrName == "td2") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip B range ");
-//                    savedData.trip_b.range = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("td2"), [](float value, SavedData &save) { save.trip_b.range = value; }, savedData,
-                        F("TRIP B range"));
+                if (srlStrName == "td2") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip B range ");
+                    savedData.trip_b.range = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("td2"), [](float value, SavedData &save) { save.trip_b.range = value; }, savedData,
+//                        F("TRIP B range"));
 
                 //
                 // Trip C
-//                if (srlStrName == "tf3") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip C fuel ");
-//                    savedData.trip_c.fuel = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("tf3"), [](float value, SavedData &save) { save.trip_c.fuel = value; }, savedData,
-                        F("TRIP C fuel"));
+                if (srlStrName == "tf3") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip C fuel ");
+                    savedData.trip_c.fuel = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("tf3"), [](float value, SavedData &save) { save.trip_c.fuel = value; }, savedData,
+//                        F("TRIP C fuel"));
 
-//                if (srlStrName == "td3") {
-//                    saveTemp = getSrlFloat();
-//                    srlOutputs = F("Sets Trip C range ");
-//                    savedData.trip_c.range = saveTemp;
-//                    srlOutputs += saveTemp;
-//                }
-                cmd_svd(F("td3"), [](float value, SavedData &save) { save.trip_c.range = value; }, savedData,
-                        F("TRIP C range"));
+                if (srlStrName == "td3") {
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets Trip C range ");
+                    savedData.trip_c.range = saveTemp;
+                    srlOutputs += saveTemp;
+                }
+//                cmd_svd(F("td3"), [](float value, SavedData &save) { save.trip_c.range = value; }, savedData,
+//                        F("TRIP C range"));
                 //
                 // Return back changes
                 eep->setData(savedData);
+
+
+                if (srlStrName == F("dbg")) {
+                    LastSerialReadingDebug = Serial.readStringUntil('\n');
+                    if (LastSerialReadingDebug == F("stop")) {
+                        srlOutputs += LastSerialReadingDebug;
+                        srlOutputs += F("> ");
+                        LastSerialReadingDebug = "";
+                    } else {
+                        srlOutputs = "DUMPING string name <";
+                        srlOutputs += LastSerialReadingDebug;
+                        srlOutputs += F("> ");
+                    }
+                }
+
 
 
                 //
@@ -411,7 +487,7 @@ public:
                 Serial.print(F("\n==============================================================\n\n"));
 
             }
-
+/*
             srlStrName = Serial.readStringUntil('*');
             // ************************************************************
             // Debug partition
@@ -420,17 +496,20 @@ public:
 #ifdef DEBUG
                 String tempo = Serial.readStringUntil('=');
                 if (tempo == F("min")) {
-                    if (amp->isMin()) {
-                        //
-                        // Show command information to human
-                        Serial.println(srlOutputs);
-                    }
+//                    if (amp->isMin()) {
+//                        //
+//                        // Show command information to human
+//                        Serial.println(srlOutputs);
+//                    }
                 }
 
 #else
                 Serial.println(F("Debug functionality is disabled! "));
 #endif
             }
+
+            */
+
 
 
         }

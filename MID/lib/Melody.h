@@ -19,9 +19,9 @@ class Melody {
     boolean tempoFast() {
         if (amp->isMid()) {
             index++;
-            if (index > 50) {
-                index = 0;
-            }
+//            if (index > 30) {
+//                index = 0;
+//            }
             return true;
         }
         return false;
@@ -30,9 +30,9 @@ class Melody {
     boolean tempoSlow() {
         if (amp->isSec()) {
             index++;
-            if (index > 50) {
-                index = 0;
-            }
+//            if (index > 50) {
+//                index = 0;
+//            }
             return true;
         }
         return false;
@@ -52,7 +52,7 @@ class Melody {
             }
             if (index < 10) {
                 tone(TONE_ADT_PIN, rise, 30);
-                Serial.println(rise);
+
             }
         }
     }
@@ -71,7 +71,7 @@ class Melody {
             }
             if (index < 10) {
                 tone(TONE_ADT_PIN, rise, 30);
-                Serial.println(rise);
+
             }
         }
     }
@@ -93,7 +93,7 @@ class Melody {
             }
             if (index < 10) {
                 tone(TONE_ADT_PIN, 1000 + rise, 30);
-                Serial.println(1000 + rise);
+
             }
         }
     }
@@ -110,7 +110,7 @@ class Melody {
 
             if (index < 10) {
                 tone(TONE_ADT_PIN, rise, 30);
-                Serial.println(rise);
+
             }
         }
     }
@@ -122,7 +122,7 @@ class Melody {
         if (tempoSlow()) {
             if (index % 5) {
                 tone(TONE_ADT_PIN, 1200, 30);
-                Serial.println(1200);
+
             }
         }
     }
@@ -141,7 +141,7 @@ class Melody {
             }
             if (index < 7) {
                 tone(TONE_ADT_PIN, rise, 30);
-                Serial.println(rise);
+
             }
         }
 
@@ -155,7 +155,7 @@ class Melody {
 
             if (index < 4) {
                 tone(TONE_ADT_PIN, 500, 30);
-                Serial.println(500);
+
             }
         }
 
@@ -169,7 +169,7 @@ class Melody {
 
             if (index < 4) {
                 tone(TONE_ADT_PIN, 2500, 30);
-                Serial.println(2500);
+
             }
         }
 
@@ -184,12 +184,12 @@ class Melody {
 
             if (index == 2) {
                 tone(TONE_ADT_PIN, 2000, 30);
-                Serial.println(2000);
+
             }
 
             if (index == 4) {
                 tone(TONE_ADT_PIN, 2500, 30);
-                Serial.println(2500);
+
             }
         }
 
@@ -262,9 +262,17 @@ public:
 
         //
         // Zeroing melody
-        if (melody > 0) {
+        if (melody > 0 && index > 25) {
             melody = 0;
+            index = 0;
         }
+
+//
+//        Serial.print("Melody index: ");
+//        Serial.print(index);
+//        Serial.print(" Selection ");
+//        Serial.println(melody);
+//
     }
 
 };

@@ -565,7 +565,7 @@ protected:
                 // Reset button handler
                 btn->setNavigationState(false);
                 btn->useDebounceNormal();
-                tone(TONE_ADT_PIN, 2800, 16);
+
                 break;
             case 1:
             case 2:

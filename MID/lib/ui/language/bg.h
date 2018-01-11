@@ -77,7 +77,7 @@ const char msg47[] PROGMEM = "Износване на ";
 const char msg48[] PROGMEM = "предните спирачки.  ";
 //
 // Warning coolant
-const char msg49[] PROGMEM = "ОХЛАДИТЕЛНА СИСТЕМА";
+const char msg49[] PROGMEM = "ОХЛ. СИСТЕМА";
 const char msg50[] PROGMEM = "Проверете нивото на";
 const char msg51[] PROGMEM = "охладителна течност";
 //
