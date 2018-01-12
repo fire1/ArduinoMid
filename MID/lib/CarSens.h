@@ -359,7 +359,7 @@ private:
     /**
      * Handles speeding alarms
      */
-    void speedingAlarms();
+    void sensAlarms();
 
     boolean isAlrWtn();
 
@@ -941,6 +941,9 @@ void CarSens::listener() {
     //
     // This method has private isSens handling
     sensDim();
+    //
+    // Speed alarms
+    sensAlarms();
 
     //
     // Mark engine on
@@ -976,9 +979,6 @@ void CarSens::sensVss() {
         // Reset pulse counter
         vssHitsCount = 0;
     }
-    //
-    // Alarms
-    speedingAlarms();
 
 
 //
@@ -1050,56 +1050,59 @@ void CarSens::sensEcu() {
 /*******************************************************************
 * Speed Alarms
 */
-void CarSens::speedingAlarms() {
+void CarSens::sensAlarms() {
 #if defined(VSS_ALARM_ENABLED)
 
-    uint8_t currentSpeed = 0;
-    //
-    // Alarm high way
-    if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
-        currentSpeed = VSS_ALARM_HWAY_SPEED;
-    } else
+    if (amp->isMax()) {
+        uint8_t currentSpeed = 0;
         //
-        // Alarm between villages
-    if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
-        currentSpeed = VSS_ALARM_VWAY_SPEED;
-    } else
-        //
-        // Alarm in city
-    if (CUR_VSS > VSS_ALARM_CITY_SPEED) {
-        currentSpeed = VSS_ALARM_CITY_SPEED;
-    } else
-        //
-        // Zeroing the speed cursor
-    if (CUR_VSS < VSS_ALARM_CITY_SPEED) {
-        currentSpeed = 0;
-    }
-
-    if (currentSpeed != speedAlarmCursor) {
-        //
-        // If speed is bigger play alarm
-        if (currentSpeed > speedAlarmCursor) {
-            switch (currentSpeed) {
-                case 0:
-                default:
-                    break;
-
-                case VSS_ALARM_CITY_SPEED:
-                    mld->playSpeed();
-                    break;
-
-                case VSS_ALARM_VWAY_SPEED:
-                    mld->playSpeed();
-                    break;
-
-                case VSS_ALARM_HWAY_SPEED:
-                    mld->playSpeed();
-                    break;
-            }
+        // Alarm high way
+        if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
+            currentSpeed = VSS_ALARM_HWAY_SPEED;
+        } else
+            //
+            // Alarm between villages
+        if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
+            currentSpeed = VSS_ALARM_VWAY_SPEED;
+        } else
+            //
+            // Alarm in city
+        if (CUR_VSS > VSS_ALARM_CITY_SPEED) {
+            currentSpeed = VSS_ALARM_CITY_SPEED;
+        } else
+            //
+            // Zeroing the speed cursor
+        if (CUR_VSS < VSS_ALARM_CITY_SPEED) {
+            currentSpeed = 0;
         }
-        speedAlarmCursor = currentSpeed;
-    }
 
+        //
+        // Resolve alarm type
+        if (currentSpeed != speedAlarmCursor) {
+            //
+            // If speed is bigger play alarm
+            if (currentSpeed > speedAlarmCursor) {
+                switch (currentSpeed) {
+                    case 0:
+                    default:
+                        break;
+
+                    case VSS_ALARM_CITY_SPEED:
+                        mld->playSpeed();
+                        break;
+
+                    case VSS_ALARM_VWAY_SPEED:
+                        mld->playSpeed();
+                        break;
+
+                    case VSS_ALARM_HWAY_SPEED:
+                        mld->playSpeed();
+                        break;
+                }
+            }
+            speedAlarmCursor = currentSpeed;
+        }
+    }
 
 #endif
 }
