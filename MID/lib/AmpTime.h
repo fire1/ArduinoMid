@@ -33,7 +33,7 @@
 #define AMP_MID 50 // MID
 #define AMP_SEC 100 // SEC
 #define AMP_BIG 200 // BIG
-#define AMP_MAX 400 // MAX
+#define AMP_MAX 340 // MAX
 #endif
 
 /** @description

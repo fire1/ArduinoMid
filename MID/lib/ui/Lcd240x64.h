@@ -543,15 +543,15 @@ protected:
 //        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
         uint8_t subAnimateIndex = drawEntry & 4;
 
-        if (!usedMenu.used) {
-            btn->resetStates();
-            lcd->clear();
-            drawEntry = 0;
-            drawIndex = 0;
-            initializeDraw = true;
-            this->playSlow();
-            return;
-        }
+//        if (!usedMenu.used) {
+//            btn->resetStates();
+//            lcd->clear();
+//            drawEntry = 0;
+//            drawIndex = 0;
+//            initializeDraw = true;
+////            this->playSlow();
+//            return;
+//        }
 
         switch (drawEntry) {
             default:
