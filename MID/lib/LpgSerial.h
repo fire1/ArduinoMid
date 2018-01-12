@@ -46,6 +46,7 @@ private:
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
+    unsigned long timerTransfare = 0;
 
 public:
     LpgSerial(AmpTime &ampTime) : amp(&ampTime) {
@@ -57,6 +58,7 @@ public:
         Serial1.begin(128);
     }
 
+#define DEBUG_SR2
 
     void listener(void) {
 
@@ -81,19 +83,25 @@ public:
                 stateStart = true;
             }
             uint8_t val = uint8_t(Serial2.read());
-//            debug_now(amp, F("lpg2"), val);
-//
-//            Serial.print("LPG2: ");
-//            Serial.println(val);
-//            Serial.print("LPG2 History: ");
-//            Serial.println(history);
-
 
             if (val > 40 && val < 250) {
                 trans = val;
+                timerTransfare = millis();
             }
 
+#if defined(DEBUG)&& defined(DEBUG_SR2)
+            if (DBG_CMD_LIVE("sr2")) {
+                DBG_PS(val);
+                DBG_PI(F("History record : "))
+                DBG_PD(history);
+                DBG_PI(F("Amplitude time : "))
+                DBG_PD(millis() - timerTransfare);
+            }
+#endif
 
+
+            //
+            // Older version
 //            if (val == 146) {
 //                lpg = 1;
 //            }

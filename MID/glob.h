@@ -40,6 +40,10 @@ boolean DBG_CMD(AmpTime *amp, const char *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
 
+boolean DBG_CMD_LIVE( const char *cmd) {
+    return (CmdSerialDebugging == (cmd)) ? true : false;
+}
+
 //
 //
 //
