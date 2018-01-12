@@ -50,6 +50,8 @@
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
 AmpTime ampInt;
+
+
 //
 //
 Melody melody(ampInt);

@@ -85,12 +85,16 @@ private:
             lastVoltageValue = readingVoltage;
         }
 
-        if(amp->isSecond()){
-            Serial.print(" Voltage: ");
-            Serial.print(readingVoltage);
-            Serial.print(" ");
-            Serial.println(readingVoltage / 68);
-        }
+
+//
+// debug info
+#if defined(DEBUG)&& defined(DEBUG_VLT)
+        if (DBG_CMD(amp, "vlt")) {
+        DBG_PS(readingVoltage / 68);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(readingVoltage);
+    }
+#endif
 
         //
         // Voltage is good

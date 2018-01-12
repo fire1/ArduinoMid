@@ -6,21 +6,39 @@
 #define ARDUINO_MID_GLOB_H
 
 #include <Arduino.h>
+#include "lib/AmpTime.h"
 
 #include "lib/MenuBackend.h"
 
+String CmdSerialDebugging;
 
 // serial print macros
 #define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
-#define DBG_P(...)    { Serial.print(__VA_ARGS__);  } //print
-#define DBG_PLN(...)  { Serial.println(__VA_ARGS__); } // print line
 
-#define DBG_MIN(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isMid()  ) ?Serial.println(data): 0; }
-#define DBG_BIG(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isBig()  ) ?Serial.println(data): 0; }
-#define DBG_SEC(cmd, data)  {((Serial.available() > 0) && Serial.readStringUntil('?') == cmd&& ampInt.isSecond()  ) ?Serial.println(data): 0; }
+#define DBG_PS(...)    { \
+Serial.print(F("[DBG$]> ")); \
+Serial.print(CmdSerialDebugging); \
+Serial.print(F(": ")); \
+Serial.println(__VA_ARGS__);  } // print styled line
 
+#define DBG_PI(...)  { Serial.print(F("\t")); Serial.print(__VA_ARGS__); } // print
+#define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
 
+boolean DBG_CMD_MIN(AmpTime *amp, const char *cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
+}
 
+boolean DBG_CMD_MID(AmpTime *amp, const char *cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
+}
+
+boolean DBG_CMD_MAX(AmpTime *amp, const char *cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
+}
+
+boolean DBG_CMD(AmpTime *amp, const char *cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
+}
 
 //
 //

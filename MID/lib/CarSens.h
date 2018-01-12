@@ -963,28 +963,15 @@ void CarSens::sensVss() {
     //
     // 200hz for 50km/h
     if (amp->isSens()) {
-
         //
         // Pass vss to global
         CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
-//        CUR_VSS++;
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
-
+        //
+        // Odometer collection
         CUR_VDS_collection = vssHitsCount + CUR_VDS_collection;
-
-
-//
-// debug info
-#if defined(VSS_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print("\n");
-        Serial.print(" vss count:  \t");
-        Serial.print(vssHitsCount);
-        Serial.print(" vss is:  \t");
-        Serial.print(vssHitsCount * VssCorrection);
-        Serial.print("\n");
-#endif
         //
         // Reset pulse counter
         vssHitsCount = 0;
@@ -992,12 +979,17 @@ void CarSens::sensVss() {
     //
     // Alarms
     speedingAlarms();
-    //
-    // Distance
-#if defined(VSD_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    if (amp->isBig()) {
-        Serial.print("Counted VSD is: ");
-        Serial.println(CUR_VDS);
+
+
+//
+// debug info
+#if defined(DEBUG)&& defined(DEBUG_VSS)
+    if (DBG_CMD(amp, "vss")) {
+        DBG_PS(CUR_VSS);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(vssHitsCount);
+        DBG_PI(F("Distance contend: "))
+        DBG_PD(CUR_VDS);
     }
 #endif
 
@@ -1013,21 +1005,20 @@ void CarSens::sensRpm() {
         //
         // Pass rpm to global
         CUR_RPM = uint16_t(rpmHitsCount * getCorRpm());
-
-//
-// debug info
-#if defined(RPM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print("\n");
-        Serial.print(" RPM count:  \t");
-        Serial.print(rpmHitsCount);
-        Serial.print(" RPM is:  \t");
-        Serial.print(rpmHitsCount * RpmCorrection);
-        Serial.print("\n");
-#endif
         //
         // Clear value
         rpmHitsCount = 0;
     }
+
+    //
+// debug info
+#if defined(DEBUG) && defined(DEBUG_RPM)
+    if (DBG_CMD(amp, "rpm")) {
+        DBG_PS(CUR_RPM);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(rpmHitsCount);
+    }
+#endif
 }
 
 /*******************************************************************
@@ -1041,14 +1032,14 @@ void CarSens::sensEcu() {
         CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
 //
 // debug info
-#if defined(ECU_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print("\n");
-        Serial.print(" ecu count:  \t");
-        Serial.print(ecuHitsCount);
-        Serial.print(" ecu is:  \t");
-        Serial.print(ecuHitsCount * ECU_CORRECTION);
-        Serial.print("\n");
+#if defined(DEBUG) && defined(DEBUG_ECU)
+        if (DBG_CMD(amp, "ecu")) {
+            DBG_PS(CUR_ECU);
+            DBG_PI(F("Hits contend: "))
+            DBG_PD(ecuHitsCount);
+        }
 #endif
+
 
         ecuHitsCount = 0;
     }
@@ -1183,17 +1174,6 @@ void CarSens::getHTm(float saved, char *dspTime) {
 void CarSens::sensDim() {
     if (amp->isMid()) {
         uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
-
-#if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print("Dim collection ");
-        Serial.println(backLightReadCollection);
-        Serial.print("Dim index ");
-        Serial.println(backLightIndex);
-        Serial.print("Display board read pure ");
-        Serial.println(analogRead(pinScreenInput));
-#endif
-
-
         if (backLightLevel > 25) {
             backLightLevel = 25;
         }
@@ -1205,11 +1185,15 @@ void CarSens::sensDim() {
         CUR_DIM_ON = true;
         analogWrite(pinScreenOutput, backLightLevel * 10);
 
-#if  defined(DIM_SENS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print("Display Dim ");
-        Serial.println(backLightLevel);
-#endif
     }
+
+#if  defined(DEBUG) && defined(DEBUG_DIM)
+    if (DBG_CMD(amp, "dim")) {
+        DBG_PS(pinScreenOutput);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(backLightLevel);
+    }
+#endif
 
 }
 
@@ -1249,19 +1233,12 @@ void CarSens::sensEnt() {
 
     }
 
-
-//#define DEBUG_ENG_TEMP
-#ifdef DEBUG_ENG_TEMP
-    //
-        if(amp->isSecond()){
-            Serial.print("Engine temperature ");
-    //        Serial.print(val);
-            Serial.print("  result:");
-            Serial.print(CUR_ENT);
-
-            Serial.print(" / Real:");
-            Serial.println(analogRead(pinTemp));
-        }
+#if  defined(DEBUG) && defined(DEBUG_ENT)
+    if (DBG_CMD(amp, "ent")) {
+        DBG_PS(CUR_ENT);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD((smoothEngineTemp / indexEngineTemp);
+    }
 #endif
 
 }
@@ -1365,14 +1342,6 @@ void CarSens::sensTmp() {
     //
     // Read inside temperature
 #if defined(INSIDE_TEMPERATURE_DS)
-
-#if defined(DEBUG_TEMPERATURE_IN)
-    if (ampInt.isBig()) {
-        temperatureSensors.requestTemperatures();
-        Serial.print("Dallas temperature: \t");
-        Serial.println(temperatureSensors.getTempCByIndex(0)); // Why "byIndex"?
-    }
-#endif
     //
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
@@ -1381,8 +1350,14 @@ void CarSens::sensTmp() {
         if (currentInside > -100 && !isInitializedLoop || isInitializedLoop) {
             CUR_INS_TMP = currentInside;
         }
-
     }
+
+#if  defined(DEBUG) && defined(DEBUG_TIN)
+    if (DBG_CMD(amp, "tin")) {
+        DBG_PS(temperatureSensors.getTempCByIndex(0));
+    }
+#endif
+
 #endif
 
 
@@ -1480,20 +1455,21 @@ void CarSens::sensTmp() {
         // Keep current value for more smooth data
         tmp_outCollection = (uint16_t) floor(resistanceReadings) * 3;
         tmp_outIndex = 3;
-
-#if defined(DEBUG_TEMPERATURE_OU)
-        Serial.print("Read Temp |  average: ");
-        Serial.print(resistanceReadings);
-        Serial.print(" / live: ");
-        Serial.print(liveValue);
-        Serial.print(" / result: ");
-        Serial.println(temperatureC);
-
-#endif
         //
         // Pass value to global
         CUR_OUT_TMP = temperatureC;
     }
+//
+// debug info
+#if defined(DEBUG)&& defined(DEBUG_TOU)
+    if (DBG_CMD(amp, "tou")) {
+        DBG_PS(temperatureC);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(resistanceReadings);
+        DBG_PI(F("Live contend: "))
+        DBG_PD(liveValue);
+    }
+#endif
 
 }
 
@@ -1575,20 +1551,7 @@ void CarSens::sensIfc() {
             cons = ((CUR_ECU * getIfcFuelVal()) / (CUR_VSS * 10000)) * 0.1;
         }
         // 4329
-#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
 
-
-        Serial.print(F("\n\n Fuel Cons  | INS: "));
-        Serial.print(FUEL_INST_CONS);
-        Serial.print(F(" || TTL: "));
-        Serial.print(TTL_FL_CNS);
-        Serial.print(F(" || ECU: "));
-        Serial.print(CUR_ECU);
-        Serial.print(F(" || CNS: "));
-        Serial.print(cons);
-        Serial.print(F("\n\n "));
-
-#endif
 
         if (cons > 99) {
             cons = 99;
@@ -1609,19 +1572,7 @@ void CarSens::sensIfc() {
         FUEL_AVRG_INST_CONS = float(collectionIfc / indexIfc);//
         collectionIfc = FUEL_AVRG_INST_CONS;
         indexIfc = 1;
-#if defined(DEBUG_CONS_INFO) || defined(GLOBAL_SENS_DEBUG)
-        Serial.print(F("\n\n Fuel Cons  | INS: "));
-        Serial.print(FUEL_INST_CONS);
-        Serial.print(F(" || AVR: "));
-        Serial.print(FUEL_AVRG_INST_CONS);
-        Serial.print(F(" || TTL: "));
-        Serial.print(TTL_FL_CNS);
-        Serial.print(F(" || ECU: "));
-        Serial.print(CUR_ECU);
-        Serial.print(F(" || CNS: "));
-        Serial.print(cons);
-        Serial.print(F("\n\n "));
-#endif
+
     }
 
 
@@ -1691,7 +1642,6 @@ void CarSens::sensBkt() {
     }
 }
 
-#define DEBUG_FUEL_TNK
 
 void CarSens::sensTnk() {
     if (amp->isSens()) {
@@ -1701,9 +1651,9 @@ void CarSens::sensTnk() {
         indexFuelTank++;
     }
 
-
+    uint16_t val;
     if (amp->isSecond()) {
-        int val = (int) (smoothFuelTank / indexFuelTank);
+        val = (uint16_t) (smoothFuelTank / indexFuelTank);
         indexFuelTank = 0;
         smoothFuelTank = 0;
 
@@ -1713,18 +1663,16 @@ void CarSens::sensTnk() {
         // lamp 595 (10% / 5.2l)
         // fill 546 - 5liters
         FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
-
-#ifdef DEBUG_FUEL_TNK
-        Serial.print("Vehicle fuel tank: ");
-        Serial.print(val);
-        Serial.print("  result:");
-        Serial.print(FUEL_TANK);
-
-        Serial.print(" / Real:");
-        Serial.println(analogRead(pinFulTnk));
-#endif
     }
-
+//
+// debug info
+#if defined(DEBUG)&& defined(DEBUG_TNK)
+    if (DBG_CMD(amp, "tnk")) {
+        DBG_PS(FUEL_TANK);
+        DBG_PI(F("Hits contend: "))
+        DBG_PD(val);
+    }
+#endif
 
 }
 

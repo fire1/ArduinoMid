@@ -12,128 +12,6 @@
 #include "WhlSens.h"
 #include "InitObj.h"
 
-String LastSerialReadingDebug;
-
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, const __FlashStringHelper *data) {
-
-    if (LastSerialReadingDebug == cmd) {
-
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_now(AmpTime *amp, const __FlashStringHelper *cmd, uint8_t data) {
-
-    if (LastSerialReadingDebug == cmd) {
-
-        if (amp->isMin()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-
-
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, const char *data) {
-
-    if (LastSerialReadingDebug == cmd) {
-
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, float data) {
-
-    if (LastSerialReadingDebug == cmd) {
-
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, int data) {
-
-    if (LastSerialReadingDebug == cmd) {
-
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, unsigned long data) {
-
-    if (LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(" ");
-            Serial.println(data);
-        }
-    }
-}
-
-/**
- *
- * @param amp
- * @param cmd
- * @param data
- */
-static void debug_fast(AmpTime *amp, const __FlashStringHelper *cmd, double data) {
-
-    if (LastSerialReadingDebug == cmd) {
-        LastSerialReadingDebug = cmd;
-        if (amp->isSens()) {
-            Serial.print(cmd);
-            Serial.print(": \t ");
-            Serial.println(data);
-        }
-    }
-}
-
 /**
  * Command Serial Prompt
  */
@@ -466,14 +344,14 @@ public:
 
 
                 if (srlStrName == F("dbg")) {
-                    LastSerialReadingDebug = Serial.readStringUntil('\n');
-                    if (LastSerialReadingDebug == F("stop")) {
-                        srlOutputs += LastSerialReadingDebug;
+                    CmdSerialDebugging = Serial.readStringUntil('\n');
+                    if (CmdSerialDebugging == F("stop")) {
+                        srlOutputs += CmdSerialDebugging;
                         srlOutputs += F("> ");
-                        LastSerialReadingDebug = "";
+                        CmdSerialDebugging = "";
                     } else {
                         srlOutputs = "DUMPING string name <";
-                        srlOutputs += LastSerialReadingDebug;
+                        srlOutputs += CmdSerialDebugging;
                         srlOutputs += F("> ");
                     }
                 }
