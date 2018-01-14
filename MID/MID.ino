@@ -160,10 +160,10 @@ void loop() {
     //  Switch to shutdown menu
     shutDown.cursor();
 
-
+//
 //    if(ampInt.isSens()){
-//        DBG_P("RPM: ");
-//        DBG_PLN(carSens.getRpm());
+//        Serial.print("RPM: ");
+//        Serial.println(carSens.getRpm());
 //    }
     //
     // Listen LPG fuel system from serial com
@@ -173,19 +173,12 @@ void loop() {
     //
     // Debugging LPG data
     if (ampInt.isSecond()) {
-//        Serial.print(F(" Fuel state is "));
-//        Serial.println(carSens.getFuelState());
-//
-//        Serial.print("Lights :");
-//        Serial.print(analogRead(A12));
-//        Serial.print(" / ");
-//        Serial.print(analogRead(A13));
-//        Serial.println();
-//
-//        Serial.print("Inside tmp :");
-//        Serial.print(carSens.getTmpIns());
-//        Serial.println();
-
+        Serial.print(F("VSS: "));
+        Serial.print(carSens.getVss());
+        Serial.println();
+        Serial.print(F("LEN: "));
+        Serial.print(vssPulseLen);
+        Serial.println();
 
     }
 

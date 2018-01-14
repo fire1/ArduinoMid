@@ -39,14 +39,16 @@ private:
     boolean transStart = false;
     boolean stateStart = false;
     uint8_t fuelTankAverage = 0;
+    uint8_t capture = 0;
     uint8_t trans;
     uint8_t history;
     uint8_t lpg = 0;
+    uint8_t index = 0;
 
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
-    unsigned long timerTransfare = 0;
+    uint8_t data[4] = {};
 
 public:
     LpgSerial(AmpTime &ampTime) : amp(&ampTime) {
@@ -58,9 +60,10 @@ public:
         Serial1.begin(128);
     }
 
-#define DEBUG_SR2
+//#define DEBUG_SR2
 
     void listener(void) {
+
 
         if (lpg != 0) {
             lpg = 0;
@@ -84,19 +87,44 @@ public:
             }
             uint8_t val = uint8_t(Serial2.read());
 
-            if (val > 40 && val < 250) {
-                trans = val;
-                timerTransfare = millis();
+            if (history == 0) {
+                index = 0;
             }
 
-#if defined(DEBUG)&& defined(DEBUG_SR2)
-            if (DBG_CMD_LIVE("sr2")) {
-                DBG_PS(val);
-                DBG_PI(F("History record : "))
-                DBG_PD(history);
-                DBG_PI(F("Amplitude time : "))
-                DBG_PD(millis() - timerTransfare);
+            data[index] = val;
+            index++;
+
+
+            if (index > 3) {
+                index = 0;
             }
+
+
+            if (val > 40 && val <255) {
+                capture = history;
+                trans = val;
+
+            }
+
+            if(data[0] == 255 || data[1] == 255 || data[3] == 255){
+                trans = capture;
+            }
+
+
+            //
+            // 100 - 154 almost empty tank (one green dot)
+
+#if defined(DEBUG)&& defined(DEBUG_SR2)
+            Serial.print("DATA: ");
+            Serial.print(data[0]);
+            Serial.print(" / ");
+            Serial.print(data[1]);
+            Serial.print(" / ");
+            Serial.print(data[3]);
+            Serial.println();
+            Serial.print("Recorded trans: ");
+            Serial.println(trans);
+
 #endif
 
 

@@ -63,13 +63,13 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 75//   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 45//45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 1.6 //v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
+#define VSS_CORRECTION 2.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
-#define RPM_CORRECTION 75   //    fast 33.767
+#define RPM_CORRECTION  45//45    fast 33.767
 ////Impulse Odometer:
 /// If as stated above, use the " pulse according to " Set here the number of pulses that traveled for 1km.
 /// The value of this parameter, we find holding the button.
@@ -77,7 +77,7 @@
 /// For vehicles Astra G it is usually worth the 15385 (mul by 2 = 30770). For vehicles Frontera , it is the value of the 2700.
 //25.2 / 1.8l
 // Distance correction
-#define DST_CORRECTION  30800  // v1.4 30800.00  //  15383.29  //   15385
+#define DST_CORRECTION  40800  // v1.4 30800.00  //  15383.29  //   15385
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
@@ -732,13 +732,26 @@ public:
  * ########################################################################################### *
  ***********************************************************************************************/
 
+unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
+    if (currentMicroseconds >= startMicroSeconds)
+        return currentMicroseconds - startMicroSeconds;
+    return 4294967295 - (startMicroSeconds - currentMicroseconds);
+}
 
+unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
+    return elapsedMicroseconds(startMicroSeconds, micros());
+}
+
+unsigned long lastTimeVss = 0, vssPulseLen = 0;
 
 /**
  * Interrupt function Vss
  */
 void EngSens_catchVssHits() {
     vssHitsCount++;
+    unsigned long time = micros();
+    vssPulseLen = elapsedMicroseconds(lastTimeVss, time);
+    lastTimeVss = time;
 }
 
 /**

@@ -221,6 +221,10 @@ public:
         melody = 8;
     }
 
+    uint8_t getPlay(){
+        return  melody;
+    }
+
 /**
  * general executor of melody
  */
