@@ -234,7 +234,7 @@ public:
 //                lcd->print(getMsg(87));
             } else if (car->getTmpOut() < 40) {
                 lcd->print(getMsg(89));
-            } else if (car->getTmpOut() > 40){
+            } else if (car->getTmpOut() > 40) {
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
             }
         }
@@ -543,15 +543,16 @@ protected:
 //        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
         uint8_t subAnimateIndex = drawEntry & 4;
 
-//        if (!usedMenu.used) {
-//            btn->resetStates();
-//            lcd->clear();
-//            drawEntry = 0;
-//            drawIndex = 0;
-//            initializeDraw = true;
-////            this->playSlow();
-//            return;
-//        }
+        if (lcd->getStrWidth(usedMenu.used) < 2) {
+            btn->resetStates();
+            mbs->finishEntry();
+            lcd->clear();
+            drawEntry = 0;
+            drawIndex = 0;
+            initializeDraw = true;
+            this->playSlow();
+            return;
+        }
 
         switch (drawEntry) {
             default:
@@ -596,7 +597,7 @@ protected:
 
                 lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                if (usedMenu.down) {
+                if (lcd->getStrWidth(usedMenu.down) > 1) {
                     lcd->print(F(" "));
                     lcd->print(getMsg(95));
                     lcd->print(F("  "));
@@ -814,7 +815,7 @@ private:
         showL100km(LCD_COL_L22, LCD_ROW_2);
 
 //        if (drawIndex < 2 && initializeDraw) {
-            lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
+        lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
 //        }
     }
 
@@ -917,32 +918,32 @@ private:
  */
 
     void displayCarVss() {
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
         lcd->print(F("KMH "));
         sprintf(char_3, "%03d", car->getVss());
         lcd->print(char_3);
     }
 
     void displayEngRpm() {
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
         lcd->print(F("RPM "));
         sprintf(char_4, "%04d", car->getRpm());
         lcd->print(char_4);
     }
 
     void displayCarEcu() {
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_3);
         lcd->print(F("ECU "));
         sprintf(char_2, "%04d", car->getEcu());
         lcd->print(char_2);
     }
 
     void displayCarDst() {
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
         lcd->print(F("DST "));
         displayFloat(eep->getTravelDistance(), char_3);
         lcd->print(char_3);
-        lcd->print(F(" BLB"));
+        lcd->print(F("   BLB "));
         lcd->print(analogRead(A12));
         lcd->print(F("/"));
         lcd->print(analogRead(A13));

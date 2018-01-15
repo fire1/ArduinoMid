@@ -64,13 +64,13 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 46//45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 75//45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
-#define VSS_CORRECTION 2.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
+#define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
-#define RPM_CORRECTION  46//45    fast 33.767
+#define RPM_CORRECTION  75//45    fast 33.767
 ////Impulse Odometer:
 /// If as stated above, use the " pulse according to " Set here the number of pulses that traveled for 1km.
 /// The value of this parameter, we find holding the button.

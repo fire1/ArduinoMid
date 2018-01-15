@@ -9,7 +9,7 @@
 #include "conf.h"
 
 
-#define DEBUG 1
+//#define DEBUG 1
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64

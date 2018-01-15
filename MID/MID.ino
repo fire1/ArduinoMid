@@ -116,6 +116,11 @@ void setup() {
     lpgCom.begin();
 #endif
 
+
+    //
+    // Light lamps test
+    pinMode(A12, INPUT_PULLUP);
+    pinMode(A13, INPUT_PULLUP);
 }
 
 //void loop() {
@@ -134,6 +139,9 @@ void setup() {
 
 
 void loop() {
+
+//    if (ampInt.is5Seconds())
+//        analogWrite(STT_OIL_PIN, 0);
     //
     // Amplitude loop init
     ampInt.listener();

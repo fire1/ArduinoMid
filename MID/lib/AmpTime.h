@@ -27,13 +27,15 @@
 //    ampInt(min,low,mid,sec, big, max);
 //AmpTime ampInt(5, 10, 50, 100, 250, 1000);
 
+//
+// Thous values affect calculation of board computer!!!
 #ifndef AMP_CUSTOM
 #define AMP_MIN 5 // MIN
 #define AMP_LOW 10 // LOW
 #define AMP_MID 50 // MID
 #define AMP_SEC 100 // SEC
 #define AMP_BIG 200 // BIG
-#define AMP_MAX 340 // MAX
+#define AMP_MAX 400 // MAX
 #endif
 
 /** @description
