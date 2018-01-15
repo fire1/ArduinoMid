@@ -144,7 +144,7 @@ public:
 /**
  * Setup shutdown class
  */
-void ShutDw::begin(uint8_t pinControl, uint8_t pinDetect, uint8_t pinToAlarm) {
+void ShutDw::begin(const uint8_t pinControl, const uint8_t pinDetect, const uint8_t pinToAlarm) {
 
     pinCtrl = uint8_t(pinControl);
     pinDtct = uint8_t(pinDetect);

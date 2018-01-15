@@ -132,7 +132,8 @@ public:
         Serial.println(resistance);
 
 
-        digitalWrite(pinMaskHide, LOW);
+//            digitalWrite(pinMaskHide, LOW);
+
         digitalWrite(pinDigPotCtr, LOW);
 
         setDigitalPot(resistance);
@@ -203,8 +204,8 @@ public:
         this->sendRadioButtons(1);
         this->sendRadioButtons(1);
 #else
-        this->sendRadioButtons(250);
-        this->sendRadioButtons(250);
+        this->sendRadioButtons(254);
+        this->sendRadioButtons(254);
 #endif
 
 
