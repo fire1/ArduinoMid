@@ -902,8 +902,8 @@ private:
         if (car->getFuelState() == 1) { // LPG [additional]
             dataFuel = car->getAdtFuelCns();
         }
-        float result = ((dataFuel + car->getAdtFuelCns()) * 100) / car->getDst();
-        if (result > 100) {
+        float result = ((dataFuel) * 100) / car->getDst();
+        if (result > 50) {
             result = 0;
         }
         displayFloat(result, char_3);

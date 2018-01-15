@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  60 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  5 //
+#define VSS_ALARM_VERIFICATE  15 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -361,9 +361,6 @@ private:
      */
     void sensAlarms();
 
-    boolean isAlrWtn();
-
-    boolean isAlrCur(unsigned int curSet);
 
     /**
     *
@@ -1101,7 +1098,6 @@ void CarSens::sensAlarms() {
             // If speed is bigger play alarm
             if (currentSpeed > speedAlarmCursor) {
                 switch (currentSpeed) {
-                    case 0:
                     default:
                         break;
 
