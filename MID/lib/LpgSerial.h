@@ -106,6 +106,8 @@ public:
 
             }
 
+            //
+            // Skip action
             if(data[0] == 255 || data[1] == 255 || data[3] == 255){
                 trans = capture;
             }

@@ -34,6 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  60 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
+#define VSS_ALARM_VERIFICATE  5 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -253,7 +254,6 @@ private:
     //
     //
     boolean initializeAverage = 0;
-    boolean speedAlarmActive = 0;
     //
     // bool for read sensor at first loop
     boolean isInitializedLoop = 1;
@@ -285,7 +285,7 @@ private:
     uint8_t maxReachedSpeed = 0, maxReachedRevs = 0;
     //
     // Speeding alarms
-    uint8_t speedAlarmCursor = 0;
+    uint8_t speedAlarmCursor = 0, speedAlarmActive = 0;
     //
     // Human Results
     uint8_t CUR_VSS;
@@ -731,27 +731,28 @@ public:
  * ########################################################################################### *
  * ########################################################################################### *
  ***********************************************************************************************/
+//
+// Verification with time test
+//unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
+//    if (currentMicroseconds >= startMicroSeconds)
+//        return currentMicroseconds - startMicroSeconds;
+//    return 4294967295 - (startMicroSeconds - currentMicroseconds);
+//}
+//
+//unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
+//    return elapsedMicroseconds(startMicroSeconds, micros());
+//}
 
-unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
-    if (currentMicroseconds >= startMicroSeconds)
-        return currentMicroseconds - startMicroSeconds;
-    return 4294967295 - (startMicroSeconds - currentMicroseconds);
-}
-
-unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
-    return elapsedMicroseconds(startMicroSeconds, micros());
-}
-
-unsigned long lastTimeVss = 0, vssPulseLen = 0;
+//unsigned long lastTimeVss = 0, vssPulseLen = 0;
 
 /**
  * Interrupt function Vss
  */
 void EngSens_catchVssHits() {
     vssHitsCount++;
-    unsigned long time = micros();
-    vssPulseLen = elapsedMicroseconds(lastTimeVss, time);
-    lastTimeVss = time;
+//    unsigned long time = micros();
+//    vssPulseLen = elapsedMicroseconds(lastTimeVss, time);
+//    lastTimeVss = time;
 }
 
 /**
@@ -1072,26 +1073,30 @@ void CarSens::sensAlarms() {
         // Alarm high way
         if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
             currentSpeed = VSS_ALARM_HWAY_SPEED;
+            speedAlarmActive++;
         } else
             //
             // Alarm between villages
         if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
             currentSpeed = VSS_ALARM_VWAY_SPEED;
+            speedAlarmActive++;
         } else
             //
             // Alarm in city
         if (CUR_VSS > VSS_ALARM_CITY_SPEED) {
             currentSpeed = VSS_ALARM_CITY_SPEED;
+            speedAlarmActive++;
         } else
             //
             // Zeroing the speed cursor
         if (CUR_VSS < VSS_ALARM_CITY_SPEED) {
             currentSpeed = 0;
+            speedAlarmActive = 0;
         }
 
         //
         // Resolve alarm type
-        if (currentSpeed != speedAlarmCursor) {
+        if (currentSpeed != speedAlarmCursor && speedAlarmActive > VSS_ALARM_VERIFICATE) {
             //
             // If speed is bigger play alarm
             if (currentSpeed > speedAlarmCursor) {
@@ -1114,6 +1119,7 @@ void CarSens::sensAlarms() {
                 }
             }
             speedAlarmCursor = currentSpeed;
+            speedAlarmActive = 0;
         }
     }
 
