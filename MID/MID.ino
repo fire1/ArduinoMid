@@ -50,11 +50,13 @@ void setup() {
     // Sets display pins to socket
     lcdPwr.begin();
     //
-    // Shutdown setupvehicle
+    // Shutdown setup vehicle
     shutDown.begin(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     // Debug serial
+#if defined(DEBUG) && defined(SERIAL_MONITOR_BAUD)
     Serial.begin(SERIAL_MONITOR_BAUD);
+#endif
     //
     // Change timer 3
     setupTimer3();
