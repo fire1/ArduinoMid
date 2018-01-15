@@ -1,4 +1,12 @@
 cmake_minimum_required(VERSION 2.8.4)
+
+
+set(ARDUINO_CPU=atmega2560)
+SET(MCU atmega2560)
+SET(F_CPU 16000000)
+
+
+
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/ArduinoToolchain.cmake)
 set(PROJECT_NAME ArduinoMid)
 project(${PROJECT_NAME})
@@ -19,8 +27,19 @@ list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 # To set definitions use "-D"[DefName]
 add_definitions( -DUSBCON=1 )
 add_definitions ( -DSerial2=Serial)
-add_definitions ( -mmcu=atmega2560)
+
 LINK_DIRECTORIES("../libraries/")
-#LINK_DIRECTORIES(c:\\ARDUINO\\libraries)
+
+
+
+# For some reason, these paths have to be absolute, otherwise
+# CLion won't be able to find headers etc.
+#SET(CMAKE_C_COMPILER /usr/local/Cellar/avr-gcc/4.9.3/bin/avr-gcc)
+#SET(CMAKE_CXX_COMPILER /usr/local/Cellar/avr-gcc/4.9.3/bin/avr-g++)
+
+
+#SET(ARDUINO_C_FLAGS -mmcu=${MCU} )
+#SET(ARDUINO_CXX_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
+#SET(ARDUINO_LINKER_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
 
 link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)

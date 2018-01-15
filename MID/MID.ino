@@ -170,16 +170,16 @@ void loop() {
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
-
-    if (ampInt.isSecond()) {
-        Serial.print(F("VSS: "));
-        Serial.print(carSens.getVss());
-        Serial.println();
-        Serial.print(F("LEN: "));
-        Serial.print(vssPulseLen);
-        Serial.println();
-
-    }
+//
+//    if (ampInt.isSecond()) {
+//        Serial.print(F("VSS: "));
+//        Serial.print(carSens.getVss());
+//        Serial.println();
+//        Serial.print(F("LEN: "));
+//        Serial.print(vssPulseLen);
+//        Serial.println();
+//
+//    }
 
 
     //
