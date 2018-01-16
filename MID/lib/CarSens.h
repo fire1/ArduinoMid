@@ -210,7 +210,21 @@ struct Fuel {
 #if defined(INSIDE_TEMPERATURE_DS)
 
 #include <OneWire.h>
+
+#ifndef OneWire_h
+
+#include "../../libraries/OneWire/OneWire.h"
+
+#endif
+
 #include <DallasTemperature.h>
+
+#ifndef DallasTemperature_h
+
+#include "../../libraries/DallasTemperature/DallasTemperature.h"
+
+#endif
+
 // Data wire is plugged into pin A7 on the Arduino
 
 #if !defined(ONE_WIRE_BUS)
@@ -993,7 +1007,7 @@ void CarSens::sensVss() {
 
 //
 // debug info
-#if defined(DEBUG)&& defined(DEBUG_VSS)
+#if defined(DEBUG) && defined(DEBUG_VSS)
     if (DBG_CMD(amp, "vss")) {
         DBG_PS(CUR_VSS);
         DBG_PI(F("Hits contend: "))
@@ -1478,7 +1492,7 @@ void CarSens::sensTmp() {
     }
 //
 // debug info
-#if defined(DEBUG)&& defined(DEBUG_TOU)
+#if defined(DEBUG) && defined(DEBUG_TOU)
     if (DBG_CMD(amp, "tou")) {
         DBG_PS(temperatureC);
         DBG_PI(F("Hits contend: "))
@@ -1683,7 +1697,7 @@ void CarSens::sensTnk() {
     }
 //
 // debug info
-#if defined(DEBUG)&& defined(DEBUG_TNK)
+#if defined(DEBUG) && defined(DEBUG_TNK)
     if (DBG_CMD(amp, "tnk")) {
         DBG_PS(FUEL_TANK);
         DBG_PI(F("Hits contend: "))

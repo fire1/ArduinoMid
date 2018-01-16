@@ -6,7 +6,6 @@ SET(MCU atmega2560)
 SET(F_CPU 16000000)
 
 
-
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/ArduinoToolchain.cmake)
 set(PROJECT_NAME ArduinoMid)
 project(${PROJECT_NAME})
