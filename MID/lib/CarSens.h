@@ -1063,7 +1063,7 @@ void CarSens::sensEcu() {
 void CarSens::sensAlarms() {
 #if defined(VSS_ALARM_ENABLED)
 
-    if (amp->isMax()) {
+    if (amp->isSecond()) {
         uint8_t currentSpeed = 0;
         //
         // Alarm high way

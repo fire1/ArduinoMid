@@ -55,7 +55,7 @@ class AmpTime {
      * MAX 1,193,046 Hour	(h)
      */
 public:
-    AmpTime() {}
+    AmpTime() { }
 
     void listener();
 
@@ -157,56 +157,56 @@ void AmpTime::listener() {
 
     /************** Real Time *********************/
 
-    if (timer >= curSecond + MILLIS_PER_SC) {
+    if (timer >= curSecond + MILLIS_PER_SC && !_isSecond) {
         curSecond = timer;
         _isSecond = 1;
     } else {
         _isSecond = 0;
     }
 
-    if (timer >= cur2Seconds + (MILLIS_PER_SC * 2)) {
+    if (timer >= cur2Seconds + (MILLIS_PER_SC * 2) && !_is2Seconds) {
         cur2Seconds = timer;
         _is2Seconds = 1;
     } else {
         _is2Seconds = 0;
     }
 
-    if (timer >= cur4Seconds + (MILLIS_PER_SC * 4)) {
+    if (timer >= cur4Seconds + (MILLIS_PER_SC * 4) && !_is4Seconds) {
         cur4Seconds = timer;
         _is4Seconds = 1;
     } else {
         _is4Seconds = 0;
     }
 
-    if (timer >= cur5Seconds + (MILLIS_PER_SC * 5)) {
+    if (timer >= cur5Seconds + (MILLIS_PER_SC * 5) && !_is5Seconds) {
         cur5Seconds = timer;
         _is5Seconds = 1;
     } else {
         _is5Seconds = 0;
     }
 
-    if (timer >= cur10Seconds + (MILLIS_PER_SC * 10)) {
+    if (timer >= cur10Seconds + (MILLIS_PER_SC * 10) && !_is10Seconds) {
         cur10Seconds = timer;
         _is10Seconds = 1;
     } else {
         _is10Seconds = 0;
     }
 
-    if (timer >= curMinute + MILLIS_PER_MN) {
+    if (timer >= curMinute + MILLIS_PER_MN && !_isMinute) {
         curMinute = timer;
         _isMinute = 1;
     } else {
         _isMinute = 0;
     }
 
-    if (timer >= curHour + MILLIS_PER_HR) {
+    if (timer >= curHour + MILLIS_PER_HR && !_isHour) {
         curHour = timer;
         _isHour = 1;
     } else {
         _isHour = 0;
     }
 
-    if (timer >= curSens + MILLIS_SENS) {
+    if (timer >= curSens + MILLIS_SENS && !_isSens) {
         curSens = timer;
         _isSens = 1;
     } else {
