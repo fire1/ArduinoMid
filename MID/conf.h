@@ -87,7 +87,7 @@
 
  //
  // Mixed consumption configuration
- #define LPG_INSTALLATION
+ #define LPG_INSTALLATION // By using this, data will be listen from Serial 2
 
 //
 // LPG ENGINE CONFIG
