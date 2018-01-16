@@ -131,9 +131,8 @@
 // At ~20°C 8479
 //
 // (old may be changed from noise) 7435 [NOT CONFIRMED]
+#define LPG_SWTC_PIN 17
 #endif
-
-#define LPG_SWTC_PIN 7
 #endif
 /************************/
 /* DIESEL ENGINE CONFIG */

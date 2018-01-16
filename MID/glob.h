@@ -178,10 +178,13 @@ struct SavedData {
     TripData trip_c;
 };
 
-#ifdef ADT_FUEL_SYSTEM_SERIAL
+#if defined(ADT_FUEL_SYSTEM_SERIAL) || defined(LPG_SWTC_PIN)
+
 
 class LpgFuel {
 public:
+    virtual void listener() = 0;
+
     virtual boolean isLPG() = 0;
 
     virtual boolean isBNZ() = 0;

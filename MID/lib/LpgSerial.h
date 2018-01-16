@@ -8,6 +8,7 @@
 #include <Arduino.h>
 #include "../MID.h"
 #include "CmdSerial.h"
+#include "../glob.h"
 //
 // Marker for start transmitting
 #ifndef LPG_SERIAL_T_ST
@@ -28,6 +29,9 @@
 #ifndef LPG_SERIAL_T_FBB
 #define LPG_SERIAL_T_FBB 100
 #endif
+
+
+#if defined(ADT_FUEL_SYSTEM_SERIAL)
 
 //
 // All buttons up - 18
@@ -57,7 +61,7 @@ public:
 
     void begin(void) {
         Serial2.begin(245);
-        Serial1.begin(128);
+//        Serial1.begin(128);
     }
 
 //#define DEBUG_SR2
@@ -69,9 +73,8 @@ public:
             lpg = 0;
         }
 
-        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
-//            debug_fast(amp, F("lpg1"), Serial1.read());
-        }
+//        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
+//        }
 
         if (Serial2.available() > 0) {
             if (trans != LPG_SERIAL_T_ST) {
@@ -100,7 +103,7 @@ public:
             }
 
 
-            if (val > 40 && val <255) {
+            if (val > 40 && val < 255) {
                 capture = history;
                 trans = val;
 
@@ -108,7 +111,7 @@ public:
 
             //
             // Skip action
-            if(data[0] == 255 || data[1] == 255 || data[3] == 255){
+            if (data[0] == 255 || data[1] == 255 || data[3] == 255) {
                 trans = capture;
             }
 
@@ -129,24 +132,6 @@ public:
 
 #endif
 
-
-            //
-            // Older version
-//            if (val == 146) {
-//                lpg = 1;
-//            }
-//
-//            if (val == 148) {
-//                lpg = 2;
-//            }
-
-//            if (val == 146) {
-//                transStart = true;
-//            }
-//
-//            if (val == 255) {
-//                transStart = false;
-//            }
 
             //
             // Agg to average
@@ -204,5 +189,43 @@ public:
 
 };
 
+#elif defined(LPG_SWTC_PIN)
+
+
+class LpgSwitch : public LpgFuel {
+
+    AmpTime *amp;
+    boolean state = false;
+
+public:
+    LpgSwitch(AmpTime &ampTime) : amp(&ampTime) {
+
+    }
+
+    void listener() {
+        if (amp->isSecond()) {
+            state = (digitalRead(LPG_SWTC_PIN) == LPG_SWTC_STT) ? true : false;
+        }
+    }
+
+    uint8_t getCurrentValue() {
+        return 0;
+    };
+
+    virtual uint8_t getFuelTankLiters() {
+        return 0;
+    };
+
+    boolean isLPG() {
+        return state;
+    }
+
+    inline boolean isBNZ() {
+        return !state;
+    }
+
+};
+
+#endif
 
 #endif //ARDUINOMID_LPGSERIAL_H

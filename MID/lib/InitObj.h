@@ -38,12 +38,13 @@
 // Debugging Command class
 #include "CmdSerial.h"
 //
+//
+#include "Melody.h"
+//
 // External LPG listener
 #ifdef LPG_INSTALLATION
 
 #include "LpgSerial.h"
-
-#include "Melody.h"
 
 #endif
 //
@@ -82,6 +83,10 @@ ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 
 #ifdef ADT_FUEL_SYSTEM_SERIAL
 LpgSerial lpgCom(ampInt);
+#endif
+
+#ifdef LPG_SWTC_STT
+LpgSwitch lpgCom(ampInt);
 #endif
 
 #endif //ARDUINOMID_INITIALIZATIONS_H

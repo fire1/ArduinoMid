@@ -5,14 +5,7 @@
 #ifndef ARDUINO_MID_CONF_H
 #define ARDUINO_MID_CONF_H
 
-// To active LPG use one of:
-//
-// Serial communication with LPG
-//  Also activates precise consumption calculation
-#define ADT_FUEL_SYSTEM_SERIAL // comment to disable
-//
-// No detection of switch but use LPG
-//#define LPG_INSTALLATION // uncomment
+
 //
 // Use radio output Sony XPLOD
 #define WHL_RDO_XPLOD
@@ -67,11 +60,39 @@
 #define FUEL_BNZ_IFC 3355
 #define FUEL_BNZ_CNS 107310 // 14.7*730*10
 
+
+//
+// To active LPG use one of:
+//
+
+//
+// Serial communication with LPG
+//  Also activates precise consumption calculation
+//#define ADT_FUEL_SYSTEM_SERIAL // comment to disable
+//
+// No detection of switch but use LPG
+//#define LPG_INSTALLATION // uncomment
+
+ //
+ //     OR
+ //
+
+// #define LPG_SWTC_PIN 17     // defines pin to detect switching to additional fuel
+// #define LPG_SWTC_STT LOW    // State of pin HIGH/LOW  (When diode is OFF turn LPG on)
+
+
+ //
+ //     OR
+ //
+
+ //
+ // Mixed consumption configuration
+ #define LPG_INSTALLATION
+
 //
 // LPG ENGINE CONFIG
 //
 //LPG mass/volume is 520-580gr/ltr depending on propane/butane mix
-
 // LPG/air ratio:
 // 15.8:1 if 50/50 propane/butate is usedMenu
 // 15:1 if 100 propane is usedMenu
@@ -82,8 +103,10 @@
 // // Note: this value is set without detection of fuel switch (mixed with benzine)
 #define FUEL_LPG_IFC 4329
 #define FUEL_LPG_CNS 83160  // 15.4*540*10 = 83160
-#define LPG_SWTC_PIN 7
 /**/
+
+#define ADT_FUEL_SYSTEM_SERIAL
+
 
 /***********************************************************************************************************************
  Car sensing Gears values

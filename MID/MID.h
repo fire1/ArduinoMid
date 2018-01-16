@@ -237,6 +237,18 @@ const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 #endif
 #endif
 
+#ifdef LPG_SWTC_PIN
+#define LPG_INSTALLATION
+#define LPG_SWITCHING_DETECT
+
+//
+// Define default use of fuel system
+#ifndef  DEFAULT_FUEL_USING
+#define DEFAULT_FUEL_USING 1
+#endif
+
+#endif
+
 
 #define MID_VERSION "1.5.7"
 
