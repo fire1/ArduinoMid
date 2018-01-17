@@ -50,7 +50,16 @@ private:
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
-    uint8_t data[4] = {};
+    uint8_t data[3] = {};
+
+private:
+    void setTrans(uint8_t val) {
+        if (val >= 34 && val < 255 && val != 99 && val != 98 && val != 100) {
+            capture = history;
+            trans = val;
+
+        }
+    }
 
 public:
     LpgSerial(AmpTime &ampTime) : amp(&ampTime) {
@@ -62,7 +71,7 @@ public:
 //        Serial1.begin(128);
     }
 
-//#define DEBUG_SR2
+#define DEBUG_SR2
 
     void listener(void) {
 
@@ -85,48 +94,49 @@ public:
 
             }
             uint8_t val = uint8_t(Serial2.read());
+            Serial.println();
+            Serial.print("Current val: ");
+            Serial.println(val);
 
-            if (history == 0) {
-                index = 0;
-            }
 
             data[index] = val;
             index++;
+            val = data[0];
+            setTrans(val);
+            val = data[1];
+            setTrans(val);
 
 
-            if (index > 3) {
-                index = 0;
-            }
-
-
-            if (val > 40 && val < 255) {
-                capture = history;
-                trans = val;
-
-            }
 
             //
             // Skip action
-            if (data[0] == 255 || data[1] == 255 || data[3] == 255) {
-                trans = capture;
+            if (data[0] == 255 || data[1] == 255 || data[2] == 255) {
+                trans = capture; // Return to 3 steps back
             }
 
 
             //
             // 100 - 154 almost empty tank (one green dot)
 
-#if defined(DEBUG)&& defined(DEBUG_SR2)
+#if defined(DEBUG) && defined(DEBUG_SR2)
             Serial.print("DATA: ");
             Serial.print(data[0]);
             Serial.print(" / ");
             Serial.print(data[1]);
             Serial.print(" / ");
-            Serial.print(data[3]);
+            Serial.print(data[2]);
+
             Serial.println();
             Serial.print("Recorded trans: ");
             Serial.println(trans);
-
 #endif
+
+            if (index >= 2) {
+                index = 0;
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = 0;
+            }
 
 
             //
