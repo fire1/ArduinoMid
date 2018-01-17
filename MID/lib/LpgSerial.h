@@ -40,13 +40,11 @@ class LpgSerial : public LpgFuel {
     AmpTime *amp;
 
 private:
-    boolean transStart = false;
-    boolean stateStart = false;
     uint8_t fuelTankAverage = 0;
     uint8_t capture = 0;
     uint8_t trans;
     uint8_t history;
-    uint8_t lpg = 0;
+    uint8_t compare = 0;
     uint8_t index = 0;
 
     uint16_t fuelTankIndex = 0;
@@ -69,9 +67,7 @@ public:
     void listener(void) {
 
 
-        if (lpg != 0) {
-            lpg = 0;
-        }
+
 
 //        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
 //        }
@@ -86,7 +82,7 @@ public:
                     fuelTankCollector = 0;
                     fuelTankIndex = 0;
                 }
-                stateStart = true;
+
             }
             uint8_t val = uint8_t(Serial2.read());
 

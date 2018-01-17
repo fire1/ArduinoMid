@@ -126,4 +126,11 @@
 #define CAR_GEAR_G6  0.81
 #define CAR_GEAR_FD   3.74 // Final drive
 /**/
+
+//
+// Comment to use Opel logo
+#define USE_BERTONE_LOGO
+
+
+
 #endif //ARDUINO_MID_CONF_H

@@ -815,7 +815,11 @@ private:
         showL100km(LCD_COL_L22, LCD_ROW_2);
 
 //        if (drawIndex < 2 && initializeDraw) {
+#ifdef USE_BERTONE_LOGO
         lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
+#else
+        lcd->drawXBMP(93, 20, 44, 36, opel_small_bits);
+#endif
 //        }
     }
 
