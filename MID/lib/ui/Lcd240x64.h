@@ -225,7 +225,7 @@ public:
         if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
             lcd->print(getMsg(84));
         } else if (millis() > 7000) {
-            if (car->getTmpOut() < -3) {
+            if (car->getTmpOut() < -2) {
                 if (drawIndex % 2 == 0)lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 0) {
                 lcd->print(getMsg(88));
