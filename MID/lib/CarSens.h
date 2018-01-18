@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  60 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  15 //
+#define VSS_ALARM_VERIFICATE  50 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
