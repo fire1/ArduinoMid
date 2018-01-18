@@ -117,6 +117,7 @@ public:
      */
     void listener() {
 
+        // TODO test it with minimum amplitude
         resolveButton(analogRead(pinSteering));
         //
         // Simulate resistance in radio

@@ -184,8 +184,8 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 // * 5V to relay is used as signal cutter when MID is out of power
 //
 // Change state of shutdown "press to save"
-const uint8_t SHUTDOWN_SAVE_STATE = LOW;
-const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
+//const uint8_t SHUTDOWN_SAVE_STATE = LOW;
+//const uint8_t SHUTDOWN_SAVE_BUTTON = 8;
 //
 // External chip from eep rom
 //#define EEP_ROM_ADDRESS 0x50    //Address of 24LC256 eeprom chip
