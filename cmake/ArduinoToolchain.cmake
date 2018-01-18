@@ -10,6 +10,7 @@ set(CMAKE_SYSTEM_NAME Arduino)
 
 set(CMAKE_C_COMPILER avr-gcc)
 set(CMAKE_CXX_COMPILER avr-g++)
+#set(CMAKE_CXX_COMPILER avr-g++)
 
 # Add current directory to CMake Module path automatically
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Platform/Arduino.cmake)
@@ -57,9 +58,9 @@ if (NOT ARDUINO_SDK_PATH)
                 /opt/local/arduino*
                 /opt/arduino*
                 /usr/local/share/arduino*
-                /cygdrive/c/Program\ Files\ \(x86\)/Arduino)
+                /cygdrive/c/Arduino)
     elseif (WIN32)
-        set(SDK_PATH_HINTS "C:\\Program Files\\Arduino" "C:\\Program Files (x86)\\Arduino")
+        set(SDK_PATH_HINTS "C:\\Arduino" "C:\\Arduino")
         link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
         link_directories("../libraries/")
     endif ()
