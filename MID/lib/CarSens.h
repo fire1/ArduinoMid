@@ -1077,25 +1077,22 @@ void CarSens::sensEcu() {
 void CarSens::sensAlarms() {
 #if defined(VSS_ALARM_ENABLED)
 
-    if (amp->isSecond()) {
+    if (amp->isMax()) {
         uint8_t currentSpeed = 0;
         //
         // Alarm high way
         if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
             currentSpeed = VSS_ALARM_HWAY_SPEED;
-            speedAlarmActive++;
         } else
             //
             // Alarm between villages
         if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
             currentSpeed = VSS_ALARM_VWAY_SPEED;
-            speedAlarmActive++;
         } else
             //
             // Alarm in city
         if (CUR_VSS > VSS_ALARM_CITY_SPEED) {
             currentSpeed = VSS_ALARM_CITY_SPEED;
-            speedAlarmActive++;
         } else
             //
             // Zeroing the speed cursor
@@ -1106,30 +1103,23 @@ void CarSens::sensAlarms() {
 
         //
         // Resolve alarm type
-        if (currentSpeed != speedAlarmCursor && speedAlarmActive > VSS_ALARM_VERIFICATE) {
+        if(currentSpeed != speedAlarmCursor){
             //
-            // If speed is bigger play alarm
+            //
             if (currentSpeed > speedAlarmCursor) {
-                switch (currentSpeed) {
-                    default:
-                        break;
-
-                    case VSS_ALARM_CITY_SPEED:
-                        mld->playSpeed();
-                        break;
-
-                    case VSS_ALARM_VWAY_SPEED:
-                        mld->playSpeed();
-                        break;
-
-                    case VSS_ALARM_HWAY_SPEED:
-                        mld->playSpeed();
-                        break;
-                }
+                speedAlarmActive++;
             }
-            speedAlarmCursor = currentSpeed;
-            speedAlarmActive = 0;
+
+            if(speedAlarmActive > VSS_ALARM_VERIFICATE){
+                mld->playSpeed();
+                speedAlarmCursor = currentSpeed;
+                speedAlarmActive = 0;
+            }
+
         }
+
+
+
     }
 
 #endif
