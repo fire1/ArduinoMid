@@ -544,13 +544,15 @@ protected:
         uint8_t subAnimateIndex = drawEntry & 4;
 
         if (lcd->getStrWidth(usedMenu.used) < 2) {
-            btn->resetStates();
-            mbs->finishEntry();
-            lcd->clear();
-            drawEntry = 0;
-            drawIndex = 0;
-            initializeDraw = true;
-            this->playSlow();
+            if (amp->isMid()) {
+                btn->resetStates();
+                mbs->finishEntry();
+//                lcd->clear();
+                drawEntry = 0;
+                drawIndex = 0;
+                initializeDraw = true;
+                this->playSlow();
+            }
             return;
         }
 
