@@ -845,7 +845,7 @@ private:
 
         displayFloat(car->getTmpOut(), char_3);
         lcd->drawStr(LCD_COL_L11, LCD_ROW_3, char_3);
-        this->showCels(LCD_COL_L22, LCD_ROW_3);
+        this->showCels(LCD_COL_L22 + 2, LCD_ROW_3);
 
 
         if (car->getTmpIns() < -99) {
@@ -858,7 +858,7 @@ private:
             displayFloat(car->getTmpIns(), char_3);
             lcd->drawStr(LCD_COL_L11, LCD_ROW_4, char_3);
             wordWidth = lcd->getStrWidth(char_3);
-            this->showCels(LCD_COL_L22, LCD_ROW_4);
+            this->showCels(LCD_COL_L22 + 2, LCD_ROW_4);
         }
 
     }

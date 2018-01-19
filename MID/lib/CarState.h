@@ -114,7 +114,6 @@ private:
     }
 
 /**
- *
  * @param result
  * @param val
  */
