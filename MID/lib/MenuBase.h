@@ -70,7 +70,7 @@ public:
         //
         // Handles initialization
         if (MenuBase_savedCursor == 0) {
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
 
             Serial.println(F(" Makes init move ..."));
 
@@ -86,7 +86,7 @@ public:
         MidCursorMenu = MenuBase_savedCursor;
         btn->setNavigationState(true);
 
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
         Serial.print(F("Cursor menu: "));
         Serial.println(MidCursorMenu);
         Serial.print(F("Saved Cursor menu: "));
@@ -113,7 +113,7 @@ public:
         // Handle navigation
         if (btn->isUp() && !btn->isHl()) {
             mci->moveUp();
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
             if (btn->passAmp()->isMid()) {
                 Serial.print(F("Up hit \n\r"));
             }
@@ -121,7 +121,7 @@ public:
         }
         if (btn->isDw()) {
             mci->moveDw();
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
             if (btn->passAmp()->isMid()) {
                 Serial.print(F("Dw hit \n\r"));
             }
@@ -132,7 +132,7 @@ public:
         btn->clearLastButton();
 
 
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
         if (btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor saved: "));
             Serial.println(MenuBase_savedCursor);
@@ -148,7 +148,7 @@ public:
             // Change menu to show screen
             MidCursorMenu = MENU_ENTRY;
         }
-#if defined(MENU_DEBUG)
+#if defined(DEBUG_MENU)
         if (btn->passAmp()->isSecond()) {
             Serial.print(F("Cursor MID: "));
             Serial.println(MidCursorMenu);

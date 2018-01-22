@@ -14,7 +14,7 @@ String CmdSerialDebugging;
 
 // serial print macros
 #define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
-
+//#define DBG_SEC(AmpTime *amp) { return (amp->isMax())?true:false;  } //initialization
 #define DBG_PS(...)    { \
 Serial.print(F("[DBG$]> ")); \
 Serial.print(CmdSerialDebugging); \

@@ -71,7 +71,8 @@ private:
         int readingVoltage = analogRead(pinVol);
         //
         // Voltage too high
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage > 950) { // are maximum 13.8V-14.2V
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage &&
+            readingVoltage > 950) { // are maximum 13.8V-14.2V
             return true;
         }
         //
@@ -109,6 +110,7 @@ private:
     void sensorDigital(uint8_t pin, uint8_t &val) {
         if ((bool) digitalRead(pin)) {
             val++;
+            return;
         } else
             val = 0;
     }
@@ -131,7 +133,20 @@ private:
  * @return
  */
     boolean isStateDisplay(uint8_t value) {
-        if (value > CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
+
+#if defined(DEBUG_STATE)
+        if (amp->isSecond()) {
+            Serial.print(F("Compare state: "));
+            Serial.print(CAR_STT_A2_ALERT);
+            Serial.print(F(" > |"));
+            Serial.print(value);
+            Serial.print(F("| < "));
+            Serial.print(CAR_STT_A3_ALERT);
+            Serial.println();
+        }
+#endif
+
+        if (value >= CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
             return true;
         }
         return false;
@@ -142,6 +157,18 @@ private:
  * @param value
  */
     void setStateShowed(uint8_t &value) {
+
+#if defined(DEBUG_STATE)
+        if (amp->isSecond()) {
+            Serial.print(F("Sets show state: "));
+            Serial.print(CAR_STT_A2_ALERT);
+            Serial.print(F(" < |"));
+            Serial.print(value);
+            Serial.print(F("| "));
+            Serial.println();
+        }
+#endif
+
         if (value > CAR_STT_A2_ALERT + 5)
             value = CAR_STT_A3_ALERT;
     }
@@ -154,7 +181,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {}
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
 
     void setWorkState(float distance);
 
@@ -164,8 +191,6 @@ public:
      * Display warning screen
      */
     void menu(LcdUiInterface *lcd) {
-
-
         if (isStateDisplay(result.oil)) {
             lcd->warnMotorOil();
             setStateShowed(result.oil);
@@ -197,13 +222,13 @@ public:
             lcd->warnOverheat();
             setStateShowed(result.ovh);
         } else {
+#if defined(DEBUG_STATE)
+            Serial.print("Restoring screen from STATE: ");
+            Serial.println(cursorMenu);
+#endif
             MidCursorMenu = cursorMenu; // return user to last usable screen
         };
 
-//
-//        if (amp->is10Seconds()) { // TODO not access
-//
-//        }
     }
 
 
@@ -330,7 +355,6 @@ void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uin
 
 
 }
-
 
 
 /**

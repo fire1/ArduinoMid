@@ -293,10 +293,10 @@ public:
         lcd->setCursor(85, LCD_ROW_1);
         lcd->print(this->getMsg(40));
 
-        lcd->setCursor(85, LCD_ROW_1);
+        lcd->setCursor(85, LCD_ROW_3);
         lcd->print(this->getMsg(41));
         lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(44));
+        lcd->print(this->getMsg(42));
     }
 
     void warnLightsFront() {
@@ -538,20 +538,27 @@ protected:
     void displayEntry() {
         //
         // TODO state error
-//        u8g2_uint_t backW = lcd->getStrWidth(usedMenu.back);
-//        u8g2_uint_t usedW = lcd->getStrWidth(usedMenu.back);
-//        u8g2_uint_t nextW = lcd->getStrWidth(usedMenu.back);
         uint8_t subAnimateIndex = drawEntry & 4;
 
-        if (lcd->getStrWidth(usedMenu.used) < 2) {
-            if (amp->isMid()) {
-                btn->resetStates();
-                mbs->finishEntry();
-//                lcd->clear();
-                drawEntry = 0;
-                drawIndex = 0;
-                initializeDraw = true;
-                this->playSlow();
+        //
+        //
+        if (lcd->getStrWidth(usedMenu.used) < 1) {
+            switch (drawEntry) {
+                default:
+                    drawEntry = 0;
+                    break;
+                case 0:
+                    this->playUltra();
+                    break;
+                case 1:
+                    mbs->finishEntry();
+                    btn->resetStates();
+                    lcd->clear();
+                    drawEntry = 0;
+                    drawIndex = 0;
+                    initializeDraw = true;
+                    this->playSlow();
+                    break;
             }
             return;
         }
@@ -609,7 +616,6 @@ protected:
             case 8:
                 btn->resetStates();
                 mbs->finishEntry();
-//                lcd->clearBuffer();
                 lcd->clear();
                 drawEntry = 0;
                 drawIndex = 0;
