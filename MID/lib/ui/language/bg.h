@@ -74,12 +74,12 @@ const char msg45[] PROGMEM = "не е в работни граници";
 // Warning breaks
 const char msg46[] PROGMEM = "СПИРАЧНА СИСТЕМА";
 const char msg47[] PROGMEM = "Износване на ";
-const char msg48[] PROGMEM = "предните спирачки.  ";
+const char msg48[] PROGMEM = "предните спирачки  ";
 //
 // Warning coolant
 const char msg49[] PROGMEM = "ОХЛ. СИСТЕМА";
 const char msg50[] PROGMEM = "Проверете нивото на";
-const char msg51[] PROGMEM = "охладителна течност";
+const char msg51[] PROGMEM = "охладителната течност";
 //
 // Warning overheating
 const char msg52[] PROGMEM = "ОПАСНОСТ ПРЕГРЯВАНЕ";
@@ -88,8 +88,8 @@ const char msg54[] PROGMEM = "на двигателя е висока!";
 //
 // Warning window washer
 const char msg55[] PROGMEM = "ТЕЧНОСТ ЗА ЧИСТАЧКИ";
-const char msg56[] PROGMEM = "Ниво е по-малко от 25%";
-const char msg57[] PROGMEM = "Моля проверете.";
+const char msg56[] PROGMEM = "Проверете нивото на";
+const char msg57[] PROGMEM = "течността за чистачки";
 //
 // Warning window washer
 const char msg58[] PROGMEM = "ИЗГОРЯЛА КРУШКА";
