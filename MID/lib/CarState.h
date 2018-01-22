@@ -16,7 +16,7 @@
 #endif
 
 #ifndef CAR_STT_A3_ALERT
-#define CAR_STT_A3_ALERT 130
+#define CAR_STT_A3_ALERT 125
 #endif
 
 #ifndef CAR_STT_TM_BELT
@@ -29,16 +29,16 @@
 
 
 struct Diagnostic {
-    uint8_t oil;    // oil level
-    uint8_t cnt;    // Coolant level
-    uint8_t win;    // Window washer level
-    uint8_t brk;    // Brake ware
-    uint8_t vol;    // Car Voltage
-    uint8_t blt;    // Belt ware change
-    uint8_t la1;    // 1 Incandescent lamps
-    uint8_t la2;    // 2 incandescent lamps
-    uint8_t wnt;    // Winter warning
-    uint8_t ovh;    // Overheating warning
+    uint8_t oil = 0;    // oil level
+    uint8_t cnt = 0;    // Coolant level
+    uint8_t win = 0;    // Window washer level
+    uint8_t brk = 0;    // Brake ware
+    uint8_t vol = 0;   // Car Voltage
+    uint8_t blt = 0;   // Belt ware change
+    uint8_t la1 = 0;   // 1 Incandescent lamps
+    uint8_t la2 = 0;    // 2 incandescent lamps
+    uint8_t wnt = 0;   // Winter warning
+    uint8_t ovh = 0;   // Overheating warning
 };
 
 /**
@@ -108,7 +108,7 @@ private:
  * @param val
  */
     void sensorDigital(uint8_t pin, uint8_t &val) {
-        if ((bool) digitalRead(pin)) {
+        if ((bool) digitalRead(pin) && val < 254) {
             val++;
             return;
         } else
@@ -120,7 +120,7 @@ private:
  * @param val
  */
     void sensorCustom(boolean result, uint8_t &val) {
-        if (result) {
+        if (result && val < 254) {
             val++;
             return;
         }
@@ -134,7 +134,7 @@ private:
  */
     boolean isStateDisplay(uint8_t value) {
 
-#if defined(DEBUG_STATE)
+#if defined(DEBUG) && defined(DEBUG_STATE)
         if (amp->isSecond()) {
             Serial.print(F("Compare state: "));
             Serial.print(CAR_STT_A2_ALERT);
@@ -158,8 +158,8 @@ private:
  */
     void setStateShowed(uint8_t &value) {
 
-#if defined(DEBUG_STATE)
-        if (amp->isSecond()) {
+#if defined(DEBUG) && defined(DEBUG_STATE)
+        if (amp->isMid()) {
             Serial.print(F("Sets show state: "));
             Serial.print(CAR_STT_A2_ALERT);
             Serial.print(F(" < |"));
@@ -222,8 +222,8 @@ public:
             lcd->warnOverheat();
             setStateShowed(result.ovh);
         } else {
-#if defined(DEBUG_STATE)
-            Serial.print("Restoring screen from STATE: ");
+#if defined(DEBUG) && defined(DEBUG_STATE)
+            Serial.print(F("Restoring screen from STATE: "));
             Serial.println(cursorMenu);
 #endif
             MidCursorMenu = cursorMenu; // return user to last usable screen
@@ -262,9 +262,10 @@ public:
         if (amp->isSecond()) {
 
             sensorDigital(pinOil, result.oil);
-            sensorDigital(pinBrk, result.brk);
             sensorDigital(pinCnt, result.cnt);
+            sensorDigital(pinBrk, result.brk);
             sensorDigital(pinWin, result.win);
+
 
             sensorCustom(isWinter(), result.wnt);
             sensorCustom(isOverhead(), result.ovh);
@@ -272,6 +273,18 @@ public:
             sensorCustom(workDistance > CAR_STT_TM_BELT, result.blt);
         }
 
+#if  defined(DEBUG) && defined(DEBUG_STATE)
+        if (amp->isSecond()) {
+            Serial.print(F("Break state counter: "));
+            Serial.println(result.brk);
+            Serial.print(F("Oil state counter: "));
+            Serial.println(result.oil);
+            Serial.print(F("Coolant state counter: "));
+            Serial.println(result.cnt);
+            Serial.print(F("Washer state counter: "));
+            Serial.println(result.win);
+        }
+#endif
         //
         // Handle menu cursor
         cursor();

@@ -945,12 +945,12 @@ void CarSens::listener() {
     // Only like this way base vars are initialized every single loop
     // or this is a bug in Arduino IDE
     if (amp->isSens()) {
-        int foo;
-        foo = getEcu();
-        foo = getRpm();
-        foo = getVss();
-        foo = getAvrVss();
-        foo = getAvrRpm();
+//        int foo;
+//        foo = getEcu();
+//        foo = getRpm();
+//        foo = getVss();
+//        foo = getAvrVss();
+//        foo = getAvrRpm();
 
 
         uint8_t vss = getVss();
@@ -1216,19 +1216,6 @@ void CarSens::sensDim() {
     }
 #endif
 
-}
-
-
-#ifdef ADT_FUEL_SYSTEM_SERIAL
-
-#endif
-
-int CarSens::getLpgPull() {
-    return pullLpgIndex;
-}
-
-int CarSens::getLpgPush() {
-    return pushLpgIndex;
 }
 
 /**
