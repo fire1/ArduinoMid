@@ -140,6 +140,8 @@ void setup() {
 
 void loop() {
 
+
+
 //    if (ampInt.is5Seconds())
 //        analogWrite(STT_OIL_PIN, 0);
     //
@@ -181,15 +183,14 @@ void loop() {
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
 //
-//    if (ampInt.isSecond()) {
+    if (ampInt.isSecond()) {
 //        Serial.print(F("VSS: "));
 //        Serial.print(carSens.getVss());
 //        Serial.println();
 //        Serial.print(F("LEN: "));
 //        Serial.print(vssPulseLen);
 //        Serial.println();
-//
-//    }
+    }
 
 
     //

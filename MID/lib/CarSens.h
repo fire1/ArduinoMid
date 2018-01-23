@@ -124,7 +124,7 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 7586 // 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 8316 // 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 8316 default
 // 7586 below 10*C
 
@@ -303,27 +303,20 @@ private:
     // Human Results
     uint8_t CUR_VSS;
     uint16_t CUR_RPM;
-    //
-    uint16_t backLightReadCollection = 0;
     // Instant Fuel consumption counter
     uint16_t indexIfc;
     uint16_t tmp_outIndex = 0;
     //
     uint16_t smoothEngineTemp;
     uint16_t smoothFuelTank;
-    uint16_t CUR_ECU;
+    uint32_t CUR_ECU;
     //
     //
     uint32_t tmp_outCollection = 0;
-    //
-    int pushLpgIndex = 0;
+
     //
     // LPG tank
     int CUR_LTK;
-
-    //
-    // Fuel detection
-    unsigned int pullLpgIndex = 0;
     //
     //
     float BREAK_TIME = 0;
@@ -465,10 +458,6 @@ public:
         savedData = data;
     }
 
-    int getLpgPull();
-
-    int getLpgPush();
-
 
     /**
  * Construct class
@@ -491,11 +480,6 @@ public:
      * Makes move of alarm cursor to down
      */
     void speedingAlarmsDw(void);
-
-    /**
-     *  Makes switch between fuel lines
-     */
-    void switchCurrentFuel(void);
 
     /**
      * Clear peak
@@ -804,7 +788,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
-    pinMode(pinTarget, INPUT_PULLUP);
+//    pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
 }
 
@@ -1103,21 +1087,20 @@ void CarSens::sensAlarms() {
 
         //
         // Resolve alarm type
-        if(currentSpeed != speedAlarmCursor){
+        if (currentSpeed != speedAlarmCursor) {
             //
             //
             if (currentSpeed > speedAlarmCursor) {
                 speedAlarmActive++;
             }
 
-            if(speedAlarmActive > VSS_ALARM_VERIFICATE){
+            if (speedAlarmActive > VSS_ALARM_VERIFICATE) {
                 mld->playSpeed();
                 speedAlarmCursor = currentSpeed;
                 speedAlarmActive = 0;
             }
 
         }
-
 
 
     }
@@ -1520,7 +1503,8 @@ void CarSens::sensCns() {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
         }
-
+        Serial.print("Consumption: ");
+        Serial.println(deltaFuel);
         setConsumedFuel(deltaFuel);
 
         //

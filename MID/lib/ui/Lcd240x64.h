@@ -478,7 +478,7 @@ public:
         //
         // Slow / Normal animation
         if (!animateFast && !animateUltra) {
-            if (amp->isMax()) {
+            if (amp->isMax()) { //isRfr
                 makeDraw();
                 handleDrawer();
             }
@@ -514,6 +514,7 @@ protected:
 //    }
 
     void useDefaultMode() {
+
         lcd->enableUTF8Print();
         // Cyrillic font u8g2_font_crox1c_tf
         // u8g2_font_crox1cb_tf
@@ -521,6 +522,7 @@ protected:
         // u8g2_font_crox1cb_tf
         // u8g2_font_crox1h_tf
         // u8g2_font_crox1hb_tf
+//        u8g2_font_unifont_t_cyrillic
         lcd->setFont(u8g_font_opel_ic_13); // u8g2_font_unifont_t_cyrillic
 //        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
@@ -874,11 +876,8 @@ private:
  */
     void displayHomeTrip() {
         SavedData saved = eep->getData();
-//        lcd->drawXBMP(LCD_CNR, LCD_ROW_1, 18, 18, road_18x18_bits);
-//        lcd->drawXBMP(LCD_CNR, LCD_ROW_3, 18, 18, car_18x18_bits); // grap_18x18_bits
         //
         // Travel distance
-//        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_1, 5, 8, car_dist_5x8_bits);
         lcd->setCursor(LCD_COL_R11, LCD_ROW_1);
         lcd->print(getMsg(76));
         displayFloat(car->getDst() + saved.dist_trp, char_4);
@@ -889,7 +888,6 @@ private:
         //
         // Travel time
         car->getHTm(saved.time_trp, char_5);
-//        lcd->drawXBMP(LCD_COL_R11, LCD_ROW_2, 5, 8, car_time_5x8_bits);
         lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
         lcd->print(getMsg(77));
         lcd->setCursor(LCD_COL_R12, LCD_ROW_2);

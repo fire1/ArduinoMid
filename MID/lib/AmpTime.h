@@ -37,6 +37,7 @@
 #define AMP_SEC 100 // SEC
 #define AMP_BIG 200 // BIG
 #define AMP_MAX 400 // MAX
+#define AMP_RFR 600 // MAX
 #endif
 
 /** @description
@@ -48,10 +49,10 @@ class AmpTime {
     // Toggle timers
     unsigned long
             curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0,
-            curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds;
+            curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds, curRefresh;
     boolean _isLow = false, _isSec = false, _isMid = false, _isMin = false, _isBig = false, _isMax = false;
     boolean _isSecond = false, _isMinute = false, _isHour = false, _isSens = false, _is10Seconds = false,
-            _is5Seconds = false, _is2Seconds, _is4Seconds;
+            _is5Seconds = false, _is2Seconds, _is4Seconds, _isRfr = false;
     boolean _isToggleDef = false;
 
 
@@ -59,7 +60,7 @@ class AmpTime {
      * MAX 1,193,046 Hour	(h)
      */
 public:
-    AmpTime() {};
+    AmpTime() { };
 
     void listener();
 
@@ -75,6 +76,8 @@ public:
     inline boolean isBig() { return (boolean) _isBig; }
 
     inline boolean isMax() { return (boolean) _isMax; }
+
+    inline boolean isRfr() { return (boolean) _isRfr; }
 
     /************** Real Time *********************/
 
@@ -158,6 +161,12 @@ void AmpTime::listener() {
         _isMax = false;
     }
 
+    if (timer >= curRefresh + AMP_RFR && !_isRfr) {
+        curRefresh = timer;
+        _isRfr = true;
+    } else {
+        _isRfr = false;
+    }
 
     /************** Real Time *********************/
 
