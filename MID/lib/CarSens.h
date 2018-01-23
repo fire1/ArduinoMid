@@ -70,7 +70,7 @@
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
 //
 // Revs correction
-#define RPM_CORRECTION  75//45    fast 33.767
+#define RPM_CORRECTION  75//  47 / 45    fast 33.767
 ////Impulse Odometer:
 /// If as stated above, use the " pulse according to " Set here the number of pulses that traveled for 1km.
 /// The value of this parameter, we find holding the button.
@@ -788,7 +788,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
-//    pinMode(pinTarget, INPUT_PULLUP);
+    pinMode(pinTarget, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
 }
 
@@ -929,12 +929,12 @@ void CarSens::listener() {
     // Only like this way base vars are initialized every single loop
     // or this is a bug in Arduino IDE
     if (amp->isSens()) {
-//        int foo;
-//        foo = getEcu();
-//        foo = getRpm();
-//        foo = getVss();
-//        foo = getAvrVss();
-//        foo = getAvrRpm();
+        int foo;
+        foo = getEcu();
+        foo = getRpm();
+        foo = getVss();
+        foo = getAvrVss();
+        foo = getAvrRpm();
 
 
         uint8_t vss = getVss();
@@ -1503,10 +1503,6 @@ void CarSens::sensCns() {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
         }
-        Serial.print("Consumption: ");
-        Serial.println(deltaFuel);
-        setConsumedFuel(deltaFuel);
-
         //
         // Collect wasted fuel
         if (this->getVss() < 1) {

@@ -54,11 +54,28 @@ private:
 
 private:
     void setTrans(uint8_t val) {
+        /*
+         99 = 18 - almost empty BNZ
+         20 / 27 / 18 - bnz
+         108 - switch
+         99 = 100 switched
+         148 - bnz
+         100 - lpg
+         99 = 219 full lpg
+         99 = 18 full lpg LPG
+
+         99 == 20 switch to lpg
+         */
         if (val >= 34 && val < 255 && val != 99 && val != 98 && val != 100) {
             capture = history;
             trans = val;
-
         }
+
+        //
+        // Fixture 1
+//        if(val > 17 && val < 28){
+//            trans = 148;
+//        }
     }
 
 public:
@@ -94,10 +111,11 @@ public:
 
             }
             uint8_t val = uint8_t(Serial2.read());
+#if defined(DEBUG) && defined(DEBUG_SR2)
             Serial.println();
             Serial.print("Current val: ");
             Serial.println(val);
-
+#endif
 
             data[index] = val;
             index++;
@@ -114,6 +132,9 @@ public:
                 trans = capture; // Return to 3 steps back
             }
 
+            if (data[0] == 99 && data[1] == 20 ) {
+                trans = 146;
+            }
 
             //
             // 100 - 154 almost empty tank (one green dot)

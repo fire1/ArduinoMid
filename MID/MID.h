@@ -10,7 +10,7 @@
 #include "conf.h"
 
 
-#define DEBUG
+//#define DEBUG
 //#define DEBUG_MENU
 //#define DEBUG_STATE
 //
