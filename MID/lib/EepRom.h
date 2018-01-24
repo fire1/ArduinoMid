@@ -84,13 +84,27 @@ public:
  */
     float getConsumedFuel() {
 
+//        Serial.print("Consumptions: ");
+//        Serial.print(container.fuel_adt);
+//        Serial.print(" / ");
+//        Serial.print( car->getAdtFuelCns());
+//        Serial.println();
+
+
 #ifdef SWITCH_FUEL_ON_STATE
         //
         // Switching between LPG / BNZ
         if (car->getFuelState() == 0) { // BNZ [default]
+            if(isnan(container.fuel_def)){
+                container.fuel_def = 0;
+            }
+
             return container.fuel_def + car->getDefFuelCns();
         }
         if (car->getFuelState() == 1) { // LPG [additional]
+            if(isnan(container.fuel_adt)){
+                container.fuel_adt = 0;
+            }
             return container.fuel_adt + car->getAdtFuelCns();
         }
 #else
@@ -426,6 +440,10 @@ void EepRom::load() {
 
         Serial.println(F("Restore Value:"));
         EEPROM.get(eLocation, eGetValue);
+
+        if(isnan(eGetValue))
+            eGetValue = 0;
+
         Serial.println(eGetValue, 2);
         eLocation = eLocation + sizeof(eGetValue);
         Serial.println("");

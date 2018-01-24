@@ -64,7 +64,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 75//45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 46 //45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
@@ -788,7 +788,9 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
+#ifndef DEBUG // Fixes simulation of fuel
     pinMode(pinTarget, INPUT_PULLUP);
+#endif
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
 }
 
@@ -1503,6 +1505,8 @@ void CarSens::sensCns() {
             deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
             // Direct correction in constant
         }
+
+        setConsumedFuel(deltaFuel);
         //
         // Collect wasted fuel
         if (this->getVss() < 1) {

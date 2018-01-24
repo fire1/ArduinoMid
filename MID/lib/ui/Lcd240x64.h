@@ -459,7 +459,8 @@ public:
         //
         // Ultra fast animation
         if (animateUltra) {
-            if (amp->isMid()) {
+            if (amp->isSec()) {
+//                Serial.println("Draw ultra ");
                 makeDraw();
                 handleDrawerEntry();
             }
@@ -469,6 +470,7 @@ public:
         // Fast animation
         if (animateFast) {
             if (amp->isBig()) {
+//                Serial.println("Draw big");
                 makeDraw();
                 handleDrawer();
 
@@ -553,13 +555,14 @@ protected:
                     this->playUltra();
                     break;
                 case 1:
+                    this->playSlow();
                     mbs->finishEntry();
                     btn->resetStates();
                     lcd->clear();
                     drawEntry = 0;
                     drawIndex = 0;
                     initializeDraw = true;
-                    this->playSlow();
+
                     break;
             }
             return;
@@ -568,10 +571,10 @@ protected:
         switch (drawEntry) {
             default:
                 drawEntry = 0;
+                this->playUltra();
                 break;
             case 0:
                 this->playUltra();
-//                lcd->clear();
                 mbs->startEntry();
                 //
                 // Reset button handler
