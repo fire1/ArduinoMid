@@ -157,9 +157,6 @@ void loop() {
     // Listen state pins
     carStat.listener();
     //
-    // Reads buttons from steering
-    whlSens.listener();
-    //
     // Listener shutdown
     shutDown.listener();
     //
@@ -171,7 +168,9 @@ void loop() {
     //
     //  Switch to shutdown menu
     shutDown.cursor();
-
+    //
+    // Reads buttons from steering
+    whlSens.listener();
 //
 //    if(ampInt.isSens()){
 //        Serial.print("RPM: ");
@@ -184,12 +183,12 @@ void loop() {
     carSens.setFuelListener(&lpgCom);
 //
     if (ampInt.isSecond()) {
-//        Serial.print(F("VSS: "));
-//        Serial.print(carSens.getVss());
+        Serial.print(F("VSS: "));
+        Serial.print(carSens.getVss());
 //        Serial.println();
 //        Serial.print(F("LEN: "));
 //        Serial.print(vssPulseLen);
-//        Serial.println();
+        Serial.println();
     }
 
 

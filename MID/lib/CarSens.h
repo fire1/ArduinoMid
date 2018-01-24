@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  60 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  50 //
+#define VSS_ALARM_VERIFICATE  15 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -725,14 +725,16 @@ public:
  * ########################################################################################### *
  * ########################################################################################### *
  ***********************************************************************************************/
-//
-// Verification with time test
+////
+//// Verification with time test
 //unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
 //    if (currentMicroseconds >= startMicroSeconds)
 //        return currentMicroseconds - startMicroSeconds;
 //    return 4294967295 - (startMicroSeconds - currentMicroseconds);
 //}
 //
+////
+//////
 //unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
 //    return elapsedMicroseconds(startMicroSeconds, micros());
 //}
@@ -976,9 +978,19 @@ void CarSens::sensVss() {
     //
     // 200hz for 50km/h
     if (amp->isSens()) {
+
         //
         // Pass vss to global
         CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+//        CUR_VSS = uint8_t(vssPulseLen / vssHitsCount) * 15;
+//
+//        Serial.print(vssHitsCount);
+//        Serial.print(" / ");
+//        Serial.print(vssPulseLen);
+//        Serial.print(" / ");
+//        Serial.print(CUR_VSS);
+//        Serial.println();
+
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
@@ -1087,6 +1099,17 @@ void CarSens::sensAlarms() {
             speedAlarmActive = 0;
         }
 
+#if defined(DEBUG) && defined(DEBUG_ALARM)
+        Serial.print("Speed alarm  ");
+        Serial.print(CUR_VSS);
+        Serial.print(" / ");
+        Serial.print(currentSpeed);
+        Serial.print(" / ");
+        Serial.print(speedAlarmCursor);
+        Serial.print(" / ");
+        Serial.print(speedAlarmActive);
+        Serial.println();
+#endif
         //
         // Resolve alarm type
         if (currentSpeed != speedAlarmCursor) {
@@ -1094,12 +1117,16 @@ void CarSens::sensAlarms() {
             //
             if (currentSpeed > speedAlarmCursor) {
                 speedAlarmActive++;
+            } else {
+                speedAlarmActive = 0;
+                speedAlarmCursor = currentSpeed;
             }
 
             if (speedAlarmActive > VSS_ALARM_VERIFICATE) {
                 mld->playSpeed();
                 speedAlarmCursor = currentSpeed;
                 speedAlarmActive = 0;
+                Serial.println("Alarm play");
             }
 
         }

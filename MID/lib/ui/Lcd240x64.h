@@ -205,8 +205,6 @@ public:
         } else {
             lcd->drawGlyph(1, 1, 0x2610);
         }
-
-
     }
 
     void showHeader(const char *title) {
@@ -238,7 +236,6 @@ public:
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
             }
         }
-
     }
 
 /**
@@ -262,126 +259,145 @@ public:
 //
 // Servicing screens
     void warnCoolant() {
-        lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(49));
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(49));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(50));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(51));
-
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(50));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(51));
+        }
     }
 
     void warnBattery(float Voltage) {
-        lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(43));
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(44));
-        lcd->print(" ");
-        displayFloat(Voltage, char_3);
-        lcd->print(char_3);
-        lcd->print(F("V"));
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(43));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(44));
+            lcd->print(" ");
+            displayFloat(Voltage, char_3);
+            lcd->print(char_3);
+            lcd->print(F("V"));
 
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(45));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(45));
+        }
     }
 
     void warnMotorOil() {
-        lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(40));
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(40));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(41));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(42));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(41));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(42));
+        }
     }
 
     void warnLightsFront() {
-        lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(58));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(58));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(59));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(60));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(59));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(60));
+        }
     }
 
 
     void warnLightsBack() {
-        lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(58));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(58));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(59));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(61));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(59));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(61));
+        }
     }
 
     void warnBreakWare() {
-        lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(46));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(46));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(47));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(48));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(47));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(48));
 
+        }
     }
 
     void warnOverheat() {
-        lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(52));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(52));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(53));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(54));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(53));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(54));
+        }
     }
 
     void warnWinter() {
-        lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(37));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(37));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(38));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(39));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(38));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(39));
+        }
     }
 
     void warnWasher() {
-        lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
+        if (amp->isRfr()) { //isRfr
+            lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(55));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(55));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(56));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(57));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(56));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(57));
+        }
     }
 
     void warnTmBelt() {
+        if (amp->isRfr()) { //isRfr
 
-        lcd->setCursor(85, LCD_ROW_1);
-        lcd->print(this->getMsg(62));
+            lcd->setCursor(85, LCD_ROW_1);
+            lcd->print(this->getMsg(62));
 
-        lcd->setCursor(85, LCD_ROW_3);
-        lcd->print(this->getMsg(63));
-        lcd->setCursor(85, LCD_ROW_4);
-        lcd->print(this->getMsg(64));
+            lcd->setCursor(85, LCD_ROW_3);
+            lcd->print(this->getMsg(63));
+            lcd->setCursor(85, LCD_ROW_4);
+            lcd->print(this->getMsg(64));
+        }
     }
 
 
@@ -480,7 +496,7 @@ public:
         //
         // Slow / Normal animation
         if (!animateFast && !animateUltra) {
-            if (amp->isMax()) { //isRfr
+            if (amp->isRfr()) { //isRfr
                 makeDraw();
                 handleDrawer();
             }
@@ -812,10 +828,6 @@ private:
         }
 #endif
 
-//        if (initializeDraw) {
-//            lcd->drawFrame(90, 18, 50, 42);
-
-//        }
 
         lcd->setCursor(LCD_COL_L10, LCD_ROW_2 - 2);
         lcd->print(getMsg(94));
@@ -834,22 +846,19 @@ private:
         lcd->drawXBMP(93, 20, 44, 36, opel_small_bits);
 #endif
 //        }
+
+
+
+        //        if (initializeDraw) {
+//            lcd->drawFrame(90, 18, 50, 42);
+
+//        }
     }
 
 /**
  * Display temperatures
  */
     void displayHomeTemperatures() {
-
-        //
-        // Outside graph
-//        lcd->drawXBMP(0, LCD_ROW_3, 18, 18, temp_18x18_bits);
-//        lcd->drawXBMP(20, LCD_ROW_3 + 2, 18, 10, car_out_18x10_bits);
-
-        //
-        // Inside Graph
-//        lcd->drawXBMP(20, LCD_ROW_4 + 2, 18, 10, car_ins_18x10_bits);
-
 
         lcd->setCursor(LCD_COL_L10, LCD_ROW_3 - 1);
         lcd->print(getMsg(98));
@@ -999,12 +1008,12 @@ private:
  * About Fuel
  */
     void displayInfo() {
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
         lcd->print(getMsg(20));
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
         lcd->print(getMsg(21));
 
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
         if (drawIndex < 5) {
             lcd->print(getMsg(22));
 
@@ -1020,7 +1029,7 @@ private:
      */
     void displayEdit() {
         lcd->enableUTF8Print();
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
         if (drawIndex < 2)
             lcd->print(getMsg(24));
         else if (drawIndex > 2 && drawIndex < 6)
@@ -1028,7 +1037,7 @@ private:
         else if (drawIndex > 6 && drawIndex < 10)
             lcd->print(getMsg(26));
 
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
         lcd->print(getMsg(32));
     }
 
@@ -1577,6 +1586,7 @@ void Lcd240x62::menus() {
 
         case CarState::MENU_SERVICE:
             stt->menu(this);
+
             break;
 
         case ShutDw::MENU_SHUTDOWN:

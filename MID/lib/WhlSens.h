@@ -38,9 +38,8 @@
 //#define STR_INJ_SRL true
 class WhlSens {
 
-    AmpTime *amp;
     CarSens *car;
-
+    AmpTime *amp;
     //
     // Used for shortcuts ...
     boolean isDisabled = 0;
@@ -117,11 +116,13 @@ public:
      */
     void listener() {
 
-        // TODO test it with minimum amplitude
-        resolveButton(analogRead(pinSteering));
-        //
-        // Simulate resistance in radio
-        sendRadioButtons();
+        if (amp->isLow()) {
+            // TODO test it with minimum amplitude
+            resolveButton(analogRead(pinSteering));
+            //
+            // Simulate resistance in radio
+            sendRadioButtons();
+        }
     }
 
     /**
@@ -246,10 +247,6 @@ private:
      */
     void resolveButton(int readVoltage) {
 //
-//        if(amp->isSecond()){
-//            Serial.print("Read voltage ");
-//            Serial.println(readVoltage);
-//        }
 
         if (readVoltage > 900) {
             setCurrentState(STR_BTN_NON);
