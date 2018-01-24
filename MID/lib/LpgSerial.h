@@ -65,6 +65,7 @@ private:
          99 = 18 full lpg LPG
 
          99 == 20 switch to lpg
+         99 = 218 switch to bnz
          */
         if (val >= 34 && val < 255 && val != 99 && val != 98 && val != 100) {
             capture = history;
@@ -119,10 +120,10 @@ public:
 
             data[index] = val;
             index++;
-            val = data[0];
-            setTrans(val);
-            val = data[1];
-            setTrans(val);
+//            val = data[0];
+//            setTrans(val);
+//            val = data[1];
+//            setTrans(val);
 
 
 
@@ -134,6 +135,9 @@ public:
 
             if (data[0] == 99 && data[1] == 20 ) {
                 trans = 146;
+            }
+            if (data[0] == 99 && data[1] == 218 ) {
+                trans = 148;
             }
 
             //

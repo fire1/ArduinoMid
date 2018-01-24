@@ -154,8 +154,9 @@ void loop() {
     // Listen engine
     carSens.listener();
     //
-    // Listen state pins
-    carStat.listener();
+    // Reads buttons from steering
+    whlSens.listener();
+
     //
     // Listener shutdown
     shutDown.listener();
@@ -169,8 +170,9 @@ void loop() {
     //  Switch to shutdown menu
     shutDown.cursor();
     //
-    // Reads buttons from steering
-    whlSens.listener();
+    // Listen state pins
+    carStat.listener();
+
 //
 //    if(ampInt.isSens()){
 //        Serial.print("RPM: ");
@@ -181,15 +183,18 @@ void loop() {
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
-//
-    if (ampInt.isSecond()) {
-        Serial.print(F("VSS: "));
-        Serial.print(carSens.getVss());
+////
+//    if (ampInt.isSecond()) {
+//        Serial.print("LPG");
+//        Serial.println(eepRom.getAdtFuel());
+//        Serial.print(F("VSS: "));
+//        Serial.print(carSens.getVss());
+//        whlSens.getCurrentState();
 //        Serial.println();
 //        Serial.print(F("LEN: "));
 //        Serial.print(vssPulseLen);
-        Serial.println();
-    }
+//        Serial.println();
+//    }
 
 
     //

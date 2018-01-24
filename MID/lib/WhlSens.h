@@ -119,6 +119,7 @@ public:
         if (amp->isLow()) {
             // TODO test it with minimum amplitude
             resolveButton(analogRead(pinSteering));
+
             //
             // Simulate resistance in radio
             sendRadioButtons();
@@ -340,14 +341,17 @@ private:
                     digitalWrite(pinDigPotCtr, LOW);
                     setButtonStateParser(currentState);
                     isNewResist = 1;
+                    Serial.println("whl");
                 }
+
                 // delay(3);
-                if (amp->isMin()) {// TODO test here
+                if (amp->isLow()) {// TODO test here
                     // Test done .... it seems to be O.K.
                     digitalWrite(pinDigPotCtr, HIGH);
                     digitalWrite(pinMaskHide, LOW);
                     lastStateButton = currentState;
                     isNewResist = 0;
+                    Serial.println("whl2");
                 }
             } else digitalWrite(pinMaskHide, LOW);
         } else {
