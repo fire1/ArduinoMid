@@ -31,10 +31,10 @@
 //#define DEBUG_CONS_INFO
 //
 // Speeding alarm
-#define VSS_ALARM_CITY_SPEED  60 // km
+#define VSS_ALARM_CITY_SPEED  58 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  15 //
+#define VSS_ALARM_VERIFICATE  8 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 46 //45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 75 //45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767

@@ -143,19 +143,19 @@ public:
         return isNavigationActive;
     }
 
-     uint8_t getPinUp(void) {
+    uint8_t getPinUp(void) {
         return btnUp;
     }
 
-     uint8_t getPinDw(void) {
+    uint8_t getPinDw(void) {
         return btnDw;
     }
 
-     uint8_t getPinTn(void) {
+    uint8_t getPinTn(void) {
         return pinTn;
     }
 
-     uint8_t getLastBtn() {
+    uint8_t getLastBtn() {
         return lastButtonPushed;
     }
 
@@ -329,8 +329,9 @@ public:
 
         //
         // LISTEN for Editor activation
-        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && !entryDownState) {
-            this->setNavigationState(false);
+        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
+            if (amp->isLow())
+                this->setNavigationState(false);
         }
         //
         // LISTEN for Editor deactivation

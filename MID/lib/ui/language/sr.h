@@ -41,12 +41,12 @@ const char msg19[] PROGMEM = "PODRAZUMJEVANO";
 //
 //
 const char msg20[] PROGMEM = "Da resetujes pod. puta";
-const char msg21[] PROGMEM = "Zadrzi >R i pritisni kocnicu";
+const char msg21[] PROGMEM = "Zadrzi # i pritisni kocnicu";
 const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID version ";
-const char msg24[] PROGMEM = "Pritisni \"S<\" da udjes u podesavanje";
-const char msg25[] PROGMEM = "Koristi \"S<\" za kretanje ";
-const char msg26[] PROGMEM = "Zadrzi R< +S < za promjenu vrijednosti";
+const char msg24[] PROGMEM = "Pritisni $ da udjes u podesavanje";
+const char msg25[] PROGMEM = "Koristi $ za kretanje ";
+const char msg26[] PROGMEM = "Zadrzi #+$ za promjenu vrijednosti";
 const char msg27[] PROGMEM = "BRZINA VOZILA"; // Vehicle speed sensor
 const char msg28[] PROGMEM = "RPM";
 const char msg29[] PROGMEM = "ODOMETAR";
