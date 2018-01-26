@@ -52,6 +52,12 @@ private:
 
     uint8_t data[3] = {};
 
+    union {
+        byte asBytes[4];
+        long asLong;
+    } foo;
+
+
 private:
     void setTrans(uint8_t val) {
         /*
@@ -85,8 +91,13 @@ public:
     }
 
     void begin(void) {
-        Serial2.begin(125);
-//        Serial1.begin(128);
+        //
+        // 124 /
+
+        Serial2.begin(125);//246
+// pin 15
+//        Serial3.begin(128);
+
     }
 
 #define DEBUG_SR2
@@ -106,7 +117,17 @@ public:
 //        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
 //        }
 
+// if (Serial.available() >= 4){
+//            for (uint8_t i=0;i<4;i++){
+//                foo.asBytes[i] = (byte)Serial.read();
+//            }
+// }
+
         if (Serial2.available() > 0) {
+
+
+
+
             if (trans != LPG_SERIAL_T_ST) {
                 history = trans;
                 //

@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  58 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  8 //
+#define VSS_ALARM_VERIFICATE  15 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -1080,12 +1080,12 @@ void CarSens::sensAlarms() {
         //
         // Alarm high way
         if (CUR_VSS > VSS_ALARM_HWAY_SPEED) {
-            currentSpeed = VSS_ALARM_HWAY_SPEED;
+//            currentSpeed = VSS_ALARM_HWAY_SPEED;
         } else
             //
             // Alarm between villages
         if (CUR_VSS > VSS_ALARM_VWAY_SPEED) {
-            currentSpeed = VSS_ALARM_VWAY_SPEED;
+//            currentSpeed = VSS_ALARM_VWAY_SPEED;
         } else
             //
             // Alarm in city
