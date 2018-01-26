@@ -82,7 +82,7 @@ ShutDw shutDown(eepRom, ampInt, carSens, whlSens);
 //CarCollect carCollect(carSens, ampInt);
 
 #ifdef ADT_FUEL_SYSTEM_SERIAL
-LpgSerial lpgCom(ampInt);
+LpgSerial lpgCom(ampInt, carSens);
 #endif
 
 #ifdef LPG_SWTC_STT

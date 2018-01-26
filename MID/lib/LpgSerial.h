@@ -38,13 +38,13 @@
 class LpgSerial : public LpgFuel {
 
     AmpTime *amp;
-
+    CarSens *car;
 private:
+    boolean compare = 0;
     uint8_t fuelTankAverage = 0;
     uint8_t capture = 0;
     uint8_t trans;
     uint8_t history;
-    uint8_t compare = 0;
     uint8_t index = 0;
 
     uint16_t fuelTankIndex = 0;
@@ -80,12 +80,12 @@ private:
     }
 
 public:
-    LpgSerial(AmpTime &ampTime) : amp(&ampTime) {
+    LpgSerial(AmpTime &ampTime, CarSens &carSens) : amp(&ampTime), car(&carSens) {
 
     }
 
     void begin(void) {
-        Serial2.begin(245);
+        Serial2.begin(125);
 //        Serial1.begin(128);
     }
 
@@ -93,7 +93,14 @@ public:
 
     void listener(void) {
 
-
+        if (!compare) {
+            if (amp->is2Seconds())
+                if (car->getEngTmp() > 79) {
+                    trans = 50;
+                    compare = true;
+                    return;
+                }
+        } else return;
 
 
 //        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
@@ -133,10 +140,10 @@ public:
                 trans = capture; // Return to 3 steps back
             }
 
-            if (data[0] == 99 && data[1] == 20 ) {
+            if (data[0] == 99 && data[1] == 20) {
                 trans = 146;
             }
-            if (data[0] == 99 && data[1] == 218 ) {
+            if (data[0] == 99 && data[1] == 218) {
                 trans = 148;
             }
 
