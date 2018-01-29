@@ -40,6 +40,7 @@ class LpgSerial : public LpgFuel {
     AmpTime *amp;
     CarSens *car;
 private:
+    boolean lpgUse = false;
     boolean compare = 0;
     uint8_t fuelTankAverage = 0;
     uint8_t capture = 0;
@@ -51,11 +52,6 @@ private:
     uint32_t fuelTankCollector = 0;
 
     uint8_t data[3] = {};
-
-    union {
-        byte asBytes[4];
-        long asLong;
-    } foo;
 
 
 private:
@@ -94,9 +90,9 @@ public:
         //
         // 124 /
 
-        Serial2.begin(125);//246
+        Serial2.begin(246);//246
 // pin 15
-//        Serial3.begin(128);
+//        Serial3.begin(500);
 
     }
 
@@ -104,28 +100,27 @@ public:
 
     void listener(void) {
 
-        if (!compare) {
-            if (amp->is2Seconds())
-                if (car->getEngTmp() > 79) {
-                    trans = 50;
-                    compare = true;
-                    return;
-                }
-        } else return;
 
-
-//        if (Serial1.available() > 0 /*&& Serial1.read() > 0*/) {
+//        if (Serial3.available()) {
+//            Serial.println();
+//            Serial.print("Serial 3: ");
+//            Serial.println(Serial3.read());
+//            Serial.println();
 //        }
 
-// if (Serial.available() >= 4){
-//            for (uint8_t i=0;i<4;i++){
-//                foo.asBytes[i] = (byte)Serial.read();
-//            }
-// }
+
+//        if (!compare) {
+//            if (amp->is2Seconds())
+//                if (car->getEngTmp() > 79) {
+//                    trans = 50;
+//                    compare = true;
+//                    return;
+//                }
+//        } else return;
+
+
 
         if (Serial2.available() > 0) {
-
-
 
 
             if (trans != LPG_SERIAL_T_ST) {
@@ -146,27 +141,38 @@ public:
             Serial.println(val);
 #endif
 
-            data[index] = val;
-            index++;
-//            val = data[0];
-//            setTrans(val);
-//            val = data[1];
-//            setTrans(val);
+            if (val == 0 && lpgUse) {
+                val = 100;
+            }
+
+            if (val != 255 && val != 99) {
+                data[index] = val;
+                index++;
+            }
 
 
+            // 100 lpg run
+            // 20 bnz
+            // 18 stand by mode
 
-            //
+
             // Skip action
-            if (data[0] == 255 || data[1] == 255 || data[2] == 255) {
-                trans = capture; // Return to 3 steps back
+            if (data[0] == 100 || data[1] == 100 || data[2] == 100 && history == 100) {
+//                trans = capture; // Return to 3 steps back
+                lpgUse = true;
             }
 
-            if (data[0] == 99 && data[1] == 20) {
-                trans = 146;
+            if (data[0] == 20 && history == 20 || data[1] == 20 && history == 20) {
+                lpgUse = false;
             }
-            if (data[0] == 99 && data[1] == 218) {
-                trans = 148;
-            }
+            trans = val;
+
+//            if (data[0] == 99 && data[1] == 20) {
+//                trans = 146;
+//            }
+//            if (data[0] == 99 && data[1] == 218) {
+//                trans = 148;
+//            }
 
             //
             // 100 - 154 almost empty tank (one green dot)
@@ -234,7 +240,7 @@ public:
     boolean isLPG() {
 //        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
         history = trans;
-        return (trans < 147) ? true : false;
+        return (lpgUse) ? true : false;
     }
 
 /**

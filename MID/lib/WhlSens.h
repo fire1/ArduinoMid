@@ -207,8 +207,8 @@ public:
         this->sendRadioButtons(1);
         this->sendRadioButtons(1);
 #else
-        this->sendRadioButtons(254);
-        this->sendRadioButtons(254);
+        this->sendRadioButtons(20);
+        this->sendRadioButtons(20);
 #endif
 
 
