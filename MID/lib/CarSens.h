@@ -1068,7 +1068,7 @@ void CarSens::sensEcu() {
 
 }
 
-
+#define DEBUG_ALARM
 /*******************************************************************
 * Speed Alarms
 */

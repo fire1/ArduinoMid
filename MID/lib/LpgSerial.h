@@ -51,7 +51,7 @@ private:
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
-    uint8_t data[3] = {};
+    uint8_t data[2] = {};
 
 
 private:
@@ -157,33 +157,23 @@ public:
 
 
             // Skip action
-            if (data[0] == 100 || data[1] == 100 || data[2] == 100 && history == 100) {
-//                trans = capture; // Return to 3 steps back
+            if (data[0] == 100 || data[1] == 100 && history == 100) {
+                capture = trans;
                 lpgUse = true;
             }
 
             if (data[0] == 20 && history == 20 || data[1] == 20 && history == 20) {
                 lpgUse = false;
             }
+
+            history = trans;
             trans = val;
-
-//            if (data[0] == 99 && data[1] == 20) {
-//                trans = 146;
-//            }
-//            if (data[0] == 99 && data[1] == 218) {
-//                trans = 148;
-//            }
-
-            //
-            // 100 - 154 almost empty tank (one green dot)
 
 #if defined(DEBUG) && defined(DEBUG_SR2)
             Serial.print("DATA: ");
             Serial.print(data[0]);
             Serial.print(" / ");
             Serial.print(data[1]);
-            Serial.print(" / ");
-            Serial.print(data[2]);
 
             Serial.println();
             Serial.print("Recorded trans: ");
@@ -194,7 +184,6 @@ public:
                 index = 0;
                 data[0] = 0;
                 data[1] = 0;
-                data[2] = 0;
             }
 
 
@@ -239,7 +228,7 @@ public:
  */
     boolean isLPG() {
 //        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
-        history = trans;
+
         return (lpgUse) ? true : false;
     }
 
@@ -248,7 +237,6 @@ public:
  */
     inline boolean isBNZ() {
 //        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
-        history = trans;
         return (trans > 147) ? true : false;
     }
 

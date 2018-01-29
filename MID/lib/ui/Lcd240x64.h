@@ -258,7 +258,7 @@ public:
 
 //
 // Servicing screens
-    void warnCoolant() {
+    void warnCoolant() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
             lcd->setCursor(85, LCD_ROW_1);
@@ -271,7 +271,7 @@ public:
         }
     }
 
-    void warnBattery(float Voltage) {
+    void warnBattery(float Voltage) override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
             lcd->setCursor(85, LCD_ROW_1);
@@ -288,7 +288,7 @@ public:
         }
     }
 
-    void warnMotorOil() {
+    void warnMotorOil() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, oil_level_85x64_bits);
             lcd->setCursor(85, LCD_ROW_1);
@@ -301,7 +301,7 @@ public:
         }
     }
 
-    void warnLightsFront() {
+    void warnLightsFront() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
 
@@ -316,7 +316,7 @@ public:
     }
 
 
-    void warnLightsBack() {
+    void warnLightsBack() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
 
@@ -330,7 +330,7 @@ public:
         }
     }
 
-    void warnBreakWare() {
+    void warnBreakWare() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, brake_ware_85x64_bits);
 
@@ -345,7 +345,7 @@ public:
         }
     }
 
-    void warnOverheat() {
+    void warnOverheat() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, overheating_85x64_bits);
 
@@ -359,7 +359,7 @@ public:
         }
     }
 
-    void warnWinter() {
+    void warnWinter() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, winter_85x64_bits);
 
@@ -373,7 +373,7 @@ public:
         }
     }
 
-    void warnWasher() {
+    void warnWasher() override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, washer_85x64_bits);
 
@@ -387,7 +387,7 @@ public:
         }
     }
 
-    void warnTmBelt() {
+    void warnTmBelt() override {
         if (amp->isRfr()) { //isRfr
 
             lcd->setCursor(85, LCD_ROW_1);
@@ -404,14 +404,14 @@ public:
     /**
  *
  */
-    void draWShutdownTripSave() {
+    void draWShutdownTripSave() override {
 
     }
 
 /**
  *
  */
-    void draWShutdownTripSkip() {
+    void draWShutdownTripSkip() override {
 
     }
 
@@ -466,7 +466,8 @@ public:
 /**
  * Draw graphic
  */
-    void draw() {
+    void draw() override {
+        cli(); // disable delay
 
         //
         // Font handler
@@ -501,8 +502,7 @@ public:
                 handleDrawer();
             }
         }
-
-
+        sei(); //enable delay
     }
 
 protected:

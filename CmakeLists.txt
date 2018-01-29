@@ -27,6 +27,8 @@ set(SOURCE_FILES MID/MID.ino)
 set(BOARD_TAG mega)
 set(BOARD_SUB atmega2560)
 
+
+
 list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 #
 # Enable syntax check for Serial class from UsbApi.h
@@ -47,5 +49,5 @@ LINK_DIRECTORIES("../libraries")
 #SET(ARDUINO_C_FLAGS -mmcu=${MCU} )
 #SET(ARDUINO_CXX_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
 #SET(ARDUINO_LINKER_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
-
+link_directories(A ${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino)
 link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)
