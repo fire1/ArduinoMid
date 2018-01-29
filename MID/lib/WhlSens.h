@@ -131,7 +131,7 @@ public:
      * @param resistance
      */
     void sendRadioButtons(uint8_t resistance) {
-        Serial.print("WHL Current resistance ");
+        Serial.print(F("WHL Current resistance "));
         Serial.println(resistance);
 
 
@@ -156,11 +156,11 @@ public:
     void sendRadioButtons(uint8_t resistance, uint8_t voltage) {
 
         uint8_t volts = (uint8_t) map(voltage, 0, 50, 0, 255);
-        Serial.print("WHL Current resistance ");
+        Serial.print(F("WHL Current resistance "));
         Serial.print(resistance);
-        Serial.print(" voltage ");
+        Serial.print(F(" voltage "));
         Serial.print(voltage);
-        Serial.print(" at ");
+        Serial.print(F(" at "));
         Serial.println(volts);
 
         analogWrite(pinMaskHide, volts);
@@ -207,8 +207,8 @@ public:
         this->sendRadioButtons(1);
         this->sendRadioButtons(1);
 #else
-        this->sendRadioButtons(20);
-        this->sendRadioButtons(20);
+        this->sendRadioButtons(125);
+        this->sendRadioButtons(125);
 #endif
 
 

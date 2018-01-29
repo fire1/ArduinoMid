@@ -1068,7 +1068,7 @@ void CarSens::sensEcu() {
 
 }
 
-#define DEBUG_ALARM
+//#define DEBUG_ALARM
 /*******************************************************************
 * Speed Alarms
 */
@@ -1126,7 +1126,9 @@ void CarSens::sensAlarms() {
                 mld->playSpeed();
                 speedAlarmCursor = currentSpeed;
                 speedAlarmActive = 0;
-                Serial.println("Alarm play");
+                Serial.println(F("Alarm play at "));
+                Serial.println(CUR_VSS);
+
             }
 
         }

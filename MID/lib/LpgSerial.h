@@ -143,6 +143,8 @@ public:
 
             if (val == 0 && lpgUse) {
                 val = 100;
+            } else if (val == 0 && !lpgUse) {
+                val = 20;
             }
 
             if (val != 255 && val != 99) {
@@ -157,7 +159,7 @@ public:
 
 
             // Skip action
-            if (data[0] == 100 || data[1] == 100 && history == 100) {
+            if (data[0] == 100 || data[1] == 100 || history == 100) {
                 capture = trans;
                 lpgUse = true;
             }
@@ -229,7 +231,7 @@ public:
     boolean isLPG() {
 //        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
 
-        return (lpgUse) ? true : false;
+        return lpgUse;
     }
 
 /**
@@ -237,7 +239,7 @@ public:
  */
     inline boolean isBNZ() {
 //        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
-        return (trans > 147) ? true : false;
+        return (!lpgUse) ? true : false;
     }
 
 };
