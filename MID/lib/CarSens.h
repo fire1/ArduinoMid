@@ -467,6 +467,10 @@ public:
 
     }
 
+    Melody * passMelodyClass(){
+        return  mld;
+    }
+
     //
     // Speeding alarm modes
     const unsigned int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;

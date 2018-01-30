@@ -78,7 +78,6 @@ public:
       */
     void begin(uint8_t pinTargetSteering, uint8_t pinDigitalPod, uint8_t pinMask) {
 
-
         pinSteering = pinTargetSteering;
         pinDigPotCtr = pinDigitalPod;
         pinMaskHide = pinMask;
@@ -87,8 +86,8 @@ public:
         pinMode(pinSteering, INPUT);
         pinMode(pinDigPotCtr, OUTPUT);
         pinMode(pinMaskHide, OUTPUT);
-//        digitalWrite(pinMaskHide, HIGH); // Hide dig pot
         analogWrite(pinMaskHide, 255); // Hide dig pot
+        // Huh?
         //  pinMode (SPICCLOCK, OUTPUT);//Needed to be defined?
         //  pinMode (SLAVESELECT,OUTPUT); //same as above?
         //

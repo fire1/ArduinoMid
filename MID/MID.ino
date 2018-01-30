@@ -50,6 +50,9 @@ void setup() {
     // Sets display pins to socket
     lcdPwr.begin();
     //
+    // Setup SPI lib
+    whlSens.begin(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_MSK);
+    //
     // Shutdown setup vehicle
     shutDown.begin(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
@@ -91,9 +94,6 @@ void setup() {
     //
     // Set MID menu
     midMenu.begin();
-    //
-    // Setup SPI lib
-    whlSens.begin(ALP_PIN_INP, ALP_PIN_OUT, ALP_PIN_MSK);
     //
     // Restore data
     eepRom.load();
@@ -216,4 +216,8 @@ void loop() {
 
 }
 
-
+// TODO make tast with this ISR
+//ISR(USART2_RX_vect){
+//
+//}
+//

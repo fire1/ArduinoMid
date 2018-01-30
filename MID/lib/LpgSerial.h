@@ -100,7 +100,7 @@ public:
 
     void listener(void) {
 
-
+// Button serial
 //        if (Serial3.available()) {
 //            Serial.println();
 //            Serial.print("Serial 3: ");
@@ -134,7 +134,7 @@ public:
                 }
 
             }
-            uint8_t val = uint8_t(Serial2.read());
+            uint8_t val = (uint8_t) Serial2.read();
 #if defined(DEBUG) && defined(DEBUG_SR2)
             Serial.println();
             Serial.print("Current val: ");
@@ -162,10 +162,12 @@ public:
             if (data[0] == 100 || data[1] == 100 || history == 100) {
                 capture = trans;
                 lpgUse = true;
+                car->passMelodyClass()->play(1);
             }
 
             if (data[0] == 20 && history == 20 || data[1] == 20 && history == 20) {
                 lpgUse = false;
+                car->passMelodyClass()->play(6);
             }
 
             history = trans;
@@ -191,13 +193,13 @@ public:
 
             //
             // Agg to average
-            fuelTankCollector = fuelTankCollector + trans;
-            fuelTankIndex++;
-
-
-            if (fuelTankAverage == 0) {
-                fuelTankAverage = trans;
-            }
+//            fuelTankCollector = fuelTankCollector + trans;
+//            fuelTankIndex++;
+//
+//
+//            if (fuelTankAverage == 0) {
+//                fuelTankAverage = trans;
+//            }
 
         }
 
@@ -207,17 +209,14 @@ public:
     /**
      *
      */
-    uint8_t getCurrentValue() {
-        if (trans < 100 && trans > 10) {
-            return trans;
-        }
-        return 0;
+    uint8_t getCurrentValue() override {
+        return trans;
     }
 
     /**
      * Gets fuel tank level
      */
-    uint8_t getFuelTankLiters() {
+    uint8_t getFuelTankLiters() override {
 
         if (fuelTankAverage > 140) {
             return (uint8_t) map(fuelTankAverage, 215, 145, 65, 15);
@@ -228,7 +227,7 @@ public:
 /**
  *  Is additional fuel active
  */
-    boolean isLPG() {
+    boolean isLPG() override {
 //        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
 
         return lpgUse;
@@ -237,7 +236,7 @@ public:
 /**
  *  Is default fuel active
  */
-    inline boolean isBNZ() {
+    inline boolean isBNZ() override {
 //        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
         return (!lpgUse) ? true : false;
     }

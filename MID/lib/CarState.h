@@ -6,6 +6,7 @@
 #define ARDUINO_MID_CAR_STATE_H
 
 #include "AmpTime.h"
+#include "CarSens.h"
 
 #ifndef CAR_STT_A1_ALERT
 #define CAR_STT_A1_ALERT 10 // a wait minute
