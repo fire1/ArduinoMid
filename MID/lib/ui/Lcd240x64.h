@@ -869,6 +869,8 @@ private:
 
 
         if (car->getTmpIns() < -99) {
+            //
+            // Todo add wasted fuel here
             lcd->drawStr(45, LCD_ROW_4, "none");
         } else {
             lcd->setCursor(LCD_COL_L10, LCD_ROW_4 + 1);
@@ -1534,7 +1536,7 @@ private:
         lcd->print(F(" Timing belt distance: "));
         lcd->print(eep->getWorkDistance());
         lcd->print(getMsg(69)); // km
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
 
         if (drawIndex < 2 && initializeDraw) {
             valueCursor = valueComperator = 15;
@@ -1631,15 +1633,16 @@ void Lcd240x62::menus() {
 
         case 41:
             showHeader(getMsg(99));
+            showVoltmeter();
             break;
 
         case 42:
             showHeader(getMsg(100));
-            showVoltmeter();
+            showOdoWork();
             break;
+
         case CarState::MENU_SERVICE:
             stt->menu(this);
-            showOdoWork();
             break;
 
         case ShutDw::MENU_SHUTDOWN:

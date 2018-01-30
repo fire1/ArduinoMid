@@ -187,8 +187,8 @@ void loop() {
 
 
     if (ampInt.isSecond()) {
-        Serial.print("LPG ");
-        Serial.println(eepRom.getAdtFuel());
+//        Serial.print("LPG ");
+//        Serial.println(eepRom.getAdtFuel());
 //        Serial.print(F("VSS: "));
 //        Serial.print(carSens.getVss());
 //        whlSens.getCurrentState();
