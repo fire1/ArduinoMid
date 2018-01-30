@@ -688,6 +688,12 @@ private:
             return 13;
         }
 
+        if (menu_t == MENU_NAME_41) { // service
+            return 99;
+        }
+        if (menu_t == MENU_NAME_42) { // service
+            return 100;
+        }
         //
         // Sub-sub-titles
         //
