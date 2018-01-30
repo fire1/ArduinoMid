@@ -15,15 +15,16 @@
 /**
  * Command Serial Prompt
  */
-class CmdSerial {
+class CmdSerial : public EepRom {
 
 
     CarSens *car;
-    EepRom *eep;
+//    EepRom *eep;
     WhlSens *whl;
     float saveTemp;
     String srlStrName;
     String srlOutputs;
+    EepRom *eep;
 
 
     typedef void (*cb_svd)(float, SavedData &);
@@ -86,8 +87,7 @@ private:
 
 
 public:
-    CmdSerial(CarSens &carSens, EepRom &eepRom, WhlSens &whlSens) : car(&carSens), eep(&eepRom), whl(&whlSens) {
-
+    CmdSerial(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens), EepRom(carSens) {
     }
 
 
@@ -110,7 +110,7 @@ public:
 
 
             if (srlStrName.length() > 2) {
-                SavedData savedData = eep->getData();
+                SavedData savedData = getData();
 
                 // ************************************************************
                 // Correction values
@@ -118,7 +118,7 @@ public:
                 if (srlStrName == F("lpg")) {
                     // Total Liters per hour consumed
                     saveTemp = getSrlFloat();
-                    eep->setAdtFuel(saveTemp);
+                    savedData.fuel_adt = saveTemp;
                     srlOutputs = F("LPG fuel ");
                     srlOutputs += saveTemp;
                 }
@@ -128,7 +128,8 @@ public:
                 if (srlStrName == F("bnz")) {
                     // Total Liters per hour consumed
                     saveTemp = getSrlFloat();
-                    eep->setDefFuel(saveTemp);
+//                    EepRom::setDefFuel(saveTemp);
+                    savedData.fuel_def = saveTemp;
                     srlOutputs = F("BNZ fuel ");
                     srlOutputs += saveTemp;
                 }
@@ -137,7 +138,8 @@ public:
                 if (srlStrName == "ttd") {
                     // Total Travel distance
                     saveTemp = getSrlFloat();
-                    eep->setTravelDistance(saveTemp);
+                    savedData.dist_trv = saveTemp;
+//                    setTravelDistance()
                     srlOutputs = F("Travel distance ");
                     srlOutputs += saveTemp;
                 }
@@ -147,7 +149,7 @@ public:
                 if (srlStrName == "wrk") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    eep->setWorkDistance(saveTemp);
+                    savedData . total_km = saveTemp;
                     srlOutputs = F("Work distance ");
                     srlOutputs += saveTemp;
                 }
@@ -158,7 +160,7 @@ public:
 //                if (srlStrName == "cor_rpm") {
 //                    // Total work distance
 //                    saveTemp = getSrlFloat();
-//                    eep->setSensRpm(saveTemp);
+//                   savedData.setSensRpm(saveTemp);
 //                    srlOutputs = F("RPM correction ");
 //                    srlOutputs += saveTemp;
 //                }
@@ -167,7 +169,7 @@ public:
                 if (srlStrName == "cor_vss") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    eep->setSensVss(saveTemp);
+                    savedData.sens_vss = saveTemp;
                     srlOutputs = F("VSS correction ");
                     srlOutputs += saveTemp;
                 }
@@ -176,7 +178,7 @@ public:
                 if (srlStrName == "cor_dst") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    eep->setSensDst(saveTemp);
+                    savedData.sens_dst =saveTemp;
                     srlOutputs = F("DST correction ");
                     srlOutputs += saveTemp;
                 }
@@ -185,7 +187,7 @@ public:
                 if (srlStrName == "cor_ecu") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    eep->setSensEcu(saveTemp);
+                    savedData.sens_ecu = saveTemp;
                     srlOutputs = F("ECU correction ");
                     srlOutputs += saveTemp;
                 }
@@ -195,7 +197,7 @@ public:
                     // Saves type
                     saveTemp = getSrlInt();
                     if (saveTemp == 1) {
-                        car->setSave(eep->getData());
+                        car->setSave(this->getData());
                         srlOutputs = F("Passing value to carSens driver");
                     }
                 }
@@ -204,7 +206,7 @@ public:
                     // Saves type
                     saveTemp = getSrlInt();
                     if (saveTemp == 1) {
-                        eep->saveResetData();
+                        saveResetData();
                         srlOutputs = F("Saved Work distance ");
                         srlOutputs += saveTemp;
                     }
@@ -216,7 +218,7 @@ public:
                     // Saves type
                     saveTemp = getSrlInt();
                     if (saveTemp == 1) {
-                        eep->saveCurrentData();
+                        saveCurrentData();
                         srlOutputs = F("Saved All data ");
                         srlOutputs += saveTemp;
                     }
@@ -229,7 +231,7 @@ public:
                     // Saves type
                     saveTemp = getSrlInt();
                     if (saveTemp == 1) {
-                        eep->saveResetData();
+                        saveResetData();
                         srlOutputs = F("Saved All data and resetting...");
                         srlOutputs += saveTemp;
                     }
@@ -273,7 +275,7 @@ public:
                 if (srlStrName == "set_tr") {
                     // Saves type
                     saveTemp = getSrlInt();
-                    if (saveTemp == 1)eep->saveTripData();
+                    if (saveTemp == 1)this->saveTripData();
                     srlOutputs = F("SAVED trip data ");
                     srlOutputs += saveTemp;
                 }
@@ -340,7 +342,7 @@ public:
 //                        F("TRIP C range"));
                 //
                 // Return back changes
-                eep->setData(savedData);
+                setData(savedData);
 
 
                 if (srlStrName == F("dbg")) {

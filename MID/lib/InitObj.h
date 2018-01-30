@@ -67,9 +67,10 @@ CarState carStat(ampInt, carSens);
 WhlSens whlSens(ampInt, carSens);
 //
 // Data storage
-EepRom eepRom(carSens);
-
-CmdSerial dbgSerial(carSens, eepRom, whlSens);
+//EepRom eepRom(carSens);
+//
+// Combined EepRom / CmdSerial
+CmdSerial eepRom(carSens, whlSens);
 //
 // Buttons driver
 MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);

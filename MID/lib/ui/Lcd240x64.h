@@ -79,9 +79,9 @@ class Lcd240x62 : virtual public LcdUiInterface {
 // Drowing counter
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
-    uint8_t tripCursor = 1;
+    uint8_t valueCursor = 1;
     uint8_t tripActive = 1;
-    uint8_t tripCompare = 1;
+    uint8_t valueComperator = 1;
     uint8_t tripReset = 0;
     uint8_t wordWidth = 0;
 
@@ -1208,50 +1208,50 @@ private:
         if (drawIndex < 2 && initializeDraw) {
             //
             // Change values and speed of buttons
-            btn->setValueControlled(tripCursor);
+            btn->setValueControlled(valueCursor);
             //
             // Change speed of screen
             this->playUltra();
         }
-        tripCompare = tripCursor;
+        valueComperator = valueCursor;
         //
         // Manage section
         if (!btn->getNavigationState() && drawIndex % 2 == 0) {
             uint8_t cursor = (uint8_t) btn->getValueControlled();
 
-            if (cursor > tripCompare && drawIndex % 4 == 0) {
-                tripCursor++;
+            if (cursor > valueComperator && drawIndex % 4 == 0) {
+                valueCursor++;
                 tripReset = 0;
 
             }
 
             boolean delete_trip = false;
-            if (tripReset > cursor && cursor < tripCompare) {
+            if (tripReset > cursor && cursor < valueComperator) {
 
                 Serial.println(F("NOTICE: Delete trip.... "));
                 tripReset = 0;
-                tripCompare = 0;
+                valueComperator = 0;
                 delete_trip = true;
             }
 
-            if (cursor < tripCompare) {
+            if (cursor < valueComperator) {
                 lcd->drawStr(LCD_COL_R22, tripActive, "  X");
                 tripReset = cursor;
             }
 //
 
-            if (tripCursor == 1) {
+            if (valueCursor == 1) {
                 lcd->setCursor(0, LCD_ROW_2);
                 tripActive = LCD_ROW_2;
-            } else if (tripCursor == 2) {
+            } else if (valueCursor == 2) {
                 lcd->setCursor(0, LCD_ROW_3);
                 tripActive = LCD_ROW_3;
-            } else if (tripCursor == 3) {
+            } else if (valueCursor == 3) {
                 lcd->setCursor(0, LCD_ROW_4);
                 tripActive = LCD_ROW_4;
             } else {
-                tripCursor = 1;// Clear wrong cursor
-                btn->setValueControlled(tripCursor);
+                valueCursor = 1;// Clear wrong cursor
+                btn->setValueControlled(valueCursor);
                 Serial.println(F("ERROR: Trip cursor out of range .... "));
             }
             //
@@ -1276,8 +1276,8 @@ private:
                 } else {
                     Serial.println(F("ERROR: Cannot find cursor for deleting .... "));
                 }
-                tripCursor = 1;
-                tripCompare = 1;
+                valueCursor = 1;
+                valueComperator = 1;
                 tripActive = 0;
                 tripReset = 0;
                 btn->setNavigationState(true);
@@ -1513,6 +1513,51 @@ private:
 
     }
 
+    /**
+     * Simple Voltmeter
+     */
+    void showVoltmeter(void) {
+
+        lcd->setCursor(LCD_CNR, LCD_ROW_2);
+        lcd->print(stt->getVoltage());
+        lcd->print(F("V "));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
+        lcd->print(F(" ( +/- 5% tolerance)"));
+    }
+/**
+ * Reset servicing distance
+ */
+    void showOdoWork(void) {
+
+        btn->setEditorState(true);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
+        lcd->print(F(" Timing belt distance: "));
+        lcd->print(eep->getWorkDistance());
+        lcd->print(getMsg(69)); // km
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+
+        if (drawIndex < 2 && initializeDraw) {
+            valueCursor = valueComperator = 15;
+            //
+            // Change values and speed of buttons
+            btn->setValueControlled(valueCursor);
+            //
+            // Change speed of screen
+            this->playUltra();
+        }
+
+        if (!btn->getNavigationState()) {
+            valueComperator = (uint8_t) btn->getValueControlled();
+            lcd->print(F(" Hold  # to reset data"));
+        } else
+            lcd->print(F(" To reset hold #+$ "));
+
+        if (valueComperator < valueCursor) {
+            btn->setEditorState(false);
+            // todo add reset work distance here
+        }
+
+    }
 };
 
 /**
@@ -1584,9 +1629,17 @@ void Lcd240x62::menus() {
             displayCarState();
             break;
 
+        case 41:
+            showHeader(getMsg(99));
+            break;
+
+        case 42:
+            showHeader(getMsg(100));
+            showVoltmeter();
+            break;
         case CarState::MENU_SERVICE:
             stt->menu(this);
-
+            showOdoWork();
             break;
 
         case ShutDw::MENU_SHUTDOWN:

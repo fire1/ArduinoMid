@@ -25,8 +25,8 @@
 #define MENU_NAME_21 "Fuels"
 #define MENU_NAME_22 "Race"
 #define MENU_NAME_4 "State"
-#define MENU_NAME_41 "Oil"
-#define MENU_NAME_42 "Air"
+#define MENU_NAME_41 "Volt"
+#define MENU_NAME_42 "Wrk"
 
 
 /**
@@ -58,8 +58,8 @@ class Menu240x60 : public MenuUiInterface {
     //
     // States
             statMenu,
-            resetOil,
-            resetAir
+            voltmeter,
+            resetWork
     //
     // Sprint
 //            gamesMenu
@@ -96,8 +96,8 @@ public:
             //
             // Servicing menu
                               statMenu(MenuItem(MENU_NAME_4, 14)),
-                              resetOil(MenuItem(MENU_NAME_41)),
-                              resetAir(MenuItem(MENU_NAME_42)) {
+                              voltmeter(MenuItem(MENU_NAME_41)),
+                              resetWork(MenuItem(MENU_NAME_42)) {
     }
 
     void begin(void) {
@@ -116,6 +116,10 @@ public:
         fuelMenu.add(tripMenu);
         raceMenu.addRight(tripMenu);
         raceMenu.add(tripMenu);
+
+        statMenu.addRight(voltmeter).addRight(resetWork).addRight(statMenu);
+        voltmeter.add(statMenu);
+
 
         menu.moveDown();
         MidCursorMenu = 1;
@@ -178,6 +182,14 @@ public:
             // State
         } else if (curMenuName == MENU_NAME_4) {
             MidCursorMenu = 4;
+            //
+            // Volt meter
+        } else if (curMenuName == MENU_NAME_41) {
+            MidCursorMenu = 41;
+            //
+            // Reset work distance
+        } else if (curMenuName == MENU_NAME_42) {
+            MidCursorMenu = 42;
         }
     }
 

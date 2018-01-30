@@ -36,10 +36,12 @@ const char msg16[] PROGMEM = "ИНСТРУМЕНТИ";
 const char msg17[] PROGMEM = "НАСТРОЙКИ";
 const char msg18[] PROGMEM = "ТЕКУЩО";
 const char msg19[] PROGMEM = "ЗАВОДСКИ";
+const char msg99[] PROGMEM = "ВОЛТМЕТЪР";
+const char msg100[] PROGMEM = "ОДО-РАБОТА";
 //
 //
 const char msg20[] PROGMEM = "За нулиране на пътуването";
-const char msg21[] PROGMEM = "Задръжте >R и натиснете спирачката ";
+const char msg21[] PROGMEM = "Задръжте # и натиснете спирачката ";
 const char msg22[] PROGMEM = "За нови версии: www.git.io/vHlkd";
 const char msg23[] PROGMEM = "ArduinoMID версия ";
 const char msg24[] PROGMEM = "Натиснете $ за промяна";
@@ -151,6 +153,6 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
         msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72, msg73, msg74, msg75,
         msg76, msg77, msg78, msg79, msg80, msg81, msg82, msg83, msg84, msg85, msg86, msg87, msg88, msg89, msg90,
-        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98
+        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98, msg99, msg100
 };
 #endif //ARDUINOMID_EN_H_H

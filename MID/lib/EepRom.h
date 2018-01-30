@@ -42,12 +42,15 @@
 /**
  *
  */
-class EepRom  {
+class EepRom {
 
-    SavedData container;
+
     CarSens *car;
 
     float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+protected:
+    SavedData container;
 
 public:
 /**
@@ -74,7 +77,6 @@ public:
     void load();
 
 
-
     float getAverageLitersPer100km() {
         return (getConsumedFuel() * 100) / (container.dist_trv + car->getDst());
     }
@@ -95,14 +97,14 @@ public:
         //
         // Switching between LPG / BNZ
         if (car->getFuelState() == 0) { // BNZ [default]
-            if(isnan(container.fuel_def)){
+            if (isnan(container.fuel_def)) {
                 container.fuel_def = 0;
             }
 
             return container.fuel_def + car->getDefFuelCns();
         }
         if (car->getFuelState() == 1) { // LPG [additional]
-            if(isnan(container.fuel_adt)){
+            if (isnan(container.fuel_adt)) {
                 container.fuel_adt = 0;
             }
             return container.fuel_adt + car->getAdtFuelCns();
@@ -186,11 +188,12 @@ public:
     inline SavedData getData(void) {
         return container;
     }
+
 /**
  *
  */
-    inline void setData(SavedData newer){
-        container  = newer;
+    inline void setData(SavedData newer) {
+        container = newer;
     }
 
 /**
@@ -441,7 +444,7 @@ void EepRom::load() {
         Serial.println(F("Restore Value:"));
         EEPROM.get(eLocation, eGetValue);
 
-        if(isnan(eGetValue))
+        if (isnan(eGetValue))
             eGetValue = 0;
 
         Serial.println(eGetValue, 2);

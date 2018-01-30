@@ -183,10 +183,12 @@ void loop() {
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
-////
-//    if (ampInt.isSecond()) {
-//        Serial.print("LPG");
-//        Serial.println(eepRom.getAdtFuel());
+//
+
+
+    if (ampInt.isSecond()) {
+        Serial.print("LPG ");
+        Serial.println(eepRom.getAdtFuel());
 //        Serial.print(F("VSS: "));
 //        Serial.print(carSens.getVss());
 //        whlSens.getCurrentState();
@@ -194,7 +196,7 @@ void loop() {
 //        Serial.print(F("LEN: "));
 //        Serial.print(vssPulseLen);
 //        Serial.println();
-//    }
+    }
 
 
     //
@@ -212,7 +214,8 @@ void loop() {
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
-    dbgSerial.listener();
+//    dbgSerial.listener();
+    eepRom.listener();
 
 }
 

@@ -148,6 +148,12 @@ private:
 #endif
 
         if (value >= CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
+
+            if(value == CAR_STT_A2_ALERT){
+                car->passMelodyClass()->play(7);
+            }
+
+
             return true;
         }
         return false;
