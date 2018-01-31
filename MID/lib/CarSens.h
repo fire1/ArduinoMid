@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  58 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  15 //
+#define VSS_ALARM_VERIFICATE  8 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 8316 // 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 7586 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 8316 default
 // 7586 below 10*C
 
@@ -1448,7 +1448,7 @@ void CarSens::sensTmp() {
         temperatureC /= BCO_EFFICIENT;                              // 1/B * ln(R/Ro)
         temperatureC += 1.0 / (TEMPERATURE_NOMINAL + 273.15);       // + (1/To)
         temperatureC = 1.0 / temperatureC;                          // Invert
-        temperatureC -= 273.15;
+        temperatureC -= 273.15;                                     // remove Kelvin (temperature resistance)
         // temperatureC = calculation;
 
         //
