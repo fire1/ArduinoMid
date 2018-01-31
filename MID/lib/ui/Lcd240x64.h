@@ -71,7 +71,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     boolean animateUltra = false;
     boolean initializeDraw = false;
     boolean changedFont = false;
-
+    char instantCons[3];
 
     const uint8_t *fontSelect;
     uint8_t lastValue;
@@ -925,20 +925,24 @@ private:
         //
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
-        float dataFuel = 0;
-        if (car->getFuelState() == 0) { // BNZ [default]
-            dataFuel = car->getDefFuelCns();
+        if (amp->is5Seconds()) {
+            float dataFuel = 0;
+            if (car->getFuelState() == 0) { // BNZ [default]
+                dataFuel = car->getDefFuelCns();
+            }
+            if (car->getFuelState() == 1) { // LPG [additional]
+                dataFuel = car->getAdtFuelCns();
+            }
+            float result = ((dataFuel) * 100) / car->getDst();
+            if (result > 50) {
+                result = 0;
+            }
+            displayFloat(result, instantCons);
         }
-        if (car->getFuelState() == 1) { // LPG [additional]
-            dataFuel = car->getAdtFuelCns();
-        }
-        float result = ((dataFuel) * 100) / car->getDst();
-        if (result > 50) {
-            result = 0;
-        }
-        displayFloat(result, char_3);
+
+
         lcd->setCursor(LCD_COL_R12, LCD_ROW_4);
-        lcd->print(char_3);
+        lcd->print(instantCons);
         showL100km(LCD_COL_R12, LCD_ROW_4, char_3);
 
     }
@@ -1532,6 +1536,7 @@ private:
         lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
         lcd->print(F(" ( +/- 5% tolerance)"));
     }
+
 /**
  * Reset servicing distance
  */
