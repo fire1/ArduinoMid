@@ -90,7 +90,7 @@ private:
 
 //
 // debug info
-#if defined(DEBUG)&& defined(DEBUG_VLT)
+#if defined(DEBUG) && defined(DEBUG_VLT)
         if (DBG_CMD(amp, "vlt")) {
         DBG_PS(readingVoltage / 68);
         DBG_PI(F("Hits contend: "))
@@ -149,7 +149,7 @@ private:
 
         if (value >= CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
 
-            if(value == CAR_STT_A2_ALERT){
+            if (value == CAR_STT_A2_ALERT) {
                 car->passMelodyClass()->play(7);
             }
 
@@ -188,7 +188,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {}
 
     void setWorkState(float distance);
 
@@ -321,6 +321,8 @@ public:
             if (!initAlertState) {
                 cursorMenu = MidCursorMenu;
                 MidCursorMenu = MENU_SERVICE;
+                usedMenu.used = "";
+                usedMenu.back = "";
                 initAlertState = 1;
             }
         }
