@@ -178,6 +178,27 @@ struct SavedData {
     TripData trip_c;
 };
 
+/**
+ * Structure of menu container
+ */
+struct UsedMenu {
+    const char *used;
+    const char *back;
+    const char *next;
+    const char *last;
+    const char *down;
+};
+/**
+* Reserve space in used menu container
+*/
+static UsedMenu usedMenu = {
+        used:""/* new char(512)*/
+};
+
+//
+// Saves cursor between changes
+uint8_t MenuBase_savedCursor = 0;
+
 #if defined(ADT_FUEL_SYSTEM_SERIAL) || defined(LPG_SWTC_PIN)
 
 
