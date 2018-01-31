@@ -497,6 +497,7 @@ public:
         //
         // Slow / Normal animation
         if (!animateFast && !animateUltra) {
+//            Serial.println("Draw slow ");
             if (amp->isRfr()) { //isRfr
                 makeDraw();
                 handleDrawer();
@@ -562,7 +563,7 @@ protected:
 
         //
         //
-        if (lcd->getStrWidth(usedMenu.used) < 1) {
+        if (lcd->getStrWidth(usedMenu.used) < 2) {
             switch (drawEntry) {
                 default:
                     drawEntry = 0;
@@ -588,6 +589,7 @@ protected:
             default:
                 drawEntry = 0;
                 this->playUltra();
+                lcd->clearBuffer();
                 break;
             case 0:
                 this->playUltra();
@@ -596,7 +598,6 @@ protected:
                 // Reset button handler
                 btn->setNavigationState(false);
                 btn->useDebounceNormal();
-
                 break;
             case 1:
             case 2:
@@ -604,7 +605,7 @@ protected:
                 lcd->setCursor(108, 1);
                 lcd->print(this->getMsg(2));
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
-                lcd->drawFrame(10, 12 + (drawEntry * 5), 212, 15);
+                lcd->drawFrame(10, 12 + (drawEntry * 5), 224, 15);
 
                 lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
@@ -619,7 +620,7 @@ protected:
             case 6:
             case 7:
 //
-                lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 212, 15);
+                lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 224, 15);
                 lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
                 lcd->setCursor(LCD_COL_L12, 45);
@@ -635,13 +636,13 @@ protected:
                 }
                 break;
             case 8:
+                this->playSlow();
                 btn->resetStates();
                 mbs->finishEntry();
                 lcd->clear();
                 drawEntry = 0;
                 drawIndex = 0;
                 initializeDraw = true;
-                this->playSlow();
                 break;
         }
     }
@@ -925,25 +926,25 @@ private:
         //
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
-        if (amp->is5Seconds()) {
-            float dataFuel = 0;
-            if (car->getFuelState() == 0) { // BNZ [default]
-                dataFuel = car->getDefFuelCns();
-            }
-            if (car->getFuelState() == 1) { // LPG [additional]
-                dataFuel = car->getAdtFuelCns();
-            }
-            float result = ((dataFuel) * 100) / car->getDst();
-            if (result > 50) {
-                result = 0;
-            }
-            displayFloat(result, instantCons);
+//        if (initializeDraw && drawIndex < 10 || drawIndex < 5) {
+        float dataFuel = 0;
+        if (car->getFuelState() == 0) { // BNZ [default]
+            dataFuel = car->getDefFuelCns();
         }
+        if (car->getFuelState() == 1) { // LPG [additional]
+            dataFuel = car->getAdtFuelCns();
+        }
+        float result = ((dataFuel) * 100) / car->getDst();
+        if (result > 50) {
+            result = 0;
+        }
+        displayFloat(result, instantCons);
+//        }
 
 
         lcd->setCursor(LCD_COL_R12, LCD_ROW_4);
         lcd->print(instantCons);
-        showL100km(LCD_COL_R12, LCD_ROW_4, char_3);
+        showL100km(LCD_COL_R12, LCD_ROW_4, instantCons);
 
     }
 
@@ -1419,10 +1420,10 @@ private:
         lcd->print(char_7);
 
         if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth("[")) + 5, LCD_ROW_1);
-            lcd->print("[");
-            lcd->setCursor(LCD_COL_R11 + lcd->getStrWidth(char_7) + 5, LCD_ROW_1);
-            lcd->print("]");
+            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth("[")) + 10, LCD_ROW_1);
+            lcd->print(F("["));
+            lcd->setCursor(LCD_COL_R11 + lcd->getStrWidth(char_7) + 10, LCD_ROW_1);
+            lcd->print(F("]"));
         }
 
 
