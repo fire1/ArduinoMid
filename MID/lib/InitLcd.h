@@ -107,7 +107,7 @@ void menuUseEvent(MenuUseEvent used) {
 
 #if SCREEN != 162
 
-    Serial.print("Sort key menu: ");
+    Serial.print(F("Sort key menu: "));
     Serial.println((uint8_t)used.item.getBack()->getShortkey());
 
     usedMenu.back = used.item.getBack()->getName();
