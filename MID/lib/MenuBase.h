@@ -18,26 +18,8 @@
 #ifndef MENU_ENTRY
 #define MENU_ENTRY 0
 #endif
-/**
- * Structure of menu container
- */
-struct UsedMenu {
-    const char *used;
-    const char *back;
-    const char *next;
-    const char *last;
-    const char *down;
-};
-/**
-* Reserve space in used menu container
-*/
-static UsedMenu usedMenu = {
-        used:""/* new char(512)*/
-};
 
-//
-// Saves cursor between changes
-uint8_t MenuBase_savedCursor = 0;
+
 
 /**
  *
@@ -85,7 +67,11 @@ public:
 
         MidCursorMenu = MenuBase_savedCursor;
         btn->setNavigationState(true);
-
+        //
+        // Fixes infinity loop from entry if cursor is lose
+        if (MidCursorMenu == 0) {
+            MidCursorMenu = 1;
+        }
 #if defined(DEBUG_MENU)
         Serial.print(F("Cursor menu: "));
         Serial.println(MidCursorMenu);
