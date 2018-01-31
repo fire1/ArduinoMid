@@ -90,7 +90,7 @@ public:
         //
         // 124 /
 
-        Serial2.begin(246);//246
+        Serial2.begin(248);//246
 // pin 15
 //        Serial3.begin(500);
 
@@ -158,16 +158,37 @@ public:
             // 18 stand by mode
 
 
-            // Skip action
-            if (data[0] == 100 || data[1] == 100 || history == 100) {
-                capture = trans;
-                lpgUse = true;
-                car->passMelodyClass()->play(1);
-            }
+            captureLpg(100); // 18 none / full
+            captureLpg(18); // 219 none
 
+            captureBnz(20);
+            captureBnz(218);
+
+
+            // Skip action
+//            if (data[0] == 100 || data[1] == 100 || history == 100) {
+//                capture = trans;
+//                if (!lpgUse) { // checks for opposite
+//                    car->passMelodyClass()->play(1);
+//                }
+//                lpgUse = true;
+//            }
+
+//            if (data[0] == 18 || data[1] == 18 || history == 18) {
+//                capture = trans;
+//                if (!lpgUse) { // checks for opposite
+//                    car->passMelodyClass()->play(1);
+//                }
+//                lpgUse = true;
+//            }
+
+            //
+            // 218
             if (data[0] == 20 && history == 20 || data[1] == 20 && history == 20) {
+                if (lpgUse) { // checks for opposite
+                    car->passMelodyClass()->play(6);
+                }
                 lpgUse = false;
-                car->passMelodyClass()->play(6);
             }
 
             history = trans;
@@ -205,6 +226,33 @@ public:
 
 
     }
+/**
+ *
+ * @param value
+ */
+    void captureLpg(uint8_t value) {
+        if (data[0] == value || data[1] == value || history == value) {
+            capture = trans;
+            if (!lpgUse) { // checks for opposite
+                car->passMelodyClass()->play(1);
+            }
+            lpgUse = true;
+        }
+    }
+/**
+ *
+ * @param value
+ */
+    void captureBnz(uint8_t value) {
+        if (data[0] == value || data[1] == value || history == value) {
+            capture = trans;
+            if (lpgUse) { // checks for opposite
+                car->passMelodyClass()->play(6);
+            }
+            lpgUse = false;
+        }
+    }
+
 
     /**
      *
