@@ -1499,7 +1499,7 @@ private:
  * Rally gage
  */
     void displayRallyGages() {
-        const uint8_t wdDsp = 205;
+        const uint8_t wdDsp = 202;
         const uint8_t hgDsp = 70;
         const uint16_t maxPwr = MAX_ENGINE_PWR;
         const uint16_t maxRpm = MAX_ENGINE_RVS;
