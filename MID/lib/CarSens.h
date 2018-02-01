@@ -222,6 +222,7 @@ struct Fuel {
 #ifndef DallasTemperature_h
 
 #include "../../libraries/DallasTemperature/DallasTemperature.h"
+#include "InitObj.h"
 
 #endif
 
@@ -467,8 +468,8 @@ public:
 
     }
 
-    Melody * passMelodyClass(){
-        return  mld;
+    Melody *passMelodyClass() {
+        return mld;
     }
 
     //
@@ -729,20 +730,6 @@ public:
  * ########################################################################################### *
  * ########################################################################################### *
  ***********************************************************************************************/
-////
-//// Verification with time test
-//unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
-//    if (currentMicroseconds >= startMicroSeconds)
-//        return currentMicroseconds - startMicroSeconds;
-//    return 4294967295 - (startMicroSeconds - currentMicroseconds);
-//}
-//
-////
-//////
-//unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
-//    return elapsedMicroseconds(startMicroSeconds, micros());
-//}
-
 //unsigned long lastTimeVss = 0, vssPulseLen = 0;
 
 /**
@@ -815,6 +802,11 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     //
     // Engine temperature
     pinMode(pinTmp, INPUT);
+    pinMode(pinTnk, INPUT);
+
+
+    //    analogWrite(pinTmp,0); // TODO test here
+    //    analogWrite(pinTnk,0); // TODO test here
     pinTemp = pinTmp;
     pinBreaks = pinBrk;
     pinFulTnk = pinTnk;
@@ -1236,6 +1228,23 @@ void CarSens::sensDim() {
 
 }
 
+//uint16_t readPeekCollection;
+//uint16_t readPulseLine;
+//unsigned long lastRead;
+//
+//void sensEnt2() {
+//
+////    if (ampInt.isLow()) {
+//        uint16_t read = analogRead(ENG_CLT_PIN);
+//        if (read < readPeekCollection) {
+//            readPulseLine++;
+//        }else{
+//            readPeekCollection = read;
+//        }
+//
+////    }
+//}
+
 /**
  *  Engine temperature
  */
@@ -1632,6 +1641,7 @@ uint8_t CarSens::getGear() {
 
 /**
  * Sets Fuel consumed by engine
+ * @param value
  */
 void CarSens::setConsumedFuel(long value) {
 
@@ -1655,7 +1665,9 @@ void CarSens::setConsumedFuel(long value) {
 
 }
 
-
+/**
+ *
+ */
 void CarSens::sensBkt() {
     if (breakTimeStart == 0 && digitalRead(pinBreaks) == HIGH) {
         breakTimeStart = millis();
@@ -1667,7 +1679,9 @@ void CarSens::sensBkt() {
     }
 }
 
-
+/**
+ *
+ */
 void CarSens::sensTnk() {
     if (amp->isSens()) {
         //

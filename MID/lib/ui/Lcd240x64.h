@@ -1349,16 +1349,42 @@ private:
         lcd->print(getMsg(68));
 
 
+        if (drawIndex < 2 && initializeDraw) {
+            btn->setEditorState(true);
+            btn->setValueControlled(138);
+        }
+
+
         sprintf(char_2, "%02d", lpgCom.getCurrentValue());
         lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
-        lcd->print(F("LPG value: "));
+//        lcd->print(F("LPG value: "));
         lcd->print(char_2);
+
+        if (!btn->getNavigationState()) {
+            lcd->print(F("*"));
+
+            Serial.println(btn->getValueControlled());
+            if (btn->getValueControlled() < 138) {
+                lpgCom.setDynamic();
+                btn->setEditorState(false);
+                btn->setNavigationState(true);
+//                Serial.println(F("LPG set dynamic"));
+            }
+
+            if (btn->getValueControlled() > 138) {
+                btn->setEditorState(false);
+                btn->setNavigationState(true);
+//                Serial.println(F("LPG set skipped"));
+            }
+        }
 
         displayFloat(car->getFuelTnk(), char_3);
         lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
         lcd->print(F("BNZ value: "));
         lcd->print(char_3);
         lcd->print(getMsg(68));
+
+
 #endif
 
     }
@@ -1476,20 +1502,23 @@ private:
         const uint8_t wdDsp = 180;
         const uint8_t hgDsp = 64;
         const uint16_t maxPwr = 5400;
+        const uint16_t maxRpm = 7500;
         const uint8_t all_blocks = 26;
 
-
         uint16_t rpm = car->getRpm();
-        uint8_t current = (uint8_t) map(rpm, 0, 7500, 0, all_blocks);
+
+        uint8_t current = (uint8_t) map(rpm, 0, maxRpm, 0, all_blocks);
         if (current < 1) {
             current = 1;
         }
-
+        if (current > 26) {
+            current = 26;
+        }
         uint8_t width = wdDsp / all_blocks - 1;
         uint8_t height = hgDsp / all_blocks;
         //
         // Power compensation
-        uint8_t res = (uint8_t) map(maxPwr, 0, 7000, 0, all_blocks);
+        uint8_t res = (uint8_t) map(maxPwr, 0, maxRpm, 0, all_blocks);
 
         //
         // Draw rpm
@@ -1501,7 +1530,6 @@ private:
                 // Stepping down the power
                 crh = crh - (all_blocks / res) * ((i - res) * 3);
             }
-
             lcd->drawBox(60 + (wdDsp / all_blocks) * i, hgDsp - crh - res, width, crh);
         }
 
@@ -1551,26 +1579,29 @@ private:
         lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
 
         if (drawIndex < 2 && initializeDraw) {
-            valueCursor = valueComperator = 15;
-            //
-            // Change values and speed of buttons
-            btn->setValueControlled(valueCursor);
-            //
-            // Change speed of screen
-            this->playUltra();
+            btn->setEditorState(true);
+            btn->setValueControlled(138);
         }
+
 
         if (!btn->getNavigationState()) {
             valueComperator = (uint8_t) btn->getValueControlled();
-            lcd->print(F(" Hold  # to reset data"));
+            lcd->print(F(" Press # to reset data"));
         } else
             lcd->print(F(" To reset hold #+$ "));
 
-        if (valueComperator < valueCursor) {
-            btn->setEditorState(false);
-            // todo add reset work distance here
-        }
+        if (!btn->getNavigationState()) {
+            if (btn->getValueControlled() < 138) {
+                // TODO add eeprom reset value
+                btn->setEditorState(false);
+                btn->setNavigationState(true);
+            }
 
+            if (btn->getValueControlled() > 138) {
+                btn->setEditorState(false);
+                btn->setNavigationState(true);
+            }
+        }
     }
 };
 

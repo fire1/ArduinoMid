@@ -247,6 +247,44 @@ uint16_t StackCount(void) {
     return c;
 }
 
+
+/**
+ *
+ * @param startMicroSeconds
+ * @param currentMicroseconds
+ * @return
+ */
+unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
+    if (currentMicroseconds >= startMicroSeconds)
+        return currentMicroseconds - startMicroSeconds;
+    return 4294967295 - (startMicroSeconds - currentMicroseconds);
+}
+
+/**
+ *
+ * @param startMicroSeconds
+ * @return
+ */
+unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
+    return elapsedMicroseconds(startMicroSeconds, micros());
+}
+
+unsigned long elapsedMilliseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
+    if (currentMicroseconds >= startMicroSeconds)
+        return currentMicroseconds - startMicroSeconds;
+    return 4294967295 - (startMicroSeconds - currentMicroseconds);
+}
+
+/**
+ *
+ * @param startMicroSeconds
+ * @return
+ */
+unsigned long elapsedMilliseconds(unsigned long startMicroSeconds) {
+    return elapsedMicroseconds(startMicroSeconds, millis());
+}
+
+
 /**
  * What getFreeRam() is actually reporting is the space between the heap and the stack.
  * it does not report any de-allocated memory that is buried in the heap.

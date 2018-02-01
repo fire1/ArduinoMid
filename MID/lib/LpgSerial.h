@@ -48,6 +48,7 @@ private:
     uint8_t history;
     uint8_t index = 0;
 
+    uint8_t dinamic = 0;
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
@@ -161,6 +162,10 @@ public:
             captureLpg(100); // 18 none / full
             captureLpg(18); // 219 none
 
+            if (dinamic != 0) {
+                captureLpg(dinamic);
+            }
+
             captureBnz(20);
             captureBnz(218);
 
@@ -226,6 +231,7 @@ public:
 
 
     }
+
 /**
  *
  * @param value
@@ -239,6 +245,7 @@ public:
             lpgUse = true;
         }
     }
+
 /**
  *
  * @param value
@@ -253,6 +260,12 @@ public:
         }
     }
 
+/**
+ * Adds dynamic data to switch
+ */
+    void setDynamic(){
+        dinamic = trans;
+    }
 
     /**
      *
