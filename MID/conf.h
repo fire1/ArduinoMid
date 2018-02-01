@@ -126,6 +126,10 @@
 #define CAR_GEAR_G6  0.81
 #define CAR_GEAR_FD   3.74 // Final drive
 /**/
+// X18XE1 5400
+// Z18XE X20XEV 5600
+// Z22SE 5800
+#define MAX_ENGINE_PWR 5400 //  Maximum Horsepower RPMs
 
 //
 // Comment to use Opel logo

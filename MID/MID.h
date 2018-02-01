@@ -253,6 +253,14 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #endif
 
 
+#ifndef MAX_ENGINE_PWR
+#define MAX_ENGINE_PWR 5400
+#endif
+
+#ifndef MAX_ENGINE_RVS
+#define MAX_ENGINE_RVS 7500
+#endif
+
 #define MID_VERSION "1.5.7"
 
 #include "glob.h"

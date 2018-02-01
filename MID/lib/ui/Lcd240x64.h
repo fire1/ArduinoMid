@@ -1499,11 +1499,11 @@ private:
  * Rally gage
  */
     void displayRallyGages() {
-        const uint8_t wdDsp = 180;
-        const uint8_t hgDsp = 64;
-        const uint16_t maxPwr = 5400;
-        const uint16_t maxRpm = 7500;
-        const uint8_t all_blocks = 26;
+        const uint8_t wdDsp = 205;
+        const uint8_t hgDsp = 70;
+        const uint16_t maxPwr = MAX_ENGINE_PWR;
+        const uint16_t maxRpm = MAX_ENGINE_RVS;
+        const uint8_t all_blocks = 12;
 
         uint16_t rpm = car->getRpm();
 
@@ -1511,8 +1511,8 @@ private:
         if (current < 1) {
             current = 1;
         }
-        if (current > 26) {
-            current = 26;
+        if (current > all_blocks) {
+            current = all_blocks;
         }
         uint8_t width = wdDsp / all_blocks - 1;
         uint8_t height = hgDsp / all_blocks;
@@ -1528,9 +1528,9 @@ private:
             if (res < i) {
                 //
                 // Stepping down the power
-                crh = crh - (all_blocks / res) * ((i - res) * 3);
+                crh = crh - (all_blocks / res) * ((i - res) * 8);
             }
-            lcd->drawBox(60 + (wdDsp / all_blocks) * i, hgDsp - crh - res, width, crh);
+            lcd->drawBox(40 + (wdDsp / all_blocks) * i, hgDsp - crh - res, width, crh);
         }
 
 
@@ -1543,7 +1543,7 @@ private:
         lcd->setCursor(10, 3);
 
         if (gear > 6 || gear < 1) {
-            lcd->print("N");
+            lcd->print(F("N"));
         } else {
             sprintf(char_2, "%01d", gear);
             lcd->print(char_2);
