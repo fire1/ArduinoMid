@@ -76,7 +76,7 @@ MenuBase menuBase(btnMenu, midMenu);
 LcdPwr lcdPwr = LcdPwr(DSP_PIN_GD1, DSP_PIN_VCC, DSP_PIN_LDK, DSP_PIN_LDA, DSP_PIN_RD, DSP_PIN_FS, DSP_PIN_GD2);
 //
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for display begin
-U8G2_T6963_240X64_2_8080 // Screen constructor
+U8G2_T6963_240X64_F_8080 // Screen constructor U8G2_T6963_240X64_2_8080 / U8G2_T6963_240X64_F_8080
         u8g2(U8G2_R0,
              DSP_PIN_DT1,
              DSP_PIN_DT2,

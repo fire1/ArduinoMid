@@ -456,10 +456,12 @@ public:
     }
 
     void makeDraw() {
-        lcd->firstPage();
-        do {
+        lcd->clearBuffer();
+//        lcd->firstPage();
+//        do {
             menus();
-        } while (lcd->nextPage());
+//        } while (lcd->nextPage());
+        lcd->sendBuffer();
     }
 
 
@@ -476,7 +478,7 @@ public:
         //
         // Ultra fast animation
         if (animateUltra) {
-            if (amp->isSec()) {
+            if (amp->isMid()) {
 //                Serial.println("Draw ultra ");
                 makeDraw();
                 handleDrawerEntry();
@@ -569,6 +571,7 @@ protected:
                     drawEntry = 0;
                     break;
                 case 0:
+                    lcd->clearBuffer();
                     this->playUltra();
                     break;
                 case 1:
@@ -589,9 +592,9 @@ protected:
             default:
                 drawEntry = 0;
                 this->playUltra();
-                lcd->clearBuffer();
                 break;
             case 0:
+                lcd->clearBuffer();
                 this->playUltra();
                 mbs->startEntry();
                 //
@@ -1499,11 +1502,11 @@ private:
  * Rally gage
  */
     void displayRallyGages() {
-        const uint8_t wdDsp = 202;
-        const uint8_t hgDsp = 70;
+        const uint8_t wdDsp = 204;
+        const uint8_t hgDsp = 74;
         const uint16_t maxPwr = MAX_ENGINE_PWR;
         const uint16_t maxRpm = MAX_ENGINE_RVS;
-        const uint8_t all_blocks = 12;
+        const uint8_t all_blocks = 18;
 
         uint16_t rpm = car->getRpm();
 

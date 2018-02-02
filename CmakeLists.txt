@@ -21,13 +21,12 @@ set(${CMAKE_PROJECT_NAME}_PORT /dev/ttys3)
 set(${CMAKE_PROJECT_NAME}_SKETCH MID/MID.ino)
 generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
-set(SOURCE_FILES MID/MID.ino)
 
 
 set(BOARD_TAG mega)
 set(BOARD_SUB atmega2560)
 
-
+set(SOURCES Arduino.h )
 
 list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 #
@@ -36,7 +35,7 @@ list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK}/libraries)
 add_definitions( -DUSBCON=1 )
 add_definitions ( -DSerial2=Serial)
 
-LINK_DIRECTORIES("../libraries")
+link_directories("libraries")
 
 
 
@@ -49,5 +48,7 @@ LINK_DIRECTORIES("../libraries")
 #SET(ARDUINO_C_FLAGS -mmcu=${MCU} )
 #SET(ARDUINO_CXX_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
 #SET(ARDUINO_LINKER_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
-link_directories(A ${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino)
+
+link_directories(${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino)
+#link_directories(${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino/)
 link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)

@@ -37,7 +37,7 @@
 #define AMP_SEC 100 // SEC
 #define AMP_BIG 200 // BIG
 #define AMP_MAX 400 // MAX
-#define AMP_RFR 600 // TODO check 800 // Screen Refresh rate
+#define AMP_RFR 601 // TODO check 800 // Screen Refresh rate
 #endif
 
 /** @description
