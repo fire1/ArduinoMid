@@ -196,6 +196,17 @@ void loop() {
 //        Serial.print(F("LEN: "));
 //        Serial.print(vssPulseLen);
 //        Serial.println();
+
+
+        //
+        // 5 - 70C
+//        Serial.print(F("ENT: "));
+//        Serial.println(analogRead(ENG_CLT_PIN));
+
+
+//        Serial.print(F("TNK: "));
+//        Serial.println(carSens.getTnkBnz());
+
     }
 
 

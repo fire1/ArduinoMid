@@ -805,9 +805,9 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     pinMode(pinTnk, INPUT);
 
 
-    //    analogWrite(pinTmp,0); // TODO test here
-    //    analogWrite(pinTnk,0); // TODO test here
-    pinTemp = pinTmp;
+    digitalWrite(pinTmp, LOW); // TODO test here
+    analogWrite(pinTnk, 0); // TODO test here
+//    pinTemp = pinTmp;
     pinBreaks = pinBrk;
     pinFulTnk = pinTnk;
 }
@@ -1263,8 +1263,15 @@ void CarSens::sensEnt() {
         indexEngineTemp = 0;
         smoothEngineTemp = 0;
 
+        // 220/215 -79C
+        // 150 / 60
+        // 200 / 70
         // cap 47uf 225 - 80C / 515 - 90C
-        CUR_ENT = (uint8_t) map(val, 225, 500, 80, 90);
+        if(val > 224) {
+            CUR_ENT = (uint8_t) map(val, 225, 500, 80, 90);
+        }else{
+            CUR_ENT = (uint8_t) map(val, 150, 224, 55, 79);
+        }
 
     }
 

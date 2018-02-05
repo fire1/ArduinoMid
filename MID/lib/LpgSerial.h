@@ -137,9 +137,9 @@ public:
             }
             uint8_t val = (uint8_t) Serial2.read();
 #if defined(DEBUG) && defined(DEBUG_SR2)
-            Serial.println();
-            Serial.print("Current val: ");
-            Serial.println(val);
+//            Serial.println();
+//            Serial.print("Current val: ");
+//            Serial.println(val);
 #endif
 
             if (val == 0 && lpgUse) {
@@ -159,8 +159,9 @@ public:
             // 18 stand by mode
 
 
-            captureLpg(100); // 18 none / full
+            captureLpg(100); // 18 full
             captureLpg(18); // 219 none
+            captureLpg(34); // 219 2 dots
 
             if (dinamic != 0) {
                 captureLpg(dinamic);
@@ -206,7 +207,7 @@ public:
             Serial.print(data[1]);
 
             Serial.println();
-            Serial.print("Recorded trans: ");
+            Serial.print("Current trans: ");
             Serial.println(trans);
 #endif
 
