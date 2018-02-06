@@ -160,8 +160,10 @@ public:
 
 
             captureLpg(100); // 18 full
-            captureLpg(18); // 219 none
-            captureLpg(34); // 219 2 dots
+//            captureLpg(18); // 219 none // at free run
+            captureLpg(34); // 218 2 dots
+            captureLpg(47); // 140 1 dots
+            // 108,34 as lpg
 
             if (dinamic != 0) {
                 captureLpg(dinamic);
@@ -169,6 +171,7 @@ public:
 
             captureBnz(20);
             captureBnz(218);
+            captureBnz(140);// BNZ 1 dot
 
 
             // Skip action
@@ -198,7 +201,8 @@ public:
             }
 
             history = trans;
-            trans = val;
+            if (val != 255)
+                trans = val;
 
 #if defined(DEBUG) && defined(DEBUG_SR2)
             Serial.print("DATA: ");
@@ -264,7 +268,7 @@ public:
 /**
  * Adds dynamic data to switch
  */
-    void setDynamic(){
+    void setDynamic() {
         dinamic = trans;
     }
 

@@ -1366,7 +1366,7 @@ private:
         if (!btn->getNavigationState()) {
             lcd->print(F("*"));
 
-            Serial.println(btn->getValueControlled());
+
             if (btn->getValueControlled() < 138) {
                 lpgCom.setDynamic();
                 btn->setEditorState(false);
@@ -1377,6 +1377,7 @@ private:
             if (btn->getValueControlled() > 138) {
                 btn->setEditorState(false);
                 btn->setNavigationState(true);
+                car->passMelodyClass()->play(7);
 //                Serial.println(F("LPG set skipped"));
             }
         }
