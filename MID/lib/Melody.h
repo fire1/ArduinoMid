@@ -166,7 +166,6 @@ class Melody {
  */
     void m8() {
         if (tempoSlow()) {
-
             if (index < 4) {
                 tone(TONE_ADT_PIN, 2500, 30);
 
@@ -195,6 +194,22 @@ class Melody {
 
     }
 
+/**
+ * 2 beeps low
+ */
+    void m10() {
+        if (tempoSlow()) {
+
+            if (index == 2) {
+                tone(TONE_ADT_PIN, 750, 30);
+            }
+
+            if (index == 4) {
+                tone(TONE_ADT_PIN, 750, 30);
+            }
+        }
+
+    }
 
 public:
     Melody(AmpTime &ampInt) : amp(&ampInt) {
@@ -221,8 +236,8 @@ public:
         melody = 8;
     }
 
-    uint8_t getPlay(){
-        return  melody;
+    uint8_t getPlay() {
+        return melody;
     }
 
 /**
@@ -261,6 +276,9 @@ public:
                 break;
             case 9:
                 m9();
+                break;
+            case 10:
+                m10();
                 break;
         }
 
