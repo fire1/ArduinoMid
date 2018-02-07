@@ -124,9 +124,10 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 7586 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 8316 default
 // 7586 below 10*C
+// 6046.55 below 10 // 659.982 pulses
 
 // At ~20°C 8479
 //
@@ -207,6 +208,8 @@ struct Fuel {
 #define EXT_TMP_MSR  4      // 10 // measured temperature
 #define EXT_TMP_MVL  409    // 328 // measured value of temperature
 
+#include "InitObj.h"
+
 #if defined(INSIDE_TEMPERATURE_DS)
 
 #include <OneWire.h>
@@ -214,17 +217,17 @@ struct Fuel {
 #ifndef OneWire_h
 
 #include "../../libraries/OneWire/OneWire.h"
-
-#endif
-
 #include <DallasTemperature.h>
+
 
 #ifndef DallasTemperature_h
 
-#include "../../libraries/DallasTemperature/DallasTemperature.h"
-#include "InitObj.h"
+#include "../../libraries/DallasTemperature/DallasTemperature/DallasTemperature.h"
 
 #endif
+#endif
+
+
 
 // Data wire is plugged into pin A7 on the Arduino
 
@@ -882,8 +885,8 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
     //
     // Setup inside pin
 #if defined(INSIDE_TEMPERATURE_DS)
-    analogWrite(TEMPERATURE_DS_VCC, 255);
-    analogWrite(TEMPERATURE_DS_GND, 0);
+//    analogWrite(TEMPERATURE_DS_VCC, 255);
+//    analogWrite(TEMPERATURE_DS_GND, 0);
     temperatureSensors.begin();
     //
     // Sends initial request (first from two)
@@ -977,7 +980,7 @@ void CarSens::sensVss() {
 
         //
         // Pass vss to global
-        uint8_t  CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+        CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
 //        if(vss < CUR_VSS + 50)
 //            CUR_VDS = vss;
 //        CUR_VSS = uint8_t(vssPulseLen / vssHitsCount) * 15;
@@ -1269,9 +1272,9 @@ void CarSens::sensEnt() {
         // 150 / 60
         // 200 / 70
         // cap 47uf 225 - 80C / 515 - 90C
-        if(val > 224) {
+        if (val > 224) {
             CUR_ENT = (uint8_t) map(val, 225, 500, 80, 90);
-        }else{
+        } else {
             CUR_ENT = (uint8_t) map(val, 150, 224, 55, 79);
         }
 
@@ -1389,11 +1392,13 @@ void CarSens::sensTmp() {
     //
     // Since this library slow down main loop ... will increase temperature read to 1 minute
     if (amp->isMinute() || isInitializedLoop) {
+        cli(); // disable inter.
         temperatureSensors.requestTemperatures();
-        float currentInside = temperatureSensors.getTempCByIndex(0);
-        if (currentInside > -100 && !isInitializedLoop || isInitializedLoop) {
-            CUR_INS_TMP = currentInside;
+        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
+        if (currentTemperatureInside > -100 && !isInitializedLoop || isInitializedLoop) {
+            CUR_INS_TMP = currentTemperatureInside;
         }
+        sei();
     }
 
 #if  defined(DEBUG) && defined(DEBUG_TIN)

@@ -91,9 +91,12 @@ public:
         //
         // 124 /
 
-        Serial2.begin(248);//246
+        Serial2.begin(246);//246
 // pin 15
+        //
+        //
 //        Serial3.begin(500);
+//        digitalWrite(15, LOW);
 
     }
 
@@ -103,7 +106,7 @@ public:
 
 // Button serial
         // TODO test for clock by digital low
-//        if (Serial3.available()) {
+//        while (Serial3.available()) {
 //            Serial.println();
 //            Serial.print("Serial 3: ");
 //            Serial.println(Serial3.read());
@@ -125,7 +128,9 @@ public:
         // 30bits / 400bit rate
         // Arduhdlc library
 
-        if (Serial2.available() > 0) {
+        //
+        // Do
+        if (Serial2.available() > 0 && !amp->isSens()) {
 
 
             if (trans != LPG_SERIAL_T_ST) {
@@ -162,19 +167,30 @@ public:
             // 20 bnz
             // 18 stand by mode
 
+            //from 19 to 18 - lpg
 
+
+            // 19 lpg ??
+            // 108 lpg
+            // 236 lpg
+            captureLpg(108); // 18 full
             captureLpg(100); // 18 full
 //            captureLpg(18); // 219 none // at free run
             captureLpg(34); // 218 2 dots
             captureLpg(47); // 140 1 dots
+            captureLpg(19); // 219 -idle / 218-bnz /  4 dots
             // 108,34 as lpg
 
             if (dinamic != 0) {
                 captureLpg(dinamic);
             }
 
+            // 219 none
+            // 18 none
+            // 20 conflict full lpg
+
 //            captureBnz(18);
-            captureBnz(20);
+//            captureBnz(20);
             captureBnz(218);
             captureBnz(140);// BNZ 1 dot
 

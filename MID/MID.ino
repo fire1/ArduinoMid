@@ -230,6 +230,11 @@ void loop() {
 
 }
 
+ISR(TIMER1_COMPA_vect)
+{
+
+}
+
 // TODO make tast with this ISR
 //ISR(USART2_RX_vect){
 //
