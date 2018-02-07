@@ -459,7 +459,7 @@ public:
         lcd->clearBuffer();
 //        lcd->firstPage();
 //        do {
-            menus();
+        menus();
 //        } while (lcd->nextPage());
         lcd->sendBuffer();
     }
@@ -1407,7 +1407,7 @@ private:
         switch (MidCursorMenu) {
             case 121:
                 defVal = VSS_CORRECTION;
-                oldVal = curVal = car->getCorVss();
+                oldVal = curVal = (car->getCorVss() * 100); // mul by 100 then mul by 0.01
                 result = car->getVss();
                 break;
             case 122:
