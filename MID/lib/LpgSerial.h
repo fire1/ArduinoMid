@@ -102,6 +102,7 @@ public:
     void listener(void) {
 
 // Button serial
+        // TODO test for clock by digital low
 //        if (Serial3.available()) {
 //            Serial.println();
 //            Serial.print("Serial 3: ");
@@ -120,6 +121,9 @@ public:
 //        } else return;
 
 
+
+        // 30bits / 400bit rate
+        // Arduhdlc library
 
         if (Serial2.available() > 0) {
 
@@ -169,6 +173,7 @@ public:
                 captureLpg(dinamic);
             }
 
+//            captureBnz(18);
             captureBnz(20);
             captureBnz(218);
             captureBnz(140);// BNZ 1 dot
