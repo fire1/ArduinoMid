@@ -60,7 +60,7 @@ class AmpTime {
      * MAX 1,193,046 Hour	(h)
      */
 public:
-    AmpTime() { };
+    AmpTime() {};
 
     void listener();
 
@@ -117,6 +117,7 @@ public:
  */
 void AmpTime::listener() {
 
+    cli();
     unsigned long timer = millis();
 
     if (timer >= curMin + AMP_MIN && !_isMin) {
@@ -225,7 +226,7 @@ void AmpTime::listener() {
     } else {
         _isSens = false;
     }
-
+    sei();
 
 /************** Time Toggle *********************/
 
