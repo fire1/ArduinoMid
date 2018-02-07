@@ -977,7 +977,9 @@ void CarSens::sensVss() {
 
         //
         // Pass vss to global
-        CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+        uint8_t  CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
+//        if(vss < CUR_VSS + 50)
+//            CUR_VDS = vss;
 //        CUR_VSS = uint8_t(vssPulseLen / vssHitsCount) * 15;
 //
 //        Serial.print(vssHitsCount);
