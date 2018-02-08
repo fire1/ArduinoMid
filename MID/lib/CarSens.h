@@ -217,22 +217,24 @@ struct Fuel {
 #ifndef OneWire_h
 
 #include "../../libraries/OneWire/OneWire.h"
+#endif
+
 #include <DallasTemperature.h>
 
 
 #ifndef DallasTemperature_h
 
-#include "../../libraries/DallasTemperature/DallasTemperature/DallasTemperature.h"
+#include "../../libraries/DallasTemperature/DallasTemperature.h"
 
 #endif
-#endif
+
 
 
 
 // Data wire is plugged into pin A7 on the Arduino
 
 #if !defined(ONE_WIRE_BUS)
-#define ONE_WIRE_BUS 7
+#define ONE_WIRE_BUS A3
 #endif
 //
 // Initialization of buss
@@ -265,15 +267,21 @@ class CarSens {
     Melody *mld;
 
     SavedData savedData;
-
 private:
 
     //
     //
-    boolean initializeAverage = 0;
+    boolean initializeAverage = false;
+    boolean ds_deviceRequest = false;
     //
     // bool for read sensor at first loop
-    boolean isInitializedLoop = 1;
+    boolean isInitializedLoop = true;
+    //
+    boolean vehicleStopped = false;
+    boolean _isEngineSens = false;
+    boolean _isVehicleSens = false;
+    boolean CUR_DIM_ON = false;
+    uint8_t pinScreenInput, pinScreenOutput;
     uint8_t pinBreaks;
     uint8_t pinTmpOut;
     uint8_t pinFulTnk;
@@ -282,12 +290,6 @@ private:
     uint8_t pinTemp;
     uint8_t indexEngineTemp;
     uint8_t indexFuelTank;
-    //
-    boolean vehicleStopped = false;
-    boolean _isEngineSens = false;
-    boolean _isVehicleSens = false;
-    boolean CUR_DIM_ON = false;
-    uint8_t pinScreenInput, pinScreenOutput;
     //
     // Detect fuel switch
     uint8_t FUEL_STATE;
@@ -1389,17 +1391,25 @@ void CarSens::sensTmp() {
     //
     // Read inside temperature
 #if defined(INSIDE_TEMPERATURE_DS)
+
+
     //
-    // Since this library slow down main loop ... will increase temperature read to 1 minute
-    if (amp->isMinute() || isInitializedLoop) {
-        cli(); // disable inter.
-        temperatureSensors.requestTemperatures();
+    // When pass 1 minute wait 1 more second for this reading ...
+    if (ds_deviceRequest && amp->isSecond() || isInitializedLoop) {
         float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
         if (currentTemperatureInside > -100 && !isInitializedLoop || isInitializedLoop) {
             CUR_INS_TMP = currentTemperatureInside;
         }
-        sei();
+        ds_deviceRequest = false;
     }
+    //
+    // Since this library slow down main loop ... will increase temperature read to 1 minute
+    if (amp->isMinute() || isInitializedLoop) {
+
+        temperatureSensors.requestTemperatures();
+        ds_deviceRequest = true;
+    }
+
 
 #if  defined(DEBUG) && defined(DEBUG_TIN)
     if (DBG_CMD(amp, "tin")) {
