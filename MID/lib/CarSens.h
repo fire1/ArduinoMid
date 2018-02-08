@@ -1403,8 +1403,8 @@ void CarSens::sensTmp() {
         ds_deviceRequest = false;
     }
     //
-    // Since this library slow down main loop ... will increase temperature read to 1 minute
-    if (amp->isMinute() || isInitializedLoop) {
+    // Since this library slow down main loop ... will increase temperature read period
+    if (amp->is10Seconds() || isInitializedLoop) {
 
         temperatureSensors.requestTemperatures();
         ds_deviceRequest = true;
