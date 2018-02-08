@@ -241,6 +241,7 @@ struct Fuel {
 OneWire oneWire(ONE_WIRE_BUS);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature temperatureSensors(&oneWire);
+DeviceAddress midThermometers[5];
 #endif
 
 //
@@ -285,6 +286,7 @@ private:
     uint8_t pinBreaks;
     uint8_t pinTmpOut;
     uint8_t pinFulTnk;
+    uint8_t allThermometers;
     //
     // Engine temperature pin
     uint8_t pinTemp;
@@ -890,9 +892,17 @@ void CarSens::setupTemperature(uint8_t pinOutsideTemperature) {
 //    analogWrite(TEMPERATURE_DS_VCC, 255);
 //    analogWrite(TEMPERATURE_DS_GND, 0);
     temperatureSensors.begin();
+
+    allThermometers = temperatureSensors.getDeviceCount();
+    for (uint8_t i = 0; i < allThermometers; i++) {
+        if (temperatureSensors.getAddress(midThermometers[i], i)) {
+            temperatureSensors.setResolution(midThermometers[i], 10);
+        }
+    }
     //
     // Sends initial request (first from two)
     temperatureSensors.requestTemperatures();
+    ds_deviceRequest = true;
     CUR_INS_TMP = temperatureSensors.getTempCByIndex(0);
 #endif
 };
@@ -1392,22 +1402,36 @@ void CarSens::sensTmp() {
     // Read inside temperature
 #if defined(INSIDE_TEMPERATURE_DS)
 
+    //
+    // Nick Gammon  based fix
+    // https://arduino.stackexchange.com/questions/14256/reducing-read-time-for-reading-ds18b20-temp-sensors/14261#14261?newreg=074bd46222ea4427abbaaa0dc30935f2
 
     //
     // When pass 1 minute wait 1 more second for this reading ...
     if (ds_deviceRequest && amp->isSecond()) {
-        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
-        if (currentTemperatureInside > -100 && !isInitializedLoop || isInitializedLoop) {
-            CUR_INS_TMP = currentTemperatureInside;
+//        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
+        float currentTemperatureInside;
+        for (uint8_t i = 0; i < allThermometers; i++) {
+             currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
+            if (currentTemperatureInside > -80) {
+                CUR_INS_TMP = currentTemperatureInside;
+            }
+            Serial.print(" Temperature ");
+            Serial.println(CUR_INS_TMP);
         }
+
+
+
+
         ds_deviceRequest = false;
     }
     //
     // Since this library slow down main loop ... will increase temperature read period
-    if (amp->is10Seconds() || isInitializedLoop) {
-
+    if (amp->is10Seconds()) {
         temperatureSensors.requestTemperatures();
         ds_deviceRequest = true;
+
+        Serial.print(" Request Temperature ");
     }
 
 

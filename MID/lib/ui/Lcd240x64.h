@@ -573,6 +573,7 @@ protected:
                 case 0:
                     lcd->clearBuffer();
                     this->playUltra();
+                    btn->useDebounceNormal();
                     break;
                 case 1:
                     this->playSlow();
@@ -592,6 +593,7 @@ protected:
             default:
                 drawEntry = 0;
                 this->playUltra();
+
                 break;
             case 0:
                 lcd->clearBuffer();

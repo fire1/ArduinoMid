@@ -171,7 +171,7 @@ void AmpTime::listener() {
 
     /************** Real Time *********************/
 
-    if (timer >= curSecond + MILLIS_PER_SC && !_isSecond) {
+    if (timer >= curSecond + MILLIS_PER_SC  && !_isSecond) {
         curSecond = timer;
         _isSecond = true;
     } else {
