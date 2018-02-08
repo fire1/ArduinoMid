@@ -1420,10 +1420,6 @@ void CarSens::sensTmp() {
             Serial.print(" Temperature ");
             Serial.println(CUR_INS_TMP);
         }
-
-
-
-
         ds_deviceRequest = false;
     }
     //
