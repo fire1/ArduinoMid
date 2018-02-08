@@ -1395,7 +1395,7 @@ void CarSens::sensTmp() {
 
     //
     // When pass 1 minute wait 1 more second for this reading ...
-    if (ds_deviceRequest && amp->isSecond() || isInitializedLoop) {
+    if (ds_deviceRequest && amp->isSecond()) {
         float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
         if (currentTemperatureInside > -100 && !isInitializedLoop || isInitializedLoop) {
             CUR_INS_TMP = currentTemperatureInside;
