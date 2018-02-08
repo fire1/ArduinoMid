@@ -1405,7 +1405,8 @@ void CarSens::sensTmp() {
     //
     // Nick Gammon  based fix
     // https://arduino.stackexchange.com/questions/14256/reducing-read-time-for-reading-ds18b20-temp-sensors/14261#14261?newreg=074bd46222ea4427abbaaa0dc30935f2
-
+    //
+    // TODO remove for loop, use single index
     //
     // When pass 1 minute wait 1 more second for this reading ...
     if (ds_deviceRequest && amp->isSecond()) {
