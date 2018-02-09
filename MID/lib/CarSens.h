@@ -34,7 +34,7 @@
 #define VSS_ALARM_CITY_SPEED  58 // km
 #define VSS_ALARM_VWAY_SPEED  100 // km
 #define VSS_ALARM_HWAY_SPEED  140 // km
-#define VSS_ALARM_VERIFICATE  8 //
+#define VSS_ALARM_VERIFICATE  4 //
 //#define VSS_ALARM_ENABLED // Comment to disable speeding alarms
 //
 // --------------------------------------------------------------------------------------------------------------------
@@ -1413,12 +1413,10 @@ void CarSens::sensTmp() {
 //        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
         float currentTemperatureInside;
         for (uint8_t i = 0; i < allThermometers; i++) {
-             currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
+            currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
             if (currentTemperatureInside > -80) {
                 CUR_INS_TMP = currentTemperatureInside;
             }
-            Serial.print(" Temperature ");
-            Serial.println(CUR_INS_TMP);
         }
         ds_deviceRequest = false;
     }
@@ -1427,8 +1425,6 @@ void CarSens::sensTmp() {
     if (amp->is10Seconds()) {
         temperatureSensors.requestTemperatures();
         ds_deviceRequest = true;
-
-        Serial.print(" Request Temperature ");
     }
 
 
@@ -1537,7 +1533,10 @@ void CarSens::sensTmp() {
         tmp_outIndex = 3;
         //
         // Pass value to global
-        CUR_OUT_TMP = temperatureC;
+        if (CUR_ENT > 70) {
+            CUR_OUT_TMP = temperatureC - (map(CUR_ENT, 70, 95, 0, 50) * 0.1);
+        } else
+            CUR_OUT_TMP = temperatureC;
     }
 //
 // debug info
