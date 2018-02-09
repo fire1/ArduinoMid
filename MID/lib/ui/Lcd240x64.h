@@ -214,7 +214,7 @@ public:
         lcd->print(title);
 
 
-        if (car->getEngTmp() > 99 && drawIndex % 3 == 0) {
+        if (car->getEngTmp() > ENGINE_OVERHEAT && drawIndex % 3 == 0) {
             lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
             lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
         }

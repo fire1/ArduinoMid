@@ -342,7 +342,7 @@ public:
      * Checks engine overheating
      */
     boolean isOverhead() {
-        if (car->getEngTmp() > 98) {
+        if (car->getEngTmp() > ENGINE_OVERHEAT) {
             return true;
         }
         return false;
