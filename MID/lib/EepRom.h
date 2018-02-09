@@ -37,7 +37,7 @@
 #define EEP_ROM_WORK_DIV 100
 #endif
 
-#define EEP_ROM_INDEXES 17
+#define EEP_ROM_INDEXES 18
 
 /**
  *
@@ -47,7 +47,7 @@ class EepRom {
 
     CarSens *car;
 
-    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    float data[EEP_ROM_INDEXES] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 protected:
     SavedData container;
@@ -372,7 +372,7 @@ void EepRom::saveCurrentData() {
 
     data[15] = container.trip_c.fuel + getDefaultFuelUse();
     data[16] = container.trip_c.range + car->getDst();
-
+    data[17] = container.total_pec + car->getPec();
 
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
@@ -396,6 +396,7 @@ void EepRom::saveResetData() {
     data[1] = container.fuel_adt = 0;
     data[2] = container.fuel_def = 0;
     data[3] = container.dist_trv = 0;
+    data[17] = container.total_pec = 0;
     //
     // Pass work distance for save
     data[4] = container.total_km;
@@ -479,6 +480,9 @@ void EepRom::load() {
 
     container.trip_c.fuel = data[15];
     container.trip_c.range = data[16];
+
+    container.total_pec = data[17];
+
     this->fixtureTripNan(); // Fix broken not NAN  values
 
 
@@ -490,6 +494,7 @@ void EepRom::load() {
     Serial.println(data[8]);
     Serial.println(data[9]);
     Serial.println(data[10]);
+    Serial.println(data[17]);
     delay(10);
     Serial.println("Trip records: ");
     Serial.println(data[11]);

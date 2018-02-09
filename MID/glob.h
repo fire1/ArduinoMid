@@ -172,10 +172,13 @@ struct SavedData {
     float sens_rpm;
     float sens_dst;
     float sens_ecu;
+    float total_pec;
 
     TripData trip_a;
     TripData trip_b;
     TripData trip_c;
+
+
 };
 
 /**

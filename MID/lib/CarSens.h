@@ -325,10 +325,10 @@ private:
     //
     // LPG tank
     int CUR_LTK;
+    float CUR_PEC = 0; // pulses of ECU
     //
     //
     float BREAK_TIME = 0;
-    unsigned long breakTimeStart = 0;
     //
     //
     float FUEL_INST_CONS;
@@ -346,10 +346,11 @@ private:
     // Fuel consumption variables
     unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
     //
-    unsigned long CUR_VTT;// Travel time
+    unsigned long CUR_VTT;
+    // Travel time
+    unsigned long breakTimeStart = 0;
 
 
-    double collectionIfc;
     //
     // Car's average
     unsigned long averageAllVssValues = 0;
@@ -366,9 +367,8 @@ private:
     // Distance container
     unsigned long CUR_VDS_collection;
 
-
     double CUR_VDS;
-
+    double collectionIfc;
 
     /**
      * Handles speeding alarms
@@ -571,6 +571,10 @@ public:
      */
     inline boolean isStopped() {
         return vehicleStopped;
+    }
+
+    inline float getPec() {
+        return CUR_PEC;
     }
 
     /**
@@ -1065,6 +1069,7 @@ void CarSens::sensEcu() {
         //
         // Pass ecu to global
         CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
+        CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01);
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_ECU)
@@ -1074,8 +1079,6 @@ void CarSens::sensEcu() {
             DBG_PD(ecuHitsCount);
         }
 #endif
-
-
         ecuHitsCount = 0;
     }
 

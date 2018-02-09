@@ -204,8 +204,8 @@ void loop() {
 //        Serial.println(analogRead(ENG_CLT_PIN));
 
 
-//        Serial.print(F("TNK: "));
-//        Serial.println(carSens.getTnkBnz());
+//        Serial.print(F("PEC: "));
+//        Serial.println(carSens.getPec());
 
     }
 
