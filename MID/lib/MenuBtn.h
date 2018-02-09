@@ -20,7 +20,7 @@
 #endif
 
 #ifndef BTN_DEBOUNCE_RATE
-#define BTN_DEBOUNCE_RATE 350
+#define BTN_DEBOUNCE_RATE 360
 #endif
 
 #ifndef AWAITING_HOLD_BTN
@@ -240,7 +240,7 @@ public:
 
 
     void captureUp(void) {
-        if (!digitalRead(btnUp) == HIGH) {
+        if (!digitalRead(btnUp) == HIGH) { // TODO test it with amp.low
             if (amp->isMid() && !digitalRead(btnUp) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
                 lastButtonPushed = btnUp;
