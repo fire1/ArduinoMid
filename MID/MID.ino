@@ -111,8 +111,7 @@ void setup() {
     carStat.setWorkState(eepRom.getWorkDistance());
     //
     // TODO testing ...
-
-#ifdef ADT_FUEL_SYSTEM_SERIAL
+#ifdef LPG_SWITCHING_DETECT
     lpgCom.begin();
 #endif
 
