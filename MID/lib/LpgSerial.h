@@ -343,6 +343,10 @@ public:
 
     }
 
+    void begin(void){
+        digitalWrite(LPG_SWTC_PIN, LOW);
+    }
+
     void listener() {
         if (amp->isSecond()) {
             state = (digitalRead(LPG_SWTC_PIN) == LPG_SWTC_STT) ? true : false;
