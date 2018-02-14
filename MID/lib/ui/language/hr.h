@@ -27,7 +27,7 @@ const char msg7[] PROGMEM = "O.K."; // Is fine message
 const char msg8[] PROGMEM = "ISPOD 25%"; // Problem message for liquid
 const char msg9[] PROGMEM = "ISTROŠENE"; // Problem message for brakes
 const char msg10[] PROGMEM = "PREGORJELA"; // Problem message for lamps
-const char msg99[] PROGMEM = "ВОЛТМЕТЪР";
+const char msg99[] PROGMEM = "VOLTMETAR";
 const char msg100[] PROGMEM = "POG. REMEN";
 //
 // Titles
