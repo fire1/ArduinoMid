@@ -5,6 +5,14 @@
 #ifndef ARDUINO_MID_CONF_H
 #define ARDUINO_MID_CONF_H
 
+//
+// Supported languages
+#define LANG_BG
+//#define LANG_EN
+//#define LANG_HR
+//#define LANG_RU
+//#define LANG_SR
+
 
 //
 // Use radio output Sony XPLOD
@@ -132,7 +140,7 @@
 #define MAX_ENGINE_PWR 5400 //  Maximum Horsepower RPMs
 
 //
-// Comment to use Opel logo
+// Comment definition to use Opel logo
 #define USE_BERTONE_LOGO
 
 

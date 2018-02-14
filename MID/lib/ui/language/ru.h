@@ -38,6 +38,8 @@ const char msg16[] PROGMEM = "DASHBOARD";
 const char msg17[] PROGMEM = "Настройки";
 const char msg18[] PROGMEM = "текущие";
 const char msg19[] PROGMEM = "По умолчанию";
+const char msg99[] PROGMEM = "ВОЛЬТМЕТР";
+const char msg100[] PROGMEM = "РЕМЕНЬ ГРМ";
 //
 //
 const char msg20[] PROGMEM = "Сброс данны о поездки";
@@ -142,7 +144,7 @@ const char msg95[] PROGMEM = "¬"; // Switch arrow
 const char msg96[] PROGMEM = "»"; // LPG
 const char msg97[] PROGMEM = "¦"; // inside temperature
 const char msg98[] PROGMEM = "§"; // outside temperature
-
+const char msg101[] PROGMEM = " "; // empty space
 
 //
 // Generate message table for LCD
@@ -153,7 +155,7 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
         msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72, msg73, msg74, msg75,
         msg76, msg77, msg78, msg79, msg80, msg81, msg82, msg83, msg84, msg85, msg86, msg87, msg88, msg89, msg90,
-        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98
+        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98, msg101
 };
 
 

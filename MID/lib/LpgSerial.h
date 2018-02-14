@@ -33,6 +33,16 @@
 
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
 
+// TODO testing here!
+//char dataSerial;
+//boolean reciveSerilal2 = false;
+//void serialEvent2() {
+//    while (Serial2.available()) {
+//        dataSerial += (char)Serial2.read();
+//    }
+//    reciveSerilal2 = true;
+//}
+
 //
 // All buttons up - 18
 class LpgSerial : public LpgFuel {
@@ -54,6 +64,11 @@ private:
 
     uint8_t data[2] = {};
 
+    //
+    // For V2
+    boolean transferStart = false;
+    uint8_t buffer, counter;
+    unsigned long lastHigh;
 
 private:
     void setTrans(uint8_t val) {
@@ -101,6 +116,17 @@ public:
     }
 
 #define DEBUG_SR2
+
+
+    void listener_() {
+
+        if (digitalRead(17) == LOW && !transferStart) {
+            transferStart = true;
+        }
+
+
+    }
+
 
     void listener(void) {
 

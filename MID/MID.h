@@ -116,11 +116,6 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 
 #elif SCREEN == 24064
 //
-// Add language
-//#include "lib/ui/language/en.h"
-#include "lib/ui/language/bg.h"
-
-//
 // Display pins map
 //  NOTE: pins are inverted due to LCD sockets
 //
@@ -149,6 +144,35 @@ const uint8_t DSP_PIN_DT8 = 40;
 
 
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
+
+//
+// Add languages
+#ifdef LANG_BG
+
+#include "lib/ui/language/bg.h"
+
+#endif
+#ifdef LANG_EN
+
+#include "lib/ui/language/en.h"
+
+#endif
+#ifdef LANG_HR
+
+#include "lib/ui/language/hr.h"
+
+#endif
+#ifdef LANG_RU
+
+#include "lib/ui/language/ru.h"
+
+#endif
+#ifdef LANG_SR
+
+#include "lib/ui/language/sr.h"
+
+#endif
+
 #endif
 
 #define VSS_ALARM_ENABLED 1;
@@ -250,16 +274,23 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 
 #endif
 
-
+//
+// Maximum power at rpm
 #ifndef MAX_ENGINE_PWR
 #define MAX_ENGINE_PWR 5400
 #endif
-
+//
+// Maximum RPM
 #ifndef MAX_ENGINE_RVS
 #define MAX_ENGINE_RVS 7500
 #endif
-
-
+//
+// Maximum gear
+#ifndef MAX_GEAR_NBR
+#define MAX_GEAR_NBR 5
+#endif
+//
+// Start overheat temperature
 #ifndef ENGINE_OVERHEAT
 #define ENGINE_OVERHEAT 97
 #endif

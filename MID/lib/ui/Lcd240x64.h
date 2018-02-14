@@ -278,7 +278,7 @@ public:
             lcd->print(this->getMsg(43));
             lcd->setCursor(85, LCD_ROW_3);
             lcd->print(this->getMsg(44));
-            lcd->print(" ");
+            lcd->print(getMsg(101));
             displayFloat(Voltage, char_3);
             lcd->print(char_3);
             lcd->print(F("V"));
@@ -634,7 +634,7 @@ protected:
                 lcd->setCursor(LCD_COL_L12, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (lcd->getStrWidth(usedMenu.down) > 1) {
-                    lcd->print(F(" "));
+                    lcd->print(getMsg(101));
                     lcd->print(getMsg(95));
                     lcd->print(F("  "));
                     lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
@@ -881,9 +881,10 @@ private:
 
 
         if (car->getTmpIns() < -99) {
-            //
-            // Todo add wasted fuel here
-            lcd->drawStr(45, LCD_ROW_4, "none");
+            displayFloat(car->getCurFuelWasted(), char_3);
+            lcd->drawStr(45, LCD_ROW_4, char_3);
+            lcd->print(getMsg(101));
+            lcd->print(getMsg(68));
         } else {
             lcd->setCursor(LCD_COL_L10, LCD_ROW_4 + 1);
             lcd->print(getMsg(97));
@@ -909,7 +910,7 @@ private:
         displayFloat(car->getDst() + saved.dist_trp, char_4);
         lcd->setCursor(LCD_COL_R12, LCD_ROW_1);
         lcd->print(char_4);
-        lcd->print(" ");
+        lcd->print(getMsg(101));
         lcd->print(getMsg(69));
         //
         // Travel time
@@ -918,7 +919,7 @@ private:
         lcd->print(getMsg(77));
         lcd->setCursor(LCD_COL_R12, LCD_ROW_2);
         lcd->print(char_5);
-        lcd->print(" ");
+        lcd->print(getMsg(101));
         lcd->print(getMsg(70));
         //
         // Average speed
@@ -926,7 +927,7 @@ private:
         sprintf(char_2, "%02d", car->getAvrVss());
         lcd->setCursor(LCD_COL_R12, LCD_ROW_3);
         lcd->print(char_2);
-        lcd->print(" ");
+        lcd->print(getMsg(101));
         lcd->print(getMsg(69));
         //
         // Instant cons per 100km
@@ -998,7 +999,7 @@ private:
         lcd->print(F("ENG "));
         sprintf(char_3, "%03d", car->getEngTmp());
         lcd->print(char_3);
-        lcd->print(" ");
+        lcd->print(getMsg(101));
 //        this->showCels(LCD_COL_R23, LCD_ROW_2, char_3);
     }
 
@@ -1046,7 +1047,7 @@ private:
 
         } else {
             lcd->print(getMsg(23));
-            lcd->print(" ");
+            lcd->print(getMsg(101));
             lcd->print(MID_VERSION);
         }
     }
@@ -1127,7 +1128,7 @@ private:
             lcd->print(F("Range: "));
             lcd->print(eep->getWorkDistance());
             lcd->write((uint8_t) 2);
-            lcd->print(" ");
+            lcd->print(getMsg(101));
         }
     }
 
@@ -1187,7 +1188,7 @@ private:
         displayFloat(dataFuel + carFuelConsumption, char_3);
         lcd->print(char_3);
         lcd->print(getMsg(68));
-        lcd->print(" ");
+        lcd->print(getMsg(101));
         showAverage(LCD_COL_R11, y);
         lcd->setCursor(LCD_COL_R12, y);
         displayFloat(((dataFuel + car->getAdtFuelCns()) * 100) / distance, char_3);

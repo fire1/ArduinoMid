@@ -186,7 +186,7 @@ struct Fuel {
 #define CAR_GEAR_G5  0.89
 #define CAR_GEAR_G6  0.816 //  Additional functionality :)
 #define CAR_GEAR_FD   3.74 // Final drive
-#define CAR_GEAR_MX  5 // Last gear
+
 #endif
 //
 // Additional temperature sensor
@@ -217,6 +217,7 @@ struct Fuel {
 #ifndef OneWire_h
 
 #include "../../libraries/OneWire/OneWire.h"
+
 #endif
 
 #include <DallasTemperature.h>
@@ -309,15 +310,16 @@ private:
     uint8_t speedAlarmCursor = 0, speedAlarmActive = 0;
     //
     // Human Results
-    uint8_t CUR_VSS;
-    uint16_t CUR_RPM;
+    volatile uint16_t CUR_VSS;
+    volatile uint16_t CUR_RPM;
+    volatile uint16_t CUR_ECU;
     // Instant Fuel consumption counter
     uint16_t indexIfc;
     uint16_t tmp_outIndex = 0;
     //
     uint16_t smoothEngineTemp;
     uint16_t smoothFuelTank;
-    uint32_t CUR_ECU;
+
     //
     //
     uint32_t tmp_outCollection = 0;
@@ -341,7 +343,6 @@ private:
     float CUR_INS_TMP = 0; // Inside temperature /Dallas Temperature Sensors/
 #endif
     float FUEL_AVRG_INST_CONS;
-
     //
     // Fuel consumption variables
     unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
@@ -349,8 +350,6 @@ private:
     unsigned long CUR_VTT;
     // Travel time
     unsigned long breakTimeStart = 0;
-
-
     //
     // Car's average
     unsigned long averageAllVssValues = 0;
@@ -1682,6 +1681,11 @@ uint8_t CarSens::getGear() {
         if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
         if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
     } else carGearNum = 0;
+
+    if (carGearNum > MAX_GEAR_NBR) {
+        carGearNum = MAX_GEAR_NBR;
+    }
+
 
     return carGearNum;
 }
