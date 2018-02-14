@@ -36,7 +36,7 @@ boolean DBG_CMD_MAX(AmpTime *amp, const char *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
 
-boolean DBG_CMD(AmpTime *amp, const char *cmd) {
+boolean DBG_CMD(AmpTime *amp, const __FlashStringHelper *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
 

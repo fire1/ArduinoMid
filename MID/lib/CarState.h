@@ -91,7 +91,7 @@ private:
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_VLT)
-        if (DBG_CMD(amp, "vlt")) {
+        if (DBG_CMD(amp, F("vlt"))) {
         DBG_PS(readingVoltage / 68);
         DBG_PI(F("Hits contend: "))
         DBG_PD(readingVoltage);

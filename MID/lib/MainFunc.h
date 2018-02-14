@@ -169,7 +169,7 @@ void setupTimer31() {
 
 }
 
-
+// https://gist.github.com/anbara/e7e371d4fbdff896e8703fdb000fdaeb
 // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
 // http://forum.arduino.cc/index.php?topic=19385.msg141920#msg141920
 void setupTimer3() {
@@ -197,7 +197,10 @@ void setupTimer3() {
 
     sei();//allow interrupts
 }
-
+/**
+ *
+ * @param pin
+ */
 void pciSetup(byte pin) {
     *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
     PCIFR |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt

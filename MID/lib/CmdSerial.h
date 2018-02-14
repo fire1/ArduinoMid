@@ -352,7 +352,7 @@ public:
                         srlOutputs += F("> ");
                         CmdSerialDebugging = "";
                     } else {
-                        srlOutputs = "DUMPING string name <";
+                        srlOutputs = "DUMPING string name \t <";
                         srlOutputs += CmdSerialDebugging;
                         srlOutputs += F("> ");
                     }
