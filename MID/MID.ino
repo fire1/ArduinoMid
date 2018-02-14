@@ -227,6 +227,21 @@ void loop() {
 //    dbgSerial.listener();
     eepRom.listener();
 
+//
+//    if (stringComplete) {
+//        Serial.print("Serial Event: ");
+//        for (int i = 0; i < lengthSerial2Data; ++i) {
+//            Serial.println(inputSerial2Data[i]);
+//            inputSerial2Data[i] = 0;
+//        }
+//
+//        Serial.println(inputSerial2String);
+//        inputSerial2String = "";
+//        // clear the data:
+//        lengthSerial2Data = 0;
+//        stringComplete = false;
+//    }
+
 }
 
 

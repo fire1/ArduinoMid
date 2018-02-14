@@ -206,6 +206,7 @@ public:
             lcd->drawGlyph(1, 1, 0x2610);
         }
     }
+
 /**
  * Generate header part of screen menu
  * @param title
@@ -1036,7 +1037,7 @@ private:
     void displayCarPec() {
         lcd->setCursor(LCD_COL_L22 + 10, LCD_ROW_2);
         lcd->print(F("PEC "));
-        lcd->print(car->getPec());
+        lcd->print(eep->getPec());
     }
 
     /****************************************************************
