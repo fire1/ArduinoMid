@@ -206,7 +206,10 @@ public:
             lcd->drawGlyph(1, 1, 0x2610);
         }
     }
-
+/**
+ * Generate header part of screen menu
+ * @param title
+ */
     void showHeader(const char *title) {
         lcd->enableUTF8Print();
         lcd->drawLine(0, 13, 240, 12);
@@ -654,7 +657,11 @@ protected:
 
 
 private:
-
+/**
+ *
+ * @param menu_t
+ * @return
+ */
     uint8_t getTitleMsgIndex(const char *menu_t) {
 
         //

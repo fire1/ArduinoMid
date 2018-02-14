@@ -536,7 +536,10 @@ public:
     }
 
 #endif
-
+/**
+ *
+ * @param no_switch
+ */
     void setFuelListener(boolean no_switch) {
         FUEL_STATE = 1;
     }
