@@ -798,7 +798,7 @@ void CarSens::setupEcuSens(uint8_t pinTarget) {
 #ifndef DEBUG // Fixes simulation of fuel
     pinMode(pinTarget, INPUT_PULLUP);
 #endif
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, HIGH);
+    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 }
 
 /**
@@ -819,11 +819,12 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     pinMode(pinTnk, INPUT);
 
 
-    digitalWrite(pinTmp, LOW); // TODO test here
-    analogWrite(pinTnk, 0); // TODO test here
+    digitalWrite(pinTmp, LOW);
+    analogWrite(pinTnk, LOW); // TODO test here
 //    pinTemp = pinTmp;
     pinBreaks = pinBrk;
     pinFulTnk = pinTnk;
+
 }
 
 //void deatach(){

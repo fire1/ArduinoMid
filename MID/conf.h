@@ -21,6 +21,7 @@
 //
 // JVC KD-X330BT
 //#define WHL_RDO_KDX330
+#define DEFAULT_FUEL_USING 0
 
 /***********************************************************************************************************************
  Car sensing class correction values

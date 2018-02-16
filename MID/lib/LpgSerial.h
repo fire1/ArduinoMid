@@ -33,18 +33,50 @@
 
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
 
+
+#define LPG_EVENT
+#ifdef LPG_EVENT
+
+uint8_t serial2Index = 0;
+uint8_t serial2Length;
+unsigned long serial2Timing;
+
+void serialEvent2() {
+
+    uint32_t dataBuff;
+    //if the pin is HIGH, note the time
+    if (digitalRead(17) == HIGH) {
+        serial2Timing = millis();
+    } else {
+        serial2Length = (uint8_t) millis() - serial2Timing; //if it is low, end the time
+        dataBuff |= 0 << serial2Index;
+        serial2Index++;
+    }
+
+    //
+    //
+    if (serial2Length > 2 && serial2Length < 4) {
+        dataBuff |= 2 << serial2Index;
+        serial2Index++;
+    } else if (serial2Length > 1 && serial2Length < 3) {
+        dataBuff |= 1 << serial2Index;
+        serial2Index++;
+    }
+
+
+}
 // TODO testing here!
 //uint8_t lengthSerial2Data = 0;
 //int inputSerial2Data[10] = {};         // a String to hold incoming data
 //boolean stringComplete = false;  // whether the string is complete
 //String inputSerial2String;
-
 //
-// LPG
-// b switching
-//   cd , d / 100 cd
-// c <-?
-//
+////
+//// LPG
+//// b switching
+////   cd , d / 100 cd
+//// c <-?
+////
 //void serialEvent2() {
 //
 //
@@ -60,6 +92,9 @@
 //    }
 //    stringComplete = true;
 //}
+
+#endif
+
 
 //
 // All buttons up - 18
