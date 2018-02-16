@@ -173,6 +173,12 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 
 #endif
 
+#ifdef LANG_TR
+
+#include "lib/ui/language/tr.h"
+
+#endif
+
 #endif
 
 #define VSS_ALARM_ENABLED 1;
