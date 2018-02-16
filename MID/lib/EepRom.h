@@ -301,6 +301,9 @@ public:
         container.trip_c.range = 0;
     }
 
+    float getPec() {
+        return container.total_pec + car->getPec();
+    }
 
 private:
 

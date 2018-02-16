@@ -536,6 +536,7 @@ public:
     }
 
 #endif
+
 /**
  *
  * @param no_switch
@@ -1071,7 +1072,9 @@ void CarSens::sensEcu() {
         //
         // Pass ecu to global
         CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
-        CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01);
+        if (FUEL_STATE == PEC_TARGET)
+            CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01);
+
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_ECU)
@@ -1162,6 +1165,7 @@ void CarSens::sensAlarms() {
  */
 void CarSens::clearBuffer() {
     CUR_VSS = 0, CUR_RPM = 0, CUR_ECU = 0;
+    CUR_PEC = 0;
 };
 
 /**
@@ -1417,11 +1421,17 @@ void CarSens::sensTmp() {
     if (ds_deviceRequest && amp->isSecond()) {
 //        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
         float currentTemperatureInside;
-        for (uint8_t i = 0; i < allThermometers; i++) {
-            currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
-            if (currentTemperatureInside > -80) {
-                CUR_INS_TMP = currentTemperatureInside;
-            }
+//        for (uint8_t i = 0; i < allThermometers; i++) {
+//            currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
+//            if (currentTemperatureInside > -80) {
+//                CUR_INS_TMP = currentTemperatureInside;
+//            }
+        //
+        // closest temperature IC
+        currentTemperatureInside = temperatureSensors.getTempC(midThermometers[0]);
+        if (currentTemperatureInside > -80) {
+            CUR_INS_TMP = currentTemperatureInside;
+
         }
         ds_deviceRequest = false;
     }

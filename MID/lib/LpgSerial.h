@@ -34,13 +34,31 @@
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
 
 // TODO testing here!
-//char dataSerial;
-//boolean reciveSerilal2 = false;
+//uint8_t lengthSerial2Data = 0;
+//int inputSerial2Data[10] = {};         // a String to hold incoming data
+//boolean stringComplete = false;  // whether the string is complete
+//String inputSerial2String;
+
+//
+// LPG
+// b switching
+//   cd , d / 100 cd
+// c <-?
+//
 //void serialEvent2() {
+//
+//
 //    while (Serial2.available()) {
-//        dataSerial += (char)Serial2.read();
+//        // get the new byte:
+//        int buff = Serial2.read();
+//        inputSerial2Data[lengthSerial2Data] =buff;
+//        inputSerial2String += (char) buff;
+//        // add it to the inputSerial2Data:
+//        lengthSerial2Data++;
+//        // if the incoming character is a newline, set a flag so the main loop can
+//        // do something about it:
 //    }
-//    reciveSerilal2 = true;
+//    stringComplete = true;
 //}
 
 //
