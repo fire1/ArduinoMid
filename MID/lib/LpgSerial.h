@@ -36,31 +36,60 @@
 
 #define LPG_EVENT
 #ifdef LPG_EVENT
-
-uint8_t serial2Index = 0;
-uint8_t serial2Length;
+boolean serial2Low = false;
+boolean Serial2High = true;
+uint8_t serial2Index;
+uint16_t serial2Length;
 unsigned long serial2Timing;
+//char dataBuff[] = {};
+uint32_t dataBuff = 0;
 
-void serialEvent2() {
+void serialEvent2_() {
 
-    uint32_t dataBuff;
-    //if the pin is HIGH, note the time
-    if (digitalRead(17) == HIGH) {
-        serial2Timing = millis();
-    } else {
-        serial2Length = (uint8_t) millis() - serial2Timing; //if it is low, end the time
-        dataBuff |= 0 << serial2Index;
-        serial2Index++;
+
+    if (digitalRead(17) == LOW) {
+        serial2Low = true;
     }
 
-    //
-    //
-    if (serial2Length > 2 && serial2Length < 4) {
-        dataBuff |= 2 << serial2Index;
-        serial2Index++;
-    } else if (serial2Length > 1 && serial2Length < 3) {
-        dataBuff |= 1 << serial2Index;
-        serial2Index++;
+    if (digitalRead(17) == HIGH && serial2Low && !Serial2High) {
+        serial2Timing = millis();
+        Serial2High = true;
+        serial2Low = false;
+    }
+
+    if (digitalRead(17) == LOW && Serial2High) {
+        serial2Length = (uint8_t) (millis() - serial2Timing); //if it is low, end the time
+        Serial2High = false;
+        serial2Low = false;
+
+        if (serial2Length <= 3) {
+            dataBuff |= 0 << serial2Index;
+//            dataBuff[serial2Index] = 0;
+            serial2Index++;
+        }
+
+        if (serial2Length > 3 && serial2Length <= 5) {
+            dataBuff |= 1 << serial2Index;
+//            dataBuff[serial2Index] = 1;
+            serial2Index++;
+        }
+
+
+    }
+    // LPG
+    // 2221 2201
+
+    // BNZ
+    // 1501 1521
+
+    if (serial2Length > 5 && dataBuff > 0) {
+        Serial.print(F("BIN "));
+        Serial.print(dataBuff, BIN);
+        Serial.print(F(" / "));
+        Serial.print(dataBuff, HEX);
+        Serial.println();
+        dataBuff = 0;
+        serial2Index = 0;
     }
 
 
@@ -168,7 +197,7 @@ public:
 
     }
 
-#define DEBUG_SR2
+//#define DEBUG_SR2
 
 
     void listener_() {
@@ -182,6 +211,8 @@ public:
 
 
     void listener(void) {
+
+        serialEvent2_();
 
 // Button serial
         // TODO test for clock by digital low
@@ -225,9 +256,9 @@ public:
             }
             uint8_t val = (uint8_t) Serial2.read();
 #if defined(DEBUG) && defined(DEBUG_SR2)
-//            Serial.println();
-//            Serial.print("Current val: ");
-//            Serial.println(val);
+            //            Serial.println();
+            //            Serial.print("Current val: ");
+            //            Serial.println(val);
 #endif
 
             if (val == 0 && lpgUse) {
