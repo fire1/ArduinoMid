@@ -272,6 +272,7 @@ public:
 //            captureBnz(20);
             captureBnz(218);
             captureBnz(140);// BNZ 1 dot
+            captureBnz(155);// BNZ on the run
 
 
             // Skip action

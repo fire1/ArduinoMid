@@ -1415,18 +1415,17 @@ void CarSens::sensTmp() {
     //
     // Nick Gammon  based fix
     // https://arduino.stackexchange.com/questions/14256/reducing-read-time-for-reading-ds18b20-temp-sensors/14261#14261?newreg=074bd46222ea4427abbaaa0dc30935f2
-    //
-    // TODO remove for loop, use single index
-    //
-    // When pass 1 minute wait 1 more second for this reading ...
-    if (ds_deviceRequest && amp->isSecond()) {
-//        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
-        float currentTemperatureInside;
 //        for (uint8_t i = 0; i < allThermometers; i++) {
 //            currentTemperatureInside = temperatureSensors.getTempC(midThermometers[i]);
 //            if (currentTemperatureInside > -80) {
 //                CUR_INS_TMP = currentTemperatureInside;
 //            }
+    //
+    // When pass 1 minute wait 1 more second for this reading ...
+    if (ds_deviceRequest && amp->isSecond()) {
+//        float currentTemperatureInside = temperatureSensors.getTempCByIndex(0);
+        float currentTemperatureInside;
+
         //
         // closest temperature IC
         currentTemperatureInside = temperatureSensors.getTempC(midThermometers[0]);
@@ -1549,8 +1548,8 @@ void CarSens::sensTmp() {
         tmp_outIndex = 3;
         //
         // Pass value to global
-        if (CUR_ENT > 70) {
-            CUR_OUT_TMP = temperatureC - (map(CUR_ENT, 70, 95, 0, 50) * 0.1);
+        if (CUR_ENT > 80) {
+            CUR_OUT_TMP = temperatureC - (map(CUR_ENT, 80, 95, 0, 40) * 0.1);
         } else
             CUR_OUT_TMP = temperatureC;
     }
