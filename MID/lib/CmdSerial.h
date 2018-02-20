@@ -149,7 +149,7 @@ public:
                 if (srlStrName == "wrk") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    savedData . total_km = saveTemp;
+                    savedData.total_km = saveTemp;
                     srlOutputs = F("Work distance ");
                     srlOutputs += saveTemp;
                 }
@@ -178,7 +178,7 @@ public:
                 if (srlStrName == "cor_dst") {
                     // Total work distance
                     saveTemp = getSrlFloat();
-                    savedData.sens_dst =saveTemp;
+                    savedData.sens_dst = saveTemp;
                     srlOutputs = F("DST correction ");
                     srlOutputs += saveTemp;
                 }
@@ -347,6 +347,7 @@ public:
 
                 if (srlStrName == F("dbg")) {
                     CmdSerialDebugging = Serial.readStringUntil('\n');
+                    CmdSerialDebugging.trim();
                     if (CmdSerialDebugging == F("stop")) {
                         srlOutputs += CmdSerialDebugging;
                         srlOutputs += F("> ");

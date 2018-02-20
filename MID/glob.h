@@ -24,20 +24,25 @@ Serial.println(__VA_ARGS__);  } // print styled line
 #define DBG_PI(...)  { Serial.print(F("\t")); Serial.print(__VA_ARGS__); } // print
 #define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
 
-boolean DBG_CMD_MIN(AmpTime *amp, const char *cmd) {
+boolean DBG_CMD_MIN(AmpTime *amp, const __FlashStringHelper *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
 }
 
-boolean DBG_CMD_MID(AmpTime *amp, const char *cmd) {
+boolean DBG_CMD_MID(AmpTime *amp, const __FlashStringHelper *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
 }
 
-boolean DBG_CMD_MAX(AmpTime *amp, const char *cmd) {
+boolean DBG_CMD_MAX(AmpTime *amp, const __FlashStringHelper *cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
-
+/**
+ * Debug from given serial string
+ * @param amp
+ * @param cmd
+ * @return
+ */
 boolean DBG_CMD(AmpTime *amp, const __FlashStringHelper *cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
+    return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
 }
 
 boolean DBG_CMD_LIVE(const __FlashStringHelper *cmd) {
@@ -219,9 +224,6 @@ public:
 };
 
 #endif
-
-
-
 
 
 #endif //ARDUINOMID_GLOB_H

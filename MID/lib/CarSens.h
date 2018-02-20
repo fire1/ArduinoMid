@@ -1742,7 +1742,7 @@ void CarSens::sensBkt() {
         breakTimeStart = 0;
     }
 }
-
+#define DEBUG_TNK
 /**
  *
  */
@@ -1770,10 +1770,11 @@ void CarSens::sensTnk() {
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_TNK)
-    if (DBG_CMD(amp, "tnk")) {
-        DBG_PS(FUEL_TANK);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD(val);
+    if (DBG_CMD_MAX(amp, F("tnk"))) {
+        Serial.print(F("Tank calculate: "));
+        Serial.println(FUEL_TANK);
+        Serial.print(F("Tank contend: "));
+        Serial.println(val);
     }
 #endif
 
