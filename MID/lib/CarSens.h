@@ -100,7 +100,8 @@
 /**************************/
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3355
-#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
+//#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
+#define FUEL_BNZ_CNS 3355 // 14.7*730 = 10731
 
 /************************/
 /* LPG ENGINE CONFIG    */
@@ -124,7 +125,8 @@
 #else
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
-#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+//#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS 34416 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 8316 default
 // 7586 below 10*C
 // 6046.55 below 10 // 659.982 pulses
@@ -345,7 +347,8 @@ private:
     float FUEL_AVRG_INST_CONS;
     //
     // Fuel consumption variables
-    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
+//    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
+    double FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
     //
     unsigned long CUR_VTT;
     // Travel time
@@ -379,7 +382,7 @@ private:
     *
     * @param value
     */
-    void setConsumedFuel(long value);
+    void setConsumedFuel(double value);
 
 protected:
     /**
@@ -605,23 +608,28 @@ public:
     /**
      * Gets default fuel line consumption
      */
-    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
+//    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
+    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.01); }
 
     /**
      * Gets additional fuel line consumption
      */
-    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
+//    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
+    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.01); }
 
     /**
      * Gets fuel state  usedMenu
      */
     inline float getCurFuelCns() {
-        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
-        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
+//        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
+//        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
+        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.01);
+        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.01);
     }
 
     inline float getCurFuelWasted() {
-        return FUEL_WASTED * 0.00001;
+//        return FUEL_WASTED * 0.00001;
+        return FUEL_WASTED * 0.01;
     }
 
     /**
@@ -1072,7 +1080,8 @@ void CarSens::sensEcu() {
     if (amp->isSens()) {
         //
         // Pass ecu to global
-        CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
+//        CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
+        CUR_ECU = (ecuHitsCount * 100);
         if (FUEL_STATE == PEC_TARGET)
             CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01);
 
@@ -1600,11 +1609,13 @@ void CarSens::sensCns() {
     // Since we want only consumption VSS is skipped
 
     if (amp->isSens()) {
-        long deltaFuel = 0;
+        double deltaFuel;
 //        Serial.println(getCnsFuelVal());
         if (CUR_ECU > 0) {
-            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
+//            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
+            deltaFuel = ((CUR_ECU * 100) / getCnsFuelVal()) * 0.01;
             // Direct correction in constant
+
         }
 
         setConsumedFuel(deltaFuel);
@@ -1707,7 +1718,7 @@ uint8_t CarSens::getGear() {
  * Sets Fuel consumed by engine
  * @param value
  */
-void CarSens::setConsumedFuel(long value) {
+void CarSens::setConsumedFuel(double value) {
 
     //
     // Recording wasted fuel
@@ -1742,7 +1753,9 @@ void CarSens::sensBkt() {
         breakTimeStart = 0;
     }
 }
+
 #define DEBUG_TNK
+
 /**
  *
  */

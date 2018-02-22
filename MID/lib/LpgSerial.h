@@ -78,9 +78,11 @@ void serialEvent2_() {
     }
     // LPG
     // 2221 2201
+    // 101000000001
 
     // BNZ
-    // 1501 1521
+    // 1501 1521 C01 1C00 201
+    // 110000000001
 
     if (serial2Length > 5 && dataBuff > 0) {
         Serial.print(F("BIN "));
