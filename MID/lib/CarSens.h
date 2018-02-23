@@ -101,7 +101,7 @@
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3915
 //#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
-#define FUEL_BNZ_CNS 3355 // 14.7*730 = 10731
+#define FUEL_BNZ_CNS 39151 // 14.7*730 = 10731
 
 /************************/
 /* LPG ENGINE CONFIG    */

@@ -876,11 +876,15 @@ private:
         lcd->drawStr(LCD_COL_L11, LCD_ROW_3, char_3);
         this->showCels(LCD_COL_L22 + 2, LCD_ROW_3);
 
-
+        //
+        // if there no thermometer show fuel wasted
         if (car->getTmpIns() < -99) {
+            lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+            lcd->print(getMsg(79));
             displayFloat(car->getCurFuelWasted(), char_3);
-            lcd->drawStr(45, LCD_ROW_4, char_3);
-            lcd->print(getMsg(101));
+            lcd->drawStr(LCD_COL_L11, LCD_ROW_4, char_3);
+
+            lcd->setCursor(LCD_COL_L22 + 2, LCD_ROW_4);
             lcd->print(getMsg(68));
         } else {
             lcd->setCursor(LCD_COL_L10, LCD_ROW_4 + 1);
