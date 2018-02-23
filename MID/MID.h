@@ -310,6 +310,10 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #define PEC_TARGET 0
 #endif
 
+#ifndef SCREEN_CNS_SKIP
+#define  SCREEN_CNS_SKIP 80
+#endif
+
 
 #include "glob.h"
 

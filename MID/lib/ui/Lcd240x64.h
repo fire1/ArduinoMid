@@ -845,7 +845,7 @@ private:
         float consumption = eep->getAverageLitersPer100km();
         if (car->getDst() < 1 && eep->getTravelDistance() < 1) {
             lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
-            (consumption > 100) ? lcd->print(F("--.-")) : lcd->print(F("00.0"));
+            (consumption > SCREEN_CNS_SKIP) ? lcd->print(F("--.-")) : lcd->print(F("00.0"));
         } else {
             displayFloat(consumption, char_3);
             lcd->drawStr(LCD_COL_L11, LCD_ROW_2, char_3);
@@ -879,7 +879,7 @@ private:
         //
         // if there no thermometer show fuel wasted
         if (car->getTmpIns() < -99) {
-            lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+            lcd->setCursor(LCD_COL_L10 - 1, LCD_ROW_4 + 1);
             lcd->print(getMsg(79));
             displayFloat(car->getCurFuelWasted(), char_3);
             lcd->drawStr(LCD_COL_L11, LCD_ROW_4, char_3);
@@ -934,15 +934,9 @@ private:
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
 
-        float dataFuel = 0;
-        if (car->getFuelState() == 0) { // BNZ [default]
-            dataFuel = car->getDefFuelCns();
-        }
-        if (car->getFuelState() == 1) { // LPG [additional]
-            dataFuel = car->getAdtFuelCns();
-        }
+        float dataFuel = (car->getFuelState() == 0) ? car->getDefFuelCns() : car->getAdtFuelCns();
         float result = ((dataFuel) * 100) / car->getDst();
-        if (result > 50) {
+        if (result > SCREEN_CNS_SKIP) {
             result = 0;
         }
         displayFloat(result, instantCons);
