@@ -114,35 +114,15 @@ void setup() {
 #ifdef LPG_SWITCHING_DETECT
     lpgCom.begin();
 #endif
-
-
     //
     // Light lamps test
     pinMode(A12, INPUT_PULLUP);
     pinMode(A13, INPUT_PULLUP);
 }
 
-//void loop() {
-//    u8g2.firstPage();
-//    u8g2.enableUTF8Print();
-//    do {
-//        u8g2.setFont(u8g2_opel_font_bold);
-//        u8g2.setCursor(120, 10);
-//        u8g2.print(F("Testing"));    /* Hello World */
-//        u8g2.setCursor(120, 30);
-//        u8g2.print(F("Тестово"));    /* Hello World */
-//
-//    } while (u8g2.nextPage());
-//    delay(1000);
-//}
 
 
 void loop() {
-
-
-
-//    if (ampInt.is5Seconds())
-//        analogWrite(STT_OIL_PIN, 0);
     //
     // Amplitude loop init
     ampInt.listener();
@@ -155,7 +135,6 @@ void loop() {
     //
     // Reads buttons from steering
     whlSens.listener();
-
     //
     // Listener shutdown
     shutDown.listener();
@@ -170,45 +149,12 @@ void loop() {
     shutDown.cursor();
     //
     // Listen state pins
-    carStat.listener();
-
-//
-//    if(ampInt.isSens()){
-//        Serial.print("RPM: ");
-//        Serial.println(carSens.getRpm());
-//    }
+    carStat.listener();D
     //
     // Listen LPG fuel system from serial com
 #ifdef ADT_FUEL_SYSTEM_SERIAL
     lpgCom.listener();
     carSens.setFuelListener(&lpgCom);
-//
-
-
-    if (ampInt.isSecond()) {
-//        Serial.print("LPG ");
-//        Serial.println(eepRom.getAdtFuel());
-//        Serial.print(F("VSS: "));
-//        Serial.print(carSens.getVss());
-//        whlSens.getCurrentState();
-//        Serial.println();
-//        Serial.print(F("LEN: "));
-//        Serial.print(vssPulseLen);
-//        Serial.println();
-
-
-        //
-        // 5 - 70C
-//        Serial.print(F("ENT: "));
-//        Serial.println(analogRead(ENG_CLT_PIN));
-
-
-//        Serial.print(F("PEC: "));
-//        Serial.println(carSens.getPec());
-
-    }
-
-
     //
     // set usage of LPG system without the switching listener
 #elif defined(LPG_INSTALLATION)
@@ -224,25 +170,13 @@ void loop() {
     // ttd=<0000> INJECTS: Total distance
     // lpg=<0000> INJECTS: lpg consumption
     // bnz=<0000> INJECTS: bnz consumption
-//    dbgSerial.listener();
     eepRom.listener();
 
-//
-//    if (stringComplete) {
-//        Serial.print("Serial Event: ");
-//        for (int i = 0; i < lengthSerial2Data; ++i) {
-//            Serial.println(inputSerial2Data[i]);
-//            inputSerial2Data[i] = 0;
-//        }
-//
-//        Serial.println(inputSerial2String);
-//        inputSerial2String = "";
-//        // clear the data:
-//        lengthSerial2Data = 0;
-//        stringComplete = false;
-//    }
 
 
+    if (ampInt.isSecond()) {
+
+    }
 
 }
 
