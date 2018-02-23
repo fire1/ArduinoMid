@@ -99,7 +99,7 @@
 /* GASOLINE ENGINE CONFIG */
 /**************************/
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
-#define FUEL_BNZ_IFC 3355
+#define FUEL_BNZ_IFC 3915
 //#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
 #define FUEL_BNZ_CNS 3355 // 14.7*730 = 10731
 
@@ -336,6 +336,7 @@ private:
     //
     //
     float FUEL_INST_CONS;
+    /** @deprecated */
     float FUEL_WASTED = 0;
     float FUEL_TANK;
     //
@@ -378,12 +379,6 @@ private:
     void sensAlarms();
 
 
-    /**
-    *
-    * @param value
-    */
-    void setConsumedFuel(double value);
-
 protected:
     /**
       * Setup RPM
@@ -403,17 +398,47 @@ protected:
       */
     void setupEcuSens(uint8_t pinTarget);
 
-    /**
+    /** @deprecated
      * Gets calculate constant for instant consumption
      * @return int
      */
     int getIfcFuelVal();
 
+
+    /**
+     * Sets Fuel consumed by engine
+     * @param value
+     */
+    void setConsumedFuel(double value) {
+
+        //
+        // Recording wasted fuel
+        if (CUR_VSS > CONS_TGL_VSS) {
+            if (getFuelState() == 0) {
+                FL_WST_DEF = FL_WST_DEF + value;
+            } else {
+                FL_WST_ADT = FL_WST_ADT + value;
+            }
+        }
+
+        //
+        //  Recording used fuel
+        if (getFuelState() == 0) {
+            FL_CNS_DEF = FL_CNS_DEF + value;
+        } else {
+            FL_CNS_ADT = FL_CNS_ADT + value;
+        }
+    }
+
     /**
      * Gets calculated constant for consumption
      * @return
      */
-    long getCnsFuelVal();
+    float getCnsFuelVal() {
+        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
+        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
+        return 0;
+    };
 
 
 private:
@@ -609,13 +634,13 @@ public:
      * Gets default fuel line consumption
      */
 //    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.00001); }
-    inline float getDefFuelCns() { return float(FL_CNS_DEF * 0.01); }
+    inline float getDefFuelCns() { return float(FL_CNS_DEF); }
 
     /**
      * Gets additional fuel line consumption
      */
 //    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.00001); }
-    inline float getAdtFuelCns() { return float(FL_CNS_ADT * 0.01); }
+    inline float getAdtFuelCns() { return float(FL_CNS_ADT); }
 
     /**
      * Gets fuel state  usedMenu
@@ -623,13 +648,13 @@ public:
     inline float getCurFuelCns() {
 //        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.00001);
 //        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.00001);
-        if (getFuelState() == 0) return float(FL_CNS_DEF * 0.01);
-        if (getFuelState() == 1) return float(FL_CNS_ADT * 0.01);
+        if (getFuelState() == 0) return float(FL_CNS_DEF);
+        if (getFuelState() == 1) return float(FL_CNS_ADT);
     }
 
     inline float getCurFuelWasted() {
-//        return FUEL_WASTED * 0.00001;
-        return FUEL_WASTED * 0.01;
+       return  (getFuelState() == 0) ? FL_WST_DEF : FL_WST_ADT;
+        return FUEL_WASTED;
     }
 
     /**
@@ -661,7 +686,7 @@ public:
     /**
      * Gets current Ecu
      */
-    inline uint32_t getEcu() { return CUR_ECU; }
+    inline uint16_t getEcu() { return CUR_ECU; }
 
     inline int getTnkLpg() { return CUR_LTK; }
 
@@ -835,9 +860,6 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
 
 }
 
-//void deatach(){
-//    detachInterrupt(pinVss);
-//}
 
 /**
  * Gets calculate constant for instant consumption
@@ -849,15 +871,6 @@ int CarSens::getIfcFuelVal() {
     return 0;
 }
 
-/**
- * Gets calculated constant for consumption
- * @return
- */
-long CarSens::getCnsFuelVal() {
-    if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
-    if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
-    return 0;
-}
 
 /**
  * Setup fuel line data
@@ -949,7 +962,7 @@ void CarSens::listener() {
     // Consumption
     sensDlt();
     sensCns();
-    sensIfc();
+//    sensIfc();
     sensBkt();
 
     //
@@ -1009,17 +1022,6 @@ void CarSens::sensVss() {
         //
         // Pass vss to global
         CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
-//        if(vss < CUR_VSS + 50)
-//            CUR_VDS = vss;
-//        CUR_VSS = uint8_t(vssPulseLen / vssHitsCount) * 15;
-//
-//        Serial.print(vssHitsCount);
-//        Serial.print(" / ");
-//        Serial.print(vssPulseLen);
-//        Serial.print(" / ");
-//        Serial.print(CUR_VSS);
-//        Serial.println();
-
         //
         // Calculate distance
         CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
@@ -1081,9 +1083,9 @@ void CarSens::sensEcu() {
         //
         // Pass ecu to global
 //        CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
-        CUR_ECU = (ecuHitsCount * 100);
+        CUR_ECU = (ecuHitsCount);
         if (FUEL_STATE == PEC_TARGET)
-            CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01);
+            CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01); // push to floating value
 
 //
 // debug info
@@ -1263,23 +1265,6 @@ void CarSens::sensDim() {
 #endif
 
 }
-
-//uint16_t readPeekCollection;
-//uint16_t readPulseLine;
-//unsigned long lastRead;
-//
-//void sensEnt2() {
-//
-////    if (ampInt.isLow()) {
-//        uint16_t read = analogRead(ENG_CLT_PIN);
-//        if (read < readPeekCollection) {
-//            readPulseLine++;
-//        }else{
-//            readPeekCollection = read;
-//        }
-//
-////    }
-//}
 
 /**
  *  Engine temperature
@@ -1502,15 +1487,6 @@ void CarSens::sensTmp() {
         //
         // Get more precise average value
         float resistanceReadings = (tmp_outCollection / tmp_outIndex);
-
-        //
-        // uint16_t readings = uint16_t(tmp_outCollection / tmp_OutIndex * 10);
-        // (map(readings, 4100, 1200, 15, 390) * 0.1)
-        // (map(readings, 2810, 1170, 160, 405) * 0.1) <- use this corrected to 16°C
-        // temperatureC = (map(readings, 2810, 1170, 167, 403) * 0.1);
-        // temperatureC = (map(readings, 3445, 1170, 90, 400) * 0.1);
-        //
-
         //
         // convert the value to resistance
         temperatureC = 1023 / resistanceReadings - 1;
@@ -1610,19 +1586,10 @@ void CarSens::sensCns() {
 
     if (amp->isSens()) {
         double deltaFuel;
-//        Serial.println(getCnsFuelVal());
         if (CUR_ECU > 0) {
 //            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
-            deltaFuel = ((CUR_ECU * 100) / getCnsFuelVal()) * 0.01;
-            // Direct correction in constant
-
-        }
-
-        setConsumedFuel(deltaFuel);
-        //
-        // Collect wasted fuel
-        if (this->getVss() < 1) {
-            FUEL_WASTED = FUEL_WASTED + deltaFuel;
+            deltaFuel = CUR_ECU / getCnsFuelVal();
+            setConsumedFuel(deltaFuel);
         }
     }
 
@@ -1630,6 +1597,7 @@ void CarSens::sensCns() {
 }
 
 /**
+ * @deprecated
  * Instance Fuel Consumption
  */
 void CarSens::sensIfc() {
@@ -1714,31 +1682,6 @@ uint8_t CarSens::getGear() {
     return carGearNum;
 }
 
-/**
- * Sets Fuel consumed by engine
- * @param value
- */
-void CarSens::setConsumedFuel(double value) {
-
-    //
-    // Recording wasted fuel
-    if (CUR_VSS > CONS_TGL_VSS) {
-        if (getFuelState() == 0) {
-            FL_WST_DEF = FL_WST_DEF + value;
-        } else {
-            FL_WST_ADT = FL_WST_ADT + value;
-        }
-    }
-
-    //
-    //  Recording usedMenu fuel
-    if (getFuelState() == 0) {
-        FL_CNS_DEF = FL_CNS_DEF + value;
-    } else {
-        FL_CNS_ADT = FL_CNS_ADT + value;
-    }
-
-}
 
 /**
  *

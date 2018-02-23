@@ -737,7 +737,6 @@ private:
  * @param y
  */
     inline void showKm(u8g2_uint_t x, u8g2_uint_t y) {
-//        lcd->drawXBMP(x, y + 1 + LCD_ICO_HIGH, 9, 8, mark_km_9x8_bits);
         lcd->setCursor(x, y);
         lcd->print(getMsg(69));
     }
@@ -748,7 +747,6 @@ private:
  * @param y
  */
     inline void showAverage(u8g2_uint_t x, u8g2_uint_t y) {
-//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_phi_8x8_bits);
         lcd->setCursor(x, y);
         lcd->print(getMsg(94));
     }
@@ -759,7 +757,6 @@ private:
  * @param y
  */
     inline void showInstant(u8g2_uint_t x, u8g2_uint_t y) {
-//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 8, 8, mark_now_5x8_bits);
         lcd->setCursor(x, y);
         lcd->print(getMsg(75));
     }
@@ -772,9 +769,7 @@ private:
  */
     inline void showL100km(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->setCursor(x, y);
-//        lcd->print(getMsg(68));
         lcd->print(getMsg(71));
-//        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2), y + (LCD_ICO_HIGH), 16, 9, per100km_16x9_bits);
     }
 
 /**
@@ -786,9 +781,6 @@ private:
         uint8_t wd = lcd->getStrWidth(parent) + 5;
         lcd->setCursor(x + wd, y);
         lcd->print(getMsg(71));
-
-//        lcd->drawXBMP(x + (lcd->getStrWidth(getMsg(68)) / 2) + wd, y + (LCD_ICO_HIGH), 16, 9,
-//                      per100km_16x9_bits);
     }
 
 /**
@@ -799,7 +791,6 @@ private:
     void showCels(u8g2_uint_t x, u8g2_uint_t y) {
         lcd->setCursor(x + 1, y);
         lcd->print(getMsg(74));
-//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
 /**
@@ -810,24 +801,21 @@ private:
     void showCels(u8g2_uint_t x, u8g2_uint_t y, const char *parent) {
         lcd->setCursor(x + lcd->getStrWidth(parent) + 1, y);
         lcd->print(getMsg(74));
-//        lcd->drawXBMP(x + lcd->getStrWidth(parent) + 1, y + LCD_ICO_HIGH, 4, 8, mark_cel_4x8_bits); // TODO test
     }
 
 /**
  *
  */
     inline void showLiter(u8g2_uint_t x, u8g2_uint_t y) {
-//        lcd->drawXBMP(x, y + LCD_ICO_HIGH, 4, 8, mark_liter_4x8_bits);
         lcd->setCursor(x, y);
         lcd->print(getMsg(68));
     }
 
-/**
- * Displays consumed fuel
- */
+    /**
+     * Displays consumed fuel
+     */
     void displayHomeConsumption() {
 
-//        lcd->drawXBMP(4, LCD_ROW_1, 18, 18, fuel_18x18_bits);
         lcd->setCursor(LCD_COL_L10 + 1, LCD_ROW_1);
         lcd->print(getMsg(85)); // petrol station
         displayFloat(eep->getConsumedFuel(), char_3);
@@ -836,7 +824,8 @@ private:
 
         lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
         lcd->print(getMsg(68));
-        lcd->print(F("  "));
+        lcd->print(getMsg(101));
+        lcd->print(getMsg(101));
 
         //
         // When have several fuel lines
@@ -849,30 +838,30 @@ private:
 #endif
 
 
+        //
+        // Average consumption per 100km
         lcd->setCursor(LCD_COL_L10, LCD_ROW_2 - 2);
         lcd->print(getMsg(94));
-        displayFloat(eep->getAverageLitersPer100km(), char_3);
+        float consumption = eep->getAverageLitersPer100km();
         if (car->getDst() < 1 && eep->getTravelDistance() < 1) {
-            lcd->drawStr(LCD_COL_L11, LCD_ROW_2, "00.0");
+            lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+            (consumption > 100) ? lcd->print(F("--.-")) : lcd->print(F("00.0"));
         } else {
+            displayFloat(consumption, char_3);
             lcd->drawStr(LCD_COL_L11, LCD_ROW_2, char_3);
         }
         showL100km(LCD_COL_L22, LCD_ROW_2);
+    }
 
-//        if (drawIndex < 2 && initializeDraw) {
+    /**
+     * Home center screen
+     */
+    void displayHomeCenter() {
 #ifdef USE_BERTONE_LOGO
         lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
 #else
         lcd->drawXBMP(93, 20, 44, 36, opel_small_bits);
 #endif
-//        }
-
-
-
-        //        if (initializeDraw) {
-//            lcd->drawFrame(90, 18, 50, 42);
-
-//        }
     }
 
 /**
@@ -940,7 +929,7 @@ private:
         //
         // Instant cons per 100km
         showInstant(LCD_COL_R11, LCD_ROW_4);
-//        if (initializeDraw && drawIndex < 10 || drawIndex < 5) {
+
         float dataFuel = 0;
         if (car->getFuelState() == 0) { // BNZ [default]
             dataFuel = car->getDefFuelCns();
@@ -953,7 +942,6 @@ private:
             result = 0;
         }
         displayFloat(result, instantCons);
-//        }
 
 
         lcd->setCursor(LCD_COL_R12, LCD_ROW_4);
@@ -1647,6 +1635,7 @@ void Lcd240x62::menus() {
             displayHomeTemperatures();
             displayHomeConsumption();
             displayHomeTrip();
+            displayHomeCenter();
             break;
             //
             // Dashboard
