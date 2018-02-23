@@ -1706,7 +1706,7 @@ void CarSens::sensTnk() {
     if (amp->isSens()) {
         //
         // Make more measurements to calculate average
-        smoothFuelTank = analogRead(pinFulTnk) + smoothFuelTank;
+        smoothFuelTank += analogRead(pinFulTnk);
         indexFuelTank++;
     }
 
@@ -1730,7 +1730,7 @@ void CarSens::sensTnk() {
         Serial.print(F("Tank calculate: "));
         Serial.println(FUEL_TANK);
         Serial.print(F("Tank contend: "));
-        Serial.println(val);
+        Serial.println(analogRead(pinFulTnk));
     }
 #endif
 
