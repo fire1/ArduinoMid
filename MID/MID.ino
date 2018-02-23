@@ -149,7 +149,7 @@ void loop() {
     shutDown.cursor();
     //
     // Listen state pins
-    carStat.listener();D
+    carStat.listener();
     //
     // Listen LPG fuel system from serial com
 #ifdef ADT_FUEL_SYSTEM_SERIAL
