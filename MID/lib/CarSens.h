@@ -127,6 +127,8 @@
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
 //#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 #define FUEL_LPG_CNS 34416 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+// 34416 ~ 5*C
+
 // 8316 default
 // 7586 below 10*C
 // 6046.55 below 10 // 659.982 pulses
@@ -853,7 +855,7 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
 
 
     digitalWrite(pinTmp, LOW);
-    analogWrite(pinTnk, LOW); // TODO test here
+//    analogWrite(pinTnk, LOW); // TODO test here
 //    pinTemp = pinTmp;
     pinBreaks = pinBrk;
     pinFulTnk = pinTnk;

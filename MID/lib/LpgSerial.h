@@ -87,8 +87,7 @@ void serialEvent2_() {
     if (serial2Length > 5 && dataBuff > 0) {
         Serial.print(F("BIN "));
         Serial.print(dataBuff, BIN);
-        Serial.print(F(" / "));
-        Serial.print(dataBuff, HEX);
+
         Serial.println();
         dataBuff = 0;
         serial2Index = 0;
