@@ -655,7 +655,7 @@ public:
     }
 
     inline float getCurFuelWasted() {
-       return  (getFuelState() == 0) ? FL_WST_DEF : FL_WST_ADT;
+        return (getFuelState() == 0) ? FL_WST_DEF : FL_WST_ADT;
         return FUEL_WASTED;
     }
 
@@ -1722,8 +1722,14 @@ void CarSens::sensTnk() {
         //
         // cap 47uf
         // lamp 595 (10% / 5.2l)
-        // fill 546 - 5liters
-        FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
+        //
+        // 595 ~ 15 l
+        // 546 - 19 l
+        // 445 - 28 l
+        // 177 - 52 l
+        //
+//        FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
+        FUEL_TANK = map(val, 445, 177, 28, 52);
     }
 //
 // debug info
