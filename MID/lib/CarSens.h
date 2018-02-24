@@ -1721,7 +1721,6 @@ void CarSens::sensTnk() {
         //
         //
         // cap 47uf
-        // lamp 595 (10% / 5.2l)
         //
         // 595 ~ 15 l
         // 546 - 19 l
@@ -1729,7 +1728,8 @@ void CarSens::sensTnk() {
         // 177 - 52 l
         //
 //        FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
-        FUEL_TANK = map(val, 445, 177, 28, 52);
+//        FUEL_TANK = map(val, 445, 177, 28, 52);
+        FUEL_TANK = map(val, 595, 177, 15, 52);
     }
 //
 // debug info
