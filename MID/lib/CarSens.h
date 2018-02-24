@@ -1729,7 +1729,7 @@ void CarSens::sensTnk() {
         //
 //        FUEL_TANK = map(val, 595, 546, 52, 57) / 10;
 //        FUEL_TANK = map(val, 445, 177, 28, 52);
-        FUEL_TANK = map(val, 595, 177, 15, 52);
+        FUEL_TANK = map(val, 595, 177, 15, 52); // Verification thanks to Sinan Halıcı
     }
 //
 // debug info
