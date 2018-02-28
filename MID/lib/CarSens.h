@@ -855,6 +855,7 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
 
 
     digitalWrite(pinTmp, LOW);
+    digitalWrite(pinTmp, HIGH);
 //    analogWrite(pinTnk, LOW); // TODO test here
 //    pinTemp = pinTmp;
     pinBreaks = pinBrk;
