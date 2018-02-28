@@ -851,11 +851,11 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
     //
     // Engine temperature
     pinMode(pinTmp, INPUT);
-    pinMode(pinTnk, INPUT);
+    pinMode(pinTnk, INPUT_PULLUP);
 
 
     digitalWrite(pinTmp, LOW);
-    digitalWrite(pinTmp, HIGH);
+//    digitalWrite(pinTnk, HIGH);
 //    analogWrite(pinTnk, LOW); // TODO test here
 //    pinTemp = pinTmp;
     pinBreaks = pinBrk;
