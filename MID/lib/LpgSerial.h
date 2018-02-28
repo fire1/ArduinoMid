@@ -456,6 +456,7 @@ public:
     }
 
     void begin(void){
+        pinMode(LPG_SWTC_PIN, INPUT);
         digitalWrite(LPG_SWTC_PIN, LOW);
     }
 
