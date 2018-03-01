@@ -224,16 +224,15 @@ public:
         }
 
         lcd->setCursor(1, 1);
-        if (stt->isAlert() /*&& drawIndex % 3 == 0*/ || millis() < 7000 && drawIndex % 2 == 0) {
+        if (stt->isAlert() && !stt->isWinter() || millis() < 7000 && drawIndex % 2 == 0) {
             lcd->print(getMsg(84));
         } else if (millis() > 7000) {
-            if (car->getTmpOut() < -2) {
+            if (stt->isWinter()) {
                 if (drawIndex % 2 == 0)lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 0) {
                 lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 36) {
                 lcd->print(getMsg(86));
-//                lcd->print(getMsg(87));
             } else if (car->getTmpOut() < 40) {
                 lcd->print(getMsg(89));
             } else if (car->getTmpOut() > 40) {
