@@ -23,8 +23,8 @@ const char msg3[] PROGMEM = "Износ тормазных колодок: ";
 const char msg4[] PROGMEM = "Уровень О.Ж.: ";
 const char msg5[] PROGMEM = "уровень жидкости стеклоомывателя: ";
 const char msg6[] PROGMEM = "Уровень масла в двигателе: ";
-const char msg7[] PROGMEM = "O.K."; // Is fine message
-const char msg8[] PROGMEM = "ниже 25%"; // Сообщение если жидкости ниже
+const char msg7[] PROGMEM = "        £ "; // Is fine message
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = "Изношены"; // Сообщение об износе колодок
 const char msg10[] PROGMEM = "замени лампу"; // Сообщение о неисправности лампы
 //
