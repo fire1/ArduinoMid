@@ -16,7 +16,7 @@
 const char msg0[] PROGMEM = "";
 const char msg72[] PROGMEM = "Прощай...     ";
 const char msg1[] PROGMEM = "до скорого!";
-const char msg2[] PROGMEM = "ENTRY";
+const char msg2[] PROGMEM = "Запись";
 //
 // Car state
 const char msg3[] PROGMEM = "Износ тормазных колодок: ";
@@ -24,34 +24,34 @@ const char msg4[] PROGMEM = "Уровень О.Ж.: ";
 const char msg5[] PROGMEM = "уровень жидкости стеклоомывателя: ";
 const char msg6[] PROGMEM = "Уровень масла в двигателе: ";
 const char msg7[] PROGMEM = "O.K."; // Is fine message
-const char msg8[] PROGMEM = "ниже 25%"; // Problem message for liquid
-const char msg9[] PROGMEM = "Изношены"; // Problem message for brakes
-const char msg10[] PROGMEM = "замени лампу"; // Problem message for lamps
+const char msg8[] PROGMEM = "ниже 25%"; // Сообщение если жидкости ниже
+const char msg9[] PROGMEM = "Изношены"; // Сообщение об износе колодок
+const char msg10[] PROGMEM = "замени лампу"; // Сообщение о неисправности лампы
 //
 // Titles
 const char msg11[] PROGMEM = "Главное меню";
-const char msg12[] PROGMEM = "TRIP RECORDS";
-const char msg13[] PROGMEM = "топлевное меню";
-const char msg14[] PROGMEM = "техобслуживание";
-const char msg15[] PROGMEM = "ABOUT";
-const char msg16[] PROGMEM = "DASHBOARD";
-const char msg17[] PROGMEM = "Настройки";
-const char msg18[] PROGMEM = "текущие";
-const char msg19[] PROGMEM = "По умолчанию";
+const char msg12[] PROGMEM = "ОТЗОВЫ";
+const char msg13[] PROGMEM = "ТОПЛЕВНОЕ МЕНЮ";
+const char msg14[] PROGMEM = "ТЕХОБСЛУЖИВАНИЕ";
+const char msg15[] PROGMEM = "О АВТОРЕ";
+const char msg16[] PROGMEM = "ПАНЕЛЬ ПРИБОРОВ";
+const char msg17[] PROGMEM = "НАСТРОЙКИ";
+const char msg18[] PROGMEM = "ТЕКУЩИЕ";
+const char msg19[] PROGMEM = "ПО УМОЛЧАНИЮ";
 const char msg99[] PROGMEM = "ВОЛЬТМЕТР";
 const char msg100[] PROGMEM = "РЕМЕНЬ ГРМ";
 //
 //
 const char msg20[] PROGMEM = "Сброс данны о поездки";
 const char msg21[] PROGMEM = "Удерживать >R и педаль тормаза ";
-const char msg22[] PROGMEM = "Firmware update: www.git.io/vHlkd";
-const char msg23[] PROGMEM = "ArduinoMID version ";
+const char msg22[] PROGMEM = "Обновление прошивки: www.git.io/vHlkd";
+const char msg23[] PROGMEM = "Версия ArduinoMID ";
 const char msg24[] PROGMEM = "Нажмите S< для входа в настройки";
 const char msg25[] PROGMEM = "используйте S< для навигации ";
-const char msg26[] PROGMEM = "Dabble press R<+S< to change value";
-const char msg27[] PROGMEM = "Скорость авто"; // Vehicle speed sensor
-const char msg28[] PROGMEM = "ОБОРОТИ";
-const char msg29[] PROGMEM = "ОДОМЕТЪР";
+const char msg26[] PROGMEM = "Dabble нажмите R<+S< чтобы изменить значение";
+const char msg27[] PROGMEM = "Скорость авто"; // Датчик скорости автомобиля
+const char msg28[] PROGMEM = "ОБОРОТЫ";
+const char msg29[] PROGMEM = "ОДОМЕТР";
 const char msg30[] PROGMEM = "РАСХОД";
 const char msg31[] PROGMEM = "РЕЗУЛЬТАТ";
 const char msg32[] PROGMEM = "Вкл/вык двигатель, чтобы сохранить";
@@ -61,9 +61,9 @@ const char msg35[] PROGMEM = "Обнаружена сонливость";
 const char msg36[] PROGMEM = "Сбой лампы!";
 //
 // Warning winter
-const char msg37[] PROGMEM = " ROAD ICING WARNING!";
+const char msg37[] PROGMEM = " ОБЛЕДЕНЕНИЕ ДОРОГИ!";
 const char msg38[] PROGMEM = " ";
-const char msg39[] PROGMEM = "Please drive safe!";
+const char msg39[] PROGMEM = "Пожалуйста пристегнитесь!";
 //
 // Warning Oil level
 const char msg40[] PROGMEM = " Низкий уровень масла!";
@@ -76,75 +76,76 @@ const char msg44[] PROGMEM = "Напряжение: ";
 const char msg45[] PROGMEM = "Вне диапазона";
 //
 // Warning breaks
-const char msg46[] PROGMEM = " WORN BRAKES!";
-const char msg47[] PROGMEM = "Determined pad wear into ";
-const char msg48[] PROGMEM = " front breaks! ";
+const char msg46[] PROGMEM = " РАБОЧИЕ ТОРМОЗА!";
+const char msg47[] PROGMEM = "Определенный износ подушки в ";
+const char msg48[] PROGMEM = " передние тормоза! ";
 //
 // Warning coolant
-const char msg49[] PROGMEM = " LOW COOLANT!";
-const char msg50[] PROGMEM = "Check the coolant level";
-const char msg51[] PROGMEM = "if is necessary add more.";
+const char msg49[] PROGMEM = " НИЗКОЕ ОХЛАЖДАЮЩАЯ ЖИДКОСТЬ!";
+const char msg50[] PROGMEM = "Проверьте уровень охлаждающей жидкости";
+const char msg51[] PROGMEM = "если необходимо добавить еще.";
 //
 // Warning overheating
-const char msg52[] PROGMEM = " OVERHEATING!!!";
-const char msg53[] PROGMEM = "Engine temperature ";
-const char msg54[] PROGMEM = "is too high, overheating!";
+const char msg52[] PROGMEM = " ПЕРЕГРЕВ!!!";
+const char msg53[] PROGMEM = "Температура двигателя ";
+const char msg54[] PROGMEM = "высок риск перегрева!";
 //
 // Warning window washer
-const char msg55[] PROGMEM = " LOW WINDOW WASHER!";
-const char msg56[] PROGMEM = "Check window washer ";
-const char msg57[] PROGMEM = "if is necessary add more.";
+const char msg55[] PROGMEM = " УРОВЕНЬ ОМЫВАЙКИ!";
+const char msg56[] PROGMEM = "Проверте уровень ";
+const char msg57[] PROGMEM = "если необходимо добавить еще.";
 //
 // Warning bulb
-const char msg58[] PROGMEM = " BULB BURN OUT ";
-const char msg59[] PROGMEM = "Incandescent malfunction";
-const char msg60[] PROGMEM = "In front lights ";
-const char msg61[] PROGMEM = "In back lights ";
+const char msg58[] PROGMEM = " ЛАМПЫ ";
+const char msg59[] PROGMEM = "Лампа накаливания";
+const char msg60[] PROGMEM = "В передних фарах ";
+const char msg61[] PROGMEM = "В задних фонарях ";
 //
 // Warning timing  Belt ware
-const char msg62[] PROGMEM = " WORN TIMING BELT";
-const char msg63[] PROGMEM = "Timing belt worn-out";
-const char msg64[] PROGMEM = "After change reset data";
+const char msg62[] PROGMEM = " ПОРЯДОК РАБОТЫ";
+const char msg63[] PROGMEM = "Износ ремня ГРМ";
+const char msg64[] PROGMEM = "После обслуживания сбросить";
 //
 // Warning Air filter ware @deprecated
-const char msg65[] PROGMEM = " OIL/AIR FILTER WORN OUT ";
-const char msg66[] PROGMEM = "Air filter  replacement after";
-const char msg67[] PROGMEM = " (After change reset servicing)";
+const char msg65[] PROGMEM = " МАСЛЕНЫЙ/ВОЗДУШНЫЙ ФИЛЬТР ";
+const char msg66[] PROGMEM = "Замените воздушный фильтр";
+const char msg67[] PROGMEM = " (После обслуживания сбросить)";
 //
 // Value tags
 const char msg68[] PROGMEM = "±"; // л
-const char msg69[] PROGMEM = "¯"; // km
-const char msg70[] PROGMEM = "²"; // ч
-const char msg71[] PROGMEM = "±÷¥"; // Л/100km
-const char msg73[] PROGMEM = "¥"; // 100km
+const char msg69[] PROGMEM = "?"; // km
+const char msg70[] PROGMEM = "?"; // ч
+const char msg71[] PROGMEM = "±??"; // Л/100km
+const char msg73[] PROGMEM = "?"; // 100km
 //
 // Icons
 const char msg74[] PROGMEM = "°"; // celsius
-const char msg75[] PROGMEM = "¢"; // instant
+const char msg75[] PROGMEM = "?"; // instant
 const char msg76[] PROGMEM = "^"; // point
 const char msg77[] PROGMEM = "`"; // time
 const char msg78[] PROGMEM = "®"; // break
-const char msg79[] PROGMEM = "·"; // waste drop
-const char msg80[] PROGMEM = "¡"; // road
+const char msg79[] PROGMEM = ""; //
+const char msg80[] PROGMEM = "?"; // road
 const char msg81[] PROGMEM = "¶"; // coffee
 const char msg82[] PROGMEM = "·"; // temperature
-const char msg83[] PROGMEM = "¼"; // connection
-const char msg84[] PROGMEM = "½"; // settings
-const char msg85[] PROGMEM = "¾"; // petrol station
-const char msg86[] PROGMEM = "¿"; // car
-const char msg87[] PROGMEM = "¨"; // cloudy
+const char msg83[] PROGMEM = "?"; // connection
+const char msg84[] PROGMEM = "?"; // settings
+const char msg85[] PROGMEM = "?"; // petrol station
+const char msg86[] PROGMEM = "?"; // car
+const char msg87[] PROGMEM = "?"; // cloudy
 const char msg88[] PROGMEM = "©"; // oven /ice
-const char msg89[] PROGMEM = "ª"; // sun
+const char msg89[] PROGMEM = "?"; // sun
 const char msg90[] PROGMEM = "«"; // petrol
 const char msg91[] PROGMEM = "¬"; // bottom
 const char msg92[] PROGMEM = "®"; // break
-const char msg93[] PROGMEM = "¹"; // lamp
-const char msg94[] PROGMEM = "ø"; // average
+const char msg93[] PROGMEM = "?"; // lamp
+const char msg94[] PROGMEM = "o"; // average
 const char msg95[] PROGMEM = "¬"; // Switch arrow
 const char msg96[] PROGMEM = "»"; // LPG
 const char msg97[] PROGMEM = "¦"; // inside temperature
 const char msg98[] PROGMEM = "§"; // outside temperature
 const char msg101[] PROGMEM = " "; // empty space
+
 
 //
 // Generate message table for LCD
@@ -155,7 +156,7 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg46, msg47, msg48, msg49, msg50, msg51, msg52, msg53, msg54, msg55, msg56, msg57, msg58, msg59, msg60,
         msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72, msg73, msg74, msg75,
         msg76, msg77, msg78, msg79, msg80, msg81, msg82, msg83, msg84, msg85, msg86, msg87, msg88, msg89, msg90,
-        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98, msg101
+        msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98, msg99, msg100, msg101
 };
 
 
