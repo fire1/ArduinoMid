@@ -349,10 +349,6 @@ private:
 #endif
     float FUEL_AVRG_INST_CONS;
     //
-    // Fuel consumption variables
-//    unsigned long FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
-    double FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;
-    //
     unsigned long CUR_VTT;
     // Travel time
     unsigned long breakTimeStart = 0;
@@ -372,6 +368,7 @@ private:
     // Distance container
     unsigned long CUR_VDS_collection;
 
+    double FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;    // Fuel consumption variables
     double CUR_VDS;
     double collectionIfc;
 
@@ -1203,14 +1200,12 @@ void CarSens::speedingAlarmsDw() {
  */
 char *CarSens::getHTm(float saved) {
 
-    unsigned long x;
-    uint8_t seconds, minutes, hours;
-    x = millis() / 1000;
-    seconds = x % 60;
+    unsigned long x = millis() / 1000;
+    uint8_t seconds = x % 60;
     x /= 60;
-    minutes = x % 60;
+    uint8_t minutes = x % 60;
     x /= 60;
-    hours = x % 24;
+    uint8_t hours = x % 24;
 
     int old[1];
     separateFloat(saved, old);
@@ -1223,14 +1218,12 @@ char *CarSens::getHTm(float saved) {
 
 void CarSens::getHTm(float saved, char *dspTime) {
 
-    unsigned long x;
-    uint8_t seconds, minutes, hours;
-    x = millis() / 1000;
-    seconds = x % 60;
+    unsigned long x = millis() / 1000;
+    uint8_t seconds = x % 60;
     x /= 60;
-    minutes = x % 60;
+    uint8_t minutes = x % 60;
     x /= 60;
-    hours = x % 24;
+    uint8_t hours = x % 24;
 
     int old[1];
     separateFloat(saved, old);
@@ -1348,7 +1341,7 @@ void CarSens::sensAvr() {
 /**
  * Gets Average Vss
  */
-uint16_t CarSens::getAvrVss() {
+uint8_t CarSens::getAvrVss() {
     return uint16_t(averageAllVssValues / averageDivider);
 }
 
@@ -1389,8 +1382,8 @@ uint8_t CarSens::getMxmVss() {
  */
 void CarSens::sensTmp() {
 
-    float temperatureC;
-    uint16_t liveValue;
+
+    uint16_t liveValue = 0;
     //
     // TODO use ResponsiveAnalogRead driver
     if (isInitializedLoop || amp->isSens() && this->getVss() > 6 && this->getVss() < 15) {
@@ -1492,7 +1485,7 @@ void CarSens::sensTmp() {
         float resistanceReadings = (tmp_outCollection / tmp_outIndex);
         //
         // convert the value to resistance
-        temperatureC = 1023 / resistanceReadings - 1;
+        float temperatureC = 1023 / resistanceReadings - 1;
         temperatureC = SERIES_RESISTOR / temperatureC;
         //
         // Convert to temperature
@@ -1587,11 +1580,10 @@ void CarSens::sensCns() {
     //      LKM =  MAF * time /  <fuel sum>
     // Since we want only consumption VSS is skipped
 
-    if (amp->isSens()) {
-        double deltaFuel;
+    if (amp->isSens()) { ;
         if (CUR_ECU > 0) {
 //            deltaFuel = (CUR_ECU * FUEL_ADJUST * CONS_DELTA_TIME) / getCnsFuelVal();
-            deltaFuel = CUR_ECU / getCnsFuelVal();
+            double deltaFuel = CUR_ECU / getCnsFuelVal();
             setConsumedFuel(deltaFuel);
         }
     }
@@ -1604,8 +1596,7 @@ void CarSens::sensCns() {
  * Instance Fuel Consumption
  */
 void CarSens::sensIfc() {
-    float cons;
-    unsigned long delta_dist;
+    float cons = 0;
 
 
     // Simulation of formula
