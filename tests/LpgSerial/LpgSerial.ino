@@ -11,6 +11,12 @@ unsigned long serial2Timing;
 //char dataBuff[] = {};
 uint32_t dataBuff = 0;
 
+
+ISR(USART2_RX_vect){ // or USART1_RX_vect
+
+}
+
+
 void captureCommunication() {
 
 
