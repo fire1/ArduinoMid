@@ -301,7 +301,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #define ENGINE_OVERHEAT 97
 #endif
 
-#define MID_VERSION "1.5.7"
+#define MID_VERSION "1.6"
 //
 // Target fuel counter over BNZ or LPG
 #if defined(LPG_SWITCHING_DETECT)
