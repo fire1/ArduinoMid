@@ -53,9 +53,10 @@ private:
     AmpTime *amp;
     CarSens *car;
 
-
-    boolean alertState = 0;
-    boolean initAlertState = 0;
+    boolean alertWinter = false;
+    boolean alertOverheat = false;
+    boolean alertState = false;
+    boolean initAlertState = false;
     uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
     uint8_t cursorMenu = 0;
 
@@ -333,8 +334,14 @@ public:
      */
     boolean isWinter() {
         if (car->getTmpOut() < -2) {
+            alertWinter = true;
             return true;
         }
+        if (alertWinter) {
+            result.wnt = 0; // reset winter for new check
+            alertWinter = false;
+        }
+
         return false;
     }
 
@@ -343,8 +350,14 @@ public:
      */
     boolean isOverhead() {
         if (car->getEngTmp() > ENGINE_OVERHEAT) {
+            alertOverheat = true;
             return true;
         }
+        if(alertOverheat){
+            result.ovh = 0; // reset overheat for new check
+            alertOverheat = false;
+        }
+
         return false;
     }
 
