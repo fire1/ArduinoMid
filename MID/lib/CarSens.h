@@ -737,7 +737,7 @@ public:
     /**
      * Gets Average Vss
      */
-    uint16_t getAvrVss();
+    uint8_t getAvrVss();
 
     /**
      * Gets Average Rpm
