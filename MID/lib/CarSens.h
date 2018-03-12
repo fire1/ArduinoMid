@@ -78,7 +78,7 @@
 /// For vehicles Astra G it is usually worth the 15385 (mul by 2 = 30770). For vehicles Frontera , it is the value of the 2700.
 //25.2 / 1.8l
 // Distance correction
-#define DST_CORRECTION  30800  // v1.4 30800.00  //  15383.29  //   15385
+#define DST_CORRECTION  24763.0  // v1.4 30800.00  //  15383.29  //   15385
 //
 #define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
 //
