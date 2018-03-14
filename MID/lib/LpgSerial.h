@@ -78,7 +78,7 @@ void serialEvent2_() {
     }
     // LPG
     // 2221 2201
-    // 101000000001
+    // 101000000001 101000000001
 
     // BNZ
     // 1501 1521 C01 1C00 201
@@ -95,33 +95,7 @@ void serialEvent2_() {
 
 
 }
-// TODO testing here!
-//uint8_t lengthSerial2Data = 0;
-//int inputSerial2Data[10] = {};         // a String to hold incoming data
-//boolean stringComplete = false;  // whether the string is complete
-//String inputSerial2String;
-//
-////
-//// LPG
-//// b switching
-////   cd , d / 100 cd
-//// c <-?
-////
-//void serialEvent2() {
-//
-//
-//    while (Serial2.available()) {
-//        // get the new byte:
-//        int buff = Serial2.read();
-//        inputSerial2Data[lengthSerial2Data] =buff;
-//        inputSerial2String += (char) buff;
-//        // add it to the inputSerial2Data:
-//        lengthSerial2Data++;
-//        // if the incoming character is a newline, set a flag so the main loop can
-//        // do something about it:
-//    }
-//    stringComplete = true;
-//}
+
 
 #endif
 
@@ -134,7 +108,6 @@ class LpgSerial : public LpgFuel {
     CarSens *car;
 private:
     boolean lpgUse = false;
-    boolean compare = 0;
     uint8_t fuelTankAverage = 0;
     uint8_t capture = 0;
     uint8_t trans;
