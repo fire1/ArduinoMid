@@ -1,4 +1,6 @@
 
+#include <Arduino.h>
+
 const uint8_t pinInput = 17;
 
 boolean serial2Low = false;
@@ -9,12 +11,10 @@ unsigned long serial2Timing;
 //char dataBuff[] = {};
 uint32_t dataBuff = 0;
 
-void serialEvent2() {
+void serialEvent2_() {
 
 
-
-
-    if (digitalRead(pinInput) == LOW ) {
+    if (digitalRead(pinInput) == LOW) {
         serial2Length = (uint8_t) (millis() - serial2Timing); //if it is low, end the time
         serial2Timing = millis();
 
@@ -32,7 +32,6 @@ void serialEvent2() {
         }
 
 
-
     }
     // LPG
     // 2221 2201
@@ -47,29 +46,40 @@ void serialEvent2() {
 
 }
 
+byte serial2DataBuffer[16] = {};
+boolean serial2EventStart = false;
+void serialEvent2() {
 
-void setup()
-{
-    pinMode(pinInput, INPUT);
-
-    attachInterrupt(digitalPinToInterrupt(pinInput), serialEvent2, FALLING );
-    Serial.begin(9600);
-    Serial.println("Beginning ... ");
+    while (Serial2.available()) {
+        // get the new byte:
+        Serial2.readBytes(serial2DataBuffer, 15);
+    }
+    serial2EventStart = true;
 }
 
 
+void setup() {
+    pinMode(pinInput, INPUT);
+
+//    attachInterrupt(digitalPinToInterrupt(pinInput), serialEvent2, FALLING );
+    Serial.begin(115200);
+    Serial.println("Beginning ... ");
+    Serial2.begin(400);
+}
 
 
-
-
-void loop()
-{
-    if ( dataBuff >= 7) {
+void loop() {
+//    serialEvent2();
+    if (serial2EventStart) {
         Serial.print(F("BIN "));
-        Serial.print(dataBuff, BIN);
+        for (uint8_t i = 0; i < 15; ++i) {
+            Serial.print(serial2DataBuffer[i], BIN);
+            serial2DataBuffer[i] = 0;
+        }
+
 
         Serial.println();
-        dataBuff = 0;
-        serial2Index = 0;
+
+        serial2EventStart = false;
     }
 }
