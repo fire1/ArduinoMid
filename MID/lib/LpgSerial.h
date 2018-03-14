@@ -102,15 +102,15 @@ void serialEvent2_() {
 
 byte serial2DataBuffer[16] = {};
 boolean serial2EventStart = false;
-
-void serialEvent2() {
-
-    while (Serial2.available()) {
-        // get the new byte:
-        Serial2.readBytes(serial2DataBuffer, 15);
-    }
-    serial2EventStart = true;
-}
+//
+//void serialEvent2() {
+//
+//    while (Serial2.available()) {
+//        // get the new byte:
+//        Serial2.readBytes(serial2DataBuffer, 15);
+//    }
+//    serial2EventStart = true;
+//}
 
 //
 // All buttons up - 18
