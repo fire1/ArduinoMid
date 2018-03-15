@@ -38,7 +38,7 @@
 #ifdef LPG_EVENT
 boolean serial2Low = false;
 boolean Serial2High = true;
-uint8_t serial2Index;
+uint8_t serial2Offset;
 uint16_t serial2Length;
 unsigned long serial2Timing;
 //char dataBuff[] = {};
@@ -63,15 +63,15 @@ void serialEvent2_() {
         serial2Low = false;
 
         if (serial2Length <= 3) {
-            dataBuff |= 0 << serial2Index;
+            dataBuff |= 0 << serial2Offset;
 //            dataBuff[serial2Index] = 0;
-            serial2Index++;
+            serial2Offset++;
         }
 
         if (serial2Length > 3 && serial2Length <= 5) {
-            dataBuff |= 1 << serial2Index;
+            dataBuff |= 1 << serial2Offset;
 //            dataBuff[serial2Index] = 1;
-            serial2Index++;
+            serial2Offset++;
         }
 
 
@@ -90,7 +90,7 @@ void serialEvent2_() {
 
         Serial.println();
         dataBuff = 0;
-        serial2Index = 0;
+        serial2Offset = 0;
     }
 
 
