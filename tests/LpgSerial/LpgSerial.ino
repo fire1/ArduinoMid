@@ -1,44 +1,54 @@
 
 #include <Arduino.h>
 
+#define BitVal(data, y) ( (data>>y) & 1)
 
 const uint8_t pinInput = 17;
 
+boolean serial2Change = false;
 uint8_t serial2Length;
-boolean serial2Readed = true;
+boolean serial2Readed = false;
 uint8_t serial2Offset;
 unsigned long serial2LastTime;
 
-byte dataBuff[] = {};
+uint32_t dataBuff;
 
 void serialListener() {
 
-        if (digitalRead(pinInput) == LOW) {
-            serial2Length = (uint8_t)(millis() - serial2LastTime); //if it is low, end the time
-            serial2LastTime = millis();
+    int pinState = digitalRead(pinInput);
 
 
-            if (serial2Length >= 2 && serial2Length <= 6) { // 5ms read
-                dataBuff[serial2Offset] = 0;
-                serial2Offset++;
-            }
+    if (pinState == HIGH) {
+        serial2Change = true;
+        serial2Length = 0;
+    }
 
+    if (pinState == LOW && serial2Change) {
+        serial2Length = (uint8_t) (millis() - serial2LastTime); //if it is low, end the time
+        serial2LastTime = millis();
+        serial2Change = false;
 
-            if (serial2Length > 6 && serial2Length <= 8) { // 7ms read
-                dataBuff[serial2Offset] = 1;
-                serial2Offset++;
-            }
-
-            //
-            // Error
-            if(serial2Length > 10){
-                serial2Offset = 0;
-            }
+        if (serial2Length >= 2 && serial2Length <= 6) { // 5ms read
+            dataBuff += 0 << serial2Offset;
+            serial2Offset++;
 
         }
-    if(serial2Offset > 14) { // 15 downs
-        serial2Readed = true;
-        serial2Length = 0;
+
+
+        if (serial2Length > 6 && serial2Length <= 8) { // 7ms read
+            dataBuff += 1 << serial2Offset;
+            serial2Offset++;
+        }
+
+        //
+        // 110100000001 // act LPG full
+
+        if (serial2Length > 8) { // 15 downs
+            serial2Readed = true;
+            serial2Length = 0;
+            serial2Offset = 0;
+        }
+
     }
 
 
@@ -59,7 +69,6 @@ void setup() {
 //    attachInterrupt(digitalPinToInterrupt(pinInput), serialEvent2, FALLING );
     Serial.begin(115200);
     Serial.println("Beginning ... ");
-    Serial2.begin(550);
 }
 
 
@@ -68,11 +77,10 @@ void loop() {
     serialListener();
 
     if (serial2Readed) {
+        Serial.println(BitVal(dataBuff, 0));
         Serial.print(F("BIN "));
-        for (uint8_t i = 0; i < 15; ++i) {
-            Serial.print(dataBuff[i], BIN);
-            dataBuff[i] = 0;
-        }
+        Serial.print(dataBuff, BIN);
+        dataBuff = 0;
         Serial.println();
         serial2Readed = false;
     }
