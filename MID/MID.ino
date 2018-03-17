@@ -121,7 +121,6 @@ void setup() {
 }
 
 
-
 void loop() {
     //
     // Amplitude loop init
@@ -173,9 +172,8 @@ void loop() {
     eepRom.listener();
 
 
-
     if (ampInt.isSecond()) {
-
+//        melody.playSpeed();
     }
 
 }

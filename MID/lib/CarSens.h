@@ -828,9 +828,7 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   * @param pinTarget
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
-#ifndef DEBUG // Fixes simulation of fuel
     pinMode(pinTarget, INPUT_PULLUP);
-#endif
     attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
 }
 
