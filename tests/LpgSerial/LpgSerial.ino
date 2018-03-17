@@ -24,11 +24,11 @@ void serialListener() {
     }
 
     if (pinState == LOW && serial2Change) {
-        serial2Length = (uint8_t) (millis() - serial2LastTime); //if it is low, end the time
+        serial2Length = (uint8_t)(millis() - serial2LastTime); //if it is low, end the time
         serial2LastTime = millis();
         serial2Change = false;
 
-        if (serial2Length >= 2 && serial2Length <= 6) { // 5ms read
+        if (serial2Length >= 1 && serial2Length <= 6) { // 5ms read
             dataBuff += 0 << serial2Offset;
             serial2Offset++;
 
@@ -43,7 +43,7 @@ void serialListener() {
         //
         // 110100000001 // act LPG full
 
-        if (serial2Length > 8) { // 15 downs
+        if (serial2Length > 8 || serial2Offset > 11) { // 15 downs
             serial2Readed = true;
             serial2Length = 0;
             serial2Offset = 0;
@@ -65,6 +65,7 @@ void serialListener() {
 
 void setup() {
     pinMode(pinInput, INPUT);
+    digitalWrite(pinInput, LOW);
 
 //    attachInterrupt(digitalPinToInterrupt(pinInput), serialEvent2, FALLING );
     Serial.begin(115200);
