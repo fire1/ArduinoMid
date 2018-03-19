@@ -1035,13 +1035,11 @@ void CarSens::sensVss() {
 
 //
 // debug info
-#if defined(DEBUG) && defined(DEBUG_VSS)
-    if (DBG_CMD(amp, "vss")) {
-        DBG_PS(CUR_VSS);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD(vssHitsCount);
-        DBG_PI(F("Distance contend: "))
-        DBG_PD(CUR_VDS);
+#if defined(DEBUG)
+    if (cmd(amp, DBG_SR_VSS)) {
+        show("VSS", CUR_VSS);
+        show("Hits contend", vssHitsCount);
+        show("Distance contend", CUR_VDS);
     }
 #endif
 
@@ -1064,11 +1062,11 @@ void CarSens::sensRpm() {
 
     //
 // debug info
-#if defined(DEBUG) && defined(DEBUG_RPM)
-    if (DBG_CMD(amp, "rpm")) {
-        DBG_PS(CUR_RPM);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD(rpmHitsCount);
+#if defined(DEBUG)
+    if (cmd(amp, DBG_SR_RPM)) {
+        show("RPM", CUR_RPM);
+        show("Hits contend", rpmHitsCount);
+
     }
 #endif
 }
@@ -1088,11 +1086,11 @@ void CarSens::sensEcu() {
 
 //
 // debug info
-#if defined(DEBUG) && defined(DEBUG_ECU)
-        if (DBG_CMD(amp, "ecu")) {
-            DBG_PS(CUR_ECU);
-            DBG_PI(F("Hits contend: "))
-            DBG_PD(ecuHitsCount);
+#if defined(DEBUG)
+        if (cmd(amp, DBG_SR_ECU)) {
+            show("ECU", CUR_ECU);
+            show("Hits contend", ecuHitsCount);
+            show("Pulse count", CUR_PEC);
         }
 #endif
         ecuHitsCount = 0;
@@ -1103,6 +1101,7 @@ void CarSens::sensEcu() {
 //#define DEBUG_ALARM
 /*******************************************************************
 * Speed Alarms
+ * Due to performance issue disabled some futures
 */
 void CarSens::sensAlarms() {
 #if defined(VSS_ALARM_ENABLED)
@@ -1131,16 +1130,13 @@ void CarSens::sensAlarms() {
             speedAlarmActive = 0;
         }
 
-#if defined(DEBUG) && defined(DEBUG_ALARM)
-        Serial.print("Speed alarm  ");
-        Serial.print(CUR_VSS);
-        Serial.print(" / ");
-        Serial.print(currentSpeed);
-        Serial.print(" / ");
-        Serial.print(speedAlarmCursor);
-        Serial.print(" / ");
-        Serial.print(speedAlarmActive);
-        Serial.println();
+#if defined(DEBUG)
+        if (cmd(amp, DBG_SR_SAL)) {
+            show("VSS", CUR_VSS);
+            show("Current speed", currentSpeed);
+            show("Alarm cursor", speedAlarmCursor);
+            show("Alarm active", speedAlarmCursor);
+        }
 #endif
         //
         // Resolve alarm type
@@ -1158,9 +1154,6 @@ void CarSens::sensAlarms() {
                 mld->playSpeed();
                 speedAlarmCursor = currentSpeed;
                 speedAlarmActive = 0;
-                Serial.println(F("Alarm play at "));
-                Serial.println(CUR_VSS);
-
             }
 
         }
@@ -1725,7 +1718,7 @@ void CarSens::sensTnk() {
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_TNK)
-    if (DBG_CMD_MAX(amp, DBG_SR_TNK)) {
+    if (cmdMax(amp, DBG_SR_TNK)) {
         Serial.print(F("Tank calculate: "));
         Serial.println(FUEL_TANK);
         Serial.print(F("Tank contend: "));

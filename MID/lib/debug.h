@@ -26,5 +26,6 @@
 #define DBG_SR_RCR 20
 #define DBG_SR_STT 21
 #define DBG_SR_STW 22
+#define DBG_SR_SAL 23
 
 #endif //ARDUINOMID_DEBUG_H

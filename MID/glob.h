@@ -24,32 +24,92 @@ Serial.println(__VA_ARGS__);  } // print styled line
 #define DBG_PI(...)  { Serial.print(F("\t")); Serial.print(__VA_ARGS__); } // print
 #define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
 
-boolean DBG_CMD_MIN(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
-}
 
-boolean DBG_CMD_MID(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
-}
 
-boolean DBG_CMD_MAX(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
-}
 
 /**
- * Debug from given serial string
+ * Debug from given serial string over 1 second amplitude
  * @param amp
  * @param cmd
  * @return
  */
-boolean DBG_CMD(AmpTime *amp, const uint8_t cmd) {
+inline boolean cmd(AmpTime *amp, const uint8_t cmd) {
     return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
 }
-
-boolean DBG_CMD_LIVE(uint8_t cmd) {
+/**
+ * Debug from given serial string over "SEC" amplitude
+ * @param amp
+ * @param cmd
+ * @return
+ */
+boolean cmdMin(AmpTime *amp, const uint8_t cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
+}
+/**
+ * Debug from given serial string over "MAX" amplitude
+ * @param amp
+ * @param cmd
+ * @return
+ */
+boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
+}
+/**
+ * @deprecated use cmd
+ * @param amp
+ * @param cmd
+ * @return
+ */
+boolean cmdMax(AmpTime *amp, const uint8_t cmd) {
+    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
+}
+/**
+ * No time amplitude
+ * @param cmd
+ * @return
+ */
+boolean cmdLive(uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
 
+/*inline void show(const __FlashStringHelper *msg, uint8_t data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}
+
+inline void show(const __FlashStringHelper *msg, float data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}
+
+inline void show(const __FlashStringHelper *msg, int data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}
+
+inline void show(const __FlashStringHelper *msg, long data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}
+
+inline void show(const __FlashStringHelper *msg, unsigned long data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}
+
+inline void show(const __FlashStringHelper *msg, double data) {
+    Serial.print(msg);
+    Serial.print(":\t ");
+    Serial.println(data);
+}*/
+
+
+#define show(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
 //
 //
 //
