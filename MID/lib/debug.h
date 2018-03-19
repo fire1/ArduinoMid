@@ -5,6 +5,8 @@
 #ifndef ARDUINO_MID_DEBUG_H
 #define ARDUINO_MID_DEBUG_H
 
+//
+// Debug table
 #define DBG_SR_VSS 1
 #define DBG_SR_RPM 2
 #define DBG_SR_ECU 3
@@ -27,5 +29,6 @@
 #define DBG_SR_STT 21
 #define DBG_SR_STW 22
 #define DBG_SR_SAL 23
+#define DBG_SR_LPG 24
 
 #endif //ARDUINOMID_DEBUG_H

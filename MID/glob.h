@@ -25,8 +25,6 @@ Serial.println(__VA_ARGS__);  } // print styled line
 #define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
 
 
-
-
 /**
  * Debug from given serial string over 1 second amplitude
  * @param amp
@@ -36,6 +34,7 @@ Serial.println(__VA_ARGS__);  } // print styled line
 inline boolean cmd(AmpTime *amp, const uint8_t cmd) {
     return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
 }
+
 /**
  * Debug from given serial string over "SEC" amplitude
  * @param amp
@@ -45,6 +44,7 @@ inline boolean cmd(AmpTime *amp, const uint8_t cmd) {
 boolean cmdMin(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
 }
+
 /**
  * Debug from given serial string over "MAX" amplitude
  * @param amp
@@ -54,6 +54,7 @@ boolean cmdMin(AmpTime *amp, const uint8_t cmd) {
 boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
 }
+
 /**
  * @deprecated use cmd
  * @param amp
@@ -63,6 +64,7 @@ boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
 boolean cmdMax(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
+
 /**
  * No time amplitude
  * @param cmd
@@ -110,6 +112,8 @@ inline void show(const __FlashStringHelper *msg, double data) {
 
 
 #define show(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
+#define show_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
+#define show_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
 //
 //
 //

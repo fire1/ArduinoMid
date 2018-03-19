@@ -9,6 +9,7 @@
 #include "../MID.h"
 #include "CmdSerial.h"
 #include "../glob.h"
+#include "InitObj.h"
 //
 // Marker for start transmitting
 #ifndef LPG_SERIAL_T_ST
@@ -43,58 +44,6 @@ uint16_t serial2Length;
 unsigned long serial2Timing;
 //char dataBuff[] = {};
 uint32_t dataBuff = 0;
-
-void serialEvent2_() {
-
-
-    if (digitalRead(17) == LOW) {
-        serial2Low = true;
-    }
-
-    if (digitalRead(17) == HIGH && serial2Low && !Serial2High) {
-        serial2Timing = millis();
-        Serial2High = true;
-        serial2Low = false;
-    }
-
-    if (digitalRead(17) == LOW && Serial2High) {
-        serial2Length = (uint8_t) (millis() - serial2Timing); //if it is low, end the time
-        Serial2High = false;
-        serial2Low = false;
-
-        if (serial2Length <= 3) {
-            dataBuff |= 0 << serial2Offset;
-//            dataBuff[serial2Index] = 0;
-            serial2Offset++;
-        }
-
-        if (serial2Length > 3 && serial2Length <= 5) {
-            dataBuff |= 1 << serial2Offset;
-//            dataBuff[serial2Index] = 1;
-            serial2Offset++;
-        }
-
-
-    }
-    // LPG
-    // 2221 2201
-    // 101000000001 101000000001
-
-    // BNZ
-    // 1501 1521 C01 1C00 201
-    // 110000000001
-
-    if (serial2Length > 5 && dataBuff > 0) {
-        Serial.print(F("BIN "));
-        Serial.print(dataBuff, BIN);
-
-        Serial.println();
-        dataBuff = 0;
-        serial2Offset = 0;
-    }
-
-
-}
 
 
 #endif
@@ -139,6 +88,65 @@ private:
     unsigned long lastHigh;
 
 private:
+
+    void serialEvent2_test() {
+
+
+        if (digitalRead(17) == LOW) {
+            serial2Low = true;
+        }
+
+        if (digitalRead(17) == HIGH && serial2Low && !Serial2High) {
+            serial2Timing = millis();
+            Serial2High = true;
+            serial2Low = false;
+        }
+
+        if (digitalRead(17) == LOW && Serial2High) {
+            serial2Length = (uint8_t) (millis() - serial2Timing); //if it is low, end the time
+            Serial2High = false;
+            serial2Low = false;
+
+            if (serial2Length <= 3) {
+                dataBuff |= 0 << serial2Offset;
+//            dataBuff[serial2Index] = 0;
+                serial2Offset++;
+            }
+
+            if (serial2Length > 3 && serial2Length <= 5) {
+                dataBuff |= 1 << serial2Offset;
+//            dataBuff[serial2Index] = 1;
+                serial2Offset++;
+            }
+
+
+        }
+        // LPG
+        // 2221 2201
+        // 101000000001 101000000001
+
+        // BNZ
+        // 1501 1521 C01 1C00 201
+        // 110000000001
+
+        if (serial2Length > 5 && dataBuff > 0) {
+            dataBuff = 0;
+            serial2Offset = 0;
+
+
+        }
+
+
+        if (cmd(amp, DBG_SR_LPG)) {
+            show("LPG inuse 0", data[0]);
+            show("LPG inuse 1", data[1]);
+            show("LPG trans  ", trans);
+            show_bin("LPG  binary", dataBuff);
+        }
+
+
+    }
+
     void setTrans(uint8_t val) {
         /*
          99 = 18 - almost empty BNZ
@@ -231,7 +239,7 @@ public:
 
     void listener(void) {
 
-        serialEvent2_();
+        serialEvent2_test();
 
 // Button serial
         // TODO test for clock by digital low

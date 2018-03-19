@@ -382,6 +382,8 @@ public:
                         setOutputHelp(DBG_SR_RCR, F("Remote control  radio"));
                         setOutputHelp(DBG_SR_STT, F("Vehicle servicing states"));
                         setOutputHelp(DBG_SR_STW, F("Vehicle warning states"));
+                        setOutputHelp(DBG_SR_SAL, F("Vehicle speed alarm"));
+                        setOutputHelp(DBG_SR_LPG, F("LPG serial communication"));
                         Serial.println();
                         Serial.println(F("=============================================================="));
 
