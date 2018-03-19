@@ -447,7 +447,7 @@ boolean CarState::getLiveVol() {
  * @return integer
  */
 float CarState::getVoltage(void) {
-    return float(analogRead(pinVol)) / 68.40;
+    return float(analogRead(pinVol)) / 68.20;
 }
 
 /**
