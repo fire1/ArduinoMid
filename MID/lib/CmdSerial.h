@@ -371,7 +371,7 @@ public:
                         setOutputHelp(DBG_SR_IFC, F("Instant consumption calculation"));
                         setOutputHelp(DBG_SR_DIM, F("Display back light level"));
                         setOutputHelp(DBG_SR_ENT, F("Engine coolant temperature"));
-                        setOutputHelp(DBG_SR_TNK, F("Fuel tank level"));
+                        setOutputHelp(DBG_SR_TNK, F("Fuel tank calculation data"));
                         setOutputHelp(DBG_SR_DST, F("Vehicle distance measured"));
                         setOutputHelp(DBG_SR_GRS, F("Vehicle gear ratio resolver"));
                         setOutputHelp(DBG_SR_AVR, F("Vehicle averages assumed"));
