@@ -52,6 +52,20 @@ private:
         }
     }
 
+/**
+ *
+ * @param offset
+ * @param txt
+ */
+    void setOutputHelp(const uint8_t offset, const __FlashStringHelper *txt) {
+        srlOutputs = F("\t ");
+        srlOutputs += offset;
+        srlOutputs += F(")\t ");
+        srlOutputs += txt;
+        srlOutputs += F("\n");
+        Serial.println(srlOutputs);
+    }
+
 
     void cmd_eep(const __FlashStringHelper *cmd, cb_eep _call, float value, EepRom *eep,
                  const __FlashStringHelper *inf = 0) {
@@ -100,7 +114,7 @@ public:
 
         //
         // Default message
-        srlOutputs = F(" None ... Sorry! ");
+        srlOutputs = F(" Command not found... Sorry! ");
         //
         // Execute command from serial
         if (Serial.available() > 0) {
@@ -110,6 +124,7 @@ public:
 
 
             if (srlStrName.length() > 2) {
+                boolean commandOutput = true;
                 SavedData savedData = getData();
 
                 // ************************************************************
@@ -283,90 +298,116 @@ public:
                 // Trips record
                 //
                 // Trip A
-                if (srlStrName == "tf1") {
+                if (srlStrName == ("tf1")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip A fuel ");
                     savedData.trip_a.fuel = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("tf1"), [](float value, SavedData &save) { save.trip_a.fuel = value; }, savedData,
-//                        F("TRIP A fuel"));
 
-                if (srlStrName == "td1") {
+                if (srlStrName == ("td1")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip A range ");
                     savedData.trip_a.range = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("td1"), [](float value, SavedData &save) { save.trip_a.range = value; }, savedData,
-//                        F("TRIP A range"));
 
                 //
                 // Trip B
-                if (srlStrName == "tf2") {
+                if (srlStrName == ("tf2")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip B fuel ");
                     savedData.trip_b.fuel = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("tf2"), [](float value, SavedData &save) { save.trip_b.fuel = value; }, savedData,
-//                        F("TRIP B range"));
-//
-                if (srlStrName == "td2") {
+                if (srlStrName == ("td2")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip B range ");
                     savedData.trip_b.range = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("td2"), [](float value, SavedData &save) { save.trip_b.range = value; }, savedData,
-//                        F("TRIP B range"));
 
                 //
                 // Trip C
-                if (srlStrName == "tf3") {
+                if (srlStrName == ("tf3")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip C fuel ");
                     savedData.trip_c.fuel = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("tf3"), [](float value, SavedData &save) { save.trip_c.fuel = value; }, savedData,
-//                        F("TRIP C fuel"));
-
-                if (srlStrName == "td3") {
+                if (srlStrName == ("td3")) {
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets Trip C range ");
                     savedData.trip_c.range = saveTemp;
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("td3"), [](float value, SavedData &save) { save.trip_c.range = value; }, savedData,
-//                        F("TRIP C range"));
+
                 //
                 // Return back changes
                 setData(savedData);
 
 
+
+                //
+                // Debug / dump from serial
                 if (srlStrName == F("dbg")) {
-                    CmdSerialDebugging = Serial.readStringUntil('\n');
-                    CmdSerialDebugging.trim();
-                    if (CmdSerialDebugging == F("stop")) {
+                    String cmd = Serial.readStringUntil('\n');
+                    cmd.trim();
+
+                    if (cmd == F("help") || cmd == F("")) {
+
+                        commandOutput = false;
+                        Serial.println();
+                        Serial.println(F("=============================================================="));
+                        Serial.println(F(" DEBUG HELP / Available dump offsets (dbg=<NUM>) "));
+                        Serial.println();
+                        setOutputHelp(DBG_SR_VSS, F("VSS Vehicle Speed Sensor "));
+                        setOutputHelp(DBG_SR_RPM, F("RPM Revolutions Per Minute"));
+                        setOutputHelp(DBG_SR_ECU, F("ECU Engine Control Unit"));
+                        setOutputHelp(DBG_SR_TM1, F("Outside temperature (front)"));
+                        setOutputHelp(DBG_SR_TM2, F("Additional  temperature (1)"));
+                        setOutputHelp(DBG_SR_TM3, F("Additional  temperature (2)"));
+                        setOutputHelp(DBG_SR_CNS, F("Fuel consumption calculation "));
+                        setOutputHelp(DBG_SR_IFC, F("Instant consumption calculation"));
+                        setOutputHelp(DBG_SR_DIM, F("Display back light level"));
+                        setOutputHelp(DBG_SR_ENT, F("Engine coolant temperature"));
+                        setOutputHelp(DBG_SR_TNK, F("Fuel tank level"));
+                        setOutputHelp(DBG_SR_DST, F("Vehicle distance measured"));
+                        setOutputHelp(DBG_SR_GRS, F("Vehicle gear ratio resolver"));
+                        setOutputHelp(DBG_SR_AVR, F("Vehicle averages assumed"));
+                        setOutputHelp(DBG_SR_MNI, F("UI User Interface menu"));
+                        setOutputHelp(DBG_SR_MNB, F("UI button handler"));
+                        setOutputHelp(DBG_SR_EPR, F("Internal chip memory"));
+                        setOutputHelp(DBG_SR_WHL, F("Steering wheel buttons"));
+                        setOutputHelp(DBG_SR_RCR, F("Remote control  radio"));
+                        setOutputHelp(DBG_SR_STT, F("Vehicle servicing states"));
+                        setOutputHelp(DBG_SR_STW, F("Vehicle warning states"));
+                        Serial.println();
+                        Serial.println(F("=============================================================="));
+
+                    } else if (cmd == F("stop")) {
+                        srlOutputs = F("Debugging offset \t <");
                         srlOutputs += CmdSerialDebugging;
-                        srlOutputs += F("> ");
-                        CmdSerialDebugging = "";
-                    } else {
-                        srlOutputs = "DUMPING string name \t <";
+                        srlOutputs += F("> stopped! ");
+                        CmdSerialDebugging = 0;
+                    } else if (cmd.toInt() > 0) {
+                        CmdSerialDebugging = (uint8_t) cmd.toInt();
+                        srlOutputs = F("Dumping offset name \t <");
                         srlOutputs += CmdSerialDebugging;
-                        srlOutputs += F("> ");
+                        srlOutputs += F("> started!");
                     }
                 }
 
 
-
-                //
-                // Show command information to human
-                Serial.print(F("\n\n==============================================================\n"));
-                Serial.print(srlOutputs);
-                Serial.print(F("\n==============================================================\n\n"));
-
+                if (commandOutput) {
+                    //
+                    // Show command information to human
+                    Serial.println();
+                    Serial.println(F("=============================================================="));
+                    Serial.println(srlOutputs);
+                    Serial.println(F("=============================================================="));
+                    Serial.println();
+                }
             }
 /*
             srlStrName = Serial.readStringUntil('*');

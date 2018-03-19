@@ -1725,7 +1725,7 @@ void CarSens::sensTnk() {
 //
 // debug info
 #if defined(DEBUG) && defined(DEBUG_TNK)
-    if (DBG_CMD_MAX(amp, F("tnk"))) {
+    if (DBG_CMD_MAX(amp, DBG_SR_TNK)) {
         Serial.print(F("Tank calculate: "));
         Serial.println(FUEL_TANK);
         Serial.print(F("Tank contend: "));

@@ -7,10 +7,10 @@
 
 #include <Arduino.h>
 #include "lib/AmpTime.h"
-
+#include "lib/debug.h"
 #include "lib/MenuBackend.h"
 
-String CmdSerialDebugging;
+uint8_t CmdSerialDebugging;
 
 // serial print macros
 #define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
@@ -24,15 +24,15 @@ Serial.println(__VA_ARGS__);  } // print styled line
 #define DBG_PI(...)  { Serial.print(F("\t")); Serial.print(__VA_ARGS__); } // print
 #define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
 
-boolean DBG_CMD_MIN(AmpTime *amp, const __FlashStringHelper *cmd) {
+boolean DBG_CMD_MIN(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
 }
 
-boolean DBG_CMD_MID(AmpTime *amp, const __FlashStringHelper *cmd) {
+boolean DBG_CMD_MID(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
 }
 
-boolean DBG_CMD_MAX(AmpTime *amp, const __FlashStringHelper *cmd) {
+boolean DBG_CMD_MAX(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
 /**
@@ -41,11 +41,11 @@ boolean DBG_CMD_MAX(AmpTime *amp, const __FlashStringHelper *cmd) {
  * @param cmd
  * @return
  */
-boolean DBG_CMD(AmpTime *amp, const __FlashStringHelper *cmd) {
+boolean DBG_CMD(AmpTime *amp, const uint8_t cmd) {
     return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
 }
 
-boolean DBG_CMD_LIVE(const __FlashStringHelper *cmd) {
+boolean DBG_CMD_LIVE(const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
 
