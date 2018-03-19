@@ -10,7 +10,7 @@
 #include "lib/debug.h"
 #include "lib/MenuBackend.h"
 
-uint8_t CmdSerialDebugging;
+static uint8_t CmdSerialDebugging;
 
 // serial print macros
 #define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
@@ -35,6 +35,7 @@ boolean DBG_CMD_MID(AmpTime *amp, const uint8_t cmd) {
 boolean DBG_CMD_MAX(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
 }
+
 /**
  * Debug from given serial string
  * @param amp
@@ -45,7 +46,7 @@ boolean DBG_CMD(AmpTime *amp, const uint8_t cmd) {
     return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
 }
 
-boolean DBG_CMD_LIVE(const uint8_t cmd) {
+boolean DBG_CMD_LIVE(uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
 
