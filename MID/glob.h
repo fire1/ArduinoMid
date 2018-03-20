@@ -55,15 +55,7 @@ boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
 }
 
-/**
- * @deprecated use cmd
- * @param amp
- * @param cmd
- * @return
- */
-boolean cmdMax(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isSecond()) ? true : false;
-}
+
 
 /**
  * No time amplitude

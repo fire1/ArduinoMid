@@ -1241,6 +1241,11 @@ void CarSens::sensDim() {
         }
         CUR_DIM_ON = true;
         analogWrite(pinScreenOutput, backLightLevel * 10);
+#ifdef  DEBUG
+        if (cmdMid(amp, DBG_SR_DIM)) {
+            show("DIM input", backLightLevel);
+        }
+#endif
     }
 
 #ifdef  DEBUG
