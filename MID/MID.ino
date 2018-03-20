@@ -60,7 +60,7 @@ void setup() {
 #if defined(DEBUG) && defined(SERIAL_MONITOR_BAUD)
     Serial.begin(SERIAL_MONITOR_BAUD);
     show_title("ARDUINO MID");
-    show("Firmware version", MID_VERSION);
+    show("Firmware", MID_VERSION);
     show_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
 #endif
     //
