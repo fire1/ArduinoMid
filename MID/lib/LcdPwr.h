@@ -75,6 +75,9 @@ public:
     void begin() {
 
         pwmBackLight();
+        for (uint8_t i = 0; i <= 4; ++i) {
+            pinMode(pwr[i], OUTPUT);
+        }
 
         analogWrite(pwr[0], 0); // GND
         analogWrite(pwr[1], 255); // 5V
