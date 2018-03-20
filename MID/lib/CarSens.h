@@ -313,6 +313,7 @@ private:
     //
     // Speeding alarms
     uint8_t speedAlarmCursor = 0, speedAlarmActive = 0;
+    uint8_t FUEL_TANK;
     //
     // Human Results
     volatile uint16_t CUR_VSS;
@@ -341,7 +342,6 @@ private:
     float FUEL_INST_CONS;
     /** @deprecated */
     float FUEL_WASTED = 0;
-    float FUEL_TANK;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -665,7 +665,7 @@ public:
     /**
      * Gets default fuel levels in liters
      */
-    inline float getFuelTnk() { return FUEL_TANK; }
+    inline uint8_t getFuelTnk() { return FUEL_TANK; }
 
     /**
      * Gets engine temperature
@@ -1230,7 +1230,7 @@ void CarSens::getHTm(float saved, char *dspTime) {
  */
 void CarSens::sensDim() {
     if (amp->isMid()) {
-        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 29);
+        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 50, 1023, 0, 29);
         if (backLightLevel > 25) {
             backLightLevel = 25;
         }
@@ -1240,6 +1240,7 @@ void CarSens::sensDim() {
             CUR_DIM_ON = false;
         }
         CUR_DIM_ON = true;
+
         uint8_t output = uint8_t(backLightLevel * 10.2);
         analogWrite(pinScreenOutput, output);
 #ifdef  DEBUG

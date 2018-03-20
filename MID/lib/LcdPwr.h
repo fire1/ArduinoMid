@@ -76,7 +76,7 @@ public:
 
     void begin() {
 
-//        pwmBackLight();
+        pwmBackLight();
         for (uint8_t i = 0; i <= 4; ++i) {
             pinMode(pwr[i], OUTPUT);
         }

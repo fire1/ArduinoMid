@@ -1346,30 +1346,43 @@ private:
  * Fuel information
  */
     void displayFuel() {
+        uint8_t bnz = car->getFuelTnk();
+
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
+        lcd->print(getMsg(90));
+        lcd->setCursor(LCD_COL_L21, LCD_ROW_2);
+        lcd->print(bnz);
+        lcd->print(getMsg(68));
+        lcd->setCursor(LCD_COL_L23, LCD_ROW_2);
+        lcd->print(52 - bnz);// todo: change this and measure how many km will travel untill fuel ends
+        lcd->print(getMsg(68));
+
 /* TODO Show fuel information
  * TODO add icons
  * */
 #ifdef ADT_FUEL_SYSTEM_SERIAL
         sprintf(char_2, "%02d", lpgCom.getFuelTankLiters());
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_1);
-        lcd->print(F("LPG tank:  "));
+        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->print(getMsg(96));
+        lcd->setCursor(LCD_COL_L23, LCD_ROW_3);
         lcd->print(char_2);
         lcd->print(getMsg(68));
-
-
+#endif
+#ifdef LPG_SWITCHING_DETECT
         if (drawIndex < 2 && initializeDraw) {
             btn->setEditorState(true);
             btn->setValueControlled(138);
+            btn->setValueControlled(101);
         }
 
-
+        lcd->setCursor(LCD_COL_R11, LCD_ROW_3);
         sprintf(char_2, "%02d", lpgCom.getCurrentValue());
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_2);
-//        lcd->print(F("LPG value: "));
+        lcd->print(getMsg(83));
         lcd->print(char_2);
 
         if (!btn->getNavigationState()) {
-            lcd->print(F("*"));
+            lcd->print(getMsg(101));
+            lcd->print(getMsg(103));
 
 
             if (btn->getValueControlled() < 138) {
@@ -1386,14 +1399,6 @@ private:
 //                Serial.println(F("LPG set skipped"));
             }
         }
-
-        displayFloat(car->getFuelTnk(), char_3);
-        lcd->setCursor(LCD_COL_R11, LCD_ROW_2);
-        lcd->print(F("BNZ value: "));
-        lcd->print(char_3);
-        lcd->print(getMsg(68));
-
-
 #endif
 
     }

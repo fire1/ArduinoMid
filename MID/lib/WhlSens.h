@@ -340,7 +340,7 @@ private:
                     digitalWrite(pinDigPotCtr, LOW);
                     setButtonStateParser(currentState);
                     isNewResist = 1;
-                    Serial.println(F("whl"));
+
                 }
 
                 // delay(3);
@@ -350,7 +350,6 @@ private:
                     digitalWrite(pinMaskHide, LOW);
                     lastStateButton = currentState;
                     isNewResist = 0;
-                    Serial.println(F("whl2"));
                 }
             } else digitalWrite(pinMaskHide, LOW);
         } else {
