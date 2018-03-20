@@ -30,7 +30,9 @@ private:
 
         //
         //  OC5B for pin 45
+        cli();
         TCCR5B = (TCCR5B & 0xF8) | 0x01;
+        sei();
     }
 
 

@@ -20,7 +20,6 @@
 #endif
 
 
-
 /**
  *
  */
@@ -52,17 +51,11 @@ public:
         //
         // Handles initialization
         if (MenuBase_savedCursor == 0) {
-#if defined(DEBUG_MENU)
 
-            Serial.println(F(" Makes init move ..."));
-
-#endif
-//            resRam.listen();
             //
             // Move menu to first index
             mci->moveUp();
             MenuBase_savedCursor = 1;
-//            resRam.listen();
         }
 
         MidCursorMenu = MenuBase_savedCursor;
@@ -72,13 +65,12 @@ public:
         if (MidCursorMenu == 0) {
             MidCursorMenu = 1;
         }
-#if defined(DEBUG_MENU)
-        Serial.print(F("Cursor menu: "));
-        Serial.println(MidCursorMenu);
-        Serial.print(F("Saved Cursor menu: "));
-        Serial.println(MenuBase_savedCursor);
-        Serial.print(F("Used menu: "));
-        Serial.println(usedMenu.used);
+#ifdef DEBUG
+        if (cmdLive(DBG_SR_MNI)) {
+            show("Current cursor menu", MidCursorMenu);
+            show("Saved cursor menu", MenuBase_savedCursor);
+            show("Used menu", usedMenu.used);
+        }
 #endif
     }
 
@@ -99,17 +91,17 @@ public:
         // Handle navigation
         if (btn->isUp() && !btn->isHl()) {
             mci->moveUp();
-#if defined(DEBUG_MENU)
-            if (btn->passAmp()->isMid()) {
-                Serial.print(F("Up hit \n\r"));
+#ifdef DEBUG
+            if (cmdLive(DBG_SR_MNI)) {
+                show_txt("Up hit ");
             }
 #endif
         }
         if (btn->isDw()) {
             mci->moveDw();
-#if defined(DEBUG_MENU)
-            if (btn->passAmp()->isMid()) {
-                Serial.print(F("Dw hit \n\r"));
+#ifdef DEBUG
+            if (cmdLive(DBG_SR_MNI)) {
+                show_txt("Dw hit ");
             }
 #endif
         }
@@ -117,11 +109,9 @@ public:
 
         btn->clearLastButton();
 
-
-#if defined(DEBUG_MENU)
-        if (btn->passAmp()->isSecond()) {
-            Serial.print(F("Cursor saved: "));
-            Serial.println(MenuBase_savedCursor);
+#ifdef DEBUG
+        if (cmd(btn->passAmp(), DBG_SR_MNI)) {
+            show("Cursor saved", MenuBase_savedCursor);
         }
 #endif
         //
@@ -134,12 +124,6 @@ public:
             // Change menu to show screen
             MidCursorMenu = MENU_ENTRY;
         }
-#if defined(DEBUG_MENU)
-        if (btn->passAmp()->isSecond()) {
-            Serial.print(F("Cursor MID: "));
-            Serial.println(MidCursorMenu);
-        }
-#endif
     }
 
 

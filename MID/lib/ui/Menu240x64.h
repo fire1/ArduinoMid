@@ -143,8 +143,11 @@ public:
         MenuItem curMenuItem = change.to; //get the destination menu
         const char *curMenuName = curMenuItem.getName();
 
-        Serial.println(curMenuName);
-
+#ifdef DEBUG
+        if (cmdLive(DBG_SR_MNI)) {
+            show("Captured menu name", curMenuName);
+        }
+#endif
 
         if (curMenuName == MENU_NAME_1) {
             MidCursorMenu = 1;

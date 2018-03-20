@@ -86,13 +86,6 @@ public:
  */
     float getConsumedFuel() {
 
-//        Serial.print("Consumptions: ");
-//        Serial.print(container.fuel_adt);
-//        Serial.print(" / ");
-//        Serial.print( car->getAdtFuelCns());
-//        Serial.println();
-
-
 #ifdef SWITCH_FUEL_ON_STATE
         //
         // Switching between LPG / BNZ
@@ -313,15 +306,15 @@ private:
     void fixtureTripNan() {
         if (isnan(container.trip_a.fuel) || isnan(container.trip_a.range)) {
             resetTripA();
-            Serial.println("Fix nan trip A");
+            Serial.println(F("Fix nan trip A"));
         }
         if (isnan(container.trip_b.fuel) || isnan(container.trip_b.range)) {
             resetTripB();
-            Serial.println("Fix nan trip B");
+            Serial.println(F("Fix nan trip B"));
         }
         if (isnan(container.trip_c.fuel) || isnan(container.trip_c.range)) {
             resetTripC();
-            Serial.println("Fix nan trip C");
+            Serial.println(F("Fix nan trip C"));
         }
     }
 
@@ -444,18 +437,22 @@ void EepRom::load() {
     int eLocation = 0;
     volatile uint8_t i;
     for (i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
-
-        Serial.println(F("Restore Value:"));
+#ifdef DEBUG
+        if (cmdLive(DBG_SR_EPR))
+            Serial.println(F("EepRom Restore Value:"));
+#endif
         EEPROM.get(eLocation, eGetValue);
 
         if (isnan(eGetValue))
             eGetValue = 0;
 
-        Serial.println(eGetValue, 2);
+#ifdef DEBUG
+        if (cmdLive(DBG_SR_EPR))
+            Serial.println(eGetValue, 2);
+#endif
         eLocation = eLocation + sizeof(eGetValue);
-        Serial.println("");
         data[i] = eGetValue;
-        delay(5);
+        delay(2);
     }
 
     container.fuel_adt = data[1];
@@ -488,25 +485,27 @@ void EepRom::load() {
 
     this->fixtureTripNan(); // Fix broken not NAN  values
 
+#ifdef DEBUG
+    if (cmdLive(DBG_SR_EPR)) {
+        Serial.println(data[1], 2);
+        Serial.println(data[2], 2);
+        Serial.println(data[3], 2);
+        Serial.println(data[4], 2);
+        Serial.println(data[7]);
+        Serial.println(data[8]);
+        Serial.println(data[9]);
+        Serial.println(data[10]);
+        Serial.println(data[17]);
 
-    Serial.println(data[1], 2);
-    Serial.println(data[2], 2);
-    Serial.println(data[3], 2);
-    Serial.println(data[4], 2);
-    Serial.println(data[7]);
-    Serial.println(data[8]);
-    Serial.println(data[9]);
-    Serial.println(data[10]);
-    Serial.println(data[17]);
-    delay(10);
-    Serial.println("Trip records: ");
-    Serial.println(data[11]);
-    Serial.println(data[12]);
-    Serial.println(data[13]);
-    Serial.println(data[14]);
-    Serial.println(data[15]);
-    Serial.println(data[16]);
-    delay(10);
+        Serial.println(F("Trip records: "));
+        Serial.println(data[11]);
+        Serial.println(data[12]);
+        Serial.println(data[13]);
+        Serial.println(data[14]);
+        Serial.println(data[15]);
+        Serial.println(data[16]);
+    }
+#endif
 }
 
 

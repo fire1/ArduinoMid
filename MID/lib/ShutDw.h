@@ -119,7 +119,7 @@ public:
                 return;
             } else {
 
-                Serial.println("WARNING!  Writing EEP ROM data to chip...");
+                Serial.println(F("WARNING!  Writing EEP ROM data to chip..."));
                 alreadySaved = 1;
                 melodySave();
                 eep->saveCurrentData();
@@ -190,10 +190,6 @@ void ShutDw::listener() {
     detectorValue = analogRead(pinDtct);
 
 
-//    if (amp->isMid()) {
-//        Serial.print("Detected car voltage is: ");
-//        Serial.println(detectorValue);
-//    }
 
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {
 
@@ -258,7 +254,7 @@ void ShutDw::melodySave() {
  */
 void ShutDw::menu(LcdUiInterface *lcd) {
 
-    Serial.println("Shutdown active");
+    Serial.println(F("Shutdown active"));
     //
     // Basic information save
 

@@ -1188,10 +1188,10 @@ private:
         if (distance > 1) {
             lcd->print(char_3);
         } else {
-            lcd->print("00.0");
+            lcd->print(F("00.0"));
         }
         lcd->print(getMsg(68));
-        lcd->print("  ");
+        lcd->print(F("  "));
     }
 
 /**

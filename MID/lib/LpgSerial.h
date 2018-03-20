@@ -282,11 +282,6 @@ public:
 
             }
             uint8_t val = (uint8_t) Serial2.read();
-#if defined(DEBUG) && defined(DEBUG_SR2)
-            //            Serial.println();
-            //            Serial.print("Current val: ");
-            //            Serial.println(val);
-#endif
 
             if (val == 0 && lpgUse) {
                 val = 100;
@@ -363,15 +358,12 @@ public:
             if (val != 255)
                 trans = val;
 
-#if defined(DEBUG) && defined(DEBUG_SR2)
-            Serial.print("DATA: ");
-            Serial.print(data[0]);
-            Serial.print(" / ");
-            Serial.print(data[1]);
-
-            Serial.println();
-            Serial.print("Current trans: ");
-            Serial.println(trans);
+#ifdef DEBUG
+            if (cmd(amp, DBG_SR_LPG)) {
+                show("Data 0", data[0]);
+                show("Data 1", data[1]);
+                show("Trans ", trans);
+            }
 #endif
 
             if (index >= 2) {

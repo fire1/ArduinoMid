@@ -114,6 +114,8 @@ inline void show(const __FlashStringHelper *msg, double data) {
 #define show(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
 #define show_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
 #define show_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
+#define show_txt(msg){Serial.println(F(msg)); }
+#define show_title(msg){Serial.println(F(msg));Serial.println(F("==============================================================")); }
 //
 //
 //

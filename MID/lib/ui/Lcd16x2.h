@@ -268,7 +268,7 @@ protected:
                 displayFloat(value, char_3);
 
                 lcd->print(char_3);
-                lcd->print("L/");
+                lcd->print(F("L/"));
                 lcd->write((uint8_t) 3);
                 lcd->write((uint8_t) 2);
 //            lcd->print(" ");
@@ -298,12 +298,12 @@ protected:
             // Preformat ...
             lcd->setCursor(0, 1);
             if (value < 100) {
-                lcd->print(" ");
+                lcd->print(F(" "));
             }
             displayFloat(value, char_3);
             lcd->print(char_3);
             lcd->write((uint8_t) 2);
-            lcd->print(" ");
+            lcd->print(F(" "));
         }
     }
 
@@ -317,7 +317,7 @@ protected:
             lcd->setCursor(0, 1);
             lcd->print(F("  "));
 //        lcd->write((uint8_t) 3);
-            lcd->write("!");
+            lcd->write(F("!"));
             lcd->print(F("    "));
             displayAlertMessagingActive = true;
 //        tone(TONE_ADT_PIN, 1200, 60);

@@ -219,22 +219,19 @@ public:
     // TODO change BTN_DEBOUNCE_RATE to faster
     boolean lastUseDebounce() {
         if (millis() - lastUsed > getDebounceRate()) {
-#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-            if (amp->isSecond()) {
-                Serial.println("Debounce is true");
+#ifdef DEBUG
+            if (cmd(amp, DBG_SR_MNB)) {
+                show_txt("Debounce is true");
             }
-
 #endif
             return true;
         } else {
-            return false;
-#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-            if (amp->isSecond()) {
-                Serial.println("Debounce is false");
+#ifdef DEBUG
+            if (cmd(amp, DBG_SR_MNB)) {
+                show_txt("Debounce is false");
             }
-
-
 #endif
+            return false;
         }
     }
 
@@ -359,14 +356,6 @@ void MenuBtn::begin(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal
     pinMode(btnUp, INPUT_PULLUP);
     pinMode(btnDw, INPUT_PULLUP);
     pinMode(btnBk, INPUT);
-
-    //
-    // Turn on  Internal pull up resistor
-//    digitalWrite(btnUp, HIGH);
-//    digitalWrite(btnDw, HIGH);
-//    analogWrite(btnUp, 240);
-//    analogWrite(btnDw, 240);
-
     digitalWrite(btnBk, LOW);
 
 }
@@ -376,13 +365,6 @@ void MenuBtn::listener() {
     //
     // Delete hold state
     isHoldState = false;
-
-//    Serial.print("Btn dw ");
-//    Serial.println(digitalRead(btnDw));
-//    Serial.print("Btn up ");
-//    Serial.println(digitalRead(btnUp));
-//    Serial.print("Break is ");
-//    Serial.println(isBk());
     //
     // Debounce the buttons
     if (lastUseDebounce()) {
@@ -416,27 +398,18 @@ void MenuBtn::listener() {
     //  Startup short cuts
     startup();
 
-#if defined(BUTTONS_DEBUG) || defined(GLOBAL_SENS_DEBUG)
-    if (amp->isMid()) {
-        Serial.print("Break is: ");
-        Serial.println(this->isBk());
-        Serial.print("Up is: ");
-        Serial.println(this->isUp());
-
-        Serial.print("Dw is: ");
-        Serial.println(this->isDw());
+#ifdef DEBUG
+    if (cmdMid(amp, DBG_SR_MNB)) {
+        show("BK is", this->isBk());
+        show("UP is", this->isUp());
+        show("DW is", this->isDw());
     }
-    if (amp->isSecond()) {
 
-        Serial.print(F("Last button is :"));
-        Serial.println(lastButtonPushed);
-        Serial.print(F("Navigation state :"));
-        Serial.println(isNavigationActive);
-        Serial.print(F("Editor active  :"));
-        Serial.println(editorActivate);
-        Serial.print(F("Controlled value  :"));
-        Serial.println(controlledValue);
-
+    if (cmd(amp, DBG_SR_MNB)) {
+        show("Last button is", lastButtonPushed);
+        show("Navigation  is", isNavigationActive);
+        show("Editor active ", editorActivate);
+        show("Control value ", controlledValue);
     }
 #endif
 
