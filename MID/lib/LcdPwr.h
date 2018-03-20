@@ -15,6 +15,25 @@ private:
     uint8_t pwr[5];
     uint8_t adt[2];
     bool additional = false;
+
+    void pwmBackLight() {
+        /*
+         TIMER 5          (Pin 44, 45, 46)
+        Value                             Divisor                      Frequency
+        0x01                                  1                         31.374 KHz
+        0x02                                  8                          3.921 Khz
+        0x03                                 64                          490.1 Hz            // default
+        0x04                                 256                         122.5 Hz
+        0x05                                 1024                        30.63 Hz
+        Code:                 TCCR5B = (TCCR5B & 0xF8) | value ;
+         */
+
+        //
+        //  OC5B for pin 45
+        TCCR5B = (TCCR5B & 0xF8) | 0x01;
+    }
+
+
 public:
 /**
  *
@@ -54,6 +73,9 @@ public:
 
 
     void begin() {
+
+        pwmBackLight();
+
         analogWrite(pwr[0], 0); // GND
         analogWrite(pwr[1], 255); // 5V
         analogWrite(pwr[3], 0); // back light
