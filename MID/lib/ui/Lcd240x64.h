@@ -540,15 +540,7 @@ protected:
     void useDefaultMode() {
 
         lcd->enableUTF8Print();
-        // Cyrillic font u8g2_font_crox1c_tf
-        // u8g2_font_crox1cb_tf
-        //u8g2_font_mercutio_basic_nbp_t_all
-        // u8g2_font_crox1cb_tf
-        // u8g2_font_crox1h_tf
-        // u8g2_font_crox1hb_tf
-//        u8g2_font_unifont_t_cyrillic
         lcd->setFont(u8g_font_opel_ic_13); // u8g2_font_unifont_t_cyrillic
-//        lcd->setFont(u8g2_opel_font_bold); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
@@ -1358,7 +1350,7 @@ private:
         lcd->print(bnz);
         lcd->print(getMsg(68));
         lcd->setCursor(LCD_COL_L23, LCD_ROW_2);
-        lcd->print(F(" +00"));
+        lcd->print(F("00"));
         // todo: change this and measure how many km will travel until fuel ends
 //        lcd->print((bnz * 100) / eep->getDefFuel());
         lcd->print(getMsg(69));
@@ -1387,8 +1379,9 @@ private:
         lcd->print(char_2);
 
         if (!btn->getNavigationState()) {
+            this->playUltra();
             lcd->print(getMsg(101));
-            lcd->print(getMsg(103));
+            lcd->print(getMsg(102));
 
 
             if (btn->getValueControlled() < 138) {
@@ -1634,6 +1627,7 @@ void Lcd240x62::menus() {
         default:
         case MENU_ENTRY:
             this->changedFont = false;
+            this->playUltra();
             displayEntry();
             break;
             //
