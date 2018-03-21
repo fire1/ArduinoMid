@@ -275,8 +275,8 @@ public:
 
     void captureMn() {
         if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
+            lastUsed = millis();
             if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && amp->isMin()) {
-                lastUsed = millis();
                 lastButtonPushed = btnMn;
             }
         }
@@ -286,7 +286,7 @@ public:
         //
         // Hold button detection
         if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
-            if (amp->isLow() && !digitalRead(btnDw) == HIGH) {
+            if (amp->isMid() && !digitalRead(btnDw) == HIGH) {
                 //
                 // Cut the method if shortcut is executed
                 shortcut();

@@ -1230,7 +1230,7 @@ void CarSens::getHTm(float saved, char *dspTime) {
  */
 void CarSens::sensDim() {
     if (amp->isMid()) {
-        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 50, 1023, 0, 29);
+        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 30);
         if (backLightLevel > 25) {
             backLightLevel = 25;
         }
