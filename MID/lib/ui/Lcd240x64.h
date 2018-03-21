@@ -1195,9 +1195,9 @@ private:
     }
 
 /**
- * Dysplay trip row
+ * Display trip row
  * */
-    void buildRowTrip(const char *name, TripData data, uint8_t y) {
+    void buildRowTrip(const __FlashStringHelper *name, TripData data, uint8_t y) {
         float dst = car->getDst() + data.range;
         lcd->setCursor(LCD_COL_L10, y);
         lcd->print(name);
@@ -1219,10 +1219,10 @@ private:
     }
 
     void displayTrips() {
-        this->buildRowTrip("T0:  ", eep->getTrip0(), LCD_ROW_1);
-        this->buildRowTrip("T1:  ", eep->getTripA(), LCD_ROW_2);
-        this->buildRowTrip("T2:  ", eep->getTripB(), LCD_ROW_3);
-        this->buildRowTrip("T3:  ", eep->getTripC(), LCD_ROW_4);
+        this->buildRowTrip(F("T0:  "), eep->getTrip0(), LCD_ROW_1);
+        this->buildRowTrip(F("T1:  "), eep->getTripA(), LCD_ROW_2);
+        this->buildRowTrip(F("T2:  "), eep->getTripB(), LCD_ROW_3);
+        this->buildRowTrip(F("T3:  "), eep->getTripC(), LCD_ROW_4);
 
         btn->setEditorState(true);
 
@@ -1232,12 +1232,15 @@ private:
             btn->setValueControlled(valueCursor);
             //
             // Change speed of screen
-            this->playUltra();
+//            this->playUltra();
         }
         valueComperator = valueCursor;
         //
         // Manage section
-        if (!btn->getNavigationState() && drawIndex % 2 == 0) {
+        if (!btn->getNavigationState() /*&& drawIndex % 2 == 0*/) {
+            //
+            // Change speed of screen TODO: testing state in if without draw index
+            this->playUltra();
             uint8_t cursor = (uint8_t) btn->getValueControlled();
 
             if (cursor > valueComperator && drawIndex % 4 == 0) {
@@ -1256,7 +1259,8 @@ private:
             }
 
             if (cursor < valueComperator) {
-                lcd->drawStr(LCD_COL_R22, tripActive, "  X");
+                lcd->setCursor(LCD_COL_R22, tripActive);
+                lcd->print(getMsg(105));
                 tripReset = cursor;
             }
 //
@@ -1354,8 +1358,10 @@ private:
         lcd->print(bnz);
         lcd->print(getMsg(68));
         lcd->setCursor(LCD_COL_L23, LCD_ROW_2);
-        lcd->print(52 - bnz);// todo: change this and measure how many km will travel untill fuel ends
-        lcd->print(getMsg(68));
+        lcd->print(F(" +00"));
+        // todo: change this and measure how many km will travel until fuel ends
+//        lcd->print((bnz * 100) / eep->getDefFuel());
+        lcd->print(getMsg(69));
 
 /* TODO Show fuel information
  * TODO add icons
@@ -1460,7 +1466,7 @@ private:
         lcd->print(char_7);
 
         if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth("[")) + 10, LCD_ROW_1);
+            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth(("["))) + 10, LCD_ROW_1);
             lcd->print(F("["));
             lcd->setCursor(LCD_COL_R11 + lcd->getStrWidth(char_7) + 10, LCD_ROW_1);
             lcd->print(F("]"));
