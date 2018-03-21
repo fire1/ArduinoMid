@@ -15,7 +15,9 @@ private:
     uint8_t pwr[5];
     uint8_t adt[2];
     bool additional = false;
-
+/**
+ * Quicker Frequency for back light
+ */
     void pwmBackLight() {
         /*
          TIMER 5          (Pin 44, 45, 46)
