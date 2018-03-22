@@ -79,9 +79,9 @@ class Lcd240x62 : virtual public LcdUiInterface {
 // Drowing counter
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
-    uint8_t valueCursor = 1;
+    char valueCursor = 1;
     uint8_t tripActive = 1;
-    uint8_t valueComperator = 1;
+    char valueComparator = 1;
     uint8_t tripReset = 0;
     uint8_t wordWidth = 0;
 
@@ -1224,57 +1224,83 @@ private:
             btn->setValueControlled(valueCursor);
 
         }
-        valueComperator = valueCursor;
+        valueComparator = valueCursor;
         //
         // Manage section
         if (!btn->getNavigationState()) {
             //
             // Change speed of screen
             this->playUltra();
-            uint8_t cursor = (uint8_t) btn->getValueControlled();
-
+            signed char cursor = btn->getValueControlled();
             //
             // Detect button up / change cursor
-            if (cursor > valueComperator && drawIndex % 4 == 0) {
+            if (cursor > valueComparator && drawIndex % 4 == 0 && tripReset == 0) {
                 valueCursor++;
                 tripReset = 0;
             }
 
-            // TODO: this needs fixing
+//            show_dec("cursor", cursor);
+//            show_dec("value", valueComparator);
+            // TODO: position of cursor for T1
             // Validate rest of trip
             boolean delete_trip = false;
-            if (tripReset != 0 && cursor < valueComperator) {
-                Serial.println(F("NOTICE: Delete trip.... "));
-                tripReset = 0;
-                valueComperator = 0;
-                delete_trip = true;
+            if (cursor < tripReset && drawIndex % 4 == 0) {
+
+                if (tripReset == valueComparator) {
+                    valueComparator = cursor;
+                }
+
+                if (cursor < valueComparator) {
+                    Serial.println(F("NOTICE: Delete trip.... "));
+                    tripReset = 0;
+                    valueComparator = 0;
+                    delete_trip = true;
+                }
+            }
+
+            //
+            // Un-activate delete
+            if (tripReset != 0 && cursor > valueComparator) {
+                if (cursor > valueComparator) {
+                    Serial.println(F("NOTICE: Skip deleting ... "));
+                    tripReset = 0;
+                    valueComparator = 0;
+                    delete_trip = false;
+                    tripReset = 0;
+                }
             }
 
             //
             // Detect button down / set trip to reset
-            if (cursor < valueComperator) {
-                lcd->setCursor(LCD_COL_R22, tripActive);
+            if (cursor < valueComparator) {
+                lcd->setCursor(LCD_COL_R23, tripActive);
                 lcd->print(getMsg(105));
-                tripReset = cursor;
+                lcd->setCursor(LCD_COL_R22 + 10, tripActive);
+                valueComparator = cursor; // to compare next loop
+                tripReset = cursor; // activate trip reset
             }
 
             //
-            // Activate trip for reset
-            if (valueCursor == 1) {
-                lcd->setCursor(0, LCD_ROW_2);
-                tripActive = LCD_ROW_2;
-            } else if (valueCursor == 2) {
-                lcd->setCursor(0, LCD_ROW_3);
-                tripActive = LCD_ROW_3;
-            } else if (valueCursor == 3) {
-                lcd->setCursor(0, LCD_ROW_4);
-                tripActive = LCD_ROW_4;
-            } else if (!delete_trip) {
-                lcd->setCursor(0, LCD_ROW_2);
-                valueCursor = 1;// Clear wrong cursor
-                btn->setValueControlled(valueCursor);
-                Serial.println(F("ERROR: Trip cursor out of range .... "));
+            // Switch  rows
+            if (tripReset == 0) {
+                //
+                // Activate trip for reset
+                if (valueCursor == 1) {
+                    tripActive = LCD_ROW_2;
+                } else if (valueCursor == 2) {
+                    tripActive = LCD_ROW_3;
+                } else if (valueCursor == 3) {
+                    tripActive = LCD_ROW_4;
+                } else if (!delete_trip) {
+                    tripReset = 0;
+                    lcd->setCursor(0, LCD_ROW_2);
+                    valueCursor = 1;// Clear wrong cursor
+                    btn->setValueControlled(valueCursor);
+                    Serial.println(F("ERROR: Trip cursor out of range .... "));
+                }
+                lcd->setCursor(0, tripActive);
             }
+
             //
             // Display cursor blink
             if (drawIndex % 4 == 0) {
@@ -1298,9 +1324,10 @@ private:
                     Serial.println(F("ERROR: Cannot find cursor for deleting .... "));
                 }
                 valueCursor = 1;
-                valueComperator = 1;
+                valueComparator = 1;
                 tripActive = 0;
                 tripReset = 0;
+                btn->setValueControlled(valueCursor);
                 btn->setNavigationState(true);
             }
 
@@ -1602,7 +1629,7 @@ private:
 
 
         if (!btn->getNavigationState()) {
-            valueComperator = (uint8_t) btn->getValueControlled();
+            valueComparator = (uint8_t) btn->getValueControlled();
             lcd->print(F(" Press # to reset data"));
         } else
             lcd->print(F(" To reset hold #+$ "));

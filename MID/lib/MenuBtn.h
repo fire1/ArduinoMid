@@ -235,7 +235,9 @@ public:
         }
     }
 
-
+/**
+ * Capture set button click
+ */
     void captureUp(void) {
         if (!digitalRead(btnUp) == HIGH) { // TODO test it with amp.low
             if (amp->isMid() && !digitalRead(btnUp) == HIGH) { // From isLow to isMid
@@ -245,7 +247,9 @@ public:
         }
     }
 
-
+/**
+ * Capture reset button click
+ */
     void captureDw(void) {
 
         //
@@ -272,16 +276,26 @@ public:
         }
 
     }
-
+/**
+ * Capture menu
+ */
     void captureMn() {
         if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
-            lastUsed = millis();
-            if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH && amp->isMin()) {
+            if (amp->isMin()) {
+                lastUsed = millis();
                 lastButtonPushed = btnMn;
+                togetherPress = true;
+                //
+                // Check is menu having editor rights
+                if(editorActivate){
+                    this->setNavigationState(false);
+                }
             }
         }
     }
-
+/**
+ * Capture reset hold
+ */
     void captureHl(void) {
         //
         // Hold button detection
@@ -312,24 +326,10 @@ public:
 
     }
 
-    void captureTg() {
-        togetherPress = false;
-        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
-            if (amp->isLow()) {
-                togetherPress = true;
-                lastUsed = millis();
-            }
-        }
-    };
-
+/**
+ * Capture editor
+ */
     void captureEd() {
-
-        //
-        // LISTEN for Editor activation
-        if (!digitalRead(btnDw) == HIGH && !digitalRead(btnUp) == HIGH) {
-            if (amp->isLow())
-                this->setNavigationState(false);
-        }
         //
         // LISTEN for Editor deactivation
         if (editorActivate && this->isBk() && !this->getNavigationState()) {
@@ -376,24 +376,17 @@ void MenuBtn::listener() {
         //
         // Detect down state button
         captureDw();
-
-        //
-        // Capture R+S
-        captureMn();
-
         //
         // Provides editor futures
         captureEd();
-
-        // TODO  make this hold as additional option
-        // and other other waiting press after hold to activate shortcuts
     }
+
+    //
+    // Capture R+S
+    captureMn();
     //
     // Detect Hold button state
     captureHl();
-    //
-    // Detect together pressed
-    captureTg();
     //
     //  Startup short cuts
     startup();
