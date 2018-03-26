@@ -221,14 +221,14 @@ public:
         if (millis() - lastUsed > getDebounceRate()) {
 #ifdef DEBUG
             if (cmd(amp, DBG_SR_MNB)) {
-                show_txt("Debounce is true");
+                dump_txt("Debounce is true");
             }
 #endif
             return true;
         } else {
 #ifdef DEBUG
             if (cmd(amp, DBG_SR_MNB)) {
-                show_txt("Debounce is false");
+                dump_txt("Debounce is false");
             }
 #endif
             return false;
@@ -393,16 +393,16 @@ void MenuBtn::listener() {
 
 #ifdef DEBUG
     if (cmdMid(amp, DBG_SR_MNB)) {
-        show("BK is", this->isBk());
-        show("UP is", this->isUp());
-        show("DW is", this->isDw());
+        dump("BK is", this->isBk());
+        dump("UP is", this->isUp());
+        dump("DW is", this->isDw());
     }
 
     if (cmd(amp, DBG_SR_MNB)) {
-        show("Last button is", lastButtonPushed);
-        show("Navigation  is", isNavigationActive);
-        show("Editor active ", editorActivate);
-        show("Control value ", controlledValue);
+        dump("Last button is", lastButtonPushed);
+        dump("Navigation  is", isNavigationActive);
+        dump("Editor active ", editorActivate);
+        dump("Control value ", controlledValue);
     }
 #endif
 

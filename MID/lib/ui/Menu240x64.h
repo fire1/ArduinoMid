@@ -145,7 +145,7 @@ public:
 
 #ifdef DEBUG
         if (cmdLive(DBG_SR_MNI)) {
-            show("Captured menu name", curMenuName);
+            dump("Captured menu name", curMenuName);
         }
 #endif
 

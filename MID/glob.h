@@ -13,17 +13,7 @@
 static uint8_t CmdSerialDebugging;
 
 // serial print macros
-#define DBG_INIT(...) { Serial.begin(__VA_ARGS__);  } //initialization
-//#define DBG_SEC(AmpTime *amp) { return (amp->isMax())?true:false;  } //initialization
-#define DBG_PS(...)    { \
-Serial.print(F("[DBG$]> ")); \
-Serial.print(CmdSerialDebugging); \
-Serial.print(F(": ")); \
-Serial.println(__VA_ARGS__);  } // print styled line
-
-#define DBG_PI(...)  { Serial.print(F("\t")); Serial.print(__VA_ARGS__); } // print
-#define DBG_PD(...)  { Serial.print(F("\t")); Serial.println(__VA_ARGS__); } // print line
-
+#define dump_init(...) { Serial.begin(__VA_ARGS__);  } //initialization
 
 /**
  * Debug from given serial string over 1 second amplitude
@@ -65,49 +55,49 @@ boolean cmdLive(uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
 
-/*inline void show(const __FlashStringHelper *msg, uint8_t data) {
+/*inline void dump(const __FlashStringHelper *msg, uint8_t data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }
 
-inline void show(const __FlashStringHelper *msg, float data) {
+inline void dump(const __FlashStringHelper *msg, float data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }
 
-inline void show(const __FlashStringHelper *msg, int data) {
+inline void dump(const __FlashStringHelper *msg, int data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }
 
-inline void show(const __FlashStringHelper *msg, long data) {
+inline void dump(const __FlashStringHelper *msg, long data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }
 
-inline void show(const __FlashStringHelper *msg, unsigned long data) {
+inline void dump(const __FlashStringHelper *msg, unsigned long data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }
 
-inline void show(const __FlashStringHelper *msg, double data) {
+inline void dump(const __FlashStringHelper *msg, double data) {
     Serial.print(msg);
     Serial.print(":\t ");
     Serial.println(data);
 }*/
 
 
-#define show(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
-#define show_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
-#define show_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
-#define show_dec(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,DEC);}
-#define show_txt(msg){Serial.println(F(msg)); }
-#define show_title(msg){Serial.println(F(msg));Serial.println(F("==============================================================")); }
+#define dump(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
+#define dump_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
+#define dump_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
+#define dump_dec(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,DEC);}
+#define dump_txt(msg){Serial.println(F(msg)); }
+#define dump_title(msg){Serial.println(F(msg));Serial.println(F("==============================================================")); }
 //
 //
 //

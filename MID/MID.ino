@@ -57,12 +57,12 @@ void setup() {
     shutDown.begin(SAV_PIN_CTR, SAV_PIN_DTC, TONE_ADT_PIN);
     //
     // Debug serial
-#if defined(DEBUG) && defined(SERIAL_MONITOR_BAUD)
-    Serial.begin(SERIAL_MONITOR_BAUD);
+#if defined(DEBUG) && defined(SERIAL_BAUD)
+    dump_init(SERIAL_BAUD);
     delay(5);
-    show_title("ARDUINO MID");
-    show("Firmware", MID_VERSION);
-    show_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
+    dump_title("ARDUINO MID");
+    dump("Firmware", MID_VERSION);
+    dump_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
 #endif
     //
     // Change timer 3

@@ -91,12 +91,11 @@ private:
 
 //
 // debug info
-#if defined(DEBUG) && defined(DEBUG_VLT)
-        if (DBG_CMD(amp, F("vlt"))) {
-        DBG_PS(readingVoltage / 68);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD(readingVoltage);
-    }
+#ifdef DEBUG
+        if (cmd(amp, DBG_SR_STW)) {
+            dump("Voltage calculate", readingVoltage / 68)
+            dump("Voltage readings", readingVoltage);
+        }
 #endif
 
         //
@@ -189,7 +188,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {}
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
 
     void setWorkState(float distance);
 
@@ -353,7 +352,7 @@ public:
             alertOverheat = true;
             return true;
         }
-        if(alertOverheat){
+        if (alertOverheat) {
             result.ovh = 0; // reset overheat for new check
             alertOverheat = false;
         }

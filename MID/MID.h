@@ -18,7 +18,7 @@
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
-#define SERIAL_MONITOR_BAUD 115200  // 115200 - Normal Speed of monitoring messages
+#define SERIAL_BAUD 115200  // 115200 - Normal Speed of monitoring messages
 
 //
 // Time to wait when holding >R button

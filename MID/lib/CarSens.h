@@ -1037,9 +1037,9 @@ void CarSens::sensVss() {
 // debug info
 #if defined(DEBUG)
     if (cmd(amp, DBG_SR_VSS)) {
-        show("VSS", CUR_VSS);
-        show("Hits contend", vssHitsCount);
-        show("Distance contend", CUR_VDS);
+        dump("VSS", CUR_VSS);
+        dump("Hits contend", vssHitsCount);
+        dump("Distance contend", CUR_VDS);
     }
 #endif
 
@@ -1064,8 +1064,8 @@ void CarSens::sensRpm() {
 // debug info
 #if defined(DEBUG)
     if (cmd(amp, DBG_SR_RPM)) {
-        show("RPM", CUR_RPM);
-        show("Hits contend", rpmHitsCount);
+        dump("RPM", CUR_RPM);
+        dump("Hits contend", rpmHitsCount);
 
     }
 #endif
@@ -1088,9 +1088,9 @@ void CarSens::sensEcu() {
 // debug info
 #if defined(DEBUG)
         if (cmd(amp, DBG_SR_ECU)) {
-            show("ECU", CUR_ECU);
-            show("Hits contend", ecuHitsCount);
-            show("Pulse count", CUR_PEC);
+            dump("ECU", CUR_ECU);
+            dump("Hits contend", ecuHitsCount);
+            dump("Pulse count", CUR_PEC);
         }
 #endif
         ecuHitsCount = 0;
@@ -1132,10 +1132,10 @@ void CarSens::sensAlarms() {
 
 #if defined(DEBUG)
         if (cmd(amp, DBG_SR_SAL)) {
-            show("VSS", CUR_VSS);
-            show("Current speed", currentSpeed);
-            show("Alarm cursor", speedAlarmCursor);
-            show("Alarm active", speedAlarmCursor);
+            dump("VSS", CUR_VSS);
+            dump("Current speed", currentSpeed);
+            dump("Alarm cursor", speedAlarmCursor);
+            dump("Alarm active", speedAlarmCursor);
         }
 #endif
         //
@@ -1245,15 +1245,15 @@ void CarSens::sensDim() {
         analogWrite(pinScreenOutput, output);
 #ifdef  DEBUG
         if (cmdLive(DBG_SR_DIM)) {
-            show("DIM input", backLightLevel);
-            show("DIM output", output);
+            dump("DIM input", backLightLevel);
+            dump("DIM output", output);
         }
 #endif
     }
 
 #ifdef  DEBUG
     if (cmd(amp, DBG_SR_DIM)) {
-        show("DIM ON/OFF", CUR_DIM_ON);
+        dump("DIM ON/OFF", CUR_DIM_ON);
     }
 #endif
 
@@ -1289,11 +1289,11 @@ void CarSens::sensEnt() {
 
     }
 
-#if  defined(DEBUG) && defined(DEBUG_ENT)
-    if (DBG_CMD(amp, "ent")) {
-        DBG_PS(CUR_ENT);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD((smoothEngineTemp / indexEngineTemp);
+
+#ifdef  DEBUG
+    if (cmd(amp, DBG_SR_ENT)) {
+        dump("Engine coolant", CUR_DIM_ON);
+        dump("Coolant hits", smoothEngineTemp / indexEngineTemp);
     }
 #endif
 
@@ -1430,9 +1430,9 @@ void CarSens::sensTmp() {
     }
 
 
-#if  defined(DEBUG) && defined(DEBUG_TIN)
-    if (DBG_CMD(amp, "tin")) {
-        DBG_PS(temperatureSensors.getTempCByIndex(0));
+#if  defined(DEBUG)
+    if (cmd(amp, DBG_SR_TM2)) {
+        dump("Temperature 1", temperatureSensors.getTempCByIndex(0))
     }
 #endif
 
@@ -1531,17 +1531,6 @@ void CarSens::sensTmp() {
         } else
             CUR_OUT_TMP = temperatureC;
     }
-//
-// debug info
-#if defined(DEBUG) && defined(DEBUG_TOU)
-    if (DBG_CMD(amp, "tou")) {
-        DBG_PS(temperatureC);
-        DBG_PI(F("Hits contend: "))
-        DBG_PD(resistanceReadings);
-        DBG_PI(F("Live contend: "))
-        DBG_PD(liveValue);
-    }
-#endif
 
 }
 

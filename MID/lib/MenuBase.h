@@ -67,9 +67,9 @@ public:
         }
 #ifdef DEBUG
         if (cmdLive(DBG_SR_MNI)) {
-            show("Current cursor menu", MidCursorMenu);
-            show("Saved cursor menu", MenuBase_savedCursor);
-            show("Used menu", usedMenu.used);
+            dump("Current cursor menu", MidCursorMenu);
+            dump("Saved cursor menu", MenuBase_savedCursor);
+            dump("Used menu", usedMenu.used);
         }
 #endif
     }
@@ -93,7 +93,7 @@ public:
             mci->moveUp();
 #ifdef DEBUG
             if (cmdLive(DBG_SR_MNI)) {
-                show_txt("Up hit ");
+                dump_txt("Up hit ");
             }
 #endif
         }
@@ -101,7 +101,7 @@ public:
             mci->moveDw();
 #ifdef DEBUG
             if (cmdLive(DBG_SR_MNI)) {
-                show_txt("Dw hit ");
+                dump_txt("Dw hit ");
             }
 #endif
         }
@@ -111,7 +111,7 @@ public:
 
 #ifdef DEBUG
         if (cmd(btn->passAmp(), DBG_SR_MNI)) {
-            show("Cursor saved", MenuBase_savedCursor);
+            dump("Cursor saved", MenuBase_savedCursor);
         }
 #endif
         //
@@ -121,7 +121,7 @@ public:
             // Keep cursor in save place
             MenuBase_savedCursor = MidCursorMenu;
             //
-            // Change menu to show screen
+            // Change menu to dump screen
             MidCursorMenu = MENU_ENTRY;
         }
     }

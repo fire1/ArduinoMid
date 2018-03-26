@@ -127,9 +127,9 @@ Break state counter: 12
 Oil state counter: 121
 Coolant state counter: 12
 Washer state counter: 12
-Sets show state: 120 < |121| 
-Sets show state: 120 < |121| 
-Sets show state: 120 < |121| 
+Sets dump state: 120 < |121|
+Sets dump state: 120 < |121|
+Sets dump state: 120 < |121|
 Break state counter: 13
 Oil state counter: 122
 Coolant state counter: 13

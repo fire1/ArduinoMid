@@ -868,7 +868,7 @@ private:
         this->showCels(LCD_COL_L22 + 2, LCD_ROW_3);
 
         //
-        // if there no thermometer show fuel wasted
+        // if there no thermometer dump fuel wasted
         if (car->getTmpIns() < -99) {
             lcd->setCursor(LCD_COL_L10 - 1, LCD_ROW_4 + 1);
             lcd->print(getMsg(79));
@@ -1239,8 +1239,8 @@ private:
                 tripReset = 0;
             }
 
-//            show_dec("cursor", cursor);
-//            show_dec("value", valueComparator);
+//            dump_dec("cursor", cursor);
+//            dump_dec("value", valueComparator);
             // TODO: position of cursor for T1
             // Validate rest of trip
             boolean delete_trip = false;

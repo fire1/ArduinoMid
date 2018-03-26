@@ -138,10 +138,10 @@ private:
 
 
         if (cmd(amp, DBG_SR_LPG)) {
-            show("LPG inuse 0", data[0]);
-            show("LPG inuse 1", data[1]);
-            show("LPG trans  ", trans);
-            show_bin("LPG  binary", dataBuff);
+            dump("LPG inuse 0", data[0]);
+            dump("LPG inuse 1", data[1]);
+            dump("LPG trans  ", trans);
+            dump_bin("LPG  binary", dataBuff);
         }
 
 
@@ -360,9 +360,9 @@ public:
 
 #ifdef DEBUG
             if (cmd(amp, DBG_SR_LPG)) {
-                show("Data 0", data[0]);
-                show("Data 1", data[1]);
-                show("Trans ", trans);
+                dump("Data 0", data[0]);
+                dump("Data 1", data[1]);
+                dump("Trans ", trans);
             }
 #endif
 
