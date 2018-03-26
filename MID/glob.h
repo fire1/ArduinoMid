@@ -7,9 +7,9 @@
 
 #include <Arduino.h>
 #include "lib/AmpTime.h"
-#include "lib/Debug.h"
+#include "lib/aDebug.h"
 #include "lib/MenuBackend.h"
-#include "lib/Debug.h"
+#include "lib/aDebug.h"
 //
 //
 /***************************************************************************
