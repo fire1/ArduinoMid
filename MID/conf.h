@@ -148,6 +148,6 @@
 //
 // Fuel pulses container target over fuel lines
 // This is only information use to calibrate fuel consumption
-//#define PEC_TARGET
+//#define PEC_TARGET 0
 
 #endif //ARDUINO_MID_CONF_H
