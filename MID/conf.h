@@ -145,6 +145,9 @@
 // Comment definition to use Opel logo
 #define USE_BERTONE_LOGO
 
-
+//
+// Fuel pulses container target over fuel lines
+// This is only information use to calibrate fuel consumption
+//#define PEC_TARGET
 
 #endif //ARDUINO_MID_CONF_H

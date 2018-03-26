@@ -302,12 +302,17 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #endif
 
 #define MID_VERSION "1.6"
+
+//
+// If there no custom PEC define from LPG configuration
+#ifndef PEC_TARGET
 //
 // Target fuel counter over BNZ or LPG
 #if defined(LPG_SWITCHING_DETECT)
 #define PEC_TARGET 1
 #else
 #define PEC_TARGET 0
+#endif
 #endif
 
 #ifndef SCREEN_CNS_SKIP
