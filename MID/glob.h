@@ -9,60 +9,7 @@
 #include "lib/AmpTime.h"
 #include "lib/debug.h"
 #include "lib/MenuBackend.h"
-
-static uint8_t CmdSerialDebugging;
-/***************************************************************************
- * Debug
- ***************************************************************************/
-// serial print macros
-#define dump_init(...) { Serial.begin(__VA_ARGS__);  } //initialization
-
-/**
- * Debug from given serial string over 1 second amplitude
- * @param amp
- * @param cmd
- * @return
- */
-inline boolean cmd(AmpTime *amp, const uint8_t cmd) {
-    return (amp->isSecond() && CmdSerialDebugging == cmd) ? true : false;
-}
-
-/**
- * Debug from given serial string over "SEC" amplitude
- * @param amp
- * @param cmd
- * @return
- */
-boolean cmdMin(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isSec()) ? true : false;
-}
-
-/**
- * Debug from given serial string over "MAX" amplitude
- * @param amp
- * @param cmd
- * @return
- */
-boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
-}
-
-/**
- * No time amplitude
- * @param cmd
- * @return
- */
-boolean cmdLive(uint8_t cmd) {
-    return (CmdSerialDebugging == (cmd)) != 0;
-}
-
-#define dump(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
-#define dump_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
-#define dump_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
-#define dump_dec(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,DEC);}
-#define dump_txt(msg){Serial.println(F(msg)); }
-#define dump_title(msg){Serial.println(F(msg));Serial.println(F("==============================================================")); }
-//
+#include "lib/debug.h"
 //
 //
 /***************************************************************************
