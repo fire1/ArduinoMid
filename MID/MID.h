@@ -122,15 +122,15 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 //  General pins
 const uint8_t DSP_PIN_GD1 = 24; // Power GND
 const uint8_t DSP_PIN_GD2 = 25; // Power GND
-const uint8_t DSP_PIN_VCC = 27; // Power positive
+const uint8_t DSP_PIN_VCC = 27; // Power positive               // 3
 const uint8_t DSP_PIN_WR = 29;  // Write Signal
 const uint8_t DSP_PIN_RD = 28;  // Read Signal
 const uint8_t DSP_PIN_CE = 31;  // Chip Enable Signal
 const uint8_t DSP_PIN_CD = 30;  // Instruction Code
 const uint8_t DSP_PIN_FS = 43;  // Font selection
 const uint8_t DSP_PIN_RST = 32; // Reset signal
-const uint8_t DSP_PIN_LDA = 45; // Black-light Anode (+5V) // 22
-const uint8_t DSP_PIN_LDK = 44; // Black-light cathode (0v) 21
+const uint8_t DSP_PIN_LDA = 45; // Black-light Anode (+5V)      // 21
+const uint8_t DSP_PIN_LDK = 44; // Black-light cathode (0v)     // 22
 //
 // Data pins
 const uint8_t DSP_PIN_DT1 = 35;
