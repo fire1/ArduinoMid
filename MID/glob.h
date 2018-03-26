@@ -11,7 +11,9 @@
 #include "lib/MenuBackend.h"
 
 static uint8_t CmdSerialDebugging;
-
+/***************************************************************************
+ * Debug
+ ***************************************************************************/
 // serial print macros
 #define dump_init(...) { Serial.begin(__VA_ARGS__);  } //initialization
 
@@ -45,7 +47,6 @@ boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
     return (CmdSerialDebugging == (cmd) && amp->isMax()) ? true : false;
 }
 
-
 /**
  * No time amplitude
  * @param cmd
@@ -54,43 +55,6 @@ boolean cmdMid(AmpTime *amp, const uint8_t cmd) {
 boolean cmdLive(uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
-
-/*inline void dump(const __FlashStringHelper *msg, uint8_t data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}
-
-inline void dump(const __FlashStringHelper *msg, float data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}
-
-inline void dump(const __FlashStringHelper *msg, int data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}
-
-inline void dump(const __FlashStringHelper *msg, long data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}
-
-inline void dump(const __FlashStringHelper *msg, unsigned long data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}
-
-inline void dump(const __FlashStringHelper *msg, double data) {
-    Serial.print(msg);
-    Serial.print(":\t ");
-    Serial.println(data);
-}*/
-
 
 #define dump(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
 #define dump_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
