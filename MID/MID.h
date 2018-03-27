@@ -61,7 +61,7 @@ const uint8_t SAV_PIN_DTC = A7;     //  proto A7     //  Plug:16   [20k] -> [meg
 //
 // Live pins
 const uint8_t ENG_CLT_PIN = A0;     //  Plug:31     [dva + 47uf] Engine Temperature
-const uint8_t FUL_TNK_PIN = A2;     //  Plug:26     [dva + 47uf] Fuel Tank TODO
+const uint8_t FUL_TNK_PIN = A2;     //  Plug:26     [dva + 47uf] Fuel Tank
 const uint8_t BRK_LGH_PIN = 12;     //  Plug:15     [50k] + [znr] Brake light detection
 const uint8_t RPM_SNS_PIN = 2;      //  Plug:6      [dvd] RPM [attachInterrupt]
 const uint8_t SPD_SNS_PIN = 3;      //  Plug:12     [dvd] Speed sensor hub [attachInterrupt]
