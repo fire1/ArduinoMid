@@ -8,7 +8,7 @@
 #include <Arduino.h>
 #include "../../MID.h"
 #include <LiquidCrystal.h>
-#include "../MainFunc.h"
+#include "..//MainFunc.c"
 #include "Menu16x2.h"
 #include "../MenuBase.h"
 #include "../ShutDw.h"

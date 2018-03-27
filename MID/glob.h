@@ -10,6 +10,12 @@
 #include "lib/Debug.h"
 #include "lib/MenuBackend.h"
 #include "lib/Debug.h"
+
+#ifdef LOGGER
+
+#include "lib/LogCard.h"
+
+#endif
 //
 //
 /***************************************************************************

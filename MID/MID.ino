@@ -65,6 +65,11 @@ void setup() {
     dump_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
 #endif
     //
+    // Data logger
+#ifdef LOGGER
+    Logger.begin();
+#endif
+    //
     // Change timer 3
     setupTimer3();
     //

@@ -8,9 +8,8 @@
 #include <Arduino.h>
 #include "conf.h"
 
-#define DEBUG
-//#define DEBUG_MENU
-//#define DEBUG_STATE
+#define DEBUG // enables debug
+//#define LOGGER // enables data logger
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64

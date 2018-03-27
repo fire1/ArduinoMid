@@ -14,7 +14,7 @@
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
 #include "../MenuBackend.h"
 #include "../../MID.h"
-#include "../MainFunc.h"
+#include "lib/MainFunc.c"
 #include "../CarSens.h"
 #include "../WhlSens.h"
 #include "../EepRom.h"
