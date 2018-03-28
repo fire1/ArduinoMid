@@ -191,5 +191,6 @@ public:
 
 #endif
 
+boolean isAndroidConnected = false;
 
 #endif //ARDUINOMID_GLOB_H

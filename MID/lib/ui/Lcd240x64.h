@@ -232,7 +232,7 @@ public:
             } else if (car->getTmpOut() < 0) {
                 lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 36) {
-                lcd->print(getMsg(86));
+                (isAndroidConnected) ? lcd->print(getMsg(83)) : lcd->print(getMsg(86));
             } else if (car->getTmpOut() < 40) {
                 lcd->print(getMsg(89));
             } else if (car->getTmpOut() > 40) {

@@ -7,7 +7,8 @@
 
 #include "EepRom.h"
 #include "WhlSens.h"
-
+#include "LogCard.h"
+#include "../MID.h"
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
@@ -119,6 +120,10 @@ public:
                 return;
             } else {
 
+#ifdef LOGGER
+                Logger.shutdown();
+#endif
+
                 Serial.println(F("WARNING!  Writing EEP ROM data to chip..."));
                 alreadySaved = 1;
                 melodySave();
@@ -188,7 +193,6 @@ void ShutDw::listener() {
     //
     // Get voltage from pin
     detectorValue = analogRead(pinDtct);
-
 
 
     if (detectorValue < SHUTDOWN_LOW_VALUE && alreadyShutdown != 2) {

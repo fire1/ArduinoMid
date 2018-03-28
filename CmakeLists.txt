@@ -18,7 +18,7 @@ project(${PROJECT_NAME})
 set(${CMAKE_PROJECT_NAME}_BOARD mega)
 set(${CMAKE_PROJECT_NAME}_PORT /dev/ttys3)
 
-set(${CMAKE_PROJECT_NAME}_SKETCH MID/MID.ino)
+set(${CMAKE_PROJECT_NAME}_SKETCH ./MID/MID.ino)
 generate_arduino_firmware(${CMAKE_PROJECT_NAME})
 
 

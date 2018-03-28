@@ -341,6 +341,14 @@ public:
                     savedData.trip_c.range = saveTemp;
                     srlOutputs += saveTemp;
                 }
+                //
+                // Commands
+                if (srlStrName == F("cmd")) {
+                    int cmd = (int) Serial.readStringUntil('\n').toInt();
+                    if (cmd == 1001) {
+                        isAndroidConnected = true;
+                    }
+                }
 
                 //
                 // Return back changes
