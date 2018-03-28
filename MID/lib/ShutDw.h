@@ -7,8 +7,10 @@
 
 #include "EepRom.h"
 #include "WhlSens.h"
+#ifdef LOGGER
 #include "LogCard.h"
 #include "../MID.h"
+#endif
 
 #ifndef SHUTDOWN_SAVE_STATE
 #define SHUTDOWN_SAVE_STATE HIGH
