@@ -239,8 +239,8 @@ public:
  * Capture set button click
  */
     void captureUp(void) {
-        if (!digitalRead(btnUp) == HIGH) { // TODO test it with amp.low
-            if (amp->isMid() && !digitalRead(btnUp) == HIGH) { // From isLow to isMid
+        if (!digitalRead(btnUp) == HIGH) {
+            if (amp->isSec() && !digitalRead(btnUp) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
                 lastButtonPushed = btnUp;
             }
@@ -257,7 +257,7 @@ public:
         if (!digitalRead(btnDw) == HIGH && !entryDownState || !digitalRead(btnDw) == HIGH && !isNavigationActive) {
             //
             // Clear noise
-            if (amp->isMid() && !digitalRead(btnDw) == HIGH) { // From isLow to isMid
+            if (amp->isSec() && !digitalRead(btnDw) == HIGH) { // From isLow to isMid
                 lastUsed = millis();
                 entryDownState = true;
                 playSecondTone = true;
@@ -273,6 +273,38 @@ public:
 
         if (amp->isBig() && playSecondTone) {
             playSecondTone = false;
+        }
+
+    }
+/**
+ * Capture reset hold
+ */
+    void captureHl(void) {
+        //
+        // Hold button detection
+        if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
+            if (amp->isSec() && !digitalRead(btnDw) == HIGH) {
+                //
+                // Cut the method if shortcut is executed
+                whl->disable();
+                shortcut();
+                holdTimeHandler = 0;
+                isHoldState = true;
+                entryDownState = false;
+                activateSteering = true;
+            }
+        }
+
+        //
+        // Reactivate steering wheel buttons
+        if (amp->isSecond() && activateSteering) {
+            activateSteering = false;
+            whl->enable();
+            //
+            // Preventing navigation when is deactivated
+            if (isNavigationActive) {
+                lastButtonPushed = btnUp;
+            }
         }
 
     }
@@ -293,38 +325,7 @@ public:
             }
         }
     }
-/**
- * Capture reset hold
- */
-    void captureHl(void) {
-        //
-        // Hold button detection
-        if ((AWAITING_HOLD_BTN + holdTimeHandler) < millis() && (!digitalRead(btnDw)) == HIGH && entryDownState) {
-            if (amp->isMid() && !digitalRead(btnDw) == HIGH) {
-                //
-                // Cut the method if shortcut is executed
-                shortcut();
-                holdTimeHandler = 0;
-                isHoldState = true;
-                entryDownState = false;
-                activateSteering = true;
-                whl->disable();
-            }
-        }
 
-        //
-        // Reactivate steering wheel buttons
-        if (amp->isSecond() && activateSteering) {
-            activateSteering = false;
-            whl->enable();
-            //
-            // Preventing navigation when is deactivated
-            if (isNavigationActive) {
-                lastButtonPushed = btnUp;
-            }
-        }
-
-    }
 
 /**
  * Capture editor
