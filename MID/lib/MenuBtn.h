@@ -192,7 +192,12 @@ public:
     }
 
     inline boolean isBk() {
-        return digitalRead(btnBk) == HIGH && car->getVss() == 0;
+        if(car->getVss() > 0){
+            // Break trigger makes some glitches at higher speed,
+            // so this must eliminate it ....
+            return false;
+        }
+        return car->getVss() == 0 && digitalRead(btnBk) == HIGH;
     }
 
     inline AmpTime *passAmp(void) {
@@ -276,6 +281,7 @@ public:
         }
 
     }
+
 /**
  * Capture reset hold
  */
@@ -308,6 +314,7 @@ public:
         }
 
     }
+
 /**
  * Capture menu
  */
@@ -319,7 +326,7 @@ public:
                 togetherPress = true;
                 //
                 // Check is menu having editor rights
-                if(editorActivate){
+                if (editorActivate) {
                     this->setNavigationState(false);
                 }
             }
