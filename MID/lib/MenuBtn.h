@@ -20,7 +20,7 @@
 #endif
 
 #ifndef BTN_DEBOUNCE_RATE
-#define BTN_DEBOUNCE_RATE 360
+#define BTN_DEBOUNCE_RATE 450
 #endif
 
 #ifndef AWAITING_HOLD_BTN
@@ -220,8 +220,6 @@ public:
         return stt;
     }
 
-    //
-    // TODO change BTN_DEBOUNCE_RATE to faster
     boolean lastUseDebounce() {
         if (millis() - lastUsed > getDebounceRate()) {
 #ifdef DEBUG
@@ -376,11 +374,9 @@ void MenuBtn::listener() {
     //
     // Debounce the buttons
     if (lastUseDebounce()) {
-
         //
         // Detect up state button
         captureUp();
-
         //
         // Detect down state button
         captureDw();

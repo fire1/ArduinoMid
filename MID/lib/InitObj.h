@@ -90,4 +90,24 @@ LpgSerial lpgCom(ampInt, carSens);
 LpgSwitch lpgCom(ampInt);
 #endif
 
+//
+// DRL
+#ifndef DRL_PIN
+#define DRL_PIN 7
+#endif
+
+void listenerDRL(AmpTime *amp, CarSens *car) {
+    analogWrite(DRL_PIN, 255);
+    return;
+    if (amp->is2Seconds()) {
+
+        if (car->isRunDst() && !car->isDimOn()) {
+            analogWrite(DRL_PIN, 255);
+        } else {
+            analogWrite(DRL_PIN, 0);
+        }
+    }
+}
+
+
 #endif //ARDUINOMID_INITIALIZATIONS_H

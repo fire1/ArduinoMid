@@ -631,7 +631,8 @@ protected:
                 if (lcd->getStrWidth(usedMenu.down) > 1) {
                     lcd->print(getMsg(101));
                     lcd->print(getMsg(95));
-                    lcd->print(F("  "));
+                    lcd->print(getMsg(101));
+                    lcd->print(getMsg(101));
                     lcd->print(getMsg(getTitleMsgIndex(usedMenu.down)));
                 }
                 break;
@@ -1659,6 +1660,7 @@ void Lcd240x62::menus() {
         case MENU_ENTRY:
             this->changedFont = false;
             this->playUltra();
+
             displayEntry();
             break;
             //

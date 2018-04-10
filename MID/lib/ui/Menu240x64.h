@@ -119,6 +119,7 @@ public:
 
         statMenu.addRight(voltmeter).addRight(resetWork).addRight(statMenu);
         voltmeter.add(statMenu);
+        resetWork.add(statMenu);
 
 
         menu.moveDown();
