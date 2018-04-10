@@ -761,7 +761,7 @@ public:
     /**
      *
      */
-    inline uint8_t isDimOn() { return CUR_DIM_ON; }
+    inline boolean isDimOn() { return CUR_DIM_ON; }
 
 
     /**
