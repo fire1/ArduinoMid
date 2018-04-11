@@ -283,7 +283,9 @@ public:
             }
             uint8_t val = (uint8_t) Serial2.read();
 
+#ifdef LOGGER
             record("LPG val", val);
+#endif
             if (val == 0 && lpgUse) {
                 val = 100;
             } else if (val == 0 && !lpgUse) {
@@ -398,7 +400,9 @@ public:
             capture = trans;
             if (!lpgUse) { // checks for opposite
                 car->passMelodyClass()->play(1);
+#ifdef LOGGER
                 record("LPG  lpg", trans);
+#endif
             }
             lpgUse = true;
         }
@@ -413,7 +417,9 @@ public:
             capture = trans;
             if (lpgUse) { // checks for opposite
                 car->passMelodyClass()->play(6);
+#ifdef LOGGER
                 record("LPG bnz", trans);
+#endif
             }
             lpgUse = false;
         }

@@ -370,6 +370,20 @@ void EepRom::saveCurrentData() {
     data[16] = container.trip_c.range + car->getDst();
     data[17] = container.total_pec + car->getPec();
 
+    //
+    // Sow warning message if size of data is bigger then memory chip
+#ifdef DEBUG
+    int savedDataSize = ARRAY_SIZE(data);
+    if (savedDataSize >= 1024) {
+        Serial.print(F("[DANGER] EepRom data exceeds memory limit by "));
+        Serial.print(savedDataSize - 1024);
+        Serial.println(F("bytes"));
+        Serial.print(" Total size of data is: ");
+        Serial.print(savedDataSize );
+        Serial.println(F("bytes"));
+    }
+#endif
+
     for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
         EEPROM.put(i * sizeof(data[i]), data[i]);
     }

@@ -27,7 +27,7 @@
 // Global Menu cursor
 
 volatile uint8_t MidCursorMenu = 0;
-
+#define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 /**
  * LCD  interface
  */
@@ -192,5 +192,8 @@ public:
 #endif
 
 boolean isAndroidConnected = false;
+
+
+
 
 #endif //ARDUINOMID_GLOB_H

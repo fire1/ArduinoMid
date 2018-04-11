@@ -9,7 +9,7 @@
 #include "conf.h"
 
 #define DEBUG // enables debug
-#define LOGGER // enables data logger
+//#define LOGGER // enables data logger
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64
