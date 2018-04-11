@@ -96,13 +96,38 @@ LpgSwitch lpgCom(ampInt);
 #define DRL_PIN 7
 #endif
 
-void listenerDRL(AmpTime *amp, CarSens *car) {
-    analogWrite(DRL_PIN, 255);
-    return;
-    if (amp->is2Seconds()) {
+boolean flashDrl = false;
+uint8_t fadeIDrl = 0;
 
-        if (car->isRunDst() && !car->isDimOn()) {
+void listenerDRL(AmpTime *amp, CarSens *car) {
+
+    if (/*car->isRunEng()&&*/ millis() < 4000) {
+        if (amp->isSec() && !flashDrl) {
             analogWrite(DRL_PIN, 255);
+            flashDrl = true;
+        } else {
+            analogWrite(DRL_PIN, 0);
+            flashDrl = false;
+        }
+    }
+
+    if (amp->is2Seconds()) {
+        if (car->isRunEng()) {
+            if (car->isDimOn()) {
+                analogWrite(DRL_PIN, 5);
+            } else {
+                analogWrite(DRL_PIN, 255);
+
+                /*
+                if (fadeIDrl < 255) {
+                    analogWrite(DRL_PIN, fadeIDrl);
+                    fadeIDrl++;
+                } else {
+                    analogWrite(DRL_PIN, 255);
+
+                }*/
+
+            }
         } else {
             analogWrite(DRL_PIN, 0);
         }

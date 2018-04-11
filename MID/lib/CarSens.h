@@ -1241,9 +1241,9 @@ void CarSens::sensDim() {
         if (backLightLevel < 1) {
             backLightLevel = SCREEN_DEF_LIGHT;
             CUR_DIM_ON = false;
+        } else {
+            CUR_DIM_ON = true;
         }
-        CUR_DIM_ON = true;
-
         uint8_t output = uint8_t(backLightLevel * 10.2);
         analogWrite(pinScreenOutput, output);
 #ifdef  DEBUG
