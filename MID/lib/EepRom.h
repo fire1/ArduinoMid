@@ -378,9 +378,9 @@ void EepRom::saveCurrentData() {
         Serial.print(F("[DANGER] EepRom data exceeds memory limit by "));
         Serial.print(savedDataSize - 1024);
         Serial.println(F("bytes"));
-        Serial.print(" Total size of data is: ");
-        Serial.print(savedDataSize );
-        Serial.println(F("bytes"));
+    } else if(cmdLive(DBG_SR_EPR)) {
+        dump(" EepRom allocate FREE memory bytes: ", 1024 - savedDataSize)
+        dump(" EepRom allocate USED memory bytes:  ",  savedDataSize)
     }
 #endif
 
