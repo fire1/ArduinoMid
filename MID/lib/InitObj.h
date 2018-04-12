@@ -117,16 +117,6 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
                 analogWrite(DRL_PIN, 0);
             } else {
                 analogWrite(DRL_PIN, 245);
-
-                /*
-                if (fadeIDrl < 255) {
-                    analogWrite(DRL_PIN, fadeIDrl);
-                    fadeIDrl++;
-                } else {
-                    analogWrite(DRL_PIN, 255);
-
-                }*/
-
             }
         } else {
             analogWrite(DRL_PIN, 0);
