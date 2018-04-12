@@ -31,6 +31,11 @@ This project is rebuild of on-board computer  base on original interface connect
 ### [Donate!](https://paypal.me/AngelZaprianov)
    
    
+   
+   ---------------------------------
+
+[![Analytics](https://ga-beacon.appspot.com/UA-117422627-1/welcome-page)](https://github.com/fire1/ArduinoMid)
+   
 
 
 
