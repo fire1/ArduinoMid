@@ -125,8 +125,8 @@ void setup() {
 #endif
     //
     // Light lamps test
-    pinMode(A12, INPUT_PULLUP); // HIGH is ok
-    pinMode(A13, INPUT_PULLUP); // LOW is bad
+    pinMode(STT_UL1_PIN, INPUT_PULLUP); // HIGH is ok
+    pinMode(STT_UL2_PIN, INPUT_PULLUP); // LOW is bad
 }
 
 

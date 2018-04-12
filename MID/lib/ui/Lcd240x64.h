@@ -1007,9 +1007,9 @@ private:
     void displayCarBlb() {
         lcd->setCursor(LCD_COL_L22 + 10, LCD_ROW_1);
         lcd->print(F("BLB "));
-        lcd->print(analogRead(A12));
+        lcd->print(analogRead(STT_UL1_PIN));
         lcd->print(F("/"));
-        lcd->print(analogRead(A13));
+        lcd->print(analogRead(STT_UL2_PIN));
     }
 
     void displayCarPec() {
