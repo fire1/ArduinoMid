@@ -6,6 +6,7 @@ This project is rebuild of on-board computer  base on original interface connect
 ![https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
 
 
+[![Analytics](https://ga-beacon.appspot.com/UA-117422627-1/welcome-page)](https://github.com/fire1/ArduinoMid)
 
 # [Reference Manual](https://github.com/fire1/ArduinoMid/wiki)
 
@@ -30,6 +31,10 @@ This project is rebuild of on-board computer  base on original interface connect
     Keep in mind I spend a lot of money and time over this project... 
     
 ### [Donate!](https://paypal.me/AngelZaprianov)
+
+---------------------------------
+
+[![Analytics](https://ga-beacon.appspot.com/UA-117422627-1/welcome-page)](https://github.com/fire1/ArduinoMid)
    
    
 
