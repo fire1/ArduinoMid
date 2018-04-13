@@ -1233,9 +1233,7 @@ void CarSens::getHTm(float saved, char *dspTime) {
  */
 void CarSens::sensDim() {
     if (amp->isMid()) {
-
-
-        uint8_t backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 30);
+        uint8_t backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 25); // step down for lower light
 
         //
         // Exponential smoothing noisy key
