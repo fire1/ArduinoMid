@@ -28,6 +28,7 @@
 
 volatile uint8_t MidCursorMenu = 0;
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
+
 /**
  * LCD  interface
  */
@@ -88,8 +89,8 @@ protected:
 #ifdef ARDUINO_MID_LAN
 
     /**
- * Gets string message
- */
+     * Gets string message
+     */
     const char *getMsg(uint8_t i) {
         strcpy_P(messageBuffer, (char *) pgm_read_word(&(LcdMsgTable[i])));
         return messageBuffer;
@@ -193,7 +194,18 @@ public:
 
 boolean isAndroidConnected = false;
 
+/*
+ * PROGMEM data table
+ */
 
+const char pgm1[] PROGMEM = "%02d:%02d"; // Clock format
+const char pgm2[] PROGMEM = "%02d.%01d"; // display float
+/**
+ * Combine data to table
+ */
+const char *const pgmDataTable[] PROGMEM = {
+        pgm1, pgm2
+};
 
 
 #endif //ARDUINOMID_GLOB_H

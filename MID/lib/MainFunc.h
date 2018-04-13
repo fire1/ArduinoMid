@@ -31,6 +31,16 @@ char displayFloat(float value, char *output) {
         sprintf(output, "%02d.%1d", dig1, dig2);
 }
 
+
+char pgmBuffer[64];
+/**
+ * Loads data from flash memory
+ */
+const char *getPGM(uint8_t i) {
+    strcpy_P(pgmBuffer, (char *) pgm_read_word(&(pgmDataTable[i])));
+    return pgmBuffer;
+}
+
 /**
  * Limits playEntry floats
  */
@@ -65,55 +75,6 @@ float restoreFloat(uint8_t a, uint8_t b) {
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 
 
-void setupTimer1024() {
-    TCCR3A = 0x00; // DISABLE OUTPUTS AND PWM ON DIGITAL PINS 2 & 3
-    TCCR3C = 0x00; // DON'T FORCE COMPARE
-    OCR3A = 195;
-    TIMSK3 = (1 << OCIE3A);
-    TCCR3B = (1 << CS31) | (1 << CS30);
-}
-/*
- *
- // Initializes Timer1 to throw an interrupt every 2mS.
-TCCR1A = 0x00; // DISABLE OUTPUTS AND PWM ON DIGITAL PINS 9 & 10
-TCCR1B = 0x11; // GO INTO 'PHASE AND FREQUENCY CORRECT' MODE, NO PRESCALER
-TCCR1C = 0x00; // DON'T FORCE COMPARE
-TIMSK1 = 0x01; // ENABLE OVERFLOW INTERRUPT (TOIE1)
-ICR1 = 16000; // TRIGGER TIMER INTERRUPT EVERY 2mS
-sei(); // MAKE SURE GLOBAL INTERRUPTS ARE ENABLED
-
-
-
-
-
-
- **********************************************************
- * TCNT3 = 0;                       // reset timer 3 counter
- * TCCR3B ^= _BV(ICES3);           // toggle bit to trigger on the other edge
-
- */
-/**
- * Setup timer for ECU,RPM,VSS input pins
- * Timer 3
- */
-void setupTimer3N() {
-    cli(); // stop interrupts
-    TCCR3A = 0; // set entire TCCR2A register to 0
-    TCCR3B = 0; // same for TCCR2B
-    TCNT3 = 0; // initialize counter value to 0
-// set compare match register for 100000 Hz increments
-    OCR3A = 249; /*249*/ // = 16000000 / (8 * 10000) - 1 (must be <256)
-// turn on CTC mode
-    TCCR3B |= (1 << WGM31);
-// Set CS22, CS21 and CS20 bits for 8 prescaler
-    TCCR3B |= (0 << CS32) | (1 << CS31) | (0 << CS30);
-// enable timer compare interrupt
-//TIMSK3 |= (1 << OCIE3A);
-    sbi(TCCR3B, CS32);        // CS31 set prescaler to 256 and start the timer
-    sbi(TCCR3A, WGM30);       // put timer 3 in 8-bit phase correct pwm mode
-    sei(); // allow interrupts
-}
-
 /*
  TCCRx - Timer/Counter Control Register. The pre-scaler can be configured here.
 TCNTx - Timer/Counter Register. The actual timer value is stored here.
@@ -133,41 +94,7 @@ CSn2    CSn1    CSn0    Description
  */
 
 
-void setupTimer31() {
 
-    // ICNC3 - noise filter
-
-    // set up timer with prescaler = 64 and CTC mode
-    TCCR3B |= (1 << WGM32) | (1 << CS31) | (1 << CS30);
-    //
-    // With filtering on
-    // TCCR3B |= (0 << ICNC3) | (1 << WGM32) | (1 << CS31) | (1 << CS30) | (0 << ICES3);
-
-
-
-    //Clear ICF1 (this is done by writing a logical 1 to it apparently in the manual).
-    // This clears pending interrupts.  Clear OVERFLOW interrupt flag as well.
-    //  I found that for some reason Timer 5 initialized with an OVERFLOW interrupt which was resulting in a different value from Timer 1 and 4.
-    //  Clearing this interrupt with the timers stopped solved that problem.
-    // TIFR5 = (1 << ICF5) | (1 << TOV5);
-
-
-    // If I change the line in my timer begin "TIMSK3 =" to:
-    // TIMSK3 = (0<<ICIE3)|(0<<TCIE3);
-    // Everything works fine.
-    // For some reason when the TIMER4 Input Capture Interrupt Service Routine
-    //
-
-
-
-    // initialize counter
-    TCNT3 = 0;
-    // initialize compare value
-    OCR3A = 24999; // OCR3B
-    // enable compare interrupt
-    TIMSK3 |= (1 << OCIE1A); // TIMSK3 |= (1 << OCIE3A);
-
-}
 
 // https://gist.github.com/anbara/e7e371d4fbdff896e8703fdb000fdaeb
 // https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
@@ -197,59 +124,6 @@ void setupTimer3() {
 
     sei();//allow interrupts
 }
-/**
- *
- * @param pin
- */
-void pciSetup(byte pin) {
-    *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
-    PCIFR |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt
-    PCICR |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
-}
-
-extern uint8_t _end;
-extern uint8_t __stack;
-
-void StackPaint(void) __attribute__ ((naked)) __attribute__ ((section (".init1")));
-
-void StackPaint(void) {
-#if 0
-    uint8_t *p = &_end;
-
-    while(p <= &__stack)
-    {
-        *p = 0xc5;
-        p++;
-    }
-#else
-    __asm volatile ("    ldi r30,lo8(_end)\n"
-            "    ldi r31,hi8(_end)\n"
-            "    ldi r24,lo8(0xc5)\n" /* STACK_CANARY = 0xc5 */
-            "    ldi r25,hi8(__stack)\n"
-            "    rjmp .cmp\n"
-            ".loop:\n"
-            "    st Z+,r24\n"
-            ".cmp:\n"
-            "    cpi r30,lo8(__stack)\n"
-            "    cpc r31,r25\n"
-            "    brlo .loop\n"
-            "    breq .loop"::);
-#endif
-}
-
-
-uint16_t StackCount(void) {
-    const uint8_t *p = &_end;
-    uint16_t c = 0;
-
-    while (*p == 0xc5 && p <= &__stack) {
-        p++;
-        c++;
-    }
-
-    return c;
-}
-
 
 /**
  *
@@ -289,7 +163,7 @@ unsigned long elapsedMilliseconds(unsigned long startMicroSeconds) {
 
 
 /**
- * What getFreeRam() is actually reporting is the space between the heap and the stack.
+     * What getFreeRam() is actually reporting is the space between the heap and the stack.
  * it does not report any de-allocated memory that is buried in the heap.
  * Buried heap space is not usable by the stack,
  * and may be fragmented enough that it is not usable for many heap allocations either.
