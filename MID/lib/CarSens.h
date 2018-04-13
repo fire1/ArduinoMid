@@ -308,7 +308,7 @@ private:
     //
     uint8_t carGearNum = 0;
     Fuel FUEL_PARAM_DEF, FUEL_PARAM_ADT;
-    uint8_t backLightIndex = 0; // Container of current level
+    uint8_t backLightOld = 0; // Container of current level
     uint8_t CUR_ENT; // Engine temperature
     //
     // Car's reached ...
@@ -1233,7 +1233,15 @@ void CarSens::getHTm(float saved, char *dspTime) {
  */
 void CarSens::sensDim() {
     if (amp->isMid()) {
-        uint16_t backLightLevel = (uint16_t) map(analogRead(pinScreenInput), 0, 1023, 0, 30);
+
+
+        uint8_t backLightLevel = (uint8_t) map(analogRead(pinScreenInput), 0, 1023, 0, 30);
+
+        //
+        // Exponential smoothing noisy key
+        const float alpha = 0.2;
+        backLightLevel = backLightOld = uint8_t(alpha * backLightLevel + (1 - alpha) * backLightOld);
+
         if (backLightLevel > 25) {
             backLightLevel = 25;
         }
