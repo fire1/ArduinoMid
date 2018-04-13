@@ -150,4 +150,8 @@
 // This is only information use to calibrate fuel consumption
 //#define PEC_TARGET 0
 
+//
+// Defines pin for DRL lights
+#define DRL_PIN 7
+
 #endif //ARDUINO_MID_CONF_H
