@@ -101,11 +101,14 @@ uint8_t fadeIDrl = 0;
 
 void listenerDRL(AmpTime *amp, CarSens *car) {
 
+
     if (/*car->isRunEng()&&*/ millis() < 4000) {
         if (amp->isSec() && !flashDrl) {
-            analogWrite(DRL_PIN, 245);
+            analogWrite(10, 255);
+            analogWrite(DRL_PIN, 255);
             flashDrl = true;
         } else {
+            analogWrite(10, 0);
             analogWrite(DRL_PIN, 0);
             flashDrl = false;
         }
@@ -114,9 +117,11 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
     if (amp->is2Seconds()) {
         if (car->isRunEng()) {
             if (car->isDimOn()) {
+                analogWrite(10, 0);
                 analogWrite(DRL_PIN, 0);
             } else {
-                analogWrite(DRL_PIN, 245);
+                analogWrite(10, 255);
+                analogWrite(DRL_PIN, 255);
             }
         } else {
             analogWrite(DRL_PIN, 0);
