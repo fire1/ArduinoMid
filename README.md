@@ -11,7 +11,7 @@ This project is rebuild of on-board computer  base on original interface connect
 
 
 ## Notes
-* DO NOT CONTACT me to ask any question for Raspberry Pi!
+* DO NOT CONTACT me to ask any question for "Raspberry Pi" version!
 * News at [Twitter](https://twitter.com/hashtag/ArduinoMid?src=hash) OR [Facebook](https://www.facebook.com/search/top/?q=%23arduinomid)
 * Source code is in "MID" folder. To upload  softer use MID.ino file.
 * Before uploading check software configuration in MID.h file.  
