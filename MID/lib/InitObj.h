@@ -107,10 +107,8 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
         if (amp->isBig() && fadeIDrl < 255) {
             analogWrite(DRL_PIN, fadeIDrl);
             fadeIDrl++;
-//            flashDrl = true;
-        } else {
+        } else if(fadeIDrl > 254){
             analogWrite(10, 0);
-//            flashDrl = false;
         }
     }
 
