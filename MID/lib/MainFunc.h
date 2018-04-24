@@ -16,23 +16,24 @@
  */
 char displayFloat(float value, char *output) {
 
-        if (value < -99) {
-            value = -99;
-        }
+    if (value < -99) {
+        value = -99;
+    }
 
-        int dig1 = int(value) * 10; // 210
-        int dig2 = int((value * 10) - dig1);
+    int dig1 = int(value) * 10; // 210
+    int dig2 = int((value * 10) - dig1);
 
-        dig1 = dig1 / 10;
-        if (dig2 < 0) {
-            dig2 = dig2 * -1;
-        }
+    dig1 = dig1 / 10;
+    if (dig2 < 0) {
+        dig2 = dig2 * -1;
+    }
 
-        sprintf(output, "%02d.%1d", dig1, dig2);
+    sprintf(output, "%02d.%1d", dig1, dig2);
 }
 
 
 char pgmBuffer[64];
+
 /**
  * Loads data from flash memory
  */
@@ -182,7 +183,17 @@ float floatPrecision(float val) {
 }
 
 
+uint32_t getJoules(uint16_t carWeight, uint16_t travelMeters, uint16_t travelTime) {
+/*
+ * (1/2)Mv2/time = (1/2) 1500 302/ 5 sec = 135,000 joules per sec = 181 HP
+ * Reference https://www.physicsforums.com/threads/calculating-motor-engine-torque-power-using-accelerometer-data.336463/
+ */
+    return (1 / 2) * carWeight * (travelMeters * travelMeters) / travelTime;
+}
 
+uint16_t getHorsepower(uint32_t joules) {
+    return uint16_t(joules * 0.0013404825737265);
+}
 
 
 #endif //ARDUINOMID_UTILS_H
