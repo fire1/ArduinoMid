@@ -164,7 +164,7 @@ unsigned long elapsedMilliseconds(unsigned long startMicroSeconds) {
 
 
 /**
-     * What getFreeRam() is actually reporting is the space between the heap and the stack.
+ * What getFreeRam() is actually reporting is the space between the heap and the stack.
  * it does not report any de-allocated memory that is buried in the heap.
  * Buried heap space is not usable by the stack,
  * and may be fragmented enough that it is not usable for many heap allocations either.
@@ -182,7 +182,13 @@ float floatPrecision(float val) {
     return ((int) (val * 100.0)) / 100.0F;
 }
 
-
+/**
+ * Gets car's Joules power per sec
+ * @param carWeight
+ * @param travelMeters
+ * @param travelTime
+ * @return
+ */
 uint32_t getJoules(uint16_t carWeight, uint16_t travelMeters, uint16_t travelTime) {
 /*
  * (1/2)Mv2/time = (1/2) 1500 302/ 5 sec = 135,000 joules per sec = 181 HP
@@ -191,6 +197,11 @@ uint32_t getJoules(uint16_t carWeight, uint16_t travelMeters, uint16_t travelTim
     return (1 / 2) * carWeight * (travelMeters * travelMeters) / travelTime;
 }
 
+/**
+ * Converts Joules power to Horsepower
+ * @param joules
+ * @return
+ */
 uint16_t getHorsepower(uint32_t joules) {
     return uint16_t(joules * 0.0013404825737265);
 }
