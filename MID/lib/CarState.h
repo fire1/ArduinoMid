@@ -79,7 +79,7 @@ private:
         }
         //
         // Voltage too low
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 680) {
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 810 /*680*/) {
             return true;
         }
         //
@@ -148,12 +148,9 @@ private:
 #endif
 
         if (value >= CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
-
             if (value == CAR_STT_A2_ALERT) {
                 car->passMelodyClass()->play(7);
             }
-
-
             return true;
         }
         return false;
@@ -188,7 +185,7 @@ public:
  * Construction Car State class
  * @param amp
  */
-    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) { }
+    CarState(AmpTime &_amp, CarSens &_car) : amp(&_amp), car(&_car) {}
 
     void setWorkState(float distance);
 
