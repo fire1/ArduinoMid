@@ -43,6 +43,7 @@ const char msg102[] PROGMEM = "£"; // checkbox
 const char msg103[] PROGMEM = "@"; // Lowe level
 const char msg104[] PROGMEM = "¤"; // problem
 const char msg105[] PROGMEM = "×"; // delete
+const char msg106[] PROGMEM = "Ŵ"; // delete
 
 //
 // PROGMEM language table
@@ -54,7 +55,7 @@ const char *const LcdMsgTable[] PROGMEM = {
         msg61, msg62, msg63, msg64, msg65, msg66, msg67, msg68, msg69, msg70, msg71, msg72, msg73, msg74, msg75,
         msg76, msg77, msg78, msg79, msg80, msg81, msg82, msg83, msg84, msg85, msg86, msg87, msg88, msg89, msg90,
         msg91, msg92, msg93, msg94, msg95, msg96, msg97, msg98, msg99, msg100, msg101, msg102, msg103, msg104,
-        msg105
+        msg105, msg106
 };
 
 

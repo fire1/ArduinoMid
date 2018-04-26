@@ -44,7 +44,7 @@ AntiAlias: 1
 FitToEm: 0
 WinInfo: 0 71 21
 OnlyBitmaps: 1
-BeginChars: 65536 494
+BeginChars: 65536 495
 
 StartChar: $0020
 Encoding: 32 32 0
@@ -4984,6 +4984,14 @@ LayerCount: 2
 Fore
 Validated: 1
 EndChar
+
+StartChar: Wcircumflex
+Encoding: 372 372 494
+Width: 1000
+VWidth: 0
+Flags: W
+LayerCount: 2
+EndChar
 EndChars
 BitmapFont: 13 495 12 1 1 FreeType
 BDFStartProperties: 25
@@ -6002,5 +6010,7 @@ BDFChar: 492 560 13 0 0 0 0
 z
 BDFChar: 493 1208 13 4 4 5 5
 z
+BDFChar: 494 372 13 0 9 0 9
+*WU83It6Rpo>'t5o>"dbIt/R?
 EndBitmapFont
 EndSplineFont
