@@ -177,7 +177,11 @@ int getFreeRam() {
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
-
+/**
+ *
+ * @param val
+ * @return
+ */
 float floatPrecision(float val) {
     return ((int) (val * 100.0)) / 100.0F;
 }

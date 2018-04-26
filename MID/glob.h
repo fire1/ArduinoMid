@@ -10,7 +10,7 @@
 #include "lib/Debug.h"
 #include "lib/MenuBackend.h"
 #include "lib/Debug.h"
-
+#include "lib/ui/ComChar.h"
 #ifdef LOGGER
 
 #include "lib/LogCard.h"
@@ -28,6 +28,8 @@
 
 volatile uint8_t MidCursorMenu = 0;
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
+
+
 
 /**
  * LCD  interface
@@ -197,6 +199,7 @@ boolean isAndroidConnected = false;
 /*
  * PROGMEM data table
  */
+
 
 const char pgm1[] PROGMEM = "%02d:%02d"; // Clock format
 const char pgm2[] PROGMEM = "%02d.%01d"; // display float
