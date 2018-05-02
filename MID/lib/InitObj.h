@@ -98,7 +98,11 @@ LpgSwitch lpgCom(ampInt);
 
 //boolean flashDrl = false;
 uint8_t fadeIDrl = 0;
-
+/**
+ * Testing method
+ * @param amp
+ * @param car
+ */
 void listenerDRL(AmpTime *amp, CarSens *car) {
 
 
@@ -117,9 +121,12 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
             if (car->isDimOn()) {
                 analogWrite(10, 0);
                 analogWrite(DRL_PIN, 0);
-            } else {
+            } else if(car->getVss() > 1){
                 analogWrite(10, 255);
                 analogWrite(DRL_PIN, 255);
+            }else{
+                analogWrite(10, 255);
+                analogWrite(DRL_PIN, 230);
             }
         } else {
             analogWrite(10, 255);
