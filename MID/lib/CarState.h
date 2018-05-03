@@ -74,12 +74,12 @@ private:
         //
         // Voltage too high
         if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage &&
-            readingVoltage > 950) { // are maximum 13.8V-14.2V
+            readingVoltage > 920) { // are maximum 13.8V-14.2V
             return true;
         }
         //
         // Voltage too low
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < 810 /*680*/) {
+        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
             return true;
         }
         //
