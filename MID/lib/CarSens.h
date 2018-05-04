@@ -64,7 +64,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 75 //45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 120 //45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
@@ -101,7 +101,7 @@
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3915
 //#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
-#define FUEL_BNZ_CNS 39151 // 14.7*730 = 10731
+#define FUEL_BNZ_CNS 186 // 14.7*730 = 10731
 
 /************************/
 /* LPG ENGINE CONFIG    */
@@ -126,7 +126,7 @@
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
 //#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
-#define FUEL_LPG_CNS  21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS  168 // 21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 22242 ~ 15/20*C
 // 34416 ~ 0/5*C
 // 20967 ~ 15/25*C
@@ -438,8 +438,8 @@ protected:
      * @return
      */
     float getCnsFuelVal() {
-        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns;
-        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns;
+        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns * ECU_CORRECTION;
+        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns * ECU_CORRECTION;
         return 0;
     };
 
