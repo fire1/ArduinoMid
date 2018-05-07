@@ -1247,7 +1247,11 @@ void CarSens::sensDim() {
         if (backLightLevel < 1) {
             backLightLevel = SCREEN_DEF_LIGHT;
             CUR_DIM_ON = false;
+            analogWrite(42, 255);
+            analogWrite(26, 255);
         } else {
+            analogWrite(42, 0);
+            analogWrite(26, 0);
             CUR_DIM_ON = true;
         }
         uint8_t output = uint8_t(backLightLevel * 10.2);

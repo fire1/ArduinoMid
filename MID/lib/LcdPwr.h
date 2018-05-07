@@ -15,6 +15,7 @@ private:
     uint8_t pwr[5];
     uint8_t adt[2];
     bool additional = false;
+
 /**
  * Quicker Frequency for back light
  */
@@ -88,7 +89,8 @@ public:
         analogWrite(pwr[3], 0); // back light
         analogWrite(pwr[2], 255); // back light
         analogWrite(pwr[4], 255); // RD
-
+        analogWrite(42, 255);
+        analogWrite(26, 255);
         if (additional) {
             analogWrite(adt[0], 0); // fs
             if (adt[1] > 0) analogWrite(adt[2], 0); // GND
