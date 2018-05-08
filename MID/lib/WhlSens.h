@@ -116,8 +116,15 @@ public:
     void listener() {
 
         if (amp->isLow()) {
+            int voltage = analogRead(pinSteering);
             // TODO test it with minimum amplitude
-            resolveButton(analogRead(pinSteering));
+            resolveButton(voltage);
+
+            if (cmd(amp, DBG_SR_WHL)) {
+                dump("Voltage reads", voltage)
+            }
+
+
 
             //
             // Simulate resistance in radio
@@ -253,12 +260,12 @@ private:
         } else
             //
             // Volume down
-        if (readVoltage > 200 && readVoltage < 350) {
+        if (readVoltage > 200 && readVoltage < 380) {
             setCurrentState(STR_BTN_VLD);
         } else
             //
             // Volume up
-        if (readVoltage > 350 && readVoltage < 499) {
+        if (readVoltage > 380 && readVoltage < 499) {
             setCurrentState(STR_BTN_VLU);
         } else
             //
