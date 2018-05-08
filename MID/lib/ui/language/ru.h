@@ -117,37 +117,6 @@ const char msg69[] PROGMEM = "?"; // km
 const char msg70[] PROGMEM = "?"; // ч
 const char msg71[] PROGMEM = "±??"; // Л/100km
 const char msg73[] PROGMEM = "?"; // 100km
-//
-// Icons
-const char msg74[] PROGMEM = "°"; // celsius
-const char msg75[] PROGMEM = "¢"; // instant
-const char msg76[] PROGMEM = "^"; // point
-const char msg77[] PROGMEM = "`"; // time
-const char msg78[] PROGMEM = "®"; // break
-const char msg79[] PROGMEM = "·"; // waste drop
-const char msg80[] PROGMEM = "¡"; // road
-const char msg81[] PROGMEM = "¶"; // coffee
-const char msg82[] PROGMEM = "·"; // temperature
-const char msg83[] PROGMEM = "¼"; // connection
-const char msg84[] PROGMEM = "½"; // settings
-const char msg85[] PROGMEM = "¾"; // petrol station
-const char msg86[] PROGMEM = "¿"; // car
-const char msg87[] PROGMEM = "¨"; // cloudy
-const char msg88[] PROGMEM = "©"; // oven /ice
-const char msg89[] PROGMEM = "ª"; // sun
-const char msg90[] PROGMEM = "«"; // petrol
-const char msg91[] PROGMEM = "¬"; // bottom
-const char msg92[] PROGMEM = "®"; // break
-const char msg93[] PROGMEM = "¹"; // lamp
-const char msg94[] PROGMEM = "ø"; // average
-const char msg95[] PROGMEM = "¬"; // Switch arrow
-const char msg96[] PROGMEM = "»"; // LPG
-const char msg97[] PROGMEM = "¦"; // inside temperature
-const char msg98[] PROGMEM = "§"; // outside temperature
-const char msg101[] PROGMEM = " "; // empty space
-const char msg102[] PROGMEM = "£"; // checkbox
-const char msg103[] PROGMEM = "@"; // Lowe level
-const char msg104[] PROGMEM = "¤"; // problem
-const char msg105[] PROGMEM = "×"; // delete
+
 
 #endif //ARDUINOMID_EN_H_H
