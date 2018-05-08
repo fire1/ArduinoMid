@@ -11,22 +11,22 @@
 #include "../MenuBase.h"
 #include "../MenuBack.h"
 
-#define MENU_NAME_1 "Home"
-#define MENU_NAME_11 "Dash"
-#define MENU_NAME_12 "Edit"
-#define MENU_NAME_13 "Info"
+PROGMEM const char MENU_NAME_1[] = "Home";
+PROGMEM const char MENU_NAME_11[] = "Dash";
+PROGMEM const char MENU_NAME_12[] = "Edit";
+PROGMEM const char MENU_NAME_13[] = "Info";
 
-#define MENU_NAME_121 "VSS"
-#define MENU_NAME_122 "RPM"
-#define MENU_NAME_123 "DST"
-#define MENU_NAME_124 "ECU"
+PROGMEM const char MENU_NAME_121[] = "VSS";
+PROGMEM const char MENU_NAME_122[] = "RPM";
+PROGMEM const char MENU_NAME_123[] = "DST";
+PROGMEM const char MENU_NAME_124[] = "ECU";
 
-#define MENU_NAME_2 "Trips"
-#define MENU_NAME_21 "Fuels"
-#define MENU_NAME_22 "Race"
-#define MENU_NAME_4 "State"
-#define MENU_NAME_41 "Volt"
-#define MENU_NAME_42 "Wrk"
+PROGMEM const char MENU_NAME_2[] = "Trips";
+PROGMEM const char MENU_NAME_21[] = "Fuels";
+PROGMEM const char MENU_NAME_22[] = "Race";
+PROGMEM const char MENU_NAME_4[] = "State";
+PROGMEM const char MENU_NAME_41[] = "Volt";
+PROGMEM const char MENU_NAME_42[] = "Wrk";
 
 
 /**
