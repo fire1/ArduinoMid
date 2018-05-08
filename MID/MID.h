@@ -308,7 +308,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 //
 // Start overheat temperature
 #ifndef ENGINE_OVERHEAT
-#define ENGINE_OVERHEAT 95
+#define ENGINE_OVERHEAT 91
 #endif
 
 #ifndef BATTERY_LOW_VOLT
@@ -317,6 +317,11 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 
 #ifndef BATTERY_HIGH_VOLT
 #define BATTERY_HIGH_VOLT 920
+#endif
+
+
+#ifndef TEMPERATURE_WRN_SUN
+#define TEMPERATURE_WRN_SUN 20
 #endif
 
 

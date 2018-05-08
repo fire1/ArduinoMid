@@ -1248,7 +1248,8 @@ void CarSens::sensDim() {
             backLightLevel = SCREEN_DEF_LIGHT;
             CUR_DIM_ON = false;
             analogWrite(42, 255);
-            analogWrite(26, 255);
+            if (TEMPERATURE_WRN_SUN < getTmpOut())
+                analogWrite(26, 255);
         } else {
             analogWrite(42, 0);
             analogWrite(26, 0);
