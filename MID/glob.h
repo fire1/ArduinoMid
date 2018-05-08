@@ -8,7 +8,7 @@
 #include <Arduino.h>
 #include "lib/AmpTime.h"
 #include "lib/Debug.h"
-#include "lib/MenuBackend.h"
+#include "lib/MenuBack.h"
 #include "lib/Debug.h"
 #include "lib/ui/ComChar.h"
 #ifdef LOGGER
@@ -111,7 +111,7 @@ public:
 
     virtual void menuChanged(MenuChangeEvent change) = 0;
 
-    virtual MenuBackend getMB() = 0;
+    virtual MenuBack getMB() = 0;
 
     virtual void moveUp() = 0;
 

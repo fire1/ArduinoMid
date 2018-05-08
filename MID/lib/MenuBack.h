@@ -143,10 +143,10 @@ struct MenuUseEvent {
 typedef void (*cb_change)(MenuChangeEvent);
 typedef void (*cb_use)(MenuUseEvent);
 
-class MenuBackend {
+class MenuBack {
 public:
 
-	MenuBackend(cb_use menuUse, cb_change menuChange = 0) : root("MenuRoot") {
+	MenuBack(cb_use menuUse, cb_change menuChange = 0) : root("MenuRoot") {
 		current = &root;
 		cb_menuChange = menuChange;
 		cb_menuUse = menuUse;

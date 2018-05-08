@@ -18,12 +18,7 @@
 
 
 #include <Arduino.h>
-//#include <SPI.h>
-#include <OneWire.h>
-#include "lib/MenuBackend.h"
-#include <DallasTemperature.h>
-//#include <SD.h>
-//
+
 #ifdef EEP_ROM_ADDRESS
 
 #include <Wire.h>

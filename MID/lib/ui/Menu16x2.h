@@ -6,15 +6,15 @@
 #ifndef ARDUINO_MID_MENU
 #define ARDUINO_MID_MENU
 //
-//  MenuBackend library - copyright by Alexander Brevig
+//  MenuBack library - copyright by Alexander Brevig
 // Import it from:
 // https://github.com/WiringProject/Wiring/tree/master/framework/libraries/MenuBackend
 //
 // And good example can be found here:
 // https://codebender.cc/sketch:37125#MenuBackend_sample.ino
-#include "../MenuBackend.h"
+#include "../MenuBack.h"
 #include "../../MID.h"
-#include "lib/MainFunc.c"
+#include "../MainFunc.c"
 #include "../CarSens.h"
 #include "../WhlSens.h"
 #include "../EepRom.h"
@@ -65,7 +65,7 @@
  *
  */
 class Menu16x2 : public MenuUiInterface {
-    MenuBackend menu;
+    MenuBack menu;
 
     //
     // Defining menu items
@@ -145,7 +145,7 @@ public:
     {
     }
 
-    MenuBackend getMB() {
+    MenuBack getMB() {
         return menu;
     }
 
