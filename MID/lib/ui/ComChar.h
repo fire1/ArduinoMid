@@ -5,6 +5,7 @@
 #ifndef ARDUINOMID_COMCHAR_H
 #define ARDUINOMID_COMCHAR_H
 
+#include <Arduino.h>
 #include "../../MID.h"
 
 //

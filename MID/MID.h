@@ -121,15 +121,15 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 //  General pins
 const uint8_t DSP_PIN_GD1 = 24; // Power GND
 const uint8_t DSP_PIN_GD2 = 25; // Power GND
-const uint8_t DSP_PIN_VCC = 27; // Power positive               // 3
+const uint8_t DSP_PIN_VCC = 27; // Power positive               // Display pin  3
 const uint8_t DSP_PIN_WR = 29;  // Write Signal
 const uint8_t DSP_PIN_RD = 28;  // Read Signal
 const uint8_t DSP_PIN_CE = 31;  // Chip Enable Signal
 const uint8_t DSP_PIN_CD = 30;  // Instruction Code
 const uint8_t DSP_PIN_FS = 43;  // Font selection
 const uint8_t DSP_PIN_RST = 32; // Reset signal
-const uint8_t DSP_PIN_LDA = 45; // Black-light Anode (+5V)      // 21
-const uint8_t DSP_PIN_LDK = 44; // Black-light cathode (0v)     // 22
+const uint8_t DSP_PIN_LDA = 45; // Black-light Anode (+5V)      // Display pin 21
+const uint8_t DSP_PIN_LDK = 44; // Black-light cathode (0v)     // Display pin 22
 //
 // Data pins
 const uint8_t DSP_PIN_DT1 = 35;
@@ -140,9 +140,20 @@ const uint8_t DSP_PIN_DT5 = 39;
 const uint8_t DSP_PIN_DT6 = 38;
 const uint8_t DSP_PIN_DT7 = 41;
 const uint8_t DSP_PIN_DT8 = 40;
-
-
+//
+// Back light of display
 const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playEntry
+//
+// Additional display pins
+// (Used for external 12V back light)
+const uint8_t DSP_ADT_INV = 42; // Inverting screen back light for day/night        // Display pin 20
+const uint8_t DSP_ADT_SPL = 26; // Logic signal for power supply of back light      // Use relay
+
+//
+// JP2 LCD pin 4    // Mega 26 - Restores pin signal to LCD connector (if your not using trimmer!)
+// JP3 LCD pin 20   // Mega 42 - Provides inverting logic for LCD (12V type)
+// JP4 LCD pin 20   // Mega 42 - Close JP4 to use negative supply from display (BuyDisplay type)
+
 
 //
 // Add languages
