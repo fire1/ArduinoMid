@@ -30,7 +30,7 @@ PROGMEM const char MENU_NAME_42[] = "Wrk";
 
 
 /**
- *
+ * Building the menu
  */
 class Menu240x60 : public MenuUiInterface {
 
