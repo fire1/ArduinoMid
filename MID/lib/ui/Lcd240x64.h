@@ -850,9 +850,9 @@ private:
      */
     void displayHomeCenter() {
 #ifdef USE_BERTONE_LOGO
-        lcd->drawXBMP(93, 16, 44, 48, bertone_small_bits);
+        lcd->drawXBMP(93, 15, 44, 48, bertone_small_bits);
 #else
-        lcd->drawXBMP(93, 20, 44, 36, opel_small_bits);
+        lcd->drawXBMP(93, 19, 44, 36, opel_small_bits);
 #endif
     }
 
