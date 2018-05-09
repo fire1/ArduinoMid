@@ -213,9 +213,18 @@ public:
  */
     void showHeader(const char *title) {
         lcd->enableUTF8Print();
-        lcd->drawLine(0, 13, 240, 12);
+        lcd->drawLine(0, 13, 120, 13);
+        lcd->drawLine(121, 12, 131, 2);
+        lcd->drawLine(131, 2, 240, 2);
         lcd->setCursor(20, 1);
         lcd->print(title);
+
+        //
+        // New stuff
+//        lcd->setCursor(131, 2);
+//        lcd->print(car->getTmpOut());
+//        lcd->print(getMsg(101));
+//        lcd->print(getMsg(74));
 
 
         if (car->getEngTmp() > ENGINE_OVERHEAT && drawIndex % 3 == 0) {
