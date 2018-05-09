@@ -120,7 +120,7 @@ public:
             // TODO test it with minimum amplitude
             resolveButton(voltage);
 
-            if (cmd(amp, DBG_SR_WHL)) {
+            if (cmdMin(amp, DBG_SR_WHL)) {
                 dump("Voltage reads", voltage)
             }
 

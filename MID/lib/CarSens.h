@@ -1245,14 +1245,17 @@ void CarSens::sensDim() {
         }
 
         if (backLightLevel < 1) {
+            //
+            // Day light
             backLightLevel = SCREEN_DEF_LIGHT;
             CUR_DIM_ON = false;
-            analogWrite(42, 255);
-            if (TEMPERATURE_WRN_SUN < getTmpOut())
-                analogWrite(26, 255);
+            analogWrite(DSP_ADT_SPL, 255);
+            (TEMPERATURE_WRN_SUN < getTmpOut()) ? analogWrite(DSP_ADT_INV, 255) : analogWrite(DSP_ADT_INV, 0);
         } else {
-            analogWrite(42, 0);
-            analogWrite(26, 0);
+            //
+            // Night light
+            analogWrite(DSP_ADT_INV, 0);
+            analogWrite(DSP_ADT_SPL, 0);
             CUR_DIM_ON = true;
         }
         uint8_t output = uint8_t(backLightLevel * 10.2);
