@@ -1500,7 +1500,7 @@ private:
         lcd->print(char_7);
 
         if (!btn->getNavigationState() && drawIndex % 4 == 0) {
-            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth(("["))) + 10, LCD_ROW_1);
+            lcd->setCursor(LCD_COL_R11 - (lcd->getStrWidth(("["))) - 8, LCD_ROW_1);
             lcd->print(F("["));
             lcd->setCursor(LCD_COL_R11 + lcd->getStrWidth(char_7) + 10, LCD_ROW_1);
             lcd->print(F("]"));
