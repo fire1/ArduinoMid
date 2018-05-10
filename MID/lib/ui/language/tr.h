@@ -21,8 +21,8 @@ const char msg3[] PROGMEM = " Fren balatası durumu   : ";
 const char msg4[] PROGMEM = " Soğutma sıvısı seviyesi: ";
 const char msg5[] PROGMEM = " Cam suyu seviyesi        : ";
 const char msg6[] PROGMEM = " Motor Yağı seviyesi       : ";
-const char msg7[] PROGMEM = " TAMAM"; // Is fine message
-const char msg8[] PROGMEM = " % 25'in alt."; // Problem message for liquid
+const char msg7[] PROGMEM = "        £ "; // Is fine message
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = " YIPRANMIŞ"; // Problem message for brakes
 const char msg10[] PROGMEM = "SÖNÜK"; // Problem message for lamps
 //
@@ -113,8 +113,21 @@ const char msg67[] PROGMEM = "(Sıfırlama - servis sonrası)";
 const char msg68[] PROGMEM = "´"; // l
 const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "³"; // h
-const char msg71[] PROGMEM = "´÷¥"; // Л/100km
+const char msg71[] PROGMEM = "´÷¥"; // L/100km
 const char msg73[] PROGMEM = "¥"; // 100km
-
+//
+// Guidance
+const char msg110[] PROGMEM = " 10%  direnç toleransı";
+const char msg111[] PROGMEM = "Triger kayışı mesafesi: ";
+const char msg112[] PROGMEM = "Sıfırlamak için # tuşuna basın ";
+const char msg113[] PROGMEM = "Beklemeyi sıfırlamak için #+$";
+const char msg114[] PROGMEM = "Artırmak, değerini düşürmek";
+const char msg115[] PROGMEM = "Değeri artırın veya azaltın";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "Menzil: ";
 
 #endif //ARDUINOMID_TR_H_H

@@ -113,10 +113,23 @@ const char msg67[] PROGMEM = " (После обслуживания сброси
 //
 // Value tags
 const char msg68[] PROGMEM = "±"; // л
-const char msg69[] PROGMEM = "?"; // km
-const char msg70[] PROGMEM = "?"; // ч
-const char msg71[] PROGMEM = "±??"; // Л/100km
-const char msg73[] PROGMEM = "?"; // 100km
-
+const char msg69[] PROGMEM = "¯"; // km
+const char msg70[] PROGMEM = "²"; // ч
+const char msg71[] PROGMEM = "±÷¥"; // Л/100km
+const char msg73[] PROGMEM = "¥"; // 100km
+//
+// Guidance
+const char msg110[] PROGMEM = "Допуск на сопротивление 10%";
+const char msg111[] PROGMEM = "Расст. от зубчатого ремня: ";
+const char msg112[] PROGMEM = "Нажмите # для сброса";
+const char msg113[] PROGMEM = "Чтобы сбросить удержание # + $";
+const char msg114[] PROGMEM = "Чтобы увеличить, опустите значение";
+const char msg115[] PROGMEM = "Увеличение или уменьшение стоимости";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "Ассорт.: ";
 
 #endif //ARDUINOMID_EN_H_H

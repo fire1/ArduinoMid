@@ -23,7 +23,8 @@
 #include "fonts/OpelFontU8g.h"
 #include "fonts/OpelFn13U8g.h"
 
-
+#define DEFAULT_FONT u8g_font_opel_ic_13
+#define GUIDANCE_FONT u8g_font_opel_rg_12
 #define LCD_ROW_1 16
 #define LCD_ROW_2 27
 #define LCD_ROW_3 39
@@ -88,7 +89,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     //
     // from 14 to 64
     uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
-    const uint8_t *currentFont;
+    const uint8_t *currentFont = DEFAULT_FONT;
 
 public:
 /**
@@ -200,7 +201,7 @@ public:
         lcd->drawBox(0, LCD_ROW_4 - 1, 240, 14);
         lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
         lcd->print(getMsg(106));
-        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setFont(GUIDANCE_FONT);
         lcd->setDrawColor(0);
         lcd->print(text);
         lcd->setFont(this->currentFont);
@@ -214,13 +215,14 @@ public:
 
         lcd->drawBox(0, LCD_ROW_4 - 1, 240, 14);
         lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+        lcd->setFont(DEFAULT_FONT);
         lcd->print(getMsg(106));
-        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setFont(GUIDANCE_FONT);
         lcd->setDrawColor(0);
         lcd->print(getMsg(offset));
         lcd->setFont(this->currentFont);
+        lcd->setDrawColor(0);
     }
-
 
 
     void HeaderIcons() {
@@ -298,6 +300,21 @@ public:
         lcd->print(getMsg(96));
     }
 
+
+    void drawWarnMsg(uint8_t row1, uint8_t row2) {
+        lcd->drawBox(80, LCD_ROW_3 - 1, 160, 26);
+        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setDrawColor(0);
+
+        lcd->setCursor(85, LCD_ROW_3);
+        lcd->print(this->getMsg(row1));
+        lcd->setCursor(85, LCD_ROW_4);
+        lcd->print(this->getMsg(row2));
+        lcd->setFont(this->currentFont);
+        lcd->setDrawColor(1);
+    }
+
+
 //
 // Servicing screens
     void warnCoolant() override {
@@ -305,11 +322,7 @@ public:
             lcd->drawXBMP(0, 0, 85, 64, coolant_level_85x64_bits);
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(49));
-
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(50));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(51));
+            drawWarnMsg(50, 51);
         }
     }
 
@@ -336,10 +349,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(40));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(41));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(42));
+            drawWarnMsg(41, 42);
         }
     }
 
@@ -350,10 +360,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(58));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(59));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(60));
+            drawWarnMsg(59, 60);
         }
     }
 
@@ -365,10 +372,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(58));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(59));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(61));
+            drawWarnMsg(59, 61);
         }
     }
 
@@ -379,11 +383,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(46));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(47));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(48));
-
+            drawWarnMsg(47, 48);
         }
     }
 
@@ -394,10 +394,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(52));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(53));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(54));
+            drawWarnMsg(53, 54);
         }
     }
 
@@ -408,10 +405,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(37));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(38));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(39));
+            drawWarnMsg(38, 39);
         }
     }
 
@@ -422,10 +416,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(55));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(56));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(57));
+            drawWarnMsg(56, 57);
         }
     }
 
@@ -435,10 +426,7 @@ public:
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(62));
 
-            lcd->setCursor(85, LCD_ROW_3);
-            lcd->print(this->getMsg(63));
-            lcd->setCursor(85, LCD_ROW_4);
-            lcd->print(this->getMsg(64));
+            drawWarnMsg(63, 64);
         }
     }
 
@@ -579,7 +567,7 @@ protected:
     void useDefaultMode() {
 
         lcd->enableUTF8Print();
-        lcd->setFont(u8g_font_opel_ic_13); // u8g2_font_unifont_t_cyrillic
+        lcd->setFont(DEFAULT_FONT); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
@@ -646,11 +634,11 @@ protected:
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
                 lcd->drawFrame(10, 12 + (drawEntry * 5), 230, 15);
 
-                lcd->setCursor(LCD_COL_L12, 15);
+                lcd->setCursor(LCD_COL_L11, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
-                lcd->setCursor(LCD_COL_L12, 30);
+                lcd->setCursor(LCD_COL_L11, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                lcd->setCursor(LCD_COL_L12, 45);
+                lcd->setCursor(LCD_COL_L11, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
 
                 break;
@@ -660,12 +648,12 @@ protected:
             case 7:
 //
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 224, 15);
-                lcd->setCursor(LCD_COL_L12, 15);
+                lcd->setCursor(LCD_COL_L11, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
-                lcd->setCursor(LCD_COL_L12, 45);
+                lcd->setCursor(LCD_COL_L11, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
 
-                lcd->setCursor(LCD_COL_L12, 30);
+                lcd->setCursor(LCD_COL_L11, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 if (lcd->getStrWidth(usedMenu.down) > 1) {
                     lcd->print(getMsg(101));
@@ -1150,7 +1138,7 @@ private:
 
 
         if (MidCursorMenu == 46) {
-            lcd->print(F("Range: "));
+            lcd->print(getMsg(132));
             lcd->print(eep->getWorkDistance());
             lcd->write((uint8_t) 2);
             lcd->print(getMsg(101));
@@ -1421,7 +1409,7 @@ private:
         lcd->print(bnz);
         lcd->print(getMsg(68));
         lcd->setCursor(LCD_COL_L23, LCD_ROW_2);
-        lcd->print(F("00"));
+        lcd->print(getMsg(121));
         // todo: change this and measure how many km will travel until fuel ends
 //        lcd->print((bnz * 100) / eep->getDefFuel());
         lcd->print(getMsg(69));
@@ -1564,19 +1552,39 @@ private:
         //
         // Default value
 //        sprintf(char_7, "%0d.%02d", (uint16_t) defVal, (uint8_t) (defVal * 100) % 100);
-        lcd->setCursor(LCD_COL_L12, LCD_ROW_3);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
+
+        lcd->setFont(u8g_font_opel_rg_12);
         lcd->print(getMsg(19));
-        lcd->setCursor(LCD_COL_R11, LCD_ROW_3);
+        lcd->print(getMsg(101));
         lcd->print(char_7);
+        lcd->print(getMsg(122));
+        lcd->print(F("/"));
 
         //
         // Result value
         sprintf(char_7, "%07d", (uint16_t) result);
-        lcd->setCursor(LCD_COL_L12, LCD_ROW_4);
+        lcd->print(getMsg(122));
         lcd->print(getMsg(31));
+        lcd->print(getMsg(101));
+        lcd->print(char_7);
 
-        lcd->drawStr(LCD_COL_R11, LCD_ROW_4, char_7);
-
+        switch (MidCursorMenu) {
+            case 121:
+                drawInfoMsg(114);
+                break;
+            case 122:
+                drawInfoMsg(115);
+                break;
+            case 123:
+                drawInfoMsg(114);
+                break;
+            case 124:
+                drawInfoMsg(114);
+                break;
+            default:
+                break;
+        }
     }
 
 /****************************************************************
@@ -1646,10 +1654,8 @@ private:
         lcd->setCursor(LCD_CNR, LCD_ROW_2);
         lcd->print(stt->getVoltage());
         lcd->print(F("V "));
-        drawInfo(F(" 10% resistor tolerance"));
-//        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
-//        lcd->print(getMsg(106));
-//        lcd->print(F(" 10% resistor tolerance"));
+        drawInfoMsg(110);
+
     }
 
 /**
@@ -1659,7 +1665,7 @@ private:
 
         btn->setEditorState(true);
         lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
-        lcd->print(F(" Timing belt distance: "));
+        lcd->print(getMsg(111));
         lcd->print(eep->getWorkDistance());
         lcd->print(getMsg(69)); // km
         lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
@@ -1673,11 +1679,9 @@ private:
 
         if (!btn->getNavigationState()) {
             valueComparator = (uint8_t) btn->getValueControlled();
-//            lcd->print(F("Press # to reset "));
-            drawInfo(F("Press # to reset "));
+            drawInfoMsg(111);
         } else
-            drawInfo(F("To reset hold #+$"));
-//            lcd->print(F("To reset hold #+$"));
+            drawInfoMsg(113);
 
         if (!btn->getNavigationState()) {
             if (btn->getValueControlled() < 138) {

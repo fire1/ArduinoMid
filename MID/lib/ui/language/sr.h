@@ -23,8 +23,8 @@ const char msg3[] PROGMEM = "Stanje disk plocica: ";
 const char msg4[] PROGMEM = "Stanje rashladne tecnosti: ";
 const char msg5[] PROGMEM = "Stanje tecnosti za prozore: ";
 const char msg6[] PROGMEM = "Nivo motornog ulja je: ";
-const char msg7[] PROGMEM = "U redu."; // Is fine message
-const char msg8[] PROGMEM = "ISPOD 25%"; // Problem message for liquid
+const char msg7[] PROGMEM = "        £ "; // Is fine message
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = "POTROSENE"; // Problem message for brakes
 const char msg10[] PROGMEM = "IZGORILA"; // Problem message for lamps
 //
@@ -112,11 +112,24 @@ const char msg66[] PROGMEM = "Filter vazduha zamjena posle";
 const char msg67[] PROGMEM = " (Posle zamjene resetujte servis)";
 //
 // Value tags
-const char msg68[] PROGMEM = "±"; // л
+const char msg68[] PROGMEM = "´"; // l
 const char msg69[] PROGMEM = "¯"; // km
-const char msg70[] PROGMEM = "²"; // ч
-const char msg71[] PROGMEM = "±÷¥"; // Л/100km
+const char msg70[] PROGMEM = "³"; // h
+const char msg71[] PROGMEM = "´÷¥"; // L/100km
 const char msg73[] PROGMEM = "¥"; // 100km
-
+//
+// Guidance
+const char msg110[] PROGMEM = " 10% tolerancije otpornika";
+const char msg111[] PROGMEM = " Udaljenost pojaseva: ";
+const char msg112[] PROGMEM = "Press # to reset ";
+const char msg113[] PROGMEM = "Pritisnite # da biste resetovali";
+const char msg114[] PROGMEM = "To increase, lower the value";
+const char msg115[] PROGMEM = "Da povećate, smanjite vrednost";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "Opseg: ";
 
 #endif //ARDUINOMID_EN_H_H

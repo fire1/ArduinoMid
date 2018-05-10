@@ -23,8 +23,8 @@ const char msg3[] PROGMEM = "Stanje kočnica: ";
 const char msg4[] PROGMEM = "Rashladna tekućina - stanje: ";
 const char msg5[] PROGMEM = "Tekućina za stakla - stanje: ";
 const char msg6[] PROGMEM = "Razina ulja: ";
-const char msg7[] PROGMEM = "O.K."; // Is fine message
-const char msg8[] PROGMEM = "ISPOD 25%"; // Problem message for liquid
+const char msg7[] PROGMEM = "        £ "; // Is fine message
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = "ISTROŠENE"; // Problem message for brakes
 const char msg10[] PROGMEM = "PREGORJELA"; // Problem message for lamps
 const char msg99[] PROGMEM = "VOLTMETAR";
@@ -117,6 +117,19 @@ const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "³"; // h
 const char msg71[] PROGMEM = "´÷¥"; // Л/100km
 const char msg73[] PROGMEM = "¥"; // 100km
-
+//
+// Guidance
+const char msg110[] PROGMEM = " Odstupanje od 10% otpornosti";
+const char msg111[] PROGMEM = " Udaljenost udaljene trake: ";
+const char msg112[] PROGMEM = "Pritisnite # za resetiranje ";
+const char msg113[] PROGMEM = "Za resetiranje držite # + $";
+const char msg114[] PROGMEM = "Da biste povećali, smanjite vrijedn.";
+const char msg115[] PROGMEM = "Povećajte ili smanjite vrijednost";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "opseg: ";
 
 #endif //ARDUINOMID_EN_H_H

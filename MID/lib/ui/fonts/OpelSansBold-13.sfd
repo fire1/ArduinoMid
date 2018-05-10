@@ -4993,7 +4993,7 @@ Flags: W
 LayerCount: 2
 EndChar
 EndChars
-BitmapFont: 13 495 12 1 1 FreeType
+BitmapFont: 13 496 12 1 1 FreeType
 BDFStartProperties: 25
 COMMENT 1 ""
 COMMENT 1 "Converted from OpenType font "OpelSansBold.ttf" by "otf2bdf 3.0"."
@@ -5253,7 +5253,7 @@ TV.rc+92BA
 BDFChar: 114 179 5 1 3 1 6
 J:PG.TV)8b
 BDFChar: 115 180 4 1 2 1 5
-J:N0#5QCca
+J:N0#^]4?7
 BDFChar: 116 181 7 1 6 -3 5
 bfn;Tbl#8l^]4?7
 BDFChar: 117 182 12 0 10 -1 10

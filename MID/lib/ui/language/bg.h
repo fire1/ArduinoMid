@@ -115,7 +115,20 @@ const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "²"; // ч
 const char msg71[] PROGMEM = "±÷¥"; // Л/100km
 const char msg73[] PROGMEM = "¥"; // 100km
-
+//
+// Guidance
+const char msg110[] PROGMEM = " 10% resistor tolerance";
+const char msg111[] PROGMEM = " Timing belt distance: ";
+const char msg112[] PROGMEM = "Press # to reset ";
+const char msg113[] PROGMEM = "To reset hold #+$";
+const char msg114[] PROGMEM = "To increase, lower the value";
+const char msg115[] PROGMEM = "Increase or reduce value";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "Range: ";
 
 
 #endif //ARDUINOMID_EN_H_H

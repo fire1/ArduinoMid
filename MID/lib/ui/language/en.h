@@ -21,8 +21,8 @@ const char msg3[] PROGMEM = "Brake wearing state: ";
 const char msg4[] PROGMEM = "Coolant level state: ";
 const char msg5[] PROGMEM = "Window washer state: ";
 const char msg6[] PROGMEM = "Engine Oil level is: ";
-const char msg7[] PROGMEM = "O.K."; // Is fine message
-const char msg8[] PROGMEM = "BELOW 25%"; // Problem message for liquid
+const char msg7[] PROGMEM = "        £ "; // Is fine message
+const char msg8[] PROGMEM = "        @"; // Problem message for liquid
 const char msg9[] PROGMEM = "WORN OUT"; // Problem message for brakes
 const char msg10[] PROGMEM = "WENT OUT"; // Problem message for lamps
 const char msg99[] PROGMEM = "VOLTMETER";
@@ -52,7 +52,7 @@ const char msg28[] PROGMEM = "REVOLUTIONS";
 const char msg29[] PROGMEM = "ODOMETER";
 const char msg30[] PROGMEM = "CONSUMPTION";
 const char msg31[] PROGMEM = "RESULT";
-const char msg32[] PROGMEM = "Turn engine On/Off to save";
+const char msg32[] PROGMEM = "Turn engine Off to save data";
 const char msg33[] PROGMEM = "Use BREAK pedal for end";
 const char msg34[] PROGMEM = " Take a break";
 const char msg35[] PROGMEM = " Drowsiness detected";
@@ -113,8 +113,22 @@ const char msg67[] PROGMEM = " (After change reset servicing)";
 const char msg68[] PROGMEM = "´"; // l
 const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "³"; // h
-const char msg71[] PROGMEM = "´÷¥"; // Л/100km
+const char msg71[] PROGMEM = "´÷¥"; // L/100km
 const char msg73[] PROGMEM = "¥"; // 100km
+//
+// Guidance
+const char msg110[] PROGMEM = " 10% resistor tolerance";
+const char msg111[] PROGMEM = " Timing belt distance: ";
+const char msg112[] PROGMEM = "Press # to reset ";
+const char msg113[] PROGMEM = "To reset hold #+$";
+const char msg114[] PROGMEM = "To increase, lower the value";
+const char msg115[] PROGMEM = "Increase or reduce value";
+//
+// Ohter
+const  char msg120[]  PROGMEM = "00.0";
+const  char msg121[]  PROGMEM = "00";
+const  char msg122[]  PROGMEM = "  ";
+const  char msg123[]  PROGMEM = "Range: ";
 
 
 #endif //ARDUINOMID_EN_H_H
