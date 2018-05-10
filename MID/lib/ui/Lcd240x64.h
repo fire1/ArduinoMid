@@ -77,15 +77,16 @@ class Lcd240x62 : virtual public LcdUiInterface {
     const uint8_t *fontSelect;
     uint8_t lastValue;
 //
-// Drowing counter
+// Drawing counter
     uint8_t drawIndex = 0;
     uint8_t drawEntry = 0;
-    char valueCursor = 1;
     uint8_t tripActive = 1;
-    char valueComparator = 1;
     uint8_t tripReset = 0;
     uint8_t wordWidth = 0;
-
+    uint8_t offsetInf = 0;
+    uint8_t sizeOfInf = 0;
+    char valueCursor = 1;
+    char valueComparator = 1;
     //
     // from 14 to 64
     uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
@@ -139,6 +140,7 @@ public:
         useDefaultMode();
 //        lcd->setAutoPageClear(1);
     }
+
 
 /**
  *
@@ -224,6 +226,23 @@ public:
         lcd->setDrawColor(0);
     }
 
+/**
+ *
+ * @param offsets
+ * @param size Starting index  1
+ */
+    void drawInfoMsgMul(const uint8_t offsets[], uint8_t size) {
+        sizeOfInf = size;
+        drawInfoMsg(offsets[offsetInf]);
+    }
+
+    void listenInfoMsg() {
+        if (amp->is2Seconds()) {
+            offsetInf++;
+        }
+        if (offsetInf >= sizeOfInf)
+            offsetInf = 0;
+    }
 
     void HeaderIcons() {
         this->setFont(u8g2_font_unifont_t_symbols);
@@ -500,7 +519,9 @@ public:
  */
     void draw() override {
         cli(); // disable delay
-
+        //
+        //
+        listenInfoMsg();
         //
         // Font handler
         drawFont();
@@ -1569,22 +1590,22 @@ private:
         lcd->print(getMsg(101));
         lcd->print(char_7);
 
+        uint8_t msg[2] = {};
         switch (MidCursorMenu) {
             case 121:
-                drawInfoMsg(114);
+            case 123:
+            case 124:
+                msg[0] = 114;
+                msg[1] = 32;
                 break;
             case 122:
-                drawInfoMsg(115);
-                break;
-            case 123:
-                drawInfoMsg(114);
-                break;
-            case 124:
-                drawInfoMsg(114);
+                msg[0] = 115;
+                msg[1] = 32;
                 break;
             default:
                 break;
         }
+        drawInfoMsgMul(msg, 2);
     }
 
 /****************************************************************
