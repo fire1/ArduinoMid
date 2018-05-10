@@ -167,7 +167,6 @@ public:
     /****************************************************************
 
 
-
 /**
  * Draws shutdown begin for trip save
  */
@@ -191,6 +190,37 @@ public:
     void drawShutdownCount(char sec[2]) {
 
     }
+
+    /**
+     *
+     * @param text
+     */
+    void drawInfo(const __FlashStringHelper *text) {
+
+        lcd->drawBox(0, LCD_ROW_4 - 1, 240, 14);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+        lcd->print(getMsg(106));
+        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setDrawColor(0);
+        lcd->print(text);
+        lcd->setFont(this->currentFont);
+    }
+
+    /**
+     *
+     * @param text
+     */
+    void drawInfoMsg(uint8_t offset) {
+
+        lcd->drawBox(0, LCD_ROW_4 - 1, 240, 14);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+        lcd->print(getMsg(106));
+        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setDrawColor(0);
+        lcd->print(getMsg(offset));
+        lcd->setFont(this->currentFont);
+    }
+
 
 
     void HeaderIcons() {
@@ -614,7 +644,7 @@ protected:
                 lcd->setCursor(108, 1);
                 lcd->print(this->getMsg(2));
                 lcd->drawLine(0, 12, lcd->getDisplayWidth(), 12);
-                lcd->drawFrame(10, 12 + (drawEntry * 5), 224, 15);
+                lcd->drawFrame(10, 12 + (drawEntry * 5), 230, 15);
 
                 lcd->setCursor(LCD_COL_L12, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
@@ -1060,8 +1090,8 @@ private:
         else if (drawIndex > 6 && drawIndex < 10)
             lcd->print(getMsg(26));
 
-        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
-        lcd->print(getMsg(32));
+        drawInfoMsg(32);
+
     }
 
 /****************************************************************
@@ -1616,9 +1646,10 @@ private:
         lcd->setCursor(LCD_CNR, LCD_ROW_2);
         lcd->print(stt->getVoltage());
         lcd->print(F("V "));
-        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
-        lcd->print(getMsg(106));
-        lcd->print(F(" 10% resistor tolerance"));
+        drawInfo(F(" 10% resistor tolerance"));
+//        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+//        lcd->print(getMsg(106));
+//        lcd->print(F(" 10% resistor tolerance"));
     }
 
 /**
@@ -1642,9 +1673,11 @@ private:
 
         if (!btn->getNavigationState()) {
             valueComparator = (uint8_t) btn->getValueControlled();
-            lcd->print(F("Press # to reset "));
+//            lcd->print(F("Press # to reset "));
+            drawInfo(F("Press # to reset "));
         } else
-            lcd->print(F("To reset hold #+$"));
+            drawInfo(F("To reset hold #+$"));
+//            lcd->print(F("To reset hold #+$"));
 
         if (!btn->getNavigationState()) {
             if (btn->getValueControlled() < 138) {

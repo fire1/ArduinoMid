@@ -71,21 +71,21 @@ private:
     boolean isBadVoltage(void) {
 
         int readingVoltage = analogRead(pinVol);
+        uint8_t compareVoltage = uint8_t(readingVoltage / 10);
         //
         // Voltage too high
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage &&
-            readingVoltage > 920) { // are maximum 13.8V-14.2V
+        if (lastVoltageValue == compareVoltage && readingVoltage > 920) { // are maximum 13.8V-14.2V
             return true;
         }
         //
         // Voltage too low
-        if (lastVoltageValue > 0 && lastVoltageValue == readingVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
+        if (lastVoltageValue == compareVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
             return true;
         }
         //
         // Save last reading
         if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
-            lastVoltageValue = readingVoltage;
+            lastVoltageValue = compareVoltage;
         }
 
 
