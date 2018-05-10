@@ -44,7 +44,7 @@ const char msg102[] PROGMEM = "£"; // checkbox
 const char msg103[] PROGMEM = "@"; // Lowe level
 const char msg104[] PROGMEM = "¤"; // problem
 const char msg105[] PROGMEM = "×"; // delete
-const char msg106[] PROGMEM = "Ŵ"; // delete
+const char msg106[] PROGMEM = "Ŵ"; // Info
 
 //
 // PROGMEM language table

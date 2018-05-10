@@ -1616,8 +1616,9 @@ private:
         lcd->setCursor(LCD_CNR, LCD_ROW_2);
         lcd->print(stt->getVoltage());
         lcd->print(F("V "));
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_4);
-        lcd->print(F(" ( +/- 5% tolerance)"));
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+        lcd->print(getMsg(106));
+        lcd->print(F(" 10% resistor tolerance"));
     }
 
 /**
@@ -1630,7 +1631,8 @@ private:
         lcd->print(F(" Timing belt distance: "));
         lcd->print(eep->getWorkDistance());
         lcd->print(getMsg(69)); // km
-        lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
+        lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+        lcd->print(getMsg(106));
 
         if (drawIndex < 2 && initializeDraw) {
             btn->setEditorState(true);
@@ -1640,15 +1642,16 @@ private:
 
         if (!btn->getNavigationState()) {
             valueComparator = (uint8_t) btn->getValueControlled();
-            lcd->print(F(" Press # to reset data"));
+            lcd->print(F("Press # to reset "));
         } else
-            lcd->print(F(" To reset hold #+$ "));
+            lcd->print(F("To reset hold #+$"));
 
         if (!btn->getNavigationState()) {
             if (btn->getValueControlled() < 138) {
                 // TODO add eeprom reset value
                 btn->setEditorState(false);
                 btn->setNavigationState(true);
+                eep->resetWrkOdo();
             }
 
             if (btn->getValueControlled() > 138) {

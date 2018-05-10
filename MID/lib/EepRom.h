@@ -294,6 +294,10 @@ public:
         container.trip_c.range = 0;
     }
 
+    void resetWrkOdo() {
+        container.total_km = 0;
+    }
+
     float getPec() {
         return container.total_pec + car->getPec();
     }
@@ -378,9 +382,9 @@ void EepRom::saveCurrentData() {
         Serial.print(F("[DANGER] EepRom data exceeds memory limit by "));
         Serial.print(savedDataSize - 1024);
         Serial.println(F("bytes"));
-    } else if(cmdLive(DBG_SR_EPR)) {
+    } else if (cmdLive(DBG_SR_EPR)) {
         dump(" EepRom allocate FREE memory bytes: ", 1024 - savedDataSize)
-        dump(" EepRom allocate USED memory bytes:  ",  savedDataSize)
+        dump(" EepRom allocate USED memory bytes:  ", savedDataSize)
     }
 #endif
 
