@@ -153,8 +153,9 @@ const uint8_t DSP_ADT_SPL = 26; // Logic signal for power supply of back light  
 // JP2 LCD pin 4    // Mega 26 - Restores pin signal to LCD connector (if your not using trimmer!)
 // JP3 LCD pin 20   // Mega 42 - Provides inverting logic for LCD (12V type)
 // JP4 LCD pin 20   // Mega 42 - Close JP4 to use negative supply from display (BuyDisplay type)
-
-
+// JP5 LCD pin 21   // Mega 45 - Close JP5 to use 5V backlight (BuyDisplay type)
+// JP6 LCD pin 21   // Mega 45 - Close JP6 to use 12V backlight (OptRex type)
+// mega 44 control power for lcd 12V
 //
 // Add languages
 #ifdef LANG_BG
