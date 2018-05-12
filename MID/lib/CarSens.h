@@ -428,8 +428,8 @@ protected:
      * @return
      */
     float getCnsFuelVal() {
-        if (getFuelState() == 0) return FUEL_PARAM_DEF.cns * getCorEcu();
-        if (getFuelState() == 1) return FUEL_PARAM_ADT.cns * getCorEcu();
+        if (getFuelState() == 0) return float(FUEL_PARAM_DEF.cns) * getCorEcu();
+        if (getFuelState() == 1) return float(FUEL_PARAM_ADT.cns) * getCorEcu();
         return 0;
     };
 
