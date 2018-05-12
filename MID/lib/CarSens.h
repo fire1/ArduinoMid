@@ -54,7 +54,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 120 //45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 124 //45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
@@ -1072,7 +1072,6 @@ void CarSens::sensEcu() {
     if (amp->isSens()) {
         //
         // Pass ecu to global
-//        CUR_ECU = uint32_t(ecuHitsCount * getCorEcu());
         CUR_ECU = (ecuHitsCount);
         if (FUEL_STATE == PEC_TARGET)
             CUR_PEC = CUR_PEC + (ecuHitsCount * 0.01); // push to floating value
