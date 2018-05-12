@@ -20,7 +20,6 @@
 #include "../CarState.h"
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
-#include "fonts/OpelFontU8g.h"
 #include "fonts/OpelFn13U8g.h"
 
 #define DEFAULT_FONT u8g_font_opel_ic_13

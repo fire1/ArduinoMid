@@ -260,17 +260,17 @@ private:
         } else
             //
             // Volume down
-        if (readVoltage > 200 && readVoltage < 380) {
+        if (readVoltage > 200 && readVoltage < 400) {
             setCurrentState(STR_BTN_VLD);
         } else
             //
             // Volume up
-        if (readVoltage > 380 && readVoltage < 499) {
+        if (readVoltage > 400 && readVoltage < 550) {
             setCurrentState(STR_BTN_VLU);
         } else
             //
             // Zero button
-        if (readVoltage > 500 && readVoltage < 650) {
+        if (readVoltage > 550 && readVoltage < 650) {
             setCurrentState(STR_BTN_ATT);
         } else
             //
