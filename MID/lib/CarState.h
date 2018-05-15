@@ -85,7 +85,7 @@ private:
         }
         //
         // Save last reading
-        if (readingVoltage > 0 && lastVoltageValue != readingVoltage) {
+        if (readingVoltage > 0 && lastVoltageValue != compareVoltage) {
             lastVoltageValue = compareVoltage;
         }
 
