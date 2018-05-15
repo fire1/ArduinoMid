@@ -74,12 +74,13 @@ private:
         uint8_t compareVoltage = uint8_t(readingVoltage / 10);
         //
         // Voltage too high
-        if (lastVoltageValue == compareVoltage && readingVoltage > 920) { // are maximum 13.8V-14.2V
+        if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage &&
+            readingVoltage > 920) { // are maximum 13.8V-14.2V
             return true;
         }
         //
         // Voltage too low
-        if (lastVoltageValue == compareVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
+        if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
             return true;
         }
         //
