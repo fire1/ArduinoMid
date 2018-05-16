@@ -6,7 +6,7 @@
 #define ARDUINO_MID_CAR_GAME_H
 
 #include "AmpTime.h"
-#include "lib/displays/Menu16x2.h"
+#include "lib/CarSens.h"
 
 struct GamesBest {
     float drag;
@@ -20,7 +20,7 @@ class CarGames {
 
     AmpTime *_amp;
     CarSens *_car;
-    Menu16x2 *menu;
+    MenuBtn *menu;
 
 
 private:
@@ -89,9 +89,11 @@ GamesBest CarGames::getBestResults(void) {
  */
 void CarGames::listenAStopwatch(void) {
 
+    // TODO rebuild
+    // Reset data
     //
     // Handle controllers button  to activate / deactivate stopwatch future
-    if (menu->isNavigationActive() && menu->isEditOption()) {
+    if (menu->getNavigationState()) {
         menu->setNavigation(false);
         tone(TONE_ADT_PIN, 2000, 100);
     } else if (menu->isNavigationActive() && menu->isEditOption()) {
@@ -140,7 +142,7 @@ float CarGames::getStopwatch(void) {
  */
 void CarGames::listen0to100() {
 
-    //
+    // TODO rebuild
     // Reset data
     if (menu->isEditOption()) {
         isTo100BeginState = false;
