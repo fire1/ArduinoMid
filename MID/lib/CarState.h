@@ -75,7 +75,7 @@ private:
         //
         // Voltage too high
         if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage &&
-            readingVoltage > 920) { // are maximum 13.8V-14.2V
+            readingVoltage > 970) { // are maximum 13.8V-14.2V
             return true;
         }
         //
