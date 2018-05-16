@@ -67,6 +67,7 @@
 /// reset daily kilometers to flight instruments while turning the key in the ignition to the active position.
 /// For vehicles Astra G it is usually worth the 15385 (mul by 2 = 30770). For vehicles Frontera , it is the value of the 2700.
 //25.2 / 1.8l
+// TODO lower value to save space in EepRom (124*200 = 24800)
 // Distance correction
 #define DST_CORRECTION 24775 //   24776.6 /24763.0 v1.6 // v1.4 30800.00  //  15383.29  //   15385
 //
