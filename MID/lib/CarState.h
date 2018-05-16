@@ -79,7 +79,7 @@ private:
             return true;
         }
         //
-        // Voltage too low
+        // Voltage too low 11.2V
         if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage && readingVoltage < BATTERY_LOW_VOLT /*680*/) {
             return true;
         }
