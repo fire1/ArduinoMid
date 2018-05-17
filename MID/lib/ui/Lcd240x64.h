@@ -1550,6 +1550,11 @@ private:
          * Set data to carSens
          */
         if (!btn->getNavigationState() && curVal != oldVal) {
+            //
+            // Change speed of screen
+            this->playUltra();
+            //
+            // Switch screen handler
             switch (MidCursorMenu) {
                 case 121:
                     eep->setSensVss(curVal * 0.01);
