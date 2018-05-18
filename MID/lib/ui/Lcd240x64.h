@@ -606,7 +606,8 @@ protected:
         uint8_t subAnimateIndex = drawEntry & 4;
 
         //
-        //
+        // Disable "switch screen" when showing screens
+        // that not attached to menu structure.
         if (usedMenu.used == 0) {
             switch (drawEntry) {
                 default:
@@ -630,7 +631,8 @@ protected:
             }
             return;
         }
-
+        //
+        // Shows menu structure
         switch (drawEntry) {
             default:
                 drawEntry = 0;
