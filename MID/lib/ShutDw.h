@@ -272,7 +272,7 @@ void ShutDw::menu(LcdUiInterface *lcd) {
     lcd->drawShutdownShort();
     tiggerSave = 1;
     return;
-
+/*
     char sec[2];
     //
     // Show message before straiting procedure of shouting down
@@ -326,7 +326,7 @@ void ShutDw::menu(LcdUiInterface *lcd) {
     //
     // Count loops
     indexWait++;
-
+*/
 }
 
 #endif //ARDUINOMID_SHUTDOWN_H

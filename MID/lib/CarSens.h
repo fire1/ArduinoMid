@@ -1197,7 +1197,7 @@ char *CarSens::getHTm(float saved) {
     /* 11 = len of clock time + 1 char for \0*/
 
     char *dspTime;
-    sprintf(dspTime, "%02d:%02d", hours + old[0], minutes + old[1]);
+    sprintf_P(dspTime, pgm1 /*"%02d:%02d"*/, hours + old[0], minutes + old[1]);
     return dspTime;
 };
 
@@ -1214,7 +1214,7 @@ void CarSens::getHTm(float saved, char *dspTime) {
     separateFloat(saved, old);
     /* 11 = len of clock time + 1 char for \0*/
 
-    sprintf(dspTime, "%02d:%02d", hours + old[0], minutes + old[1]);
+    sprintf_P(dspTime, pgm1 /*"%02d:%02d"*/, hours + old[0], minutes + old[1]);
 
 };
 

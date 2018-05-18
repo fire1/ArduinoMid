@@ -996,21 +996,21 @@ private:
     void displayCarVss() {
         lcd->setCursor(0, LCD_ROW_1);
         lcd->print(F("KMH "));
-        sprintf(char_3, "%03d", car->getVss());
+        sprintf_P(char_3, pgm3 /*"%03d"*/, car->getVss());
         lcd->print(char_3);
     }
 
     void displayEngRpm() {
         lcd->setCursor(0, LCD_ROW_2);
         lcd->print(F("RPM "));
-        sprintf(char_4, "%04d", car->getRpm());
+        sprintf_P(char_4, pgm4 /*"%04d"*/, car->getRpm());
         lcd->print(char_4);
     }
 
     void displayCarEcu() {
         lcd->setCursor(0, LCD_ROW_3);
         lcd->print(F("ECU "));
-        sprintf(char_2, "%04d", car->getEcu());
+        sprintf_P(char_2, pgm4 /*"%04d"*/, car->getEcu());
         lcd->print(char_2);
     }
 
@@ -1025,14 +1025,14 @@ private:
         lcd->setCursor(LCD_COL_R12 - 10, LCD_ROW_1);
         lcd->print(F("ODO "));
         char vds[20];
-        sprintf(vds, "%lu", car->getVdsDump());
+        sprintf_P(vds, pgm5 /*"%lu"*/, car->getVdsDump());
         lcd->print(vds);
     }
 
     void displayCarEnt() {
         lcd->setCursor(LCD_COL_R12 - 10, LCD_ROW_2);
         lcd->print(F("ENG "));
-        sprintf(char_3, "%03d", car->getEngTmp());
+        sprintf_P(char_3, pgm3/*"%03d"*/, car->getEngTmp());
         lcd->print(char_3);
         lcd->print(getMsg(101));
 //        this->showCels(LCD_COL_R23, LCD_ROW_2, char_3);
@@ -1041,14 +1041,14 @@ private:
     void displayCarGrs() {
         lcd->setCursor(LCD_COL_R12 - 10, LCD_ROW_3);
         lcd->print(F("GRS "));
-        sprintf(char_2, "%01d", car->getGear());
+        sprintf_P(char_2, pgm6/*"%01d"*/, car->getGear());
         lcd->print(char_2);
     }
 
     void displayCarWrk() {
         lcd->setCursor(LCD_COL_R12 - 10, LCD_ROW_4);
         lcd->print(F("WRK "));
-        sprintf(char_6, "%04d", eep->getWorkDistance());
+        sprintf_P(char_6, pgm4 /*"%04d"*/, eep->getWorkDistance());
         lcd->print(char_6);
         lcd->print(getMsg(69));
     }
