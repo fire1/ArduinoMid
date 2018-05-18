@@ -607,7 +607,7 @@ protected:
 
         //
         //
-        if (lcd->getStrWidth(usedMenu.used) < 2) {
+        if (usedMenu.used == 0) {
             switch (drawEntry) {
                 default:
                     drawEntry = 0;
@@ -675,7 +675,7 @@ protected:
 
                 lcd->setCursor(LCD_COL_L11, 30);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
-                if (lcd->getStrWidth(usedMenu.down) > 1) {
+                if (usedMenu.down > 0) {
                     lcd->print(getMsg(101));
                     lcd->print(getMsg(95));
                     lcd->print(getMsg(101));
@@ -702,7 +702,7 @@ private:
  * @param menu_t
  * @return
  */
-    uint8_t getTitleMsgIndex(const char *menu_t) {
+    uint8_t getTitleMsgIndex(uint8_t menu_t) {
 
         //
         // General titles

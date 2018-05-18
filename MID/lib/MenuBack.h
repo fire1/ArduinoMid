@@ -37,12 +37,12 @@
 */
 class MenuItem {
 public:
-	MenuItem(const char* itemName, char shortKey='\0' ) : name(itemName), shortkey(shortKey) {
+	MenuItem(const uint8_t itemName, char shortKey='\0' ) : name(itemName), shortkey(shortKey) {
 		before = right = after = left = 0;
 	}
 
 	//void use(){} //update some internal data / statistics
-	inline const char* getName() const { return name; }
+	inline const uint8_t getName() const { return name; }
 	inline const char getShortkey() const { return shortkey; }
 	inline const bool hasShortkey() const { return (shortkey!='\0'); }
 	inline void setBack(MenuItem *b) { back = b; }
@@ -103,7 +103,7 @@ public:
 	}
 protected:
 
-	const char* name;
+	uint8_t name;
 	const char shortkey;
 
 	MenuItem *before;
@@ -113,23 +113,23 @@ protected:
 	MenuItem *back;
 };
 
-//no dependant inclusion of string or cstring
-bool menuTestStrings(const char *a, const char *b) {
-	while (*a) { if (*a != *b) { return false; } b++; a++; }
-	return true;
-}
-bool operator==(MenuItem &lhs, char* test) {
-	return menuTestStrings(lhs.getName(),test);
-}
-bool operator==(const MenuItem &lhs, char* test) {
-	return menuTestStrings(lhs.getName(),test);
-}
-bool operator==(MenuItem &lhs, MenuItem &rhs) {
-	return menuTestStrings(lhs.getName(),rhs.getName());
-}
-bool operator==(const MenuItem &lhs, MenuItem &rhs) {
-	return menuTestStrings(lhs.getName(),rhs.getName());
-}
+////no dependant inclusion of string or cstring
+//bool menuTestStrings(uint8_t a, const char *b) {
+//	while (*a) { if (*a != *b) { return false; } b++; a++; }
+//	return true;
+//}
+//bool operator==(MenuItem &lhs, char* test) {
+//	return menuTestStrings(lhs.getName(),test);
+//}
+//bool operator==(const MenuItem &lhs, char* test) {
+//	return menuTestStrings(lhs.getName(),test);
+//}
+//bool operator==(MenuItem &lhs, MenuItem &rhs) {
+//	return menuTestStrings(lhs.getName(),rhs.getName());
+//}
+//bool operator==(const MenuItem &lhs, MenuItem &rhs) {
+//	return menuTestStrings(lhs.getName(),rhs.getName());
+//}
 
 struct MenuChangeEvent {
 	const MenuItem &from;
@@ -146,7 +146,7 @@ typedef void (*cb_use)(MenuUseEvent);
 class MenuBack {
 public:
 
-	MenuBack(cb_use menuUse, cb_change menuChange = 0) : root("MenuRoot") {
+	MenuBack(cb_use menuUse, cb_change menuChange = 0) : root(0) {
 		current = &root;
 		cb_menuChange = menuChange;
 		cb_menuUse = menuUse;

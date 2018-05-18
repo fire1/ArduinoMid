@@ -11,22 +11,22 @@
 #include "../MenuBase.h"
 #include "../MenuBack.h"
 
-#define MENU_NAME_1 "Home"
-#define MENU_NAME_11 "Dash"
-#define MENU_NAME_12 "Edit"
-#define MENU_NAME_13 "Info"
+const uint8_t MENU_NAME_1 = 1;
+const uint8_t MENU_NAME_11 =11;
+const uint8_t MENU_NAME_12 =12;
+const uint8_t MENU_NAME_13 =13;
 
-#define MENU_NAME_121 "VSS"
-#define MENU_NAME_122 "RPM"
-#define MENU_NAME_123 "DST"
-#define MENU_NAME_124 "ECU"
+const uint8_t MENU_NAME_121 =121;
+const uint8_t MENU_NAME_122 =122;
+const uint8_t MENU_NAME_123 =123;
+const uint8_t MENU_NAME_124 =124;
 
-#define MENU_NAME_2 "Trips"
-#define MENU_NAME_21 "Fuels"
-#define MENU_NAME_22 "Race"
-#define MENU_NAME_4 "State"
-#define MENU_NAME_41 "Volt"
-#define MENU_NAME_42 "Wrk"
+const uint8_t MENU_NAME_2 =2;
+const uint8_t MENU_NAME_21 =21;
+const uint8_t MENU_NAME_22 =22;
+const uint8_t MENU_NAME_4 =4;
+const uint8_t MENU_NAME_41 =41;
+const uint8_t MENU_NAME_42 =42;
 
 
 /**
@@ -74,7 +74,7 @@ public:
 
             //
             // Main menu
-                              mainMenu(MenuItem(MENU_NAME_1, 11)),
+                              mainMenu(MenuItem(MENU_NAME_1, 1)),
                               gagesMenu(MenuItem(MENU_NAME_11)),
                               setupMenu(MenuItem(MENU_NAME_12)),
 
@@ -142,8 +142,9 @@ public:
         //
         // Resolve
         MenuItem curMenuItem = change.to; //get the destination menu
-        const char *curMenuName = curMenuItem.getName();
-
+        MidCursorMenu = curMenuItem.getName();
+return;
+/*
 #ifdef DEBUG
         if (cmdLive(DBG_SR_MNI)) {
             dump("Captured menu name", curMenuName);
@@ -195,6 +196,7 @@ public:
         } else if (curMenuName == MENU_NAME_42) {
             MidCursorMenu = 42;
         }
+        */
     }
 
     void moveUp() {

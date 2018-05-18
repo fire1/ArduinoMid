@@ -11,6 +11,7 @@
 #include "lib/MenuBack.h"
 #include "lib/Debug.h"
 #include "lib/ui/ComChar.h"
+
 #ifdef LOGGER
 
 #include "lib/LogCard.h"
@@ -28,7 +29,6 @@
 
 volatile uint8_t MidCursorMenu = 0;
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
-
 
 
 /**
@@ -159,17 +159,17 @@ struct SavedData {
  * Structure of menu container
  */
 struct UsedMenu {
-    const char *used;
-    const char *back;
-    const char *next;
-    const char *last;
-    const char *down;
+    uint8_t used;
+    uint8_t back;
+    uint8_t next;
+    uint8_t last;
+    uint8_t down;
 };
 /**
 * Reserve space in used menu container
 */
 static UsedMenu usedMenu = {
-        used:""/* new char(512)*/
+        used:0/* new char(512)*/
 };
 
 //

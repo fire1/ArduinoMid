@@ -319,8 +319,8 @@ public:
             if (!initAlertState) {
                 cursorMenu = MidCursorMenu;
                 MidCursorMenu = MENU_SERVICE;
-                usedMenu.used = "";
-                usedMenu.back = "";
+                usedMenu.used = 0;
+                usedMenu.back = 0;
                 initAlertState = 1;
             }
         }
