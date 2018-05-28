@@ -8,7 +8,7 @@ This project is rebuild of on-board computer  base on original interface connect
 
 [![Analytics](https://ga-beacon.appspot.com/UA-117422627-1/welcome-page)](https://github.com/fire1/ArduinoMid)
 
-# [Reference Manual](https://github.com/fire1/ArduinoMid/wiki)
+# [Reference Manual / Homepage ](https://github.com/fire1/ArduinoMid/wiki)
 
 
 ## Notes
@@ -21,12 +21,8 @@ This project is rebuild of on-board computer  base on original interface connect
 * Used libraries are in "libraries" folder [zip them for importing]
 
 ## Version 
-   **1.5.6** _and should be considered as beta (test) quality._
+   **1.6** _and should be considered as beta (test) quality._
 
-
-[BUY ArduinoMid ](https://jlcpcb.com/quote/eda?eadLink=2&uuid=4a83a4ba1fad40838f8534ae98515a76)
-
-        
 ## Donations
     Every cent will be used for new futures. 
     Keep in mind I spend a lot of money and time over this project... 
