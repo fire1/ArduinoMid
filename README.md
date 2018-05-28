@@ -3,7 +3,7 @@ Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoM
 This project is rebuild of on-board computer  base on original interface connection.
 
 
-![https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
+![https://raw.githubusercontent.com/wiki/fire1/ArduinoMid/images/readmy-splash.jpg](https://github.com/fire1/ArduinoMid/blob/master/screens/Screenshot_2017-07-02-17-07-38.jpg)
 
 
 [![Analytics](https://ga-beacon.appspot.com/UA-117422627-1/welcome-page)](https://github.com/fire1/ArduinoMid)
