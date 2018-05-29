@@ -1,6 +1,6 @@
 # ArduinoMid
-Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoMid
-This project is rebuild of on-board computer  base on original interface connection.
+Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with Arduino Mega2560. 
+This project is rebuild of on-board computer based on original interface connection.
 
 
 ![ArduinoMid](https://raw.githubusercontent.com/wiki/fire1/ArduinoMid/images/readme-splash.jpg)
