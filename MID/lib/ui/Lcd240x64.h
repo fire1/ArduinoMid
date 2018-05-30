@@ -20,7 +20,7 @@
 #include "../CarState.h"
 #include "graphics/240x64-logo.h"
 #include "graphics/gLcd-icons.h"
-#include "fonts/OpelFn13U8g.h"
+#include "fonts/OpelFontU8g.h"
 
 #define DEFAULT_FONT u8g_font_opel_ic_13
 #define GUIDANCE_FONT u8g_font_opel_rg_12
@@ -266,8 +266,10 @@ public:
         lcd->drawLine(0, 13, 120, 13);
         lcd->drawLine(121, 12, 131, 2);
         lcd->drawLine(131, 2, 240, 2);
+        lcd->setFont(u8g_font_opel_rg_12);
         lcd->setCursor(20, 1);
         lcd->print(title);
+        lcd->setFont(u8g_font_opel_ic_13);
 
         //
         // New stuff

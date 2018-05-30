@@ -7,8 +7,8 @@
 
 //
 // Supported languages
-//#define LANG_BG
-#define LANG_EN
+#define LANG_BG
+//#define LANG_EN
 //#define LANG_HR
 //#define LANG_RU
 //#define LANG_SR
