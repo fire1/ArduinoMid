@@ -30,6 +30,8 @@ uint8_t drlVss = 0;
 void listenerDRL(AmpTime *amp, CarSens *car) {
 
 
+    //
+    // Initial demo
     if (millis() < 3000) {
         analogWrite(DRL_PWR_PIN, 255);
         if (amp->isBig() && fadeIDrl < 255) {
