@@ -287,15 +287,18 @@ public:
         lcd->setCursor(20, 1);
         lcd->print(title);
 
+        //
+        // Show DRL is in attention mode
+        if (flashDrl && drawIndex % 2 == 0) {
+            lcd->setCursor(108, 4);
+            lcd->print(getMsg(101));
+            lcd->print(getMsg(116));
+        }
 
         //
         //  Clock in this place
         lcd->setCursor(131, 2);
 
-        if (flashDrl) {
-            lcd->print(getMsg(101));
-            lcd->print(getMsg(116));
-        }
 //        displayFloat(car->getTmpOut(), char_3);
 //        lcd->print(char_3);
 //        lcd->print(getMsg(74));
