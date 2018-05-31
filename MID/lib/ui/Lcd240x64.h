@@ -311,9 +311,9 @@ public:
 
 
 
-            //
-            // Title icon
-            lcd->setCursor(1, 1);
+        //
+        // Title icon
+        lcd->setCursor(1, 1);
         if (stt->isAlert() && !stt->isWinter() || millis() < INIT_TIME && drawIndex % 2 == 0) {
             lcd->print(getMsg(84));
         } else if (millis() > INIT_TIME) {
@@ -327,6 +327,10 @@ public:
                 lcd->print(getMsg(89));
             } else if (car->getTmpOut() > 40) {
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
+            } else if (millis() > MILLIS_PER_HR * 3) {
+                lcd->print(getMsg(81));
+            } else if (millis() > MILLIS_PER_HR * 4) {
+                if (drawIndex % 2 == 0)lcd->print(getMsg(81));
             }
         }
 
