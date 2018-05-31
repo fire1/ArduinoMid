@@ -290,7 +290,12 @@ public:
 
         //
         //  Clock in this place
-//        lcd->setCursor(131, 2);
+        lcd->setCursor(131, 2);
+
+        if (flashDrl) {
+            lcd->print(getMsg(101));
+            lcd->print(getMsg(116));
+        }
 //        displayFloat(car->getTmpOut(), char_3);
 //        lcd->print(char_3);
 //        lcd->print(getMsg(74));
