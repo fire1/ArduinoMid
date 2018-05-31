@@ -310,7 +310,7 @@ public:
         if (car->getRpm() > 5600 && isIconPulsing() || isIconDemo(800)) {
             drawHeaderIcon(80); // engine
         }
-        if (stt->getLiveVol() < 13 && car->isRunEng() && isIconPulsing() || isIconDemo(1200)) {
+        if (stt->getVoltage() < 12 && car->isRunEng() && isIconPulsing() || isIconDemo(1200)) {
             drawHeaderIcon(104); // battery
         }
         if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo(1800)) {

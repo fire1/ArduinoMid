@@ -46,7 +46,7 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
     // Listen danger braking to alert with flash
     if (amp->isSens()) {
         uint8_t vss = car->getVss();
-        if (vss < drlVss - 20) {
+        if (vss < (drlVss - 25)) {
             flashDrl = true;
         } else {
             flashDrl = false;
@@ -77,7 +77,7 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
                 analogWrite(DRL_PWM_PIN, 0);
         }
     }
-
+//    flashDrl = true;
     //
     // Flash DRL attention
     if (amp->isSec() && flashDrl) {
