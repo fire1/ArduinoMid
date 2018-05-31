@@ -280,13 +280,13 @@ public:
 
 
         //
-        // TODO clock in this place
-        lcd->setCursor(131, 2);
-        displayFloat(car->getTmpOut(), char_3);
-        lcd->print(char_3);
-        lcd->print(getMsg(74));
+        //  Clock in this place
+//        lcd->setCursor(131, 2);
+//        displayFloat(car->getTmpOut(), char_3);
+//        lcd->print(char_3);
+//        lcd->print(getMsg(74));
 
-        lcd->setCursor(169, 1);
+        lcd->setCursor(168, 2);
         if (car->getEngTmp() > ENGINE_OVERHEAT && isIconPulsing() || isIconDemo()) {
             drawHeaderIcon(75); // overheat
         }
