@@ -50,6 +50,8 @@
 
 #define LCD_ICO_HIGH 2
 #define LCD_ENTRY_FRAME 2
+const uint16_t INIT_TIME = 7000;
+
 
 class Lcd240x62 : virtual public LcdUiInterface {
 
@@ -91,7 +93,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
     const uint8_t *currentFont = DEFAULT_FONT;
 
-    uint8_t headerCursor = 160;
+    uint8_t headerCursorDemo = 0;
 
 public:
 /**
@@ -246,7 +248,6 @@ public:
     }
 
 
-
 /**
  *
  * @param icon
@@ -261,8 +262,16 @@ public:
         return drawIndex % 2 == 0;
     }
 
-    boolean isIconDemo() {
-        return millis() < 7000;
+/**
+ *
+ * @param time
+ * @return
+ */
+    boolean isIconDemo(const uint16_t time) {
+        if (millis() < (INIT_TIME - time)) {
+            return true;
+        }
+        return false;
     }
 
 /**
@@ -287,27 +296,27 @@ public:
 //        lcd->print(getMsg(74));
 
         lcd->setCursor(168, 2);
-        if (car->getEngTmp() > ENGINE_OVERHEAT && isIconPulsing() || isIconDemo()) {
+        if (car->getEngTmp() > ENGINE_OVERHEAT && isIconPulsing() || isIconDemo(200)) {
             drawHeaderIcon(75); // overheat
         }
-        if (car->getRpm() > 5600 && isIconPulsing() || isIconDemo()) {
+        if (car->getRpm() > 5600 && isIconPulsing() || isIconDemo(800)) {
             drawHeaderIcon(80); // engine
         }
-        if (stt->getLiveVol() < 13 && car->isRunEng() && isIconPulsing() || isIconDemo()) {
+        if (stt->getLiveVol() < 13 && car->isRunEng() && isIconPulsing() || isIconDemo(1200)) {
             drawHeaderIcon(104); // battery
         }
-        if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo()) {
+        if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo(1800)) {
             drawHeaderIcon(102); // battery
         }
 
 
 
-        //
-        // Title icon
-        lcd->setCursor(1, 1);
-        if (stt->isAlert() && !stt->isWinter() || millis() < 7000 && drawIndex % 2 == 0) {
+            //
+            // Title icon
+            lcd->setCursor(1, 1);
+        if (stt->isAlert() && !stt->isWinter() || millis() < INIT_TIME && drawIndex % 2 == 0) {
             lcd->print(getMsg(84));
-        } else if (millis() > 7000) {
+        } else if (millis() > INIT_TIME) {
             if (stt->isWinter()) {
                 if (drawIndex % 2 == 0)lcd->print(getMsg(88));
             } else if (car->getTmpOut() < 0) {
