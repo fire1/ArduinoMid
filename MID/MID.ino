@@ -123,7 +123,8 @@ void setup() {
     // Light lamps test
     pinMode(STT_UL1_PIN, INPUT_PULLUP); // HIGH is ok
     pinMode(STT_UL2_PIN, INPUT_PULLUP); // LOW is bad
-    pinMode(DRL_PIN, OUTPUT);
+    pinMode(DRL_PWM_PIN, OUTPUT);
+    pinMode(DRL_PWR_PIN, OUTPUT);
 }
 
 

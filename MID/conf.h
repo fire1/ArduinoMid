@@ -151,7 +151,7 @@
 //#define PEC_TARGET 0
 
 //
-// Defines pin for DRL lights
-#define DRL_PIN 7
-
+// Defines pin for DRL lights PWM
+#define DRL_PWM_PIN 7 // PWM GND
+#define DRL_PWR_PIN 10 // PWM Power
 #endif //ARDUINO_MID_CONF_H

@@ -90,53 +90,8 @@ LpgSerial lpgCom(ampInt, carSens);
 LpgSwitch lpgCom(ampInt);
 #endif
 
-//
-// DRL
-#ifndef DRL_PIN
-#define DRL_PIN 7
-#endif
 
-//boolean flashDrl = false;
-uint8_t fadeIDrl = 0;
-/**
- * Testing method
- * @param amp
- * @param car
- */
-void listenerDRL(AmpTime *amp, CarSens *car) {
-
-
-    if (millis() < 3000) {
-        analogWrite(10, 255);
-        if (amp->isBig() && fadeIDrl < 255) {
-            analogWrite(DRL_PIN, fadeIDrl);
-            fadeIDrl++;
-        } else if(fadeIDrl > 254){
-            analogWrite(10, 0);
-        }
-    }
-
-    if (amp->isSecond()) {
-        if (car->isRunEng()) {
-            if (car->isDimOn()) {
-                analogWrite(10, 0);
-                analogWrite(DRL_PIN, 0);
-            } else if(car->getVss() > 1){
-                analogWrite(10, 255);
-                analogWrite(DRL_PIN, 255);
-            }else{
-                analogWrite(10, 255);
-                analogWrite(DRL_PIN, 230);
-            }
-        } else {
-            analogWrite(10, 255);
-            if (amp->is5Seconds()) {
-                analogWrite(DRL_PIN, 255);
-            } else if (amp->isBig())
-                analogWrite(DRL_PIN, 0);
-        }
-    }
-}
+#include "AdtFunc.h"
 
 
 #endif //ARDUINOMID_INITIALIZATIONS_H
