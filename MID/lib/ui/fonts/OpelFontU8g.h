@@ -271,7 +271,7 @@ const uint8_t u8g_font_opel_ic_13[6142] U8G2_FONT_SECTION("u8g_font_opel_ic_13")
 //
 //
 
-extern uint8_t u8g_font_opel_ic_12[5856] U8G2_FONT_SECTION("u8g_font_opel_ic_12") =
+extern const uint8_t u8g_font_opel_ic_12[5856] U8G2_FONT_SECTION("u8g_font_opel_ic_12") =
         "\247\0\3\2\5\4\3\4\6\23\17\376\375\10\375\11\376\1n\2\357\12\0 \5\0\230#!\7\1\213"
                 "#\6E\42\10c\332%\22K\0#\23Ii)\247,J\244\312I\252dQ\316\60H\303\1$\22"
                 "Iii\227,J$mS\244J\266\263\14\322p%\20\7\211h\244$\222\42m\336\244HJ\42\5"
@@ -455,7 +455,6 @@ extern uint8_t u8g_font_opel_ic_12[5856] U8G2_FONT_SECTION("u8g_font_opel_ic_12"
                 "\10k*\242JT\211*Q%\252\14\203\134\2\4J\14\306\210'\326t\213\232\26\0\4K\16\307\212"
                 ")Ru\310\244H\212\206,\4L\14\304\212&\262l\211\244!\1\4M\14\304\212f\224(\331\244D"
                 "\1\4N\20\310\212*\262%\312\6M\312\244L[\0\4O\15\305\210\246\226(\211\242%\322\2\0";
-
 
 
 #endif //ARDUINOMID_OPELFONTU8G_H
