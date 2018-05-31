@@ -13,22 +13,22 @@
 //
 
 //
-// Icons
-const char msg74[] PROGMEM = "°"; // celsius
-const char msg75[] PROGMEM = "¢"; // instant
+// Icons                          //  BD                            /  RG
+const char msg74[] PROGMEM = "°"; // celsius                        / -||-
+const char msg75[] PROGMEM = "¢"; // instant                        /  overheating
 const char msg76[] PROGMEM = "^"; // point
 const char msg77[] PROGMEM = "`"; // time
 const char msg78[] PROGMEM = "®"; // break
 const char msg79[] PROGMEM = "·"; // waste drop
-const char msg80[] PROGMEM = "¡"; // road
-const char msg81[] PROGMEM = "¶"; // coffee
+const char msg80[] PROGMEM = "¡"; // road                           / Engine
+const char msg81[] PROGMEM = "¶"; // coffee                         / coffee
 const char msg82[] PROGMEM = "·"; // temperature
-const char msg83[] PROGMEM = "¼"; // connection
+const char msg83[] PROGMEM = "¼"; // connection                     / --||--
 const char msg84[] PROGMEM = "½"; // settings
 const char msg85[] PROGMEM = "¾"; // petrol station
-const char msg86[] PROGMEM = "¿"; // car
-const char msg87[] PROGMEM = "¨"; // cloudy
-const char msg88[] PROGMEM = "©"; // oven /ice
+const char msg86[] PROGMEM = "¿"; // car                            / --||--
+const char msg87[] PROGMEM = "¨"; // cloudy                         / --||--
+const char msg88[] PROGMEM = "©"; // oven /ice                      / --||--
 const char msg89[] PROGMEM = "ª"; // sun
 const char msg90[] PROGMEM = "«"; // petrol
 const char msg91[] PROGMEM = "¬"; // bottom
@@ -37,14 +37,14 @@ const char msg93[] PROGMEM = "¹"; // lamp
 const char msg94[] PROGMEM = "ø"; // average
 const char msg95[] PROGMEM = "¬"; // Switch arrow
 const char msg96[] PROGMEM = "»"; // LPG
-const char msg97[] PROGMEM = "¦"; // inside temperature
-const char msg98[] PROGMEM = "§"; // outside temperature
+const char msg97[] PROGMEM = "¦"; // inside temperature             / --||--
+const char msg98[] PROGMEM = "§"; // outside temperature            / --||--
 const char msg101[] PROGMEM = " "; // empty space
-const char msg102[] PROGMEM = "£"; // checkbox
-const char msg103[] PROGMEM = "@"; // Lowe level
-const char msg104[] PROGMEM = "¤"; // problem
+const char msg102[] PROGMEM = "£"; // checkbox                      / Oil
+const char msg103[] PROGMEM = "@"; // Lowe level                    / --||--
+const char msg104[] PROGMEM = "¤"; // problem                       / Battery
 const char msg105[] PROGMEM = "×"; // delete
-const char msg106[] PROGMEM = "Ŵ"; // Info
+const char msg106[] PROGMEM = "Ŵ"; // Info                          / --||-- ?
 const char msg107[] PROGMEM = ""; //
 const char msg108[] PROGMEM = ""; //
 const char msg109[] PROGMEM = ""; //

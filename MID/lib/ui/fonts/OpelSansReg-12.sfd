@@ -20,7 +20,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1525939329
-ModificationTime: 1527681329
+ModificationTime: 1527755130
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -44,7 +44,7 @@ AntiAlias: 1
 FitToEm: 0
 WinInfo: 0 38 21
 OnlyBitmaps: 1
-BeginChars: 65536 493
+BeginChars: 65536 494
 
 StartChar: $0020
 Encoding: 32 32 0
@@ -816,7 +816,7 @@ EndChar
 
 StartChar: $00A1
 Encoding: 161 161 96
-Width: 1166
+Width: 1500
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -824,7 +824,7 @@ EndChar
 
 StartChar: $00A2
 Encoding: 162 162 97
-Width: 1166
+Width: 1500
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -832,7 +832,7 @@ EndChar
 
 StartChar: $00A3
 Encoding: 163 163 98
-Width: 1166
+Width: 1500
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -840,7 +840,7 @@ EndChar
 
 StartChar: $00A4
 Encoding: 164 164 99
-Width: 1166
+Width: 1500
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -872,7 +872,7 @@ EndChar
 
 StartChar: $00A8
 Encoding: 168 168 103
-Width: 666
+Width: 1083
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -880,7 +880,7 @@ EndChar
 
 StartChar: $00A9
 Encoding: 169 169 104
-Width: 666
+Width: 1083
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -888,7 +888,7 @@ EndChar
 
 StartChar: $00AA
 Encoding: 170 170 105
-Width: 916
+Width: 1083
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -984,7 +984,7 @@ EndChar
 
 StartChar: $00B6
 Encoding: 182 182 117
-Width: 500
+Width: 1000
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -1032,7 +1032,7 @@ EndChar
 
 StartChar: $00BC
 Encoding: 188 188 123
-Width: 750
+Width: 833
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -1040,7 +1040,7 @@ EndChar
 
 StartChar: $00BD
 Encoding: 189 189 124
-Width: 750
+Width: 833
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -1056,7 +1056,7 @@ EndChar
 
 StartChar: $00BF
 Encoding: 191 191 126
-Width: 416
+Width: 1333
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -3989,6 +3989,13 @@ VWidth: 0
 Flags: W
 LayerCount: 2
 EndChar
+
+StartChar: Wcircumflex
+Encoding: 372 372 493
+Width: 1000
+VWidth: 0
+LayerCount: 2
+EndChar
 EndChars
 BitmapFont: 12 494 11 1 1 FreeType
 BDFStartProperties: 25
@@ -4211,52 +4218,52 @@ BDFChar: 94 126 7 0 5 3 4
 A=*>s
 BDFChar: 95 160 3 0 0 0 0
 z
-BDFChar: 96 161 14 0 12 1 9
-+2AD;^Z_]-oiUlh[90pu+6W\)
-BDFChar: 97 162 14 0 12 1 10
-"onmY"onmY"otPt7OSQC:Jdo:
-BDFChar: 98 163 14 0 12 2 8
-*WXD$^MpaAI`Oa056(Z`
-BDFChar: 99 164 14 0 12 1 8
-E,bjPs4EBgs4IAHs7lWh
-BDFChar: 100 165 14 0 12 1 10
-!+5e'#%/BH@o.dXK6Ul+)dije
-BDFChar: 101 166 14 0 12 1 10
-Du`-'@fT!67PG#Pp':jV2Sd31
-BDFChar: 102 167 8 0 6 1 9
+BDFChar: 96 161 18 0 16 -1 10
+s8RV"!.]j_J:k^hYPNdLY(42dJ?;k&Xq#u;qLF(rJH,Y"
+BDFChar: 97 162 18 0 16 -1 10
+s8RV"!.^F:JA;)6]q0bfIXo-rJA5E@]\\1Rrd]M!JH,Y"
+BDFChar: 98 163 18 0 16 -1 10
+s8RV"!.]iTJ?oH1YM=Z2G^uElJ</]?O2-9r!.]S"JH,Y"
+BDFChar: 99 164 18 0 16 -1 10
+s8RV"!.^RZJA;)6^\32Qidef;JA;)6^]&burd]M!JH,Y"
+BDFChar: 100 165 14 2 11 0 10
+$ig\9*WQfQ1B932F+Aajo>'t5s1eU7
+BDFChar: 101 166 8 0 6 1 9
 %VBH`?so)c?iU0,
-BDFChar: 103 168 8 0 6 1 9
+BDFChar: 102 167 8 0 6 1 9
 $>aTf?so)c?iU0,
-BDFChar: 104 169 8 0 5 1 9
-5bL@N&.fBa$ig8-
-BDFChar: 105 170 11 0 9 0 9
-!Pf;_(]Y;$'n?tu&HHeNn,Qhr
+BDFChar: 103 168 13 1 11 0 10
+KHNZJ+Fjq%0*"pY5lcK:P(7@6!$D7A
+BDFChar: 104 169 13 1 11 0 10
+8jL=&,_-U0MBHoSMBEW6,_3g@8jE@V
+BDFChar: 105 170 13 1 11 0 10
+KHNZJ+Fjq%*rt2+*rlcN+FljFKHL6p
 BDFChar: 106 171 11 0 9 0 9
-!<<]3(]Y;$'n?tu&\rD%n,Qhr
+!Pf;_(]Y;$'n?tu&HHeNn,Qhr
 BDFChar: 107 172 11 0 9 0 9
+!<<]3(]Y;$'n?tu&\rD%n,Qhr
+BDFChar: 108 173 11 0 9 0 9
 !Pf;_(]Y;d'u1L`&\rD%n,Qhr
-BDFChar: 108 173 11 0 9 3 8
-b^c^DWdq1$Wdr7-
 BDFChar: 109 174 4 0 3 4 9
 ?smB(OC/%g
-BDFChar: 110 175 6 0 5 9 9
-qu?]s
-BDFChar: 111 176 4 0 3 4 7
-@$$IX
+BDFChar: 110 175 11 0 9 3 8
+b^c^DWdq1$Wdr7-
+BDFChar: 111 176 8 1 6 0 7
+5bLd^&.fB]
 BDFChar: 112 177 6 0 4 1 7
 +<^G%+9;0:
-BDFChar: 113 178 5 0 3 3 7
-@#uKrn,NFg
-BDFChar: 114 179 5 0 3 3 7
-i"09-huE`W
+BDFChar: 113 178 14 0 12 1 10
+Du`-'@fT!67PG#Pp':jV2Sd31
+BDFChar: 114 179 14 0 12 1 10
+!+5e'#%/BH@o.dXK6Ul+)dije
 BDFChar: 115 180 4 1 2 6 7
 5_&h7
 BDFChar: 116 181 7 1 5 -3 5
 LkpkCR-9'NJ,fQL
-BDFChar: 117 182 6 0 5 -2 7
-I-BeXBIG8W-n#&q
-BDFChar: 118 183 3 1 1 3 4
-J:IV"
+BDFChar: 117 182 12 0 10 -1 10
+.KE$?+ohTCIfTMas.Fia5/8-<!!*&7
+BDFChar: 118 183 14 0 12 1 10
+!+5e'#%/BH@o.dXK6Ul+)dije
 BDFChar: 119 184 4 0 2 -3 -1
 ?m*5b
 BDFChar: 120 185 5 1 2 3 7
@@ -4265,14 +4272,14 @@ BDFChar: 121 186 5 0 3 4 7
 @$$IX
 BDFChar: 122 187 6 1 6 0 4
 O@UWfO8o7\
-BDFChar: 123 188 9 1 8 0 7
-6Gu8a<[oah
-BDFChar: 124 189 9 0 8 0 7
-63+q(6i]j[<.H+l+ok,`
+BDFChar: 123 188 10 0 8 0 8
+_1:QrG5sf,$ii0cpAgt=iICn.
+BDFChar: 124 189 10 0 8 0 9
+!rrRV"onmY%fdRL2ummthuLOm
 BDFChar: 125 190 9 0 8 0 7
 i;aJj@K7,ClMqY"(P!Y/
-BDFChar: 126 191 5 0 4 -3 5
-&.egQE.EIpDu]k<
+BDFChar: 126 191 16 0 14 0 7
+&)\!1TF-2H80i]_J,E[_
 BDFChar: 127 192 8 0 6 0 10
 +:nMa-n$K3I"HqM
 BDFChar: 128 193 8 0 6 0 10
@@ -5005,5 +5012,7 @@ BDFChar: 491 64257 6 0 4 0 8
 0M"J(84Z9B8,rVi
 BDFChar: 492 64258 6 0 4 0 8
 3(QU884Z9B8,rVi
+BDFChar: 493 372 12 0 9 0 9
+*WU83It6Rpo>'t5o>"dbIt/R?
 EndBitmapFont
 EndSplineFont

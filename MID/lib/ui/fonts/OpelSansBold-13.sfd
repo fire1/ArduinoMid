@@ -20,7 +20,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1513755956
-ModificationTime: 1525940476
+ModificationTime: 1527747763
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -42,7 +42,7 @@ NameList: AGL For New Fonts
 DisplaySize: 13
 AntiAlias: 1
 FitToEm: 0
-WinInfo: 0 35 21
+WinInfo: 34 34 21
 OnlyBitmaps: 1
 BeginChars: 65536 495
 
@@ -1092,8 +1092,6 @@ Width: 769
 VWidth: 0
 Flags: W
 LayerCount: 2
-Fore
-Validated: 513
 EndChar
 
 StartChar: $00AA

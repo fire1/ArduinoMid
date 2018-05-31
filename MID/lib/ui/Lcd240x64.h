@@ -23,7 +23,7 @@
 #include "fonts/OpelFontU8g.h"
 
 #define DEFAULT_FONT u8g_font_opel_ic_13
-#define GUIDANCE_FONT u8g_font_opel_rg_12
+#define GUIDANCE_FONT u8g_font_opel_ic_12
 #define LCD_ROW_1 16
 #define LCD_ROW_2 27
 #define LCD_ROW_3 39
@@ -90,6 +90,8 @@ class Lcd240x62 : virtual public LcdUiInterface {
     // from 14 to 64
     uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
     const uint8_t *currentFont = DEFAULT_FONT;
+
+    uint8_t headerCursor = 160;
 
 public:
 /**
@@ -243,18 +245,24 @@ public:
             offsetInf = 0;
     }
 
-    void HeaderIcons() {
-        this->setFont(u8g2_font_unifont_t_symbols);
-        float temperature = car->getTmpOut();
-        if (temperature > 20) {
-            lcd->drawGlyph(1, 1, 0x2600);
-        } else if (temperature < 20 && temperature > 0) {
-            lcd->drawGlyph(1, 1, 0x2601);
-        } else if (temperature < 0) {
-            lcd->drawGlyph(1, 1, 0x2603);
-        } else {
-            lcd->drawGlyph(1, 1, 0x2610);
-        }
+
+
+/**
+ *
+ * @param icon
+ */
+    void drawHeaderIcon(uint8_t icon) {
+        const char *ch = getMsg(icon);
+        lcd->print(ch);
+    }
+
+
+    boolean isIconPulsing() {
+        return drawIndex % 2 == 0;
+    }
+
+    boolean isIconDemo() {
+        return millis() < 7000;
     }
 
 /**
@@ -266,24 +274,36 @@ public:
         lcd->drawLine(0, 13, 120, 13);
         lcd->drawLine(121, 12, 131, 2);
         lcd->drawLine(131, 2, 240, 2);
-        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setFont(u8g_font_opel_ic_12);
         lcd->setCursor(20, 1);
         lcd->print(title);
-        lcd->setFont(u8g_font_opel_ic_13);
+
 
         //
-        // New stuff
-//        lcd->setCursor(131, 2);
-//        lcd->print(car->getTmpOut());
-//        lcd->print(getMsg(101));
-//        lcd->print(getMsg(74));
+        // TODO clock in this place
+        lcd->setCursor(131, 2);
+        displayFloat(car->getTmpOut(), char_3);
+        lcd->print(char_3);
+        lcd->print(getMsg(74));
 
-
-        if (car->getEngTmp() > ENGINE_OVERHEAT && drawIndex % 3 == 0) {
-            lcd->drawXBMP(155, 1, 10, 10, fire_10x10_bits);
-            lcd->drawCircle(159, 6, 6, U8G2_DRAW_ALL);
+        lcd->setCursor(169, 1);
+        if (car->getEngTmp() > ENGINE_OVERHEAT && isIconPulsing() || isIconDemo()) {
+            drawHeaderIcon(75); // overheat
+        }
+        if (car->getRpm() > 5600 && isIconPulsing() || isIconDemo()) {
+            drawHeaderIcon(80); // engine
+        }
+        if (stt->getLiveVol() < 13 && car->isRunEng() && isIconPulsing() || isIconDemo()) {
+            drawHeaderIcon(104); // battery
+        }
+        if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo()) {
+            drawHeaderIcon(102); // battery
         }
 
+
+
+        //
+        // Title icon
         lcd->setCursor(1, 1);
         if (stt->isAlert() && !stt->isWinter() || millis() < 7000 && drawIndex % 2 == 0) {
             lcd->print(getMsg(84));
@@ -300,6 +320,8 @@ public:
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
             }
         }
+
+        lcd->setFont(u8g_font_opel_ic_13);
     }
 
 /**
@@ -323,7 +345,7 @@ public:
 
     void drawWarnMsg(uint8_t row1, uint8_t row2) {
         lcd->drawBox(80, LCD_ROW_3 - 1, 160, 26);
-        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setFont(u8g_font_opel_ic_12);
         lcd->setDrawColor(0);
 
         lcd->setCursor(85, LCD_ROW_3);
@@ -1583,7 +1605,7 @@ private:
 //        sprintf(char_7, "%0d.%02d", (uint16_t) defVal, (uint8_t) (defVal * 100) % 100);
         lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
 
-        lcd->setFont(u8g_font_opel_rg_12);
+        lcd->setFont(u8g_font_opel_ic_12);
         lcd->print(getMsg(19));
         lcd->print(getMsg(101));
         lcd->print(char_7);
