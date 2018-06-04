@@ -69,7 +69,7 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
     //
     // Flash DRL attention
     if (amp->isSec() && car->isEmgBreak()) {
-        analogWrite(DRL_PWR_PIN, 255);
+//        analogWrite(DRL_PWR_PIN, 255);
         if (flashTgl) {
             analogWrite(DRL_PWM_PIN, 0);
             flashTgl = false;

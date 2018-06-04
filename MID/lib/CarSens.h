@@ -208,7 +208,7 @@ struct Fuel {
 // https://rechneronline.de/g-acceleration/
 //
 #ifndef CAR_EMG_BRK_VSS
-#define CAR_EMG_BRK_VSS 7
+#define CAR_EMG_BRK_VSS 14
 #endif//#define  DEBUG_TEMPERATURE_IN
 
 
@@ -1191,7 +1191,12 @@ void CarSens::sensAlarms() {
  */
 void CarSens::sensEmgBrk() {
     if (amp->isSens()) {
-        EMG_BREAK = (CUR_VSS - LST_VSS >= CAR_EMG_BRK_VSS  && CUR_VSS < LST_VSS && isRunEng()) ? true : false;
+
+        Serial.print(CUR_VSS);
+        Serial.print(" / ");
+        Serial.println(LST_VSS);
+
+        EMG_BREAK = (CUR_VSS < LST_VSS - CAR_EMG_BRK_VSS && CUR_VSS < LST_VSS && CUR_VSS > 25) ? true : false;
         LST_VSS = CUR_VSS;
     }
 }
