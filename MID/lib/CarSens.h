@@ -1192,9 +1192,9 @@ void CarSens::sensAlarms() {
 void CarSens::sensEmgBrk() {
     if (amp->isSens()) {
 
-        Serial.print(CUR_VSS);
-        Serial.print(" / ");
-        Serial.println(LST_VSS);
+//        Serial.print(CUR_VSS);
+//        Serial.print(" / ");
+//        Serial.println(LST_VSS);
 
         EMG_BREAK = (CUR_VSS < LST_VSS - CAR_EMG_BRK_VSS && CUR_VSS < LST_VSS && CUR_VSS > 25) ? true : false;
         LST_VSS = CUR_VSS;
