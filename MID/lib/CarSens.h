@@ -1191,7 +1191,7 @@ void CarSens::sensAlarms() {
  */
 void CarSens::sensEmgBrk() {
     if (amp->isSens()) {
-        EMG_BREAK = (CUR_VSS < (LST_VSS - CAR_EMG_BRK_VSS)) ? true : false;
+        EMG_BREAK = (CUR_VSS - LST_VSS >= CAR_EMG_BRK_VSS  && CUR_VSS < LST_VSS && isRunEng()) ? true : false;
         LST_VSS = CUR_VSS;
     }
 }
