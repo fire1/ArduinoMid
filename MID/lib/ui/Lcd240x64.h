@@ -318,7 +318,6 @@ public:
         }
         if (car->isEmgBreak()) { // emergency breaking
             drawHeaderIcon(73);
-            car->passMelodyClass()->play(5);
         }
 
 

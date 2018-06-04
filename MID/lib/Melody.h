@@ -122,7 +122,6 @@ class Melody {
         if (tempoSlow()) {
             if (index % 5) {
                 tone(TONE_ADT_PIN, 2000, 30);
-
             }
         }
     }
