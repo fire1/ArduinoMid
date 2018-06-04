@@ -114,7 +114,7 @@ const char msg68[] PROGMEM = "±"; // л
 const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "²"; // ч
 const char msg71[] PROGMEM = "±÷¥"; // Л/100km
-const char msg73[] PROGMEM = "¥"; // 100km
+
 //
 // Guidance
 const char msg110[] PROGMEM = " 10% resistor tolerance";

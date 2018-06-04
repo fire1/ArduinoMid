@@ -17,6 +17,7 @@
 #define DRL_PWR_PIN 10
 #endif
 
+
 boolean flashTgl = false;
 boolean flashDrl = false;
 uint8_t fadeIDrl = 0;
@@ -43,19 +44,6 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
     }
 
     //
-    // Listen danger braking to alert with flash
-    if (amp->isSens()) {
-        uint8_t vss = car->getVss();
-        if (vss < (drlVss - 25)) {
-            flashDrl = true;
-        } else {
-            flashDrl = false;
-        }
-        drlVss = vss;
-    }
-
-
-    //
     // Regular work
     if (amp->isSecond()) {
         if (car->isRunEng()) {
@@ -77,10 +65,10 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
                 analogWrite(DRL_PWM_PIN, 0);
         }
     }
-//    flashDrl = true;
+
     //
     // Flash DRL attention
-    if (amp->isSec() && flashDrl) {
+    if (amp->isSec() && car->isEmgBreak()) {
         analogWrite(DRL_PWR_PIN, 255);
         if (flashTgl) {
             analogWrite(DRL_PWM_PIN, 0);
@@ -91,8 +79,6 @@ void listenerDRL(AmpTime *amp, CarSens *car) {
         }
     }
 }
-
-
 
 
 #endif //ARDUINOMID_ADTFUNC_H

@@ -316,6 +316,10 @@ public:
         if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo(1800)) {
             drawHeaderIcon(102); // battery
         }
+        if (car->isEmgBreak()) { // emergency breaking
+            drawHeaderIcon(73);
+            car->passMelodyClass()->play(5);
+        }
 
 
 

@@ -20,7 +20,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1525939329
-ModificationTime: 1527755130
+ModificationTime: 1528096537
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -42,7 +42,7 @@ NameList: AGL For New Fonts
 DisplaySize: 12
 AntiAlias: 1
 FitToEm: 0
-WinInfo: 0 38 21
+WinInfo: 38 38 21
 OnlyBitmaps: 1
 BeginChars: 65536 494
 
@@ -848,7 +848,7 @@ EndChar
 
 StartChar: $00A5
 Encoding: 165 165 100
-Width: 1166
+Width: 1416
 VWidth: 0
 Flags: W
 LayerCount: 2
@@ -3997,7 +3997,7 @@ VWidth: 0
 LayerCount: 2
 EndChar
 EndChars
-BitmapFont: 12 494 11 1 1 FreeType
+BitmapFont: 12 495 11 1 1 FreeType
 BDFStartProperties: 25
 COMMENT 1 ""
 COMMENT 1 "Converted from OpenType font "OpelSansRegular.ttf" by "otf2bdf 3.0"."
@@ -4226,8 +4226,8 @@ BDFChar: 98 163 18 0 16 -1 10
 s8RV"!.]iTJ?oH1YM=Z2G^uElJ</]?O2-9r!.]S"JH,Y"
 BDFChar: 99 164 18 0 16 -1 10
 s8RV"!.^RZJA;)6^\32Qidef;JA;)6^]&burd]M!JH,Y"
-BDFChar: 100 165 14 2 11 0 10
-$ig\9*WQfQ1B932F+Aajo>'t5s1eU7
+BDFChar: 100 165 17 0 15 -1 10
+s8Vj9p[@NomW\)Cn+Z6omW\Eop`KP9
 BDFChar: 101 166 8 0 6 1 9
 %VBH`?so)c?iU0,
 BDFChar: 102 167 8 0 6 1 9

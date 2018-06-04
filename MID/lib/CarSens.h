@@ -197,7 +197,19 @@ struct Fuel {
 #define INSIDE_TEMPERATURE_DS
 #endif
 //#define  DEBUG_TEMPERATURE_OU
-//#define  DEBUG_TEMPERATURE_IN
+
+
+//
+// Capture Linear Motion emergency breaking
+// 7km  for 200ms deceleration produce -0.99139 G force
+// 10km for 200ms deceleration produce -1.41627 G force
+// 14km for 200ms deceleration produce -1.98278 G force
+// 20km for 200ms deceleration produce -2.83255 G force
+// https://rechneronline.de/g-acceleration/
+//
+#ifndef CAR_EMG_BRK_VSS
+#define CAR_EMG_BRK_VSS 7
+#endif//#define  DEBUG_TEMPERATURE_IN
 
 
 //
@@ -282,6 +294,7 @@ private:
     boolean _isEngineSens = false;
     boolean _isVehicleSens = false;
     boolean CUR_DIM_ON = false;
+    boolean EMG_BREAK = false;
     uint8_t pinScreenInput, pinScreenOutput;
     uint8_t pinBreaks;
     uint8_t pinTmpOut;
@@ -311,6 +324,7 @@ private:
     //
     // Human Results
     volatile uint16_t CUR_VSS;
+    volatile uint16_t LST_VSS;
     volatile uint16_t CUR_RPM;
     volatile uint16_t CUR_ECU;
     // Instant Fuel consumption counter
@@ -371,6 +385,11 @@ private:
      * Handles speeding alarms
      */
     void sensAlarms();
+
+    /**
+     * Emergency breaking
+     */
+    void sensEmgBrk();
 
 
 protected:
@@ -691,13 +710,21 @@ public:
     inline int getTnkBnzPer() { return 0; }
 
     /**
-     * Gets break time
+     *
+     * @return
      */
     inline float getBreakTime() { return BREAK_TIME / 60; }
 
     /**
-     *  Gets travel time
+     * Is emergency breaking
+     * @return
      */
+    inline boolean isEmgBreak() { return EMG_BREAK; }
+
+    /**
+     *  Gets travel time
+      * @return
+      */
     int long getTime() { return CUR_VTT; }
 
     /**
@@ -989,7 +1016,9 @@ void CarSens::listener() {
     //
     // Speed alarms
     sensAlarms();
-
+    //
+    //
+    sensEmgBrk();
     //
     // Mark engine on
     if (CUR_RPM > 500) {
@@ -1155,6 +1184,16 @@ void CarSens::sensAlarms() {
     }
 
 #endif
+}
+
+/**
+ * Resolve emergency breaking
+ */
+void CarSens::sensEmgBrk() {
+    if (amp->isSens()) {
+        EMG_BREAK = (CUR_VSS < (LST_VSS - CAR_EMG_BRK_VSS)) ? true : false;
+        LST_VSS = CUR_VSS;
+    }
 }
 
 /**

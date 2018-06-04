@@ -14,6 +14,7 @@
 
 //
 // Icons                          //  BD                            /  RG
+const char msg73[] PROGMEM = "¥"; // 100km                          / Warning
 const char msg74[] PROGMEM = "°"; // celsius                        / -||-
 const char msg75[] PROGMEM = "¢"; // instant                        /  overheating
 const char msg76[] PROGMEM = "^"; // point
