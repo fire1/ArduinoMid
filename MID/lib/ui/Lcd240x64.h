@@ -287,22 +287,18 @@ public:
         lcd->setCursor(20, 1);
         lcd->print(title);
 
-        //
-        // Show DRL is in attention mode
-        if (flashDrl && drawIndex % 2 == 0) {
-            lcd->setCursor(108, 4);
-            lcd->print(getMsg(101));
-            lcd->print(getMsg(116));
-        }
+
 
         //
         //  Clock in this place
         lcd->setCursor(131, 2);
-
 //        displayFloat(car->getTmpOut(), char_3);
 //        lcd->print(char_3);
 //        lcd->print(getMsg(74));
 
+
+        //
+        // Warnings
         lcd->setCursor(168, 2);
         if (car->getEngTmp() > ENGINE_OVERHEAT && isIconPulsing() || isIconDemo(200)) {
             drawHeaderIcon(75); // overheat
@@ -320,6 +316,20 @@ public:
             drawHeaderIcon(73);
         }
 
+        //
+        // Media Futures
+        lcd->setCursor(110, 2);
+//        if (flashDrl) {
+//            lcd->print(getMsg(116));
+//        }
+        uint8_t whlState = whl->getCurrentState();
+        if (whlState == WhlSens::STR_BTN_VLU) {
+            lcd->print(getMsg(90));
+        } else if (whlState == WhlSens::STR_BTN_VLD) {
+            lcd->print(getMsg(95));
+        } else if (whlState != WhlSens::STR_BTN_NON) {
+            lcd->print(getMsg(69));
+        }
 
 
         //

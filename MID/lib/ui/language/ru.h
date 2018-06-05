@@ -113,7 +113,6 @@ const char msg67[] PROGMEM = " (После обслуживания сброси
 //
 // Value tags
 const char msg68[] PROGMEM = "±"; // л
-const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "²"; // ч
 const char msg71[] PROGMEM = "±÷¥"; // Л/100km
 //

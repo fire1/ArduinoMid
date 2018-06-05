@@ -111,7 +111,6 @@ const char msg67[] PROGMEM = "(Sıfırlama - servis sonrası)";
 //
 // Value tags
 const char msg68[] PROGMEM = "´"; // l
-const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "³"; // h
 const char msg71[] PROGMEM = "´÷¥"; // L/100km
 //

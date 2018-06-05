@@ -44,16 +44,15 @@ class WhlSens {
     // Used for shortcuts ...
     boolean isDisabled = 0;
     boolean isNewResist = 0;
-    unsigned long timer;
-    int currentStateButton;
-    int lastStateButton = 0;
+    uint8_t currentStateButton;
+    uint8_t lastStateButton = 0;
     uint8_t pinSteering, pinDigPotCtr, pinMaskHide;
-
+    unsigned long timer;
 
 public:
     //
     // Define buttons values
-    static constexpr uint8_t STR_BTN_NON = 0;
+    static constexpr uint8_t STR_BTN_NON = 0; // none active state (default position)
     static constexpr uint8_t STR_BTN_VLD = 1;
     static constexpr uint8_t STR_BTN_VLU = 2;
     static constexpr uint8_t STR_BTN_SKU = 3;
@@ -186,9 +185,7 @@ public:
      *  GEts current pressed button
       * @return  int
       */
-    int getCurrentState() {
-        return currentStateButton;
-    }
+    inline uint8_t getCurrentState() { return currentStateButton; }
 
     void disable() {
         isDisabled = 1;
@@ -236,7 +233,7 @@ private:
     /**
      * Sets current button press
      */
-    void setCurrentState(int currentButton) {
+    void setCurrentState(uint8_t currentButton) {
         currentStateButton = currentButton;
 
 #if defined(STR_DEBUG)
@@ -325,7 +322,7 @@ private:
  */
     void sendRadioButtons() {
 
-        int currentState = getCurrentState();
+        uint8_t currentState = getCurrentState();
 
         //
         // Disable commands to radio

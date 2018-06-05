@@ -113,7 +113,6 @@ const char msg67[] PROGMEM = " (Nakon promjene resetiraj podatke)";
 //
 // Vrijednosti
 const char msg68[] PROGMEM = "´"; // l
-const char msg69[] PROGMEM = "¯"; // km
 const char msg70[] PROGMEM = "³"; // h
 const char msg71[] PROGMEM = "´÷¥"; // Л/100km
 //

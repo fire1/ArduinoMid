@@ -14,6 +14,7 @@
 
 //
 // Icons                          //  BD                            /  RG
+const char msg69[] PROGMEM = "¯"; // km                             / DRL
 const char msg73[] PROGMEM = "¥"; // 100km                          / Warning
 const char msg74[] PROGMEM = "°"; // celsius                        / -||-
 const char msg75[] PROGMEM = "¢"; // instant                        /  overheating
@@ -31,12 +32,12 @@ const char msg86[] PROGMEM = "¿"; // car                            / --||--
 const char msg87[] PROGMEM = "¨"; // cloudy                         / --||--
 const char msg88[] PROGMEM = "©"; // oven /ice                      / --||--
 const char msg89[] PROGMEM = "ª"; // sun
-const char msg90[] PROGMEM = "«"; // petrol
+const char msg90[] PROGMEM = "«"; // petrol                         / Media Volume up
 const char msg91[] PROGMEM = "¬"; // bottom
 const char msg92[] PROGMEM = "®"; // break
 const char msg93[] PROGMEM = "¹"; // lamp
 const char msg94[] PROGMEM = "ø"; // average
-const char msg95[] PROGMEM = "¬"; // Switch arrow
+const char msg95[] PROGMEM = "¬"; // Switch arrow                   / Media Volume down
 const char msg96[] PROGMEM = "»"; // LPG
 const char msg97[] PROGMEM = "¦"; // inside temperature             / --||--
 const char msg98[] PROGMEM = "§"; // outside temperature            / --||--
@@ -50,7 +51,7 @@ const char msg107[] PROGMEM = ""; //
 const char msg108[] PROGMEM = ""; //
 const char msg109[] PROGMEM = ""; //
 
-const char msg116[] PROGMEM = "¯"; // --------                      / DRL
+const char msg116[] PROGMEM = "\u00AD"; // --------                      / Media option
 const char msg117[] PROGMEM = ""; //
 const char msg118[] PROGMEM = ""; //
 const char msg119[] PROGMEM = ""; //

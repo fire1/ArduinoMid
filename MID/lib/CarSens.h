@@ -208,7 +208,7 @@ struct Fuel {
 // https://rechneronline.de/g-acceleration/
 //
 #ifndef CAR_EMG_BRK_VSS
-#define CAR_EMG_BRK_VSS 14
+#define CAR_EMG_BRK_VSS 7
 #endif//#define  DEBUG_TEMPERATURE_IN
 
 
@@ -1197,7 +1197,7 @@ void CarSens::sensEmgBrk() {
 //        Serial.println(LST_VSS);
 
 
-        EMG_BREAK = (CUR_VSS < LST_VSS - CAR_EMG_BRK_VSS && CUR_VSS < LST_VSS && CUR_VSS > 25) ? true : false;
+        EMG_BREAK = (CUR_VSS < LST_VSS - CAR_EMG_BRK_VSS && CUR_VSS < LST_VSS && CUR_VSS > 23) ? true : false;
         LST_VSS = CUR_VSS;
         if(EMG_BREAK){
             passMelodyClass()->play(5);
