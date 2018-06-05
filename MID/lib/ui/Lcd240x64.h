@@ -320,7 +320,7 @@ public:
         // Media Futures
         lcd->setCursor(110, 2);
 //        if (flashDrl) {
-//            lcd->print(getMsg(116));
+//            lcd->print(getMsg(69));
 //        }
         uint8_t whlState = whl->getCurrentState();
         if (whlState == WhlSens::STR_BTN_VLU) {
@@ -328,7 +328,7 @@ public:
         } else if (whlState == WhlSens::STR_BTN_VLD) {
             lcd->print(getMsg(95));
         } else if (whlState != WhlSens::STR_BTN_NON) {
-            lcd->print(getMsg(69));
+            lcd->print(getMsg(116));
         }
 
 
