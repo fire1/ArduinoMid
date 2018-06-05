@@ -40,14 +40,12 @@ class ShutDw {
     WhlSens *whl;
 
 private :
-    unsigned int indexWait = 0;
     int detectorValue = 1000;
     uint8_t pinCtrl, pinDtct, pinTone;
     uint8_t alreadyShutdown = 0;
-    uint8_t entryDisplay = 0;
     boolean isShutdownActive = 0;
     boolean alreadySaved = 0;
-    boolean tiggerSave = 0;
+    boolean triggerSave = 0;
 
 
     /**
@@ -115,7 +113,7 @@ public:
 
 
     void saveShutdown() {
-        if (tiggerSave) {
+        if (triggerSave) {
 
             if (alreadySaved) {
                 digitalWrite(pinCtrl, LOW);
@@ -270,7 +268,7 @@ void ShutDw::menu(LcdUiInterface *lcd) {
 //        delay(50);
 
     lcd->drawShutdownShort();
-    tiggerSave = 1;
+    triggerSave = 1;
     return;
 /*
     char sec[2];
