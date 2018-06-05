@@ -396,6 +396,10 @@ public:
  * @param value
  */
     void captureLpg(uint8_t value) {
+        if (car->getRpm() < 800) {
+            return;
+        }
+
         if (data[0] == value || data[1] == value || history == value) {
             capture = trans;
             if (!lpgUse) { // checks for opposite
