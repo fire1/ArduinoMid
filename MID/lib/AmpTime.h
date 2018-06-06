@@ -47,7 +47,7 @@ class AmpTime {
 
     //
     // Toggle timers
-    unsigned long
+    volatile unsigned long
             curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0,
             curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds, curRefresh;
     boolean _isLow = false, _isSec = false, _isMid = false, _isMin = false, _isBig = false, _isMax = false;
@@ -100,7 +100,7 @@ public:
 
     /************** Time Toggle *********************/
 
-    boolean isToggle() { return (boolean) _isToggleDef; }
+    inline boolean isToggle() { return (boolean) _isToggleDef; }
 
 };
 

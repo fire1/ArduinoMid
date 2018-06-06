@@ -35,22 +35,21 @@
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
 
 
-#define LPG_EVENT
-#ifdef LPG_EVENT
-boolean serial2Low = false;
-boolean Serial2High = true;
-uint8_t serial2Offset;
-uint16_t serial2Length;
-unsigned long serial2Timing;
-//char dataBuff[] = {};
-uint32_t dataBuff = 0;
-
-
-#endif
-
-
-byte serial2DataBuffer[16] = {};
-boolean serial2EventStart = false;
+//#define LPG_EVENT
+//#ifdef LPG_EVENT
+//boolean serial2Low = false;
+//boolean Serial2High = true;
+//uint8_t serial2Offset;
+//uint16_t serial2Length;
+//unsigned long serial2Timing;
+//uint32_t dataBuff = 0;
+//
+//
+//#endif
+//
+//
+//byte serial2DataBuffer[16] = {};
+//boolean serial2EventStart = false;
 //
 //void serialEvent2() {
 //
@@ -70,12 +69,11 @@ class LpgSerial : public LpgFuel {
 private:
     boolean lpgUse = false;
     uint8_t fuelTankAverage = 0;
-    uint8_t capture = 0;
     uint8_t trans;
     uint8_t history;
     uint8_t index = 0;
 
-    uint8_t dinamic = 0;
+    uint8_t dynamic = 0;
     uint16_t fuelTankIndex = 0;
     uint32_t fuelTankCollector = 0;
 
@@ -84,12 +82,10 @@ private:
     //
     // For V2
     boolean transferStart = false;
-    uint8_t buffer, counter;
-    unsigned long lastHigh;
 
 private:
 
-    void serialEvent2_test() {
+/*    void serialEvent2_test() {
 
 
         if (digitalRead(17) == LOW) {
@@ -145,33 +141,8 @@ private:
         }
 
 
-    }
+    }*/
 
-    void setTrans(uint8_t val) {
-        /*
-         99 = 18 - almost empty BNZ
-         20 / 27 / 18 - bnz
-         108 - switch
-         99 = 100 switched
-         148 - bnz
-         100 - lpg
-         99 = 219 full lpg
-         99 = 18 full lpg LPG
-
-         99 == 20 switch to lpg
-         99 = 218 switch to bnz
-         */
-        if (val >= 34 && val < 255 && val != 99 && val != 98 && val != 100) {
-            capture = history;
-            trans = val;
-        }
-
-        //
-        // Fixture 1
-//        if(val > 17 && val < 28){
-//            trans = 148;
-//        }
-    }
 
 public:
     LpgSerial(AmpTime &ampTime, CarSens &carSens) : amp(&ampTime), car(&carSens) {
@@ -202,7 +173,7 @@ public:
 
 
  */
-    void listener_new() {
+/*    void listener_new() {
         if (serial2EventStart) {
             //
             // 173 bnz
@@ -221,7 +192,7 @@ public:
 
             serial2EventStart = false;
         }
-    }
+    }*/
 
 
 //#define DEBUG_SR2
@@ -239,31 +210,7 @@ public:
 
     void listener(void) {
 
-        serialEvent2_test();
-
-// Button serial
-        // TODO test for clock by digital low
-//        while (Serial3.available()) {
-//            Serial.println();
-//            Serial.print("Serial 3: ");
-//            Serial.println(Serial3.read());
-//            Serial.println();
-//        }
-
-
-//        if (!compare) {
-//            if (amp->is2Seconds())
-//                if (car->getEngTmp() > 79) {
-//                    trans = 50;
-//                    compare = true;
-//                    return;
-//                }
-//        } else return;
-
-
-
-        // 30bits / 400bit rate
-        // Arduhdlc library
+//        serialEvent2_test();
 
         //
         // Do
@@ -316,8 +263,8 @@ public:
             captureLpg(19); // 219 -idle / 218-bnz /  4 dots
             // 108,34 as lpg
 
-            if (dinamic != 0) {
-                captureLpg(dinamic);
+            if (dynamic != 0) {
+                captureLpg(dynamic);
             }
 
             // 219 none
@@ -331,22 +278,7 @@ public:
             captureBnz(155);// BNZ on the run
 
 
-            // Skip action
-//            if (data[0] == 100 || data[1] == 100 || history == 100) {
-//                capture = trans;
-//                if (!lpgUse) { // checks for opposite
-//                    car->passMelodyClass()->play(1);
-//                }
-//                lpgUse = true;
-//            }
 
-//            if (data[0] == 18 || data[1] == 18 || history == 18) {
-//                capture = trans;
-//                if (!lpgUse) { // checks for opposite
-//                    car->passMelodyClass()->play(1);
-//                }
-//                lpgUse = true;
-//            }
 
             //
             // 218
@@ -376,15 +308,6 @@ public:
             }
 
 
-            //
-            // Agg to average
-//            fuelTankCollector = fuelTankCollector + trans;
-//            fuelTankIndex++;
-//
-//
-//            if (fuelTankAverage == 0) {
-//                fuelTankAverage = trans;
-//            }
 
         }
 
@@ -401,7 +324,6 @@ public:
         }
 
         if (data[0] == value || data[1] == value || history == value) {
-            capture = trans;
             if (!lpgUse) { // checks for opposite
                 car->passMelodyClass()->play(1);
 #ifdef LOGGER
@@ -418,7 +340,6 @@ public:
  */
     void captureBnz(uint8_t value) {
         if (data[0] == value || data[1] == value || history == value) {
-            capture = trans;
             if (lpgUse) { // checks for opposite
                 car->passMelodyClass()->play(6);
 #ifdef LOGGER
@@ -433,7 +354,7 @@ public:
  * Adds dynamic data to switch
  */
     void setDynamic() {
-        dinamic = trans;
+        dynamic = trans;
     }
 
     /**
