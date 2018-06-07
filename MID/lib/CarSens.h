@@ -201,6 +201,7 @@ struct Fuel {
 
 //
 // Capture Linear Motion emergency breaking
+// 6km  for 200ms deceleration produce -0.85000 G force
 // 7km  for 200ms deceleration produce -0.99139 G force
 // 10km for 200ms deceleration produce -1.41627 G force
 // 14km for 200ms deceleration produce -1.98278 G force
@@ -208,7 +209,7 @@ struct Fuel {
 // https://rechneronline.de/g-acceleration/
 //
 #ifndef CAR_EMG_BRK_VSS
-#define CAR_EMG_BRK_VSS 7
+#define CAR_EMG_BRK_VSS 6
 #endif//#define  DEBUG_TEMPERATURE_IN
 
 
