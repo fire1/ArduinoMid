@@ -401,7 +401,10 @@ public:
             drawWarnMsg(50, 51);
         }
     }
-
+/**
+ * Warning for battery with voltage
+ * @param Voltage
+ */
     void warnBattery(float Voltage) override {
         if (amp->isRfr()) { //isRfr
             lcd->drawXBMP(0, 0, 85, 64, low_battery_85x64_bits);
@@ -916,16 +919,6 @@ private:
     void displayHomeConsumption() {
 
         lcd->setCursor(LCD_COL_L10 + 1, LCD_ROW_1);
-        lcd->print(getMsg(85)); // petrol station
-        displayFloat(eep->getConsumedFuel(), char_3);
-        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, char_3);
-        wordWidth = lcd->getStrWidth(char_3);
-
-        lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
-        lcd->print(getMsg(68));
-        lcd->print(getMsg(101));
-        lcd->print(getMsg(101));
-
         //
         // When have several fuel lines
 #ifdef LPG_SWITCHING_DETECT
@@ -935,6 +928,17 @@ private:
             lcd->print(getMsg(96)); // lpg icon
         }
 #endif
+//        lcd->print(getMsg(85)); // petrol station
+        displayFloat(eep->getConsumedFuel(), char_3);
+        lcd->drawStr(LCD_COL_L11, LCD_ROW_1, char_3);
+        wordWidth = lcd->getStrWidth(char_3);
+
+        lcd->setCursor(LCD_COL_L22, LCD_ROW_1);
+        lcd->print(getMsg(68));
+        lcd->print(getMsg(101));
+        lcd->print(getMsg(101));
+
+
 
 
         //

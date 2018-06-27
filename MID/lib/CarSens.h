@@ -54,7 +54,7 @@
 // 75.3 because there no LPG switch detection (engine runs in benzene to work temperature )...
 // must be clear 75
 // ECU Consumption correction
-#define ECU_CORRECTION 124 //45   75 // 147.23 ///  346 /// to high 692
+#define ECU_CORRECTION 120 //45   75 // 147.23 ///  346 /// to high 692
 //
 // Speed correction
 #define VSS_CORRECTION 1.6 // 2.6  v1.5 = 1   // V1.4 = 1.6 //  fast 3.767
@@ -67,11 +67,13 @@
 /// reset daily kilometers to flight instruments while turning the key in the ignition to the active position.
 /// For vehicles Astra G it is usually worth the 15385 (mul by 2 = 30770). For vehicles Frontera , it is the value of the 2700.
 //25.2 / 1.8l
-// TODO lower value to save space in EepRom (124*200 = 24800)
+// TODO lower value to save space in EepRom (120*206.45 = 24774)
 // Distance correction
-#define DST_CORRECTION 24775 //   24776.6 /24763.0 v1.6 // v1.4 30800.00  //  15383.29  //   15385
+#define DST_CORRECTION 120 // 249402,  24775 / 24776.6 /24763.0 v1.6 // v1.4 30800.00  //  15383.29  //   15385
+const uint8_t DST_MUL_COR = 207;
+
 //
-#define TRS_CORRECTION 0 // 0.064444 a proximity  6(~6)%
+#define TRS_CORRECTION  0 // 0.064444 a proximity  6(~6)%
 //
 //#define VSD_SENS_DEBUG;
 #define SCREEN_DEF_LIGHT 22 // This value is mul. by *10
@@ -1047,7 +1049,7 @@ void CarSens::sensVss() {
         CUR_VSS = uint8_t(vssHitsCount / (getCorVss() + TRS_CORRECTION));
         //
         // Calculate distance
-        CUR_VDS = (vssHitsCount / (getCorDst() + TRS_CORRECTION)) + CUR_VDS;
+        CUR_VDS = (vssHitsCount / (getCorDst() * DST_MUL_COR + TRS_CORRECTION)) + CUR_VDS;
         //
         // Odometer collection
         CUR_VDS_collection = vssHitsCount + CUR_VDS_collection;
@@ -1200,7 +1202,7 @@ void CarSens::sensEmgBrk() {
 
         EMG_BREAK = (CUR_VSS < LST_VSS - CAR_EMG_BRK_VSS && CUR_VSS < LST_VSS && CUR_VSS > 23) ? true : false;
         LST_VSS = CUR_VSS;
-        if(EMG_BREAK){
+        if (EMG_BREAK) {
             passMelodyClass()->play(5);
         }
     }

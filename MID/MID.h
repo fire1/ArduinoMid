@@ -157,36 +157,55 @@ const uint8_t DSP_ADT_SPL = 26; // Logic signal for power supply of back light  
 // JP6 LCD pin 21   // Mega 45 - Close JP6 to use 12V backlight (OptRex type)
 // mega 44 control power for lcd 12V
 //
+//----------------------------------------------------
 // Add languages
+//
+// Bulgarian
 #ifdef LANG_BG
 
 #include "lib/ui/language/bg.h"
 
 #endif
+//
+// English
 #ifdef LANG_EN
 
 #include "lib/ui/language/en.h"
 
 #endif
+//
+// Croatian
 #ifdef LANG_HR
 
 #include "lib/ui/language/hr.h"
 
 #endif
+//
+// Russian
 #ifdef LANG_RU
 
 #include "lib/ui/language/ru.h"
 
 #endif
+//
+// Serbian
 #ifdef LANG_SR
 
 #include "lib/ui/language/sr.h"
 
 #endif
-
+//
+// Turkish
 #ifdef LANG_TR
 
 #include "lib/ui/language/tr.h"
+
+#endif
+//
+// German
+#ifdef LANG_DE
+
+#include "lib/ui/language/de.h"
 
 #endif
 
