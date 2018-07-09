@@ -150,7 +150,7 @@ private:
 
         if (value >= CAR_STT_A2_ALERT && value < CAR_STT_A3_ALERT) {
             if (value == CAR_STT_A2_ALERT) {
-                car->passMelodyClass()->play(7);
+//                car->passMelodyClass()->play(7);
             }
             return true;
         }
@@ -200,33 +200,41 @@ public:
 
         if (isStateDisplay(result.oil)) {
             lcd->warnMotorOil();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.oil);
         } else if (isStateDisplay(result.cnt)) {
             lcd->warnCoolant();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.cnt);
         } else if (isStateDisplay(result.win)) {
             lcd->warnWasher();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.win);
         } else if (isStateDisplay(result.brk)) {
             lcd->warnBreakWare();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.brk);
         } else if (isStateDisplay(result.vol)) {
             lcd->warnBattery(this->getVoltage());
             setStateShowed(result.vol);
         } else if (isStateDisplay(result.la1)) {
             lcd->warnLightsFront();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.la1);
         } else if (isStateDisplay(result.la2)) {
             lcd->warnLightsBack();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.la2);
         } else if (isStateDisplay(result.blt)) {
             lcd->warnTmBelt();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.blt);
         } else if (isStateDisplay(result.wnt)) {
             lcd->warnWinter();
             setStateShowed(result.wnt);
         } else if (isStateDisplay(result.ovh)) {
             lcd->warnOverheat();
+            car->passMelodyClass()->play(7);
             setStateShowed(result.ovh);
         } else {
 #if defined(DEBUG) && defined(DEBUG_STATE)
@@ -278,6 +286,7 @@ public:
             sensorCustom(isOverhead(), result.ovh);
             sensorCustom(isBadVoltage(), result.vol);
             sensorCustom(workDistance > CAR_STT_TM_BELT, result.blt);
+            dump("Windows washer val:", result.win)
         }
 
 #if  defined(DEBUG) && defined(DEBUG_STATE)
@@ -292,9 +301,27 @@ public:
             Serial.println(result.win);
         }
 #endif
+        // Show new warning
+        // Reset values after an hour
+        if (amp->isHour()) {
+            result.oil = 0;
+            result.cnt = 0;
+            result.win = 0;
+            result.brk = 0;
+            result.vol = 0;
+            result.blt = 0;
+            result.la1 = 0;
+            result.la2 = 0;
+//            result.wnt = 0;
+            result.ovh = 0;
+            initAlertState = false;
+        }
         //
         // Handle menu cursor
         cursor();
+
+
+
     };
 
 
