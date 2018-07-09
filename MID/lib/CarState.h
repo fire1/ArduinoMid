@@ -286,7 +286,6 @@ public:
             sensorCustom(isOverhead(), result.ovh);
             sensorCustom(isBadVoltage(), result.vol);
             sensorCustom(workDistance > CAR_STT_TM_BELT, result.blt);
-            dump("Windows washer val:", result.win)
         }
 
 #if  defined(DEBUG) && defined(DEBUG_STATE)
