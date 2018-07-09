@@ -90,7 +90,8 @@ LpgSerial lpgCom(ampInt, carSens);
 LpgSwitch lpgCom(ampInt);
 #endif
 
-
+//
+// Additional futures
 #include "AdtFunc.h"
 
 
