@@ -33,6 +33,11 @@
 //      262,144 bits / 8 bits in a byte = 32,768 bytes.
 //      That’s 62 times the Arduino’s built-in storage!
 
+
+// General information for bit bool in integers
+// data |=(1<<4) - bit 4 is 1
+// data &=~(1<<4) - bit 4 is 0
+
 #ifndef EEP_ROM_WORK_DIV
 #define EEP_ROM_WORK_DIV 100
 #endif
