@@ -33,7 +33,7 @@
 #include "MID.h"
 #include "lib/InitObj.h"
 #include "lib/InitLcd.h"
-
+#include <RTClib.h>
 
 //
 // Log file
@@ -115,10 +115,16 @@ void setup() {
 
     carStat.setWorkState(eepRom.getWorkDistance());
     //
-    // TODO testing ...
+    // LPG swtiching detection
 #ifdef LPG_SWITCHING_DETECT
     lpgCom.begin();
 #endif
+    //
+    // Real time clock module
+#ifdef USE_CLOCK_MODULE
+    rtcService.begin();
+#endif
+
     //
     // Light lamps test
     pinMode(STT_UL1_PIN, INPUT_PULLUP); // HIGH is ok

@@ -73,6 +73,7 @@ public:
 
     virtual void warnLightsBack() = 0;
 
+
 protected:
 
 #ifdef ARDUINO_MID_LAN

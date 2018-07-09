@@ -11,6 +11,9 @@
 #include "EepRom.h"
 #include "WhlSens.h"
 #include "InitObj.h"
+#include "RtcService.h"
+
+const char CMD_SPR_EOL = '\n';
 
 /**
  * Command Serial Prompt
@@ -25,6 +28,7 @@ class CmdSerial : public EepRom {
     String srlStrName;
     String srlOutputs;
     EepRom *eep;
+    RtcService *rtc;
 
 
     typedef void (*cb_svd)(float, SavedData &);
@@ -34,11 +38,11 @@ class CmdSerial : public EepRom {
 private:
 
     float getSrlFloat() {
-        return Serial.readStringUntil('\n').toFloat();
+        return Serial.readStringUntil(CMD_SPR_EOL).toFloat();
     }
 
     long getSrlInt() {
-        return Serial.readStringUntil('\n').toInt();
+        return Serial.readStringUntil(CMD_SPR_EOL).toInt();
     }
 
     long getSrlInt2() {
@@ -101,7 +105,8 @@ private:
 
 
 public:
-    CmdSerial(CarSens &carSens, WhlSens &whlSens) : car(&carSens), whl(&whlSens), EepRom(carSens) {
+    CmdSerial(CarSens &carSens, WhlSens &whlSens, RtcService &rtcService) : car(&carSens), whl(&whlSens),
+                                                                            rtc(&rtcService), EepRom(carSens) {
     }
 
 
@@ -348,6 +353,16 @@ public:
                     if (cmd == 1001) {
                         isAndroidConnected = true;
                     }
+                }
+                //
+                // Clock
+                if (srlStrName == F("rtc")) {
+                    int clock[1];
+                    saveTemp = getSrlFloat();
+                    srlOutputs = F("Sets clock to: ");
+                    separateFloat(saveTemp, clock);
+                    rtc->setClock(clock[0], clock[1]);
+                    srlOutputs += rtc->getClock();
                 }
 
                 //

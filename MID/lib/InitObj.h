@@ -38,8 +38,11 @@
 // Debugging Command class
 #include "CmdSerial.h"
 //
-//
+// Melody class
 #include "Melody.h"
+//
+// Clock class
+#include "RtcService.h"
 //
 // External LPG listener
 #ifdef LPG_INSTALLATION
@@ -51,10 +54,11 @@
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
 AmpTime ampInt;
-
-
 //
+// Real time clock
+RtcService rtcService;
 //
+// Melody generator
 Melody melody(ampInt);
 //
 // Constructing the class
@@ -70,7 +74,7 @@ WhlSens whlSens(ampInt, carSens);
 //EepRom eepRom(carSens);
 //
 // Combined EepRom / CmdSerial
-CmdSerial eepRom(carSens, whlSens);
+CmdSerial eepRom(carSens, whlSens, rtcService);
 //
 // Buttons driver
 MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);

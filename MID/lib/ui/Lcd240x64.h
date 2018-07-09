@@ -6,6 +6,7 @@
 //#include "CarGames.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include "../RtcService.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -67,7 +68,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBase *mbs;
     ShutDw *sdw;
     MenuBtn *btn;
-
+    RtcService *rtc;
 
     boolean animateFast = false;
     boolean animateUltra = false;
@@ -102,13 +103,13 @@ public:
  * @param _btn
  * @param _mbs
  * @param _sdw
+ * @param _rtc
  */
-    Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw) :
+    Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw, RtcService &_rtc) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
-            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw) {
-
-
+            whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw), rtc(&_rtc) {
     }
+
 
 /**
  * Mid's intro
@@ -292,9 +293,10 @@ public:
         //
         //  Clock in this place
         lcd->setCursor(131, 2);
-//        displayFloat(car->getTmpOut(), char_3);
-//        lcd->print(char_3);
-//        lcd->print(getMsg(74));
+
+#ifdef USE_CLOCK_MODULE
+        lcd->print(rtc->getClock());
+#endif
 
 
         //
@@ -401,6 +403,7 @@ public:
             drawWarnMsg(50, 51);
         }
     }
+
 /**
  * Warning for battery with voltage
  * @param Voltage

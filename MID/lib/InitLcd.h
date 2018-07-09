@@ -88,7 +88,7 @@ U8G2_T6963_240X64_F_8080 // Screen constructor U8G2_T6963_240X64_2_8080 / U8G2_T
              DSP_PIN_DT8,
         /*WR*/ DSP_PIN_WR, /*CE*/ DSP_PIN_CE, /*dc8*/DSP_PIN_CD, /*RST*/ DSP_PIN_RST);
 //U8G2_T6963_240X64_2_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7,/*WR*/ 14, /*CE*/ 16, /*dc8*/17, /*RST*/ 18); // Connect RD with +5V, FS0 and FS1 with GND
-Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown);
+Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown, rtcService);
 #endif
 
 //
@@ -120,6 +120,5 @@ void menuUseEvent(MenuUseEvent used) {
 //    Serial.print(F(" Stage 2 free RAM (menuUseEvent):"));
 //    Serial.println(getFreeRam());
 }
-
 
 #endif //ARDUINOMID_SCREENS_H
