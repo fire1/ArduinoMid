@@ -1475,7 +1475,9 @@ void CarSens::sensTmp() {
         // closest temperature IC
         currentTemperatureInside = temperatureSensors.getTempC(midThermometers[0]);
         if (currentTemperatureInside > -80) {
-            CUR_INS_TMP = currentTemperatureInside;
+            //
+            // Fixing  sensor bug when engine works needs to lower temperature value
+            CUR_INS_TMP = (isRunEng()) ? currentTemperatureInside - 1.2 : currentTemperatureInside;
 
         }
         ds_deviceRequest = false;
