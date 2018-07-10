@@ -42,7 +42,7 @@
 #include "Melody.h"
 //
 // Clock class
-#include "RtcService.h"
+#include "AptService.h"
 //
 // External LPG listener
 #ifdef LPG_INSTALLATION
@@ -54,9 +54,6 @@
 // Amplitude interval
 //    ampInt(min,low,mid,sec, big, max);
 AmpTime ampInt;
-//
-// Real time clock
-RtcService rtcService;
 //
 // Melody generator
 Melody melody(ampInt);
@@ -70,11 +67,14 @@ CarState carStat(ampInt, carSens);
 // Constructing the class
 WhlSens whlSens(ampInt, carSens);
 //
+// Aptitude service (additional futures)
+AptService aptService(ampInt, carSens);
+//
 // Data storage
 //EepRom eepRom(carSens);
 //
 // Combined EepRom / CmdSerial
-CmdSerial eepRom(carSens, whlSens, rtcService);
+CmdSerial eepRom(carSens, whlSens, aptService);
 //
 // Buttons driver
 MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
@@ -96,7 +96,7 @@ LpgSwitch lpgCom(ampInt);
 
 //
 // Additional futures
-#include "AdtFunc.h"
+#include "AptService.h"
 
 
 #endif //ARDUINOMID_INITIALIZATIONS_H

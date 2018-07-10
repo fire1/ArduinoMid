@@ -11,7 +11,7 @@
 #include "EepRom.h"
 #include "WhlSens.h"
 #include "InitObj.h"
-#include "RtcService.h"
+#include "AptService.h"
 
 const char CMD_SPR_EOL = '\n';
 
@@ -28,7 +28,7 @@ class CmdSerial : public EepRom {
     String srlStrName;
     String srlOutputs;
     EepRom *eep;
-    RtcService *rtc;
+    AptService *rtc;
 
 
     typedef void (*cb_svd)(float, SavedData &);
@@ -105,7 +105,7 @@ private:
 
 
 public:
-    CmdSerial(CarSens &carSens, WhlSens &whlSens, RtcService &rtcService) : car(&carSens), whl(&whlSens),
+    CmdSerial(CarSens &carSens, WhlSens &whlSens, AptService &rtcService) : car(&carSens), whl(&whlSens),
                                                                             rtc(&rtcService), EepRom(carSens) {
     }
 

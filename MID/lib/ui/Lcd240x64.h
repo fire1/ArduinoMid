@@ -6,7 +6,7 @@
 //#include "CarGames.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include "../RtcService.h"
+#include "../AptService.h"
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
@@ -68,7 +68,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     MenuBase *mbs;
     ShutDw *sdw;
     MenuBtn *btn;
-    RtcService *rtc;
+    AptService *rtc;
 
     boolean animateFast = false;
     boolean animateUltra = false;
@@ -105,7 +105,7 @@ public:
  * @param _sdw
  * @param _rtc
  */
-    Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw, RtcService &_rtc) :
+    Lcd240x62(U8G2 &_lcd, MenuBtn &_btn, MenuBase &_mbs, ShutDw &_sdw, AptService &_rtc) :
             lcd(&_lcd), btn(&_btn), mbs(&_mbs), amp(_btn.passAmp()), car(_btn.passCar()), eep(_btn.passEep()),
             whl(_btn.passWhl()), stt(_btn.passStt()), sdw(&_sdw), rtc(&_rtc) {
     }

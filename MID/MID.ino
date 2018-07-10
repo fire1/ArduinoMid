@@ -119,17 +119,13 @@ void setup() {
     lpgCom.begin();
 #endif
     //
-    // Real time clock module
-#ifdef USE_CLOCK_MODULE
-    rtcService.begin();
-#endif
-
+    // Aptitude
+    aptService.begin();
     //
     // Light lamps test
     pinMode(STT_UL1_PIN, INPUT_PULLUP); // HIGH is ok
     pinMode(STT_UL2_PIN, INPUT_PULLUP); // LOW is bad
-    pinMode(DRL_PWM_PIN, OUTPUT);
-    pinMode(DRL_PWR_PIN, OUTPUT);
+
 }
 
 
@@ -187,8 +183,9 @@ void loop() {
     if (ampInt.isSecond()) {
 //        melody.playSpeed();
     }
-
-    listenerDRL(&ampInt, &carSens);
+    //
+    // Run other service
+    aptService.listener();
 
 }
 
