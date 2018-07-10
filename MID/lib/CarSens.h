@@ -119,11 +119,11 @@ const uint8_t DST_MUL_COR = 207;
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
 //#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
-#define FUEL_LPG_CNS  168 // 21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS  167 // 20040 // 21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 22242 ~ 15/20*C
 // 34416 ~ 0/5*C
 // 20967 ~ 15/25*C
-
+//20160//20040
 //
 // Old version
 // 8316 default

@@ -202,17 +202,19 @@ boolean isAndroidConnected = false;
  */
 
 
+const char pgm0[] PROGMEM = "\0"; // Clock format
 const char pgm1[] PROGMEM = "%02d:%02d"; // Clock format
 const char pgm2[] PROGMEM = "%02d.%01d"; // display float
 const char pgm3[] PROGMEM = "%03d"; // display float
 const char pgm4[] PROGMEM = "%04d"; // display float
 const char pgm5[] PROGMEM = "%lu"; // display float
 const char pgm6[] PROGMEM = "%01d"; // display float
+const char pgm7[] PROGMEM = "hh:mm\0"; // Clock display
 /**
  * Combine data to table
  */
 const char *const pgmDataTable[] PROGMEM = {
-        pgm1, pgm2, pgm3
+        pgm0, pgm1, pgm2, pgm3, pgm7
 };
 
 

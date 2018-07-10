@@ -15,11 +15,11 @@
 class RtcService {
 
     boolean noClock = true;
-    RTC_DS3231 rtc;
+    DS3231 rtc;
 
 public:
     RtcService() {
-        rtc = RTC_DS3231();
+        rtc = DS3231();
     }
 
     void begin() {
@@ -29,12 +29,12 @@ public:
             Serial.println(F("Couldn't find RTC"));
         }
 
-        if (rtc.lostPower()) {
+        if (!rtc.isrunning()) {
             Serial.println(F("RTC lost power, resetting the  time!"));
             // following line sets the RTC to the date & time this sketch was compiled
             rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
         }
-        noClock = (rtc.lostPower()) ? true : false;
+        noClock = (!rtc.isrunning()) ? true : false;
 
     }
 
@@ -53,14 +53,17 @@ public:
  *
  * @return char
  */
-    char *getClock() {
-        char *dspTime;
+   const char *getClock() {
+        char buf[60];
         if (noClock)
-            return dspTime;
-        DateTime now = rtc.now();
+            return getPGM(0);
 
-        sprintf_P(dspTime, pgm1 /*"%02d:%02d"*/, now.hour(), now.minute());
-        return dspTime;
+        //
+        // Get clock
+        DateTime now = rtc.now();
+        strncpy(buf, pgm7, 60);
+        Serial.println(now.format(buf));
+        return now.format(buf);
     }
 
 /**
@@ -68,7 +71,9 @@ public:
  * @return float
  */
     float getTemperature() {
-//        return rtc.getTemperature();
+        if(noClock)
+            return 0;
+        return rtc.getTemp();
     }
 
 };
