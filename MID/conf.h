@@ -147,7 +147,7 @@
 #define USE_BERTONE_LOGO
 //
 //
-#define USE_CLOCK_MODULE
+//#define USE_CLOCK_MODULE
 //
 // Fuel pulses container target over fuel lines
 // This is only information use to calibrate fuel consumption
