@@ -146,7 +146,7 @@
 // Comment definition to use Opel logo
 #define USE_BERTONE_LOGO
 //
-//
+// To use real time clock uncomment:
 //#define USE_CLOCK_MODULE
 //
 // Fuel pulses container target over fuel lines

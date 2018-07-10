@@ -4,27 +4,31 @@
 
 #ifndef ARDUINOMID_RTCSERVICE_H
 #define ARDUINOMID_RTCSERVICE_H
-
-//
-// https://github.com/NorthernWidget/DS3231
+#ifdef USE_CLOCK_MODULE
 #include <Wire.h>
 #include <RTClib.h>
+#endif
+
 #include "../glob.h"
 
 
 class RtcService {
 
     boolean noClock = true;
+#ifdef USE_CLOCK_MODULE
     DS3231 rtc;
+#endif
 
 public:
     RtcService() {
+#ifdef USE_CLOCK_MODULE
         rtc = DS3231();
+#endif
     }
 
     void begin() {
 
-
+#ifdef USE_CLOCK_MODULE
         if (!rtc.begin()) {
             Serial.println(F("Couldn't find RTC"));
         }
@@ -35,7 +39,7 @@ public:
             rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
         }
         noClock = (!rtc.isrunning()) ? true : false;
-
+#endif
     }
 
 /**
@@ -46,7 +50,9 @@ public:
     void setClock(byte h, byte m) {
         if (noClock)
             return;
+#ifdef USE_CLOCK_MODULE
         rtc.adjust(DateTime(0, 0, 0, h, m, 0));
+#endif
     }
 
 /**
@@ -54,16 +60,19 @@ public:
  * @return char
  */
    const char *getClock() {
-        char buf[60];
+
         if (noClock)
             return getPGM(0);
 
+        char buf[60];
+#ifdef USE_CLOCK_MODULE
         //
         // Get clock
         DateTime now = rtc.now();
         strncpy(buf, pgm7, 60);
         Serial.println(now.format(buf));
         return now.format(buf);
+#endif
     }
 
 /**
@@ -73,7 +82,9 @@ public:
     float getTemperature() {
         if(noClock)
             return 0;
+#ifdef USE_CLOCK_MODULE
         return rtc.getTemp();
+#endif
     }
 
 };

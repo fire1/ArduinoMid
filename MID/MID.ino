@@ -33,7 +33,6 @@
 #include "MID.h"
 #include "lib/InitObj.h"
 #include "lib/InitLcd.h"
-#include <RTClib.h>
 
 //
 // Log file
