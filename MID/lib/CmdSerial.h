@@ -179,9 +179,9 @@ public:
                     setOutputHelpCMD(F("tf1=<float>"), F("Sets consumed fuel for  Trip 1 "), savedData.trip_a.fuel);
                     setOutputHelpCMD(F("td1=<float>"), F("Sets distance travel for  Trip 1 "), savedData.trip_a.fuel);
                     setOutputHelpCMD(F("tf2=<float>"), F("Sets consumed fuel for  Trip 2 "), savedData.trip_b.fuel);
-                    setOutputHelpCMD(F("td2=<float>"), F("Sets consumed travel for  Trip 2 "), savedData.trip_b.fuel);
+                    setOutputHelpCMD(F("td2=<float>"), F("Sets distance travel for  Trip 2 "), savedData.trip_b.fuel);
                     setOutputHelpCMD(F("tf3=<float>"), F("Sets consumed fuel for  Trip 3 "), savedData.trip_c.fuel);
-                    setOutputHelpCMD(F("td3=<float>"), F("Sets consumed travel for  Trip 3 "), savedData.trip_c.fuel);
+                    setOutputHelpCMD(F("td3=<float>"), F("Sets distance travel for  Trip 3 "), savedData.trip_c.fuel);
                     Serial.println();
                     Serial.println(F("=============================================================="));
                 }
