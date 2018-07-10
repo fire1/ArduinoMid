@@ -56,12 +56,30 @@ private:
         }
     }
 
+
+/**
+ *
+ * @param cmd
+ * @param txt
+ * @param cur
+ */
+    void setOutputHelpCMD(const __FlashStringHelper *cmd, const __FlashStringHelper *txt, float cur) {
+        srlOutputs = F("\t ");
+        srlOutputs += cmd;
+        srlOutputs += F(")\t ");
+        srlOutputs += txt;
+        srlOutputs += F("\t CURRENT: ");
+        srlOutputs += cur;
+        srlOutputs += F("\n");
+        Serial.println(srlOutputs);
+    }
+
 /**
  *
  * @param offset
  * @param txt
  */
-    void setOutputHelp(const uint8_t offset, const __FlashStringHelper *txt) {
+    void setOutputHelpDBG(const uint8_t offset, const __FlashStringHelper *txt) {
         srlOutputs = F("\t ");
         srlOutputs += offset;
         srlOutputs += F(")\t ");
@@ -132,6 +150,42 @@ public:
                 boolean commandOutput = true;
                 SavedData savedData = getData();
 
+
+                if (srlStrName == F("help")) {
+                    commandOutput = false;
+                    Serial.println();
+                    Serial.println(F("=============================================================="));
+                    Serial.println(F(" HELP / General command information"));
+                    Serial.println();
+                    Serial.println(F(".:: SET NEW VALUES :::::::::::::::::."));
+                    setOutputHelpCMD(F("lpg=<float>"), F("Sets consumed propane-butane  "), savedData.fuel_adt);
+                    setOutputHelpCMD(F("bnz=<float>"), F("Sets consumed benzine(gasoline) "), savedData.fuel_def);
+                    setOutputHelpCMD(F("ttd=<float>"), F("Sets traveled distance "), savedData.dist_trv);
+                    setOutputHelpCMD(F("wrk=<float>"), F("Sets car work distance "), savedData.total_km);
+                    setOutputHelpCMD(F("rtc=<float>"), F("Sets clock time as 12.59h "), 0);
+                    Serial.println();
+                    Serial.println(F(".:: CORRECTION VALUES :::::::."));
+                    setOutputHelpCMD(F("cor_vss=<float>"), F("Vehicle speed  measurements"), savedData.sens_vss);
+                    setOutputHelpCMD(F("cor_dst=<float>"), F("Distance measurements"), savedData.sens_dst);
+                    setOutputHelpCMD(F("cor_ecu=<float>"), F("Consumption measurements "), savedData.sens_ecu);
+                    Serial.println();
+                    Serial.println(F(".:: OTHER COMMANDS :::::::::."));
+                    setOutputHelpCMD(F("set_cor=<1>"), F("Push data to carSens "), 1);
+                    setOutputHelpCMD(F("save=<1>"), F("Saves current changed data "), 1);
+                    setOutputHelpCMD(F("reset=<1>"), F("Resets trips of BC  "), 1);
+                    setOutputHelpCMD(F("whl=<1+1>"), F("Sends voltage+resistance to radio  "), 0);
+                    Serial.println();
+                    Serial.println(F(".:: TRIPS COMMANDS :::::::::."));
+                    setOutputHelpCMD(F("tf1=<float>"), F("Sets consumed fuel for  Trip 1 "), savedData.trip_a.fuel);
+                    setOutputHelpCMD(F("td1=<float>"), F("Sets distance travel for  Trip 1 "), savedData.trip_a.fuel);
+                    setOutputHelpCMD(F("tf2=<float>"), F("Sets consumed fuel for  Trip 2 "), savedData.trip_b.fuel);
+                    setOutputHelpCMD(F("td2=<float>"), F("Sets consumed travel for  Trip 2 "), savedData.trip_b.fuel);
+                    setOutputHelpCMD(F("tf3=<float>"), F("Sets consumed fuel for  Trip 3 "), savedData.trip_c.fuel);
+                    setOutputHelpCMD(F("td3=<float>"), F("Sets consumed travel for  Trip 3 "), savedData.trip_c.fuel);
+                    Serial.println();
+                    Serial.println(F("=============================================================="));
+                }
+
                 // ************************************************************
                 // Correction values
 
@@ -142,8 +196,6 @@ public:
                     srlOutputs = F("LPG fuel ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("lpg"), [](float value, EepRom *e) { e->setAdtFuel(value); }, getSrlFloat(), eep);
-
 
                 if (srlStrName == F("bnz")) {
                     // Total Liters per hour consumed
@@ -153,7 +205,6 @@ public:
                     srlOutputs = F("BNZ fuel ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("bnz"), [](float value, EepRom *e) { e->setDefFuel(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "ttd") {
                     // Total Travel distance
@@ -163,8 +214,6 @@ public:
                     srlOutputs = F("Travel distance ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setTravelDistance(value); }, getSrlFloat(), eep);
-
 
                 if (srlStrName == "wrk") {
                     // Total work distance
@@ -173,18 +222,6 @@ public:
                     srlOutputs = F("Work distance ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("ttd"), [](float value, EepRom *e) { e->setWorkDistance(value); }, getSrlFloat(), eep);
-
-                // ************************************************************
-                // Correction value inject
-//                if (srlStrName == "cor_rpm") {
-//                    // Total work distance
-//                    saveTemp = getSrlFloat();
-//                   savedData.setSensRpm(saveTemp);
-//                    srlOutputs = F("RPM correction ");
-//                    srlOutputs += saveTemp;
-//                }
-//                cmd_eep(F("cor_rpm"), [](float value, EepRom *e) { e->setSensRpm(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "cor_vss") {
                     // Total work distance
@@ -193,7 +230,6 @@ public:
                     srlOutputs = F("VSS correction ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("cor_vss"), [](float value, EepRom *e) { e->setSensVss(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "cor_dst") {
                     // Total work distance
@@ -202,7 +238,6 @@ public:
                     srlOutputs = F("DST correction ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("cor_dst"), [](float value, EepRom *e) { e->setSensDst(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "cor_ecu") {
                     // Total work distance
@@ -211,7 +246,6 @@ public:
                     srlOutputs = F("ECU correction ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_eep(F("cor_ecu"), [](float value, EepRom *e) { e->setSensEcu(value); }, getSrlFloat(), eep);
 
                 if (srlStrName == "set_cor") {
                     // Saves type
@@ -231,9 +265,7 @@ public:
                         srlOutputs += saveTemp;
                     }
                 }
-//                cmd_eep(F("set_wrk"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
-//                        getSrlFloat(), eep, F("SAVED Work distance "));
-//
+
                 if (srlStrName == "save") {
                     // Saves type
                     saveTemp = getSrlInt();
@@ -243,10 +275,7 @@ public:
                         srlOutputs += saveTemp;
                     }
                 }
-//                cmd_eep(F("save"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveCurrentData(); },
-//                        getSrlFloat(), eep, F("SAVED ALL DATA "));
 
-//
                 if (srlStrName == "reset") {
                     // Saves type
                     saveTemp = getSrlInt();
@@ -257,10 +286,6 @@ public:
                     }
 
                 }
-//
-//                cmd_eep(F("reset"), [](float value, EepRom *e) { if ((uint8_t) value == 1) e->saveResetData(); },
-//                        getSrlFloat(), eep, F("SAVED-RESET LAST DATA "));
-
                 // ************************************************************
                 // Steering buttons digPod inject
                 if (srlStrName == "whl") {
@@ -280,16 +305,6 @@ public:
                     srlOutputs = F("Trip distance ");
                     srlOutputs += saveTemp;
                 }
-//                cmd_svd(F("trd"), [](float value, SavedData &save) { save.dist_trp = value; }, savedData);
-
-//                if (srlStrName == "trt") {
-//                    // Trip time
-//                    saveTemp = getSrlFloat();
-//                    savedData.time_trp = saveTemp;
-//                    srlOutputs = F("Trip time ");
-//                    srlOutputs += saveTemp;
-//                }
-//                cmd_svd(F("trt"), [](float value, SavedData &save) { save.time_trp = value; }, savedData);
 
 
                 if (srlStrName == "set_tr") {
@@ -384,29 +399,29 @@ public:
                         Serial.println(F("=============================================================="));
                         Serial.println(F(" DEBUG HELP / Available dump offsets (dbg=<NUM>) "));
                         Serial.println();
-                        setOutputHelp(DBG_SR_VSS, F("VSS Vehicle Speed Sensor "));
-                        setOutputHelp(DBG_SR_RPM, F("RPM Revolutions Per Minute"));
-                        setOutputHelp(DBG_SR_ECU, F("ECU Engine Control Unit"));
-                        setOutputHelp(DBG_SR_TM1, F("Outside temperature (front)"));
-                        setOutputHelp(DBG_SR_TM2, F("Additional  temperature (1)"));
-                        setOutputHelp(DBG_SR_TM3, F("Additional  temperature (2)"));
-                        setOutputHelp(DBG_SR_CNS, F("Fuel consumption calculation "));
-                        setOutputHelp(DBG_SR_IFC, F("Instant consumption calculation"));
-                        setOutputHelp(DBG_SR_DIM, F("Display back light level"));
-                        setOutputHelp(DBG_SR_ENT, F("Engine coolant temperature"));
-                        setOutputHelp(DBG_SR_TNK, F("Fuel tank calculation data"));
-                        setOutputHelp(DBG_SR_DST, F("Vehicle distance measured"));
-                        setOutputHelp(DBG_SR_GRS, F("Vehicle gear ratio resolver"));
-                        setOutputHelp(DBG_SR_AVR, F("Vehicle averages assumed"));
-                        setOutputHelp(DBG_SR_MNI, F("UI User Interface menu"));
-                        setOutputHelp(DBG_SR_MNB, F("UI button handler"));
-                        setOutputHelp(DBG_SR_EPR, F("Internal chip memory"));
-                        setOutputHelp(DBG_SR_WHL, F("Steering wheel buttons"));
-                        setOutputHelp(DBG_SR_RCR, F("Remote control  radio"));
-                        setOutputHelp(DBG_SR_STT, F("Vehicle servicing states"));
-                        setOutputHelp(DBG_SR_STW, F("Vehicle warning states"));
-                        setOutputHelp(DBG_SR_SAL, F("Vehicle speed alarm"));
-                        setOutputHelp(DBG_SR_LPG, F("LPG serial communication"));
+                        setOutputHelpDBG(DBG_SR_VSS, F("VSS Vehicle Speed Sensor "));
+                        setOutputHelpDBG(DBG_SR_RPM, F("RPM Revolutions Per Minute"));
+                        setOutputHelpDBG(DBG_SR_ECU, F("ECU Engine Control Unit"));
+                        setOutputHelpDBG(DBG_SR_TM1, F("Outside temperature (front)"));
+                        setOutputHelpDBG(DBG_SR_TM2, F("Additional  temperature (1)"));
+                        setOutputHelpDBG(DBG_SR_TM3, F("Additional  temperature (2)"));
+                        setOutputHelpDBG(DBG_SR_CNS, F("Fuel consumption calculation "));
+                        setOutputHelpDBG(DBG_SR_IFC, F("Instant consumption calculation"));
+                        setOutputHelpDBG(DBG_SR_DIM, F("Display back light level"));
+                        setOutputHelpDBG(DBG_SR_ENT, F("Engine coolant temperature"));
+                        setOutputHelpDBG(DBG_SR_TNK, F("Fuel tank calculation data"));
+                        setOutputHelpDBG(DBG_SR_DST, F("Vehicle distance measured"));
+                        setOutputHelpDBG(DBG_SR_GRS, F("Vehicle gear ratio resolver"));
+                        setOutputHelpDBG(DBG_SR_AVR, F("Vehicle averages assumed"));
+                        setOutputHelpDBG(DBG_SR_MNI, F("UI User Interface menu"));
+                        setOutputHelpDBG(DBG_SR_MNB, F("UI button handler"));
+                        setOutputHelpDBG(DBG_SR_EPR, F("Internal chip memory"));
+                        setOutputHelpDBG(DBG_SR_WHL, F("Steering wheel buttons"));
+                        setOutputHelpDBG(DBG_SR_RCR, F("Remote control  radio"));
+                        setOutputHelpDBG(DBG_SR_STT, F("Vehicle servicing states"));
+                        setOutputHelpDBG(DBG_SR_STW, F("Vehicle warning states"));
+                        setOutputHelpDBG(DBG_SR_SAL, F("Vehicle speed alarm"));
+                        setOutputHelpDBG(DBG_SR_LPG, F("LPG serial communication"));
                         Serial.println();
                         Serial.println(F("=============================================================="));
 

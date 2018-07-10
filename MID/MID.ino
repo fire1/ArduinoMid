@@ -58,6 +58,7 @@ void setup() {
     dump_title("ARDUINO MID");
     dump("Firmware", MID_VERSION);
     dump_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
+    dump_txt("Or \"help=\" for general MID commands")
 #endif
     //
     // Data logger
