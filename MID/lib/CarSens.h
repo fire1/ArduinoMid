@@ -94,7 +94,10 @@ const uint8_t DST_MUL_COR = 207;
 // [CONFIRMED not tested over MID] For gas car use 3355 (1/14.7/730*3600)*10000
 #define FUEL_BNZ_IFC 3915
 //#define FUEL_BNZ_CNS 10731 // 14.7*730 = 10731
-#define FUEL_BNZ_CNS 186 // 14.7*730 = 10731
+#define FUEL_BNZ_CNS 186 // expected value ~215 from ORIGINAL 14.7*730 = 10731
+// consumption difference between LPG and BNZ ~25.3583%
+//
+
 
 /************************/
 /* LPG ENGINE CONFIG    */
