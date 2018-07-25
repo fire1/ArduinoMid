@@ -249,8 +249,6 @@ const uint8_t u8g_font_opel_ic_13[6122] U8G2_FONT_SECTION("u8g_font_opel_ic_13")
                 "\261\0\4M\14dE\23\223\210d\64\251\0\4N\17i\305\25\42\212\322\211\42\242\210X\0\4O\13"
                 "eD\63\26\212\204b\21\0";
 
-
-
 //
 // ¡ Engine icon
 // ¢ Overheating
