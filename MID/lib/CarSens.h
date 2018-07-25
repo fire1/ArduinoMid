@@ -70,7 +70,7 @@
 // TODO lower value to save space in EepRom (120*206.45 = 24774)
 // Distance correction
 #define DST_CORRECTION 120 // 249402,  24775 / 24776.6 /24763.0 v1.6 // v1.4 30800.00  //  15383.29  //   15385
-const uint8_t DST_MUL_COR = 207;
+const uint8_t DST_MUL_COR = 206;
 
 //
 #define TRS_CORRECTION  0 // 0.064444 a proximity  6(~6)%
@@ -122,7 +122,7 @@ const uint8_t DST_MUL_COR = 207;
 // // NOTE: With fuel switching must be 4412, but this 3915  value depends over LPG fuel configuration .... :/
 #define FUEL_LPG_IFC 3915  // up to 3936 [NOT CONFIRMED]
 //#define FUEL_LPG_CNS 6046 // 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
-#define FUEL_LPG_CNS  167 // 20040 // 21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
+#define FUEL_LPG_CNS  165 // 20040 // 21000 // 22242 // V1.5 = 7586 or 8316  // ORIGINAL 15.4*540 = 8316 [CONFIRMED (no switching)]
 // 22242 ~ 15/20*C
 // 34416 ~ 0/5*C
 // 20967 ~ 15/25*C
