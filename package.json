@@ -1,0 +1,30 @@
+{
+  "name": "ArduinoMid",
+  "description": "Vauxhall/Opel Astra G (Astra G & Frontera) MID display replacement with ArduinoMid. This project is rebuild of on-board computer base on original interface connection.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/fire1/ArduinoMid",
+  "author": "Angel Zaprianov (fire1@abv.bg)",
+  "repository": "fire1/ArduinoMid",
+  "bugs": {
+    "url": "https://github.com/fire1/ArduinoMid/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "u8g2": "^2.23.*",
+    "OneWire": "^2.3.*",
+    "DallasTemperature": "^3.8.*"
+  },
+  "keywords": [
+    "ArduinoMid"
+  ]
+}
