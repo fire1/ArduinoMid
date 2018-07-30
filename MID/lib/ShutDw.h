@@ -203,7 +203,7 @@ void ShutDw::listener() {
         detectorValue = analogRead(pinDtct);
 
 
-        if (millis() < 5000 && detectorValue < SHUTDOWN_LOW_VALUE) {
+        if (millis() < 3000 && detectorValue < SHUTDOWN_LOW_VALUE) {
             //
             // Skip save and shutdown
             digitalWrite(pinCtrl, LOW);
