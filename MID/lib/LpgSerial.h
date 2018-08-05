@@ -85,63 +85,6 @@ private:
 
 private:
 
-/*    void serialEvent2_test() {
-
-
-        if (digitalRead(17) == LOW) {
-            serial2Low = true;
-        }
-
-        if (digitalRead(17) == HIGH && serial2Low && !Serial2High) {
-            serial2Timing = millis();
-            Serial2High = true;
-            serial2Low = false;
-        }
-
-        if (digitalRead(17) == LOW && Serial2High) {
-            serial2Length = (uint8_t) (millis() - serial2Timing); //if it is low, end the time
-            Serial2High = false;
-            serial2Low = false;
-
-            if (serial2Length <= 3) {
-                dataBuff |= 0 << serial2Offset;
-//            dataBuff[serial2Index] = 0;
-                serial2Offset++;
-            }
-
-            if (serial2Length > 3 && serial2Length <= 5) {
-                dataBuff |= 1 << serial2Offset;
-//            dataBuff[serial2Index] = 1;
-                serial2Offset++;
-            }
-
-
-        }
-        // LPG
-        // 2221 2201
-        // 101000000001 101000000001
-
-        // BNZ
-        // 1501 1521 C01 1C00 201
-        // 110000000001
-
-        if (serial2Length > 5 && dataBuff > 0) {
-            dataBuff = 0;
-            serial2Offset = 0;
-
-
-        }
-
-
-        if (cmd(amp, DBG_SR_LPG)) {
-            dump("LPG inuse 0", data[0]);
-            dump("LPG inuse 1", data[1]);
-            dump("LPG trans  ", trans);
-            dump_bin("LPG  binary", dataBuff);
-        }
-
-
-    }*/
 
 
 public:
