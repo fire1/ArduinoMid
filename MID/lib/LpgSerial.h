@@ -35,31 +35,6 @@
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
 
 
-//#define LPG_EVENT
-//#ifdef LPG_EVENT
-//boolean serial2Low = false;
-//boolean Serial2High = true;
-//uint8_t serial2Offset;
-//uint16_t serial2Length;
-//unsigned long serial2Timing;
-//uint32_t dataBuff = 0;
-//
-//
-//#endif
-//
-//
-//byte serial2DataBuffer[16] = {};
-//boolean serial2EventStart = false;
-//
-//void serialEvent2() {
-//
-//    while (Serial2.available()) {
-//        // get the new byte:
-//        Serial2.readBytes(serial2DataBuffer, 15);
-//    }
-//    serial2EventStart = true;
-//}
-
 //
 // All buttons up - 18
 class LpgSerial : public LpgFuel {
@@ -108,37 +83,6 @@ public:
 
     }
 
-/*
- * BNZ switch only
- BIN 1010101110101011101011011111111100000000000 active lpg
- BIN 1010101110101011101010111111111100000000000 disabled
- serial2DataBuffer[22]
-
-
- */
-/*    void listener_new() {
-        if (serial2EventStart) {
-            //
-            // 173 bnz
-            //
-            //
-            Serial.print(F("BIN "));
-            Serial.println(serial2DataBuffer[2]);
-            Serial.println();
-
-            for (uint8_t i = 0; i < 15; ++i) {
-                Serial.println(serial2DataBuffer[i]);
-                serial2DataBuffer[i] = 0;
-            }
-            Serial.println();
-
-
-            serial2EventStart = false;
-        }
-    }*/
-
-
-//#define DEBUG_SR2
 
 
     void listener_() {
