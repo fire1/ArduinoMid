@@ -1,11 +1,15 @@
 
 #include <Arduino.h>
 
-#define LPG_INPUT 19
+#define LPG_INPUT 19 // 17
 #define LPG_TIMEOUT  8
 #define LPG_BITS 14
 #define LPG_BYTE_HIGH 6 // time for HIGH 1 byte
-#define LPG_TOLERANCE 1 // tolerance time
+#define LPG_TOLERANCE 2 // tolerance time
+
+
+unsigned volatile lpgLastRise = 0;
+uint8_t volatile interval;
 
 class LpgSerial {
 
@@ -14,7 +18,7 @@ class LpgSerial {
     uint8_t sync = 0, offset = 0;
     int lastState = LOW;
     unsigned long lowBegin = 0;
-    uint32_t buffer, transmission;
+    unsigned long buffer, transmission;
 
 
 private:
@@ -27,18 +31,22 @@ private:
         unsigned long highLen = 0;
         int in = digitalRead(LPG_INPUT);
 
+        if (lowBegin > 0 && in == LOW && isStart()) {
+            highLen = millis() - lowBegin;
+            lowBegin = 0;
+            lowEnds = true;
+        }
+
         if (lowBegin == 0 && in == LOW && isStart()) {
             lowBegin = millis();
             lowEnds = false;
         }
 
-        if (!lowEnds && in == LOW && isStart()) {
-            highLen = millis() - lowBegin;
-        }
 
         if (highLen > LPG_TIMEOUT) {
             return 0;
         }
+
 
         lastState = in;
         return (uint8_t) highLen;
@@ -50,31 +58,42 @@ public:
 //        if (sync == 0) {
 //            sync = uint8_t(pulseIn(LPG_INPUT, HIGH, LPG_TIMEOUT) / 1000);
 //        }
+
+    }
+
+
+    static void interrupt() {
+
     }
 
     void listener() {
         uint8_t len = getInputLen();
+//        uint8_t len = pulseIn(LPG_INPUT,HIGH,LPG_TIMEOUT);
 
         if (offset == 0 && receive != 0) {
             buffer = '\0';
             receive = false;
         }
 
-        if (len > LPG_BYTE_HIGH && len < (LPG_BYTE_HIGH + LPG_TOLERANCE)) {
-            buffer += B1;
+        if (len == 0) {
+            return;
+        }
+
+        if (len >= LPG_BYTE_HIGH && len <= (LPG_BYTE_HIGH + LPG_TOLERANCE)) {
+            buffer += 1 << offset;
             offset++;
-        } else {
-            buffer += B0;
+        } else if (len > 0 && len < LPG_BYTE_HIGH) {
+            buffer += 0 << offset;
             offset++;
         }
 
-        if (offset >= LPG_BITS) {
+
+        if (offset + 1 >= LPG_BITS) {
+            Serial.println();
             offset = 0;
             receive = true;
             transmission = buffer;
         }
-
-
     }
 
     boolean isReceive() {
@@ -98,9 +117,13 @@ public:
 
 LpgSerial lpg;
 
+
 void setup() {
+    Serial.begin(115200);
+//    Serial1.begin(1000);
     lpg.begin();
 }
+
 
 
 void loop() {
@@ -108,4 +131,6 @@ void loop() {
     if (lpg.isReceive()) {
         Serial.println(lpg.getData(), BIN);
     }
+
+
 }
