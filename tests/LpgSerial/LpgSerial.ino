@@ -112,6 +112,8 @@ void setup() {
 void loop() {
 
     if (lpg_isReceive) {
+        //
+        // NOTE: original send 10000100100011 will be inverted in receive
         Serial.println();
         Serial.println(lpg_recData, BIN);
         Serial.print("13 bit is: ");

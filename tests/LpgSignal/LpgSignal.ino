@@ -1,7 +1,13 @@
 
 #include <Arduino.h>
 
+/**
+ * This is simple pulse generator for LPG communication simulation.
+ * Only purpose is to test LpgSens class
+ */
 
+//
+// Arduino output pin
 #define PIN_OUT 3
 
 
@@ -14,24 +20,30 @@ void setup() {
 
 }
 
+//
+// Simulates 0 bit
 void doB0() {
     digitalWrite(PIN_OUT, LOW);
     delay(3);
     digitalWrite(PIN_OUT, HIGH);
     delay(2);
 }
-
+//
+// Simulates 1 bit
 void doB1() {
     digitalWrite(PIN_OUT, LOW);
     delay(3);
     digitalWrite(PIN_OUT, HIGH);
     delay(4);
 }
+//
+// Writes ends of data
 void doEnd(){
     digitalWrite(PIN_OUT, LOW);
     delay(3);
 }
-
+//
+// Simulation loop
 void loop() {
     delay(100);
     Serial.println("LPG ping start 10000100001011");
