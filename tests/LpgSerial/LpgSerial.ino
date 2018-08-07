@@ -82,32 +82,33 @@ uint32_t lpg_dataBuffer, lpg_recData;
 */
 void serialEvent2() {
 
-    uint16_t width = pulseIn(LPG_INPUT, HIGH, LPG_TIMEOUT);
+    if (Serial2.available()) {
+        uint16_t width = pulseIn(LPG_INPUT, HIGH, LPG_TIMEOUT);
+
 #ifdef LPG_TIME_SENS
-    Serial.println(width);
-    return;
-#endif
-    if (width == 0) {
-        if (lpg_dataBuffer) {
-            lpg_dataOffset = 0;
-            lpg_recData = lpg_dataBuffer;
-            lpg_dataBuffer = '\0';
-            lpg_isReceive = true;
-        } else {
-            lpg_recData = '\0';
-            lpg_isReceive = false;
-        }
+        Serial.println(width);
         return;
-    }
+#endif
+        if (width == 0) {
+            if (lpg_dataBuffer) {
+                lpg_dataOffset = 0;
+                lpg_recData = lpg_dataBuffer;
+                lpg_dataBuffer = '\0';
+                lpg_isReceive = true;
+            } else {
+                lpg_isReceive = false;
+            }
+            return;
+        }
 
-    if (width > LPG_BYTE_HIGH_MIN && width < LPG_BYTE_HIGH_MAX) {
-        lpg_dataBuffer |= 1 << lpg_dataOffset;
-        lpg_dataOffset++;
-    } else {
-        lpg_dataBuffer |= 0 << lpg_dataOffset;
-        lpg_dataOffset++;
+        if (width > LPG_BYTE_HIGH_MIN && width < LPG_BYTE_HIGH_MAX) {
+            lpg_dataBuffer |= 1 << lpg_dataOffset;
+            lpg_dataOffset++;
+        } else {
+            lpg_dataBuffer |= 0 << lpg_dataOffset;
+            lpg_dataOffset++;
+        }
     }
-
 }
 
 
@@ -139,16 +140,24 @@ void setup() {
     lpg.begin();
 }
 
-
+unsigned long loopCounter;
 void loop() {
+
+    if (loopCounter % 500 == 0) {
+        Serial.print("Loop offset ");
+        Serial.print(loopCounter);
+        Serial.println();
+    }
+
 
     if (lpg_isReceive) {
         //
         // NOTE: original send 10000100100011 will be inverted in receive
         Serial.println();
+        Serial.print(" Data output ");
         Serial.println(lpg_recData, BIN);
-        Serial.print("13 bit is: ");
+        Serial.print(" && bit 13 is: ");
         Serial.println(bitRead(lpg_recData, 13));
-
     }
+    loopCounter++;
 }
