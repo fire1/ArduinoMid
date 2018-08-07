@@ -32,7 +32,6 @@ private:
         int in = digitalRead(LPG_INPUT);
 
 
-
         if (lowBegin > 0 && in == LOW && isStart()) {
             pulseLen = millis() - lowBegin;
             lowBegin = 0;
@@ -121,29 +120,30 @@ void setup() {
 
 boolean lpgReceive = false;
 uint8_t lpgOffset = 0;
-uint32_t lpgBuffer = '\0',lpgData ='\0';
+uint32_t lpgBuffer = '\0', lpgData = '\0';
+
 void serialEvent2() {
 
     uint16_t width = pulseIn(LPG_INPUT, HIGH, 14000);
 //    Serial.println(width);
 //    return;
     if (width == 0) {
-     if(lpgBuffer){
-         lpgOffset = 0;
-         lpgData = lpgBuffer;
-         lpgBuffer = '\0';
-         lpgReceive = true;
-     }else{
-         lpgData = '\0';
-         lpgReceive = false;
-     }
+        if (lpgBuffer) {
+            lpgOffset = 0;
+            lpgData = lpgBuffer;
+            lpgBuffer = '\0';
+            lpgReceive = true;
+        } else {
+            lpgData = '\0';
+            lpgReceive = false;
+        }
         return;
     }
 
     if (width > 3000 && width < 5000) {
         lpgBuffer |= 1 << lpgOffset;
         lpgOffset++;
-    }else{
+    } else {
         lpgBuffer |= 0 << lpgOffset;
         lpgOffset++;
     }
@@ -157,9 +157,12 @@ void loop() {
 //        Serial.println(lpg.getData(), BIN);
 //    }
 //
-   if (lpgReceive) {
+    if (lpgReceive) {
         Serial.println();
         Serial.println(lpgData, BIN);
+        Serial.print("13 bit is: ");
+        Serial.println(bitRead(lpgData, 13));
+
     }
 
 
