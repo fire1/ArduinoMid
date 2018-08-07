@@ -1,169 +1,121 @@
 
 #include <Arduino.h>
 
-#define LPG_INPUT 17
-#define LPG_TIMEOUT  12
-#define LPG_BITS 13
-#define LPG_BYTE_HIGH 6 // time for HIGH 1 byte
-#define LPG_TOLERANCE 2 // tolerance time
+
+/**
+ *  ArduinoMid tutorial to providing LPG switch signal.
+ * In order to capture signals from LPG ECU to digital"Switch Unit"
+ * check 4 wires for voltages with multimeter.
+ * Two of them needs to provide power supply for switch,
+ * other two needs to  provide data and button press sensing.
+ *
+ * Data signal wire will have some voltage drop over time cycle,
+ * when you find this wire run this script with enabled (uncomment) <LPG_TIME_SENS> to determinate data input.
+ *
+ */
+
+//#define LPG_TIME_SENS           // Uncomment to see pulses width in microseconds
+//
+// Basic settings
+#ifndef LPG_INPUT
+#define LPG_INPUT 17            // Input pin
+#endif
+#ifndef LPG_TIMEOUT
+#define LPG_TIMEOUT  14000      // Timeout between data signals
+#endif
+#ifndef LPG_BITS
+#define LPG_BITS 13             // Bits to count
+#endif
+#ifndef LPG_BYTE_HIGH_MIN
+#define LPG_BYTE_HIGH_MIN 3000  // Minimum starting time for HIGH state (1 bit)
+#endif
+#ifndef LPG_BYTE_HIGH_MAX
+#define LPG_BYTE_HIGH_MAX 5000  // Maximum starting time for HIGH state (1 bit)
+#endif
+#ifndef LPG_BAUD_RATE
+#define LPG_BAUD_RATE 180       // Baud rate of serial2
+#endif
 
 
-unsigned volatile lpgLastRise = 0;
-uint8_t volatile interval;
-
-class LpgSerial {
 
 
-    boolean lowEnds = true, receive = false, transEnd = false;
-    uint8_t sync = 0, offset = 0;
-    int lastState = LOW;
-    unsigned long lowBegin = 0;
-    unsigned long buffer, transmission;
+//
+// Public vars used:
+bool lpg_isReceive;
+uint8_t lpg_dataOffset;
+uint32_t lpg_dataBuffer, lpg_recData;
 
 
-private:
-    boolean isStart() {
-        return lastState == HIGH;
+/**
+ * Capturing event
+*/
+void serialEvent2() {
+
+    uint16_t width = pulseIn(LPG_INPUT, HIGH, LPG_TIMEOUT);
+#ifdef LPG_TIME_SENS
+    Serial.println(width);
+    return;
+#endif
+    if (width == 0) {
+        if (lpg_dataBuffer) {
+            lpg_dataOffset = 0;
+            lpg_recData = lpg_dataBuffer;
+            lpg_dataBuffer = '\0';
+            lpg_isReceive = true;
+        } else {
+            lpg_recData = '\0';
+            lpg_isReceive = false;
+        }
+        return;
     }
 
-
-    uint8_t getInputLen() {
-        unsigned long pulseLen = 0;
-        int in = digitalRead(LPG_INPUT);
-
-
-        if (lowBegin > 0 && in == LOW && isStart()) {
-            pulseLen = millis() - lowBegin;
-            lowBegin = 0;
-        }
-
-        if (lowBegin == 0 && in == LOW && isStart()) {
-            lowBegin = millis();
-            transEnd = false;
-        }
-
-        if (pulseLen > 15) {
-            transEnd = true;
-            return 0;
-        }
-
-
-        lastState = in;
-        return (uint8_t) pulseLen;
+    if (width > LPG_BYTE_HIGH_MIN && width < LPG_BYTE_HIGH_MAX) {
+        lpg_dataBuffer |= 1 << lpg_dataOffset;
+        lpg_dataOffset++;
+    } else {
+        lpg_dataBuffer |= 0 << lpg_dataOffset;
+        lpg_dataOffset++;
     }
+
+}
+
+
+class LpgSens {
 
 public:
 
-    void begin() {
-        pinMode(LPG_INPUT, INPUT);
-    }
 
-
-    void listener() {
-        uint8_t len = getInputLen();
-        if (offset == 0 && receive != 0) {
-            buffer = '\0';
-            receive = false;
-        }
-
-        if (offset > LPG_BITS || transEnd) {
-            transEnd = false;
-            offset = 0;
-            receive = true;
-            transmission = buffer;
-        }
-        if (len == 0) {
-            return;
-        }
-
-        if (len > 0) {
-            Serial.print(len);
-        }
-        if (len >= LPG_BYTE_HIGH && len <= (LPG_BYTE_HIGH + LPG_TOLERANCE)) {
-            buffer |= 1 << offset;
-            offset++;
-        } else if (len > 0 && len < LPG_BYTE_HIGH) {
-            buffer |= 0 << offset;
-            offset++;
-        }
-
-
-    }
+    void begin() { Serial2.begin(LPG_BAUD_RATE, SERIAL_7N2); }
 
     boolean isReceive() {
-        return receive;
+        return lpg_isReceive;
     }
 
     uint32_t getData() {
-        return transmission;
+        return lpg_recData;
     }
 
 
 };
 
-// LPG
-// 2221 2201
-// 101000000001 101000000001
-
-// BNZ
-// 1501 1521 C01 1C00 201
-// 110000000001
-
-LpgSerial lpg;
+LpgSens lpg;
 
 
+//
+// Output
 void setup() {
     Serial.begin(115200);
-    Serial2.begin(180, SERIAL_7N2);
     lpg.begin();
 }
 
-boolean lpgReceive = false;
-uint8_t lpgOffset = 0;
-uint32_t lpgBuffer = '\0', lpgData = '\0';
-
-void serialEvent2() {
-
-    uint16_t width = pulseIn(LPG_INPUT, HIGH, 14000);
-//    Serial.println(width);
-//    return;
-    if (width == 0) {
-        if (lpgBuffer) {
-            lpgOffset = 0;
-            lpgData = lpgBuffer;
-            lpgBuffer = '\0';
-            lpgReceive = true;
-        } else {
-            lpgData = '\0';
-            lpgReceive = false;
-        }
-        return;
-    }
-
-    if (width > 3000 && width < 5000) {
-        lpgBuffer |= 1 << lpgOffset;
-        lpgOffset++;
-    } else {
-        lpgBuffer |= 0 << lpgOffset;
-        lpgOffset++;
-    }
-
-}
 
 void loop() {
-//    lpg.listener();
-//    if (lpg.isReceive()) {
-//        Serial.println();
-//        Serial.println(lpg.getData(), BIN);
-//    }
-//
-    if (lpgReceive) {
+
+    if (lpg_isReceive) {
         Serial.println();
-        Serial.println(lpgData, BIN);
+        Serial.println(lpg_recData, BIN);
         Serial.print("13 bit is: ");
-        Serial.println(bitRead(lpgData, 13));
+        Serial.println(bitRead(lpg_recData, 13));
 
     }
-
-
 }
