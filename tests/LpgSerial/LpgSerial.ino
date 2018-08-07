@@ -9,12 +9,43 @@
  * Two of them needs to provide power supply for switch,
  * other two needs to  provide data and button press sensing.
  *
- * Data signal wire will have some voltage drop over time cycle,
- * when you find this wire run this script with enabled (uncomment) <LPG_TIME_SENS> to determinate data input.
+ * Data signal wire will have some voltage drop over time cycle (max voltage needs to be 5V),
+ * when you find this wire run this script with enabled (uncomment) <LPG_TIME_SENS> to
+ * determinate data pulse time size.
+ *
+ * Pulse sizes need to be two types (one for logic "1" and one for logic "0").
+ * Define size only for "logic 1" pulse in maximum tolerance.
+ *
+ *  Example:
+ *
+        0
+        0
+        3982 // logic 1
+        1993 // logic 0
+        1993
+        1993
+        1994
+        3978 // logic 1
+        1993
+        1993
+        3978
+        1994
+        1993
+        1995
+        3979 // logic 1
+        3978 // logic 1
+        0
+        0
+        0
+        ...
+ *
+ *     Since logic 0 have maximum pulse time of ~2000
+ *     for logic 1 pulse time will be from 3500 to 4500
  *
  */
 
 //#define LPG_TIME_SENS           // Uncomment to see pulses width in microseconds
+
 //
 // Basic settings
 #ifndef LPG_INPUT
@@ -27,10 +58,10 @@
 #define LPG_BITS 13             // Bits to count
 #endif
 #ifndef LPG_BYTE_HIGH_MIN
-#define LPG_BYTE_HIGH_MIN 3000  // Minimum starting time for HIGH state (1 bit)
+#define LPG_BYTE_HIGH_MIN 3500  // Minimum starting time for HIGH state (1 bit)
 #endif
 #ifndef LPG_BYTE_HIGH_MAX
-#define LPG_BYTE_HIGH_MAX 5000  // Maximum starting time for HIGH state (1 bit)
+#define LPG_BYTE_HIGH_MAX 4500  // Maximum starting time for HIGH state (1 bit)
 #endif
 #ifndef LPG_BAUD_RATE
 #define LPG_BAUD_RATE 180       // Baud rate of serial2
