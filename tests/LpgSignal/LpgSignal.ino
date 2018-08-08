@@ -44,6 +44,23 @@ void doEnd(){
 }
 //
 // Simulation loop
+// Example:
+//3982 // logic 1
+//1993 // logic 0
+//1993
+//1993
+//1994
+//3978 // logic 1
+//1993
+//1993
+//3978
+//1994
+//1993
+//1995
+//3979 // logic 1
+//3978 // logic 1
+//...
+//*
 void loop() {
     delay(100);
     Serial.println("LPG ping start 10000100001011");
