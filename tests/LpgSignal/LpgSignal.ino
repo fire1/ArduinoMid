@@ -133,5 +133,5 @@ void loop() {
     doB1();
     doEnd();
     Serial.println("LPG ping wait 1600ms");
-
+    delay(1600);
 }

@@ -77,9 +77,6 @@ volatile unsigned long lpgPulseTime;
 volatile uint16_t lpgDataBuffer;
 volatile uint8_t lpgDataOffset = 0;
 
-#ifdef LPG_TIME_SENS
-volatile unsigned long dumper[14];
-#endif
 
 //
 // Reads signals from communication
@@ -132,14 +129,27 @@ private:
     uint16_t dataContainer[2];
 
     void saveData() {
+        if (dataOffset > 1) {
+            dataOffset = 0;
+            isReceive = true;
+        }
         if (lpgDataOffset >= LPG_BITS && lpgDataBuffer > 0) {
             dataContainer[dataOffset] = lpgDataBuffer;
             dataOffset++;
             lpgDataBuffer = '\0'; // clear used buffer
-            if (dataOffset > 1) {
-                dataOffset = 0;
-            }
-            isReceive = true;
+
+        }
+    }
+
+    boolean isOk() {
+        return bitRead(getData(0), 13) && bitRead(getData(1), 13) && bitRead(getData(0), 0) && bitRead(getData(1), 0);
+    }
+
+    void verify() {
+        if (!isOk()) {
+            lpgDataOffset = 0;
+            lpgDataBuffer = 0;
+            isReceive = false;
         }
     }
 
@@ -159,8 +169,8 @@ public:
         // Save captured data
         saveData();
 
-        if (isReceive) {
-
+        if (isAvalible()) {
+            verify();
         }
 
     }
@@ -192,7 +202,7 @@ void loop() {
 
     lpg.listener();
 
-    if (loopCounter % 500 == 0) {
+    if (loopCounter % 1000 == 0) {
         Serial.print(" Loop offset ");
         Serial.print(loopCounter);
         if (lpg.isAvalible()) {
@@ -201,8 +211,8 @@ void loop() {
             Serial.print(lpg.getData(0), BIN);
             Serial.print(" : ");
             Serial.print(lpg.getData(1), BIN);
-            Serial.print(" && bit 13 is: ");
-            Serial.println(bitRead(lpg.getData(1), 13));
+            Serial.print(" && bit 4 is: ");
+            Serial.println(bitRead(lpg.getData(1), 4));
 
 #ifdef LPG_TIME_SENS
             for (int i = 0; i < 14; ++i) {
