@@ -20,7 +20,7 @@ const char CMD_SPR_EOL = '\n';
  */
 class CmdSerial : public EepRom {
 
-
+    boolean cmdUse = false;
     CarSens *car;
 //    EepRom *eep;
     WhlSens *whl;
@@ -440,6 +440,7 @@ public:
 
 
                 if (commandOutput) {
+                    cmdUse = true;
                     //
                     // Show command information to human
                     Serial.println();
@@ -449,29 +450,14 @@ public:
                     Serial.println();
                 }
             }
-/*
-            srlStrName = Serial.readStringUntil('*');
-            // ************************************************************
-            // Debug partition
-            if (srlStrName == F("dbg")) {
 
-#ifdef DEBUG
-                String tempo = Serial.readStringUntil('=');
-                if (tempo == F("min")) {
-//                    if (amp->isMin()) {
-//                        //
-//                        // Show command information to human
-//                        Serial.println(srlOutputs);
-//                    }
-                }
-
-#else
-                Serial.println(F("Debug functionality is disabled! "));
-#endif
+            //
+            // USB Power charging option
+            // Disable serial pins after a minute of un use
+            if (millis() > MILLIS_PER_MN  && !cmdUse) {
+                analogWrite(0, 0);
+                analogWrite(1, 0);
             }
-
-            */
-
 
 
         }
