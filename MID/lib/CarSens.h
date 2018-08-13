@@ -70,7 +70,7 @@
 // TODO lower value to save space in EepRom (120*206.45 = 24774)
 // Distance correction
 #define DST_CORRECTION 120 // 249402,  24775 / 24776.6 /24763.0 v1.6 // v1.4 30800.00  //  15383.29  //   15385
-const uint8_t DST_MUL_COR = 206;
+const uint8_t DST_MUL_COR = 207;
 
 //
 #define TRS_CORRECTION  0 // 0.064444 a proximity  6(~6)%
