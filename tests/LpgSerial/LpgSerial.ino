@@ -1,6 +1,6 @@
 
 #include <Arduino.h>
-
+#include <EnableInterrupt.h>
 
 /**
  *  ArduinoMid tutorial to providing LPG switch signal.
@@ -49,115 +49,139 @@
 //
 // Basic settings
 #ifndef LPG_INPUT
-#define LPG_INPUT 17            // Input pin
+#define LPG_INPUT 15            // 15/17 Input pin
 #endif
 #ifndef LPG_TIMEOUT
-#define LPG_TIMEOUT  14000      // Timeout between data signals
+#define LPG_TIMEOUT  10000     // Timeout between data signals
 #endif
 #ifndef LPG_BITS
 #define LPG_BITS 13             // Bits to count
 #endif
-#ifndef LPG_BYTE_HIGH_MIN
-#define LPG_BYTE_HIGH_MIN 3500  // Minimum starting time for HIGH state (1 bit)
+#ifndef LPG_BYTE_B0_MIN
+#define LPG_BYTE_B0_MIN 1900  // Minimum starting time for HIGH state (1 bit)
 #endif
-#ifndef LPG_BYTE_HIGH_MAX
-#define LPG_BYTE_HIGH_MAX 4500  // Maximum starting time for HIGH state (1 bit)
+#ifndef LPG_BYTE_B0_MAX
+#define LPG_BYTE_B0_MAX 2200  // Minimum starting time for HIGH state (1 bit)
+#endif
+#ifndef LPG_BYTE_B1_MIN
+#define LPG_BYTE_B1_MIN 3900  // Maximum starting time for HIGH state (1 bit)
+#endif
+#ifndef LPG_BYTE_B1_MAX
+#define LPG_BYTE_B1_MAX 4200  // Maximum starting time for HIGH state (1 bit)
 #endif
 #ifndef LPG_BAUD_RATE
 #define LPG_BAUD_RATE 180       // Baud rate of serial2
 #endif
 
 
-
-
-//
-// Public vars used:
-bool lpg_isReceive;
-uint8_t lpg_dataOffset;
-uint32_t lpg_dataBuffer, lpg_recData;
-
-
-/**
- * Capturing event
-*/
-void serialEvent2() {
-
-    if (Serial2.available()) {
-        uint16_t width = pulseIn(LPG_INPUT, HIGH, LPG_TIMEOUT);
-
-#ifdef LPG_TIME_SENS
-        Serial.println(width);
-        return;
-#endif
-        if (width == 0) {
-            if (lpg_dataBuffer) {
-                lpg_dataOffset = 0;
-                lpg_recData = lpg_dataBuffer;
-                lpg_dataBuffer = '\0';
-                lpg_isReceive = true;
-            } else {
-                lpg_isReceive = false;
-            }
-            return;
-        }
-
-        if (width > LPG_BYTE_HIGH_MIN && width < LPG_BYTE_HIGH_MAX) {
-            lpg_dataBuffer |= 1 << lpg_dataOffset;
-            lpg_dataOffset++;
-        } else {
-            lpg_dataBuffer |= 0 << lpg_dataOffset;
-            lpg_dataOffset++;
-        }
-    }
-}
-
-
 class LpgSens {
+
+
+private:
+
 
 public:
 
 
-    void begin() { Serial2.begin(LPG_BAUD_RATE, SERIAL_7N2); }
+    void begin() {
+//        Serial2.begin(1250);
 
-    boolean isReceive() {
-        return lpg_isReceive;
     }
 
-    uint32_t getData() {
-        return lpg_recData;
+    void listener() {
+
     }
-
-
 };
 
 LpgSens lpg;
+
+
+volatile unsigned long LpgPulseTime;
+volatile uint8_t lpgDataOffset = 0;
+
+uint32_t lpgDataBuffer;
+volatile unsigned long dumper[14];
+
+void echoPinISR() {
+    static unsigned long startTime;
+
+    if (digitalRead(LPG_INPUT)) // Gone HIGH
+        startTime = micros();
+    else {  // Gone LOW
+
+
+        LpgPulseTime = micros() - startTime;
+        if (LpgPulseTime > LPG_TIMEOUT) {
+            lpgDataBuffer = '\0';
+            lpgDataOffset = 0;
+            LpgPulseTime = 0;
+            return;
+        }
+//        lpgDataOffset++;
+        if (lpgDataOffset > 13) {
+            lpgDataBuffer = '\0';
+            lpgDataOffset = 0;
+        }
+
+        if (LpgPulseTime > LPG_BYTE_B1_MIN && LpgPulseTime < LPG_BYTE_B1_MAX) {
+            lpgDataBuffer |= 1 << lpgDataOffset;
+            lpgDataOffset++;
+        } else if (LpgPulseTime > LPG_BYTE_B0_MIN && LpgPulseTime <= LPG_BYTE_B0_MAX) {
+            lpgDataBuffer |= 0 << lpgDataOffset;
+            lpgDataOffset++;
+        }
+
+//        dumper[lpgDataOffset] = micros() - startTime;
+//        lpgDataOffset++;
+//        if (lpgDataOffset > 14) {
+//            lpgDataOffset = 0;
+//        }
+    }
+
+
+}
 
 
 //
 // Output
 void setup() {
     Serial.begin(115200);
-    lpg.begin();
+//    lpg.begin();
+//    attachInterrupt(digitalPinToInterrupt(18), echoPinISR, CHANGE);
+    enableInterrupt(LPG_INPUT, echoPinISR, CHANGE);
 }
+
 
 unsigned long loopCounter;
+
 void loop() {
 
+    lpg.listener();
+
     if (loopCounter % 500 == 0) {
-        Serial.print("Loop offset ");
+        Serial.print(" Loop offset ");
         Serial.print(loopCounter);
-        Serial.println();
-    }
+        if (LpgPulseTime) {
+            Serial.print(" / ");
+            Serial.print(LpgPulseTime);
+            Serial.print(" / ");
+            Serial.print(lpgDataBuffer, BIN);
+
+//            for (int i = 0; i < 14; ++i) {
+//                Serial.print(" / ");
+//                Serial.print(dumper[i]);
+//                dumper[i] = '\0';
+//            }
+
+            Serial.print(" && bit 13 is: ");
+            Serial.println(bitRead(lpgDataBuffer, 13));
+        }
 
 
-    if (lpg_isReceive) {
-        //
-        // NOTE: original send 10000100100011 will be inverted in receive
         Serial.println();
-        Serial.print(" Data output ");
-        Serial.println(lpg_recData, BIN);
-        Serial.print(" && bit 13 is: ");
-        Serial.println(bitRead(lpg_recData, 13));
     }
     loopCounter++;
+
 }
+
+
