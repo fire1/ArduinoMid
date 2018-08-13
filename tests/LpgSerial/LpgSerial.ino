@@ -160,7 +160,7 @@ public:
 
     }
 
-    boolean isAvalible() {
+    boolean isAvailable() {
         return isReceive;
     }
 
@@ -169,7 +169,7 @@ public:
         // Save captured data
         saveData();
 
-        if (isAvalible()) {
+        if (isAvailable()) {
             verify();
         }
 
@@ -205,7 +205,7 @@ void loop() {
     if (loopCounter % 1000 == 0) {
         Serial.print(" Loop offset ");
         Serial.print(loopCounter);
-        if (lpg.isAvalible()) {
+        if (lpg.isAvailable()) {
 
             Serial.print(" / ");
             Serial.print(lpg.getData(0), BIN);
