@@ -453,7 +453,7 @@ public:
 
             //
             // USB Power charging option
-            // Disable serial pins after a minute of un use
+            // Disable serial pins after a minute of non-use
             if (millis() > MILLIS_PER_MN  && !cmdUse) {
                 analogWrite(0, 0);
                 analogWrite(1, 0);
