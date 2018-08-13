@@ -9,7 +9,7 @@
 #include "CarSens.h"
 
 #ifndef CAR_STT_A1_ALERT
-#define CAR_STT_A1_ALERT 10 // a wait minute
+#define CAR_STT_A1_ALERT 15 // a wait minute last use 10
 #endif
 
 #ifndef CAR_STT_A2_ALERT
@@ -325,7 +325,7 @@ public:
 
 
     boolean isStateAlert(uint8_t &container) {
-        if (container > CAR_STT_A1_ALERT && container < CAR_STT_A2_ALERT && amp->is4Seconds()) {
+        if (container > CAR_STT_A1_ALERT && container < CAR_STT_A2_ALERT && amp->is5Seconds()) {
             container = CAR_STT_A2_ALERT;
             return true;
         }
