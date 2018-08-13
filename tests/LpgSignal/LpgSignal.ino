@@ -98,4 +98,40 @@ void loop() {
     doEnd();
     Serial.println("LPG ping wait 1600ms");
     delay(1600);
+
+    Serial.println("LPG ping start 10000010001011");
+    doB1();
+    doB0();
+    doB0();
+    doB0();
+    doB1();
+    doB0();
+    doB0();
+    doB0();
+    doB0();
+    doB0();
+    doB1();
+    doB0();
+    doB1();
+    doB1();
+    doEnd();
+    Serial.println("LPG ping wait 16ms 10001000100011");
+    delay(16);
+    doB1();
+    doB0();
+    doB0();
+    doB0();
+    doB1();
+    doB0();
+    doB0();
+    doB0();
+    doB1();
+    doB0();
+    doB0();
+    doB0();
+    doB1();
+    doB1();
+    doEnd();
+    Serial.println("LPG ping wait 1600ms");
+
 }

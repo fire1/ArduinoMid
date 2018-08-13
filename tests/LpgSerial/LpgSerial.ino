@@ -55,7 +55,7 @@
 #define LPG_TIMEOUT  10000     // Timeout between data signals
 #endif
 #ifndef LPG_BITS
-#define LPG_BITS 13             // Bits to count
+#define LPG_BITS 14             // Bits to count
 #endif
 #ifndef LPG_BYTE_B0_MIN
 #define LPG_BYTE_B0_MIN 1900  // Minimum starting time for HIGH state (1 bit)
@@ -73,82 +73,116 @@
 #define LPG_BAUD_RATE 180       // Baud rate of serial2
 #endif
 
-
-class LpgSens {
-
-
-private:
-
-
-public:
-
-
-    void begin() {
-//        Serial2.begin(1250);
-
-    }
-
-    void listener() {
-
-    }
-};
-
-LpgSens lpg;
-
-
-volatile unsigned long LpgPulseTime;
+volatile unsigned long lpgPulseTime;
+volatile uint16_t lpgDataBuffer;
 volatile uint8_t lpgDataOffset = 0;
 
-uint32_t lpgDataBuffer;
+#ifdef LPG_TIME_SENS
 volatile unsigned long dumper[14];
+#endif
 
-void echoPinISR() {
+//
+// Reads signals from communication
+void echoLpgISR() {
     static unsigned long startTime;
 
     if (digitalRead(LPG_INPUT)) // Gone HIGH
         startTime = micros();
     else {  // Gone LOW
+        lpgPulseTime = micros() - startTime;
 
-
-        LpgPulseTime = micros() - startTime;
-        if (LpgPulseTime > LPG_TIMEOUT) {
+        if (lpgPulseTime >= LPG_TIMEOUT) {
             lpgDataBuffer = '\0';
             lpgDataOffset = 0;
-            LpgPulseTime = 0;
+            lpgPulseTime = 0;
             return;
         }
-//        lpgDataOffset++;
-        if (lpgDataOffset > 13) {
+
+        if (lpgDataOffset >= LPG_BITS) {
             lpgDataBuffer = '\0';
             lpgDataOffset = 0;
         }
 
-        if (LpgPulseTime > LPG_BYTE_B1_MIN && LpgPulseTime < LPG_BYTE_B1_MAX) {
+        if (lpgPulseTime > LPG_BYTE_B1_MIN && lpgPulseTime < LPG_BYTE_B1_MAX) {
             lpgDataBuffer |= 1 << lpgDataOffset;
             lpgDataOffset++;
-        } else if (LpgPulseTime > LPG_BYTE_B0_MIN && LpgPulseTime <= LPG_BYTE_B0_MAX) {
+        } else if (lpgPulseTime > LPG_BYTE_B0_MIN && lpgPulseTime <= LPG_BYTE_B0_MAX) {
             lpgDataBuffer |= 0 << lpgDataOffset;
             lpgDataOffset++;
         }
 
-//        dumper[lpgDataOffset] = micros() - startTime;
-//        lpgDataOffset++;
-//        if (lpgDataOffset > 14) {
-//            lpgDataOffset = 0;
-//        }
+#ifdef LPG_TIME_SENS
+        dumper[lpgDataOffset] = lpgPulseTime;
+        lpgDataOffset++;
+        if (lpgDataOffset >= 14) {
+            lpgDataOffset = 0;
+        }
+
+#endif
+    }
+}
+
+
+class LpgSens {
+
+
+private:
+    boolean isReceive = false;
+    uint8_t dataOffset = 0;
+    uint16_t dataContainer[2];
+
+    void saveData() {
+        if (lpgDataOffset >= LPG_BITS && lpgDataBuffer > 0) {
+            dataContainer[dataOffset] = lpgDataBuffer;
+            dataOffset++;
+            lpgDataBuffer = '\0'; // clear used buffer
+            if (dataOffset > 1) {
+                dataOffset = 0;
+            }
+            isReceive = true;
+        }
     }
 
 
-}
+public:
+    void begin() {
+        enableInterrupt(LPG_INPUT, echoLpgISR, CHANGE);
 
+    }
+
+    boolean isAvalible() {
+        return isReceive;
+    }
+
+    void listener() {
+        //
+        // Save captured data
+        saveData();
+
+        if (isReceive) {
+
+        }
+
+    }
+
+/**
+ *
+ * @param offset
+ * @return
+ */
+    uint16_t getData(uint8_t offset) {
+        return dataContainer[offset];
+    }
+
+};
+
+LpgSens lpg;
 
 //
 // Output
 void setup() {
     Serial.begin(115200);
-//    lpg.begin();
-//    attachInterrupt(digitalPinToInterrupt(18), echoPinISR, CHANGE);
-    enableInterrupt(LPG_INPUT, echoPinISR, CHANGE);
+    lpg.begin();
 }
 
 
@@ -161,20 +195,24 @@ void loop() {
     if (loopCounter % 500 == 0) {
         Serial.print(" Loop offset ");
         Serial.print(loopCounter);
-        if (LpgPulseTime) {
-            Serial.print(" / ");
-            Serial.print(LpgPulseTime);
-            Serial.print(" / ");
-            Serial.print(lpgDataBuffer, BIN);
+        if (lpg.isAvalible()) {
 
-//            for (int i = 0; i < 14; ++i) {
-//                Serial.print(" / ");
-//                Serial.print(dumper[i]);
-//                dumper[i] = '\0';
-//            }
-
+            Serial.print(" / ");
+            Serial.print(lpg.getData(0), BIN);
+            Serial.print(" : ");
+            Serial.print(lpg.getData(1), BIN);
             Serial.print(" && bit 13 is: ");
-            Serial.println(bitRead(lpgDataBuffer, 13));
+            Serial.println(bitRead(lpg.getData(1), 13));
+
+#ifdef LPG_TIME_SENS
+            for (int i = 0; i < 14; ++i) {
+                Serial.print(" / ");
+                Serial.print(dumper[i]);
+                dumper[i] = '\0';
+            }
+#endif
+
+
         }
 
 
