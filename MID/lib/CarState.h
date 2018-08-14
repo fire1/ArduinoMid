@@ -40,6 +40,7 @@ struct Diagnostic {
     uint8_t la2 = 0;    // 2 incandescent lamps
     uint8_t wnt = 0;   // Winter warning
     uint8_t ovh = 0;   // Overheating warning
+    uint8_t blg = CAR_STT_A1_ALERT - 5;   // Bad break light
 };
 
 /**
@@ -57,7 +58,7 @@ private:
     boolean alertOverheat = false;
     boolean alertState = false;
     boolean initAlertState = false;
-    uint8_t pinOil, pinCnt, pinWin, pinBrk, pinVol, code = 0b1000000;
+    uint8_t code = 0b1000000;
     uint8_t cursorMenu = 0;
 
     int lastVoltageValue = 0;
@@ -70,12 +71,12 @@ private:
  */
     boolean isBadVoltage(void) {
 
-        int readingVoltage = analogRead(pinVol);
+        int readingVoltage = analogRead(STT_VLT_PIN);
         uint8_t compareVoltage = uint8_t(readingVoltage / 10);
         //
         // Voltage too high
-        if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage &&
-            readingVoltage > 970) { // are maximum 13.8V-14.2V
+        // are maximum 13.8V-14.2V
+        if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage && readingVoltage > 970) {
             return true;
         }
         //
@@ -236,6 +237,10 @@ public:
             lcd->warnOverheat();
             car->passMelodyClass()->play(7);
             setStateShowed(result.ovh);
+        } else if (isStateDisplay(result.blg)) {
+            lcd->warnLightsBack();
+            car->passMelodyClass()->play(7);
+            setStateShowed(result.blg);
         } else {
 #if defined(DEBUG) && defined(DEBUG_STATE)
             Serial.print(F("Restoring screen from STATE: "));
@@ -271,20 +276,21 @@ public:
  * @param pinB
  * @param pinV
  */
-    void begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV);
+    void begin();
 
     void listener() {
         if (amp->isSecond()) {
 
-            sensorDigital(pinOil, result.oil);
-            sensorDigital(pinCnt, result.cnt);
-            sensorDigital(pinBrk, result.brk);
-            sensorDigital(pinWin, result.win);
+            sensorDigital(STT_OIL_PIN, result.oil);
+            sensorDigital(STT_CLN_PIN, result.cnt);
+            sensorDigital(STT_BRK_PIN, result.brk);
+            sensorDigital(STT_WNW_PIN, result.win);
 
 
             sensorCustom(isWinter(), result.wnt);
             sensorCustom(isOverhead(), result.ovh);
             sensorCustom(isBadVoltage(), result.vol);
+            sensorCustom(isBadBLights(), result.blg);
             sensorCustom(workDistance > CAR_STT_TM_BELT, result.blt);
         }
 
@@ -313,6 +319,7 @@ public:
             result.la2 = 0;
 //            result.wnt = 0;
             result.ovh = 0;
+            result.blg = CAR_STT_A1_ALERT - 5;
             initAlertState = false;
         }
         //
@@ -339,7 +346,7 @@ public:
 
         if (isStateAlert(result.oil) || isStateAlert(result.brk) || isStateAlert(result.cnt) ||
             isStateAlert(result.win) || isStateAlert(result.vol) || isStateAlert(result.wnt) ||
-            isStateAlert(result.ovh)) {
+            isStateAlert(result.ovh) || isStateAlert(result.blg)) {
             alertState = 1;
             if (!initAlertState) {
                 cursorMenu = MidCursorMenu;
@@ -383,6 +390,13 @@ public:
         return false;
     }
 
+    boolean isBadBLights() {
+        if (analogRead(STT_UL2_PIN) < 500 && digitalRead(BRK_LGH_PIN)) {
+            return true;
+        }
+        return false;
+    }
+
     Diagnostic getResult();
 };
 
@@ -394,23 +408,18 @@ public:
  * @param pinW
  * @param pinB
  * @param pinV
+ * @param pinL
  */
-void CarState::begin(uint8_t pinO, uint8_t pinC, uint8_t pinW, uint8_t pinB, uint8_t pinV) {
+void CarState::begin() {
     //
     // Sets mode
-    pinMode(pinO, INPUT_PULLUP);
-    pinMode(pinC, INPUT_PULLUP);
-    pinMode(pinW, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
+    pinMode(STT_OIL_PIN, INPUT_PULLUP);
+    pinMode(STT_CLN_PIN, INPUT_PULLUP);
+    pinMode(STT_WNW_PIN, INPUT_PULLUP);
+    pinMode(STT_BRK_PIN, INPUT_PULLUP);
+    pinMode(BRK_LGH_PIN, INPUT_PULLUP);
 
-
-    pinMode(pinV, INPUT);
-
-    pinOil = pinO;
-    pinCnt = pinC;
-    pinWin = pinW;
-    pinBrk = pinB;
-    pinVol = pinV;
+    pinMode(STT_VLT_PIN, INPUT);
 
 
 }
@@ -429,7 +438,7 @@ void CarState::setWorkState(float distance) {
  * @return boolean
  */
 boolean CarState::getLiveOil() {
-    return (boolean) digitalRead(pinOil);
+    return (boolean) digitalRead(STT_OIL_PIN);
 }
 
 /**
@@ -437,7 +446,7 @@ boolean CarState::getLiveOil() {
  * @return boolean
  */
 boolean CarState::getLiveCnt() {
-    return (boolean) digitalRead(pinCnt);
+    return (boolean) digitalRead(STT_CLN_PIN);
 }
 
 /**
@@ -445,7 +454,7 @@ boolean CarState::getLiveCnt() {
  * @return boolean
  */
 boolean CarState::getLiveWin() {
-    return (boolean) digitalRead(pinWin);
+    return (boolean) digitalRead(STT_WNW_PIN);
 }
 
 /**
@@ -453,7 +462,7 @@ boolean CarState::getLiveWin() {
  * @return boolean
  */
 boolean CarState::getLiveBrk() {
-    return (boolean) digitalRead(pinBrk);
+    return (boolean) digitalRead(STT_BRK_PIN);
 }
 
 /**
@@ -469,7 +478,7 @@ boolean CarState::getLiveVol() {
  * @return integer
  */
 float CarState::getVoltage(void) {
-    return float(analogRead(pinVol)) / 68.80;
+    return float(analogRead(STT_VLT_PIN)) / 68.60;
 }
 
 /**

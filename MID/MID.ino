@@ -92,7 +92,7 @@ void setup() {
     carSens.setupTemperature(TMP_PIN_OUT);
     //
     //  Setup car state pins to detect
-    carStat.begin(STT_OIL_PIN, STT_CLN_PIN, STT_WNW_PIN, STT_BRK_PIN, STT_VLT_PIN);
+    carStat.begin();
     //
     //
     lcdMenu.begin();
@@ -125,7 +125,7 @@ void setup() {
     //
     // Light lamps test
     pinMode(STT_UL1_PIN, INPUT_PULLUP); // HIGH is ok
-    pinMode(STT_UL2_PIN, INPUT_PULLUP); // LOW is bad
+
 
 }
 
