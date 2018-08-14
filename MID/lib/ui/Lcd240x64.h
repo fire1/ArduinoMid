@@ -437,7 +437,7 @@ public:
 
     void warnLightsFront() override {
         if (amp->isRfr()) { //isRfr
-            lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
+            lcd->drawXBMP(0, 0, 85, 64, bulb_replacement_85x64_bits);
 
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(58));
@@ -449,7 +449,7 @@ public:
 
     void warnLightsBack() override {
         if (amp->isRfr()) { //isRfr
-            lcd->drawXBMP(0, 0, 85, 64, blub_replacment_85x64_bits);
+            lcd->drawXBMP(0, 0, 85, 64, bulb_replacement_85x64_bits);
 
             lcd->setCursor(85, LCD_ROW_1);
             lcd->print(this->getMsg(58));

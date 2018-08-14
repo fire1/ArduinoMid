@@ -40,7 +40,7 @@ struct Diagnostic {
     uint8_t la2 = 0;    // 2 incandescent lamps
     uint8_t wnt = 0;   // Winter warning
     uint8_t ovh = 0;   // Overheating warning
-    uint8_t blg = CAR_STT_A1_ALERT - 5;   // Bad break light
+    uint8_t blg = 0;   // Bad break light
 };
 
 /**
@@ -56,6 +56,7 @@ private:
 
     boolean alertWinter = false;
     boolean alertOverheat = false;
+    boolean alertBrkLgBad = false;
     boolean alertState = false;
     boolean initAlertState = false;
     uint8_t code = 0b1000000;
@@ -319,7 +320,7 @@ public:
             result.la2 = 0;
 //            result.wnt = 0;
             result.ovh = 0;
-            result.blg = CAR_STT_A1_ALERT - 5;
+            result.blg = 0;
             initAlertState = false;
         }
         //
@@ -392,6 +393,10 @@ public:
 
     boolean isBadBLights() {
         if (analogRead(STT_UL2_PIN) < 500 && digitalRead(BRK_LGH_PIN)) {
+            alertBrkLgBad = true;
+            return true;
+        }
+        if (alertBrkLgBad) {
             return true;
         }
         return false;
