@@ -97,7 +97,7 @@ const char msg57[] PROGMEM = "if is necessary add more.";
 const char msg58[] PROGMEM = " BULB BURN OUT ";
 const char msg59[] PROGMEM = "Incandescent malfunction";
 const char msg60[] PROGMEM = "In front lights ";
-const char msg61[] PROGMEM = "In back lights ";
+const char msg61[] PROGMEM = "In break lights ";
 //
 // Warning timing  Belt ware
 const char msg62[] PROGMEM = " WORN TIMING BELT";

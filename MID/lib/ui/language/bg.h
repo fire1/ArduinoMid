@@ -97,7 +97,7 @@ const char msg57[] PROGMEM = "течността за чистачки";
 const char msg58[] PROGMEM = "ИЗГОРЯЛА КРУШКА";
 const char msg59[] PROGMEM = "Неработеща крушка в:";
 const char msg60[] PROGMEM = "Предни светлини";
-const char msg61[] PROGMEM = "Задни светлини ";
+const char msg61[] PROGMEM = "СТОП светлини ";
 //
 // Warning timing  Belt ware
 const char msg62[] PROGMEM = "АНГРЕНАЖЕН РЕМЪК";
