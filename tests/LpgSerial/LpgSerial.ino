@@ -52,26 +52,24 @@
 #define LPG_INPUT 15            // 15/17 Input pin
 #endif
 #ifndef LPG_TIMEOUT
-#define LPG_TIMEOUT  10000     // Timeout between data signals
+#define LPG_TIMEOUT  10000     // Timeout between data signals in micros
 #endif
 #ifndef LPG_BITS
-#define LPG_BITS 14             // Bits to count
+#define LPG_BITS 14             // Bits to capture
 #endif
-#ifndef LPG_BYTE_B0_MIN
-#define LPG_BYTE_B0_MIN 1900  // Minimum starting time for HIGH state (1 bit)
+#ifndef LPG_BYTE_TS
+#define LPG_BYTE_TS 100         // Tolerance micro time +/-
 #endif
-#ifndef LPG_BYTE_B0_MAX
-#define LPG_BYTE_B0_MAX 2200  // Minimum starting time for HIGH state (1 bit)
+#ifndef LPG_BYTE_B0
+#define LPG_BYTE_B0 2000        // HIGH state length for 0 bit
 #endif
-#ifndef LPG_BYTE_B1_MIN
-#define LPG_BYTE_B1_MIN 3900  // Maximum starting time for HIGH state (1 bit)
+#ifndef LPG_BYTE_B1
+#define LPG_BYTE_B1 4000        //  HIGH state length 1 bit
 #endif
-#ifndef LPG_BYTE_B1_MAX
-#define LPG_BYTE_B1_MAX 4200  // Maximum starting time for HIGH state (1 bit)
+#ifndef LPG_PIN_STATE
+#define LPG_PIN_STATE HIGH       //  Pin state to capture
 #endif
-#ifndef LPG_BAUD_RATE
-#define LPG_BAUD_RATE 180       // Baud rate of serial2
-#endif
+
 
 volatile unsigned long lpgPulseTime;
 volatile uint16_t lpgDataBuffer;
@@ -83,9 +81,9 @@ volatile uint8_t lpgDataOffset = 0;
 void echoLpgISR() {
     static unsigned long startTime;
 
-    if (digitalRead(LPG_INPUT)) // Gone HIGH
+    if (digitalRead(LPG_INPUT) == LPG_PIN_STATE) // Listen the state
         startTime = micros();
-    else {  // Gone LOW
+    else {  // Change state
         lpgPulseTime = micros() - startTime;
 
         if (lpgPulseTime >= LPG_TIMEOUT) {
@@ -100,10 +98,10 @@ void echoLpgISR() {
             lpgDataOffset = 0;
         }
 
-        if (lpgPulseTime > LPG_BYTE_B1_MIN && lpgPulseTime < LPG_BYTE_B1_MAX) {
+        if (lpgPulseTime > (LPG_BYTE_B1 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B1 + LPG_BYTE_TS)) {
             lpgDataBuffer |= 1 << lpgDataOffset;
             lpgDataOffset++;
-        } else if (lpgPulseTime > LPG_BYTE_B0_MIN && lpgPulseTime <= LPG_BYTE_B0_MAX) {
+        } else if (lpgPulseTime > (LPG_BYTE_B0 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B0 + LPG_BYTE_TS)) {
             lpgDataBuffer |= 0 << lpgDataOffset;
             lpgDataOffset++;
         }
