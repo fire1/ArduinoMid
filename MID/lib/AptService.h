@@ -150,14 +150,17 @@ protected:
 
         //
         // Initial demo
-        if (millis() < 3000) {
+        if (millis() < 1600) {
             analogWrite(DRL_PWR_PIN, 255);
-            if (amp->isBig() && fadeIDrl < 255) {
-                analogWrite(DRL_PWM_PIN, fadeIDrl);
-                fadeIDrl++;
-            } else if (fadeIDrl > 254) {
-                analogWrite(DRL_PWR_PIN, 0);
+            if (amp->isBig()) {
+                analogWrite(DRL_PWM_PIN, 0);
             }
+            if (amp->isMax()) {
+                analogWrite(DRL_PWM_PIN, 255);
+            }
+        }
+        if (millis() < 2200 & millis() > 1800) {
+            analogWrite(DRL_PWR_PIN, 0);
         }
 
         //
@@ -175,11 +178,11 @@ protected:
                     analogWrite(DRL_PWM_PIN, 230);
                 }
             } else {
-                analogWrite(DRL_PWR_PIN, 255);
-                if (amp->is5Seconds()) {
-                    analogWrite(DRL_PWM_PIN, 255);
-                } else if (amp->isBig())
-                    analogWrite(DRL_PWM_PIN, 0);
+//                analogWrite(DRL_PWR_PIN, 255);
+//                if (amp->is5Seconds()) {
+//                    analogWrite(DRL_PWM_PIN, 255);
+//                } else if (amp->isBig())
+//                    analogWrite(DRL_PWM_PIN, 0);
             }
         }
 
@@ -187,12 +190,11 @@ protected:
         // Flash DRL attention
         if (amp->isSec() && car->isEmgBreak()) {
             analogWrite(DRL_PWR_PIN, 255);
-            if (flashTgl) {
+            if (amp->isBig()) {
                 analogWrite(DRL_PWM_PIN, 0);
-                flashTgl = false;
-            } else {
+            }
+            if (amp->isMax()) {
                 analogWrite(DRL_PWM_PIN, 255);
-                flashTgl = true;
             }
         }
     }

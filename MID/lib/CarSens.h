@@ -1294,7 +1294,8 @@ void CarSens::sensDim() {
             backLightLevel = SCREEN_DEF_LIGHT;
             CUR_DIM_ON = false;
             analogWrite(DSP_ADT_SPL, 255);
-            (TEMPERATURE_WRN_SUN < getTmpOut()) ? analogWrite(DSP_ADT_INV, 255) : analogWrite(DSP_ADT_INV, 0);
+            analogWrite(DSP_ADT_INV, 255);
+//            (TEMPERATURE_WRN_SUN < getTmpOut()) ? analogWrite(DSP_ADT_INV, 255) : analogWrite(DSP_ADT_INV, 0);
         } else {
             //
             // Night light
@@ -1594,6 +1595,8 @@ void CarSens::sensTmp() {
         } else
             CUR_OUT_TMP = temperatureC;
     }
+
+
 
 }
 
