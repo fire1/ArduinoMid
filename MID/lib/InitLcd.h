@@ -93,23 +93,21 @@ Lcd240x62 lcdMenu(u8g2, btnMenu, menuBase, shutDown, aptService);
 
 //
 // Event method set
-void menuChangeEvent(MenuChangeEvent changed) {
+static  void menuChangeEvent(MenuChangeEvent changed) {
     midMenu.menuChanged(changed);
 }
 
 
 
 
-void menuUseEvent(MenuUseEvent used) {
+static  void menuUseEvent(MenuUseEvent used) {
 //    Serial.print(F(" Stage 1 free RAM (menuUseEvent): "));
 //    Serial.println(getFreeRam());
     usedMenu.used = used.item.getName();
-
-#if SCREEN != 162
-
 //    Serial.print(F("Sort key menu: "));
 //    Serial.println((uint8_t)used.item.getBack()->getShortkey());
 
+#if SCREEN == 24064 //bug
     usedMenu.back = used.item.getBack()->getName();
     usedMenu.last = used.item.getAfter()->getAfter()->getName();
     usedMenu.down = used.item.getRight()->getName();
