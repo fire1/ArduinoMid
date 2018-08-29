@@ -364,9 +364,17 @@ public:
                 //
                 // Commands
                 if (srlStrName == F("cmd")) {
-                    int cmd = (int) Serial.readStringUntil('\n').toInt();
-                    if (cmd == 1001) {
-                        isAndroidConnected = true;
+                    isAndroidConnected = true;
+                    String cmd = Serial.readStringUntil('\n');
+                    cmd.trim();
+                    commandOutput = false;
+
+                    if (cmd == F("ver")) { // Version
+                        Serial.println(MID_VERSION);
+                    }
+
+                    if (cmd == F("cfl")) { // Consumed fuel
+                        Serial.println(eep->getConsumedFuel());
                     }
                 }
                 //
@@ -383,7 +391,6 @@ public:
                 //
                 // Return back changes
                 setData(savedData);
-
 
 
                 //
@@ -454,7 +461,7 @@ public:
             //
             // USB Power charging option
             // Disable serial pins after a minute of non-use
-            if (millis() > MILLIS_PER_MN  && !cmdUse) {
+            if (millis() > MILLIS_PER_MN && !cmdUse) {
                 analogWrite(0, 0);
                 analogWrite(1, 0);
             }

@@ -183,6 +183,7 @@ void loop() {
 
     if (ampInt.isSecond()) {
 //        melody.playSpeed();
+//        Serial.println(F("Test ... "));
     }
     //
     // Run other service
