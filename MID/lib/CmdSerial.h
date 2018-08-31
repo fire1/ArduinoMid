@@ -376,6 +376,7 @@ public:
                     if (cmd == F("cfl")) { // Consumed fuel
                         Serial.println(eep->getConsumedFuel());
                     }
+
                 }
                 //
                 // Clock
