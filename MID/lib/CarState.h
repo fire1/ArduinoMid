@@ -422,7 +422,7 @@ void CarState::begin() {
     pinMode(STT_CLN_PIN, INPUT_PULLUP);
     pinMode(STT_WNW_PIN, INPUT_PULLUP);
     pinMode(STT_BRK_PIN, INPUT_PULLUP);
-    pinMode(BRK_LGH_PIN, INPUT_PULLUP);
+    pinMode(STT_UL2_PIN, INPUT_PULLUP);
 
     pinMode(STT_VLT_PIN, INPUT);
 
