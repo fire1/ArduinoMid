@@ -392,13 +392,14 @@ public:
     }
 
     boolean isBadBLights() {
+        if (alertBrkLgBad) {
+            return true;
+        }
         if (analogRead(STT_UL2_PIN) < 500 && digitalRead(BRK_LGH_PIN)) {
             alertBrkLgBad = true;
             return true;
         }
-        if (alertBrkLgBad) {
-            return true;
-        }
+
         return false;
     }
 
