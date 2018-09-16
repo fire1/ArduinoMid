@@ -12,7 +12,7 @@ This project is rebuild of on-board computer based on original interface connect
 
 # [Reference Manual / Homepage ](https://github.com/fire1/ArduinoMid/wiki)
 
-## Managing application :
+## Official managing application :
 [![ArduinoMid](https://vignette.wikia.nocookie.net/hayday/images/b/b7/Google_Play_Button.png/revision/latest/scale-to-width-down/640?cb=20180807092019)](https://play.google.com/store/apps/details?id=eu.fire1.arduinomid)
 
 
