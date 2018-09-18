@@ -86,7 +86,7 @@ const uint8_t DIM_PIN_VAL = A10;    //  Plug:7  [dva + 50uf ]     Display back-l
 //      -40C / 100700
 //      30C  / 2238
 //      90C  / 177
-const uint8_t TMP_PIN_OUT = A8;     // Plug:3     [+5v] [150R]   Front temperature sensor
+const uint8_t TMP_PIN_OUT = A8;     // Plug:3     [+5v] [20k]   Front temperature sensor
 
 #if SCREEN == 162 || !defined(SCREEN)
 //
@@ -332,7 +332,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #endif
 
 #ifndef BATTERY_LOW_VOLT
-#define BATTERY_LOW_VOLT 850
+#define BATTERY_LOW_VOLT 880
 #endif
 
 #ifndef BATTERY_HIGH_VOLT

@@ -20,6 +20,8 @@ const char CMD_SPR_EOL = '\n';
  */
 class CmdSerial : public EepRom {
 
+    
+
     boolean cmdUse = false;
     CarSens *car;
 //    EepRom *eep;
@@ -154,7 +156,7 @@ public:
                 if (srlStrName == F("help")) {
                     commandOutput = false;
                     Serial.println();
-                    Serial.println(F("=============================================================="));
+                    Serial.println(F("===================================="));
                     Serial.println(F(" HELP / General command information"));
                     Serial.println();
                     Serial.println(F(".:: SET NEW VALUES :::::::::::::::::."));
@@ -183,7 +185,7 @@ public:
                     setOutputHelpCMD(F("tf3=<float>"), F("Sets consumed fuel for  Trip 3 "), savedData.trip_c.fuel);
                     setOutputHelpCMD(F("td3=<float>"), F("Sets distance travel for  Trip 3 "), savedData.trip_c.fuel);
                     Serial.println();
-                    Serial.println(F("=============================================================="));
+                    Serial.println(F("===================================="));
                 }
 
                 // ************************************************************
@@ -404,7 +406,7 @@ public:
 
                         commandOutput = false;
                         Serial.println();
-                        Serial.println(F("=============================================================="));
+                        Serial.println(F("===================================="));
                         Serial.println(F(" DEBUG HELP / Available dump offsets (dbg=<NUM>) "));
                         Serial.println();
                         setOutputHelpDBG(DBG_SR_VSS, F("VSS Vehicle Speed Sensor "));
@@ -431,7 +433,7 @@ public:
                         setOutputHelpDBG(DBG_SR_SAL, F("Vehicle speed alarm"));
                         setOutputHelpDBG(DBG_SR_LPG, F("LPG serial communication"));
                         Serial.println();
-                        Serial.println(F("=============================================================="));
+                        Serial.println(F("===================================="));
 
                     } else if (cmd == F("stop")) {
                         srlOutputs = F("Debugging offset \t <");
@@ -452,9 +454,9 @@ public:
                     //
                     // Show command information to human
                     Serial.println();
-                    Serial.println(F("=============================================================="));
+                    Serial.println(F("===================================="));
                     Serial.println(srlOutputs);
-                    Serial.println(F("=============================================================="));
+                    Serial.println(F("===================================="));
                     Serial.println();
                 }
             }

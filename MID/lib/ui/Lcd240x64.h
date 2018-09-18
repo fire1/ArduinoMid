@@ -649,14 +649,12 @@ protected:
 //    }
 
     void useDefaultMode() {
-
         lcd->enableUTF8Print();
         lcd->setFont(DEFAULT_FONT); // u8g2_font_unifont_t_cyrillic
         lcd->setFontRefHeightExtendedText();
         lcd->setFontDirection(0);
         lcd->setDrawColor(1);
         lcd->setFontPosTop();
-
     }
 
 
