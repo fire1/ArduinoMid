@@ -1526,7 +1526,7 @@ void CarSens::sensTmp() {
 
 //    float average, calculation;
 
-    if (isInitializedLoop || amp->is10Seconds()) {
+    if (isInitializedLoop || amp->is10Seconds()|| cmd(amp, DBG_SR_TM1)) {
         liveValue = (uint16_t) analogRead(pinTmpOut);
         // Cold engine
         if (isInitializedLoop || this->getEngTmp() < 80 && this->getVss() == 0) {
@@ -1539,7 +1539,7 @@ void CarSens::sensTmp() {
     }
 
 
-    if (isInitializedLoop || amp->isMinute() && tmp_outCollection > 0) {
+    if (isInitializedLoop || amp->isMinute() && tmp_outCollection > 0 || cmd(amp, DBG_SR_TM1)) {
 
         //
         // Get more precise average value
@@ -1594,6 +1594,12 @@ void CarSens::sensTmp() {
             CUR_OUT_TMP = temperatureC - (map(CUR_ENT, 80, 95, 0, 40) * 0.1);
         } else
             CUR_OUT_TMP = temperatureC;
+
+
+        if(cmd(amp, DBG_SR_TM1)){
+            dump("Outside Temperature", temperatureC)
+        }
+
     }
 
 
