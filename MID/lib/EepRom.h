@@ -175,7 +175,7 @@ public:
         return container.sens_dst;
     }
 
-    inline float getSensEco(void) {
+    inline float getSensEcu(void) {
         return container.sens_ecu;
     }
 
@@ -188,10 +188,27 @@ public:
     }
 
 /**
+ * Gets saved data from chip
+ * @return
+ */
+    inline float getRawData(uint8_t offset) {
+        return data[offset];
+    }
+
+/**
  *
  */
     inline void setData(SavedData newer) {
         container = newer;
+    }
+
+/**
+ * Sets data value
+ * @param offset
+ * @param value
+ */
+    inline void setRawData(uint8_t offset, float value) {
+        data[offset] = value;
     }
 
 /**
@@ -307,6 +324,67 @@ public:
         return container.total_pec + car->getPec();
     }
 
+    int getDataSize() {
+        return ARRAY_SIZE(data);
+    }
+
+    void pullContainer() {
+
+        data[1] = container.fuel_adt;
+        data[2] = container.fuel_def;
+        data[3] = container.dist_trv;
+        data[4] = container.total_km;
+        // Trip
+        data[5] = container.dist_trp;
+        data[6] = container.time_trp;
+        //
+        // Sens Edit
+        data[7] = container.sens_vss;
+        data[8] = container.sens_rpm;
+        data[9] = container.sens_dst;
+        data[10] = container.sens_ecu;
+        //
+        // Trips record
+        data[11] = container.trip_a.fuel;
+        data[12] = container.trip_a.range;
+        data[13] = container.trip_b.fuel;
+        data[14] = container.trip_b.range;
+        data[15] = container.trip_c.fuel;
+        data[16] = container.trip_c.range;
+        data[17] = container.total_pec;
+    }
+
+    void pushContainer() {
+        container.fuel_adt = data[1];
+        container.fuel_def = data[2];
+        container.dist_trv = data[3];
+        container.total_km = data[4];
+        // Trip
+        container.dist_trp = data[5];
+        container.time_trp = data[6];
+
+        //
+        // Sens Edit
+        container.sens_vss = data[7];
+        container.sens_rpm = data[8];
+        container.sens_dst = data[9];
+        container.sens_ecu = data[10];
+
+        //
+        // Trips record
+        container.trip_a.fuel = data[11];
+        container.trip_a.range = data[12];
+
+        container.trip_b.fuel = data[13];
+        container.trip_b.range = data[14];
+
+        container.trip_c.fuel = data[15];
+        container.trip_c.range = data[16];
+
+        container.total_pec = data[17];
+    }
+
+
 private:
 
 /**
@@ -353,7 +431,6 @@ private:
  * Saves data to EepRom
  */
 void EepRom::saveCurrentData() {
-
     data[1] = container.fuel_adt + car->getAdtFuelCns();
     data[2] = container.fuel_def + car->getDefFuelCns();
     data[3] = container.dist_trv + car->getDst();
@@ -458,7 +535,7 @@ void EepRom::load() {
 
     float eGetValue = 0;
     int eLocation = 0;
-    volatile uint8_t i;
+    uint8_t i;
     for (i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
 #ifdef DEBUG
         if (cmdLive(DBG_SR_EPR))
@@ -475,37 +552,11 @@ void EepRom::load() {
 #endif
         eLocation = eLocation + sizeof(eGetValue);
         data[i] = eGetValue;
-        delay(2);
+//        Serial.println(eGetValue, 2);
     }
 
-    container.fuel_adt = data[1];
-    container.fuel_def = data[2];
-    container.dist_trv = data[3];
-    container.total_km = data[4];
-    // Trip
-    container.dist_trp = data[5];
-    container.time_trp = data[6];
 
-    //
-    // Sens Edit
-    container.sens_vss = data[7];
-    container.sens_rpm = data[8];
-    container.sens_dst = data[9];
-    container.sens_ecu = data[10];
-
-    //
-    // Trips record
-    container.trip_a.fuel = data[11];
-    container.trip_a.range = data[12];
-
-    container.trip_b.fuel = data[13];
-    container.trip_b.range = data[14];
-
-    container.trip_c.fuel = data[15];
-    container.trip_c.range = data[16];
-
-    container.total_pec = data[17];
-
+    this->pushContainer();
     this->fixtureTripNan(); // Fix broken not NAN  values
 
 #ifdef DEBUG

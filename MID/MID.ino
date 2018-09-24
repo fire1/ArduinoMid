@@ -54,7 +54,7 @@ void setup() {
     // Debug serial
 #if defined(DEBUG) && defined(SERIAL_BAUD)
     dump_init(SERIAL_BAUD);
-    delay(5);
+    delay(50);
     dump_title("ARDUINO MID");
     dump("Firmware", MID_VERSION);
     dump_txt("Debug mode is enabled... type \"dbg=help\" for dump commands.");
