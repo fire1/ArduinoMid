@@ -16,6 +16,7 @@
 const char CMD_SPR_EOL = '\n';
 
 /**
+ * TODO this class needs to be changed ... since do not work with eepRop
  * Command Serial Prompt
  */
 class CmdSerial : public EepRom {
