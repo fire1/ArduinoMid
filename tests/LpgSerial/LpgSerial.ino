@@ -42,6 +42,15 @@
  *     Since logic 0 have maximum pulse time of ~2000
  *     for logic 1 pulse time will be from 3500 to 4500
  *
+ *
+ *     Test result from europe gas
+ *
+ *      Fuel level one dot
+ *      10011000100001 - LPG is disabled (BNZ only)
+ *      10010100100001 - LPG is active and wait to start
+ *      10010000100001 - Engine is running on LPG
+ *      10001000100001 - LPG consuming
+ *
  */
 
 //#define LPG_TIME_SENS           // Uncomment to see pulses width in microseconds
@@ -173,6 +182,10 @@ public:
 
     }
 
+    void setReceived() {
+        isReceive = false;
+    }
+
 /**
  *
  * @param offset
@@ -186,9 +199,12 @@ public:
 
 LpgSens lpg;
 
+void EngSens_catchRpmHits(){}
+
 //
 // Output
 void setup() {
+    attachInterrupt(digitalPinToInterrupt(3), EngSens_catchRpmHits, HIGH);
     Serial.begin(115200);
     lpg.begin();
 }
@@ -200,33 +216,38 @@ void loop() {
 
     lpg.listener();
 
-    if (loopCounter % 1000 == 0) {
-        Serial.print(" Loop offset ");
-        Serial.print(loopCounter);
-        if (lpg.isAvailable()) {
+//    if (loopCounter % 1000 == 0) {
+    if (lpg.isAvailable()) {
 
-            Serial.print(" / ");
-            Serial.print(lpg.getData(0), BIN);
-            Serial.print(" : ");
-            Serial.print(lpg.getData(1), BIN);
-            Serial.print(" && bit 4 is: ");
-            Serial.println(bitRead(lpg.getData(1), 4));
+        Serial.print(" / ");
+        Serial.print(lpg.getData(0), BIN);
+        Serial.print(" : ");
+        Serial.print(lpg.getData(1), BIN);
+
+        if (bitRead(lpg.getData(1), 8) == 1)
+            Serial.print(" LPG wait / ");
+
+        if (bitRead(lpg.getData(1), 9) == 1 && bitRead(lpg.getData(1), 10) == 1)
+            Serial.print(" BNZ only / ");
+
+        if (bitRead(lpg.getData(1), 9) == 1 && bitRead(lpg.getData(1), 10) == 0)
+            Serial.print(" LPG only / ");
+
+
+        lpg.setReceived();
 
 #ifdef LPG_TIME_SENS
-            for (int i = 0; i < 14; ++i) {
-                Serial.print(" / ");
-                Serial.print(dumper[i]);
-                dumper[i] = '\0';
-            }
+        for (int i = 0; i < 14; ++i) {
+            Serial.print(" / ");
+            Serial.print(dumper[i]);
+            dumper[i] = '\0';
+        }
 #endif
 
-
-        }
-
-
         Serial.println();
+//        }
     }
-    loopCounter++;
+//    loopCounter++;
 
 }
 
