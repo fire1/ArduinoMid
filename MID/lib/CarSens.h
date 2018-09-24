@@ -8,6 +8,7 @@
 #include "AmpTime.h"
 #include "MainFunc.h"
 #include "Melody.h"
+#include <EnableInterrupt.h>
 //#define ECU_SENS_DEBUG
 //
 #ifndef ARDUINO_MID_CAR_SENS_H
@@ -838,7 +839,8 @@ void EngSens_catchEcuHits() {
   */
 void CarSens::setupRpmSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchRpmHits, HIGH);
+//    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchRpmHits, HIGH);
+    enableInterrupt((pinTarget), EngSens_catchRpmHits, HIGH);
 }
 
 /**
@@ -847,7 +849,8 @@ void CarSens::setupRpmSens(uint8_t pinTarget) {
   */
 void CarSens::setupVssSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchVssHits, HIGH);
+//    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchVssHits, HIGH);
+    enableInterrupt((pinTarget), EngSens_catchVssHits, HIGH);
 }
 
 /**
@@ -856,7 +859,8 @@ void CarSens::setupVssSens(uint8_t pinTarget) {
   */
 void CarSens::setupEcuSens(uint8_t pinTarget) {
     pinMode(pinTarget, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
+//    attachInterrupt(digitalPinToInterrupt(pinTarget), EngSens_catchEcuHits, FALLING);
+    enableInterrupt((pinTarget), EngSens_catchEcuHits, FALLING);
 }
 
 /**

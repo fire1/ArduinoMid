@@ -5,269 +5,268 @@
 #ifndef ARDUINO_MID_LPG_SERIAL_H
 #define ARDUINO_MID_LPG_SERIAL_H
 
-#include <Arduino.h>
+
 #include "../MID.h"
 #include "CmdSerial.h"
 #include "../glob.h"
 #include "InitObj.h"
-//
-// Marker for start transmitting
-#ifndef LPG_SERIAL_T_ST
-#define LPG_SERIAL_T_ST 140
-#endif
-//
-// Switching to default fuel
-#ifndef LPG_SERIAL_T_FA
-#define LPG_SERIAL_T_FA 218 // 219
-#endif
-//
-// Switching to additional fuel (LPG)
-#ifndef LPG_SERIAL_T_FBA
-#define LPG_SERIAL_T_FBA 15
-#endif
-//
-// Switching to additional fuel B
-#ifndef LPG_SERIAL_T_FBB
-#define LPG_SERIAL_T_FBB 100
-#endif
+#include "AmpTime.h"
+#include "CarSens.h"
 
 
 #if defined(ADT_FUEL_SYSTEM_SERIAL)
-
+#include <EnableInterrupt.h>
 
 //
 // All buttons up - 18
+
+/**
+ *  ArduinoMid tutorial to providing LPG switch signal.
+ * In order to capture signals from LPG ECU to digital"Switch Unit"
+ * check 4 wires for voltages with multimeter.
+ * Two of them needs to provide power supply for switch,
+ * other two needs to  provide data and button press sensing.
+ *
+ * Data signal wire will have some voltage drop over time cycle (max voltage needs to be 5V),
+ * when you find this wire run this script with enabled (uncomment) <LPG_TIME_SENS> to
+ * determinate data pulse time size.
+ *
+ * Pulse sizes need to be two types (one for logic "1" and one for logic "0").
+ * Define size only for "logic 1" pulse in maximum tolerance.
+ *
+ *  Example:
+ *
+        0
+        0
+        3982 // logic 1
+        1993 // logic 0
+        1993
+        1993
+        1994
+        3978 // logic 1
+        1993
+        1993
+        3978
+        1994
+        1993
+        1995
+        3979 // logic 1
+        3978 // logic 1
+        0
+        0
+        0
+        ...
+ *
+ *     Since logic 0 have maximum pulse time of ~2000
+ *     for logic 1 pulse time will be from 3500 to 4500
+ *
+ *
+ *     Test result from europe gas
+ *
+ *      Fuel level one dot
+ *      10011000100001 - LPG is disabled (BNZ only)
+ *      10010100100001 - LPG is active and wait to start
+ *      10010000100001 - Engine is running on LPG
+ *      10001000100001 - LPG consuming
+ *
+ */
+
+//#define LPG_TIME_SENS           // Uncomment to see pulses width in microseconds
+
+//
+// Basic settings
+#ifndef LPG_INPUT
+#define LPG_INPUT 15            // 15/17 Input pin
+#endif
+#ifndef LPG_TIMEOUT
+#define LPG_TIMEOUT  10000     // Timeout between data signals in micros
+#endif
+#ifndef LPG_BITS
+#define LPG_BITS 14             // Bits to capture
+#endif
+#ifndef LPG_BYTE_TS
+#define LPG_BYTE_TS 100         // Tolerance micro time +/-
+#endif
+#ifndef LPG_BYTE_B0
+#define LPG_BYTE_B0 2000        // HIGH state length for 0 bit
+#endif
+#ifndef LPG_BYTE_B1
+#define LPG_BYTE_B1 4000        //  HIGH state length 1 bit
+#endif
+#ifndef LPG_PIN_STATE
+#define LPG_PIN_STATE HIGH       //  Pin state to capture
+#endif
+
+
+volatile unsigned long lpgPulseTime;
+volatile uint16_t lpgDataBuffer;
+volatile uint8_t lpgDataOffset = 0;
+
+
+//
+// Reads signals from communication
+void echoLpgISR() {
+    static unsigned long startTime;
+
+    if (digitalRead(LPG_INPUT) == LPG_PIN_STATE) // Listen the state
+        startTime = micros();
+    else {  // Change state
+        lpgPulseTime = micros() - startTime;
+
+        if (lpgPulseTime >= LPG_TIMEOUT) {
+            lpgDataBuffer = '\0';
+            lpgDataOffset = 0;
+            lpgPulseTime = 0;
+            return;
+        }
+
+        if (lpgDataOffset >= LPG_BITS) {
+            lpgDataBuffer = '\0';
+            lpgDataOffset = 0;
+        }
+
+        if (lpgPulseTime > (LPG_BYTE_B1 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B1 + LPG_BYTE_TS)) {
+            lpgDataBuffer |= 1 << lpgDataOffset;
+            lpgDataOffset++;
+        } else if (lpgPulseTime > (LPG_BYTE_B0 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B0 + LPG_BYTE_TS)) {
+            lpgDataBuffer |= 0 << lpgDataOffset;
+            lpgDataOffset++;
+        }
+
+#ifdef LPG_TIME_SENS
+        dumper[lpgDataOffset] = lpgPulseTime;
+        lpgDataOffset++;
+        if (lpgDataOffset >= 14) {
+            lpgDataOffset = 0;
+        }
+
+#endif
+    }
+}
+
+
 class LpgSerial : public LpgFuel {
+
+
+private:
 
     AmpTime *amp;
     CarSens *car;
-private:
+
     boolean lpgUse = false;
-    uint8_t fuelTankAverage = 0;
-    uint8_t trans;
-    uint8_t history;
-    uint8_t index = 0;
 
-    uint8_t dynamic = 0;
-    uint16_t fuelTankIndex = 0;
-    uint32_t fuelTankCollector = 0;
+    boolean isReceive = false;
+    uint8_t dataOffset = 0;
+    uint16_t dataContainer[2];
 
-    uint8_t data[2] = {};
-
-    //
-    // For V2
-    boolean transferStart = false;
-
-private:
-
-
-
-public:
-    LpgSerial(AmpTime &ampTime, CarSens &carSens) : amp(&ampTime), car(&carSens) {
-
-    }
-
-    void begin(void) {
-        //
-        // Original
-        Serial2.begin(246);//246
-
-//        Serial2.begin(400); // newer version
-
-
-// pin 15
-        //
-        //
-//        Serial3.begin(500); // test 550
-//        digitalWrite(15, LOW);
-
-    }
-
-
-
-    void listener_() {
-
-        if (digitalRead(17) == LOW && !transferStart) {
-            transferStart = true;
+    void saveData() {
+        if (dataOffset > 1) {
+            dataOffset = 0;
+            isReceive = true;
         }
+        if (lpgDataOffset >= LPG_BITS && lpgDataBuffer > 0) {
+            dataContainer[dataOffset] = lpgDataBuffer;
+            dataOffset++;
+            lpgDataBuffer = '\0'; // clear used buffer
 
-
+        }
     }
 
+    boolean isOk() {
+        return bitRead(getData(0), 13) && bitRead(getData(1), 13) && bitRead(getData(0), 0) && bitRead(getData(1), 0);
+    }
 
-    void listener(void) {
+    void verify() {
+        if (!isOk()) {
+            lpgDataOffset = 0;
+            lpgDataBuffer = 0;
+            isReceive = false;
+        }
+    }
 
-//        serialEvent2_test();
-
-        //
-        // Do
-        if (Serial2.available() > 0 && !amp->isSens()) {
-
-
-            if (trans != LPG_SERIAL_T_ST) {
-                history = trans;
-                //
-                // Calculate averages
-                if (fuelTankIndex > 10) {
-                    fuelTankAverage = fuelTankCollector / fuelTankIndex;
-                    fuelTankCollector = 0;
-                    fuelTankIndex = 0;
-                }
-
-            }
-            uint8_t val = (uint8_t) Serial2.read();
-
-#ifdef LOGGER
-            record("LPG val", val);
-#endif
-            if (val == 0 && lpgUse) {
-                val = 100;
-            } else if (val == 0 && !lpgUse) {
-                val = 20;
-            }
-
-            if (val != 255 && val != 99) {
-                data[index] = val;
-                index++;
-            }
-
-
-            // 100 lpg run
-            // 20 bnz
-            // 18 stand by mode
-
-            //from 19 to 18 - lpg
-
-
-            // 19 lpg ??
-            // 108 lpg
-            // 236 lpg
-            captureLpg(108); // 18 full
-            captureLpg(100); // 18 full
-//            captureLpg(18); // 219 none // at free run
-            captureLpg(34); // 218 2 dots
-            captureLpg(47); // 140 1 dots
-            captureLpg(19); // 219 -idle / 218-bnz /  4 dots
-            // 108,34 as lpg
-
-            if (dynamic != 0) {
-                captureLpg(dynamic);
-            }
-
-            // 219 none
-            // 18 none
-            // 20 conflict full lpg
-
-//            captureBnz(18);
-//            captureBnz(20);
-            captureBnz(218);
-            captureBnz(140);// BNZ 1 dot
-            captureBnz(155);// BNZ on the run
-
-
-
-
+    void detection() {
+        if (isAvailable()) {
             //
-            // 218
-            if (data[0] == 20 && history == 20 || data[1] == 20 && history == 20) {
+            // bnz
+            if (bitRead(getData(1), 9) == 1 && bitRead(getData(1), 10) == 1) {
                 if (lpgUse) { // checks for opposite
                     car->passMelodyClass()->play(6);
                 }
                 lpgUse = false;
             }
 
-            history = trans;
-            if (val != 255)
-                trans = val;
-
-#ifdef DEBUG
-            if (cmd(amp, DBG_SR_LPG)) {
-                dump("Data 0", data[0]);
-                dump("Data 1", data[1]);
-                dump("Trans ", trans);
+            //
+            // lpg
+            if (bitRead(getData(1), 9) == 1 && bitRead(getData(1), 10) == 0) {
+                if (!lpgUse) { // checks for opposite
+                    car->passMelodyClass()->play(1);
+                }
+                lpgUse = true;
             }
-#endif
-
-            if (index >= 2) {
-                index = 0;
-                data[0] = 0;
-                data[1] = 0;
-            }
-
-
-
+            setReceived();
         }
+    }
 
+public:
+
+    LpgSerial(AmpTime &ampTime, CarSens &carSens) : amp(&ampTime), car(&carSens) {
 
     }
 
+    void begin()  {
+        enableInterrupt(LPG_INPUT, echoLpgISR, CHANGE);
+
+    }
+
+    boolean isAvailable() {
+        return isReceive;
+    }
+
+    void listener() override{
+        //
+        // Save captured data
+        saveData();
+
+        if (isAvailable()) {
+            verify();
+        }
+
+        detection();
+    }
+
+    void setReceived() {
+        isReceive = false;
+    }
+
+    void setDynamic(){
+
+    }
 /**
  *
- * @param value
+ * @param offset
+ * @return
  */
-    void captureLpg(uint8_t value) {
-        if (car->getRpm() < 800) {
-            return;
-        }
-
-        if (data[0] == value || data[1] == value || history == value) {
-            if (!lpgUse) { // checks for opposite
-                car->passMelodyClass()->play(1);
-#ifdef LOGGER
-                record("LPG  lpg", trans);
-#endif
-            }
-            lpgUse = true;
-        }
+    uint16_t getData(uint8_t offset) {
+        return dataContainer[offset];
     }
 
-/**
- *
- * @param value
- */
-    void captureBnz(uint8_t value) {
-        if (data[0] == value || data[1] == value || history == value) {
-            if (lpgUse) { // checks for opposite
-                car->passMelodyClass()->play(6);
-#ifdef LOGGER
-                record("LPG bnz", trans);
-#endif
-            }
-            lpgUse = false;
-        }
-    }
 
-/**
- * Adds dynamic data to switch
- */
-    void setDynamic() {
-        dynamic = trans;
+    uint8_t getFuelTankLiters() {
+        return 0;
     }
 
     /**
-     *
-     */
+ *
+ */
     uint8_t getCurrentValue() override {
-        return trans;
+        return dataContainer[1];
     }
+
 
     /**
-     * Gets fuel tank level
-     */
-    uint8_t getFuelTankLiters() override {
-
-        if (fuelTankAverage > 140) {
-            return (uint8_t) map(fuelTankAverage, 215, 145, 65, 15);
-        }
-        return (uint8_t) map(fuelTankAverage, 75, 15, 5, 30);
-    }
-
-/**
  *  Is additional fuel active
  */
     boolean isLPG() override {
-//        return (history < 140 && history > 27 || trans < 140 && trans > 27 || lpg == 1) ? true : false;
-
         return lpgUse;
     }
 
@@ -275,11 +274,11 @@ public:
  *  Is default fuel active
  */
     inline boolean isBNZ() override {
-//        return (trans > 140 && trans == history || trans == 27 || stateStart == false || lpg == 2) ? true : false;
         return (!lpgUse) ? true : false;
     }
 
 };
+
 
 #elif defined(LPG_SWTC_PIN)
 

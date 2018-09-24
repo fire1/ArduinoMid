@@ -19,7 +19,7 @@
 
 
 #include <Arduino.h>
-
+#include <EnableInterrupt.h>
 #ifdef EEP_ROM_ADDRESS
 
 #include <Wire.h>
@@ -33,6 +33,7 @@
 #include "MID.h"
 #include "lib/InitObj.h"
 #include "lib/InitLcd.h"
+
 
 //
 // Log file
