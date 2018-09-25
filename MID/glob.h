@@ -27,9 +27,9 @@
 //
 // Global Menu cursor
 
-volatile uint8_t MidCursorMenu = 0;
+volatile uint8_t MidCursorMenu = 0;// Menu index
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
-
+volatile uint8_t forLoopIndex = 0; // Common index for "for" loop
 
 /**
  * LCD  interface

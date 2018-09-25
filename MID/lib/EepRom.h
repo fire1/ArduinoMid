@@ -470,8 +470,8 @@ void EepRom::saveCurrentData() {
     }
 #endif
 
-    for (int i = 1; i < (EEP_ROM_INDEXES + 1); i++) {
-        EEPROM.put(i * sizeof(data[i]), data[i]);
+    for (forLoopIndex = 1; forLoopIndex < (EEP_ROM_INDEXES + 1); forLoopIndex++) {
+        EEPROM.put(forLoopIndex * sizeof(data[forLoopIndex]), data[forLoopIndex]);
     }
 }
 
@@ -535,8 +535,8 @@ void EepRom::load() {
 
     float eGetValue = 0;
     int eLocation = 0;
-    uint8_t i;
-    for (i = 0; i < (EEP_ROM_INDEXES + 1); i++) {
+
+    for (forLoopIndex = 0; forLoopIndex < (EEP_ROM_INDEXES + 1); forLoopIndex++) {
 #ifdef DEBUG
         if (cmdLive(DBG_SR_EPR))
             Serial.println(F("EepRom Restore Value:"));
@@ -551,7 +551,7 @@ void EepRom::load() {
             Serial.println(eGetValue, 2);
 #endif
         eLocation = eLocation + sizeof(eGetValue);
-        data[i] = eGetValue;
+        data[forLoopIndex] = eGetValue;
 //        Serial.println(eGetValue, 2);
     }
 

@@ -415,17 +415,17 @@ public:
 
                     if (cmd == F("get_eep")) { //get EepRom data
 
-                        for (uint8_t i = 1; i < EEP_ROM_INDEXES + 1; ++i) {
-                            Serial.print(eep->getRawData(i));
+                        for (forLoopIndex = 1; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
+                            Serial.print(eep->getRawData(forLoopIndex));
                             Serial.print(',');
                         }
                         Serial.println();
                     }
 
                     if (cmd == F("set_eep")) { // set EepRom data
-                        for (uint8_t i = 0; i <= EEP_ROM_INDEXES + 1; i++) {
+                        for (forLoopIndex = 0; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
                             float data = Serial.readStringUntil(',').toFloat();
-                            eep->setRawData(i, data);
+                            eep->setRawData(forLoopIndex, data);
                             Serial.print(data);
                             Serial.print(",");
                         }
