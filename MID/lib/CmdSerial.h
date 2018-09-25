@@ -376,47 +376,47 @@ public:
                     }
 
                     if (cmd == F("cfl")) { // Consumed fuel
-                        Serial.println(eep->getConsumedFuel());
+                        Serial.println(getConsumedFuel());
                     }
 
                     if (cmd == F("eep_lpg")) { // Consumed LPG fuel
-                        Serial.println(eep->getAdtFuel());
+                        Serial.println(getAdtFuel());
                     }
 
                     if (cmd == F("eep_bnz")) { // Consumed BNZ fuel
-                        Serial.println(eep->getDefFuel());
+                        Serial.println(getDefFuel());
                     }
 
                     if (cmd == F("eep_sens_vss")) { // Correction value for VSS
-                        Serial.println(eep->getSensVss());
+                        Serial.println(getSensVss());
                     }
 
                     if (cmd == F("eep_sens_rpm")) { // Correction value for RPM
-                        Serial.println(eep->getSensRpm());
+                        Serial.println(getSensRpm());
                     }
 
                     if (cmd == F("eep_sens_dst")) { // Correction value for DST
-                        Serial.println(eep->getSensDst());
+                        Serial.println(getSensDst());
                     }
 
                     if (cmd == F("eep_sens_ecu")) { // Correction value for ECU
-                        Serial.println(eep->getSensEcu());
+                        Serial.println(getSensEcu());
                     }
 
                     if (cmd == F("eep_wrk")) { // get work distance
-                        Serial.println(eep->getWorkDistance());
+                        Serial.println(getWorkDistance());
                     }
 
 
                     if (cmd == F("size_eep")) { //size EepRom data
-                        Serial.println(eep->getDataSize());
+                        Serial.println(getDataSize());
                     }
 
 
                     if (cmd == F("get_eep")) { //get EepRom data
-
+                        pushContainer();
                         for (forLoopIndex = 1; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
-                            Serial.print(eep->getRawData(forLoopIndex));
+                            Serial.print(getRawData(forLoopIndex));
                             Serial.print(',');
                         }
                         Serial.println();
@@ -425,7 +425,7 @@ public:
                     if (cmd == F("set_eep")) { // set EepRom data
                         for (forLoopIndex = 0; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
                             float data = Serial.readStringUntil(',').toFloat();
-                            eep->setRawData(forLoopIndex, data);
+                            setRawData(forLoopIndex, data);
                             Serial.print(data);
                             Serial.print(",");
                         }
