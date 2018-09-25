@@ -414,22 +414,23 @@ public:
 
 
                     if (cmd == F("get_eep")) { //get EepRom data
-                        pushContainer();
-                        for (forLoopIndex = 1; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
+                        pullContainer();
+                        for (forLoopIndex = 1; forLoopIndex < EEP_ROM_INDEXES; forLoopIndex++) {
                             Serial.print(getRawData(forLoopIndex));
                             Serial.print(',');
                         }
-                        Serial.println();
+                        Serial.println(forLoopIndex);
                     }
 
                     if (cmd == F("set_eep")) { // set EepRom data
-                        for (forLoopIndex = 0; forLoopIndex < EEP_ROM_INDEXES + 1; forLoopIndex++) {
+                        for (forLoopIndex = 1; forLoopIndex < (EEP_ROM_INDEXES + 1); forLoopIndex++) {
                             float data = Serial.readStringUntil(',').toFloat();
                             setRawData(forLoopIndex, data);
                             Serial.print(data);
                             Serial.print(",");
                         }
-                        Serial.println();
+                        pushContainer();
+                        Serial.println(forLoopIndex);
                     }
 
                 }
