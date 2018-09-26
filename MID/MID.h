@@ -344,7 +344,8 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #define TEMPERATURE_WRN_SUN 22
 #endif
 
-
+//
+// MID version
 #define MID_VERSION "1.6.2"
 
 //
