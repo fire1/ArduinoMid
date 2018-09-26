@@ -22,7 +22,7 @@ const char msg4[] PROGMEM = " Soğutma sıvısı seviyesi: ";
 const char msg5[] PROGMEM = " Cam suyu seviyesi        : ";
 const char msg6[] PROGMEM = " Motor Yağı seviyesi       : ";
 const char msg7[] PROGMEM = "        £ "; // Is fine message
-const char msg8[] PROGMEM = "        @"; // Problem message for liquid
+const char msg8[] PROGMEM = "        ¤"; // Problem message for liquid
 const char msg9[] PROGMEM = " YIPRANMIŞ"; // Problem message for brakes
 const char msg10[] PROGMEM = "SÖNÜK"; // Problem message for lamps
 //

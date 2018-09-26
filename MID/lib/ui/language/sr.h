@@ -24,7 +24,7 @@ const char msg4[] PROGMEM = "Stanje rashladne tecnosti: ";
 const char msg5[] PROGMEM = "Stanje tecnosti za prozore: ";
 const char msg6[] PROGMEM = "Nivo motornog ulja je: ";
 const char msg7[] PROGMEM = "        £ "; // Is fine message
-const char msg8[] PROGMEM = "        @"; // Problem message for liquid
+const char msg8[] PROGMEM = "        ¤"; // Problem message for liquid
 const char msg9[] PROGMEM = "POTROSENE"; // Problem message for brakes
 const char msg10[] PROGMEM = "IZGORILA"; // Problem message for lamps
 //
