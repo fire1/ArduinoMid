@@ -22,7 +22,7 @@ const char msg4[] PROGMEM = "Охладителна течност: ";
 const char msg5[] PROGMEM = "Течност за чистачки: ";
 const char msg6[] PROGMEM = " Ниво моторно масло: ";
 const char msg7[] PROGMEM = "        £ "; // Is fine message
-const char msg8[] PROGMEM = "        @"; // Problem message for liquid
+const char msg8[] PROGMEM = "        ¤"; // Problem message for liquid
 const char msg9[] PROGMEM = "Износени"; // Problem message for brakes
 const char msg10[] PROGMEM = "Изгорели"; // Problem message for lamps
 //
