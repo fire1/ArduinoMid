@@ -177,7 +177,7 @@ public:
         saveData();
 
         if (isAvailable()) {
-            verify();
+//            verify();
         }
 
     }
@@ -204,7 +204,6 @@ void EngSens_catchRpmHits(){}
 //
 // Output
 void setup() {
-    attachInterrupt(digitalPinToInterrupt(3), EngSens_catchRpmHits, HIGH);
     Serial.begin(115200);
     lpg.begin();
 }

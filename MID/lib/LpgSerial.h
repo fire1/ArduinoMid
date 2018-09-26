@@ -136,6 +136,8 @@ private:
                 dump_bin("LPG2:", lpg.getData(1))
             }
 
+//            Serial.println(lpg.getData(0),BIN);
+
             lpg.setReceived();
         }
     }

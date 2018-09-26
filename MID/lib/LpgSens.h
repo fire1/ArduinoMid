@@ -56,6 +56,7 @@
  *      10010000100001 - Engine is running on LPG
  *      10001000100001 - LPG consuming
  *
+ *
  */
 
 //#define LPG_TIME_SENS           // Uncomment to see pulses width in microseconds
@@ -182,7 +183,7 @@ public:
         saveData();
 
         if (isAvailable()) {
-            verify();
+//            verify();
         }
 
     }
