@@ -82,7 +82,7 @@ boolean cmdLive(uint8_t cmd) {
 #define dump_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
 #define dump_dec(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,DEC);}
 #define dump_txt(msg){Serial.println(F(msg)); }
-#define dump_title(msg){Serial.println(F(msg));Serial.println(F("==============================================================")); }
+#define dump_title(msg){Serial.println(F(msg));Serial.println(F("====================================")); }
 //
 
 #endif //ARDUINOMID_DEBUG_H

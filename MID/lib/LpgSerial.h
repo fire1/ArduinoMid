@@ -116,6 +116,7 @@ private:
                     car->passMelodyClass()->play(6);
                 }
                 lpgUse = false;
+                if (cmdLive(DBG_SR_LPG)) dump_txt("BNZ active")
             }
 
             //
@@ -125,7 +126,16 @@ private:
                     car->passMelodyClass()->play(1);
                 }
                 lpgUse = true;
+                if (cmdLive(DBG_SR_LPG)) dump_txt("LPG active")
             }
+
+            //
+            // Debug info
+            if (cmdLive(DBG_SR_LPG)) {
+                dump_bin("LPG1:", lpg.getData(0))
+                dump_bin("LPG2:", lpg.getData(1))
+            }
+
             lpg.setReceived();
         }
     }
@@ -138,6 +148,7 @@ private:
     boolean isSwitchBnz(uint8_t index) {
         return bitRead(lpg.getData(index), 9) == 1 && bitRead(lpg.getData(index), 10) == 1;
     }
+
 /**
  * Comparator for LPG
  * @param index
