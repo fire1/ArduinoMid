@@ -1503,7 +1503,7 @@ private:
  * TODO add icons
  * */
 #ifdef ADT_FUEL_SYSTEM_SERIAL
-        sprintf(char_2, "%02d", lpgCom.getFuelTankLiters());
+        sprintf(char_2, "%02d", lpgCom.getFuelTankLevel());
         lcd->setCursor(LCD_COL_L11, LCD_ROW_3);
         lcd->print(getMsg(96));
         lcd->setCursor(LCD_COL_L23, LCD_ROW_3);

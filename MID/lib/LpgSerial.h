@@ -94,6 +94,9 @@
 #define LPG_PIN_STATE HIGH       //  Pin state to capture
 #endif
 
+
+
+
 /**
  *
  */
@@ -105,7 +108,35 @@ private:
     AmpTime *amp;
     CarSens *car;
     boolean lpgUse = false;
+    uint16_t collectionTankLevel = 0;
+    uint8_t collectionTankIndex = 0;
+    uint8_t tankLevel = 0;
 
+/**
+ * Gets data length
+ * @param index
+ * @return
+ */
+    uint8_t getDataLength(uint8_t index) {
+        uint16_t data = lpg.getData(index);
+        for (forLoopIndex = 0; data; data >>= 1) {
+            forLoopIndex++;
+            if (forLoopIndex > 14)break;
+        }
+        return forLoopIndex;
+    }
+/**
+ * Listen income data for tank level
+ */
+    void ListenTankLevel() {
+        collectionTankLevel += getDataLength(0);
+        collectionTankIndex++;
+        if (collectionTankIndex > 15) {
+            uint8_t level = collectionTankLevel / collectionTankIndex;
+            collectionTankLevel = tankLevel = level;
+            collectionTankIndex = 0;
+        }
+    }
 
     void detection() {
         if (lpg.isAvailable()) {
@@ -128,6 +159,10 @@ private:
                 lpgUse = true;
                 if (cmdLive(DBG_SR_LPG)) dump_txt("LPG active")
             }
+
+            //
+            // Listen fuel tank
+            ListenTankLevel();
 
             //
             // Debug info
@@ -177,8 +212,8 @@ public:
     }
 
 
-    uint8_t getFuelTankLiters() {
-        return 0;
+    uint8_t getFuelTankLevel() {
+        return tankLevel;
     }
 
     /**

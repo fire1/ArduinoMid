@@ -190,7 +190,7 @@ public:
 
     virtual uint8_t getCurrentValue() = 0;
 
-    virtual uint8_t getFuelTankLiters() = 0;
+    virtual uint8_t getFuelTankLevel() = 0;
 };
 
 #endif

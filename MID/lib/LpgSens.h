@@ -67,7 +67,7 @@
 #define LPG_INPUT 15            // 15/17 Input pin
 #endif
 #ifndef LPG_TIMEOUT
-#define LPG_TIMEOUT  10000     // Timeout between data signals in micros
+#define LPG_TIMEOUT  5000     // Timeout between data signals in micros (last 10000)
 #endif
 #ifndef LPG_BITS
 #define LPG_BITS 14             // Bits to capture
