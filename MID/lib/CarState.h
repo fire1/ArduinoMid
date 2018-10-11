@@ -9,7 +9,7 @@
 #include "CarSens.h"
 
 #ifndef CAR_STT_A1_ALERT
-#define CAR_STT_A1_ALERT 13 // a wait minute - default 10 / last 20
+#define CAR_STT_A1_ALERT 14 // a wait minute - default 10 / last 13
 #endif
 
 #ifndef CAR_STT_A2_ALERT
