@@ -280,7 +280,7 @@ public:
     void begin();
 
     void listener() {
-        if (amp->isSecond()) {
+        if (amp->isSecond() && millis() > 3000) {
 
             sensorDigital(STT_OIL_PIN, result.oil);
             sensorDigital(STT_CLN_PIN, result.cnt);
