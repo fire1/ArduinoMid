@@ -14,6 +14,7 @@
 //#define LANG_SR
 //#define LANG_TR
 //#define LANG_DE
+//#define LANG_LT
 
 
 //

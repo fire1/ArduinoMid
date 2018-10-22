@@ -208,6 +208,13 @@ const uint8_t DSP_ADT_SPL = 26; // Logic signal for power supply of back light  
 #include "lib/ui/language/de.h"
 
 #endif
+//
+// Lithuania
+#ifdef LANG_LT
+
+#include "lib/ui/language/lt.h"
+
+#endif
 
 #endif
 
