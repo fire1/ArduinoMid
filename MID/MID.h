@@ -146,7 +146,7 @@ const uint8_t DIM_PIN_OUT = DSP_PIN_LDA;     //              Output dim of playE
 //
 // Additional display pins
 // (Used for external 12V back light)
-const uint8_t DSP_ADT_INV = 42; // Inverting screen back light for day/night        // Display pin 20
+const uint8_t DSP_ADT_INV = 47; // Inverting screen back light for day/night        // Display pin 20
 const uint8_t DSP_ADT_SPL = 26; // Logic signal for power supply of back light      // Use relay
 
 //

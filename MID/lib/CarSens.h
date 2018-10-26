@@ -1299,11 +1299,13 @@ void CarSens::sensDim() {
             CUR_DIM_ON = false;
             analogWrite(DSP_ADT_SPL, 255);
             analogWrite(DSP_ADT_INV, 255);
+            analogWrite(42, 255); // TODO remove
 //            (TEMPERATURE_WRN_SUN < getTmpOut()) ? analogWrite(DSP_ADT_INV, 255) : analogWrite(DSP_ADT_INV, 0);
         } else {
             //
             // Night light
             analogWrite(DSP_ADT_INV, 0);
+            analogWrite(42, 0);// TODO remove
             analogWrite(DSP_ADT_SPL, 0);
             CUR_DIM_ON = true;
         }
