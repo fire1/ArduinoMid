@@ -353,7 +353,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 
 //
 // MID version
-#define MID_VERSION "1.6.2"
+#define MID_VERSION "1.6.3"
 
 //
 // If there no custom PEC define from LPG configuration
