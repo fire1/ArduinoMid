@@ -13,7 +13,7 @@
 //
 // Sets screen size
 #define SCREEN 24064 // Glcd 240x64
-//#define SCREEN 162 // lcd 16x2
+//#define SCREEN 162 // lcd 16x2 deprecated
 //
 // Serial configuration
 #define SERIAL_INJECT_DATA          // Inject data from serial monitor
@@ -40,7 +40,7 @@
 //                          MCU
 //
 // Divider Analog
-//                              .----- [37uF] --- GND
+//                              .----- [47uF] --- GND
 // [DVA]                        |
 // 14.6V+   [PIN]-- [5.2K] ----------- [4.7K] --- GND
 //                           |    |
