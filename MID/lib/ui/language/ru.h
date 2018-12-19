@@ -40,6 +40,7 @@ const char msg18[] PROGMEM = "ТЕКУЩИЕ";
 const char msg19[] PROGMEM = "ПО УМОЛЧАНИЮ";
 const char msg99[] PROGMEM = "ВОЛЬТМЕТР";
 const char msg100[] PROGMEM = "РЕМЕНЬ ГРМ";
+const char msg124[] PROGMEM = "ДИНАМОМЕТР";
 //
 //
 const char msg20[] PROGMEM = "Сброс данны о поездки";

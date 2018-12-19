@@ -91,7 +91,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     char valueComparator = 1;
     //
     // from 14 to 64
-    uint8_t graphTest[10] = {54, 20, 48, 14, 64, 46, 18, 35, 15, 48};
+    uint8_t graphValues[10] = {10, 30, 48, 50, 64, 46, 65, 80, 60, 48};
     const uint8_t *currentFont = DEFAULT_FONT;
 
     uint8_t headerCursorDemo = 0;
@@ -100,6 +100,7 @@ public:
 /**
  *
  * @param _lcd
+ *
  * @param _btn
  * @param _mbs
  * @param _sdw
@@ -805,11 +806,15 @@ private:
             return 13;
         }
 
-        if (menu_t == MENU_NAME_41) { // service
+        // Service
+        if (menu_t == MENU_NAME_41) { // volt
             return 99;
         }
-        if (menu_t == MENU_NAME_42) { // service
+        if (menu_t == MENU_NAME_42) { // belt
             return 100;
+        }
+        if (menu_t == MENU_NAME_43) { // dyno
+            return 124;
         }
         //
         // Sub-sub-titles
@@ -1448,39 +1453,6 @@ private:
         }
     }
 
-/****************************************************************
- * Draw graph
- */
-    void displayGraph() {
-        uint8_t arrSize = 10;
-        uint8_t wdDsp = lcd->getWidth();
-
-        if (initializeDraw) {
-            playFast();
-            graphLines(arrSize, wdDsp, drawIndex);
-        } else {
-            this->lastValue = 25;
-            graphLines(arrSize, wdDsp, arrSize);
-            playSlow();
-        }
-    }
-
-
-    void graphLine(uint8_t arrSize, uint8_t wdDsp, uint8_t index) {
-        uint8_t cur = /*value*/ graphTest[index];
-        lcd->drawLine(((wdDsp / arrSize) * index), this->lastValue,
-                      ((wdDsp / arrSize) * (index + 1)), cur);
-        this->lastValue = cur;
-    }
-
-
-    void graphLines(uint8_t arrSize, uint8_t wdDsp, uint8_t toIndex) {
-        this->lastValue = 25;
-        for (uint8_t i = 0; i < toIndex; ++i) {
-            graphLine(arrSize, wdDsp, i);
-        }
-    }
-
 
 /****************************************************************
  * Fuel information
@@ -1787,7 +1759,50 @@ private:
             }
         }
     }
+
+/****************************************************************
+ * Draw graph
+ */
+    void displayGraph() {
+        playFast();
+        uint8_t arrSize = 11;
+        uint8_t wdDsp = lcd->getWidth();
+
+        if (initializeDraw) {
+            playFast();
+            graphLines(wdDsp, drawIndex);
+        } else {
+            this->lastValue = 25;
+            graphLines(wdDsp, arrSize);
+            playSlow();
+        }
+    }
+
+
+    void graphLine(uint8_t wdDsp, uint8_t index) {
+        uint8_t arrSize = sizeof(graphValues) / sizeof(graphValues[0]) + 1;
+        uint8_t cur = /*value*/ graphValues[index];
+        lcd->drawLine(((wdDsp / arrSize) * index), this->lastValue,
+                      ((wdDsp / arrSize) * (index + 1)), cur);
+        this->lastValue = cur;
+    }
+
+
+    void graphLines(uint8_t wdDsp, uint8_t toIndex) {
+        this->lastValue = 25;
+        for (uint8_t i = 0; i < toIndex; ++i) {
+            graphLine(wdDsp, i);
+        }
+    }
+
+
+    void showDyno(void) {
+        displayGraph();
+
+    }
+
 };
+
 
 /**
  *
@@ -1871,6 +1886,10 @@ void Lcd240x62::menus() {
         case 42:
             showHeader(getMsg(100));
             showOdoWork();
+            break;
+        case 43:
+            showHeader(getMsg(124));
+            showDyno();
             break;
 
         case CarState::MENU_SERVICE:

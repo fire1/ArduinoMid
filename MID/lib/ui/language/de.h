@@ -30,6 +30,7 @@ const char msg9[] PROGMEM = "VERSCHLISSEN"; // Problem message for brakes
 const char msg10[] PROGMEM = "AUSGEBRANT"; // Problem message for lamps
 const char msg99[] PROGMEM = "VOLTMETER";
 const char msg100[] PROGMEM = "ZAHNRIEMEN";
+const char msg124[] PROGMEM = "DYNAMOMETER";
 //
 // Titles
 const char msg11[] PROGMEM = "HAUPTMENÜ";

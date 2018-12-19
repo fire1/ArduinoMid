@@ -12,22 +12,22 @@
 #include "../MenuBack.h"
 
 const uint8_t MENU_NAME_1 = 1;
-const uint8_t MENU_NAME_11 =11;
-const uint8_t MENU_NAME_12 =12;
-const uint8_t MENU_NAME_13 =13;
+const uint8_t MENU_NAME_11 = 11;
+const uint8_t MENU_NAME_12 = 12;
+const uint8_t MENU_NAME_13 = 13;
 
-const uint8_t MENU_NAME_121 =121;
-const uint8_t MENU_NAME_122 =122;
-const uint8_t MENU_NAME_123 =123;
-const uint8_t MENU_NAME_124 =124;
+const uint8_t MENU_NAME_121 = 121;
+const uint8_t MENU_NAME_122 = 122;
+const uint8_t MENU_NAME_123 = 123;
+const uint8_t MENU_NAME_124 = 124;
 
-const uint8_t MENU_NAME_2 =2;
-const uint8_t MENU_NAME_21 =21;
-const uint8_t MENU_NAME_22 =22;
-const uint8_t MENU_NAME_4 =4;
-const uint8_t MENU_NAME_41 =41;
-const uint8_t MENU_NAME_42 =42;
-
+const uint8_t MENU_NAME_2 = 2;
+const uint8_t MENU_NAME_21 = 21;
+const uint8_t MENU_NAME_22 = 22;
+const uint8_t MENU_NAME_4 = 4;
+const uint8_t MENU_NAME_41 = 41;
+const uint8_t MENU_NAME_42 = 42;
+const uint8_t MENU_NAME_43 = 43;
 
 /**
  * Building the menu
@@ -59,6 +59,7 @@ class Menu240x60 : public MenuUiInterface {
     // States
             statMenu,
             voltmeter,
+            dynaMeter,
             resetWork
     //
     // Sprint
@@ -97,7 +98,8 @@ public:
             // Servicing menu
                               statMenu(MenuItem(MENU_NAME_4, 14)),
                               voltmeter(MenuItem(MENU_NAME_41)),
-                              resetWork(MenuItem(MENU_NAME_42)) {
+                              resetWork(MenuItem(MENU_NAME_42)),
+                              dynaMeter(MenuItem(MENU_NAME_43)) {
     }
 
     void begin(void) {
@@ -118,7 +120,8 @@ public:
         raceMenu.add(tripMenu);
 
         statMenu.addRight(voltmeter).addRight(resetWork).addRight(statMenu);
-        voltmeter.add(statMenu);
+        voltmeter.add(dynaMeter);
+        dynaMeter.add(statMenu);
         resetWork.add(statMenu);
 
 
@@ -143,7 +146,7 @@ public:
         // Resolve
         MenuItem curMenuItem = change.to; //get the destination menu
         MidCursorMenu = curMenuItem.getName();
-return;
+        return;
 /*
 #ifdef DEBUG
         if (cmdLive(DBG_SR_MNI)) {

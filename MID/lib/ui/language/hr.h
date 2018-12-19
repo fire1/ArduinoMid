@@ -29,6 +29,7 @@ const char msg9[] PROGMEM = "ISTROŠENE"; // Problem message for brakes
 const char msg10[] PROGMEM = "PREGORJELA"; // Problem message for lamps
 const char msg99[] PROGMEM = "VOLTMETAR";
 const char msg100[] PROGMEM = "POG. REMEN";
+const char msg124[] PROGMEM = "DINAMOMETAR";
 //
 // Titles
 const char msg11[] PROGMEM = "GLAVNI IZBORNIK";

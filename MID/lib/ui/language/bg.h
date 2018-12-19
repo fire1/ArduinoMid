@@ -38,6 +38,7 @@ const char msg18[] PROGMEM = "ТЕКУЩО";
 const char msg19[] PROGMEM = "ЗАВОДСКИ";
 const char msg99[] PROGMEM = "ВОЛТМЕТЪР";
 const char msg100[] PROGMEM = "АНГ. РЕМЪК";
+const char msg124[] PROGMEM = "ДИНАМОМЕТЪР";
 //
 //
 const char msg20[] PROGMEM = "За нулиране на пътуването";

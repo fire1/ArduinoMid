@@ -142,7 +142,13 @@
 // Z18XE X20XEV 5600
 // Z22SE 5800
 #define MAX_ENGINE_PWR 5400 //  Maximum Horsepower RPMs
-
+//
+// Car Weight in kg
+// Astra Coupe X18XE1 1155
+// Astra Coupe Z18XE 1195
+// Astra Coupe Z20LET 1290
+// Astra Coupe Z20LET 1330
+#define CAR_WEIGHT 1155
 //
 // Comment definition to use Opel logo
 #define USE_BERTONE_LOGO
