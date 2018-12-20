@@ -146,7 +146,7 @@ public:
         return false;
     }
 
-    void clearEvents(){
+    void clearEvents() {
         eventIndex = 0;
     }
 
@@ -179,6 +179,7 @@ public:
     inline void resetStates() {
         this->setNavigationState(true);
         this->setEditorState(false);
+        this->clearEvents();
     }
 
     /**
@@ -195,6 +196,7 @@ public:
     inline boolean getNavigationState() {
         return isNavigationActive;
     }
+
     uint8_t getPinUp(void) {
         return btnUp;
     }
