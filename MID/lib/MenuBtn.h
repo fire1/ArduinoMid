@@ -146,6 +146,10 @@ public:
         return false;
     }
 
+    void clearEvents(){
+        eventIndex = 0;
+    }
+
     inline void useDebounceFast() {
         debounceRate = BTN_DEBOUNCE_FAST / 10;
     }
