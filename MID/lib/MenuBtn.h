@@ -148,6 +148,12 @@ public:
         return false;
     }
 
+    inline bt_event getEvent() {
+        bt_event event = eventIndex;
+        eventIndex = 0;
+        return event;
+    }
+
     void clearEvents() {
         eventIndex = 0;
     }
