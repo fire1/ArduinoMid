@@ -27,6 +27,7 @@
 #define AWAITING_HOLD_BTN 2000
 #endif
 
+typedef uint8_t bt_event;
 
 class MenuBtn {
 
@@ -47,7 +48,7 @@ private:
             editorActivate = false,
             togetherPress = false;
 
-
+    bt_event eventIndex = 0;
     uint8_t btnUp, btnDw, btnBk, pinTn;
     uint8_t lastButtonPushed = 0;
     uint8_t debounceRate = BTN_DEBOUNCE_RATE / 10;
@@ -87,8 +88,43 @@ private:
         }
     }
 
+    void eventListener() {
+        if (isUp()) {
+            eventIndex = EVENT_UP;
+        }
+        if (isDw()) {
+            eventIndex = EVENT_DW;
+        }
+        if (isTg()) {
+            eventIndex = EVENT_TG;
+        }
+        if (isHl()) {
+            eventIndex = EVENT_HL;
+        }
+        if (isOk()) {
+            eventIndex = EVENT_OK;
+        }
+        if (isNo()) {
+            eventIndex = EVENT_NO;
+        }
+        if (isBk()) {
+            eventIndex = EVENT_BK;
+        }
+    }
+
 
 public:
+
+    //
+    // List of interaction events
+    static const bt_event EVENT_UP = 1; // >S pressed
+    static const bt_event EVENT_DW = 2; // >R pressed
+    static const bt_event EVENT_TG = 3; // >S + >R pressed together
+    static const bt_event EVENT_HL = 4; // Hold captured
+    static const bt_event EVENT_OK = 5; // >S pressed in disabled navigation
+    static const bt_event EVENT_NO = 6; // >R pressed in disabled navigation
+    static const bt_event EVENT_BK = 7; // Break pressed when car us stopped
+
     MenuBtn(AmpTime &_amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt) :
             amp(&_amp), car(&_car), eep(&_eep), whl(&_whl), stt(&_stt) {
     }
@@ -96,6 +132,19 @@ public:
     void listener(void);
 
     void begin(uint8_t buttonPinUp, uint8_t buttonPinDw, uint8_t brakePedal, uint8_t pinTones);
+
+    /**
+     * Method for LCD interaction capture
+     * @param event
+     * @return
+     */
+    boolean isEvent(bt_event event) {
+        if (event == eventIndex) {
+            eventIndex = 0;
+            return true;
+        }
+        return false;
+    }
 
     inline void useDebounceFast() {
         debounceRate = BTN_DEBOUNCE_FAST / 10;
@@ -142,7 +191,6 @@ public:
     inline boolean getNavigationState() {
         return isNavigationActive;
     }
-
     uint8_t getPinUp(void) {
         return btnUp;
     }
@@ -163,14 +211,27 @@ public:
         return lastButtonPushed == btnMn;
     }
 
+/**
+ *
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isUp() {
         return (!isNavigationActive) ? false : lastButtonPushed == btnUp;
     }
 
+/**
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isDw() {
         return (!isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
+/**
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isHl() {
         return isHoldState;
     }
@@ -183,16 +244,28 @@ public:
         return (isNavigationActive) ? false : lastButtonPushed == btnDw;
     }
 
+/**
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isEd() {
         return editorActivate;
     }
 
+/**
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isTg() {
         return togetherPress;
     }
 
+/**
+ * @deprecated use isEvent()
+ * @return bool
+ */
     inline boolean isBk() {
-        if(car->getVss() > 0){
+        if (car->getVss() > 0) {
             // Break trigger makes some glitches at higher speed,
             // so this must eliminate it ....
             return false;
@@ -394,6 +467,11 @@ void MenuBtn::listener() {
     //
     //  Startup short cuts
     startup();
+
+    //
+    // "eventListener" listen for action from user (button interaction) and records state until method checker is called.
+    // This "event" future is intended to be used only form LCD screen, since displaying data have won refresh rate.
+    eventListener();
 
 #ifdef DEBUG
     if (cmdMid(amp, DBG_SR_MNB)) {
