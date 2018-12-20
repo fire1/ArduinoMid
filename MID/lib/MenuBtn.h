@@ -11,6 +11,7 @@
 #include "EepRom.h"
 #include "CarState.h"
 #include "InitObj.h"
+#include "AptService.h"
 
 
 //#define BUTTONS_DEBUG
@@ -36,6 +37,7 @@ class MenuBtn {
     EepRom *eep;
     WhlSens *whl;
     CarState *stt;
+    AptService *apt;
 
 private:
 
@@ -125,8 +127,8 @@ public:
     static const bt_event EVENT_NO = 6; // >R pressed in disabled navigation
     static const bt_event EVENT_BK = 7; // Break pressed when car us stopped
 
-    MenuBtn(AmpTime &_amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt) :
-            amp(&_amp), car(&_car), eep(&_eep), whl(&_whl), stt(&_stt) {
+    MenuBtn(AmpTime &_amp, CarSens &_car, EepRom &_eep, WhlSens &_whl, CarState &_stt, AptService &_apt) :
+            amp(&_amp), car(&_car), eep(&_eep), whl(&_whl), stt(&_stt), apt(&_apt) {
     }
 
     void listener(void);
@@ -297,6 +299,10 @@ public:
 
     inline CarState *passStt(void) {
         return stt;
+    }
+
+    inline AptService *passApt() {
+        return apt;
     }
 
     boolean lastUseDebounce() {

@@ -77,7 +77,7 @@ AptService aptService(ampInt, carSens);
 CmdSerial eepRom(carSens, whlSens, aptService);
 //
 // Buttons driver
-MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat);
+MenuBtn btnMenu(ampInt, carSens, eepRom, whlSens, carStat, aptService);
 //
 // Additional libraries
 // ----
