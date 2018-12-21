@@ -10,7 +10,7 @@
 
 #ifndef _U8G2LIB_HH
 // Some IDE syntax mishmash fixer
-#include "../../libraries/U8g2/src/U8g2lib.h"
+#include "../../../libraries/U8g2/src/U8g2lib.h"
 
 #endif
 
@@ -25,36 +25,39 @@
 
 #define DEFAULT_FONT u8g_font_opel_ic_13
 #define GUIDANCE_FONT u8g_font_opel_ic_12
-#define LCD_ROW_1 16
-#define LCD_ROW_2 27
-#define LCD_ROW_3 39
-#define LCD_ROW_4 50
 
-#define LCD_COL_L10 5
-#define LCD_COL_L11 28
-#define LCD_COL_L12 39
-#define LCD_COL_L21 49
-#define LCD_COL_L22 56
-#define LCD_COL_L23 75
-
-#define LCD_CNR 120 // Center of the screen
-#define LCD_CNR_1 125 // Center of the screen
-#define LCD_CNR_2 145 // Center of the screen
-
-#define LCD_COL_R11 154
-#define LCD_COL_R12 175
-#define LCD_COL_R21 195
-#define LCD_COL_R22 215
-#define LCD_COL_R23 230
-
-#define LCD_PADDING  5
-
-#define LCD_ICO_HIGH 2
-#define LCD_ENTRY_FRAME 2
 const uint16_t INIT_TIME = 7000;
 
 
 class Lcd240x62 : virtual public LcdUiInterface {
+
+    const uint8_t LCD_ROW_1 = 16;
+    const uint8_t LCD_ROW_2 = 27;
+    const uint8_t LCD_ROW_3 = 39;
+    const uint8_t LCD_ROW_4 = 50;
+
+    const uint8_t LCD_COL_L10 = 5;
+    const uint8_t LCD_COL_L11 = 28;
+    const uint8_t LCD_COL_L12 = 39;
+    const uint8_t LCD_COL_L21 = 49;
+    const uint8_t LCD_COL_L22 = 56;
+    const uint8_t LCD_COL_L23 = 75;
+
+    // Center of the screen
+    const uint8_t LCD_CNR = 120;
+    const uint8_t LCD_CNR_1 = 125;
+    const uint8_t LCD_CNR_2 = 145;
+
+    const uint8_t LCD_COL_R11 = 154;
+    const uint8_t LCD_COL_R12 = 175;
+    const uint8_t LCD_COL_R21 = 195;
+    const uint8_t LCD_COL_R22 = 215;
+    const uint8_t LCD_COL_R23 = 230;
+
+    const uint8_t LCD_PADDING = 5;
+
+    const uint8_t LCD_ICO_HIGH = 2;
+    const uint8_t LCD_ENTRY_FRAME = 2;
 
     U8G2 *lcd;
 
@@ -91,10 +94,11 @@ class Lcd240x62 : virtual public LcdUiInterface {
     char valueComparator = 1;
     //
     // from 14 to 64
-    uint8_t graphValues[10] = {10, 30, 48, 50, 64, 46, 65, 80, 60, 48};
+    uint8_t graphValues[10] = {};
     const uint8_t *currentFont = DEFAULT_FONT;
 
-    uint8_t headerCursorDemo = 0;
+    uint8_t privetCursor = 0;
+    uint8_t privetCounts = 0;
 
 public:
 /**
@@ -147,30 +151,30 @@ public:
     }
 
 
-/**
- *
- * @param col
- * @param row
- * @param before
- * @param tag
- */
-    void showTag(uint8_t col, uint8_t row, const char *before, uint8_t tag, uint8_t padding = LCD_PADDING) {
-        wordWidth = lcd->getStrWidth(before);
-        lcd->drawStr(col + wordWidth + padding, row, getMsg(tag));
-    }
-
-/**
- *
- * @param col
- * @param row
- * @param before
- * @param data
- * @param padding
- */
-    void showDin(uint8_t col, uint8_t row, const char *before, const char *data, uint8_t padding = LCD_PADDING) {
-        wordWidth = lcd->getStrWidth(before);
-        lcd->drawStr(col + padding + wordWidth, row, data);
-    }
+///**
+// *
+// * @param col
+// * @param row
+// * @param before
+// * @param tag
+// */
+//    void showTag(uint8_t col, uint8_t row, const char *before, uint8_t tag, uint8_t padding = LCD_PADDING) {
+//        wordWidth = lcd->getStrWidth(before);
+//        lcd->drawStr(col + wordWidth + padding, row, getMsg(tag));
+//    }
+//
+///**
+// *
+// * @param col
+// * @param row
+// * @param before
+// * @param data
+// * @param padding
+// */
+//    void showDin(uint8_t col, uint8_t row, const char *before, const char *data, uint8_t padding = LCD_PADDING) {
+//        wordWidth = lcd->getStrWidth(before);
+//        lcd->drawStr(col + padding + wordWidth, row, data);
+//    }
 
     /****************************************************************
 
@@ -313,7 +317,7 @@ public:
             drawHeaderIcon(104); // battery
         }
         if (stt->getLiveOil() && car->isRunEng() && isIconPulsing() || isIconDemo(1800)) {
-            drawHeaderIcon(102); // battery
+            drawHeaderIcon(102); // Oil
         }
         if (car->isEmgBreak()) { // emergency breaking
             drawHeaderIcon(73);
@@ -664,10 +668,11 @@ protected:
  * @param index of loop
  */
     void displayEntry() {
+        privetCursor = 0; // reset cursor
         //
         // TODO state error
+        uint8_t checker;
         uint8_t subAnimateIndex = drawEntry & 4;
-
         //
         // Disable "switch screen" when showing screens
         // that not attached to menu structure.
@@ -725,13 +730,17 @@ protected:
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.used)));
                 lcd->setCursor(LCD_COL_L11, 45);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.next)));
-
+                /*
+                checker = getTitleMsgIndex(usedMenu.next);
+                if (checker != 0) {
+                    lcd->print(getMsg(checker));
+                }
+                */
                 break;
             case 4:
             case 5:
             case 6:
             case 7:
-//
                 lcd->drawFrame(10, 12 + LCD_ENTRY_FRAME + (3 * 5), 224, 15);
                 lcd->setCursor(LCD_COL_L11, 15);
                 lcd->print(getMsg(getTitleMsgIndex(usedMenu.back)));
@@ -835,6 +844,7 @@ private:
 
         if (amp->isSec())
             Serial.println(F(" ERROR: Cannot resolve title index"));
+        return 0;
 
     }
 
@@ -1780,7 +1790,7 @@ private:
 
 
     void graphLine(uint8_t wdDsp, uint8_t index) {
-        uint8_t arrSize = sizeof(graphValues) / sizeof(graphValues[0]) + 1;
+        uint8_t arrSize = sizeof(graphValues) / sizeof(graphValues[0]);
         uint8_t cur = /*value*/ graphValues[index];
         lcd->drawLine(((wdDsp / arrSize) * index), this->lastValue,
                       ((wdDsp / arrSize) * (index + 1)), cur);
@@ -1797,7 +1807,57 @@ private:
 
 
     void showDyno(void) {
-        displayGraph();
+
+        bt_event evn = btn->getEvent();
+        AptService *apt = btn->passApt();
+
+        if (privetCursor == 3 || privetCursor == 2 && car->getVss() == 0) {
+            privetCounts = 0;
+            displayGraph();
+            lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
+            lcd->print(F("HP: "));
+            lcd->print(apt->getMaxHp());
+            privetCursor = 3;
+        } else {
+
+            if (/*car->getVss() > 0 &&*/  evn == btn->EVENT_UP || privetCursor == 1 || privetCursor == 2) {
+                privetCursor = 1;
+                if (evn == btn->EVENT_UP) {
+                    apt->startDyno();
+                }
+                if (privetCounts < 10 && privetCounts >= 0) {
+                    lcd->setCursor(LCD_COL_L12, LCD_ROW_2);
+                    if (isIconPulsing()) lcd->print(F("FULL SPOOL!!!   Floor it!"));
+                    lcd->setCursor(LCD_CNR - 3, LCD_ROW_3);
+                    lcd->print(privetCounts);
+                    privetCounts--;
+                    graphValues[valueComparator] = (uint8_t) map(apt->getDynoHp(), CAR_MAX_HP / 2, CAR_MAX_HP, 18, 60);
+                    valueComparator++;
+                } else {
+                    privetCursor = 2;
+                    btn->passApt()->stopDyno();
+                    lcd->setCursor(LCD_COL_L12, LCD_ROW_2);
+                    if (isIconPulsing()) lcd->print(F("DONE!"));
+                    lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+                    lcd->setFont(GUIDANCE_FONT);
+                    lcd->print(F("Pullover and hold break to see results"));
+                    lcd->setFont(this->currentFont);
+                }
+            } else if (privetCursor == 0) {
+                privetCounts = 9;
+                valueComparator = 0;
+                lcd->setFont(GUIDANCE_FONT);
+                lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
+                lcd->print(F("1) Run the car at steady speed."));
+                lcd->setCursor(LCD_COL_L10, LCD_ROW_2);
+                lcd->print(F("2) Press >S to start measurements."));
+                lcd->setCursor(LCD_COL_L10, LCD_ROW_3);
+                lcd->print(F("3) Measurements for 10sec will be made. "));
+                lcd->setCursor(LCD_COL_L10, LCD_ROW_4);
+                lcd->print(F("4) Stop the car to see the results. "));
+                lcd->setFont(this->currentFont);
+            }
+        }
 
     }
 

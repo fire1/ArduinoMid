@@ -150,6 +150,9 @@
 // Astra Coupe Z20LET 1330
 #define CAR_WEIGHT 1155
 //
+// Maximum horsepower produced for car
+#define CAR_MAX_HP 125
+//
 // Comment definition to use Opel logo
 #define USE_BERTONE_LOGO
 //

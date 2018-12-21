@@ -193,7 +193,7 @@ float floatPrecision(float val) {
  * @param travelTime
  * @return
  */
-uint32_t calculateJoules( uint16_t travelMeters, uint16_t travelTime) {
+uint32_t calculateJoules( uint32_t travelMeters, uint16_t travelTime) {
 /*
  * (1/2)Mv2/time = (1/2) 1500 302/ 5 sec = 135,000 joules per sec = 181 HP
  * Reference https://www.physicsforums.com/threads/calculating-motor-engine-torque-power-using-accelerometer-data.336463/

@@ -189,7 +189,6 @@ void loop() {
     //
     // Run other service
     aptService.listener();
-    uint16_t st1;
 }
 
 

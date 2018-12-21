@@ -33,7 +33,7 @@ uint8_t fadeIDrl = 0;
 
 
 class AptService {
-
+    unsigned long dynoCounter = 0;
     AmpTime *amp;
     CarSens *car;
 //
@@ -64,6 +64,7 @@ public:
 
     void listener() {
         listenDRL();
+        listenDyno();
     }
 
 /*******************************************************************************
@@ -128,6 +129,24 @@ public:
 #ifdef USE_CLOCK_MODULE
         return rtc.getTemp();
 #endif
+    }
+
+
+    void startDyno() {
+        dynoCounter = car->getVdsDump() / 24;
+    }
+
+    void stopDyno() {
+        dynoCounter = 0;
+    }
+
+    uint16_t getDynoHp() {
+        Serial.println(getHorsepower(dynoJoulesResult));
+        return getHorsepower(dynoJoulesResult);
+    }
+
+    uint16_t getMaxHp() {
+        return dynoMaxHp;
     }
 
 protected:
@@ -198,6 +217,27 @@ protected:
             }
         }
     }
+
+
+    uint32_t dynoJoulesResult;
+    uint16_t dynoMaxHp;
+
+    void listenDyno() {
+        if (dynoCounter == 0) return;
+
+        if (amp->isSecond()) {
+            unsigned long curDst = car->getVdsDump() / 24; // 24.840
+            uint32_t meters = (uint32_t) (curDst - dynoCounter);
+//            Serial.println(meters);
+            uint32_t joules = calculateJoules(meters, 1);
+            if (joules > dynoJoulesResult) {
+                dynoMaxHp = getHorsepower(joules);
+            }
+            dynoJoulesResult = joules;
+            dynoCounter = curDst;
+        }
+    }
+
 
 };
 

@@ -335,7 +335,7 @@ private:
     volatile uint16_t CUR_RPM;
     volatile uint16_t CUR_ECU;
     // Instant Fuel consumption counter
-    uint16_t indexIfc;
+//    uint16_t indexIfc;
     uint16_t tmp_outIndex = 0;
     //
     uint16_t smoothEngineTemp;
@@ -354,9 +354,7 @@ private:
     float BREAK_TIME = 0;
     //
     //
-    float FUEL_INST_CONS;
-    /** @deprecated */
-    float FUEL_WASTED = 0;
+//    float FUEL_INST_CONS;
     //
     // Temperatures
     float CUR_OUT_TMP = 0; // Outside temperature
@@ -376,17 +374,12 @@ private:
      * Handle playEntry dim
      */
     unsigned long averageDivider = 0;
-    unsigned long sensDeltaCnsOldTime,
-            CONS_DELTA_TIME,
-            TTL_FL_CNS,  // Consumed fuel
-            TTL_FL_WST;  // Waste fuel
     //
     // Distance container
     unsigned long CUR_VDS_collection;
 
     double FL_CNS_DEF, FL_CNS_ADT, FL_WST_DEF, FL_WST_ADT;    // Fuel consumption variables
     double CUR_VDS;
-    double collectionIfc;
 
     /**
      * Handles speeding alarms
@@ -422,7 +415,7 @@ protected:
      * Gets calculate constant for instant consumption
      * @return int
      */
-    int getIfcFuelVal();
+//    int getIfcFuelVal();
 
 
     /**
@@ -525,10 +518,6 @@ public:
     Melody *passMelodyClass() {
         return mld;
     }
-
-    //
-    // Speeding alarm modes
-    const unsigned int DISABLE_SPEED_AL = 0, ENABLE_SPEED_CT = 1, ENABLE_SPEED_VW = 2, ENABLE_SPEED_HW = 3;
 
     /**
      * Makes move of alarm cursor to up
@@ -640,10 +629,7 @@ public:
      */
     inline float getTmpIns() { return CUR_INS_TMP; }
 
-    /**
-     * Gets instant fuel consumption
-     */
-    inline float getIfc() { return FUEL_INST_CONS; }
+
 
     /**
      * Gets Instant fuel consumption average value
@@ -674,7 +660,6 @@ public:
 
     inline float getCurFuelWasted() {
         return (getFuelState() == 0) ? FL_WST_DEF : FL_WST_ADT;
-        return FUEL_WASTED;
     }
 
     /**
@@ -757,11 +742,7 @@ public:
      */
     inline unsigned long getVdsDump(void) { return CUR_VDS_collection; }
 
-    /** @deprecated
-     * Gets Total fuel consumption
-     * @return long
-     */
-    inline long getTfc() { return TTL_FL_CNS; }
+
 
     /**
      * Gets Average Vss
@@ -895,11 +876,11 @@ void CarSens::setupVehicle(uint8_t pinVss, uint8_t pinRpm, uint8_t pinEcu, uint8
  * Gets calculate constant for instant consumption
  * @return int
  */
-int CarSens::getIfcFuelVal() {
-    if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
-    if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
-    return 0;
-}
+//int CarSens::getIfcFuelVal() {
+//    if (getFuelState() == 0) return FUEL_PARAM_DEF.ifc;
+//    if (getFuelState() == 1) return FUEL_PARAM_ADT.ifc;
+//    return 0;
+//}
 
 
 /**
@@ -1620,8 +1601,8 @@ void CarSens::sensDlt() {
     if (amp->isSens()) {
         unsigned long time_now;
         time_now = millis();
-        CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
-        sensDeltaCnsOldTime = time_now;
+//        CONS_DELTA_TIME = time_now - sensDeltaCnsOldTime;
+//        sensDeltaCnsOldTime = time_now;
     }
 }
 
@@ -1659,6 +1640,7 @@ void CarSens::sensCns() {
  * @deprecated
  * Instance Fuel Consumption
  */
+/*
 void CarSens::sensIfc() {
     float cons = 0;
 
@@ -1707,6 +1689,7 @@ void CarSens::sensIfc() {
 
 
 }
+ */
 
 /**
  * Car gear

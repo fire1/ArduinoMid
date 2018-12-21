@@ -121,7 +121,7 @@ public:
 
         statMenu.addRight(voltmeter).addRight(resetWork).addRight(statMenu);
         voltmeter.add(dynaMeter);
-        dynaMeter.add(statMenu);
+        dynaMeter.addRight(statMenu);
         resetWork.add(statMenu);
 
 
