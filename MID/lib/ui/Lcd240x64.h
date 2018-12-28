@@ -1816,11 +1816,13 @@ private:
             lcd->print(F("HP: "));
             lcd->print(apt->getMaxHp());
             privetCursor = 3;
+            /*
             for (int i = 0; i < 11; ++i) {
                 Serial.print(graphValues[i]);
                 Serial.print(F(", "));
             }
             Serial.println();
+             */
         } else {
 
             if (/*car->getVss() > 0 &&*/  evn == btn->EVENT_UP || privetCursor == 1 || privetCursor == 2) {
