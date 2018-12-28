@@ -493,9 +493,10 @@ void MenuBtn::listener() {
 
 #ifdef DEBUG
     if (cmdMid(amp, DBG_SR_MNB)) {
-        dump("BK is", this->isBk());
-        dump("UP is", this->isUp());
-        dump("DW is", this->isDw());
+        dump_inl("BK", this->isBk());
+        dump_inl("UP", this->isUp());
+        dump_inl("DW", this->isDw());
+        dump_ln();
     }
 
     if (cmd(amp, DBG_SR_MNB)) {

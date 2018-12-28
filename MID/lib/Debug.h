@@ -77,7 +77,9 @@ boolean cmdLive(uint8_t cmd) {
     return (CmdSerialDebugging == (cmd)) != 0;
 }
 
+#define dump_ln(){Serial.println();}
 #define dump(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data);}
+#define dump_inl(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.print(data);Serial.print(F(" / "));}
 #define dump_bin(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,BIN);}
 #define dump_hex(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,HEX);}
 #define dump_dec(msg, data){Serial.print(F(msg)); Serial.print(F(":\t "));Serial.println(data,DEC);}

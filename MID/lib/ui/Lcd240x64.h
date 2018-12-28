@@ -80,7 +80,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     char instantCons[3];
 
     const uint8_t *fontSelect;
-    uint8_t lastValue;
+    uint8_t lastValue =0;
 //
 // Drawing counter
     uint8_t drawIndex = 0;
@@ -1782,26 +1782,24 @@ private:
             playFast();
             graphLines(wdDsp, drawIndex);
         } else {
-            this->lastValue = 25;
             graphLines(wdDsp, arrSize);
             playSlow();
         }
     }
 
 
-    void graphLine(uint8_t wdDsp, uint8_t index) {
+    void graphLine( uint8_t index) {
         uint8_t arrSize = sizeof(graphValues) / sizeof(graphValues[0]);
         uint8_t cur = /*value*/ graphValues[index];
-        lcd->drawLine(((wdDsp / arrSize) * index), this->lastValue,
-                      ((wdDsp / arrSize) * (index + 1)), cur);
+        lcd->drawLine(((lcd->getWidth() / arrSize) * index), this->lastValue,
+                      ((lcd->getWidth() / arrSize) * (index + 1)), cur);
         this->lastValue = cur;
     }
 
 
     void graphLines(uint8_t wdDsp, uint8_t toIndex) {
-        this->lastValue = 25;
         for (uint8_t i = 0; i < toIndex; ++i) {
-            graphLine(wdDsp, i);
+            graphLine(i);
         }
     }
 
@@ -1818,6 +1816,11 @@ private:
             lcd->print(F("HP: "));
             lcd->print(apt->getMaxHp());
             privetCursor = 3;
+            for (int i = 0; i < 11; ++i) {
+                Serial.print(graphValues[i]);
+                Serial.print(F(", "));
+            }
+            Serial.println();
         } else {
 
             if (/*car->getVss() > 0 &&*/  evn == btn->EVENT_UP || privetCursor == 1 || privetCursor == 2) {
@@ -1825,13 +1828,13 @@ private:
                 if (evn == btn->EVENT_UP) {
                     apt->startDyno();
                 }
-                if (privetCounts < 10 && privetCounts >= 0) {
+                if (privetCounts < 11 && privetCounts >= 0) {
                     lcd->setCursor(LCD_COL_L12, LCD_ROW_2);
                     if (isIconPulsing()) lcd->print(F("FULL SPOOL!!!   Floor it!"));
                     lcd->setCursor(LCD_CNR - 3, LCD_ROW_3);
                     lcd->print(privetCounts);
                     privetCounts--;
-                    graphValues[valueComparator] = (uint8_t) map(apt->getDynoHp(), CAR_MAX_HP / 2, CAR_MAX_HP, 18, 60);
+                    graphValues[valueComparator] = (uint8_t) map(apt->getDynoHp(), 0, CAR_MAX_HP, 63, 18);
                     valueComparator++;
                 } else {
                     privetCursor = 2;
@@ -1842,9 +1845,10 @@ private:
                     lcd->setFont(GUIDANCE_FONT);
                     lcd->print(F("Pullover and hold break to see results"));
                     lcd->setFont(this->currentFont);
+                    initializeDraw = true;
                 }
             } else if (privetCursor == 0) {
-                privetCounts = 9;
+                privetCounts = 10;
                 valueComparator = 0;
                 lcd->setFont(GUIDANCE_FONT);
                 lcd->setCursor(LCD_COL_L10, LCD_ROW_1);
