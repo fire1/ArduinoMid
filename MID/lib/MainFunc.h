@@ -207,7 +207,7 @@ uint32_t calculateJoules( uint32_t travelMeters, uint16_t travelTime) {
  * @return
  */
 uint16_t getHorsepower(uint32_t joules) {
-    return uint16_t(joules * 0.0013404825737265);
+    return uint16_t(joules * 0.00013404825737265); // 0.0013404825737265
 }
 
 
