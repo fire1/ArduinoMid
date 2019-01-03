@@ -30,7 +30,7 @@ class CmdSerial : public EepRom {
     String srlStrName;
     String srlOutputs;
     EepRom *eep;
-    AptService *rtc;
+    AptService *apt;
 
 
     typedef void (*cb_svd)(float, SavedData &);
@@ -125,8 +125,8 @@ private:
 
 
 public:
-    CmdSerial(CarSens &carSens, WhlSens &whlSens, AptService &rtcService) : car(&carSens), whl(&whlSens),
-                                                                            rtc(&rtcService), EepRom(carSens) {
+    CmdSerial(CarSens &carSens, WhlSens &whlSens, AptService &aptService) : car(&carSens), whl(&whlSens),
+                                                                            apt(&aptService), EepRom(carSens) {
     }
 
 
@@ -441,13 +441,19 @@ public:
                     saveTemp = getSrlFloat();
                     srlOutputs = F("Sets clock to: ");
                     separateFloat(saveTemp, clock);
-                    rtc->setClock(clock[0], clock[1]);
-                    srlOutputs += rtc->getClock();
+                    apt->setClock(clock[0], clock[1]);
+                    srlOutputs += apt->getClock();
                 }
 
                 //
                 // Return back changes
                 setData(savedData);
+
+                //
+                // Listing mode
+                if(srlStrName == F("ls")){
+
+                }
 
 
                 //
@@ -522,8 +528,6 @@ public:
                 analogWrite(0, 0);
                 analogWrite(1, 0);
             }
-
-
         }
     }
 };
