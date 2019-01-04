@@ -363,7 +363,7 @@ public:
      * Checks for winter temperature
      */
     boolean isWinter() {
-        if (car->getTmpOut() < -2) {
+        if (car->getTmpOut() < -3) {
             alertWinter = true;
             return true;
         }
