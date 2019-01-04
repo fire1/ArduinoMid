@@ -308,7 +308,7 @@ public:
 #endif
         // Show new warning
         // Reset values after millis
-        if (millis() % 900000 == 0) { // 15 min
+        if (millis() % 1200000 == 0) { // 20 min
             result.oil = 0;
             result.cnt = 0;
             result.win = 0;
