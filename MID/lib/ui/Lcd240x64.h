@@ -80,7 +80,7 @@ class Lcd240x62 : virtual public LcdUiInterface {
     char instantCons[3];
 
     const uint8_t *fontSelect;
-    uint8_t lastValue =0;
+    uint8_t lastValue = 0;
 //
 // Drawing counter
     uint8_t drawIndex = 0;
@@ -356,9 +356,10 @@ public:
             } else if (car->getTmpOut() > 40) {
                 if (drawIndex % 2 == 0) lcd->print(getMsg(89));
             } else if (millis() > MILLIS_PER_HR * 3) {
-                lcd->print(getMsg(81));
-            } else if (millis() > MILLIS_PER_HR * 4) {
-                if (drawIndex % 2 == 0)lcd->print(getMsg(81));
+                lcd->print(getMsg(81)); // coffee break
+            } else if (millis() > MILLIS_PER_HR * 4 && isIconPulsing()) {
+                lcd->print(getMsg(81)); // coffee break
+               if(millis() < MILLIS_PER_HR * 4 + 2000) car->passMelodyClass()->play(5);
             }
         }
 
@@ -1788,7 +1789,7 @@ private:
     }
 
 
-    void graphLine( uint8_t index) {
+    void graphLine(uint8_t index) {
         uint8_t arrSize = sizeof(graphValues) / sizeof(graphValues[0]);
         uint8_t cur = /*value*/ graphValues[index];
         lcd->drawLine(((lcd->getWidth() / arrSize) * index), this->lastValue,
