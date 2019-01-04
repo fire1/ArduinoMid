@@ -307,8 +307,8 @@ public:
         }
 #endif
         // Show new warning
-        // Reset values after an hour
-        if (amp->isHour()) {
+        // Reset values after millis
+        if (millis() % 900000 == 0) { // 15 min
             result.oil = 0;
             result.cnt = 0;
             result.win = 0;
