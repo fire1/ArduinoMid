@@ -61,8 +61,7 @@ private:
     boolean initAlertState = false;
     uint8_t code = 0b1000000;
     uint8_t cursorMenu = 0;
-
-    int lastVoltageValue = 0;
+    uint8_t lastVoltageValue = 0;
     float workDistance;
 
 
