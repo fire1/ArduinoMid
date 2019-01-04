@@ -76,7 +76,7 @@ private:
         uint8_t compareVoltage = uint8_t(readingVoltage / 10);
         //
         // Voltage too high
-        // are maximum 13.8V-14.5V
+        // are maximum 14.5V
         if (lastVoltageValue > 0 && lastVoltageValue == compareVoltage && readingVoltage > 986) {
             return true;
         }
