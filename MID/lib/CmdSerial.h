@@ -451,15 +451,25 @@ public:
 
                 //
                 // Listing mode
-                if(srlStrName == F("ls")){
+                if (srlStrName == F("ls")) {
+                    String cmd = Serial.readStringUntil(CMD_SPR_EOL);
+                    cmd.trim();
+                    switch (cmd.toInt()) {
+                        case 1:
 
+                            break;
+                        case 0:
+                        default:
+
+                            break;
+                    }
                 }
 
 
                 //
                 // Debug / dump from serial
                 if (srlStrName == F("dbg")) {
-                    String cmd = Serial.readStringUntil('\n');
+                    String cmd = Serial.readStringUntil(CMD_SPR_EOL);
                     cmd.trim();
 
                     if (cmd == F("help") || cmd == F("")) {
