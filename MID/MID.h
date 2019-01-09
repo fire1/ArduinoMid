@@ -339,7 +339,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 #endif
 
 #ifndef BATTERY_LOW_VOLT
-#define BATTERY_LOW_VOLT 835
+#define BATTERY_LOW_VOLT 830
 #endif
 
 #ifndef BATTERY_HIGH_VOLT
@@ -353,7 +353,7 @@ const uint8_t ALP_PIN_MSK = 46; //  mg46  ->  1N5406 ->  Unit input ||  5V -> RE
 
 //
 // MID version
-#define MID_VERSION "1.6.3"
+#define MID_VERSION "1.6.4"
 
 //
 // If there no custom PEC define from LPG configuration

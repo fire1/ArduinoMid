@@ -44,17 +44,16 @@
  * Initialization Amplitudes
  */
 class AmpTime {
+    boolean _isLow = false, _isSec = false, _isMid = false, _isMin = false, _isBig = false, _isMax = false;
+    boolean _isSecond = false, _isMinute = false, _isHour = false, _isSens = false, _is10Seconds = false,
+            _is5Seconds = false, _is2Seconds, _is4Seconds, _isRfr = false;
+
 
     //
     // Toggle timers
     volatile unsigned long
             curLow = 0, curSec = 0, curMid = 0, curMin = 0, curBig = 0, curMax = 0, curSecond = 0, curMinute = 0,
             curHour = 0, curSens = 0, cur10Seconds = 0, cur5Seconds = 0, cur2Seconds, cur4Seconds, curRefresh;
-    boolean _isLow = false, _isSec = false, _isMid = false, _isMin = false, _isBig = false, _isMax = false;
-    boolean _isSecond = false, _isMinute = false, _isHour = false, _isSens = false, _is10Seconds = false,
-            _is5Seconds = false, _is2Seconds, _is4Seconds, _isRfr = false;
-    boolean _isToggleDef = false;
-
 
     /**
      * MAX 1,193,046 Hour	(h)
@@ -98,9 +97,7 @@ public:
     inline boolean isSens() { return (boolean) _isSens; }
 
 
-    /************** Time Toggle *********************/
 
-    inline boolean isToggle() { return (boolean) _isToggleDef; }
 
 };
 
@@ -228,14 +225,6 @@ void AmpTime::listener() {
     }
     sei();
 
-/************** Time Toggle *********************/
 
-//    if (_is2Seconds && _isToggleDef == 1) {
-//        _isToggleDef = false;
-//    }
-//
-//    if (_is2Seconds && _isToggleDef == 0) {
-//        _isToggleDef = true;
-//    }
 };
 #endif //ARDUINOMID_TIMEAMP_H

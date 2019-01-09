@@ -147,59 +147,7 @@ public:
         MenuItem curMenuItem = change.to; //get the destination menu
         MidCursorMenu = curMenuItem.getName();
         return;
-/*
-#ifdef DEBUG
-        if (cmdLive(DBG_SR_MNI)) {
-            dump("Captured menu name", curMenuName);
-        }
-#endif
 
-        if (curMenuName == MENU_NAME_1) {
-            MidCursorMenu = 1;
-            //
-            // Sub menu / Dashboard
-        } else if (curMenuName == MENU_NAME_11) {
-            MidCursorMenu = 11;
-            //
-            // Settings
-        } else if (curMenuName == MENU_NAME_12) {
-            MidCursorMenu = 12;
-        } else if (curMenuName == MENU_NAME_121) {
-            MidCursorMenu = 121;
-        } else if (curMenuName == MENU_NAME_122) {
-            MidCursorMenu = 122;
-        } else if (curMenuName == MENU_NAME_123) {
-            MidCursorMenu = 123;
-        } else if (curMenuName == MENU_NAME_124) {
-            MidCursorMenu = 124;
-            //
-            // Information
-        } else if (curMenuName == MENU_NAME_13) {
-            MidCursorMenu = 13;
-            //
-            // Trip
-        } else if (curMenuName == MENU_NAME_2) {
-            MidCursorMenu = 2;
-            //
-            // Fuel
-        } else if (curMenuName == MENU_NAME_21) {
-            MidCursorMenu = 21;
-        } else if (curMenuName == MENU_NAME_22) {
-            MidCursorMenu = 22;
-            //
-            // State
-        } else if (curMenuName == MENU_NAME_4) {
-            MidCursorMenu = 4;
-            //
-            // Volt meter
-        } else if (curMenuName == MENU_NAME_41) {
-            MidCursorMenu = 41;
-            //
-            // Reset work distance
-        } else if (curMenuName == MENU_NAME_42) {
-            MidCursorMenu = 42;
-        }
-        */
     }
 
     void moveUp() {
