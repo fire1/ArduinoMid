@@ -27,8 +27,8 @@
 // Basic settings
 
 #define LPG_INPUT 15            // 15/17 Input pin
-#define LPG_TIMEOUT  10000      // Timeout between data signals
-#define LPG_BITS 14             // Bits to count (pulses to listen)
+#define LPG_TIMEOUT  3000      // Timeout between data signals
+#define LPG_BITS 8             // Bits to count (pulses to listen)
 #define LPG_PIN_STATE HIGH      //  Pin state to capture
 
 
