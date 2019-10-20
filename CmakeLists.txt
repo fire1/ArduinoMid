@@ -49,6 +49,6 @@ link_directories("libraries")
 #SET(ARDUINO_CXX_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
 #SET(ARDUINO_LINKER_FLAGS -mmcu=${MCU} -DF_CPU=${F_CPU} -Os)
 
-link_directories(${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino)
+#link_directories(${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino)
 #link_directories(${ARDUINO_SDK_PATH}hardware/arduino/avr/cores/arduino/)
 link_directories($ENV{HOMEPATH}/Documents/Arduino/libraries)

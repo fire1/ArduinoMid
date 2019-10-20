@@ -755,7 +755,7 @@ endmacro()
 # load_generator_settings(TARGET_NAME PREFIX [SUFFIX_1 SUFFIX_2 .. SUFFIX_N])
 #
 #         TARGET_NAME - The base name of the user settings
-#         PREFIX      - The prefix name usedMenu for generator settings
+#         PREFIX      - The prefix name used for generator settings
 #         SUFFIX_XX   - List of suffixes to load
 #
 #  Loads a list of user settings into the generators scope. User settings have
@@ -830,9 +830,8 @@ function(get_arduino_flags COMPILE_FLAGS_VAR LINK_FLAGS_VAR BOARD_ID MANUAL)
                 message(FATAL_ERROR "Can not find f_cpu in boards.txt for Arduino board ID (${BOARD_ID}), aborting.")
             endif()
         endif()
-        ##
-        ## -mmcu=${${BOARD_ID}${ARDUINO_CPUMENU}.build.mcu}
-        set(COMPILE_FLAGS "${COMPILE_FLAGS} -DARDUINO=${ARDUINO_VERSION_DEFINE} -DARDUINO_${${BOARD_ID}.build.board} -DARDUINO_ARCH_AVR  -mmcu=atmega2560")
+
+        set(COMPILE_FLAGS "${COMPILE_FLAGS} -DARDUINO=${ARDUINO_VERSION_DEFINE} -DARDUINO_${${BOARD_ID}.build.board} -DARDUINO_ARCH_AVR -mmcu=${${BOARD_ID}${ARDUINO_CPUMENU}.build.mcu}")
 
         if(DEFINED ${BOARD_ID}.build.vid)
             set(COMPILE_FLAGS "${COMPILE_FLAGS} -DUSB_VID=${${BOARD_ID}.build.vid}")
@@ -1518,7 +1517,7 @@ endfunction()
 #
 # detect_arduino_version(VAR_NAME)
 #
-#       VAR_NAME - Variable name usedMenu the detected version will be saved
+#       VAR_NAME - Variable name where the detected version will be saved
 #
 # Detects the Arduino SDK Version based on the lib/versions.txt file. The
 # following variables will be generated:
@@ -1572,7 +1571,7 @@ endfunction()
 #
 #      entry.setting[.subsetting] = value
 #
-# usedMenu [.subsetting] is optional
+# where [.subsetting] is optional
 #
 # For example, the following settings:
 #
@@ -1775,7 +1774,7 @@ endfunction()
 #
 #      TARGET_NAME - Target name
 #      SKETCH_PATH - Path to sketch directory
-#      OUTPUT_VAR  - Variable name usedMenu to save generated sketch source
+#      OUTPUT_VAR  - Variable name where to save generated sketch source
 #
 # Generates C++ sources from Arduino Sketch.
 #=============================================================================#
@@ -1942,7 +1941,7 @@ endfunction()
 #
 #        OUTPUT_VAR - Output variable that will contain the script path
 #
-# Generates script usedMenu to playEntry the firmware size.
+# Generates script used to draw the firmware size.
 #=============================================================================#
 function(SETUP_ARDUINO_SIZE_SCRIPT OUTPUT_VAR)
     set(ARDUINO_SIZE_SCRIPT_PATH ${CMAKE_BINARY_DIR}/CMakeFiles/FirmwareSize.cmake)
