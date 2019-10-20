@@ -194,7 +194,7 @@ protected:
                     analogWrite(DRL_PWM_PIN, 255);
                 } else {
                     analogWrite(DRL_PWR_PIN, 255);
-                    analogWrite(DRL_PWM_PIN, 230);
+                    analogWrite(DRL_PWM_PIN, 250);
                 }
             } else {
 //                analogWrite(DRL_PWR_PIN, 255);
