@@ -17,10 +17,12 @@ Drop-in **MID** (Multi-Info Display) replacement for **Vauxhall/Opel Astra G & F
 |------|---------|
 | `MID/` | Only firmware source to edit for product behavior |
 | `MID/lib/` | Domain modules (mostly **header-only** `.h`) |
+| `MID/lib/core/` | AVR-free pure helpers (`MidMath`, `MidGear`, `MidLpgBits`) shared with host tests |
 | `MID/lib/ui/` | LCD, menus, glyphs, fonts, graphics |
 | `MID/lib/ui/language/` | One language pack per file |
 | `libraries/` | Vendor library **zips** (extracted dirs are gitignored) |
 | `tests/` | Hardware bring-up sketches (not unit/CI tests) |
+| `unit_tests/` | Host Catch2 suite; run via CMake (`unit_tests/build`) |
 | `resources/` | PCB, Gerber, icons, 3D holders |
 | `cmake/` | Optional arduino-cmake toolchain (paths often stale) |
 | `compiled/` | Prebuilt hex dumps |

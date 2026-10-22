@@ -61,11 +61,25 @@ Before uploading, skim `MID.h` so `SCREEN`, baud rate, and pin map match your ha
 | `MID/lib/ui/` | LCD UI, menus, fonts, graphics, language packs |
 | `libraries/` | Dependent Arduino libraries (as zip archives) |
 | `tests/` | Standalone hardware / protocol sketches (LPG, display, melody, …) |
+| `unit_tests/` | Host-side Catch2 unit tests for pure math / timing / LPG bits |
+| `MID/lib/core/` | AVR-free helpers shared by firmware and unit tests |
 | `resources/` | PCB docs/PDFs, Gerber, icons, 3D holders |
 | `compiled/` | Precompiled firmware hex |
 | `cmake/` | Optional CMake / CLion toolchain (paths may need local edits) |
 
 For AI / contributor agent notes, see [`AGENTS.md`](AGENTS.md).
+
+## Unit tests
+
+Host-side tests (no Arduino board required) cover shared logic in `MID/lib/core/` plus `AmpTime` with a fake clock:
+
+```bash
+cmake -S unit_tests -B unit_tests/build
+cmake --build unit_tests/build
+ctest --test-dir unit_tests/build --output-on-failure
+```
+
+Hardware bring-up sketches remain under `tests/`.
 
 ## Hardware notes
 

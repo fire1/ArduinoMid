@@ -118,12 +118,7 @@ private:
  * @return
  */
     uint8_t getDataLength(uint8_t index) {
-        uint16_t data = lpg.getData(index);
-        for (forLoopIndex = 0; data; data >>= 1) {
-            forLoopIndex++;
-            if (forLoopIndex > 14)break;
-        }
-        return forLoopIndex;
+        return midLpgDataLength(lpg.getData(index));
     }
 /**
  * Listen income data for tank level
@@ -183,7 +178,7 @@ private:
  * @return
  */
     boolean isSwitchBnz(uint8_t index) {
-        return bitRead(lpg.getData(index), 9) == 1 && bitRead(lpg.getData(index), 10) == 1;
+        return midLpgIsSwitchBnz(lpg.getData(index));
     }
 
 /**
@@ -192,7 +187,7 @@ private:
  * @return
  */
     boolean isSwitchLPG(uint8_t index) {
-        return bitRead(lpg.getData(index), 9) == 1 && bitRead(lpg.getData(index), 10) == 0;
+        return midLpgIsSwitchLpg(lpg.getData(index));
     }
 
 

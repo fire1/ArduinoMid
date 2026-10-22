@@ -6,6 +6,7 @@
 #define ARDUINOMID_LPGSENS_H
 #include <Arduino.h>
 #include <EnableInterrupt.h>
+#include "core/MidLpgBits.h"
 
 /**
  *  ArduinoMid tutorial to providing LPG switch signal.
@@ -101,24 +102,10 @@ void echoLpgISR() {
     else {  // Change state
         lpgPulseTime = micros() - startTime;
 
-        if (lpgPulseTime >= LPG_TIMEOUT) {
-            lpgDataBuffer = '\0';
-            lpgDataOffset = 0;
+        lpgDataOffset = midLpgApplyPulse((uint16_t *) &lpgDataBuffer, lpgDataOffset, lpgPulseTime);
+        if (midLpgPulseToBit(lpgPulseTime) == MID_LPG_PULSE_TIMEOUT) {
             lpgPulseTime = 0;
             return;
-        }
-
-        if (lpgDataOffset >= LPG_BITS) {
-            lpgDataBuffer = '\0';
-            lpgDataOffset = 0;
-        }
-
-        if (lpgPulseTime > (LPG_BYTE_B1 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B1 + LPG_BYTE_TS)) {
-            lpgDataBuffer |= 1 << lpgDataOffset;
-            lpgDataOffset++;
-        } else if (lpgPulseTime > (LPG_BYTE_B0 - LPG_BYTE_TS) && lpgPulseTime <= (LPG_BYTE_B0 + LPG_BYTE_TS)) {
-            lpgDataBuffer |= 0 << lpgDataOffset;
-            lpgDataOffset++;
         }
 
 #ifdef LPG_TIME_SENS

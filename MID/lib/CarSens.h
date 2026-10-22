@@ -8,6 +8,7 @@
 #include "AmpTime.h"
 #include "MainFunc.h"
 #include "Melody.h"
+#include "core/MidGear.h"
 #include <EnableInterrupt.h>
 //#define ECU_SENS_DEBUG
 //
@@ -1696,30 +1697,7 @@ void CarSens::sensIfc() {
  * TODO Needs testing
  */
 uint8_t CarSens::getGear() {
-    float Ratio;
-
-    int Rpm = this->CUR_RPM;
-    int CarSpeed = this->CUR_VSS;
-
-    if (CarSpeed != 0) {
-
-        Ratio = (Rpm * CAR_GEAR_Pi * CAR_GEAR_Dia * 60) / (CarSpeed * CAR_GEAR_FD * 1000000);
-
-        carGearNum = 7;
-
-        if ((-0.1 < Ratio - CAR_GEAR_G1) and (Ratio - CAR_GEAR_G1 < 0.1)) carGearNum = 1;
-        if ((-0.1 < Ratio / 6 - CAR_GEAR_G2) and (Ratio - CAR_GEAR_G2 < 0.1)) carGearNum = 2;
-        if ((-0.1 < Ratio - CAR_GEAR_G3) and (Ratio - CAR_GEAR_G3 < 0.1)) carGearNum = 3;
-        if ((-0.1 < Ratio - CAR_GEAR_G4) and (Ratio - CAR_GEAR_G4 < 0.1)) carGearNum = 4;
-        if ((-0.1 < Ratio - CAR_GEAR_G5) and (Ratio - CAR_GEAR_G5 < 0.1)) carGearNum = 5;
-        if ((-0.1 < Ratio - CAR_GEAR_G6) and (Ratio - CAR_GEAR_G6 < 0.1)) carGearNum = 6;
-    } else carGearNum = 0;
-
-    if (carGearNum > MAX_GEAR_NBR) {
-        carGearNum = MAX_GEAR_NBR;
-    }
-
-
+    carGearNum = midResolveGear(this->CUR_RPM, this->CUR_VSS);
     return carGearNum;
 }
 

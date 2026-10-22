@@ -9,27 +9,7 @@
 #include <Arduino.h>
 #include <wiring.c>
 #include <avr/interrupt.h>
-
-
-/**
- * Limits playEntry floats
- */
-char displayFloat(float value, char *output) {
-
-    if (value < -99) {
-        value = -99;
-    }
-
-    int dig1 = int(value) * 10; // 210
-    int dig2 = int((value * 10) - dig1);
-
-    dig1 = dig1 / 10;
-    if (dig2 < 0) {
-        dig2 = dig2 * -1;
-    }
-
-    sprintf(output, "%02d.%1d", dig1, dig2);
-}
+#include "core/MidMath.h"
 
 
 char pgmBuffer[64];
@@ -40,36 +20,6 @@ char pgmBuffer[64];
 const char *getPGM(uint8_t i) {
     strcpy_P(pgmBuffer, (char *) pgm_read_word(&(pgmDataTable[i])));
     return pgmBuffer;
-}
-
-/**
- * Limits playEntry floats
- */
-void separateFloat(float value, int arrOutput[2]) {
-
-//    out1 = 0;
-//    out2 = 0;
-    uint8_t dig1 = uint8_t(value) * 100; // 210
-    uint8_t dig2 = uint8_t((value * 100) - dig1);
-
-    dig1 = dig1 / 100;
-    if (dig2 < 0) {
-        dig2 = dig2 * -1;
-    }
-
-    arrOutput[0] = dig1;
-    arrOutput[1] = dig2;
-}
-
-/**
- * Create float from two integers
- */
-float restoreFloat(uint8_t a, uint8_t b) {
-
-    float bf = b * 0.01;
-
-    float c = a + bf;
-    return c;
 }
 
 
@@ -129,28 +79,10 @@ void setupTimer3() {
 /**
  *
  * @param startMicroSeconds
- * @param currentMicroseconds
- * @return
- */
-unsigned long elapsedMicroseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
-    if (currentMicroseconds >= startMicroSeconds)
-        return currentMicroseconds - startMicroSeconds;
-    return 4294967295 - (startMicroSeconds - currentMicroseconds);
-}
-
-/**
- *
- * @param startMicroSeconds
  * @return
  */
 unsigned long elapsedMicroseconds(unsigned long startMicroSeconds) {
     return elapsedMicroseconds(startMicroSeconds, micros());
-}
-
-unsigned long elapsedMilliseconds(unsigned long startMicroSeconds, unsigned long currentMicroseconds) {
-    if (currentMicroseconds >= startMicroSeconds)
-        return currentMicroseconds - startMicroSeconds;
-    return 4294967295 - (startMicroSeconds - currentMicroseconds);
 }
 
 /**
@@ -159,7 +91,7 @@ unsigned long elapsedMilliseconds(unsigned long startMicroSeconds, unsigned long
  * @return
  */
 unsigned long elapsedMilliseconds(unsigned long startMicroSeconds) {
-    return elapsedMicroseconds(startMicroSeconds, millis());
+    return elapsedMilliseconds(startMicroSeconds, millis());
 }
 
 
@@ -177,42 +109,5 @@ int getFreeRam() {
     return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
-/**
- *
- * @param val
- * @return
- */
-float floatPrecision(float val) {
-    return ((int) (val * 100.0)) / 100.0F;
-}
-
-/**
- * Gets car's Joules power per sec
- * @param carWeight
- * @param travelMeters
- * @param travelTime
- * @return
- */
-uint32_t calculateJoules( uint32_t travelMeters, uint16_t travelTime) {
-/*
- * (1/2)Mv2/time = (1/2) 1500 302/ 5 sec = 135,000 joules per sec = 181 HP
- * Reference https://www.physicsforums.com/threads/calculating-motor-engine-torque-power-using-accelerometer-data.336463/
- */
-    return (0.5) * CAR_WEIGHT * sq(travelMeters) / travelTime;
-}
-
-/**
- * Converts Joules power to Horsepower
- * @param joules
- * @return
- */
-uint16_t getHorsepower(uint32_t joules) {
-    return uint16_t(joules * 0.00013404825737265); // 0.0013404825737265
-}
-
 
 #endif //ARDUINOMID_UTILS_H
-
-
-
-

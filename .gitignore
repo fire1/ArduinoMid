@@ -1,5 +1,6 @@
 .idea/
 cmake-build-*/
+unit_tests/build/
 
 # Created by .ignore support plugin (hsz.mobi)
 
